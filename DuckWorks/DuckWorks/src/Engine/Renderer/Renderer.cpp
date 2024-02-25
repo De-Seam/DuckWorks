@@ -37,6 +37,14 @@ void Renderer::Init(const InitParams& inInitParams)
 	mCamera = std::make_unique<Camera>();
 }
 
+void Renderer::Shutdown()
+{
+	gLog(LogType::Info, "Shutting down Renderer");
+
+	SDL_DestroyRenderer(mRenderer);
+	SDL_DestroyWindow(mWindow);
+}
+
 void Renderer::BeginFrame()
 {
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);

@@ -16,7 +16,7 @@ Actor::Actor(World* inWorld)
 
 void Actor::CreatePhysicsBody(b2BodyDef inBodyDef, b2FixtureDef inFixtureDef)
 {
-	assert(!HasComponent<PhysicsComponent>(), "This actor already has a physics body!");
+	gAssert(!HasComponent<PhysicsComponent>(), "This actor already has a physics body!");
 	AddComponent<PhysicsComponent>(mWorld->CreatePhysicsBody(inBodyDef, inFixtureDef));
 }
 

@@ -23,5 +23,5 @@ public:
 
 	void GenerateNewEntityHandle(World* inWorld);
 
-	virtual void Update(float inDeltaTime) {}
+	virtual void Update(float inDeltaTime) { (void)inDeltaTime; }
 };

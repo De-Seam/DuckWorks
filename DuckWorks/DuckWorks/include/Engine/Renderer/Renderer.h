@@ -31,6 +31,7 @@ public:
 	};
 
 	void Init(const InitParams& inInitParams);
+	void Shutdown();
 	void BeginFrame();
 	void EndFrame();
 	void Update(float inDeltaTime);

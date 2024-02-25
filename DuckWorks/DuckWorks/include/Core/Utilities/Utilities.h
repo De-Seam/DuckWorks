@@ -13,6 +13,7 @@
 #include <memory>
 
 using String = std::string;
+#define Cast static_cast
 
 inline void gAssert(bool inCondition, const String& inMessage = "")
 {

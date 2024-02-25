@@ -36,8 +36,10 @@ void LogManager::Init()
 	mLogThread = std::thread(LogThreadLoop);
 }
 
-void LogManager::Cleanup()
+void LogManager::Shutdown()
 {
+	// We have to log something here so the thread which is waiting for a log message can exit.
+	Log(LogType::Info, "LogManager shutting down.");
 	mThreadRunning = false;
 	mLogThread.join();
 }

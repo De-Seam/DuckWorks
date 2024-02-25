@@ -52,22 +52,12 @@ void Player::Update(float inDeltaTime)
 
 	fm::vec2 moving_direction = {0.f, 0.f};
 	const Uint8* key_states = SDL_GetKeyboardState(nullptr);
-	if (key_states[SDL_SCANCODE_W])
-	{
-		moving_direction.y -= 1.f;
-	}
-	if (key_states[SDL_SCANCODE_S])
-	{
-		moving_direction.y += 1.f;
-	}
-	if (key_states[SDL_SCANCODE_A])
-	{
-		moving_direction.x -= 1.f;
-	}
-	if (key_states[SDL_SCANCODE_D])
-	{
-		moving_direction.x += 1.f;
-	}
+
+	moving_direction.y -= Cast<float>(key_states[SDL_SCANCODE_W]);
+	moving_direction.y += Cast<float>(key_states[SDL_SCANCODE_S]);
+	moving_direction.x -= Cast<float>(key_states[SDL_SCANCODE_A]);
+	moving_direction.x += Cast<float>(key_states[SDL_SCANCODE_D]);
+
 	fm::vec2 velocity = GetVelocity();
 	fm::vec2 velocity_increment = moving_direction * fm::vec2(mVelocityIncrement * inDeltaTime);
 	fm::vec2 new_velocity = velocity + velocity_increment;
@@ -75,5 +65,5 @@ void Player::Update(float inDeltaTime)
 	SetVelocity(new_velocity);
 }
 
-void Player::OnKeyDown(const SDL_Event& inEvent)
+void Player::OnKeyDown(const SDL_Event&)
 {}

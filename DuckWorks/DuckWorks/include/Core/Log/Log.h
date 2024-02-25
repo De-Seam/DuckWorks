@@ -27,7 +27,7 @@ class LogManager
 {
 public:
 	static void Init();
-	static void Cleanup();
+	static void Shutdown();
 
 	static void Log(LogType inLogType, const char* fmt...);
 	static void Log(LogType inLogType, const char* fmt, va_list args);

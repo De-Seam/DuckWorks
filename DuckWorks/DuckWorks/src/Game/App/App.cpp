@@ -55,11 +55,23 @@ int App::Run()
 	ImGui_ImplSDL2_InitForSDLRenderer(gRenderer.GetWindow(), gRenderer.GetRenderer());
 	ImGui_ImplSDLRenderer2_Init(gRenderer.GetRenderer());
 
+	SDLEventFunction event_function;
+	event_function.mEventType = SDL_QUIT;
+	event_function.mFunctionPtr = [this](const SDL_Event&) { mRunning = false; };
+	static std::shared_ptr<SDLEventFunction> function_ptr = gSDLEventManager.AddEventFunction(event_function);
+
 	// Create World
 	mWorld = std::make_unique<World>();
 
 	MainLoop();
+
+	ShutdownInternal();
 	return 0;
+}
+
+void App::Stop()
+{
+	mRunning = false;
 }
 
 void App::MainLoop()
@@ -88,4 +100,13 @@ void App::Update(float inDeltaTime)
 	mWorld->Render();
 	gRenderer.Update(inDeltaTime);
 	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
+}
+
+void App::ShutdownInternal()
+{
+	ImGui_ImplSDLRenderer2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+	gRenderer.Shutdown();
+	LogManager::Shutdown();
 }
