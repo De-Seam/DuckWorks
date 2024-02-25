@@ -18,6 +18,7 @@ public:
 	void SetHalfSize(const fm::vec2& inHalfSize) { GetComponent<TransformComponent>().mTransform.halfSize = inHalfSize; }
 	void SetRotation(float inRotation) { GetComponent<TransformComponent>().mTransform.rotation = inRotation; }
 	void SetVelocity(const fm::vec2& inVelocity);
+	void AddVelocity(const fm::vec2& inVelocity); ///< Adds to the current velocity
 
 	[[nodiscard]] TransformComponent& GetTransformComponent() { return GetComponent<TransformComponent>(); }
 	[[nodiscard]] fm::Transform2D& GetTransformRef() { return GetComponent<TransformComponent>().mTransform; }

@@ -66,17 +66,18 @@ void App::MainLoop()
 {
 	mRunning = true;
 	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 	while (mRunning)
 	{
+		auto end = std::chrono::steady_clock::now();
 		mDeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(end - start).count();
 
 		gRenderer.BeginFrame();
 		Update(mDeltaTime);
 		gRenderer.EndFrame();
 
+		std::this_thread::sleep_for(std::chrono::milliseconds(3));
+
 		start = end;
-		end = std::chrono::steady_clock::now();
 	}
 }
 
@@ -86,5 +87,5 @@ void App::Update(float inDeltaTime)
 	mWorld->Update(inDeltaTime);
 	mWorld->Render();
 	gRenderer.Update(inDeltaTime);
-	gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
+	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
 }

@@ -46,6 +46,12 @@ void Actor::SetVelocity(const fm::vec2& inVelocity)
 	body->SetLinearVelocity({inVelocity.x, inVelocity.y});
 }
 
+void Actor::AddVelocity(const fm::vec2& inVelocity)
+{
+	b2Body* body = GetComponent<PhysicsComponent>().mBody;
+	body->SetLinearVelocity(body->GetLinearVelocity() + b2Vec2(inVelocity.x, inVelocity.y));
+}
+
 fm::vec2 Actor::GetVelocity()
 {
 	b2Body* body = GetComponent<PhysicsComponent>().mBody;

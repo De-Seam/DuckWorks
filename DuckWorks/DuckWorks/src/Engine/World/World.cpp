@@ -64,8 +64,6 @@ void World::Update(float inDeltaTime)
 
 void World::PhysicsTimeStep()
 {
-	mPhysicsTimeAccumulator -= mPhysicsTimeStep;
-
 	//Fixed time step for physics world
 	mPhysicsWorld->Step(mPhysicsTimeStep, mVelocityIterations, mPositionIterations);
 }

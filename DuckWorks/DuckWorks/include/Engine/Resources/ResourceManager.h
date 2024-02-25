@@ -38,7 +38,7 @@ std::shared_ptr<taType> ResourceManager::GetResource(const String& inFile)
 	if (!mResources.contains(inFile))
 	{
 		// Load resource if it isn't already loaded
-		gLog("Loading resource: %f", inFile);
+		gLog("Loading resource: %s", inFile.c_str());
 		mResources[inFile] = std::make_shared<taType>();
 		mResources[inFile]->LoadFromFile(inFile);
 	}

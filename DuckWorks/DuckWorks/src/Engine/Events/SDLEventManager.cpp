@@ -6,10 +6,10 @@
 
 SDLEventManager gSDLEventManager;
 
-std::shared_ptr<SDLEventFunction> SDLEventManager::AddEventFunction(const SDLEventFunction& inEventFunction, bool inAllEvents)
+std::shared_ptr<SDLEventFunction> SDLEventManager::AddEventFunction(const SDLEventFunction& inEventFunction)
 {
 	std::shared_ptr<SDLEventFunction> event_function = std::make_shared<SDLEventFunction>(inEventFunction);
-	if (inAllEvents)
+	if (inEventFunction.mAllEvents)
 	{
 		mEventsFunctionAll.push_back(event_function);
 	}

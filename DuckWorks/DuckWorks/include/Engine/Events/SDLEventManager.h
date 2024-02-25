@@ -13,6 +13,7 @@ struct SDLEventFunction
 		: mEventType(inEventType), mFunctionPtr(inFunctionPtr) {}
 
 	SDL_EventType mEventType = SDL_FIRSTEVENT;
+	bool mAllEvents = false; ///< Overrides mEventType
 	std::function<void(const SDL_Event&)> mFunctionPtr = nullptr;
 };
 
@@ -21,7 +22,7 @@ class SDLEventManager
 public:
 	// @a inEventFunction is owned by shared ptr owned by the class that calls this function
 	// @a inAllEvents is used to add the event function to all events instead of the mEventType
-	std::shared_ptr<SDLEventFunction> AddEventFunction(const SDLEventFunction& inEventFunction, bool inAllEvents = false);
+	std::shared_ptr<SDLEventFunction> AddEventFunction(const SDLEventFunction& inEventFunction);
 	void Update();
 
 private:

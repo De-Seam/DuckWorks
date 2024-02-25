@@ -13,6 +13,8 @@ public:
 
 	int Run(); ///< Run app. Returns exit code.
 
+	float GetDeltaTime() const { return mDeltaTime; }
+
 private:
 	void MainLoop();
 	void Update(float inDeltaTime);
