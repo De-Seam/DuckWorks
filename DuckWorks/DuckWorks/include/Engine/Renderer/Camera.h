@@ -25,6 +25,6 @@ private:
 	fm::vec2 mSizeInverse = {1.f / 1920.f, 1.f / 1080.f};
 	fm::vec2 mScale = {1.f, 1.f};
 	float mZoomSpeed = 40;
-	float mTargetZoom = 1;
+	float mTargetZoom = 0.5f;
 	float mZoom = 1;
 };

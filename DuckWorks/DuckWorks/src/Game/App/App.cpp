@@ -55,10 +55,19 @@ int App::Run()
 	ImGui_ImplSDL2_InitForSDLRenderer(gRenderer.GetWindow(), gRenderer.GetRenderer());
 	ImGui_ImplSDLRenderer2_Init(gRenderer.GetRenderer());
 
-	SDLEventFunction event_function;
-	event_function.mEventType = SDL_QUIT;
-	event_function.mFunctionPtr = [this](const SDL_Event&) { mRunning = false; };
-	static std::shared_ptr<SDLEventFunction> function_ptr = gSDLEventManager.AddEventFunction(event_function);
+	// The shared pointers are saved as static variables to avoid them being destroyed
+	{
+		SDLEventFunction event_function;
+		event_function.mAllEvents = true;
+		event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { ImGui_ImplSDL2_ProcessEvent(&inEvent); };
+		static std::shared_ptr<SDLEventFunction> function_ptr = gSDLEventManager.AddEventFunction(event_function);
+	}
+	{
+		SDLEventFunction event_function;
+		event_function.mEventType = SDL_QUIT;
+		event_function.mFunctionPtr = [this](const SDL_Event&) { mRunning = false; };
+		static std::shared_ptr<SDLEventFunction> function_ptr = gSDLEventManager.AddEventFunction(event_function);
+	}
 
 	// Create World
 	mWorld = std::make_unique<World>();
@@ -102,7 +111,9 @@ void App::Update(float inDeltaTime)
 	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
 
 	static bool show_demo_window = true;
-	ImGui::ShowDemoWindow(&show_demo_window);
+
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void App::ShutdownInternal()

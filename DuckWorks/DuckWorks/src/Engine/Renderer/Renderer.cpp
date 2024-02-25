@@ -1,6 +1,7 @@
 #include "Precomp.h"
 #include "Engine/Renderer/Renderer.h"
 
+#include "Engine/Events/SDLEventManager.h"
 #include "External/imgui/imgui.h"
 #include "External/imgui/imgui_impl_sdl2.h"
 #include "External/imgui/imgui_impl_sdlrenderer2.h"
@@ -32,9 +33,7 @@ void Renderer::Init(const InitParams& inInitParams)
 
 	mWindow = SDL_CreateWindow(inInitParams.mWindowTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, inInitParams.mWindowSize.x,
 								inInitParams.mWindowSize.y, inInitParams.mWindowFlags);
-
 	mRenderer = SDL_CreateRenderer(mWindow, -1, inInitParams.mRendererFlags);
-
 	mWindowSize = inInitParams.mWindowSize;
 
 	mCamera = std::make_unique<Camera>();
@@ -45,6 +44,21 @@ void Renderer::Init(const InitParams& inInitParams)
 	{
 		gLog(LogType::Error, "Error creating render target texture: %s\n", SDL_GetError());
 	}
+
+	// Window resize event
+	SDLEventFunction event_function;
+	event_function.mEventType = SDL_WINDOWEVENT;
+	event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
+	{
+		if (inEvent.window.event == SDL_WINDOWEVENT_RESIZED)
+		{
+			mWindowSize.x = inEvent.window.data1;
+			mWindowSize.y = inEvent.window.data2;
+			SDL_DestroyTexture(mRenderTargetTexture);
+			mRenderTargetTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, mWindowSize.x, mWindowSize.y);
+		}
+	};
+	static auto sEventFunction = gSDLEventManager.AddEventFunction(event_function);
 }
 
 void Renderer::Shutdown()

@@ -20,8 +20,4 @@ void TextureResource::LoadFromFile(const String& inFile)
 	{
 		gLog("Failed to load texture: %s", inFile.c_str());
 	}
-	else
-	{
-		gLog("Loaded texture: %s", inFile.c_str());
-	}
 }

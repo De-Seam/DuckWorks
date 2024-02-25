@@ -25,11 +25,11 @@ void SDLEventManager::Update()
 	SDL_Event event;
 	while (SDL_PollEvent(&event) != 0)
 	{
-		IMGUI(ImGui_ImplSDL2_ProcessEvent(&event));
-
-		UpdateCallEventFunctions(mEventsFunctions[static_cast<SDL_EventType>(event.type)], event);
+		//IMGUI(ImGui_ImplSDL2_ProcessEvent(&event));
 
 		UpdateCallEventFunctions(mEventsFunctionAll, event);
+
+		UpdateCallEventFunctions(mEventsFunctions[static_cast<SDL_EventType>(event.type)], event);
 	}
 }
 

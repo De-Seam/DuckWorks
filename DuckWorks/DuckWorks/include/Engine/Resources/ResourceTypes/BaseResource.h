@@ -1,7 +1,9 @@
 #pragma once
+#include "Core/Utilities/RTTI.h"
 
-struct BaseResource
+struct BaseResource : public RTTIBaseStruct
 {
+	RTTI_STRUCT(BaseResource, RTTIBaseStruct)
 	// Make sure to create a virtual destructor to avoid memory leaks
 	virtual ~BaseResource() {};
 
