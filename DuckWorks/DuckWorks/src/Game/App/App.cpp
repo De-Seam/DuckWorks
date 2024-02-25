@@ -100,6 +100,9 @@ void App::Update(float inDeltaTime)
 	mWorld->Render();
 	gRenderer.Update(inDeltaTime);
 	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
+
+	static bool show_demo_window = true;
+	ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void App::ShutdownInternal()

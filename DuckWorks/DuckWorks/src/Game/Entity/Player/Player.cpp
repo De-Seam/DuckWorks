@@ -53,10 +53,10 @@ void Player::Update(float inDeltaTime)
 	fm::vec2 moving_direction = {0.f, 0.f};
 	const Uint8* key_states = SDL_GetKeyboardState(nullptr);
 
-	moving_direction.y -= Cast<float>(key_states[SDL_SCANCODE_W]);
-	moving_direction.y += Cast<float>(key_states[SDL_SCANCODE_S]);
-	moving_direction.x -= Cast<float>(key_states[SDL_SCANCODE_A]);
+	moving_direction.y += Cast<float>(key_states[SDL_SCANCODE_W]);
+	moving_direction.y -= Cast<float>(key_states[SDL_SCANCODE_S]);
 	moving_direction.x += Cast<float>(key_states[SDL_SCANCODE_D]);
+	moving_direction.x -= Cast<float>(key_states[SDL_SCANCODE_A]);
 
 	fm::vec2 velocity = GetVelocity();
 	fm::vec2 velocity_increment = moving_direction * fm::vec2(mVelocityIncrement * inDeltaTime);

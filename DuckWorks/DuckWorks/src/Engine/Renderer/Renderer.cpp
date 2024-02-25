@@ -1,6 +1,9 @@
 #include "Precomp.h"
 #include "Engine/Renderer/Renderer.h"
 
+#include "External/imgui/imgui.h"
+#include "External/imgui/imgui_impl_sdl2.h"
+#include "External/imgui/imgui_impl_sdlrenderer2.h"
 #include "External/SDL/SDL.h"
 
 Renderer gRenderer;
@@ -35,6 +38,13 @@ void Renderer::Init(const InitParams& inInitParams)
 	mWindowSize = inInitParams.mWindowSize;
 
 	mCamera = std::make_unique<Camera>();
+
+	mRenderTargetTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, inInitParams.mWindowSize.x,
+											inInitParams.mWindowSize.y);
+	if (!mRenderTargetTexture)
+	{
+		gLog(LogType::Error, "Error creating render target texture: %s\n", SDL_GetError());
+	}
 }
 
 void Renderer::Shutdown()
@@ -47,12 +57,27 @@ void Renderer::Shutdown()
 
 void Renderer::BeginFrame()
 {
+	SDL_SetRenderTarget(mRenderer, mRenderTargetTexture);
+
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(mRenderer);
+
+	ImGui_ImplSDLRenderer2_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
 }
 
 void Renderer::EndFrame()
 {
+	SDL_SetRenderTarget(mRenderer, nullptr);
+
+	SDL_Rect src_rect = {0, 0, mWindowSize.x, mWindowSize.y};
+	SDL_Rect dst_rect = {0, 0, mWindowSize.x, mWindowSize.y};
+	SDL_RenderCopyEx(mRenderer, mRenderTargetTexture, &src_rect, &dst_rect, 0.0, nullptr, SDL_FLIP_VERTICAL);
+
+	ImGui::Render();
+	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+
 	SDL_RenderPresent(mRenderer);
 }
 
@@ -88,22 +113,22 @@ void Renderer::DrawTextureTinted(SDL_Texture* inTexture, const fm::vec2& inPosit
 	SDL_SetTextureAlphaMod(inTexture, 255);
 }
 
-SDL_FRect Renderer::GetSDLFRect(const fm::vec2& position, const fm::vec2& halfSize)
+SDL_FRect Renderer::GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize)
 {
-	const fm::vec2 cameraPosition = mCamera->GetPosition();
-	const float cameraZoom = mCamera->GetZoom();
+	const fm::vec2 camera_position = mCamera->GetPosition();
+	const float camera_zoom = mCamera->GetZoom();
 
 	// Calculate the screen position of the center of the object
-	fm::vec2 screenCenter = (position - cameraPosition) * cameraZoom;
+	fm::vec2 screen_center = (inPosition - camera_position) * camera_zoom;
 
 	// Calculate the screen half size
-	fm::vec2 screenHalfSize = halfSize * cameraZoom;
+	fm::vec2 screen_half_size = inHalfSize * camera_zoom;
 
-	SDL_FRect sdlFRect;
-	sdlFRect.x = screenCenter.x - screenHalfSize.x + static_cast<float>(mWindowSize.x) * 0.5f;
-	sdlFRect.y = screenCenter.y - screenHalfSize.y + static_cast<float>(mWindowSize.y) * 0.5f;
-	sdlFRect.w = screenHalfSize.x * 2;
-	sdlFRect.h = screenHalfSize.y * 2;
+	SDL_FRect sdl_frect;
+	sdl_frect.x = screen_center.x - screen_half_size.x + static_cast<float>(mWindowSize.x) * 0.5f;
+	sdl_frect.y = screen_center.y - screen_half_size.y + static_cast<float>(mWindowSize.y) * 0.5f;
+	sdl_frect.w = screen_half_size.x * 2;
+	sdl_frect.h = screen_half_size.y * 2;
 
-	return sdlFRect;
+	return sdl_frect;
 }

@@ -48,6 +48,7 @@ public:
 private:
 	SDL_Window* mWindow = nullptr;
 	SDL_Renderer* mRenderer = nullptr;
+	SDL_Texture* mRenderTargetTexture = nullptr;
 
 	std::unique_ptr<Camera> mCamera = nullptr;
 

@@ -22,6 +22,7 @@ public:
 		: BaseEntity(inWorld) {}
 
 	void GenerateNewEntityHandle(World* inWorld);
+	///< Helper function to generate a new entity handle for this entity. Should only be used for a child class which does not call the default constructor
 
 	virtual void Update(float inDeltaTime) { (void)inDeltaTime; }
 };
