@@ -265,6 +265,52 @@ struct alignas(4 * sizeof(float)) vec4
 	}
 };
 
+struct alignas(4 * sizeof(float)) ivec4
+{
+	int32 x, y, z, w;
+
+	ivec4(int32 x, int32 y, int32 z, int32 w)
+		: x(x), y(y), z(z), w(w) {}
+
+	ivec4(const int32 i)
+		: ivec4(i, i, i, i) {}
+
+	ivec4()
+		: ivec4(0) {}
+
+	ivec4(const ivec4& i)
+		: ivec4(i.x, i.y, i.z, i.w) {}
+
+	ivec4(const ivec2& xy, const ivec2& zw)
+		: ivec4(xy.x, xy.y, zw.x, zw.y) {}
+
+	int32& operator[](size_t i)
+	{
+		assert(i < 4);
+		return *(&x + i);
+	}
+
+	const int32& operator[](size_t i) const
+	{
+		assert(i < 4);
+		return *(&x + i);
+	}
+
+	ivec4 operator -() const { return { -x, -y, -z, -w }; }
+	ivec4 operator +(const ivec4& i) const { return { x + i.x, y + i.y, z + i.z, w + i.w }; }
+	ivec4 operator -(const ivec4& i) const { return { x - i.x, y - i.y, z - i.z, w - i.w }; }
+	ivec4 operator *(const ivec4& i) const { return { x * i.x, y * i.y, z * i.z, w * i.w }; }
+	ivec4 operator *(const int32 i) const { return { x * i, y * i, z * i, w * i }; }
+	ivec4 operator /(const ivec4& i) const { return { x / i.x, y / i.y, z / i.z, w / i.w }; }
+	ivec4 operator /(const int32 i) const { return { x / i, y / i, z / i, w / i }; }
+	const ivec4& operator +=(const ivec4& i) { return *this = *this + i; }
+	const ivec4& operator -=(const ivec4& i) { return *this = *this - i; }
+	const ivec4& operator *=(const ivec4& i) { return *this = *this * i; }
+	const ivec4& operator *=(const int32 i) { return *this = *this * i; }
+	const ivec4& operator /=(const ivec4& i) { return *this = *this / i; }
+	const ivec4& operator /=(const int32 i) { return *this = *this / i; }
+};
+
 struct Transform2D
 {
 	vec2 position;

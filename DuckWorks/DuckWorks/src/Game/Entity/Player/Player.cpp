@@ -35,6 +35,10 @@ Player::Player(World* inWorld)
 
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+	texture_render_component.mSrcRect = { 0, 0, 8, 8 };
+	texture_render_component.mUseSrcRect = true;
+
+	SetupAnimations();
 
 	SDLEventFunction event_function;
 	event_function.mEventType = SDL_KEYDOWN;
@@ -63,6 +67,28 @@ void Player::Update(float inDeltaTime)
 	fm::vec2 new_velocity = velocity + velocity_increment;
 	new_velocity = clamp2(new_velocity, -mMaxVelocity, mMaxVelocity);
 	SetVelocity(new_velocity);
+}
+
+enum class EPlayerAnimationState : uint16
+{
+	Idle,
+	Walking
+};
+
+void Player::SetupAnimations()
+{
+	AnimationComponent& animation_component = AddComponent<AnimationComponent>();
+	animation_component.mAnimation = std::make_shared<Animation>();
+	std::shared_ptr<Animation> animation = animation_component.mAnimation;
+	Animation::Frame frame;
+	frame.mDuration = 0.1f;
+	frame.mSize = { 8, 8 };
+	frame.mPosition = { 0,0 };
+	for (int i = 0; i < 128; i++)
+	{
+		animation->AddFrame(Cast<uint16>(EPlayerAnimationState::Idle), frame);
+		frame.mPosition += {8, 0};
+	}
 }
 
 void Player::OnKeyDown(const SDL_Event&)

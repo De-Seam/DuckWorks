@@ -13,10 +13,12 @@ public:
 	virtual void Update(float inDeltaTime) override;
 
 private:
+
 	std::shared_ptr<SDLEventFunction> mSDLEventFunction;
 	float mVelocityIncrement = 600.f; ///< Velocity increment per second
 	float mMaxVelocity = 200.f; ///< Maximum velocity
 
 private:
+	void SetupAnimations();
 	void OnKeyDown(const SDL_Event& inEvent);
 };

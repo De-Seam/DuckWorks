@@ -18,7 +18,7 @@ public:
 
 	void Update(float inDeltaTime);
 	void PhysicsTimeStep();
-	void Render();
+	void Render(float inDeltaTime);
 
 	template<typename taType>
 	std::shared_ptr<taType> CreateEntity(const String& inName);

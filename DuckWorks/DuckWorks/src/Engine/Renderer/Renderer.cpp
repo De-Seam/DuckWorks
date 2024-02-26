@@ -100,10 +100,10 @@ void Renderer::Update(float inDeltaTime)
 	mCamera->Update(inDeltaTime);
 }
 
-void Renderer::DrawTexture(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation)
+void Renderer::DrawTexture(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::ivec4* inSrcRect)
 {
 	const SDL_FRect dstRect = GetSDLFRect(inPosition, inHalfSize);
-	SDL_RenderCopyExF(mRenderer, inTexture, nullptr, &dstRect, inRotation, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyExF(mRenderer, inTexture, reinterpret_cast<const SDL_Rect*>(inSrcRect), &dstRect, inRotation, nullptr, SDL_FLIP_NONE);
 }
 
 void Renderer::DrawTextureTinted(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::vec4& inColor)

@@ -96,7 +96,7 @@ void App::MainLoop()
 		Update(mDeltaTime);
 		gRenderer.EndFrame();
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(3));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		start = end;
 	}
@@ -106,7 +106,7 @@ void App::Update(float inDeltaTime)
 {
 	gSDLEventManager.Update();
 	mWorld->Update(inDeltaTime);
-	mWorld->Render();
+	mWorld->Render(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
 	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
 

@@ -8,6 +8,7 @@
 
 // External includes
 #include <External/box2d/box2d.h>
+#include <External/SDL/SDL.h>
 
 // Game includes (ILLEGAL!)
 #include "Game/Entity/Player/Player.h"
@@ -68,13 +69,29 @@ void World::PhysicsTimeStep()
 	mPhysicsWorld->Step(mPhysicsTimeStep, mVelocityIterations, mPositionIterations);
 }
 
-void World::Render()
+void World::Render(float inDeltaTime)
 {
+	auto animation_view = mRegistry.view<AnimationComponent, TextureRenderComponent>();
+	animation_view.each([=](AnimationComponent& inAnimationComponent, TextureRenderComponent& inRenderComponent)
+	{
+		inRenderComponent.mUseSrcRect = true;
+		inAnimationComponent.mTimeSinceUpdate += inDeltaTime;
+		Animation::Frame& current_frame = inAnimationComponent.mCurrentFrame;
+		gAssert(current_frame.mDuration > 0.f, "Duration should be higher then 0!");
+		while (inAnimationComponent.mTimeSinceUpdate >= current_frame.mDuration)
+		{
+			inAnimationComponent.mTimeSinceUpdate -= current_frame.mDuration;
+			current_frame = inAnimationComponent.mAnimation->IncrementFrame();
+			inRenderComponent.mSrcRect = { current_frame.mPosition, current_frame.mSize };
+		}
+	});
+
 	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
 	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)
 	{
 		const fm::Transform2D& transform = inTransformComponent.mTransform;
-		gRenderer.DrawTexture(inRenderComponent.mTexture->mTexture, transform.position, transform.halfSize, transform.rotation);
+		const fm::ivec4* src_rect = inRenderComponent.mUseSrcRect ? &inRenderComponent.mSrcRect : nullptr;
+		gRenderer.DrawTexture(inRenderComponent.mTexture->mTexture, transform.position, transform.halfSize, transform.rotation, src_rect);
 	});
 }
 

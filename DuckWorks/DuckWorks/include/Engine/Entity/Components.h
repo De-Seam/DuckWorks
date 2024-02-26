@@ -5,6 +5,7 @@
 
 // Engine includes
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
+#include "Engine/Renderer/Animation.h"
 
 class b2Body;
 
@@ -16,8 +17,20 @@ struct NameComponent
 // Texture render component uses TransformComponent for its transform
 struct TextureRenderComponent
 {
+	bool mUseSrcRect = false;
+	fm::ivec4 mSrcRect = {};
 	std::shared_ptr<TextureResource> mTexture;
 	fm::vec4 mTintColor = {1.f, 1.f, 1.f, 1.f};
+};
+
+// Animation component pairs with TextureRenderComponent
+struct AnimationComponent
+{
+	std::shared_ptr<Animation> mAnimation = nullptr;
+
+	// Private variables
+	Animation::Frame mCurrentFrame = {};
+	float mTimeSinceUpdate = 0.f;
 };
 
 struct PhysicsComponent
