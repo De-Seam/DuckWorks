@@ -118,7 +118,8 @@
     <ClInclude Include="include\Engine\Entity\Components.h" />
     <ClInclude Include="include\Engine\Entity\Entity.h" />
     <ClInclude Include="include\Engine\Events\SDLEventManager.h" />
-    <ClInclude Include="include\Engine\Renderer\Animation.h" />
+    <ClInclude Include="include\Engine\Renderer\AnimationBase.h" />
+    <ClInclude Include="include\Engine\Renderer\AnimationManager.h" />
     <ClInclude Include="include\Engine\Renderer\Camera.h" />
     <ClInclude Include="include\Engine\Renderer\Renderer.h" />
     <ClInclude Include="include\Engine\Resources\ResourceManager.h" />
@@ -304,9 +305,11 @@
     <ClInclude Include="include\External\SDL\SDL_vulkan.h" />
     <ClInclude Include="include\Game\App\App.h" />
     <ClInclude Include="include\Game\Entity\Player\Player.h" />
+    <ClInclude Include="include\Game\Entity\Player\PlayerAnimation.h" />
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp" />
     <ClCompile Include="include\External\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -348,6 +351,7 @@
     <ClCompile Include="src\Engine\World\World.cpp" />
     <ClCompile Include="src\Game\App\App.cpp" />
     <ClCompile Include="src\Game\Entity\Player\Player.cpp" />
+    <ClCompile Include="src\Game\Entity\Player\PlayerAnimation.cpp" />
     <ClCompile Include="src\Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

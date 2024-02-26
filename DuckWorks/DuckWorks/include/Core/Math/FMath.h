@@ -127,6 +127,34 @@ struct vec2
 	const vec2& operator *=(const float i) { return *this = *this * i; }
 	const vec2& operator /=(const vec2& i) { return *this = *this / i; }
 	const vec2& operator /=(const float i) { return *this = *this / i; }
+
+	[[nodiscard]] float dot(const vec2& i) const
+	{
+		return (x * i.x + y * i.y);
+	}
+
+	[[nodiscard]] vec2 cross(const vec2& i) const
+	{
+		return vec2(
+			y * i.x - x * i.y,
+			x * i.y - y * i.x);
+	}
+
+	[[nodiscard]] float length2() const
+	{
+		return x * x + y * y;
+	}
+
+	[[nodiscard]] float length() const
+	{
+		return std::sqrt(length2());
+	}
+
+	[[nodiscard]] vec2 normalize() const
+	{
+		float l = length();
+		return {x / l, y / l};
+	}
 };
 
 struct vec3
@@ -296,13 +324,13 @@ struct alignas(4 * sizeof(float)) ivec4
 		return *(&x + i);
 	}
 
-	ivec4 operator -() const { return { -x, -y, -z, -w }; }
-	ivec4 operator +(const ivec4& i) const { return { x + i.x, y + i.y, z + i.z, w + i.w }; }
-	ivec4 operator -(const ivec4& i) const { return { x - i.x, y - i.y, z - i.z, w - i.w }; }
-	ivec4 operator *(const ivec4& i) const { return { x * i.x, y * i.y, z * i.z, w * i.w }; }
-	ivec4 operator *(const int32 i) const { return { x * i, y * i, z * i, w * i }; }
-	ivec4 operator /(const ivec4& i) const { return { x / i.x, y / i.y, z / i.z, w / i.w }; }
-	ivec4 operator /(const int32 i) const { return { x / i, y / i, z / i, w / i }; }
+	ivec4 operator -() const { return {-x, -y, -z, -w}; }
+	ivec4 operator +(const ivec4& i) const { return {x + i.x, y + i.y, z + i.z, w + i.w}; }
+	ivec4 operator -(const ivec4& i) const { return {x - i.x, y - i.y, z - i.z, w - i.w}; }
+	ivec4 operator *(const ivec4& i) const { return {x * i.x, y * i.y, z * i.z, w * i.w}; }
+	ivec4 operator *(const int32 i) const { return {x * i, y * i, z * i, w * i}; }
+	ivec4 operator /(const ivec4& i) const { return {x / i.x, y / i.y, z / i.z, w / i.w}; }
+	ivec4 operator /(const int32 i) const { return {x / i, y / i, z / i, w / i}; }
 	const ivec4& operator +=(const ivec4& i) { return *this = *this + i; }
 	const ivec4& operator -=(const ivec4& i) { return *this = *this - i; }
 	const ivec4& operator *=(const ivec4& i) { return *this = *this * i; }

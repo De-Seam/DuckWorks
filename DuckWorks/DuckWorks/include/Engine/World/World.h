@@ -17,7 +17,6 @@ public:
 	World();
 
 	void Update(float inDeltaTime);
-	void PhysicsTimeStep();
 	void Render(float inDeltaTime);
 
 	template<typename taType>
@@ -39,6 +38,10 @@ private:
 	int32 mPhysicsUpdateFrequency = 60; //60 hz
 	float mPhysicsTimeStep = 1.0f / Cast<float>(mPhysicsUpdateFrequency);
 	float mPhysicsTimeAccumulator = 0.0f;
+
+private:
+	void UpdatePhysics(float inDeltaTime);
+	void PhysicsTimeStep();
 };
 
 template<typename taType>
@@ -47,6 +50,7 @@ std::shared_ptr<taType> World::CreateEntity(const String& inName)
 	static_assert(std::is_base_of_v<Entity, taType>);
 
 	std::shared_ptr<taType> entity = std::make_shared<taType>(this);
+	entity->mThisWeakPtr = entity;
 	AddEntity(std::static_pointer_cast<Entity>(entity), inName);
 	return entity;
 }

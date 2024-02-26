@@ -609,6 +609,15 @@
     <ClInclude Include="include\Core\Utilities\RTTI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Renderer\AnimationBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\Entity\Player\PlayerAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Engine\Renderer\AnimationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -675,6 +684,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\External\imgui\imgui_widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Entity\Player\PlayerAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

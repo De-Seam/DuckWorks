@@ -2,8 +2,8 @@
 // Core includes
 #include "Core/Utilities/Utilities.h"
 
-// Animation class. The uint16 state is an enum
-class Animation
+// AnimationBase class. The uint16 state is an enum
+class AnimationBase
 {
 public:
 	struct Frame
@@ -12,6 +12,10 @@ public:
 		fm::ivec2 mSize = {};
 		float mDuration = 0.1f; ///< Time until next frame
 	};
+
+	// Update controls the state, but should not set the animation frame.
+	// This should only read variables outside its class since it will be multi-threaded.
+	virtual void Update(float inDeltaTime) = 0;
 
 	void AddAnimation(uint16 inState, const std::vector<Frame>& inFrames)
 	{
@@ -25,6 +29,9 @@ public:
 
 	void SetState(uint16 inState, int32 inFrame = 0)
 	{
+		if (mCurrentState == inState)
+			return;
+
 		gAssert(mAnimations.find(inState) != mAnimations.end(), "Animation state was not set!");
 		gAssert(inFrame < mAnimations[inState].size(), "inFrame was invalid!");
 		mCurrentState = inState;
@@ -44,7 +51,8 @@ public:
 	{
 		return mCurrentFrame;
 	}
-private:
+
+protected:
 	phmap::flat_hash_map<uint16, std::vector<Frame>> mAnimations = {};
 	uint16 mCurrentState = {}; ///< Enum state
 	int32 mCurrentAnimationIndex = 0;

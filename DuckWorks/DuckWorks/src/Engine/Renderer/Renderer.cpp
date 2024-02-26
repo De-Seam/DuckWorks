@@ -103,7 +103,8 @@ void Renderer::Update(float inDeltaTime)
 void Renderer::DrawTexture(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::ivec4* inSrcRect)
 {
 	const SDL_FRect dstRect = GetSDLFRect(inPosition, inHalfSize);
-	SDL_RenderCopyExF(mRenderer, inTexture, reinterpret_cast<const SDL_Rect*>(inSrcRect), &dstRect, inRotation, nullptr, SDL_FLIP_NONE);
+	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(inSrcRect);
+	SDL_RenderCopyExF(mRenderer, inTexture, srcRect, &dstRect, inRotation, nullptr, SDL_FLIP_NONE);
 }
 
 void Renderer::DrawTextureTinted(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::vec4& inColor)

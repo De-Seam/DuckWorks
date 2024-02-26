@@ -11,6 +11,7 @@
 #include <External/SDL/SDL.h>
 
 // Game includes (ILLEGAL!)
+#include "Engine/Renderer/AnimationManager.h"
 #include "Game/Entity/Player/Player.h"
 
 
@@ -29,6 +30,43 @@ void World::Update(float inDeltaTime)
 		entity->Update(inDeltaTime);
 	}
 
+	UpdatePhysics(inDeltaTime);
+}
+
+void World::Render(float inDeltaTime)
+{
+	gAnimationManager.Update(this, inDeltaTime);
+
+	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
+	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)
+	{
+		const fm::Transform2D& transform = inTransformComponent.mTransform;
+		const fm::ivec4* src_rect = inRenderComponent.mUseSrcRect ? &inRenderComponent.mSrcRect : nullptr;
+		gRenderer.DrawTexture(inRenderComponent.mTexture->mTexture, transform.position, transform.halfSize, transform.rotation, src_rect);
+	});
+}
+
+EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
+{
+	inEntity->AddComponent<NameComponent>(inName);
+	mEntities.push_back(inEntity);
+	return mEntities.back();
+}
+
+b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef, const b2FixtureDef& inFixtureDef)
+{
+	b2Body* body = mPhysicsWorld->CreateBody(&inBodyDef);
+	body->CreateFixture(&inFixtureDef);
+	return body;
+}
+
+b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef)
+{
+	return mPhysicsWorld->CreateBody(&inBodyDef);
+}
+
+void World::UpdatePhysics(float inDeltaTime)
+{
 	{
 		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionUpdatedTag>();
 		for (auto entity : view)
@@ -67,49 +105,4 @@ void World::PhysicsTimeStep()
 {
 	//Fixed time step for physics world
 	mPhysicsWorld->Step(mPhysicsTimeStep, mVelocityIterations, mPositionIterations);
-}
-
-void World::Render(float inDeltaTime)
-{
-	auto animation_view = mRegistry.view<AnimationComponent, TextureRenderComponent>();
-	animation_view.each([=](AnimationComponent& inAnimationComponent, TextureRenderComponent& inRenderComponent)
-	{
-		inRenderComponent.mUseSrcRect = true;
-		inAnimationComponent.mTimeSinceUpdate += inDeltaTime;
-		Animation::Frame& current_frame = inAnimationComponent.mCurrentFrame;
-		gAssert(current_frame.mDuration > 0.f, "Duration should be higher then 0!");
-		while (inAnimationComponent.mTimeSinceUpdate >= current_frame.mDuration)
-		{
-			inAnimationComponent.mTimeSinceUpdate -= current_frame.mDuration;
-			current_frame = inAnimationComponent.mAnimation->IncrementFrame();
-			inRenderComponent.mSrcRect = { current_frame.mPosition, current_frame.mSize };
-		}
-	});
-
-	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
-	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)
-	{
-		const fm::Transform2D& transform = inTransformComponent.mTransform;
-		const fm::ivec4* src_rect = inRenderComponent.mUseSrcRect ? &inRenderComponent.mSrcRect : nullptr;
-		gRenderer.DrawTexture(inRenderComponent.mTexture->mTexture, transform.position, transform.halfSize, transform.rotation, src_rect);
-	});
-}
-
-EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
-{
-	inEntity->AddComponent<NameComponent>(inName);
-	mEntities.push_back(inEntity);
-	return mEntities.back();
-}
-
-b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef, const b2FixtureDef& inFixtureDef)
-{
-	b2Body* body = mPhysicsWorld->CreateBody(&inBodyDef);
-	body->CreateFixture(&inFixtureDef);
-	return body;
-}
-
-b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef)
-{
-	return mPhysicsWorld->CreateBody(&inBodyDef);
 }
