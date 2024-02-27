@@ -50,7 +50,7 @@ private:
 	SDL_Renderer* mRenderer = nullptr;
 	SDL_Texture* mRenderTargetTexture = nullptr;
 
-	std::unique_ptr<Camera> mCamera = nullptr;
+	UniquePtr<Camera> mCamera = nullptr;
 
 	fm::ivec2 mWindowSize;
 };

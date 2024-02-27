@@ -6,7 +6,7 @@
 
 SDLEventManager gSDLEventManager;
 
-std::shared_ptr<SDLEventFunction> SDLEventManager::AddEventFunction(const SDLEventFunction& inEventFunction)
+SharedPtr<SDLEventFunction> SDLEventManager::AddEventFunction(const SDLEventFunction& inEventFunction)
 {
 	std::shared_ptr<SDLEventFunction> event_function = std::make_shared<SDLEventFunction>(inEventFunction);
 	if (inEventFunction.mAllEvents)

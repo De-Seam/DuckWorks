@@ -13,7 +13,22 @@
 #include <memory>
 
 using String = std::string;
-#define Cast static_cast
+
+// Smart Pointers
+#define UniquePtr std::unique_ptr
+#define SharedPtr std::shared_ptr
+#define WeakPtr std::weak_ptr
+
+// Casts
+#define SCast static_cast
+#define RCast reinterpret_cast
+#define CCast const_cast
+#define DCast dynamic_cast
+#define SPCast std::static_pointer_cast
+#define DPCast std::dynamic_pointer_cast
+#define RPCast std::reinterpret_pointer_cast
+
+#define Cast SCast
 
 inline void gAssert(bool inCondition, const String& inMessage = "")
 {

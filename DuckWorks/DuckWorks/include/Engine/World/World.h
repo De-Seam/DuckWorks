@@ -30,7 +30,7 @@ public:
 
 private:
 	entt::registry mRegistry = {};
-	std::unique_ptr<b2World> mPhysicsWorld = nullptr;
+	UniquePtr<b2World> mPhysicsWorld = nullptr;
 	std::vector<EntityPtr> mEntities = {};
 
 	int32 mVelocityIterations = 6;

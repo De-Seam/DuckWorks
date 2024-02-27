@@ -4,8 +4,8 @@
 
 class Entity;
 
-using EntityPtr = std::shared_ptr<Entity>;
-using EntityWeakPtr = std::weak_ptr<Entity>;
+using EntityPtr = SharedPtr<Entity>;
+using EntityWeakPtr = WeakPtr<Entity>;
 /*
  * Entity rules:
  * An EntityPtr (SharedPtr<Entity>) is a reference to an entity which is always valid.
@@ -27,7 +27,7 @@ public:
 	virtual void Update(float inDeltaTime) { (void)inDeltaTime; }
 
 protected:
-	std::weak_ptr<Entity> mThisWeakPtr;
+	WeakPtr<Entity> mThisWeakPtr;
 
 	friend class World;
 };
