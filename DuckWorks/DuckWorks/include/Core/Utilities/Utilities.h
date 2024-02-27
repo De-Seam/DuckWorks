@@ -30,4 +30,4 @@ using String = std::string;
 
 #define Cast SCast
 
-#define gAssert(inCondition, inMessage) assert((inCondition) && (inMessage));
+#define gAssert(inCondition, inMessage) assert((inCondition) && (inMessage))
