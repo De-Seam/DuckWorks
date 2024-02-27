@@ -18,45 +18,26 @@ public:
 	// This should only read variables outside its class since it will be multi-threaded.
 	virtual void Update(float inDeltaTime) = 0;
 
-	void AddAnimation(uint16 inState, const std::vector<Frame>& inFrames)
-	{
-		mAnimations[inState] = inFrames;
-	}
+	void AddAnimation(uint16 inState, const std::vector<Frame>& inFrames);
+	void AddFrame(uint16 inState, const Frame& inFrame);
 
-	void AddFrame(uint16 inState, const Frame& inFrame)
+	struct CreateFramesParams
 	{
-		mAnimations[inState].push_back(inFrame);
-	}
+		uint16 mState = {};
+		fm::ivec2 mStart = {};
+		fm::ivec2 mSize = {};
+		float mDuration = 0.1f;
+		int32 mCount = 0;
+	};
 
-	void SetState(uint16 inState, int32 inFrame = 0)
-	{
-		if (mCurrentState == inState)
-			return;
+	void CreateHorizontalFrames(const CreateFramesParams& inParams);
+	void CreateVerticalFrames(const CreateFramesParams& inParams);
 
-		gAssert(mAnimations.find(inState) != mAnimations.end(), "Animation state was not set!");
-		gAssert(inFrame < mAnimations[inState].size(), "inFrame was invalid!");
-		mCurrentState = inState;
-		mCurrentAnimationIndex = inFrame;
-		mCurrentFrame = mAnimations[inState][inFrame];
-	}
+	void SetState(uint16 inState, int32 inFrame = 0);
 
-	const Frame& IncrementFrame()
-	{
-		std::vector<Frame>& frames = mAnimations[mCurrentState];
-		mCurrentAnimationIndex = (mCurrentAnimationIndex + 1) % frames.size();
-		mCurrentFrame = frames[mCurrentAnimationIndex];
-		return mCurrentFrame;
-	}
-
-	const Frame& GetCurrentFrame() const
-	{
-		return mCurrentFrame;
-	}
-
-	SDL_RendererFlip GetFlip() const
-	{
-		return mFlip;
-	}
+	const Frame& IncrementFrame();
+	const Frame& GetCurrentFrame() const;
+	SDL_RendererFlip GetFlip() const;
 
 protected:
 	phmap::flat_hash_map<uint16, std::vector<Frame>> mAnimations = {};

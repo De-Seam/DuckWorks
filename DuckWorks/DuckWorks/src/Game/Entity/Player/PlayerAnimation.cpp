@@ -6,65 +6,33 @@
 PlayerAnimation::PlayerAnimation(Player* inPlayer)
 	: mPlayer(inPlayer)
 {
-	for (int i = 0; i < 6; i++)
-	{
-		Frame frame;
-		frame.mDuration = 0.1f;
-		frame.mSize = {192, 192};
-		frame.mPosition.x = frame.mSize.x * i;
-		frame.mPosition.y = 0;
-		AddFrame(Cast<uint16>(State::Idle), frame);
-	}
+	CreateFramesParams params;
+	params.mState = Cast<uint16>(State::Idle);
+	params.mStart = {0, 0};
+	params.mSize = {192, 192};
+	params.mDuration = 0.1f;
+	params.mCount = 6;
+	CreateHorizontalFrames(params);
 
-	for (int i = 0; i < 6; i++)
-	{
-		Frame frame;
-		frame.mDuration = 0.1f;
-		frame.mSize = {192, 192};
-		frame.mPosition.x = frame.mSize.x * i;
-		frame.mPosition.y = 192;
-		AddFrame(Cast<uint16>(State::Walk), frame);
-	}
+	params.mState = Cast<uint16>(State::Walk);
+	params.mStart.y = 192 * 1;
+	CreateHorizontalFrames(params);
 
-	for (int i = 0; i < 6; i++)
-	{
-		Frame frame;
-		frame.mDuration = 0.1f;
-		frame.mSize = {192, 192};
-		frame.mPosition.x = frame.mSize.x * i;
-		frame.mPosition.y = 192 * 2;
-		AddFrame(Cast<uint16>(State::Attack1), frame);
-	}
+	params.mState = Cast<uint16>(State::Attack1);
+	params.mStart.y = 192 * 2;
+	CreateHorizontalFrames(params);
 
-	for (int i = 0; i < 6; i++)
-	{
-		Frame frame;
-		frame.mDuration = 0.1f;
-		frame.mSize = {192, 192};
-		frame.mPosition.x = frame.mSize.x * i;
-		frame.mPosition.y = 192 * 3;
-		AddFrame(Cast<uint16>(State::Attack2), frame);
-	}
+	params.mState = Cast<uint16>(State::Attack2);
+	params.mStart.y = 192 * 3;
+	CreateHorizontalFrames(params);
 
-	for (int i = 0; i < 6; i++)
-	{
-		Frame frame;
-		frame.mDuration = 0.1f;
-		frame.mSize = {192, 192};
-		frame.mPosition.x = frame.mSize.x * i;
-		frame.mPosition.y = 192 * 4;
-		AddFrame(Cast<uint16>(State::Attack3), frame);
-	}
+	params.mState = Cast<uint16>(State::Attack3);
+	params.mStart.y = 192 * 4;
+	CreateHorizontalFrames(params);
 
-	for (int i = 0; i < 6; i++)
-	{
-		Frame frame;
-		frame.mDuration = 0.1f;
-		frame.mSize = {192, 192};
-		frame.mPosition.x = frame.mSize.x * i;
-		frame.mPosition.y = 192 * 5;
-		AddFrame(Cast<uint16>(State::Attack4), frame);
-	}
+	params.mState = Cast<uint16>(State::Attack4);
+	params.mStart.y = 192 * 5;
+	CreateHorizontalFrames(params);
 }
 
 static uint32 gSeed = 0;

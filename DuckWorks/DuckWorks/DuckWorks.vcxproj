@@ -309,6 +309,7 @@
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp" />
     <ClCompile Include="include\External\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
