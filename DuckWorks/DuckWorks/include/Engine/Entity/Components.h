@@ -20,6 +20,9 @@ struct TextureRenderComponent
 	std::shared_ptr<TextureResource> mTexture;
 	fm::ivec4 mSrcRect = {};
 	bool mUseSrcRect = false;
+
+	// Set by the animation component if it has one
+	SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 };
 
 // Animation component pairs with TextureRenderComponent

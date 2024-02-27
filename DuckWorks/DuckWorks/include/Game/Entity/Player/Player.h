@@ -12,13 +12,16 @@ public:
 
 	virtual void Update(float inDeltaTime) override;
 
-private:
+	bool IsAttacking() const { return mAttacking; }
 
-	std::shared_ptr<SDLEventFunction> mSDLEventFunction;
+private:
+	std::vector<std::shared_ptr<SDLEventFunction>> mSDLEventFunctions;
 	float mVelocityIncrement = 600.f; ///< Velocity increment per second
 	float mMaxVelocity = 200.f; ///< Maximum velocity
+	bool mAttacking = false; ///< Is the player attacking?
 
 private:
 	void SetupAnimations();
-	void OnKeyDown(const SDL_Event& inEvent);
+	void OnMouseDown(const SDL_Event& inEvent);
+	void OnMouseUp(const SDL_Event& inEvent);
 };

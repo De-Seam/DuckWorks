@@ -28,6 +28,7 @@ void AnimationManager::Update(World* inWorld, float inDeltaTime)
 		inRenderComponent.mUseSrcRect = true;
 		inAnimationComponent.mTimeSinceUpdate += inDeltaTime;
 		AnimationBase::Frame& current_frame = inAnimationComponent.mCurrentFrame;
+		inRenderComponent.mFlip = inAnimationComponent.mAnimation->GetFlip();
 		gAssert(current_frame.mDuration > 0.f, "Duration should be higher then 0!");
 		while (inAnimationComponent.mTimeSinceUpdate >= current_frame.mDuration)
 		{

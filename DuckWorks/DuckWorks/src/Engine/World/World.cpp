@@ -40,9 +40,15 @@ void World::Render(float inDeltaTime)
 	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
 	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)
 	{
-		const fm::Transform2D& transform = inTransformComponent.mTransform;
-		const fm::ivec4* src_rect = inRenderComponent.mUseSrcRect ? &inRenderComponent.mSrcRect : nullptr;
-		gRenderer.DrawTexture(inRenderComponent.mTexture->mTexture, transform.position, transform.halfSize, transform.rotation, src_rect);
+		Renderer::DrawTextureParams params;
+		params.mTexture = inRenderComponent.mTexture->mTexture;
+		params.mPosition = inTransformComponent.mTransform.position;
+		params.mHalfSize = inTransformComponent.mTransform.halfSize;
+		params.mRotation = inTransformComponent.mTransform.rotation;
+		params.mFlip = inRenderComponent.mFlip;
+		params.mSrcRect = inRenderComponent.mUseSrcRect ? &inRenderComponent.mSrcRect : nullptr;
+
+		gRenderer.DrawTexture(params);
 	});
 }
 

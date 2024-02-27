@@ -7,6 +7,7 @@
 
 //External includes
 #include "External/SDL/SDL_rect.h"
+#include "External/SDL/SDL_render.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -36,8 +37,18 @@ public:
 	void EndFrame();
 	void Update(float inDeltaTime);
 
-	void DrawTexture(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::ivec4* inSrcRect = nullptr);
-	void DrawTextureTinted(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::vec4& inColor);
+	struct DrawTextureParams
+	{
+		SDL_Texture* mTexture = nullptr;;
+		fm::vec2 mPosition = {0, 0};
+		fm::vec2 mHalfSize = {10000, 10000};
+		float mRotation = 0.f;
+		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
+		const fm::ivec4* mSrcRect = nullptr;
+	};
+
+	void DrawTexture(const DrawTextureParams& inParams);
+	void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
 
 	SDL_FRect GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize);
 

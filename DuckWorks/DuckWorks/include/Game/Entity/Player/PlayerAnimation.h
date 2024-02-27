@@ -16,9 +16,10 @@ protected:
 	{
 		Idle,
 		Walk,
-		Attack,
-		Death,
-		Count
+		Attack1,
+		Attack2,
+		Attack3,
+		Attack4
 	};
 
 	Player* mPlayer;

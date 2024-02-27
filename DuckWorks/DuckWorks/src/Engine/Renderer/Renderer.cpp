@@ -87,7 +87,7 @@ void Renderer::EndFrame()
 
 	SDL_Rect src_rect = {0, 0, mWindowSize.x, mWindowSize.y};
 	SDL_Rect dst_rect = {0, 0, mWindowSize.x, mWindowSize.y};
-	SDL_RenderCopyEx(mRenderer, mRenderTargetTexture, &src_rect, &dst_rect, 0.0, nullptr, SDL_FLIP_VERTICAL);
+	SDL_RenderCopyEx(mRenderer, mRenderTargetTexture, &src_rect, &dst_rect, 0.0, nullptr, SDL_FLIP_NONE);
 
 	ImGui::Render();
 	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
@@ -100,14 +100,14 @@ void Renderer::Update(float inDeltaTime)
 	mCamera->Update(inDeltaTime);
 }
 
-void Renderer::DrawTexture(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::ivec4* inSrcRect)
+void Renderer::DrawTexture(const DrawTextureParams& inParams)
 {
-	const SDL_FRect dstRect = GetSDLFRect(inPosition, inHalfSize);
-	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(inSrcRect);
-	SDL_RenderCopyExF(mRenderer, inTexture, srcRect, &dstRect, inRotation, nullptr, SDL_FLIP_NONE);
+	const SDL_FRect dstRect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
+	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
+	SDL_RenderCopyExF(mRenderer, inParams.mTexture, srcRect, &dstRect, inParams.mRotation, nullptr, inParams.mFlip);
 }
 
-void Renderer::DrawTextureTinted(SDL_Texture* inTexture, const fm::vec2& inPosition, const fm::vec2& inHalfSize, float inRotation, const fm::vec4& inColor)
+void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor)
 {
 	// Calculate color components
 	const uint32 argb = inColor.get_argb();
@@ -117,15 +117,16 @@ void Renderer::DrawTextureTinted(SDL_Texture* inTexture, const fm::vec2& inPosit
 	const uint8 b = (argb >> 0) & 0xFF;
 
 	// Set SDL render color
-	SDL_SetTextureColorMod(inTexture, r, g, b);
-	SDL_SetTextureAlphaMod(inTexture, a);
+	SDL_SetTextureColorMod(inParams.mTexture, r, g, b);
+	SDL_SetTextureAlphaMod(inParams.mTexture, a);
 
-	const SDL_FRect dstRect = GetSDLFRect(inPosition, inHalfSize);
-	SDL_RenderCopyExF(mRenderer, inTexture, nullptr, &dstRect, inRotation, nullptr, SDL_FLIP_NONE);
+	const SDL_FRect dstRect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
+	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
+	SDL_RenderCopyExF(mRenderer, inParams.mTexture, srcRect, &dstRect, inParams.mRotation, nullptr, inParams.mFlip);
 
 	// Reset SDL render color
-	SDL_SetTextureColorMod(inTexture, 255, 255, 255);
-	SDL_SetTextureAlphaMod(inTexture, 255);
+	SDL_SetTextureColorMod(inParams.mTexture, 255, 255, 255);
+	SDL_SetTextureAlphaMod(inParams.mTexture, 255);
 }
 
 SDL_FRect Renderer::GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize)

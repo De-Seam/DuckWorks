@@ -1,6 +1,7 @@
 #pragma once
 // Core includes
 #include "Core/Utilities/Utilities.h"
+#include "External/SDL/SDL_render.h"
 
 // AnimationBase class. The uint16 state is an enum
 class AnimationBase
@@ -52,9 +53,15 @@ public:
 		return mCurrentFrame;
 	}
 
+	SDL_RendererFlip GetFlip() const
+	{
+		return mFlip;
+	}
+
 protected:
 	phmap::flat_hash_map<uint16, std::vector<Frame>> mAnimations = {};
 	uint16 mCurrentState = {}; ///< Enum state
 	int32 mCurrentAnimationIndex = 0;
 	Frame mCurrentFrame = {}; ///< Put this on the stack as a copy for faster access
+	SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 };

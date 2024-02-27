@@ -37,19 +37,31 @@ Player::Player(World* inWorld)
 	GetPhysicsBody()->SetLinearDamping(5.f);
 
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
-	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
+	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
 	texture_render_component.mSrcRect = {0, 0, 8, 8};
 	texture_render_component.mUseSrcRect = true;
 
 	SetupAnimations();
 
-	SDLEventFunction event_function;
-	event_function.mEventType = SDL_KEYDOWN;
-	event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
 	{
-		OnKeyDown(inEvent);
-	};
-	mSDLEventFunction = gSDLEventManager.AddEventFunction(event_function);
+		SDLEventFunction event_function;
+		event_function.mEventType = SDL_MOUSEBUTTONDOWN;
+		event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
+		{
+			OnMouseDown(inEvent);
+		};
+		mSDLEventFunctions.emplace_back(gSDLEventManager.AddEventFunction(event_function));
+	}
+	{
+		SDLEventFunction event_function;
+		event_function.mEventType = SDL_MOUSEBUTTONUP;
+		event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
+		{
+			OnMouseUp(inEvent);
+		};
+		mSDLEventFunctions.emplace_back(gSDLEventManager.AddEventFunction(event_function));
+	}
 }
 
 void Player::Update(float inDeltaTime)
@@ -60,8 +72,8 @@ void Player::Update(float inDeltaTime)
 	fm::vec2 moving_direction = {0.f, 0.f};
 	const Uint8* key_states = SDL_GetKeyboardState(nullptr);
 
-	moving_direction.y += Cast<float>(key_states[SDL_SCANCODE_W]);
-	moving_direction.y -= Cast<float>(key_states[SDL_SCANCODE_S]);
+	moving_direction.y -= Cast<float>(key_states[SDL_SCANCODE_W]);
+	moving_direction.y += Cast<float>(key_states[SDL_SCANCODE_S]);
 	moving_direction.x += Cast<float>(key_states[SDL_SCANCODE_D]);
 	moving_direction.x -= Cast<float>(key_states[SDL_SCANCODE_A]);
 
@@ -93,5 +105,18 @@ void Player::SetupAnimations()
 	//}
 }
 
-void Player::OnKeyDown(const SDL_Event&)
-{}
+void Player::OnMouseDown(const SDL_Event& inEvent)
+{
+	if (inEvent.button.button == SDL_BUTTON_LEFT)
+	{
+		mAttacking = true;
+	}
+}
+
+void Player::OnMouseUp(const SDL_Event& inEvent)
+{
+	if (inEvent.button.button == SDL_BUTTON_LEFT)
+	{
+		mAttacking = false;
+	}
+}
