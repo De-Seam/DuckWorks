@@ -12,6 +12,7 @@ public:
 		fm::ivec2 mPosition = {};
 		fm::ivec2 mSize = {};
 		float mDuration = 0.1f; ///< Time until next frame
+		std::function<void()> mFunctionPtr = nullptr; ///< Function to call when this frame is reached
 	};
 
 	// Update controls the state, but should not set the animation frame.
@@ -34,9 +35,11 @@ public:
 	void CreateVerticalFrames(const CreateFramesParams& inParams);
 
 	void SetState(uint16 inState, int32 inFrame = 0);
+	void SetFrame(uint16 inState, int32 inIndex, const Frame& inFrame);
 
 	const Frame& IncrementFrame();
 	const Frame& GetCurrentFrame() const;
+	const Frame& GetFrame(uint16 inState, int32 inIndex) const;
 	SDL_RendererFlip GetFlip() const;
 
 protected:

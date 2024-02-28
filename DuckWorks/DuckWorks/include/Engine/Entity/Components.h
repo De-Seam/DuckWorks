@@ -45,6 +45,10 @@ struct TransformComponent
 	fm::Transform2D mTransform = {};
 };
 
+struct HealthComponent
+{
+	float mHealth = 100.f;
+};
 
 // Tag components
 

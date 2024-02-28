@@ -27,6 +27,7 @@ public:
 	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef);
 
 	entt::registry& GetRegistry() { return mRegistry; }
+	b2World* GetPhysicsWorld() { return mPhysicsWorld.get(); }
 
 private:
 	entt::registry mRegistry = {};
