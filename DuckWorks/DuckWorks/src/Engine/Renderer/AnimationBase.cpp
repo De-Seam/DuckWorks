@@ -47,7 +47,6 @@ void AnimationBase::SetState(uint16 inState, int32 inFrame)
 	mCurrentState = inState;
 	mCurrentAnimationIndex = inFrame;
 	mCurrentFrame = mAnimations[inState][inFrame];
-	mCurrentFrame.mFunctionPtr();
 }
 
 void AnimationBase::SetFrame(uint16 inState, int32 inIndex, const Frame& inFrame)
@@ -62,7 +61,6 @@ const AnimationBase::Frame& AnimationBase::IncrementFrame()
 	std::vector<Frame>& frames = mAnimations[mCurrentState];
 	mCurrentAnimationIndex = (mCurrentAnimationIndex + 1) % frames.size();
 	mCurrentFrame = frames[mCurrentAnimationIndex];
-	mCurrentFrame.mFunctionPtr();
 	return mCurrentFrame;
 }
 
@@ -71,7 +69,7 @@ const AnimationBase::Frame& AnimationBase::GetCurrentFrame() const
 	return mCurrentFrame;
 }
 
-const AnimationBase::Frame& AnimationBase::GetFrame(uint16 inState, int32 inIndex) const
+AnimationBase::Frame& AnimationBase::GetFrame(uint16 inState, int32 inIndex)
 {
 	std::vector<AnimationBase::Frame>& frames = mAnimations[inState];
 	return frames[inIndex];

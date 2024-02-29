@@ -39,7 +39,7 @@ public:
 
 	const Frame& IncrementFrame();
 	const Frame& GetCurrentFrame() const;
-	const Frame& GetFrame(uint16 inState, int32 inIndex) const;
+	Frame& GetFrame(uint16 inState, int32 inIndex);
 	SDL_RendererFlip GetFlip() const;
 
 protected:

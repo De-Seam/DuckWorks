@@ -96,28 +96,28 @@ void Player::SetupAnimations()
 {
 	AnimationComponent& animation_component = AddComponent<AnimationComponent>();
 	animation_component.mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
-	AnimationBase::Frame frame = animation_component.mAnimation->GetFrame(Cast<uint16>(EPlayerAnimationState::Idle), 0);
-	frame.mFunctionPtr = [this]()
-	{
-		b2World* physics_world = mWorld->GetPhysicsWorld();
-		b2AABB aabb;
-		aabb.lowerBound = GetPhysicsBody()->GetPosition() - b2Vec2(1.f, 1.f);
-		aabb.upperBound = GetPhysicsBody()->GetPosition() + b2Vec2(1.f, 1.f);
-		physics_world->QueryAABB([this](b2Fixture* inFixture)
-			{
-			// This is a lambda function that is called for each fixture found in the query.
-			// If it returns true then the query will continue, otherwise it will stop.
-			// This is useful for finding the first fixture that matches a condition.
-			// In this case we are looking for the ground.
-			b2Body* body = inFixture->GetBody();
-			if (body->GetType() == b2_staticBody)
-			{
-				// We found the ground, so we can stop the query.
-				return false;
-			}
-			return true;
-		}, GetPhysicsBody()->GetAABB());
-	};
+	//AnimationBase::Frame frame = animation_component.mAnimation->GetFrame(Cast<uint16>(EPlayerAnimationState::Idle), 0);
+	//frame.mFunctionPtr = [this]()
+	//{
+	//	b2World* physics_world = mWorld->GetPhysicsWorld();
+	//	b2AABB aabb;
+	//	aabb.lowerBound = GetPhysicsBody()->GetPosition() - b2Vec2(1.f, 1.f);
+	//	aabb.upperBound = GetPhysicsBody()->GetPosition() + b2Vec2(1.f, 1.f);
+	//	physics_world->QueryAABB([this](b2Fixture* inFixture)
+	//		{
+	//		// This is a lambda function that is called for each fixture found in the query.
+	//		// If it returns true then the query will continue, otherwise it will stop.
+	//		// This is useful for finding the first fixture that matches a condition.
+	//		// In this case we are looking for the ground.
+	//		b2Body* body = inFixture->GetBody();
+	//		if (body->GetType() == b2_staticBody)
+	//		{
+	//			// We found the ground, so we can stop the query.
+	//			return false;
+	//		}
+	//		return true;
+	//	}, GetPhysicsBody()->GetAABB());
+	//};
 }
 
 void Player::OnMouseDown(const SDL_Event& inEvent)

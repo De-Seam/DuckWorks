@@ -106,12 +106,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Core\CoreBase.h" />
     <ClInclude Include="include\Core\Log\Log.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
     <ClInclude Include="include\Core\Utilities\Mutex.h" />
     <ClInclude Include="include\Core\Utilities\RTTI.h" />
     <ClInclude Include="include\Core\Utilities\SafeQueue.h" />
     <ClInclude Include="include\Core\Utilities\Types.h" />
+    <ClInclude Include="include\Core\Utilities\UID.h" />
     <ClInclude Include="include\Core\Utilities\Utilities.h" />
     <ClInclude Include="include\Engine\Entity\Actor.h" />
     <ClInclude Include="include\Engine\Entity\BaseEntity.h" />
@@ -125,6 +127,7 @@
     <ClInclude Include="include\Engine\Resources\ResourceManager.h" />
     <ClInclude Include="include\Engine\Resources\ResourceTypes\BaseResource.h" />
     <ClInclude Include="include\Engine\Resources\ResourceTypes\TextureResource.h" />
+    <ClInclude Include="include\Engine\Timer\TimerManager.h" />
     <ClInclude Include="include\Engine\World\World.h" />
     <ClInclude Include="include\External\box2d\b2_api.h" />
     <ClInclude Include="include\External\box2d\b2_block_allocator.h" />
@@ -309,6 +312,7 @@
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Utilities\UID.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp" />
     <ClCompile Include="include\External\imgui\imgui.cpp">
@@ -349,6 +353,7 @@
     <ClCompile Include="src\Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="src\Engine\Resources\ResourceTypes\TextureResource.cpp" />
+    <ClCompile Include="src\Engine\Timer\TimerManager.cpp" />
     <ClCompile Include="src\Engine\World\World.cpp" />
     <ClCompile Include="src\Game\App\App.cpp" />
     <ClCompile Include="src\Game\Entity\Player\Player.cpp" />
