@@ -32,7 +32,10 @@ public:
 private:
 	entt::registry mRegistry = {};
 	UniquePtr<b2World> mPhysicsWorld = nullptr;
+	Mutex mPhysicsWorldMutex = {};
+
 	std::vector<EntityPtr> mEntities = {};
+	Mutex mEntitiesMutex = {};
 
 	int32 mVelocityIterations = 6;
 	int32 mPositionIterations = 2;

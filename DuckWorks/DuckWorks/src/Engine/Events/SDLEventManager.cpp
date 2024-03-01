@@ -20,8 +20,15 @@ SharedPtr<SDLEventFunction> SDLEventManager::AddEventFunction(const SDLEventFunc
 	return event_function;
 }
 
+void SDLEventManager::AddPersistentEventFunction(const SDLEventFunction& inEventFunction)
+{
+	mPersistentEventsFunctions.push_back(AddEventFunction(inEventFunction));
+}
+
 void SDLEventManager::Update()
 {
+	OPTICK_EVENT("SDLEventManager::Update");
+
 	SDL_Event event;
 	while (SDL_PollEvent(&event) != 0)
 	{

@@ -38,13 +38,6 @@ void Renderer::Init(const InitParams& inInitParams)
 
 	mCamera = std::make_unique<Camera>();
 
-	mRenderTargetTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, inInitParams.mWindowSize.x,
-											inInitParams.mWindowSize.y);
-	if (!mRenderTargetTexture)
-	{
-		gLog(LogType::Error, "Error creating render target texture: %s\n", SDL_GetError());
-	}
-
 	// Window resize event
 	SDLEventFunction event_function;
 	event_function.mEventType = SDL_WINDOWEVENT;
@@ -54,11 +47,9 @@ void Renderer::Init(const InitParams& inInitParams)
 		{
 			mWindowSize.x = inEvent.window.data1;
 			mWindowSize.y = inEvent.window.data2;
-			SDL_DestroyTexture(mRenderTargetTexture);
-			mRenderTargetTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, mWindowSize.x, mWindowSize.y);
 		}
 	};
-	static auto sEventFunction = gSDLEventManager.AddEventFunction(event_function);
+	gSDLEventManager.AddPersistentEventFunction(event_function);
 }
 
 void Renderer::Shutdown()
@@ -71,23 +62,29 @@ void Renderer::Shutdown()
 
 void Renderer::BeginFrame()
 {
-	SDL_SetRenderTarget(mRenderer, mRenderTargetTexture);
+	OPTICK_EVENT("BeginFrame");
 
-	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
-	SDL_RenderClear(mRenderer);
-
+	// We handle ImGui new frame first so that it doesn't use the camera's render target
 	ImGui_ImplSDLRenderer2_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
+
+	SDL_SetRenderTarget(mRenderer, mCamera->GetRenderTexture());
+
+	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(mRenderer);
 }
 
 void Renderer::EndFrame()
 {
-	SDL_SetRenderTarget(mRenderer, nullptr);
+	OPTICK_EVENT("Renderer::EndFrame");
 
-	SDL_Rect src_rect = {0, 0, mWindowSize.x, mWindowSize.y};
+	SDL_SetRenderTarget(mRenderer, nullptr);
+	SDL_RenderClear(mRenderer);
+
+	SDL_Rect src_rect = {0, 0, static_cast<int32>(mCamera->GetSize().x), static_cast<int32>(mCamera->GetSize().y)};
 	SDL_Rect dst_rect = {0, 0, mWindowSize.x, mWindowSize.y};
-	SDL_RenderCopyEx(mRenderer, mRenderTargetTexture, &src_rect, &dst_rect, 0.0, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(mRenderer, mCamera->GetRenderTexture(), &src_rect, &dst_rect, 0.0, nullptr, SDL_FLIP_NONE);
 
 	ImGui::Render();
 	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
@@ -97,6 +94,8 @@ void Renderer::EndFrame()
 
 void Renderer::Update(float inDeltaTime)
 {
+	OPTICK_EVENT("Renderer::Update")
+
 	mCamera->Update(inDeltaTime);
 }
 
@@ -141,8 +140,8 @@ SDL_FRect Renderer::GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHa
 	fm::vec2 screen_half_size = inHalfSize * camera_zoom;
 
 	SDL_FRect sdl_frect;
-	sdl_frect.x = screen_center.x - screen_half_size.x + static_cast<float>(mWindowSize.x) * 0.5f;
-	sdl_frect.y = screen_center.y - screen_half_size.y + static_cast<float>(mWindowSize.y) * 0.5f;
+	sdl_frect.x = screen_center.x - screen_half_size.x + static_cast<float>(mCamera->GetSize().x) * 0.5f;
+	sdl_frect.y = screen_center.y - screen_half_size.y + static_cast<float>(mCamera->GetSize().y) * 0.5f;
 	sdl_frect.w = screen_half_size.x * 2;
 	sdl_frect.h = screen_half_size.y * 2;
 

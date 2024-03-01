@@ -106,12 +106,18 @@ struct vec2
 	vec2(const vec2& i)
 		: vec2(i.x, i.y) {}
 
-	vec2(const ivec2& i) : x(static_cast<float>(i.x)), y(static_cast<float>(i.y)) {}
+	vec2(const ivec2& i)
+		: x(static_cast<float>(i.x)), y(static_cast<float>(i.y)) {}
 
 	float& operator[](size_t i)
 	{
 		assert(i < 2);
 		return *(&x + i);
+	}
+
+	ivec2 to_ivec2() const
+	{
+		return {static_cast<int>(x), static_cast<int>(y)};
 	}
 
 	vec2 operator -() const { return {-x, -y}; }

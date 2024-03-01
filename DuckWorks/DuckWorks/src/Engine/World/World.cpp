@@ -20,11 +20,14 @@ World::World()
 	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 0.0f));
 
 	std::shared_ptr<Player> player = CreateEntity<Player>("Player");
-	player->SetVelocity({50.f, 0.f});
 }
 
 void World::Update(float inDeltaTime)
 {
+	OPTICK_EVENT("World::Update");
+
+	ScopedMutexReadLock lock{mEntitiesMutex};
+
 	for (std::shared_ptr<Entity>& entity : mEntities)
 	{
 		entity->Update(inDeltaTime);
@@ -35,6 +38,8 @@ void World::Update(float inDeltaTime)
 
 void World::Render(float inDeltaTime)
 {
+	OPTICK_EVENT("World::Render");
+
 	gAnimationManager.Update(this, inDeltaTime);
 
 	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
@@ -54,6 +59,8 @@ void World::Render(float inDeltaTime)
 
 EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 {
+	ScopedMutexWriteLock lock{mEntitiesMutex};
+
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
 	return mEntities.back();
@@ -61,18 +68,21 @@ EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 
 b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef, const b2FixtureDef& inFixtureDef)
 {
-	b2Body* body = mPhysicsWorld->CreateBody(&inBodyDef);
+	b2Body* body = CreatePhysicsBody(inBodyDef);
 	body->CreateFixture(&inFixtureDef);
 	return body;
 }
 
 b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef)
 {
+	ScopedMutexWriteLock lock{mPhysicsWorldMutex};
 	return mPhysicsWorld->CreateBody(&inBodyDef);
 }
 
 void World::UpdatePhysics(float inDeltaTime)
 {
+	OPTICK_EVENT("World::UpdatePhysics");
+
 	{
 		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionUpdatedTag>();
 		for (auto entity : view)

@@ -8,6 +8,7 @@
 #include "Engine/Events/SDLEventManager.h"
 
 // External includes
+#include "Engine/Timer/TimerManager.h"
 #include "External/imgui/imgui.h"
 #include "External/imgui/imgui_impl_sdl2.h"
 #include "External/imgui/imgui_impl_sdlrenderer2.h"
@@ -55,18 +56,17 @@ int App::Run()
 	ImGui_ImplSDL2_InitForSDLRenderer(gRenderer.GetWindow(), gRenderer.GetRenderer());
 	ImGui_ImplSDLRenderer2_Init(gRenderer.GetRenderer());
 
-	// The shared pointers are saved as static variables to avoid them being destroyed
 	{
 		SDLEventFunction event_function;
 		event_function.mAllEvents = true;
 		event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { ImGui_ImplSDL2_ProcessEvent(&inEvent); };
-		static std::shared_ptr<SDLEventFunction> function_ptr = gSDLEventManager.AddEventFunction(event_function);
+		gSDLEventManager.AddPersistentEventFunction(event_function);
 	}
 	{
 		SDLEventFunction event_function;
 		event_function.mEventType = SDL_QUIT;
 		event_function.mFunctionPtr = [this](const SDL_Event&) { mRunning = false; };
-		static std::shared_ptr<SDLEventFunction> function_ptr = gSDLEventManager.AddEventFunction(event_function);
+		gSDLEventManager.AddPersistentEventFunction(event_function);
 	}
 
 	// Create World
@@ -92,11 +92,16 @@ void App::MainLoop()
 		auto end = std::chrono::steady_clock::now();
 		mDeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(end - start).count();
 
+		OPTICK_FRAME("MainThread");
+
 		gRenderer.BeginFrame();
 		Update(mDeltaTime);
 		gRenderer.EndFrame();
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		{
+			OPTICK_EVENT("Sleep");
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
 
 		start = end;
 	}
@@ -104,11 +109,31 @@ void App::MainLoop()
 
 void App::Update(float inDeltaTime)
 {
+	OPTICK_EVENT("App::Update")
+
 	gSDLEventManager.Update();
+	gTimerManager.Update(inDeltaTime);
 	mWorld->Update(inDeltaTime);
 	mWorld->Render(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
 	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
+
+	static uint64 timings_index = 0;
+	static float timings[128] = {0};
+	timings[timings_index] = inDeltaTime;
+	timings_index = (timings_index + 1) % 128;
+	ImGui::Begin("Timings");
+	float average_timing = 0.f;
+	for (uint64 i = 0; i < 128; ++i)
+	{
+		average_timing += timings[i];
+	}
+	average_timing = average_timing / 128.f;
+
+	ImGui::Text("Frame time: %f", inDeltaTime);
+	ImGui::Text("FPS: %f", 1 / average_timing);
+
+	ImGui::End();
 
 	static bool show_demo_window = true;
 

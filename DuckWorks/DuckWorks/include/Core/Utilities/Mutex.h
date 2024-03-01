@@ -4,8 +4,7 @@
 #include "Core/Utilities/Types.h"
 
 // Std includes
-#include <mutex>
-#include <condition_variable>
+#include <shared_mutex>
 
 class Mutex
 {
@@ -16,16 +15,8 @@ public:
 
 	void WriteLock(); ///< Locks the mutex for writing
 	void WriteUnlock(); ///< Unlocks the mutex from writing
-
-	bool IsWriteLocked() const;
-	bool IsReadLocked() const;
-
 private:
-	std::mutex mMutex;
-	std::condition_variable mConditionVariable;
-	int32 mActiveReaders = 0;
-	bool mWriteLocked = false;
-	bool mWriteLockRequestPending = false;
+	std::shared_mutex mMutex;
 };
 
 class BaseScopedMutexLock

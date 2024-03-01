@@ -9,15 +9,17 @@ Camera::Camera(fm::vec2 inPosition, fm::vec2 inSize, float inZoom) :
 	mZoom(inZoom)
 {
 	mSizeInverse = fm::vec2{1.f} / mSize;
-	mScale = fm::vec2{1.f, 1.f} * mZoom;
+
+	fm::ivec2 size = {inSize.to_ivec2()};
+	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
+	if (!mRenderTexture)
+	{
+		gLog(LogType::Error, "Error creating render target texture: %s\n", SDL_GetError());
+	}
 }
 
 void Camera::Update(float inDeltaTime)
 {
-	fm::vec2 windowSize = gRenderer.GetWindowSize();
-
-	mScale = windowSize / mSize * mZoom;
-
 	mZoom = fm::lerp(mZoom, mTargetZoom, inDeltaTime * mZoomSpeed);
 }
 
@@ -30,11 +32,20 @@ void Camera::SetSize(fm::vec2 inSize)
 {
 	mSize = inSize;
 	mSizeInverse = fm::vec2{1.f} / mSize;
+
+	SDL_DestroyTexture(mRenderTexture);
+	const fm::ivec2& window_size = gRenderer.GetWindowSize();
+	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, window_size.x, window_size.y);
 }
 
 void Camera::SetZoom(float inZoom)
 {
 	mTargetZoom = fm::max(inZoom, MIN_ZOOM);
+}
+
+void Camera::SetZoomSpeed(float inZoomSpeed)
+{
+	mZoomSpeed = inZoomSpeed;
 }
 
 void Camera::SnapZoom(float inZoom)
@@ -43,7 +54,7 @@ void Camera::SnapZoom(float inZoom)
 	mZoom = mTargetZoom;
 }
 
-void Camera::SetZoomSpeed(float inZoomSpeed)
+void Camera::SetRenderTexture(SDL_Texture* inRenderTexture)
 {
-	mZoomSpeed = inZoomSpeed;
+	mRenderTexture = inRenderTexture;
 }

@@ -4,6 +4,9 @@
 #include "Core/Log/Log.h"
 #include "Core/Utilities/Utilities.h"
 
+// External header
+#include "External/optick/optick.h"
+
 // STD headers
 #include <chrono>
 
