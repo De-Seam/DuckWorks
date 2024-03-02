@@ -8,6 +8,8 @@
 #include "Engine/Events/SDLEventManager.h"
 
 // External includes
+#include "Engine/Debug/DebugUIWindowManager.h"
+#include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 #include "Engine/Timer/TimerManager.h"
 #include "External/imgui/imgui.h"
 #include "External/imgui/imgui_impl_sdl2.h"
@@ -72,6 +74,8 @@ int App::Run()
 	// Create World
 	mWorld = std::make_unique<World>();
 
+	gDebugUIWindowManager.CreateWindow<DebugUIWindowPerformanceMonitor>();
+
 	MainLoop();
 
 	ShutdownInternal();
@@ -99,8 +103,8 @@ void App::MainLoop()
 		gRenderer.EndFrame();
 
 		{
-			OPTICK_EVENT("Sleep");
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			//OPTICK_EVENT("Sleep");
+			//std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 
 		start = end;
@@ -115,25 +119,9 @@ void App::Update(float inDeltaTime)
 	gTimerManager.Update(inDeltaTime);
 	mWorld->Update(inDeltaTime);
 	mWorld->Render(inDeltaTime);
+	gDebugUIWindowManager.Update(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
 	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
-
-	static uint64 timings_index = 0;
-	static float timings[128] = {0};
-	timings[timings_index] = inDeltaTime;
-	timings_index = (timings_index + 1) % 128;
-	ImGui::Begin("Timings");
-	float average_timing = 0.f;
-	for (uint64 i = 0; i < 128; ++i)
-	{
-		average_timing += timings[i];
-	}
-	average_timing = average_timing / 128.f;
-
-	ImGui::Text("Frame time: %f", inDeltaTime);
-	ImGui::Text("FPS: %f", 1 / average_timing);
-
-	ImGui::End();
 
 	static bool show_demo_window = true;
 

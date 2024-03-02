@@ -115,6 +115,9 @@
     <ClInclude Include="include\Core\Utilities\Types.h" />
     <ClInclude Include="include\Core\Utilities\UID.h" />
     <ClInclude Include="include\Core\Utilities\Utilities.h" />
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindow.h" />
+    <ClInclude Include="include\Engine\Debug\DebugUIWindowManager.h" />
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowPerformanceMonitor.h" />
     <ClInclude Include="include\Engine\Entity\Actor.h" />
     <ClInclude Include="include\Engine\Entity\BaseEntity.h" />
     <ClInclude Include="include\Engine\Entity\Components.h" />
@@ -313,6 +316,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Utilities\UID.cpp" />
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindow.cpp" />
+    <ClCompile Include="src\Engine\Debug\DebugUIWindowManager.cpp" />
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowPerformanceMonitor.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp" />
     <ClCompile Include="include\External\imgui\imgui.cpp">

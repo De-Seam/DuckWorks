@@ -4,7 +4,6 @@
 
 // External libraries
 #include <External/nlohmann/json.hpp>
-#include <External/entt/entt.hpp>
 #include <External/phmap/phmap.h>
 
 // STD includes
@@ -15,9 +14,21 @@
 using String = std::string;
 
 // Smart Pointers
-#define UniquePtr std::unique_ptr
-#define SharedPtr std::shared_ptr
-#define WeakPtr std::weak_ptr
+template<typename taType>
+using UniquePtr = std::unique_ptr<taType>;
+
+template<typename taType>
+using SharedPtr = std::shared_ptr<taType>;
+
+template<typename taType>
+using WeakPtr = std::weak_ptr<taType>;
+
+// Containers
+template<typename taType>
+using Array = std::vector<taType>;
+
+template<typename taKey, typename taValue>
+using HashMap = phmap::flat_hash_map<taKey, taValue>;
 
 // Casts
 #define SCast static_cast

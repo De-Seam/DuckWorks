@@ -6,12 +6,29 @@
 
 // External header
 #include "External/optick/optick.h"
+#include <External/entt/entt.hpp>
 
 // STD headers
 #include <chrono>
 
+// Disable all development ifdefs in SHIP mode
 #ifdef _SHIP
-#define IMGUI(x)
 #else
+#define _IMGUI_ENABLED 
+#define _PROFILING_ENABLED 
+#endif
+
+// ImGui Macro
+#ifdef _IMGUI_ENABLED
 #define IMGUI(x) x
+#else
+#define IMGUI(x)
+#endif
+
+// Profiling Macro
+#ifdef _PROFILING_ENABLED
+#define PROFILE_SCOPE(inName) OPTICK_EVENT(#inName)
+#define PROFILE_SCOPE_STRING(inName) OPTICK_EVENT(inName)
+#else
+#define PROFILE_SCOPE(inName)
 #endif
