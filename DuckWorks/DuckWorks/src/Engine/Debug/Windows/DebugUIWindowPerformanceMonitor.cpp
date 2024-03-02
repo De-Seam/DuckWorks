@@ -43,7 +43,7 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 			gLog("Highest timing was %f, resetting", mHighestTiming);
 			mHighestTiming = average_timing;
 		}
-		if ((mTimings.size() < fps * 0.9f || mTimings.size() > fps * 1.1f))
+		if ((SCast<float>(mTimings.size()) < fps * 0.9f || SCast<float>(mTimings.size()) > fps * 1.1f))
 		{
 			mTimings.resize(Cast<uint64>(fps));
 		}

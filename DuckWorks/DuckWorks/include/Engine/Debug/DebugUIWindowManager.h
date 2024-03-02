@@ -5,6 +5,11 @@
 class DebugUIWindowManager
 {
 public:
+	void Init();
+	void BeginFrame();
+	void EndFrame();
+	void Shutdown();
+
 	void Update(float inDeltaTime);
 
 	template<typename taType>

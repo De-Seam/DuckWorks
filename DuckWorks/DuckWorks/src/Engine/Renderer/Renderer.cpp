@@ -1,10 +1,12 @@
 #include "Precomp.h"
 #include "Engine/Renderer/Renderer.h"
 
+// Engine includes
+#include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Events/SDLEventManager.h"
+
+// External includes
 #include "External/imgui/imgui.h"
-#include "External/imgui/imgui_impl_sdl2.h"
-#include "External/imgui/imgui_impl_sdlrenderer2.h"
 #include "External/SDL/SDL.h"
 
 Renderer gRenderer;
@@ -17,6 +19,7 @@ Renderer::~Renderer()
 
 void Renderer::Init(const InitParams& inInitParams)
 {
+	PROFILE_SCOPE(Renderer::Init)
 	gLog(LogType::Info, "Initializing Renderer");
 
 	SDL_SetMainReady();
@@ -50,11 +53,16 @@ void Renderer::Init(const InitParams& inInitParams)
 		}
 	};
 	gSDLEventManager.AddPersistentEventFunction(event_function);
+
+	gDebugUIWindowManager.Init();
 }
 
 void Renderer::Shutdown()
 {
+	PROFILE_SCOPE(Renderer::Shutdown)
 	gLog(LogType::Info, "Shutting down Renderer");
+
+	gDebugUIWindowManager.Shutdown();
 
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);
@@ -62,12 +70,10 @@ void Renderer::Shutdown()
 
 void Renderer::BeginFrame()
 {
-	OPTICK_EVENT("BeginFrame");
+	PROFILE_SCOPE(Renderer::BeginFrame)
 
 	// We handle ImGui new frame first so that it doesn't use the camera's render target
-	ImGui_ImplSDLRenderer2_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
+	gDebugUIWindowManager.BeginFrame();
 
 	SDL_SetRenderTarget(mRenderer, mCamera->GetRenderTexture());
 
@@ -77,7 +83,7 @@ void Renderer::BeginFrame()
 
 void Renderer::EndFrame()
 {
-	OPTICK_EVENT("Renderer::EndFrame");
+	PROFILE_SCOPE(Renderer::EndFrame);
 
 	SDL_SetRenderTarget(mRenderer, nullptr);
 	SDL_RenderClear(mRenderer);
@@ -86,17 +92,21 @@ void Renderer::EndFrame()
 	SDL_Rect dst_rect = {0, 0, mWindowSize.x, mWindowSize.y};
 	SDL_RenderCopyEx(mRenderer, mCamera->GetRenderTexture(), &src_rect, &dst_rect, 0.0, nullptr, SDL_FLIP_NONE);
 
-	ImGui::Render();
-	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+	gDebugUIWindowManager.EndFrame();
 
 	SDL_RenderPresent(mRenderer);
 }
 
 void Renderer::Update(float inDeltaTime)
 {
-	OPTICK_EVENT("Renderer::Update")
+	PROFILE_SCOPE(Renderer::Update)
 
 	mCamera->Update(inDeltaTime);
+
+	static bool show_demo_window = true;
+
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)
