@@ -96,7 +96,7 @@ void App::MainLoop()
 		auto end = std::chrono::steady_clock::now();
 		mDeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(end - start).count();
 
-		OPTICK_FRAME("MainThread");
+		OPTICK_FRAME("MainThread")
 
 		gRenderer.BeginFrame();
 		Update(mDeltaTime);
@@ -104,7 +104,7 @@ void App::MainLoop()
 
 		{
 			//OPTICK_EVENT("Sleep");
-			//std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			//std::this_thread::sleep_for(std::chrono::milliseconds(5));
 		}
 
 		start = end;
@@ -116,12 +116,27 @@ void App::Update(float inDeltaTime)
 	OPTICK_EVENT("App::Update")
 
 	gSDLEventManager.Update();
-	gTimerManager.Update(inDeltaTime);
-	mWorld->Update(inDeltaTime);
+
+	if (!mPaused)
+	{
+		gTimerManager.Update(inDeltaTime);
+		mWorld->Update(inDeltaTime);
+	}
 	mWorld->Render(inDeltaTime);
 	gDebugUIWindowManager.Update(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
-	//gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
+	gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
 
 	static bool show_demo_window = true;
 

@@ -42,6 +42,8 @@ public:
 
 	static void SetConsoleColor(int32 inColor);
 
+	static void CleanLogQueue();
+
 	static const std::string& GetLog() { return mOutputLog; }
 	static void SetLogFilePath(const String& inFilePath);
 	static void SetLogFileName(const String& inFileName);

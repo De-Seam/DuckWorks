@@ -39,7 +39,7 @@ Player::Player(World* inWorld)
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
-	texture_render_component.mSrcRect = {0, 0, 8, 8};
+	texture_render_component.mSrcRect = {0, 0, 192, 192};
 	texture_render_component.mUseSrcRect = true;
 
 	SetupAnimations();

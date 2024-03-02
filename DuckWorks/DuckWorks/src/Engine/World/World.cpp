@@ -12,6 +12,7 @@
 
 // Game includes (ILLEGAL!)
 #include "Engine/Renderer/AnimationManager.h"
+#include "Game/App/App.h"
 #include "Game/Entity/Player/Player.h"
 
 
@@ -40,7 +41,10 @@ void World::Render(float inDeltaTime)
 {
 	OPTICK_EVENT("World::Render");
 
-	gAnimationManager.Update(this, inDeltaTime);
+	if (!gApp.IsPaused())
+	{
+		gAnimationManager.Update(this, inDeltaTime);
+	}
 
 	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
 	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)

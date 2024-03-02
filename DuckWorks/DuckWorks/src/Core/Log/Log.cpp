@@ -54,6 +54,7 @@ void LogManager::Log(LogType logType, const char* fmt ...)
 
 void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 {
+	PROFILE_SCOPE(LogManager::Log)
 	String msg;
 	msg.reserve(128);
 
@@ -126,12 +127,36 @@ void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 
 	LogQueueItem logQueueItem = {inLogType, msg};
 	mLogQueue.enqueue(logQueueItem);
+
+	if (mLogQueue.size() > 128)
+		CleanLogQueue();
+	gAssert(mLogQueue.size() < 1024, "Log queue is getting too big. This is a sign that the log thread is not keeping up with the log messages.");
 }
 
 void LogManager::SetConsoleColor(int32 inColor)
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, static_cast<WORD>(inColor));
+	HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console_handle, static_cast<WORD>(inColor));
+}
+
+void LogManager::CleanLogQueue()
+{
+	PROFILE_SCOPE(LogManager::CleanLogQueue)
+
+	while (!mLogQueue.empty())
+	{
+		// Anything that's not info is important enough that it needs to be re-queued
+		std::optional<LogQueueItem> queue_item = mLogQueue.try_dequeue();
+		if (queue_item.has_value())
+		{
+			if (queue_item.value().logType != LogType::Info)
+			{
+				mLogQueue.enqueue(queue_item.value());
+			}
+		}
+	}
+
+	Log(LogType::Warning, "Log queue had to be cleaned.");
 }
 
 void LogManager::SetLogFilePath(const String& inFilePath)
@@ -146,10 +171,13 @@ void LogManager::SetLogFileName(const String& inFileName)
 
 void LogManager::LogThreadLoop()
 {
+	OPTICK_THREAD("LogManagerThread")
 	mThreadRunning = true;
 	while (mThreadRunning)
 	{
 		LogQueueItem queueItem = mLogQueue.dequeue();
+
+		PROFILE_SCOPE(LogManager::Log)
 
 		switch (queueItem.logType)
 		{

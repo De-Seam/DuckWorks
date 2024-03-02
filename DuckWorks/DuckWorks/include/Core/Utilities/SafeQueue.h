@@ -5,6 +5,7 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <optional>
 
 // A threadsafe-queue.
 template<class T>
@@ -41,6 +42,38 @@ public:
 		T val = q.front();
 		q.pop();
 		return val;
+	}
+
+	std::optional<T> try_dequeue()
+	{
+		std::lock_guard<std::mutex> lock(m);
+		if (q.empty())
+		{
+			return T();
+		}
+		T val = q.front();
+		q.pop();
+		return val;
+	}
+
+	uint64 size() const
+	{
+		return q.size();
+	}
+
+	bool empty() const
+	{
+		return q.empty();
+	}
+
+	void lock()
+	{
+		m.lock();
+	}
+
+	void unlock()
+	{
+		m.unlock();
 	}
 
 private:

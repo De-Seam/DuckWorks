@@ -16,6 +16,9 @@ public:
 
 	float GetDeltaTime() const { return mDeltaTime; }
 
+	void SetPaused(bool inPaused) { mPaused = inPaused; }
+	bool IsPaused() const { return mPaused; }
+
 private:
 	void MainLoop();
 	void Update(float inDeltaTime);
@@ -27,6 +30,7 @@ private:
 
 	float mDeltaTime = FLT_EPSILON;
 	bool mRunning = false;
+	bool mPaused = true;
 };
 
 extern App gApp;
