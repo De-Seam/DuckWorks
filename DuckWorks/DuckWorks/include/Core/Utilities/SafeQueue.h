@@ -29,6 +29,18 @@ public:
 		c.notify_one();
 	}
 
+	bool try_enqueue(T t)
+	{
+		if (m.try_lock())
+		{
+			q.push(t);
+			c.notify_one();
+			m.unlock();
+			return true;
+		}
+		return false;
+	}
+
 	// Get the "front"-element.
 	// If the queue is empty, wait till a element is available.
 	T dequeue(void)
@@ -44,16 +56,37 @@ public:
 		return val;
 	}
 
-	std::optional<T> try_dequeue()
+	enum class DequeueResult
+	{
+		Success,
+		Empty,
+		Locked
+	};
+
+	std::pair<DequeueResult, T> try_dequeue()
+	{
+		if (m.try_lock())
+		{
+			if (q.empty())
+			{
+				m.unlock();
+				return {DequeueResult::Empty, T()};
+			}
+			T val = q.front();
+			q.pop();
+			m.unlock();
+			return {DequeueResult::Success, val};
+		}
+		return {DequeueResult::Locked, T()};
+	}
+
+	void clear()
 	{
 		std::lock_guard<std::mutex> lock(m);
-		if (q.empty())
+		while (!q.empty())
 		{
-			return T();
+			q.pop();
 		}
-		T val = q.front();
-		q.pop();
-		return val;
 	}
 
 	uint64 size() const

@@ -42,11 +42,13 @@ public:
 
 	static void SetConsoleColor(int32 inColor);
 
-	static void CleanLogQueue();
+	static void CleanLogQueue(bool inErrorOnly = false);
 
 	static const std::string& GetLog() { return mOutputLog; }
 	static void SetLogFilePath(const String& inFilePath);
 	static void SetLogFileName(const String& inFileName);
+
+	static void WriteLogToFile();
 
 private:
 	static void LogThreadLoop();
@@ -55,7 +57,10 @@ private:
 	static std::thread mLogThread;
 	static SafeQueue<LogQueueItem> mLogQueue;
 
+	static uint64 mMaxOutputLogSize;
+
 	static String mOutputLog;
 	static String mLogFilePath;
 	static String mLogFileName;
+	static String mLogFileExtension;
 };

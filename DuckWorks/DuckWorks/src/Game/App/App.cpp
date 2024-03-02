@@ -125,17 +125,6 @@ void App::Update(float inDeltaTime)
 	mWorld->Render(inDeltaTime);
 	gDebugUIWindowManager.Update(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog(LogType::Error, "%f : %f", 1 / inDeltaTime, inDeltaTime);
-	gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
 	gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
 
 	static bool show_demo_window = true;

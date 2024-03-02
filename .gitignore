@@ -31,3 +31,5 @@
 
 .vs
 Build
+*.Log
+*.DuckLog
