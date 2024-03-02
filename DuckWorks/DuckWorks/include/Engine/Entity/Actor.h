@@ -5,7 +5,7 @@
 // An actor is an entity that has a transform component. It can be moved and rotated, and physics can be added
 class Actor : public Entity
 {
-	using Base = Entity;
+	RTTI_CLASS(Actor, Entity)
 
 public:
 	Actor(World* inWorld);

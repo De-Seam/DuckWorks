@@ -30,7 +30,7 @@ private:
 
 	float mDeltaTime = FLT_EPSILON;
 	bool mRunning = false;
-	bool mPaused = true;
+	bool mPaused = false;
 };
 
 extern App gApp;

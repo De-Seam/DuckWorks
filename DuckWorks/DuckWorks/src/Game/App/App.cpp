@@ -6,11 +6,11 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/World/World.h"
 #include "Engine/Events/SDLEventManager.h"
-
-// External includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 #include "Engine/Timer/TimerManager.h"
+
+// External includes
 #include "External/SDL/SDL.h"
 
 App gApp;

@@ -5,7 +5,7 @@
 
 class Player : public Actor
 {
-	using Base = Actor;
+	RTTI_CLASS(Player, Actor)
 
 public:
 	Player(World* inWorld);

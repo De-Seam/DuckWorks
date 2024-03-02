@@ -15,7 +15,7 @@ using EntityWeakPtr = WeakPtr<Entity>;
 
 class Entity : public BaseEntity
 {
-	using Base = BaseEntity;
+	RTTI_CLASS(Entity, BaseEntity)
 
 public:
 	Entity(World* inWorld)

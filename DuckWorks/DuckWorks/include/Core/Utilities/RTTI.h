@@ -27,3 +27,12 @@ struct RTTIBaseStruct
 	virtual const char* GetClassName() const = 0;
 	virtual const char* GetParentClassName() const = 0;
 };
+
+#define REGISTER_ENTITY(inEntity) \
+	gEntityFactory.RegisterEntity<inEntity>(#inEntity)
+
+#define REGISTER_COMPONENT(inComponent) \
+	gComponentFactory.RegisterComponent<inComponent>(#inComponent)
+
+#define REGISTER_DEBUGUI_WINDOW(inWindow) \
+	gDebugUIWindowFactory.RegisterDebugUIWindow<inWindow>(#inWindow)

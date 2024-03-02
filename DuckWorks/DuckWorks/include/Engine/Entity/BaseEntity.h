@@ -7,8 +7,10 @@
 
 class World;
 
-class BaseEntity
+class BaseEntity : public RTTIBaseClass
 {
+	RTTI_CLASS(BaseEntity, RTTIBaseClass)
+
 public:
 	BaseEntity(World* inWorld); ///< Will create a new handle with the world
 	BaseEntity(entt::entity inHandle, World* inWorld); ///< Will assign the given handle to the entity

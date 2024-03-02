@@ -20,7 +20,7 @@ public:
 	void Render(float inDeltaTime);
 
 	template<typename taType>
-	std::shared_ptr<taType> CreateEntity(const String& inName);
+	SharedPtr<taType> CreateEntity(const String& inName);
 	EntityPtr AddEntity(const EntityPtr& inEntity, const String& inName);
 
 	b2Body* CreatePhysicsBody(const b2BodyDef&, const b2FixtureDef& inFixtureDef);
