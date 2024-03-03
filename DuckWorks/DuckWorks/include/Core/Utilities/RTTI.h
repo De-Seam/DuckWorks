@@ -29,10 +29,10 @@ struct RTTIBaseStruct
 };
 
 #define REGISTER_ENTITY(inEntity) \
-	gEntityFactory.RegisterEntity<inEntity>(#inEntity)
+	gEntityFactory.RegisterClass<inEntity>(#inEntity)
 
 #define REGISTER_COMPONENT(inComponent) \
 	gComponentFactory.RegisterComponent<inComponent>(#inComponent)
 
-#define REGISTER_DEBUGUI_WINDOW(inWindow) \
-	gDebugUIWindowFactory.RegisterDebugUIWindow<inWindow>(#inWindow)
+#define REGISTER_DEBUG_UI_WINDOW(inWindow) \
+	gDebugUIWindowFactory.RegisterClass<inWindow>(#inWindow)

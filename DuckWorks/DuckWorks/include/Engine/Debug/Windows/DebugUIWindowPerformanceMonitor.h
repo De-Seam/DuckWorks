@@ -3,7 +3,7 @@
 
 class DebugUIWindowPerformanceMonitor : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowPerformanceMonitor, DebugUIWindow);
+	RTTI_CLASS(DebugUIWindowPerformanceMonitor, DebugUIWindow)
 
 public:
 	DebugUIWindowPerformanceMonitor();

@@ -19,6 +19,8 @@ public:
 	void SetPaused(bool inPaused) { mPaused = inPaused; }
 	bool IsPaused() const { return mPaused; }
 
+	World* GetWorld() const { return mWorld.get(); }
+
 private:
 	void MainLoop();
 	void Update(float inDeltaTime);

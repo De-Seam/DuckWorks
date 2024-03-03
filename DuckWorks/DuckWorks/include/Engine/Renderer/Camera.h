@@ -8,7 +8,7 @@ struct SDL_Texture;
 class Camera
 {
 public:
-	Camera(fm::vec2 inPosition = {0, 0}, fm::vec2 inSize = {1920.f, 1080.f}, float inZoom = 1.f);
+	Camera(fm::vec2 inPosition = {200, 0}, fm::vec2 inSize = {1920.f, 1080.f}, float inZoom = 1.f);
 
 	virtual void Update(float inDeltaTime);
 	void SetPosition(fm::vec2 inPosition);

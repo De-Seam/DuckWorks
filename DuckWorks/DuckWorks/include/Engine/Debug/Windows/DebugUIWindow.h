@@ -7,6 +7,8 @@ class DebugUIWindow : public RTTIBaseClass
 	RTTI_CLASS(DebugUIWindow, RTTIBaseClass)
 
 public:
+	DebugUIWindow() = default;
+
 	virtual void Update(float inDeltaTime) = 0;
 
 	[[nodiscard]] virtual bool IsOpen() const { return mOpen; }

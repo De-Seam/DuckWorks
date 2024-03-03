@@ -25,7 +25,7 @@ World::World()
 
 void World::Update(float inDeltaTime)
 {
-	OPTICK_EVENT("World::Update");
+	PROFILE_SCOPE(World::Update);
 
 	ScopedMutexReadLock lock{mEntitiesMutex};
 
@@ -39,7 +39,7 @@ void World::Update(float inDeltaTime)
 
 void World::Render(float inDeltaTime)
 {
-	OPTICK_EVENT("World::Render");
+	PROFILE_SCOPE(World::Render);
 
 	if (!gApp.IsPaused())
 	{
@@ -63,10 +63,13 @@ void World::Render(float inDeltaTime)
 
 EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 {
+	PROFILE_SCOPE(World::AddEntity)
 	ScopedMutexWriteLock lock{mEntitiesMutex};
 
+	inEntity->GenerateNewEntityHandle(this);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
+	inEntity->BeginPlay();
 	return mEntities.back();
 }
 
@@ -85,7 +88,7 @@ b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef)
 
 void World::UpdatePhysics(float inDeltaTime)
 {
-	OPTICK_EVENT("World::UpdatePhysics");
+	PROFILE_SCOPE(World::UpdatePhysics);
 
 	{
 		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionUpdatedTag>();
@@ -123,6 +126,8 @@ void World::UpdatePhysics(float inDeltaTime)
 
 void World::PhysicsTimeStep()
 {
+	PROFILE_SCOPE(World::PhysicsTimeStep)
+
 	//Fixed time step for physics world
 	mPhysicsWorld->Step(mPhysicsTimeStep, mVelocityIterations, mPositionIterations);
 }

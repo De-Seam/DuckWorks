@@ -3,12 +3,13 @@
 #include "Game/App/App.h"
 
 // Engine includes
-#include "Engine/Renderer/Renderer.h"
-#include "Engine/World/World.h"
-#include "Engine/Events/SDLEventManager.h"
+#include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
+#include "Engine/Events/SDLEventManager.h"
+#include "Engine/Renderer/Renderer.h"
 #include "Engine/Timer/TimerManager.h"
+#include "Engine/World/World.h"
 
 // External includes
 #include "External/SDL/SDL.h"
@@ -48,6 +49,7 @@ int App::Run()
 	mWorld = std::make_unique<World>();
 
 	gDebugUIWindowManager.CreateWindow<DebugUIWindowPerformanceMonitor>();
+	gDebugUIWindowManager.CreateWindow<DebugUIWindowEntitySpawner>();
 
 	MainLoop();
 
@@ -98,7 +100,6 @@ void App::Update(float inDeltaTime)
 	mWorld->Render(inDeltaTime);
 	gDebugUIWindowManager.Update(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
-	gLog("%f : %f", 1 / inDeltaTime, inDeltaTime);
 }
 
 void App::ShutdownInternal()

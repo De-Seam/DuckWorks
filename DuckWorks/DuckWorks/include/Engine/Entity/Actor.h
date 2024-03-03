@@ -8,7 +8,9 @@ class Actor : public Entity
 	RTTI_CLASS(Actor, Entity)
 
 public:
-	Actor(World* inWorld);
+	Actor() = default;
+
+	virtual void BeginPlay() override;
 
 	void CreatePhysicsBody(b2BodyDef inBodyDef, b2FixtureDef inFixtureDef);
 	void CreateDefaultPhysicsBody();

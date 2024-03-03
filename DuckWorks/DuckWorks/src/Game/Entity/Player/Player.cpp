@@ -14,9 +14,10 @@
 
 #include "Engine/Renderer/AnimationManager.h"
 
-Player::Player(World* inWorld)
-	: Base(inWorld)
+void Player::BeginPlay()
 {
+	Base::BeginPlay();
+
 	SetHalfSize(fm::vec2(100.0f, 100.0f));
 
 	//b2BodyDef body_def;

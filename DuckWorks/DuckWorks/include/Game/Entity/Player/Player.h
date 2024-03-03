@@ -8,8 +8,9 @@ class Player : public Actor
 	RTTI_CLASS(Player, Actor)
 
 public:
-	Player(World* inWorld);
+	Player() = default;
 
+	virtual void BeginPlay() override;
 	virtual void Update(float inDeltaTime) override;
 
 	bool IsAttacking() const { return mAttacking; }

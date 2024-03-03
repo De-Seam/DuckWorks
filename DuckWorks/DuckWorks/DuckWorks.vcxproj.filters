@@ -636,6 +636,15 @@
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowPerformanceMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Factory\Factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\App\FactoryRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntitySpawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -726,6 +735,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowPerformanceMonitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Factory\Factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\App\FactoryRegistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEntitySpawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

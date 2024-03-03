@@ -55,6 +55,7 @@ public:
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
 	const fm::ivec2& GetWindowSize() const { return mWindowSize; }
+	Camera* GetCamera() const { return mCamera.get(); }
 
 private:
 	SDL_Window* mWindow = nullptr;
