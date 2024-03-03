@@ -12,6 +12,7 @@ public:
 	virtual void Update(float inDeltaTime) = 0;
 
 	[[nodiscard]] virtual bool IsOpen() const { return mOpen; }
+	bool* GetOpenPtr() { return &mOpen; }
 
 protected:
 	// The open variable should be given to ImGui::Begin() as the second parameter

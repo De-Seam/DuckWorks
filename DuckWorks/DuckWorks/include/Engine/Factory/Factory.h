@@ -16,7 +16,7 @@ public:
 
 	[[nodiscard]] SharedPtr<taFactoryType> CreateClass(const String& inClassName);
 
-	[[nodiscard]] Array<String> GetClassNames() const;
+	[[nodiscard]] const Array<String>& GetClassNames() const;
 
 private:
 	HashMap<String, ConstructorFunction> mClassConstructors;
@@ -44,7 +44,7 @@ SharedPtr<taFactoryType> Factory<taFactoryType>::CreateClass(const String& inCla
 }
 
 template<typename taFactoryType>
-Array<String> Factory<taFactoryType>::GetClassNames() const
+const Array<String>& Factory<taFactoryType>::GetClassNames() const
 {
 	return mKeyList;
 }

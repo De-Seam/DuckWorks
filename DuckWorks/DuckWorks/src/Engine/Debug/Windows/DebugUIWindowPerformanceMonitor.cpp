@@ -15,7 +15,7 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 
 	float delta_time_seconds = inDeltaTime * 1000.f;
 
-	ImGui::Begin("Performance Monitor", &mOpen);
+	ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize);
 
 	mTimingsIndex = (mTimingsIndex + 1) % mTimings.size();
 	mTimings[mTimingsIndex] = delta_time_seconds;
@@ -38,9 +38,9 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 	if (mTimingsIndex == mTimings.size() - 1)
 	{
 		// Check if highest timing is ridiculously high, if so, reset it
-		if (mHighestTiming > average_timing * 5)
+		if (mHighestTiming > average_timing * 10)
 		{
-			gLog("Highest timing was %f, resetting", mHighestTiming);
+			gLog("Highest timing was %f, average timing was %f, resetting", mHighestTiming, average_timing);
 			mHighestTiming = average_timing;
 		}
 		if ((SCast<float>(mTimings.size()) < fps * 0.9f || SCast<float>(mTimings.size()) > fps * 1.1f))

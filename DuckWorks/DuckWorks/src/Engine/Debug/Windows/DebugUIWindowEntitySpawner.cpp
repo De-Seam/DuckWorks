@@ -21,7 +21,7 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 
 	ImGui::Begin("Entity Spawner", &mOpen);
 
-	Array<String> entity_names = gEntityFactory.GetClassNames();
+	const Array<String>& entity_names = gEntityFactory.GetClassNames();
 
 	for (const String& entity_name : entity_names)
 	{
@@ -34,9 +34,7 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 				TransformComponent& transform_component = entity->GetComponent<TransformComponent>();
 				transform_component.mTransform.position = gRenderer.GetCamera()->GetPosition();
 				if (entity->HasComponent<PhysicsComponent>())
-				{
 					entity->AddComponent<PhysicsPositionUpdatedTag>();
-				}
 			}
 		}
 	}

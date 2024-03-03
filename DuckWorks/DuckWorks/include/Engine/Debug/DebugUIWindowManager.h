@@ -11,6 +11,7 @@ public:
 	void Shutdown();
 
 	void Update(float inDeltaTime);
+	void UpdateMainMenuBar();
 
 	template<typename taType>
 	WeakPtr<DebugUIWindow> CreateWindow();
@@ -22,6 +23,8 @@ public:
 
 private:
 	Array<SharedPtr<DebugUIWindow>> mWindows;
+
+	Array<bool> mWindowOpen;
 };
 
 extern DebugUIWindowManager gDebugUIWindowManager;
