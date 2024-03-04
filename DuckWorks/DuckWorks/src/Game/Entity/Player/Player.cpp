@@ -14,10 +14,9 @@
 
 #include "Engine/Renderer/AnimationManager.h"
 
-void Player::BeginPlay()
+Player::Player(World* inWorld)
+	: Actor(inWorld)
 {
-	Base::BeginPlay();
-
 	SetHalfSize(fm::vec2(100.0f, 100.0f));
 
 	//b2BodyDef body_def;
@@ -65,6 +64,11 @@ void Player::BeginPlay()
 	}
 
 	AddComponent<HealthComponent>();
+}
+
+void Player::BeginPlay()
+{
+	Base::BeginPlay();
 }
 
 void Player::Update(float inDeltaTime)
