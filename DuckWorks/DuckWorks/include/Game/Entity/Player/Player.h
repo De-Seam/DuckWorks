@@ -8,7 +8,8 @@ class Player : public Actor
 	RTTI_CLASS(Player, Actor)
 
 public:
-	Player() = default;
+	Player(World* inWorld)
+		: Actor(inWorld) {}
 
 	virtual void BeginPlay() override;
 	virtual void Update(float inDeltaTime) override;

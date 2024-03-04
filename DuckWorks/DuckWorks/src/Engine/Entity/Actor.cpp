@@ -8,7 +8,8 @@
 // External includes
 #include <External/box2d/box2d.h>
 
-void Actor::BeginPlay()
+Actor::Actor(World* inWorld)
+	: Entity(inWorld)
 {
 	AddComponent<TransformComponent>();
 }

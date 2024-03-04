@@ -18,7 +18,8 @@ class Entity : public BaseEntity
 	RTTI_CLASS(Entity, BaseEntity)
 
 public:
-	Entity() = default;
+	Entity(World* inWorld)
+		: BaseEntity(inWorld) {}
 
 	virtual void BeginPlay() {}
 	virtual void EndPlay() {}

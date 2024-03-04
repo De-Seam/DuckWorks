@@ -66,7 +66,6 @@ EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 	PROFILE_SCOPE(World::AddEntity)
 	ScopedMutexWriteLock lock{mEntitiesMutex};
 
-	inEntity->GenerateNewEntityHandle(this);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
 	inEntity->BeginPlay();

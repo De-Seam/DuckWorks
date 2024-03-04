@@ -1,5 +1,5 @@
 #include "Precomp.h"
 #include "Engine/Factory/Factory.h"
 
-Factory<Entity> gEntityFactory = {};
+Factory<Entity, World*> gEntityFactory = {};
 Factory<DebugUIWindow> gDebugUIWindowFactory;

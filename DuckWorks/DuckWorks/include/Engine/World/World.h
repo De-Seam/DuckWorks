@@ -53,8 +53,7 @@ std::shared_ptr<taType> World::CreateEntity(const String& inName)
 {
 	static_assert(std::is_base_of_v<Entity, taType>);
 
-	std::shared_ptr<taType> entity = std::make_shared<taType>();
-	entity->GenerateNewEntityHandle(this);
+	std::shared_ptr<taType> entity = std::make_shared<taType>(this);
 	entity->mThisWeakPtr = entity;
 	AddEntity(std::static_pointer_cast<Entity>(entity), inName);
 	return entity;

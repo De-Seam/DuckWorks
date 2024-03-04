@@ -154,8 +154,8 @@ void DebugUIWindowManager::UpdateMainMenuBar()
 			}
 			for (const String& window_name : add_windows)
 			{
-				SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
-				AddWindow(window);
+				//SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+				//AddWindow(window);
 			}
 
 			ImGui::EndMenu();
