@@ -32,7 +32,7 @@ int App::Run()
 		// Initialize Renderer
 		Renderer::InitParams params;
 		params.mWindowTitle = "DuckWorks";
-		params.mWindowSize = fm::ivec2(1920, 1080);
+		params.mWindowSize = fm::ivec2(1280, 720);
 		params.mWindowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 		params.mRendererFlags = SDL_RENDERER_ACCELERATED;
 		gRenderer.Init(params);

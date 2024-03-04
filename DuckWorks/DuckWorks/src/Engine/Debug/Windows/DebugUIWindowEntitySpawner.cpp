@@ -17,6 +17,7 @@ DebugUIWindowEntitySpawner::DebugUIWindowEntitySpawner()
 
 void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 {
+	(void)inDeltaTime;
 	PROFILE_SCOPE(DebugUIWindowEntitySpawner::Update)
 
 	ImGui::Begin("Entity Spawner", &mOpen);
