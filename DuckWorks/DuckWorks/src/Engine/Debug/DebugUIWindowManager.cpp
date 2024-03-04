@@ -94,16 +94,12 @@ void DebugUIWindowManager::Shutdown()
 	for (const SharedPtr<DebugUIWindow>& window : mWindows)
 	{
 		if (window->IsOpen())
-		{
 			json_debug_file["OpenWindows"].emplace_back(window->GetClassName());
-		}
 	}
 	std::ofstream file(mDebugFileName);
 	if (!file.is_open())
-	{
-		gLog(LogType::Error, "Failed to open debug file for writing");
-		return;
-	}
+		return gLog(LogType::Error, "Failed to open debug file for writing");
+
 	file << json_debug_file.dump(4);
 }
 
