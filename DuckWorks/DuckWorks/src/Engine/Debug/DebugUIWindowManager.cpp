@@ -52,7 +52,7 @@ void DebugUIWindowManager::BeginFrame()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::DockSpaceOverViewport();
+	ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 }
 
 void DebugUIWindowManager::EndFrame()
