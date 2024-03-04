@@ -51,6 +51,8 @@ void DebugUIWindowManager::BeginFrame()
 	ImGui_ImplSDLRenderer2_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
+
+	ImGui::DockSpaceOverViewport();
 }
 
 void DebugUIWindowManager::EndFrame()

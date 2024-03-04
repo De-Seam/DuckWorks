@@ -30,7 +30,7 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 	}
 	average_timing = average_timing / Cast<float>(mTimings.size());
 
-	float fps = Cast<int32>(1.f / average_timing * 1000.f);
+	float fps = 1.f / average_timing * 1000.f;
 	if (fps < 1.f)
 		fps = 1.f;
 
