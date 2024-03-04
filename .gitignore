@@ -33,3 +33,5 @@
 Build
 *.Log
 *.DuckLog
+DuckWorks/Run/Debug.json
+DuckWorks/Run/imgui.ini

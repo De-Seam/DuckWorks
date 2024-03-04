@@ -12,6 +12,7 @@
 #include <memory>
 
 using String = std::string;
+using Json = nlohmann::json;
 
 // Smart Pointers
 template<typename taType>

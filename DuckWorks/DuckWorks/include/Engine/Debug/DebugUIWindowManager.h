@@ -25,6 +25,7 @@ private:
 	Array<SharedPtr<DebugUIWindow>> mWindows;
 
 	Array<bool> mWindowOpen;
+	String mDebugFileName = "Debug.json";
 };
 
 extern DebugUIWindowManager gDebugUIWindowManager;

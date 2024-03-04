@@ -3,9 +3,7 @@
 #include "Game/App/App.h"
 
 // Engine includes
-#include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
-#include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 #include "Engine/Events/SDLEventManager.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Timer/TimerManager.h"
@@ -47,9 +45,6 @@ int App::Run()
 
 	// Create World
 	mWorld = std::make_unique<World>();
-
-	gDebugUIWindowManager.CreateWindow<DebugUIWindowPerformanceMonitor>();
-	gDebugUIWindowManager.CreateWindow<DebugUIWindowEntitySpawner>();
 
 	MainLoop();
 

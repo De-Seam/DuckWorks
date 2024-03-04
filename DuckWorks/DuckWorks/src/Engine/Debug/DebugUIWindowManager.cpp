@@ -3,6 +3,8 @@
 
 // Engine includes
 #include "Engine/Debug/Windows/DebugUIWindow.h"
+#include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
+#include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Events/SDLEventManager.h"
 
@@ -11,6 +13,9 @@
 #include "External/imgui/imgui.h"
 #include "External/imgui/imgui_impl_sdl2.h"
 #include "External/imgui/imgui_impl_sdlrenderer2.h"
+
+// Std includes
+#include <fstream>
 
 DebugUIWindowManager gDebugUIWindowManager = {};
 
@@ -42,6 +47,18 @@ void DebugUIWindowManager::Init()
 		event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { ImGui_ImplSDL2_ProcessEvent(&inEvent); };
 		gSDLEventManager.AddPersistentEventFunction(event_function);
 	}
+
+	std::ifstream file(mDebugFileName);
+	if (file.is_open())
+	{
+		Json json_debug_file = Json::parse(file);
+		auto open_windows = json_debug_file["OpenWindows"];
+		for (String window_name : open_windows)
+		{
+			SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+			AddWindow(window);
+		}
+	}
 }
 
 void DebugUIWindowManager::BeginFrame()
@@ -72,6 +89,22 @@ void DebugUIWindowManager::Shutdown()
 	ImGui_ImplSDLRenderer2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+
+	Json json_debug_file;
+	for (const SharedPtr<DebugUIWindow>& window : mWindows)
+	{
+		if (window->IsOpen())
+		{
+			json_debug_file["OpenWindows"].emplace_back(window->GetClassName());
+		}
+	}
+	std::ofstream file(mDebugFileName);
+	if (!file.is_open())
+	{
+		gLog(LogType::Error, "Failed to open debug file for writing");
+		return;
+	}
+	file << json_debug_file.dump(4);
 }
 
 bool replace(std::string& str, const std::string& from, const std::string& to)
@@ -156,8 +189,8 @@ void DebugUIWindowManager::UpdateMainMenuBar()
 			}
 			for (const String& window_name : add_windows)
 			{
-				//SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
-				//AddWindow(window);
+				SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+				AddWindow(window);
 			}
 
 			ImGui::EndMenu();
