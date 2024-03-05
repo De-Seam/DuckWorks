@@ -10,6 +10,7 @@
 #include "Engine/World/World.h"
 
 // External includes
+#include "Engine/Events/EventManager.h"
 #include "External/SDL/SDL.h"
 
 App gApp;
@@ -41,6 +42,10 @@ int App::Run()
 		event_function.mEventType = SDL_QUIT;
 		event_function.mFunctionPtr = [this](const SDL_Event&) { mRunning = false; };
 		gSDLEventManager.AddPersistentEventFunction(event_function);
+	}
+
+	{
+		gEventManager.Init();
 	}
 
 	// Create World

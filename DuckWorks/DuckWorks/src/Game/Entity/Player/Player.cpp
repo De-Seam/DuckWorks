@@ -12,11 +12,14 @@
 // External includes
 #include <External/box2d/box2d.h>
 
+#include "Engine/Events/EventManager.h"
 #include "Engine/Renderer/AnimationManager.h"
 
 Player::Player(World* inWorld)
 	: Actor(inWorld)
 {
+	AddComponent<HealthComponent>();
+
 	SetHalfSize(fm::vec2(100.0f, 100.0f));
 
 	//b2BodyDef body_def;
@@ -45,25 +48,23 @@ Player::Player(World* inWorld)
 	SetupAnimations();
 
 	{
-		SDLEventFunction event_function;
-		event_function.mEventType = SDL_MOUSEBUTTONDOWN;
-		event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
+		EventManager::EventFunction event_function;
+		event_function.mEventType = EventType::MouseButtonDown;
+		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
 		{
-			OnMouseDown(inEvent);
+			OnMouseDown(inData);
 		};
-		mSDLEventFunctions.emplace_back(gSDLEventManager.AddEventFunction(event_function));
+		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 	{
-		SDLEventFunction event_function;
-		event_function.mEventType = SDL_MOUSEBUTTONUP;
-		event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
+		EventManager::EventFunction event_function;
+		event_function.mEventType = EventType::MouseButtonUp;
+		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
 		{
-			OnMouseUp(inEvent);
+			OnMouseUp(inData);
 		};
-		mSDLEventFunctions.emplace_back(gSDLEventManager.AddEventFunction(event_function));
+		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
-
-	AddComponent<HealthComponent>();
 }
 
 void Player::BeginPlay()
@@ -125,17 +126,17 @@ void Player::SetupAnimations()
 	//};
 }
 
-void Player::OnMouseDown(const SDL_Event& inEvent)
+void Player::OnMouseDown(const EventManager::EventData& inData)
 {
-	if (inEvent.button.button == SDL_BUTTON_LEFT)
+	if (inData.mMouseDown.mMouseButton == MouseButton::Left)
 	{
 		mAttacking = true;
 	}
 }
 
-void Player::OnMouseUp(const SDL_Event& inEvent)
+void Player::OnMouseUp(const EventManager::EventData& inData)
 {
-	if (inEvent.button.button == SDL_BUTTON_LEFT)
+	if (inData.mMouseUp.mMouseButton == MouseButton::Left)
 	{
 		mAttacking = false;
 	}

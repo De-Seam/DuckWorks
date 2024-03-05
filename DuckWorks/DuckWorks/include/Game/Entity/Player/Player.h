@@ -3,6 +3,10 @@
 #include <Engine/Entity/Actor.h>
 #include <Engine/Events/SDLEventManager.h>
 
+#include "Engine/Events/EventManager.h"
+
+struct EventManager::EventFunction;
+
 class Player : public Actor
 {
 	RTTI_CLASS(Player, Actor)
@@ -16,13 +20,14 @@ public:
 	bool IsAttacking() const { return mAttacking; }
 
 private:
-	std::vector<std::shared_ptr<SDLEventFunction>> mSDLEventFunctions;
+	Array<SharedPtr<SDLEventFunction>> mSDLEventFunctions;
+	Array<SharedPtr<EventManager::EventFunction>> mEventFunctions;
 	float mVelocityIncrement = 600.f; ///< Velocity increment per second
 	float mMaxVelocity = 200.f; ///< Maximum velocity
 	bool mAttacking = false; ///< Is the player attacking?
 
 private:
 	void SetupAnimations();
-	void OnMouseDown(const SDL_Event& inEvent);
-	void OnMouseUp(const SDL_Event& inEvent);
+	void OnMouseDown(const EventManager::EventData& inData);
+	void OnMouseUp(const EventManager::EventData& inData);
 };
