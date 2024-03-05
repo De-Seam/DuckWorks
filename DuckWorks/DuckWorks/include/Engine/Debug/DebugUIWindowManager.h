@@ -2,6 +2,8 @@
 #include "Windows/DebugUIWindow.h"
 #include "Core/CoreBase.h"
 
+class Entity;
+
 class DebugUIWindowManager
 {
 public:
@@ -26,6 +28,8 @@ private:
 
 	Array<bool> mWindowOpen;
 	String mDebugFileName = "Debug.json";
+
+	WeakPtr<Entity> mSelectedEntity;
 };
 
 extern DebugUIWindowManager gDebugUIWindowManager;

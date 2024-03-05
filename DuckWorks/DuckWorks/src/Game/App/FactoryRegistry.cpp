@@ -8,6 +8,7 @@
 #include "Engine/Factory/Factory.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 #include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
+#include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 
 // Game includes
 #include "Game/Entity/Player/Player.h"
@@ -19,4 +20,5 @@ void gRegisterFactoryClasses()
 
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowPerformanceMonitor);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntitySpawner);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityDetails);
 }
