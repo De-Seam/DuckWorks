@@ -118,6 +118,12 @@ void DebugUIWindowManager::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowManager::Update)
 
+	for (SharedPtr<DebugUIWindow>& window : mWindowsToAdd)
+	{
+		mWindows.push_back(window);
+	}
+	mWindowsToAdd.clear();
+
 	UpdateMainMenuBar();
 
 	Array<SharedPtr<DebugUIWindow>> windows_to_remove;
@@ -210,8 +216,23 @@ WeakPtr<DebugUIWindow> DebugUIWindowManager::AddWindow(SharedPtr<DebugUIWindow> 
 		}
 	}
 
-	mWindows.push_back(inWindow);
+	mWindowsToAdd.push_back(inWindow);
 	return inWindow;
+}
+
+SharedPtr<DebugUIWindow> DebugUIWindowManager::GetWindow(const String& inWindowClassName) const
+{
+	for (const SharedPtr<DebugUIWindow>& window : mWindows)
+	{
+		if (window->GetClassName() == inWindowClassName)
+			return window;
+	}
+	for (const SharedPtr<DebugUIWindow>& window : mWindowsToAdd)
+	{
+		if (window->GetClassName() == inWindowClassName)
+			return window;
+	}
+	return nullptr;
 }
 
 bool DebugUIWindowManager::WindowExists(const String& inWindowClassName) const

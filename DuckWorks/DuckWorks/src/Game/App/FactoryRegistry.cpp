@@ -10,6 +10,8 @@
 #include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityList.h"
+#include "Engine/Debug/Windows/DebugUIWindowFileExplorer.h"
+#include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 
 // Game includes
 #include "Game/Entity/Player/Player.h"
@@ -34,4 +36,6 @@ void gRegisterFactoryClasses()
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntitySpawner);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityList);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityDetails);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowFileExplorer);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowTextureViewer);
 }

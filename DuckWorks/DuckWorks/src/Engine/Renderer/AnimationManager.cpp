@@ -28,7 +28,7 @@ void AnimationManager::Update(World* inWorld, float inDeltaTime)
 		inRenderComponent.mUseSrcRect = true;
 		inAnimationComponent.mTimeSinceUpdate += inDeltaTime;
 
-		dIF(inAnimationComponent.mAnimation == nullptr)
+		gDebugIf(inAnimationComponent.mAnimation == nullptr)
 			return;
 
 		AnimationBase::Frame& current_frame = inAnimationComponent.mCurrentFrame;

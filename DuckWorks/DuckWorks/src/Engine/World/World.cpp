@@ -97,7 +97,7 @@ void World::UpdatePhysics(float inDeltaTime)
 			PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
 
 			// Make sure the body is valid
-			dIF(physics.mBody == nullptr)
+			gDebugIf(physics.mBody == nullptr)
 				return;
 
 			physics.mBody->SetTransform({transform.position.x, transform.position.y}, transform.rotation);
@@ -122,7 +122,7 @@ void World::UpdatePhysics(float inDeltaTime)
 			PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
 
 			// Make sure the body is valid
-			dIF(physics.mBody == nullptr)
+			gDebugIf(physics.mBody == nullptr)
 				return;
 
 			transform.position = {physics.mBody->GetPosition().x, physics.mBody->GetPosition().y};
