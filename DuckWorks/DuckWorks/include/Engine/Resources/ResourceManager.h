@@ -33,7 +33,11 @@ std::shared_ptr<taType> ResourceManager::GetResource(const String& inFile)
 {
 	// taType must be derived from BaseResource
 	static_assert(std::is_base_of_v<BaseResource, taType>);
-	assert(std::filesystem::exists(inFile) && "File doesn't exist!");
+	if (!std::filesystem::exists(inFile))
+	{
+		gLog(LogType::Error, "File doesn't exist: %s", inFile.c_str());
+		return nullptr;
+	}
 
 	if (!mResources.contains(inFile))
 	{

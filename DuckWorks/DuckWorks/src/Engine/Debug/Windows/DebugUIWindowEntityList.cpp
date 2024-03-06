@@ -14,7 +14,7 @@
 #include "External/imgui/imgui.h"
 
 
-void DebugUIWindowEntityList::Update(float inDeltaTime)
+void DebugUIWindowEntityList::Update(float)
 {
 	ImGui::Begin("Entity List");
 

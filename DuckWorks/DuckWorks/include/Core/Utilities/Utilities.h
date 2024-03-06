@@ -44,6 +44,8 @@ using HashMap = phmap::flat_hash_map<taKey, taValue>;
 
 #define gAssert(inCondition, inMessage) assert((inCondition) && (inMessage))
 
+#define dIF(inCondition) if(inCondition)
+
 #define JSON_SAVE(inJson, inVariable) inJson[#inVariable] = (inVariable)
 
 #define JSON_LOAD(inJson, inVariable) inVariable = (inJson)[#inVariable].get<decltype(inVariable)>()

@@ -33,6 +33,9 @@ Json TextureRenderComponent::Serialize() const
 void TextureRenderComponent::Deserialize(const Json& inJson)
 {
 	mTexture = gResourceManager.GetResource<TextureResource>(inJson["mTexture"]);
+	if (mTexture == nullptr)
+		mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
+
 	mSrcRect = {inJson["mSrcRect"][0], inJson["mSrcRect"][1], inJson["mSrcRect"][2], inJson["mSrcRect"][3]};
 	JSON_LOAD(inJson, mUseSrcRect);
 	JSON_LOAD(inJson, mFlip);
@@ -43,7 +46,7 @@ Json AnimationComponent::Serialize() const
 	return {};
 }
 
-void AnimationComponent::Deserialize(const Json& inJson)
+void AnimationComponent::Deserialize(const Json&)
 {}
 
 Json PhysicsComponent::Serialize() const
@@ -51,7 +54,7 @@ Json PhysicsComponent::Serialize() const
 	return {};
 }
 
-void PhysicsComponent::Deserialize(const Json& inJson)
+void PhysicsComponent::Deserialize(const Json&)
 {}
 
 Json TransformComponent::Serialize() const
@@ -92,5 +95,5 @@ Json PhysicsPositionUpdatedTag::Serialize() const
 	return {};
 }
 
-void PhysicsPositionUpdatedTag::Deserialize(const Json& inJson)
+void PhysicsPositionUpdatedTag::Deserialize(const Json&)
 {}

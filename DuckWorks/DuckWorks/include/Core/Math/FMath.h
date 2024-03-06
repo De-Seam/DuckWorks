@@ -353,7 +353,7 @@ struct Transform2D
 
 	Transform2D() :
 		position(0.f),
-		halfSize(1.f),
+		halfSize(32.f),
 		rotation(0.f)
 	{}
 

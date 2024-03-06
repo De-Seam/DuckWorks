@@ -27,7 +27,6 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	ImGui::Text("%s", selected_entity->GetName().c_str());
 
 	const Array<String>& all_component_names = gComponentFactory.GetClassNames();
-	entt::registry& registry = selected_entity->GetRegistry();
 	for (const String& component_name : all_component_names)
 	{
 		bool has_component = gComponentFactory.HasComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
@@ -83,13 +82,18 @@ void DebugUIWindowEntityDetails::HandleKeyValuePair(Json& inJson, const String& 
 	case nlohmann::detail::value_t::string:
 	{
 		char buffer[STRING_BUFFER_SIZE] = {'\0'};
+		String old_value = inValue.get<std::string>();
 		//std::memset(buffer, 0, STRING_BUFFER_SIZE); ///< Initialize buffer to 0
-		std::memcpy(buffer, inValue.get<std::string>().c_str(), STRING_BUFFER_SIZE); ///< Copy string to buffer
+		std::memcpy(buffer, old_value.c_str(), old_value.size()); ///< Copy string to buffer
 		ImGui::SetNextItemWidth(-FLT_MIN); // Make the next item span the whole width
-		if (ImGui::InputText(label.c_str(), buffer, STRING_BUFFER_SIZE))
+		if (ImGui::InputText(label.c_str(), buffer, STRING_BUFFER_SIZE, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			inValue = std::string(buffer);
-			inComponent->Deserialize(inJson);
+			String new_value = std::string(buffer);
+			if (old_value != new_value)
+			{
+				inValue = new_value;
+				inComponent->Deserialize(inJson);
+			}
 		}
 	}
 	break;

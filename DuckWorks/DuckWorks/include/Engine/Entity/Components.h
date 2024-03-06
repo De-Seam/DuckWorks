@@ -9,6 +9,10 @@
 
 class b2Body;
 
+#pragma warning( push )
+#pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
+#pragma warning( disable : 4324) // Structure was padded due to alignment specifier
+
 struct ComponentBase : public RTTIBaseClass
 {
 	RTTI_CLASS(ComponentBase, RTTIBaseClass)
