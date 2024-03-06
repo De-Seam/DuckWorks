@@ -28,7 +28,7 @@ void DebugUIWindowFileExplorer::Update(float inDeltaTime)
 
 	fs::path directory_path = mCurrentPath;
 
-	Array<String> folders = ListFolders(directory_path);
+	Array<String> folders = ListFoldersInDirectory(directory_path);
 
 	for (String& folder : folders)
 	{
@@ -164,7 +164,7 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 		ioButtonCount = 0; // Reset counter for the next row
 }
 
-Array<String> DebugUIWindowFileExplorer::ListFolders(const fs::path& inDirectoryPath)
+Array<String> DebugUIWindowFileExplorer::ListFoldersInDirectory(const fs::path& inDirectoryPath)
 {
 	Array<String> folders;
 	fs::path currentPath = inDirectoryPath;
