@@ -19,9 +19,14 @@ public:
 	WeakPtr<DebugUIWindow> CreateWindow();
 	WeakPtr<DebugUIWindow> AddWindow(SharedPtr<DebugUIWindow> inWindow);
 
+	bool WindowExists(const String& inWindowClassName) const;
+
 	template<typename taType>
 	void RemoveWindow();
 	void RemoveWindow(const String& inWindowClassName);
+
+	void SetSelectedEntity(const WeakPtr<Entity>& inEntity);
+	WeakPtr<Entity> GetSelectedEntity() const { return mSelectedEntity; }
 
 private:
 	Array<SharedPtr<DebugUIWindow>> mWindows;

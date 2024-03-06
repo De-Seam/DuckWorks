@@ -4,6 +4,7 @@
 class Entity;
 class World;
 class DebugUIWindow;
+class ComponentBase;
 
 template<typename taFactoryType, typename... taArgs>
 class Factory
@@ -25,6 +26,57 @@ private:
 
 extern Factory<Entity, World*> gEntityFactory;
 extern Factory<DebugUIWindow> gDebugUIWindowFactory;
+
+class ComponentFactory : public Factory<ComponentBase>
+{
+public:
+	using ComponentCreationFunction = std::function<ComponentBase*(entt::registry&, entt::entity)>;
+	using ComponentGetFunction = std::function<ComponentBase*(entt::registry&, entt::entity)>;
+	using HasComponentFunction = std::function<bool(entt::registry&, entt::entity)>;
+
+	template<typename taType>
+	void RegisterClass(const String& inClassName)
+	{
+		Factory<ComponentBase>::RegisterClass<taType>(inClassName);
+
+		mComponentCreationFunctions[inClassName] = [](entt::registry& inRegistry, entt::entity inEntity)
+		{
+			return &inRegistry.emplace<taType>(inEntity);
+		};
+
+		mComponentGetFunctions[inClassName] = [](entt::registry& inRegistry, entt::entity inEntity)
+		{
+			return &inRegistry.get<taType>(inEntity);
+		};
+
+		mHasComponentFunctions[inClassName] = [](entt::registry& inRegistry, entt::entity inEntity)
+		{
+			return inRegistry.any_of<taType>(inEntity);
+		};
+	}
+
+	ComponentBase* CreateComponent(const String& inClassName, entt::registry& inRegistry, entt::entity inEntity)
+	{
+		return mComponentCreationFunctions[inClassName](inRegistry, inEntity);
+	}
+
+	ComponentBase* GetComponent(const String& inClassName, entt::registry& inRegistry, entt::entity inEntity)
+	{
+		return mComponentGetFunctions[inClassName](inRegistry, inEntity);
+	}
+
+	bool HasComponent(const String& inClassName, entt::registry& inRegistry, entt::entity inEntity)
+	{
+		return mHasComponentFunctions[inClassName](inRegistry, inEntity);
+	}
+
+private:
+	HashMap<String, ComponentCreationFunction> mComponentCreationFunctions;
+	HashMap<String, ComponentGetFunction> mComponentGetFunctions;
+	HashMap<String, HasComponentFunction> mHasComponentFunctions;
+};
+
+extern ComponentFactory gComponentFactory;
 
 template<typename taFactoryType, typename... taArgs>
 template<typename taType>

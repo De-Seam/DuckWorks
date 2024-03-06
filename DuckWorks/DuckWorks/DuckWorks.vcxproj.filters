@@ -654,6 +654,9 @@
     <ClInclude Include="include\External\BitBool\BitBool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntityList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -762,6 +765,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\External\BitBool\BitBool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEntityList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Entity\Components.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

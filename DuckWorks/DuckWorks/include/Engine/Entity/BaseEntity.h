@@ -54,8 +54,10 @@ public:
 	bool operator==(const BaseEntity& inOther) const { return mEntityHandle == inOther.mEntityHandle && mWorld == inOther.mWorld; }
 	bool operator!=(const BaseEntity& inOther) const { return !(*this == inOther); }
 
-protected:
 	entt::registry& GetRegistry() const;
+	entt::entity GetEntityHandle() const { return mEntityHandle; }
+
+protected:
 
 protected:
 	entt::entity mEntityHandle = {entt::null};

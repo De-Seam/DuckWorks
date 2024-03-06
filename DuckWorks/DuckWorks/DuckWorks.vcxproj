@@ -118,6 +118,7 @@
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindow.h" />
     <ClInclude Include="include\Engine\Debug\DebugUIWindowManager.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntityDetails.h" />
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntityList.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntitySpawner.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowPerformanceMonitor.h" />
     <ClInclude Include="include\Engine\Entity\Actor.h" />
@@ -328,8 +329,10 @@
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindow.cpp" />
     <ClCompile Include="src\Engine\Debug\DebugUIWindowManager.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEntityDetails.cpp" />
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEntityList.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEntitySpawner.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowPerformanceMonitor.cpp" />
+    <ClCompile Include="src\Engine\Entity\Components.cpp" />
     <ClCompile Include="src\Engine\Events\EventManager.cpp" />
     <ClCompile Include="src\Engine\Factory\Factory.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />

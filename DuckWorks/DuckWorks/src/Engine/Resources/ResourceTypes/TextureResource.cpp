@@ -15,6 +15,8 @@ TextureResource::~TextureResource()
 
 void TextureResource::LoadFromFile(const String& inFile)
 {
+	Base::LoadFromFile(inFile);
+
 	mTexture = IMG_LoadTexture(gRenderer.GetRenderer(), inFile.c_str());
 	if (mTexture == nullptr)
 	{

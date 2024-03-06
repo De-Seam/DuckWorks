@@ -17,6 +17,8 @@
 // Std includes
 #include <fstream>
 
+#include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
+
 DebugUIWindowManager gDebugUIWindowManager = {};
 
 void DebugUIWindowManager::Init()
@@ -212,6 +214,16 @@ WeakPtr<DebugUIWindow> DebugUIWindowManager::AddWindow(SharedPtr<DebugUIWindow> 
 	return inWindow;
 }
 
+bool DebugUIWindowManager::WindowExists(const String& inWindowClassName) const
+{
+	for (const SharedPtr<DebugUIWindow>& window : mWindows)
+	{
+		if (window->GetClassName() == inWindowClassName)
+			return true;
+	}
+	return false;
+}
+
 void DebugUIWindowManager::RemoveWindow(const String& inWindowClassName)
 {
 	PROFILE_SCOPE(DebugUIWindowManager::RemoveWindow)
@@ -224,4 +236,11 @@ void DebugUIWindowManager::RemoveWindow(const String& inWindowClassName)
 			return;
 		}
 	}
+}
+
+void DebugUIWindowManager::SetSelectedEntity(const WeakPtr<Entity>& inEntity)
+{
+	mSelectedEntity = inEntity;
+	if (!WindowExists(DebugUIWindowEntityDetails::sGetClassName()))
+		CreateWindow<DebugUIWindowEntityDetails>();
 }

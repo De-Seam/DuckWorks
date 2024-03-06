@@ -26,6 +26,8 @@ public:
 	b2Body* CreatePhysicsBody(const b2BodyDef&, const b2FixtureDef& inFixtureDef);
 	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef);
 
+	Array<EntityPtr>& GetEntities() { return mEntities; }
+	const Array<EntityPtr>& GetEntities() const { return mEntities; }
 	entt::registry& GetRegistry() { return mRegistry; }
 	b2World* GetPhysicsWorld() { return mPhysicsWorld.get(); }
 
@@ -34,7 +36,7 @@ private:
 	UniquePtr<b2World> mPhysicsWorld = nullptr;
 	Mutex mPhysicsWorldMutex = {};
 
-	std::vector<EntityPtr> mEntities = {};
+	Array<EntityPtr> mEntities = {};
 	Mutex mEntitiesMutex = {};
 
 	int32 mVelocityIterations = 6;
