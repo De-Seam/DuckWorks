@@ -13,6 +13,9 @@
 #include "Engine/Events/EventManager.h"
 #include "External/SDL/SDL.h"
 
+// Std includes
+#include <fstream>
+
 App gApp;
 
 App::App()
@@ -28,13 +31,17 @@ int App::Run()
 	gLog(LogType::Info, "Initializing App");
 	gLogManager.Init();
 
+	if (mUserSettings == nullptr)
+		mUserSettings = std::make_unique<BaseUserSettings>();
+
+	LoadUserSettingsFromFile(mUserSettingsFile);
 
 	{
 		// Initialize Renderer
 		Renderer::InitParams params;
 		params.mWindowTitle = "DuckWorks";
-		params.mWindowSize = fm::ivec2(1280, 720);
-		params.mWindowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
+		params.mWindowSize = GetUserSettings()->mWindowSize;
+		params.mWindowFlags = GetUserSettings()->mWindowFlags;
 		params.mRendererFlags = SDL_RENDERER_ACCELERATED;
 		gRenderer.Init(params);
 	}
@@ -43,6 +50,28 @@ int App::Run()
 		SDLEventFunction event_function;
 		event_function.mEventType = SDL_QUIT;
 		event_function.mFunctionPtr = [this](const SDL_Event&) { mRunning = false; };
+		gSDLEventManager.AddPersistentEventFunction(event_function);
+	}
+
+	{
+		SDLEventFunction event_function;
+		event_function.mEventType = SDL_WINDOWEVENT;
+		event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
+		{
+			if (inEvent.window.event == SDL_WINDOWEVENT_RESIZED)
+			{
+				mUserSettings->mWindowSize.x = inEvent.window.data1;
+				mUserSettings->mWindowSize.y = inEvent.window.data2;
+			}
+			else if (inEvent.window.event == SDL_WINDOWEVENT_MAXIMIZED)
+			{
+				mUserSettings->mWindowFlags |= SDL_WINDOW_MAXIMIZED;
+			}
+			else if (inEvent.window.event == SDL_WINDOWEVENT_RESTORED)
+			{
+				mUserSettings->mWindowFlags &= ~SDL_WINDOW_MAXIMIZED;
+			}
+		};
 		gSDLEventManager.AddPersistentEventFunction(event_function);
 	}
 
@@ -62,6 +91,27 @@ int App::Run()
 void App::Stop()
 {
 	mRunning = false;
+}
+
+void App::LoadUserSettingsFromFile(const String& inFile)
+{
+	mUserSettingsFile = inFile;
+
+	std::ifstream file(inFile);
+	if (!file.is_open())
+		return gLog(LogType::Warning, "Failed to open user settings file: %s. A default one will be created when the program shuts down", inFile.c_str());
+
+	Json json = Json::parse(file);
+	mUserSettings->Deserialize(json);
+}
+
+void App::SaveUserSettingsToFile(const String& inFile)
+{
+	mUserSettingsFile = inFile;
+
+	std::ofstream file(inFile);
+	Json json = mUserSettings->Serialize();
+	file << json.dump(4);
 }
 
 void App::MainLoop()
@@ -109,5 +159,8 @@ void App::Update(float inDeltaTime)
 void App::ShutdownInternal()
 {
 	gRenderer.Shutdown();
+
+	SaveUserSettingsToFile(mUserSettingsFile);
+
 	gLogManager.Shutdown();
 }

@@ -14,6 +14,7 @@
 #include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 #include "Engine/Debug/Windows/DebugUIWindowImGuiExample.h"
 #include "Engine/Debug/Windows/DebugUIWindowOutputLog.h"
+#include "Engine/Debug/Windows/DebugUIWindowUserSettings.h"
 
 // Game includes
 #include "Game/Entity/Player/Player.h"
@@ -42,5 +43,6 @@ void gRegisterFactoryClasses()
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityDetails);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowFileExplorer);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowTextureViewer);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowUserSettings);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowImGuiExample);
 }
