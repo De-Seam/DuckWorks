@@ -21,5 +21,8 @@ void TextureResource::LoadFromFile(const String& inFile)
 	if (mTexture == nullptr)
 	{
 		gLog("Failed to load texture: %s", inFile.c_str());
+		return;
 	}
+
+	SDL_QueryTexture(mTexture, nullptr, nullptr, &mSize.x, &mSize.y);
 }

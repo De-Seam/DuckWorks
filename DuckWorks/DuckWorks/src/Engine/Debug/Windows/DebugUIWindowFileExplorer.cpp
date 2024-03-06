@@ -17,30 +17,10 @@
 DebugUIWindowFileExplorer::DebugUIWindowFileExplorer()
 {
 	mFolderTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_Folder.png");
+	mFileTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_File.png");
 }
 
 namespace fs = std::filesystem;
-
-std::string TruncateTextToFitWidth(const std::string& text, float maxWidth)
-{
-	// Calculate the width of the text
-	ImVec2 textSize = ImGui::CalcTextSize(text.c_str());
-
-	// If the text fits within the maxWidth, return it as is
-	if (textSize.x <= maxWidth) return text;
-
-	// Start with a conservative estimate of how much of the text will fit
-	size_t approximateCharsToFit = static_cast<size_t>((maxWidth / textSize.x) * text.length());
-	std::string truncatedText = text.substr(0, approximateCharsToFit);
-
-	// Refine the estimate by checking the size and adjusting the substring length
-	while (!truncatedText.empty() && ImGui::CalcTextSize((truncatedText + ".").c_str()).x > maxWidth)
-	{
-		truncatedText.pop_back(); // Remove one character at a time
-	}
-
-	return truncatedText + "..";
-}
 
 void DebugUIWindowFileExplorer::Update(float inDeltaTime)
 {
@@ -152,7 +132,12 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 	}
 	else if (inEntry.is_regular_file())
 	{
-		SharedPtr<TextureResource> texture = gResourceManager.GetResource<TextureResource>(file_path);
+		SharedPtr<TextureResource> texture;
+		if (gIsValidTextureExtension(file_path))
+			texture = gResourceManager.GetResource<TextureResource>(file_path);
+		else
+			texture = mFileTexture;
+
 		mTextures[file_path] = texture;
 		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(mTextures[file_path]->mTexture), ImVec2(mIconSize.x, mIconSize.y)))
 		{
@@ -197,4 +182,26 @@ Array<String> DebugUIWindowFileExplorer::ListFolders(const fs::path& inDirectory
 
 	std::ranges::reverse(folders.begin(), folders.end());
 	return folders;
+}
+
+String DebugUIWindowFileExplorer::TruncateTextToFitWidth(String& inText, float inMaxWidth)
+{
+	// Calculate the width of the text
+	ImVec2 text_size = ImGui::CalcTextSize(inText.c_str());
+
+	// If the text fits within the maxWidth, return it as is
+	if (text_size.x <= inMaxWidth)
+		return inText;
+
+	// Start with a conservative estimate of how much of the text will fit
+	size_t approximateCharsToFit = static_cast<size_t>((inMaxWidth / text_size.x) * inText.length());
+	std::string truncatedText = inText.substr(0, approximateCharsToFit);
+
+	// Refine the estimate by checking the size and adjusting the substring length
+	while (!truncatedText.empty() && ImGui::CalcTextSize((truncatedText + ".").c_str()).x > inMaxWidth)
+	{
+		truncatedText.pop_back(); // Remove one character at a time
+	}
+
+	return truncatedText + "..";
 }

@@ -326,6 +326,7 @@
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Utilities\Utilities.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowOutputLog.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowImGuiExample.cpp" />
     <ClCompile Include="include\External\BitBool\BitBool.cpp">

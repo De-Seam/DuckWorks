@@ -31,9 +31,13 @@ LogManager::LogManager()
 
 void LogManager::Init()
 {
+	gLog(LogType::Info, "Initializing LogManager");
+
 	mOutputLog.reserve(8192);
 
 	mLogThread = std::thread(&LogManager::LogThreadLoop, this);
+
+	gLog(LogType::Info, "LogManager Initialized");
 }
 
 void LogManager::Shutdown()
@@ -270,7 +274,6 @@ void LogManager::LogThreadLoop()
 		mLogEntries.emplace_back(log_entry);
 
 		queueItem.msg += "\n";
-		printf(queueItem.msg.c_str());
 		mOutputLog += queueItem.msg;
 		mLogMutex.WriteUnlock();
 

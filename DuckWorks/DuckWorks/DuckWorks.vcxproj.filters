@@ -797,5 +797,8 @@
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowOutputLog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Utilities\Utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

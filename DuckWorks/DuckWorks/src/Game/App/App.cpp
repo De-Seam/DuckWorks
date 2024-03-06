@@ -25,7 +25,9 @@ App::~App()
 
 int App::Run()
 {
+	gLog(LogType::Info, "Initializing App");
 	gLogManager.Init();
+
 
 	{
 		// Initialize Renderer

@@ -11,4 +11,11 @@ struct TextureResource : public BaseResource
 	virtual void LoadFromFile(const String& inFile) override;
 
 	SDL_Texture* mTexture = nullptr;
+
+	fm::ivec2 GetSize() const { return mSize; }
+	int32 GetWidth() const { return mSize.x; }
+	int32 GetHeight() const { return mSize.y; }
+
+private:
+	fm::ivec2 mSize = {};
 };
