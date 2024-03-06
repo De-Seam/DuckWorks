@@ -3,7 +3,7 @@
 
 #include "External/imgui/imgui.h"
 
-void DebugUIWindowImGuiExample::Update(float inDeltaTime)
+void DebugUIWindowImGuiExample::Update(float)
 {
 	ImGui::ShowDemoWindow(&mOpen);
 }

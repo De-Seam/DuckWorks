@@ -22,7 +22,7 @@ DebugUIWindowFileExplorer::DebugUIWindowFileExplorer()
 
 namespace fs = std::filesystem;
 
-void DebugUIWindowFileExplorer::Update(float inDeltaTime)
+void DebugUIWindowFileExplorer::Update(float)
 {
 	ImGui::Begin("File Explorer", &mOpen);
 
@@ -105,9 +105,9 @@ void DebugUIWindowFileExplorer::Update(float inDeltaTime)
 				UpdateEntry(entry, button_count, buttons_per_row);
 		}
 	}
-	catch (fs::filesystem_error& e)
+	catch (fs::filesystem_error& error)
 	{
-		std::cerr << e.what() << std::endl;
+		gLog(LogType::Error, error.what());
 	}
 
 	ImGui::End();
@@ -133,22 +133,39 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 	else if (inEntry.is_regular_file())
 	{
 		SharedPtr<TextureResource> texture;
+		FileType file_type = FileType::Other;
 		if (gIsValidTextureExtension(file_path))
+		{
 			texture = gResourceManager.GetResource<TextureResource>(file_path);
+			file_type = FileType::Texture;
+		}
 		else
 			texture = mFileTexture;
 
 		mTextures[file_path] = texture;
-		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(mTextures[file_path]->mTexture), ImVec2(mIconSize.x, mIconSize.y)))
+		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(texture->mTexture), ImVec2(mIconSize.x, mIconSize.y)))
 		{
 			gLog("Clicked on file: %s", file_path.c_str());
-			if (!gDebugUIWindowManager.WindowExists<DebugUIWindowTextureViewer>())
-				gDebugUIWindowManager.CreateWindow<DebugUIWindowTextureViewer>();
 
-			SharedPtr<DebugUIWindowTextureViewer> texture_viewer = SPCast<DebugUIWindowTextureViewer>(
-				gDebugUIWindowManager.GetWindow<DebugUIWindowTextureViewer>());
+			switch (file_type)
+			{
+			case FileType::Texture:
+			{
+				if (!gDebugUIWindowManager.WindowExists<DebugUIWindowTextureViewer>())
+					gDebugUIWindowManager.CreateWindow<DebugUIWindowTextureViewer>();
 
-			texture_viewer->SetTexture(texture);
+				SharedPtr<DebugUIWindowTextureViewer> texture_viewer = SPCast<DebugUIWindowTextureViewer>(
+					gDebugUIWindowManager.GetWindow<DebugUIWindowTextureViewer>());
+
+				texture_viewer->SetTexture(texture);
+			}
+			break;
+			case FileType::Other:
+			{
+				gLog(LogType::Warning, "Tried to open file which extension was not recognized: %s", file_path.c_str());
+				break;
+			}
+			}
 		}
 	}
 

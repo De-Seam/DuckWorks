@@ -3,7 +3,7 @@
 
 #include "External/imgui/imgui.h"
 
-void DebugUIWindowOutputLog::Update(float inDeltaTime)
+void DebugUIWindowOutputLog::Update(float)
 {
 	ImGui::Begin("Output Log", &mOpen);
 

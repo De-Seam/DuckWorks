@@ -13,6 +13,12 @@ public:
 
 	virtual void Update(float inDeltaTime) override;
 
+	enum class FileType
+	{
+		Texture,
+		Other
+	};
+
 private:
 	SharedPtr<TextureResource> mFolderTexture = nullptr;
 	SharedPtr<TextureResource> mFileTexture = nullptr;
@@ -24,6 +30,6 @@ private:
 
 private:
 	void UpdateEntry(const std::filesystem::directory_entry& inEntry, int32& ioButtonCount, int32 inButtonsPerRow);
-	Array<String> ListFolders(const std::filesystem::path& inDirectoryPath);
+	Array<String> ListFoldersInDirectory(const std::filesystem::path& inDirectoryPath);
 	String TruncateTextToFitWidth(String& inText, float inMaxWidth);
 };

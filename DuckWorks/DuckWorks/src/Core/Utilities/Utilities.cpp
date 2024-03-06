@@ -6,7 +6,7 @@ bool gIsValidTextureExtension(const std::string& inFilePath)
 	String lower_case_path;
 	// Convert file path to lower case for case-insensitive comparison
 	std::ranges::transform(inFilePath.begin(), inFilePath.end(), std::back_inserter(lower_case_path),
-							[](unsigned char c) { return std::tolower(c); });
+							[](unsigned char c) { return SCast<unsigned char>(std::tolower(c)); });
 
 	// List of supported image extensions
 	const std::string extensions[] = {".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tga", ".webp"};
