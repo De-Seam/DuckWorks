@@ -28,6 +28,9 @@ using WeakPtr = std::weak_ptr<taType>;
 template<typename taType>
 using Array = std::vector<taType>;
 
+template<typename taType, size_t size>
+using StaticArray = std::array<taType, size>;
+
 template<typename taKey, typename taValue>
 using HashMap = phmap::flat_hash_map<taKey, taValue>;
 

@@ -5,7 +5,7 @@
 
 enum class LogType
 {
-	Info,
+	Info = 0,
 	Warning,
 	Error
 };
@@ -26,11 +26,13 @@ struct LogQueueItem
 class LogManager
 {
 public:
-	static void Init();
-	static void Shutdown();
+	LogManager();
 
-	static void Log(LogType inLogType, const char* fmt...);
-	static void Log(LogType inLogType, const char* fmt, va_list args);
+	void Init();
+	void Shutdown();
+
+	void Log(LogType inLogType, const char* fmt...);
+	void Log(LogType inLogType, const char* fmt, va_list args);
 
 	enum class ConsoleColor : int32
 	{
@@ -40,27 +42,39 @@ public:
 		RedWhite = 0x0040 + 15
 	};
 
-	static void SetConsoleColor(int32 inColor);
+	void SetConsoleColor(int32 inColor);
 
-	static void CleanLogQueue(bool inErrorOnly = false);
+	void CleanLogQueue(bool inErrorOnly = false);
 
-	static const std::string& GetLog() { return mOutputLog; }
-	static void SetLogFilePath(const String& inFilePath);
-	static void SetLogFileName(const String& inFileName);
+	Mutex& GetLogMutex() { return mLogMutex; }
 
-	static void WriteLogToFile();
+	const std::string& GetLogString() const { return mOutputLog; }
+
+	struct LogEntry
+	{
+		LogType mType;
+		String mMessage;
+	};
+
+	const Array<LogEntry>& GetLogArray() const;
+	void SetLogFilePath(const String& inFilePath);
+	void SetLogFileName(const String& inFileName);
+
+	void WriteLogToFile();
 
 private:
-	static void LogThreadLoop();
+	void LogThreadLoop();
 
-	static bool mThreadRunning;
-	static std::thread mLogThread;
-	static SafeQueue<LogQueueItem> mLogQueue;
+	bool mThreadRunning = false;
+	std::thread mLogThread = {};
+	SafeQueue<LogQueueItem> mLogQueue = {};
 
-	static uint64 mMaxOutputLogSize;
+	uint64 mMaxOutputLogSize = 81920;
 
-	static String mOutputLog;
-	static String mLogFilePath;
-	static String mLogFileName;
-	static String mLogFileExtension;
+	Mutex mLogMutex;
+	Array<LogEntry> mLogEntries = {};
+	String mOutputLog;
+	String mLogFilePath = "Debug/Logs/";
+	String mLogFileName = "Log";
+	String mLogFileExtension = ".Log";
 };

@@ -10,7 +10,7 @@ void gLog(const char* fmt ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	LogManager::Log(LogType::Info, fmt, args);
+	gLogManager.Log(LogType::Info, fmt, args);
 	va_end(args);
 }
 
@@ -18,26 +18,22 @@ void gLog(LogType inLogType, const char* fmt ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	LogManager::Log(inLogType, fmt, args);
+	gLogManager.Log(inLogType, fmt, args);
 	va_end(args);
 }
 
-bool LogManager::mThreadRunning = false;
-std::thread LogManager::mLogThread = {};
-SafeQueue<LogQueueItem> LogManager::mLogQueue = {};
+LogManager gLogManager = {};
 
-uint64 LogManager::mMaxOutputLogSize = 8192000;
-
-String LogManager::mOutputLog;
-String LogManager::mLogFilePath = "Debug/Logs/";
-String LogManager::mLogFileName = "Log";
-String LogManager::mLogFileExtension = ".Log";
+LogManager::LogManager()
+{
+	gAssert(this == &gLogManager, "Use gLogManager!");
+}
 
 void LogManager::Init()
 {
 	mOutputLog.reserve(8192);
 
-	mLogThread = std::thread(LogThreadLoop);
+	mLogThread = std::thread(&LogManager::LogThreadLoop, this);
 }
 
 void LogManager::Shutdown()
@@ -130,8 +126,6 @@ void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 		++fmt;
 	}
 
-	msg += '\n';
-
 	LogQueueItem logQueueItem = {inLogType, msg};
 	mLogQueue.enqueue(logQueueItem);
 }
@@ -167,6 +161,11 @@ void LogManager::CleanLogQueue(bool inErrorOnly)
 		mLogQueue.enqueue(item);
 
 	Log(LogType::Warning, "Log queue had to be cleaned.");
+}
+
+const Array<LogManager::LogEntry>& LogManager::GetLogArray() const
+{
+	return mLogEntries;
 }
 
 void LogManager::SetLogFilePath(const String& inFilePath)
@@ -265,8 +264,15 @@ void LogManager::LogThreadLoop()
 			break;
 		}
 
-		std::cout << queueItem.msg;
+		mLogMutex.WriteLock();
+
+		LogEntry log_entry = {queueItem.logType, queueItem.msg};
+		mLogEntries.emplace_back(log_entry);
+
+		queueItem.msg += "\n";
+		printf(queueItem.msg.c_str());
 		mOutputLog += queueItem.msg;
+		mLogMutex.WriteUnlock();
 
 		SetConsoleColor(static_cast<int32>(ConsoleColor::White));
 

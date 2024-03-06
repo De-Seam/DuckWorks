@@ -25,7 +25,7 @@ App::~App()
 
 int App::Run()
 {
-	LogManager::Init();
+	gLogManager.Init();
 
 	{
 		// Initialize Renderer
@@ -92,6 +92,8 @@ void App::Update(float inDeltaTime)
 
 	gSDLEventManager.Update();
 
+	//gLog("Test");
+
 	if (!mPaused)
 	{
 		gTimerManager.Update(inDeltaTime);
@@ -105,5 +107,5 @@ void App::Update(float inDeltaTime)
 void App::ShutdownInternal()
 {
 	gRenderer.Shutdown();
-	LogManager::Shutdown();
+	gLogManager.Shutdown();
 }

@@ -12,9 +12,12 @@
 #include "Engine/Debug/Windows/DebugUIWindowEntityList.h"
 #include "Engine/Debug/Windows/DebugUIWindowFileExplorer.h"
 #include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
+#include "Engine/Debug/Windows/DebugUIWindowImGuiExample.h"
+#include "Engine/Debug/Windows/DebugUIWindowOutputLog.h"
 
 // Game includes
 #include "Game/Entity/Player/Player.h"
+
 
 void gRegisterFactoryClasses()
 {
@@ -32,10 +35,12 @@ void gRegisterFactoryClasses()
 	REGISTER_COMPONENT(PhysicsPositionUpdatedTag);
 
 	// Debug UI Windows
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowPerformanceMonitor);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntitySpawner);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityList);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityDetails);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowFileExplorer);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowTextureViewer);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowImGuiExample);
 }

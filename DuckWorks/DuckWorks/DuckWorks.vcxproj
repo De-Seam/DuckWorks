@@ -121,6 +121,8 @@
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntityList.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntitySpawner.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowFileExplorer.h" />
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowImGuiExample.h" />
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowOutputLog.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowPerformanceMonitor.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowTextureViewer.h" />
     <ClInclude Include="include\Engine\Entity\Actor.h" />
@@ -324,8 +326,11 @@
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowOutputLog.cpp" />
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowImGuiExample.cpp" />
     <ClCompile Include="include\External\BitBool\BitBool.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Core\Utilities\UID.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindow.cpp" />

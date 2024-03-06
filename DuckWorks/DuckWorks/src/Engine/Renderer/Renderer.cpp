@@ -102,11 +102,6 @@ void Renderer::Update(float inDeltaTime)
 	PROFILE_SCOPE(Renderer::Update)
 
 	mCamera->Update(inDeltaTime);
-
-	static bool show_demo_window = true;
-
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)

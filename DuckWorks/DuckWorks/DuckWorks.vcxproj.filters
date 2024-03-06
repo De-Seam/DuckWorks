@@ -663,6 +663,12 @@
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowTextureViewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowImGuiExample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowOutputLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -783,6 +789,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowTextureViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowImGuiExample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowOutputLog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
