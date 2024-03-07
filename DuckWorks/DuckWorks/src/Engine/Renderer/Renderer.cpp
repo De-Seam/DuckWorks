@@ -133,6 +133,33 @@ void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::ve
 	SDL_SetTextureAlphaMod(inParams.mTexture, 255);
 }
 
+fm::vec2 Renderer::GetWorldLocationAtWindowLocation(const fm::vec2& inWindowLocation) const
+{
+	const fm::vec2 camera_position = mCamera->GetPosition();
+	const float camera_zoom = mCamera->GetZoom();
+	const fm::vec2 camera_size = mCamera->GetSize(); // The render texture size (not used in this calculation)
+	const fm::vec2 window_size = mWindowSize; // The actual window size
+
+	fm::vec2 translated_position = inWindowLocation / (window_size / camera_size);
+
+	// Step 1: Convert window coordinates to center-based coordinates relative to the window size
+	fm::vec2 center_based_coords;
+	center_based_coords.x = (translated_position.x - camera_size.x * 0.5f);
+	center_based_coords.y = (translated_position.y - camera_size.y * 0.5f);
+
+	// Step 2: Adjust for camera zoom
+	// Since the zoom affects how much of the world is visible in the viewport,
+	// and assuming the camera size defines the viewport size at zoom level 1,
+	// we need to scale these coordinates by the inverse of the zoom to find their world space equivalent.
+	fm::vec2 zoom_adjusted_coords = center_based_coords / camera_zoom;
+
+	// Step 3: Adjust for camera position to get the world location
+	fm::vec2 world_location = zoom_adjusted_coords + camera_position;
+
+	return world_location;
+}
+
+
 SDL_FRect Renderer::GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize)
 {
 	const fm::vec2 camera_position = mCamera->GetPosition();

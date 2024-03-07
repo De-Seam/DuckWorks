@@ -141,6 +141,7 @@ void EventManager::OnMouseDown(const SDL_Event& inEvent)
 		mMouseButtonDown[SCast<uint16>(mouse_button)] = true;
 		EventData event_data;
 		event_data.mMouseDown.mMouseButton = mouse_button;
+		event_data.mMouseDown.mMousePosition = fm::vec2(SCast<float>(inEvent.button.x), SCast<float>(inEvent.button.y));
 
 		LoopOverEventFunctions(EventType::MouseButtonDown, event_data);
 	}
@@ -156,6 +157,7 @@ void EventManager::OnMouseUp(const SDL_Event& inEvent)
 		mMouseButtonDown[SCast<uint16>(mouse_button)] = false;
 		EventData event_data;
 		event_data.mMouseDown.mMouseButton = mouse_button;
+		event_data.mMouseDown.mMousePosition = fm::vec2(SCast<float>(inEvent.button.x), SCast<float>(inEvent.button.y));
 
 		LoopOverEventFunctions(EventType::MouseButtonUp, event_data);
 	}

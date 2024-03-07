@@ -14,6 +14,8 @@ public:
 
 	void Update(float inDeltaTime);
 	void UpdateMainMenuBar();
+	void UpdateViewport();
+	void UpdateWindows(float inDeltaTime);
 
 	template<typename taType>
 	WeakPtr<DebugUIWindow> CreateWindow();

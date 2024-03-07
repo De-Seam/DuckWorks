@@ -10,6 +10,7 @@
 #include "Engine/Renderer/AnimationBase.h"
 
 class b2Body;
+class Entity;
 
 #pragma warning( push )
 #pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
@@ -25,6 +26,20 @@ struct ComponentBase : public RTTIBaseClass
 	// This is a base class for all components
 	// It is used to allow for polymorphism in the component manager
 	// It is not meant to be used directly
+};
+
+// EntityComponent is added to each entity to point towards the weak ptr entity
+struct EntityComponent : public ComponentBase
+{
+	RTTI_CLASS(EntityComponent, ComponentBase)
+
+	EntityComponent() = default;
+	EntityComponent(WeakPtr<Entity> mEntity) : mEntity(mEntity) {}
+
+	virtual Json Serialize() const override { return {}; }
+	virtual void Deserialize(const Json& inJson) override {}
+
+	WeakPtr<Entity> mEntity;
 };
 
 struct NameComponent : public ComponentBase

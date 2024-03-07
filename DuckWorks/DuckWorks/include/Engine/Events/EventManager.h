@@ -121,11 +121,13 @@ public:
 			struct MouseDown // MouseDown
 			{
 				MouseButton mMouseButton;
+				fm::vec2 mMousePosition;
 			} mMouseDown;
 
 			struct MouseUp // MouseUp
 			{
 				MouseButton mMouseButton;
+				fm::vec2 mMousePosition;
 			} mMouseUp;
 
 			struct MouseWheel //MouseWheel

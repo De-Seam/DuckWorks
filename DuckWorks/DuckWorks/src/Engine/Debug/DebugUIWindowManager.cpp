@@ -19,6 +19,10 @@
 // Std includes
 #include <fstream>
 
+#include "Engine/World/World.h"
+
+#include "Game/App/App.h"
+
 
 DebugUIWindowManager gDebugUIWindowManager = {};
 
@@ -63,6 +67,24 @@ void DebugUIWindowManager::Init()
 					SharedPtr<Entity> entity = mSelectedEntity.lock();
 					entity->TryAddComponent<DestroyedTag>(entity->mUID);
 				}
+			}
+		};
+		gEventManager.AddPersistentEventFunction(event_function);
+	}
+	{
+		EventManager::EventFunction event_function;
+		event_function.mEventType = EventType::MouseButtonDown;
+		event_function.mFunctionPtr = [this](const EventManager::EventData& inEventData)
+		{
+			if (inEventData.mMouseDown.mMouseButton == MouseButton::Left)
+			{
+				if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+					return;
+
+				fm::vec2 world_location = gRenderer.GetWorldLocationAtWindowLocation(inEventData.mMouseDown.mMousePosition);
+				EntityPtr entity = gApp.GetWorld()->GetEntityAtLocationSlow(world_location);
+				//if (entity != nullptr)
+				SetSelectedEntity(entity);
 			}
 		};
 		gEventManager.AddPersistentEventFunction(event_function);
@@ -144,17 +166,7 @@ void DebugUIWindowManager::Update(float inDeltaTime)
 
 	UpdateMainMenuBar();
 
-	Array<SharedPtr<DebugUIWindow>> windows_to_remove;
-	for (SharedPtr<DebugUIWindow>& window : mWindows)
-	{
-		window->Update(inDeltaTime);
-		if (!window->IsOpen())
-			windows_to_remove.push_back(window);
-	}
-	for (const SharedPtr<DebugUIWindow>& window : windows_to_remove)
-	{
-		RemoveWindow(window->GetClassName());
-	}
+	UpdateWindows(inDeltaTime);
 }
 
 void DebugUIWindowManager::UpdateMainMenuBar()
@@ -218,6 +230,27 @@ void DebugUIWindowManager::UpdateMainMenuBar()
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
+	}
+}
+
+void DebugUIWindowManager::UpdateViewport()
+{
+	PROFILE_SCOPE(DebugUIWindowManager::UpdateViewport)
+}
+
+void DebugUIWindowManager::UpdateWindows(float inDeltaTime)
+{
+	PROFILE_SCOPE(DebugUIWindowManager::UpdateWindows)
+	Array<SharedPtr<DebugUIWindow>> windows_to_remove;
+	for (SharedPtr<DebugUIWindow>& window : mWindows)
+	{
+		window->Update(inDeltaTime);
+		if (!window->IsOpen())
+			windows_to_remove.push_back(window);
+	}
+	for (const SharedPtr<DebugUIWindow>& window : windows_to_remove)
+	{
+		RemoveWindow(window->GetClassName());
 	}
 }
 

@@ -39,6 +39,8 @@ public:
 	entt::registry& GetRegistry() { return mRegistry; }
 	b2World* GetPhysicsWorld() { return mPhysicsWorld.get(); }
 
+	EntityPtr GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
+
 private:
 	entt::registry mRegistry = {};
 	UniquePtr<b2World> mPhysicsWorld = nullptr;

@@ -150,6 +150,7 @@ EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 	PROFILE_SCOPE(World::AddEntity)
 	ScopedMutexWriteLock lock{mEntitiesMutex};
 
+	inEntity->AddComponent<EntityComponent>(inEntity);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
 	inEntity->BeginPlay();
@@ -169,9 +170,43 @@ b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef)
 	return mPhysicsWorld->CreateBody(&inBodyDef);
 }
 
+EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
+{
+	auto view = mRegistry.view<TransformComponent>();
+	for (auto entity : view)
+	{
+		fm::Transform2D& transform = view.get<TransformComponent>(entity).mTransform;
+		fm::vec2& position = transform.position;
+		fm::vec2& half_size = transform.halfSize;
+		float& rotation = transform.rotation;
+
+		// Convert the rotation to a normalized direction vector
+		fm::vec2 rotation_dir(cos(rotation), sin(rotation));
+
+		// Translate the world location to the rectangle's local space
+		fm::vec2 local_point = inWorldLocation - position;
+
+		// Rotate the point in the opposite direction of the rectangle's rotation
+		// to align it with the rectangle's local axes
+		fm::vec2 rotatedPoint(
+			local_point.x * rotation_dir.x + local_point.y * rotation_dir.y,
+			-local_point.x * rotation_dir.y + local_point.y * rotation_dir.x
+		);
+
+		// Check if the rotated point lies within the rectangle's bounds
+		if (std::abs(rotatedPoint.x) <= half_size.x && std::abs(rotatedPoint.y) <= half_size.y)
+		{
+			// The point is inside this entity's rotated bounding box
+			BaseEntity base_entity = {entity, this};
+			return base_entity.GetComponent<EntityComponent>().mEntity.lock(); // Assuming EntityPtr can be constructed from entity directly
+		}
+	}
+	return nullptr;
+}
+
 void World::UpdatePhysics(float inDeltaTime)
 {
-	PROFILE_SCOPE(World::UpdatePhysics);
+	PROFILE_SCOPE(World::UpdatePhysics)
 
 	{
 		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionUpdatedTag>();
