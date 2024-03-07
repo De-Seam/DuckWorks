@@ -3,13 +3,15 @@
 
 // Engine includes
 #include "Engine/Debug/Windows/DebugUIWindow.h"
-#include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
-#include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Events/SDLEventManager.h"
+#include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
+#include "Engine/Entity/Components.h"
+#include "Engine/Events/EventManager.h"
+#include "Engine/Factory/Factory.h"
+#include "Engine/Entity/Entity.h"
 
 // External includes
-#include "Engine/Factory/Factory.h"
 #include "External/imgui/imgui.h"
 #include "External/imgui/imgui_impl_sdl2.h"
 #include "External/imgui/imgui_impl_sdlrenderer2.h"
@@ -17,7 +19,6 @@
 // Std includes
 #include <fstream>
 
-#include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 
 DebugUIWindowManager gDebugUIWindowManager = {};
 
@@ -48,6 +49,23 @@ void DebugUIWindowManager::Init()
 		event_function.mAllEvents = true;
 		event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { ImGui_ImplSDL2_ProcessEvent(&inEvent); };
 		gSDLEventManager.AddPersistentEventFunction(event_function);
+	}
+
+	{
+		EventManager::EventFunction event_function;
+		event_function.mEventType = EventType::KeyDown;
+		event_function.mFunctionPtr = [this](const EventManager::EventData& inEventData)
+		{
+			if (inEventData.mKeyDown.mKeyCode == KeyCode::Delete)
+			{
+				if (!mSelectedEntity.expired())
+				{
+					SharedPtr<Entity> entity = mSelectedEntity.lock();
+					entity->TryAddComponent<DestroyedTag>(entity->mUID);
+				}
+			}
+		};
+		gEventManager.AddPersistentEventFunction(event_function);
 	}
 
 	std::ifstream file(mDebugFileName);

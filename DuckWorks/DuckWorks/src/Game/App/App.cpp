@@ -161,8 +161,6 @@ void App::MainLoop()
 			Update(mDeltaTime);
 			gRenderer.EndFrame();
 
-			//CapFPS(current_time);
-
 			last_time = current_time;
 		}
 	}

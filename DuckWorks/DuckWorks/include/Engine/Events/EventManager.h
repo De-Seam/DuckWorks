@@ -47,6 +47,7 @@ enum class KeyCode : uint8
 	Seven,
 	Eight,
 	Nine,
+	Delete,
 
 	COUNT
 };
@@ -148,9 +149,12 @@ public:
 	};
 
 	SharedPtr<EventFunction> AddEventFunction(const EventFunction& inFunction);
+	void AddPersistentEventFunction(const EventFunction& inFunction);
 
 private:
 	HashMap<EventType, Array<WeakPtr<EventFunction>>> mEventFunctions = {};
+	Array<SharedPtr<EventFunction>> mPersistentEventFunctions;
+
 	BitBool<SCast<uint16>(KeyCode::COUNT)> mKeyCodeDown = {false};
 	BitBool<SCast<uint16>(MouseButton::COUNT)> mMouseButtonDown = {false};
 

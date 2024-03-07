@@ -8,6 +8,8 @@
 // External includes
 #include <External/imgui/imgui.h>
 
+#include "Engine/World/World.h"
+
 void DebugUIWindowUserSettings::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowUserSettings::Update)

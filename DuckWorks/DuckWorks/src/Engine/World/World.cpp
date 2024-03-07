@@ -27,6 +27,13 @@ Json World::Serialize()
 	PROFILE_SCOPE(World::Serialize)
 
 	Json json;
+
+	JSON_SAVE(json, mVelocityIterations);
+	JSON_SAVE(json, mPositionIterations);
+	JSON_SAVE(json, mPhysicsUpdateFrequency);
+	JSON_SAVE(json, mPhysicsTimeStep);
+	JSON_SAVE(json, mPhysicsTimeAccumulator);
+
 	for (EntityPtr& entity : mEntities)
 	{
 		json["Entities"].push_back(entity->Serialize());
@@ -38,20 +45,29 @@ void World::Deserialize(const Json& inJson)
 {
 	PROFILE_SCOPE(World::Deserialize)
 
-	for (const Json& json_entity : inJson["Entities"])
+	JSON_TRY_LOAD(inJson, mVelocityIterations);
+	JSON_TRY_LOAD(inJson, mPositionIterations);
+	JSON_TRY_LOAD(inJson, mPhysicsUpdateFrequency);
+	JSON_TRY_LOAD(inJson, mPhysicsTimeStep);
+	JSON_TRY_LOAD(inJson, mPhysicsTimeAccumulator);
+
+	if (inJson.contains("Entities"))
 	{
-		String class_name = json_entity.begin().key();
-		EntityPtr entity = gEntityFactory.CreateClass(class_name, this);
+		for (const Json& json_entity : inJson["Entities"])
+		{
+			String class_name = json_entity.begin().key();
+			EntityPtr entity = gEntityFactory.CreateClass(class_name, this);
 
-		const Json& components = json_entity[class_name]["Components"];
+			const Json& components = json_entity[class_name]["Components"];
 
-		String name = "Empty";
-		if (components.contains("NameComponent"))
-			name = components["NameComponent"]["mName"];
+			String name = "Empty";
+			if (components.contains("NameComponent"))
+				name = components["NameComponent"]["mName"];
 
-		AddEntity(entity, name);
+			AddEntity(entity, name);
 
-		entity->Deserialize(json_entity[class_name]);
+			entity->Deserialize(json_entity[class_name]);
+		}
 	}
 }
 

@@ -13,8 +13,11 @@ Json BaseUserSettings::Serialize()
 
 void BaseUserSettings::Deserialize(const Json& inJson)
 {
-	mWindowSize.x = inJson["mWindowSize"][0];
-	mWindowSize.y = inJson["mWindowSize"][1];
+	if (inJson.contains("mWindowSize"))
+	{
+		mWindowSize.x = inJson["mWindowSize"][0];
+		mWindowSize.y = inJson["mWindowSize"][1];
+	}
 	JSON_TRY_LOAD(inJson, mWindowFlags);
 	JSON_TRY_LOAD(inJson, mMaxFPS);
 }

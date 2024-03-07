@@ -18,7 +18,7 @@ void EventManager::Init()
 	gSDLEventManager.AddPersistentEventFunction(event_function);
 
 	event_function.mEventType = SDL_KEYUP;
-	event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { this->OnKeyDown(inEvent); };
+	event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { this->OnKeyUp(inEvent); };
 	gSDLEventManager.AddPersistentEventFunction(event_function);
 
 	event_function.mEventType = SDL_MOUSEBUTTONDOWN;
@@ -59,7 +59,18 @@ void EventManager::SetupSDLConversions()
 		{SDLK_w, KeyCode::W},
 		{SDLK_x, KeyCode::X},
 		{SDLK_y, KeyCode::Y},
-		{SDLK_z, KeyCode::Z}
+		{SDLK_z, KeyCode::Z},
+		{SDLK_0, KeyCode::Zero},
+		{SDLK_1, KeyCode::One},
+		{SDLK_2, KeyCode::Two},
+		{SDLK_3, KeyCode::Three},
+		{SDLK_4, KeyCode::Four},
+		{SDLK_5, KeyCode::Five},
+		{SDLK_6, KeyCode::Six},
+		{SDLK_7, KeyCode::Seven},
+		{SDLK_8, KeyCode::Eight},
+		{SDLK_9, KeyCode::Nine},
+		{SDLK_DELETE, KeyCode::Delete}
 	};
 
 	mSDLButtonToMouseButton =
@@ -82,6 +93,12 @@ SharedPtr<EventManager::EventFunction> EventManager::AddEventFunction(const Even
 	SharedPtr<EventFunction> event_function = std::make_shared<EventFunction>(inFunction);
 	mEventFunctions[inFunction.mEventType].push_back(event_function);
 	return event_function;
+}
+
+void EventManager::AddPersistentEventFunction(const EventFunction& inFunction)
+{
+	SharedPtr<EventFunction> event_function = AddEventFunction(inFunction);
+	mPersistentEventFunctions.push_back(event_function);
 }
 
 void EventManager::OnKeyDown(const SDL_Event& inEvent)
