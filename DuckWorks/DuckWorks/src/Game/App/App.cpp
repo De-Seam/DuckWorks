@@ -120,6 +120,8 @@ void App::Stop()
 
 void App::LoadUserSettingsFromFile(const String& inFile)
 {
+	PROFILE_SCOPE(App::LoadUserSettingsFromFile)
+
 	mUserSettingsFile = inFile;
 
 	std::ifstream file(inFile);
@@ -132,6 +134,8 @@ void App::LoadUserSettingsFromFile(const String& inFile)
 
 void App::SaveUserSettingsToFile(const String& inFile)
 {
+	PROFILE_SCOPE(App::SaveUserSettingsToFile)
+
 	mUserSettingsFile = inFile;
 
 	std::ofstream file(inFile);
@@ -170,8 +174,6 @@ void App::Update(float inDeltaTime)
 
 	gSDLEventManager.Update();
 
-	//gLog("Test");
-
 	if (!mPaused)
 	{
 		gTimerManager.Update(inDeltaTime);
@@ -180,16 +182,6 @@ void App::Update(float inDeltaTime)
 	mWorld->Render(inDeltaTime);
 	gDebugUIWindowManager.Update(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
-}
-
-void App::CapFPS(const std::chrono::time_point<std::chrono::steady_clock>& inFrameStartTime)
-{
-	PROFILE_SCOPE(App::CapFPS)
-
-	double min_delta_time = 1.0 / SCast<float>(GetUserSettings()->mMaxFPS);
-
-	auto frame_end_time = inFrameStartTime + std::chrono::microseconds(static_cast<int64_t>(min_delta_time * 1e6));
-	std::this_thread::sleep_until(frame_end_time);
 }
 
 void App::ShutdownInternal()

@@ -36,8 +36,6 @@ private:
 	void MainLoop();
 	void Update(float inDeltaTime);
 
-	void CapFPS(const std::chrono::time_point<std::chrono::steady_clock>& inFrameStartTime);
-
 	void ShutdownInternal(); ///< Internal shutdown app.
 
 private:
