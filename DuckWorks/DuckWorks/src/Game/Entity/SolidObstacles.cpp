@@ -21,6 +21,7 @@ SolidObstacle::SolidObstacle(World* inWorld)
 	fixture_def.shape = &dynamic_box;
 	fixture_def.density = 1.0f;
 	fixture_def.friction = 1.f;
+	fixture_def.restitutionThreshold = 100000.f;
 
 	CreatePhysicsBody(body_def, fixture_def);
 

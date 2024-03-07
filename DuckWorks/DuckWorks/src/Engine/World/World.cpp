@@ -19,7 +19,7 @@
 
 World::World()
 {
-	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 0.0f));
+	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 98.f));
 }
 
 Json World::Serialize()

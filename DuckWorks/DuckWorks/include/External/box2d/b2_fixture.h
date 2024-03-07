@@ -211,7 +211,6 @@ public:
 	void Dump(int32 bodyIndex);
 
 protected:
-
 	friend class b2Body;
 	friend class b2World;
 	friend class b2Contact;

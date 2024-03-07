@@ -35,9 +35,25 @@ Player::Player(World* inWorld)
 	//fixture_def.density = 100;
 
 	//CreatePhysicsBody(body_def, fixture_def);
-	CreateDefaultPhysicsBody();
+	b2BodyDef body_def;
+	body_def.type = b2_dynamicBody;
+	body_def.position = b2Vec2(GetPosition().x, GetPosition().y);
+	body_def.angle = GetRotation();
+	body_def.linearVelocity = b2Vec2(0.0f, 0.0f);
+	body_def.linearDamping = 1.f;
+
+	b2PolygonShape dynamic_box;
+	dynamic_box.SetAsBox(GetHalfSize().x, GetHalfSize().y);
+
+	b2FixtureDef fixture_def;
+	fixture_def.shape = &dynamic_box;
+	fixture_def.density = 5.f;
+	fixture_def.friction = 1.f;
+	fixture_def.restitutionThreshold = 100000.f;
+
+	CreatePhysicsBody(body_def, fixture_def);
 	GetPhysicsBody()->SetFixedRotation(true);
-	GetPhysicsBody()->SetLinearDamping(5.f);
+	//GetPhysicsBody()->SetLinearDamping(1.f);
 
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
