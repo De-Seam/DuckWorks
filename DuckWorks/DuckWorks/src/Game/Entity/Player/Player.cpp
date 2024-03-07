@@ -65,6 +65,8 @@ Player::Player(World* inWorld)
 		};
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
+
+	AddComponent<PhysicsPositionUpdatedTag>();
 }
 
 void Player::BeginPlay()

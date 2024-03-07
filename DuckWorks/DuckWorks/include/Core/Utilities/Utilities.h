@@ -53,6 +53,8 @@ using HashMap = phmap::flat_hash_map<taKey, taValue>;
 
 #define JSON_LOAD(inJson, inVariable) inVariable = (inJson)[#inVariable].get<decltype(inVariable)>()
 
+#define JSON_TRY_LOAD(inJson, inVariable) if((inJson).contains(#inVariable)) (inVariable) = (inJson)[#inVariable].get<decltype(inVariable)>()
+
 
 // Utility functions
 bool gIsValidTextureExtension(const std::string& inFilePath);

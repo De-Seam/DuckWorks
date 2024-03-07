@@ -1,4 +1,5 @@
 {
+    "mMaxFPS": 144,
     "mWindowFlags": 36,
     "mWindowSize": [
         1920,

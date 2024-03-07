@@ -4,6 +4,8 @@
 #include "Core/Math/FMath.h"
 
 // Engine includes
+#include "Core/Utilities/UID.h"
+
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/Renderer/AnimationBase.h"
 
@@ -148,4 +150,17 @@ struct PhysicsPositionUpdatedTag : public ComponentBase
 
 	virtual Json Serialize() const override;
 	virtual void Deserialize(const Json& inJson) override;
+};
+
+struct DestroyedTag : public ComponentBase
+{
+	RTTI_CLASS(DestroyedTag, ComponentBase)
+
+	DestroyedTag() = default;
+	DestroyedTag(const UID& inUID) : mUID(inUID) {}
+
+	virtual Json Serialize() const override { return {}; }
+	virtual void Deserialize(const Json& inJson) override {}
+
+	UID mUID;
 };

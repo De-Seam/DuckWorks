@@ -22,6 +22,8 @@
 
 void gRegisterFactoryClasses()
 {
+	PROFILE_SCOPE(gRegisterFactoryClasses)
+
 	// Entities
 	REGISTER_ENTITY(Actor);
 	REGISTER_ENTITY(Player);

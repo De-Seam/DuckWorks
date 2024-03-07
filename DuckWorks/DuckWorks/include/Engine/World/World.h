@@ -11,13 +11,21 @@
 
 class b2World;
 
-class World
+class World : public RTTIBaseClass
 {
+	RTTI_CLASS(World, RTTIBaseClass)
+
 public:
 	World();
 
+	Json Serialize();
+	void Deserialize(const Json& inJson);
+
 	void Update(float inDeltaTime);
 	void Render(float inDeltaTime);
+
+	void UpdateEntities(float inDeltaTime);
+	void DestroyEntities();
 
 	template<typename taType>
 	SharedPtr<taType> CreateEntity(const String& inName);

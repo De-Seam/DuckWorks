@@ -10,4 +10,6 @@ struct BaseUserSettings
 
 	fm::ivec2 mWindowSize = {1280, 720};
 	uint32 mWindowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
+
+	int32 mMaxFPS = 144;
 };

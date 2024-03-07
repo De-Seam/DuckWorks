@@ -27,6 +27,11 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 	ImGui::Text("%s", selected_entity->GetName().c_str());
 
+	ImGui::SameLine();
+
+	if (ImGui::Button("Destroy##DeleteButton"))
+		selected_entity->TryAddComponent<DestroyedTag>(selected_entity->mUID);
+
 	const Array<String>& all_component_names = gComponentFactory.GetClassNames();
 	for (const String& component_name : all_component_names)
 	{

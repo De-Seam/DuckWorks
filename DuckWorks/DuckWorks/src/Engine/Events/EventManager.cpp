@@ -8,6 +8,8 @@ EventManager gEventManager;
 
 void EventManager::Init()
 {
+	PROFILE_SCOPE(EventManager::Init)
+
 	SetupSDLConversions();
 
 	SDLEventFunction event_function;

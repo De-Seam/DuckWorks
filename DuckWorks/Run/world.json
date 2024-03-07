@@ -1,0 +1,2139 @@
+{
+    "Entities": [
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            3314.57275390625,
+                            -545.8944091796875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2488.611572265625,
+                            329.6946716308594,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            3010.264892578125,
+                            -191.81871032714844,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Actor": {
+                "Components": {
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Actor"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": "Assets/top.jpg",
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            286.0,
+                            26.0,
+                            47.0,
+                            56.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2402.30859375,
+                            -1176.8011474609375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2202.36181640625,
+                            -1553.983642578125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Actor": {
+                "Components": {
+                    "NameComponent": {
+                        "mName": "Actor"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": "Assets/DefaultTexture.png",
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            200.0,
+                            0.0,
+                            32.0,
+                            32.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            3114.558837890625,
+                            -545.9521484375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2914.544677734375,
+                            -545.8377075195313,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2575.707275390625,
+                            -634.8643798828125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            1585.654296875,
+                            -2326.280517578125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2601.827880859375,
+                            -860.917236328125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2714.53076171875,
+                            -433.6091613769531,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1774.5450439453125,
+                            -1170.5902099609375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2311.467529296875,
+                            -742.7596435546875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2511.481689453125,
+                            -570.2460327148438,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2711.49560546875,
+                            -545.9960327148438,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2511.4814453125,
+                            -345.2808532714844,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            624.8358764648438,
+                            2685.367431640625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            125.3780517578125,
+                            -3150.676513671875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -15.974935531616211,
+                            4085.093017578125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            141.63265991210938,
+                            -2950.662353515625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2207.70947265625,
+                            805.9903564453125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2211.078857421875,
+                            151.60113525390625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1347.2760009765625,
+                            -2147.150634765625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2311.467529296875,
+                            -542.7335205078125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            726.51513671875,
+                            2322.812744140625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            341.64752197265625,
+                            -3150.7607421875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2514.516845703125,
+                            -433.6223449707031,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2410.224365234375,
+                            -142.44190979003906,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            926.5299072265625,
+                            2322.808349609375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            346.44921875,
+                            -2950.746826171875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -58.405921936035156,
+                            -2750.818115234375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1068.2398681640625,
+                            1699.05078125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            897.8058471679688,
+                            2122.794189453125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            617.3831176757813,
+                            -2760.760986328125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2111.45361328125,
+                            -649.9751586914063,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2314.5029296875,
+                            -576.7570190429688,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2401.813720703125,
+                            -976.7864379882813,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1911.439208984375,
+                            -649.9752197265625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2375.693359375,
+                            -776.771728515625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1190.6982421875,
+                            1485.7852783203125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -761.31689453125,
+                            -2550.32861328125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2105.638671875,
+                            -850.7025756835938,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -258.4208984375,
+                            -2750.800048828125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1770.404541015625,
+                            962.0032348632813,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2011.0645751953125,
+                            290.21112060546875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1339.0743408203125,
+                            -1947.12353515625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1711.4248046875,
+                            -731.362548828125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1782.2943115234375,
+                            761.9884643554688,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            1803.2200927734375,
+                            -1903.73681640625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1539.0888671875,
+                            -1947.0772705078125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1397.6522216796875,
+                            1173.4647216796875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -947.2468872070313,
+                            -2150.072021484375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1147.2615966796875,
+                            -2147.166015625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            346.4489440917969,
+                            -2750.73291015625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -2284.231201171875,
+                            -342.5675964355469,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1905.624267578125,
+                            -931.3773193359375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1705.60986328125,
+                            -970.5323486328125,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1574.5306396484375,
+                            -1331.3365478515625,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1505.595458984375,
+                            -1131.322021484375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            2688.544189453125,
+                            -233.52279663085938,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": null,
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            576,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            -1139.0599365234375,
+                            -1947.13623046875,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}

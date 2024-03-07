@@ -3,6 +3,8 @@
 #include "Components.h"
 
 // External includes
+#include "Core/Utilities/UID.h"
+
 #include "External/entt/entt.hpp"
 
 class World;
@@ -15,6 +17,11 @@ public:
 	BaseEntity(World* inWorld); ///< Will create a new handle with the world
 	BaseEntity(entt::entity inHandle, World* inWorld); ///< Will assign the given handle to the entity
 	BaseEntity(const BaseEntity& inOther) = default;
+
+	~BaseEntity();
+
+	virtual Json Serialize();
+	virtual void Deserialize(const Json& inJson);
 
 	void GenerateNewEntityHandle(World* inWorld);
 	///< Helper function to generate a new entity handle for this entity. Should only be used for a child class which does not call the default constructor
@@ -60,6 +67,7 @@ public:
 protected:
 
 protected:
+	bool mHandleGotGenerated = false;
 	entt::entity mEntityHandle = {entt::null};
 	World* mWorld = nullptr;
 

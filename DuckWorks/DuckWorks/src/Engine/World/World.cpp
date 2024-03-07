@@ -11,6 +11,7 @@
 #include <External/SDL/SDL.h>
 
 // Game includes (ILLEGAL!)
+#include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/AnimationManager.h"
 #include "Game/App/App.h"
 #include "Game/Entity/Player/Player.h"
@@ -19,22 +20,50 @@
 World::World()
 {
 	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 0.0f));
+}
 
-	std::shared_ptr<Player> player = CreateEntity<Player>("Player");
+Json World::Serialize()
+{
+	PROFILE_SCOPE(World::Serialize)
+
+	Json json;
+	for (EntityPtr& entity : mEntities)
+	{
+		json["Entities"].push_back(entity->Serialize());
+	}
+	return json;
+}
+
+void World::Deserialize(const Json& inJson)
+{
+	PROFILE_SCOPE(World::Deserialize)
+
+	for (const Json& json_entity : inJson["Entities"])
+	{
+		String class_name = json_entity.begin().key();
+		EntityPtr entity = gEntityFactory.CreateClass(class_name, this);
+
+		const Json& components = json_entity[class_name]["Components"];
+
+		String name = "Empty";
+		if (components.contains("NameComponent"))
+			name = components["NameComponent"]["mName"];
+
+		AddEntity(entity, name);
+
+		entity->Deserialize(json_entity[class_name]);
+	}
 }
 
 void World::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::Update)
 
-	ScopedMutexReadLock lock{mEntitiesMutex};
-
-	for (std::shared_ptr<Entity>& entity : mEntities)
-	{
-		entity->Update(inDeltaTime);
-	}
+	UpdateEntities(inDeltaTime);
 
 	UpdatePhysics(inDeltaTime);
+
+	DestroyEntities();
 }
 
 void World::Render(float inDeltaTime)
@@ -59,6 +88,45 @@ void World::Render(float inDeltaTime)
 
 		gRenderer.DrawTexture(params);
 	});
+}
+
+void World::UpdateEntities(float inDeltaTime)
+{
+	ScopedMutexReadLock lock{mEntitiesMutex};
+
+	for (std::shared_ptr<Entity>& entity : mEntities)
+	{
+		entity->Update(inDeltaTime);
+	}
+}
+
+void World::DestroyEntities()
+{
+	PROFILE_SCOPE(World::DestroyEntities)
+
+	ScopedMutexWriteLock lock{mEntitiesMutex};
+
+	auto view = mRegistry.view<DestroyedTag>();
+	for (entt::entity entity_handle : view)
+	{
+		DestroyedTag& destroyed_tag = view.get<DestroyedTag>(entity_handle);
+
+		for (auto rit = mEntities.rbegin(); rit != mEntities.rend(); ++rit)
+		{
+			SharedPtr<Entity>& entity = *rit;
+			if (entity->mUID == destroyed_tag.mUID)
+			{
+				gAssert(entity->GetEntityHandle() == entity_handle, "This could indicate multiple entities with the same UID somehow");
+
+				entity->EndPlay();
+				entity->RemoveComponent<DestroyedTag>();
+
+				std::iter_swap(rit, mEntities.rbegin());
+				mEntities.pop_back();
+				break;
+			}
+		}
+	}
 }
 
 EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)

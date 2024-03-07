@@ -9,12 +9,17 @@
 #include "Engine/Timer/TimerManager.h"
 #include "Engine/World/World.h"
 
+// Game includes
+#include "Game/App/FactoryRegistry.h"
+#include "Game/Entity/Player/Player.h"
+
 // External includes
 #include "Engine/Events/EventManager.h"
 #include "External/SDL/SDL.h"
 
 // Std includes
 #include <fstream>
+
 
 App gApp;
 
@@ -28,8 +33,14 @@ App::~App()
 
 int App::Run()
 {
+	OPTICK_FRAME("Initialize") ///< Main thread so we can profile up until the first frame
+
+	PROFILE_SCOPE(App::Run)
+
 	gLog(LogType::Info, "Initializing App");
 	gLogManager.Init();
+
+	gRegisterFactoryClasses();
 
 	if (mUserSettings == nullptr)
 		mUserSettings = std::make_unique<BaseUserSettings>();
@@ -79,10 +90,24 @@ int App::Run()
 		gEventManager.Init();
 	}
 
+
 	// Create World
 	mWorld = std::make_unique<World>();
 
+	Json in_json;
+	std::ifstream in_file("world.json");
+	if (in_file.is_open())
+	{
+		in_file >> in_json;
+
+		mWorld->Deserialize(in_json);
+	}
+
 	MainLoop();
+
+	Json json = mWorld->Serialize();
+	std::ofstream file("world.json");
+	file << json.dump(4);
 
 	ShutdownInternal();
 	return 0;
@@ -117,30 +142,31 @@ void App::SaveUserSettingsToFile(const String& inFile)
 void App::MainLoop()
 {
 	mRunning = true;
-	std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+	auto last_time = std::chrono::steady_clock::now();
 	while (mRunning)
 	{
-		auto end = std::chrono::steady_clock::now();
-		mDeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(end - start).count();
+		auto current_time = std::chrono::steady_clock::now();
+		mDeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(current_time - last_time).count();
 
-		OPTICK_FRAME("MainThread")
-
-		gRenderer.BeginFrame();
-		Update(mDeltaTime);
-		gRenderer.EndFrame();
-
+		double min_delta_time = 1.0 / SCast<float>(GetUserSettings()->mMaxFPS);
+		if (mDeltaTime >= min_delta_time)
 		{
-			//OPTICK_EVENT("Sleep");
-			//std::this_thread::sleep_for(std::chrono::milliseconds(5));
-		}
+			OPTICK_FRAME("MainThread")
 
-		start = end;
+			gRenderer.BeginFrame();
+			Update(mDeltaTime);
+			gRenderer.EndFrame();
+
+			//CapFPS(current_time);
+
+			last_time = current_time;
+		}
 	}
 }
 
 void App::Update(float inDeltaTime)
 {
-	OPTICK_EVENT("App::Update")
+	PROFILE_SCOPE(App::Update)
 
 	gSDLEventManager.Update();
 
@@ -154,6 +180,16 @@ void App::Update(float inDeltaTime)
 	mWorld->Render(inDeltaTime);
 	gDebugUIWindowManager.Update(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
+}
+
+void App::CapFPS(const std::chrono::time_point<std::chrono::steady_clock>& inFrameStartTime)
+{
+	PROFILE_SCOPE(App::CapFPS)
+
+	double min_delta_time = 1.0 / SCast<float>(GetUserSettings()->mMaxFPS);
+
+	auto frame_end_time = inFrameStartTime + std::chrono::microseconds(static_cast<int64_t>(min_delta_time * 1e6));
+	std::this_thread::sleep_until(frame_end_time);
 }
 
 void App::ShutdownInternal()

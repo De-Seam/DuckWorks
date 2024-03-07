@@ -21,9 +21,15 @@ public:
 	Entity(World* inWorld)
 		: BaseEntity(inWorld) {}
 
+	virtual Json Serialize() override { return Base::Serialize(); }
+	virtual void Deserialize(const Json& inJson) override { Base::Deserialize(inJson); }
+
 	virtual void BeginPlay() {}
 	virtual void EndPlay() {}
 	virtual void Update(float inDeltaTime) { (void)inDeltaTime; }
+
+public:
+	const UID mUID = {};
 
 protected:
 	WeakPtr<Entity> mThisWeakPtr;
