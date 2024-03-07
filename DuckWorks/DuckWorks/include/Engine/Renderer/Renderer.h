@@ -49,6 +49,7 @@ public:
 
 	void DrawTexture(const DrawTextureParams& inParams);
 	void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
+	void DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor);
 
 	fm::vec2 GetWorldLocationAtWindowLocation(const fm::vec2& inWindowLocation) const;
 	SDL_FRect GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize);

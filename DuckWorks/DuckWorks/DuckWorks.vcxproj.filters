@@ -678,6 +678,9 @@
     <ClInclude Include="include\Engine\Debug\DebugUIFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\Entity\SolidObstacle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -816,6 +819,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Debug\DebugUIFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Entity\SolidObstacles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

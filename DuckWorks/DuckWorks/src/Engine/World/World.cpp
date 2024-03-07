@@ -207,7 +207,7 @@ void World::UpdatePhysics(float inDeltaTime)
 	PROFILE_SCOPE(World::UpdatePhysics)
 
 	{
-		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionUpdatedTag>();
+		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionOrRotationUpdatedTag>();
 		for (auto entity : view)
 		{
 			fm::Transform2D& transform = view.get<TransformComponent>(entity).mTransform;
@@ -220,7 +220,34 @@ void World::UpdatePhysics(float inDeltaTime)
 			physics.mBody->SetTransform({transform.position.x, transform.position.y}, transform.rotation);
 
 			BaseEntity entity_handler = {entity, this};
-			entity_handler.RemoveComponent<PhysicsPositionUpdatedTag>();
+			entity_handler.RemoveComponent<PhysicsPositionOrRotationUpdatedTag>();
+		}
+	}
+	{
+		auto view = mRegistry.view<PhysicsComponent, PhysicsSizeUpdatedTag>();
+		for (auto entity : view)
+		{
+			PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
+
+			// Make sure the body is valid
+			gDebugIf(physics.mBody == nullptr)
+				return;
+
+			b2Shape* shape = physics.mBody->GetFixtureList()->GetShape();
+			switch (shape->GetType())
+			{
+			case b2Shape::e_polygon:
+			{
+				gChangeB2BoxSize(physics.mBody, physics.mHalfSize);
+			}
+			break;
+			default:
+				shape->m_radius = physics.mHalfSize.x;
+				break;
+			}
+
+			BaseEntity entity_handler = {entity, this};
+			entity_handler.RemoveComponent<PhysicsSizeUpdatedTag>();
 		}
 	}
 

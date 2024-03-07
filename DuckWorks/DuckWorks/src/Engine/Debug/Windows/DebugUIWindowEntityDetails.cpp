@@ -6,9 +6,12 @@
 #include "Engine/Entity/Entity.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Renderer/Renderer.h"
 
 // External includes
 #include <External/imgui/imgui.h>
+
+#include "External/box2d/b2_body.h"
 
 
 void DebugUIWindowEntityDetails::Update(float inDeltaTime)
@@ -56,6 +59,17 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 				gComponentFactory.CreateComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
 			}
 		}
+	}
+
+	selected_entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
+	selected_entity->TryAddComponent<PhysicsSizeUpdatedTag>();
+
+	if (selected_entity->HasComponent<PhysicsComponent>())
+	{
+		PhysicsComponent& physics_component = selected_entity->GetComponent<PhysicsComponent>();
+		fm::vec2 position = {physics_component.mBody->GetPosition().x, physics_component.mBody->GetPosition().y};
+		SDL_FRect rect = gRenderer.GetSDLFRect(position, physics_component.mHalfSize);
+		gRenderer.DrawRectangle(rect, {255, 255, 255, 255});
 	}
 
 	ImGui::End();

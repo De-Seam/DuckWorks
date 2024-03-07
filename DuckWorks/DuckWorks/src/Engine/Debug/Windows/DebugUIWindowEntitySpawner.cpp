@@ -35,7 +35,7 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 				TransformComponent& transform_component = entity->GetComponent<TransformComponent>();
 				transform_component.mTransform.position = gRenderer.GetCamera()->GetPosition();
 				if (entity->HasComponent<PhysicsComponent>())
-					entity->TryAddComponent<PhysicsPositionUpdatedTag>();
+					entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
 			}
 		}
 	}

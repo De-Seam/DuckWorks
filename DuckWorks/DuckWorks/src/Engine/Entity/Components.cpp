@@ -51,11 +51,22 @@ void AnimationComponent::Deserialize(const Json&)
 
 Json PhysicsComponent::Serialize() const
 {
-	return {};
+	Json json;
+	json["mHalfSize"] =
+	{
+		mHalfSize.x, mHalfSize.y
+	};
+	return json;
 }
 
-void PhysicsComponent::Deserialize(const Json&)
-{}
+void PhysicsComponent::Deserialize(const Json& inJson)
+{
+	if (inJson.contains("mHalfSize"))
+	{
+		mHalfSize.x = inJson["mHalfSize"][0];
+		mHalfSize.y = inJson["mHalfSize"][1];
+	}
+}
 
 Json TransformComponent::Serialize() const
 {
@@ -89,11 +100,3 @@ void HealthComponent::Deserialize(const Json& inJson)
 {
 	JSON_LOAD(inJson, mHealth);
 }
-
-Json PhysicsPositionUpdatedTag::Serialize() const
-{
-	return {};
-}
-
-void PhysicsPositionUpdatedTag::Deserialize(const Json&)
-{}

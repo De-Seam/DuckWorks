@@ -17,6 +17,7 @@
 #include "Engine/Debug/Windows/DebugUIWindowUserSettings.h"
 
 // Game includes
+#include "Game/Entity/SolidObstacle.h"
 #include "Game/Entity/Player/Player.h"
 
 
@@ -27,6 +28,7 @@ void gRegisterFactoryClasses()
 	// Entities
 	REGISTER_ENTITY(Actor);
 	REGISTER_ENTITY(Player);
+	REGISTER_ENTITY(SolidObstacle);
 
 	// Components
 	REGISTER_COMPONENT(NameComponent);
@@ -35,7 +37,9 @@ void gRegisterFactoryClasses()
 	REGISTER_COMPONENT(PhysicsComponent);
 	REGISTER_COMPONENT(TransformComponent);
 	REGISTER_COMPONENT(HealthComponent);
-	REGISTER_COMPONENT(PhysicsPositionUpdatedTag);
+	REGISTER_COMPONENT(PhysicsPositionOrRotationUpdatedTag);
+	REGISTER_COMPONENT(PhysicsSizeUpdatedTag);
+	REGISTER_COMPONENT(DestroyedTag);
 
 	// Debug UI Windows
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);

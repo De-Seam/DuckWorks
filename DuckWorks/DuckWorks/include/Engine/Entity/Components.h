@@ -37,7 +37,7 @@ struct EntityComponent : public ComponentBase
 	EntityComponent(WeakPtr<Entity> mEntity) : mEntity(mEntity) {}
 
 	virtual Json Serialize() const override { return {}; }
-	virtual void Deserialize(const Json& inJson) override {}
+	virtual void Deserialize(const Json&) override {}
 
 	WeakPtr<Entity> mEntity;
 };
@@ -124,6 +124,7 @@ struct PhysicsComponent : public ComponentBase
 	virtual Json Serialize() const override;
 	virtual void Deserialize(const Json& inJson) override;
 
+	fm::vec2 mHalfSize = {32.f, 32.f}; ///< Can be equal to the transform, or a custom half size.
 	b2Body* mBody = nullptr;
 };
 
@@ -157,14 +158,24 @@ struct HealthComponent : public ComponentBase
 
 // This tag is used to mark entities that have been teleported and need to update their physics position.
 // They will automatically get cleared after usage
-struct PhysicsPositionUpdatedTag : public ComponentBase
+struct PhysicsPositionOrRotationUpdatedTag : public ComponentBase
 {
-	RTTI_CLASS(PhysicsPositionUpdatedTag, ComponentBase)
+	RTTI_CLASS(PhysicsPositionOrRotationUpdatedTag, ComponentBase)
 
-	PhysicsPositionUpdatedTag() = default;
+	PhysicsPositionOrRotationUpdatedTag() = default;
 
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
+	virtual Json Serialize() const override { return {}; }
+	virtual void Deserialize(const Json&) override {}
+};
+
+struct PhysicsSizeUpdatedTag : public ComponentBase
+{
+	RTTI_CLASS(PhysicsSizeUpdatedTag, ComponentBase)
+
+	PhysicsSizeUpdatedTag() = default;
+
+	virtual Json Serialize() const override { return {}; }
+	virtual void Deserialize(const Json&) override {}
 };
 
 struct DestroyedTag : public ComponentBase
@@ -175,7 +186,7 @@ struct DestroyedTag : public ComponentBase
 	DestroyedTag(const UID& inUID) : mUID(inUID) {}
 
 	virtual Json Serialize() const override { return {}; }
-	virtual void Deserialize(const Json& inJson) override {}
+	virtual void Deserialize(const Json&) override {}
 
 	UID mUID;
 };

@@ -106,9 +106,20 @@ void Renderer::Update(float inDeltaTime)
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)
 {
-	const SDL_FRect dstRect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
-	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
-	SDL_RenderCopyExF(mRenderer, inParams.mTexture, srcRect, &dstRect, inParams.mRotation, nullptr, inParams.mFlip);
+	const SDL_FRect dst_rect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
+	const SDL_Rect* src_rect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
+	SDL_RenderCopyExF(mRenderer, inParams.mTexture, src_rect, &dst_rect, inParams.mRotation, nullptr, inParams.mFlip);
+}
+
+void Renderer::DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor)
+{
+	uint32 rgba = inColor.get_rgba();
+	uint8 r = (rgba >> 24) & 0xFF;
+	uint8 g = (rgba >> 16) & 0xFF;
+	uint8 b = (rgba >> 8) & 0xFF;
+	uint8 a = (rgba >> 0) & 0xFF;
+	SDL_SetRenderDrawColor(mRenderer, r, g, b, a);
+	SDL_RenderDrawRectF(mRenderer, &inRect);
 }
 
 void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor)

@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Core/Utilities/Utilities.h"
 
+#include "External/box2d/box2d.h"
+
 bool gIsValidTextureExtension(const std::string& inFilePath)
 {
 	String lower_case_path;
@@ -21,4 +23,32 @@ bool gIsValidTextureExtension(const std::string& inFilePath)
 	}
 
 	return false;
+}
+
+void gChangeB2BoxSize(b2Body* ioBody, const fm::vec2& inNewHalfSize)
+{
+	// Assuming the body has only one fixture that we want to replace.
+	// If the body might have multiple fixtures, you may need to iterate over them.
+	for (b2Fixture* f = ioBody->GetFixtureList(); f; /*no increment here*/)
+	{
+		// Destroy the existing fixture
+		b2Fixture* fixtureToDestroy = f;
+		f = f->GetNext(); // Move to the next fixture in the list
+		ioBody->DestroyFixture(fixtureToDestroy);
+	}
+
+	// Define the new shape with the desired size
+	b2PolygonShape boxShape;
+	boxShape.SetAsBox(inNewHalfSize.x, inNewHalfSize.y);
+
+	// Create a fixture definition using the new shape
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &boxShape;
+	// Set other fixture properties as needed
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 0.5f;
+
+	// Add the new fixture to the body
+	ioBody->CreateFixture(&fixtureDef);
 }

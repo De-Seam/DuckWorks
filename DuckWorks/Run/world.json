@@ -1,5 +1,80 @@
 {
-    "mPhysicsTimeAccumulator": 0.0024631302803754807,
+    "Entities": [
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "PhysicsComponent": {
+                        "mHalfSize": [
+                            296.0,
+                            32.0
+                        ]
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": "Assets/DefaultTexture.png",
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            402.0,
+                            308.0,
+                            296.0,
+                            32.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "PhysicsComponent": {
+                        "mHalfSize": [
+                            36.0,
+                            32.0
+                        ]
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            192,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": [
+                            411.6902160644531,
+                            241.798583984375,
+                            100.0,
+                            100.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        }
+    ],
     "mPhysicsTimeStep": 0.01666666753590107,
     "mPhysicsUpdateFrequency": 60,
     "mPositionIterations": 2,
