@@ -32,7 +32,6 @@ Json World::Serialize()
 	JSON_SAVE(json, mPositionIterations);
 	JSON_SAVE(json, mPhysicsUpdateFrequency);
 	JSON_SAVE(json, mPhysicsTimeStep);
-	JSON_SAVE(json, mPhysicsTimeAccumulator);
 
 	for (EntityPtr& entity : mEntities)
 	{
@@ -49,7 +48,6 @@ void World::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mPositionIterations);
 	JSON_TRY_LOAD(inJson, mPhysicsUpdateFrequency);
 	JSON_TRY_LOAD(inJson, mPhysicsTimeStep);
-	JSON_TRY_LOAD(inJson, mPhysicsTimeAccumulator);
 
 	if (inJson.contains("Entities"))
 	{
