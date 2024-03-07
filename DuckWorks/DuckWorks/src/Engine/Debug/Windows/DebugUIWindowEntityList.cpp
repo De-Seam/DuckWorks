@@ -16,6 +16,8 @@
 
 void DebugUIWindowEntityList::Update(float)
 {
+	PROFILE_SCOPE(DebugUIWindowEntityList::Update)
+
 	ImGui::Begin("Entity List");
 
 	World* world = gApp.GetWorld();

@@ -6,6 +6,7 @@
 
 bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 {
+	PROFILE_SCOPE(gDebugDrawJson)
 	bool changed = false;
 
 	for (const auto& [key, value] : ioJson.items())
@@ -19,6 +20,7 @@ bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 
 bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine)
 {
+	PROFILE_SCOPE(gHandleKeyValuePair)
 	String label = String("##" + inLabel + inKey);
 	nlohmann::detail::value_t value_type = ioValue.type();
 	ImGui::Text(inKey.c_str());

@@ -5,5 +5,7 @@
 
 void DebugUIWindowImGuiExample::Update(float)
 {
+	PROFILE_SCOPE(DebugUIWindowImGuiExample::Update)
+
 	ImGui::ShowDemoWindow(&mOpen);
 }

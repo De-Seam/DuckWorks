@@ -10,6 +10,8 @@
 
 void DebugUIWindowUserSettings::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(DebugUIWindowUserSettings::Update)
+
 	ImGui::Begin("User Settings", &mOpen);
 
 	Json json = gApp.GetUserSettings()->Serialize();

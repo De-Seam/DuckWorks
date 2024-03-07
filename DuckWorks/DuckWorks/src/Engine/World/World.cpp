@@ -25,7 +25,7 @@ World::World()
 
 void World::Update(float inDeltaTime)
 {
-	PROFILE_SCOPE(World::Update);
+	PROFILE_SCOPE(World::Update)
 
 	ScopedMutexReadLock lock{mEntitiesMutex};
 
@@ -39,7 +39,7 @@ void World::Update(float inDeltaTime)
 
 void World::Render(float inDeltaTime)
 {
-	PROFILE_SCOPE(World::Render);
+	PROFILE_SCOPE(World::Render)
 
 	if (!gApp.IsPaused())
 	{

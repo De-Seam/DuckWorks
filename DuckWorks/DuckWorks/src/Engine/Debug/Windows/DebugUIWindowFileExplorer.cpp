@@ -24,6 +24,8 @@ namespace fs = std::filesystem;
 
 void DebugUIWindowFileExplorer::Update(float)
 {
+	PROFILE_SCOPE(DebugUIWindowFileExplorer::Update)
+
 	ImGui::Begin("File Explorer", &mOpen);
 
 	fs::path directory_path = mCurrentPath;
