@@ -4,9 +4,14 @@
 
 class Entity;
 
-class DebugUIWindowManager
+class DebugUIWindowManager : public RTTIBaseClass
 {
+	RTTI_CLASS(DebugUIWindowManager, RTTIBaseClass)
+
 public:
+	Json Serialize() const;
+	void Deserialize(const Json& inJson);
+
 	void Init();
 	void BeginFrame();
 	void EndFrame();
@@ -14,6 +19,9 @@ public:
 
 	void Update(float inDeltaTime);
 	void UpdateMainMenuBar();
+	void UpdateMainMenuBarWindowMenu();
+	void UpdateMainMenuBarDrawModes();
+
 	void UpdateViewport();
 	void UpdateWindows(float inDeltaTime);
 
@@ -37,6 +45,11 @@ public:
 
 	void SetSelectedEntity(const WeakPtr<Entity>& inEntity);
 	WeakPtr<Entity> GetSelectedEntity() const { return mSelectedEntity; }
+
+public:
+	bool mDrawEntityOutline = true;
+	bool mDrawSelectedEntityPhysicsOutline = true;
+	bool mDrawAllPhysicsOutline = false;
 
 private:
 	Array<SharedPtr<DebugUIWindow>> mWindows;

@@ -125,6 +125,7 @@ struct PhysicsComponent : public ComponentBase
 	virtual void Deserialize(const Json& inJson) override;
 
 	fm::vec2 mHalfSize = {32.f, 32.f}; ///< Can be equal to the transform, or a custom half size.
+	fm::vec2 mOffset = {0.f, 0.f}; ///< Offset from the transform position
 	b2Body* mBody = nullptr;
 };
 

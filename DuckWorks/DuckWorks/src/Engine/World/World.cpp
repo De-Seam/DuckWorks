@@ -217,7 +217,9 @@ void World::UpdatePhysics(float inDeltaTime)
 			gDebugIf(physics.mBody == nullptr)
 				return;
 
-			physics.mBody->SetTransform({transform.position.x, transform.position.y}, transform.rotation);
+			fm::vec2 position = transform.position + physics.mOffset;
+
+			physics.mBody->SetTransform(b2Vec2{position.x, position.y}, transform.rotation);
 
 			BaseEntity entity_handler = {entity, this};
 			entity_handler.RemoveComponent<PhysicsPositionOrRotationUpdatedTag>();
@@ -269,7 +271,7 @@ void World::UpdatePhysics(float inDeltaTime)
 			gDebugIf(physics.mBody == nullptr)
 				return;
 
-			transform.position = {physics.mBody->GetPosition().x, physics.mBody->GetPosition().y};
+			transform.position = fm::vec2{physics.mBody->GetPosition().x, physics.mBody->GetPosition().y} - physics.mOffset;
 			transform.rotation = physics.mBody->GetAngle();
 		}
 	}

@@ -37,9 +37,9 @@ void gRegisterFactoryClasses()
 	REGISTER_COMPONENT(PhysicsComponent);
 	REGISTER_COMPONENT(TransformComponent);
 	REGISTER_COMPONENT(HealthComponent);
-	REGISTER_COMPONENT(PhysicsPositionOrRotationUpdatedTag);
-	REGISTER_COMPONENT(PhysicsSizeUpdatedTag);
-	REGISTER_COMPONENT(DestroyedTag);
+	//REGISTER_COMPONENT(PhysicsPositionOrRotationUpdatedTag);
+	//REGISTER_COMPONENT(PhysicsSizeUpdatedTag);
+	//REGISTER_COMPONENT(DestroyedTag);
 
 	// Debug UI Windows
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);

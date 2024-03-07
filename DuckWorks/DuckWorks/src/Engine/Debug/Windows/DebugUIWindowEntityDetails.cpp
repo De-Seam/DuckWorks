@@ -64,12 +64,16 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	selected_entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
 	selected_entity->TryAddComponent<PhysicsSizeUpdatedTag>();
 
-	if (selected_entity->HasComponent<PhysicsComponent>())
+	if (gDebugUIWindowManager.mDrawEntityOutline && selected_entity->HasComponent<TransformComponent>())
 	{
-		PhysicsComponent& physics_component = selected_entity->GetComponent<PhysicsComponent>();
-		fm::vec2 position = {physics_component.mBody->GetPosition().x, physics_component.mBody->GetPosition().y};
-		SDL_FRect rect = gRenderer.GetSDLFRect(position, physics_component.mHalfSize);
-		gRenderer.DrawRectangle(rect, {255, 255, 255, 255});
+		TransformComponent& transform_component = selected_entity->GetComponent<TransformComponent>();
+		SDL_FRect rect = gRenderer.GetSDLFRect(transform_component.mTransform.position, transform_component.mTransform.halfSize);
+		gRenderer.DrawRectangle(rect, {0.5f, 1.f, 0.5f, 0.75f});
+	}
+
+	if (gDebugUIWindowManager.mDrawSelectedEntityPhysicsOutline && selected_entity->HasComponent<PhysicsComponent>())
+	{
+		gDrawEntityPhysicsOutline(selected_entity->GetComponent<PhysicsComponent>(), {1.f, 1.f, 1.f, 1.f});
 	}
 
 	ImGui::End();

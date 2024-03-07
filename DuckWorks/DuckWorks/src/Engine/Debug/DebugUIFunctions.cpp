@@ -1,8 +1,11 @@
 #include "Precomp.h"
 #include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Entity/Components.h"
+#include "Engine/Renderer/Renderer.h"
 
 // External includes
 #include "External/imgui/imgui.h"
+#include "External/box2d/box2d.h"
 
 bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 {
@@ -39,7 +42,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 		bool changed = false;
 		for (const auto& [key, value] : ioValue.items())
 		{
-			if (gHandleKeyValuePair(ioJson, inLabel, key, value, true))
+			if (gHandleKeyValuePair(ioJson, label, key, value, true))
 				changed = true;
 		}
 		return changed;
@@ -112,4 +115,11 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	}
 
 	return false;
+}
+
+void gDrawEntityPhysicsOutline(const PhysicsComponent& inPhysicsComponent, const fm::vec4& inColor)
+{
+	fm::vec2 position = fm::vec2{inPhysicsComponent.mBody->GetPosition().x, inPhysicsComponent.mBody->GetPosition().y} + inPhysicsComponent.mOffset;
+	SDL_FRect rect = gRenderer.GetSDLFRect(position, inPhysicsComponent.mHalfSize);
+	gRenderer.DrawRectangle(rect, inColor);
 }

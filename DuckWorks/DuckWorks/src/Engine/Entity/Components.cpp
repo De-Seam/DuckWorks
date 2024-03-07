@@ -56,6 +56,10 @@ Json PhysicsComponent::Serialize() const
 	{
 		mHalfSize.x, mHalfSize.y
 	};
+	json["mOffset"] =
+	{
+		mOffset.x, mOffset.y
+	};
 	return json;
 }
 
@@ -65,6 +69,11 @@ void PhysicsComponent::Deserialize(const Json& inJson)
 	{
 		mHalfSize.x = inJson["mHalfSize"][0];
 		mHalfSize.y = inJson["mHalfSize"][1];
+	}
+	if (inJson.contains("mOffset"))
+	{
+		mOffset.x = inJson["mOffset"][0];
+		mOffset.y = inJson["mOffset"][1];
 	}
 }
 

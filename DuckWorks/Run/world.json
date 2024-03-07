@@ -8,8 +8,12 @@
                     },
                     "PhysicsComponent": {
                         "mHalfSize": [
-                            296.0,
+                            347.0,
                             32.0
+                        ],
+                        "mOffset": [
+                            0.0,
+                            0.0
                         ]
                     },
                     "TextureRenderComponent": {
@@ -27,7 +31,7 @@
                         "mTransform": [
                             402.0,
                             308.0,
-                            296.0,
+                            347.0,
                             32.0,
                             0.0
                         ]
@@ -48,13 +52,17 @@
                     "PhysicsComponent": {
                         "mHalfSize": [
                             36.0,
-                            32.0
+                            38.0
+                        ],
+                        "mOffset": [
+                            0.0,
+                            -4.0
                         ]
                     },
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            192,
+                            960,
                             0,
                             192,
                             192
@@ -64,8 +72,8 @@
                     },
                     "TransformComponent": {
                         "mTransform": [
-                            411.6902160644531,
-                            241.798583984375,
+                            541.5953369140625,
+                            241.23648071289063,
                             100.0,
                             100.0,
                             0.0

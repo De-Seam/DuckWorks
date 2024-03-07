@@ -10,6 +10,11 @@
 #include "Engine/Events/EventManager.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Entity/Entity.h"
+#include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/World/World.h"
+
+// Game includes
+#include "Game/App/App.h"
 
 // External includes
 #include "External/imgui/imgui.h"
@@ -19,12 +24,25 @@
 // Std includes
 #include <fstream>
 
-#include "Engine/World/World.h"
-
-#include "Game/App/App.h"
-
 
 DebugUIWindowManager gDebugUIWindowManager = {};
+
+Json DebugUIWindowManager::Serialize() const
+{
+	Json json;
+	JSON_SAVE(json, mDrawEntityOutline);
+	JSON_SAVE(json, mDrawSelectedEntityPhysicsOutline);
+	JSON_SAVE(json, mDrawAllPhysicsOutline);
+
+	return json;
+}
+
+void DebugUIWindowManager::Deserialize(const Json& inJson)
+{
+	JSON_TRY_LOAD(inJson, mDrawEntityOutline);
+	JSON_TRY_LOAD(inJson, mDrawSelectedEntityPhysicsOutline);
+	JSON_TRY_LOAD(inJson, mDrawAllPhysicsOutline);
+}
 
 void DebugUIWindowManager::Init()
 {
@@ -94,6 +112,7 @@ void DebugUIWindowManager::Init()
 	if (file.is_open())
 	{
 		Json json_debug_file = Json::parse(file);
+		Deserialize(json_debug_file);
 		auto open_windows = json_debug_file["OpenWindows"];
 		for (String window_name : open_windows)
 		{
@@ -132,7 +151,7 @@ void DebugUIWindowManager::Shutdown()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	Json json_debug_file;
+	Json json_debug_file = Serialize();
 	for (const SharedPtr<DebugUIWindow>& window : mWindows)
 	{
 		if (window->IsOpen())
@@ -164,6 +183,8 @@ void DebugUIWindowManager::Update(float inDeltaTime)
 	}
 	mWindowsToAdd.clear();
 
+	UpdateViewport();
+
 	UpdateMainMenuBar();
 
 	UpdateWindows(inDeltaTime);
@@ -175,67 +196,97 @@ void DebugUIWindowManager::UpdateMainMenuBar()
 
 	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::BeginMenu("Windows##WindowsMenu"))
-		{
-			Array<String> remove_windows;
-			Array<String> add_windows;
-			const Array<String>& window_names = gDebugUIWindowFactory.GetClassNames();
-			if (window_names.size() != mWindowOpen.size())
-				mWindowOpen.resize(window_names.size());
+		UpdateMainMenuBarWindowMenu();
+		UpdateMainMenuBarDrawModes();
 
-			for (uint64 i = 0; i < mWindowOpen.size(); i++)
-			{
-				mWindowOpen[i] = false;
-				for (SharedPtr<DebugUIWindow>& window : mWindows)
-				{
-					if (window->GetClassName() == window_names[i])
-					{
-						mWindowOpen[i] = true;
-						break;
-					}
-				}
-			}
-
-			for (uint64 i = 0; i < window_names.size(); i++)
-			{
-				String menu_item_name = window_names[i];
-				// 13 = size of "DebugUIWindow"
-				menu_item_name.replace(0, 13, "");
-				menu_item_name += "##MenuItem";
-				bool was_open = mWindowOpen[i];
-				bool is_open = was_open;
-				ImGui::MenuItem(menu_item_name.c_str(), nullptr, &is_open);
-				mWindowOpen[i] = is_open;
-
-				// See if we need to add or remove this window
-				if (was_open != is_open)
-				{
-					if (is_open)
-						add_windows.emplace_back(window_names[i]);
-					else // was_open == true
-						remove_windows.emplace_back(window_names[i]);
-				}
-			}
-
-			for (const String& window_name : remove_windows)
-			{
-				RemoveWindow(window_name);
-			}
-			for (const String& window_name : add_windows)
-			{
-				SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
-				AddWindow(window);
-			}
-
-			ImGui::EndMenu();
-		}
 		ImGui::EndMainMenuBar();
+	}
+}
+
+void DebugUIWindowManager::UpdateMainMenuBarWindowMenu()
+{
+	if (ImGui::BeginMenu("Windows##WindowsMenu"))
+	{
+		Array<String> remove_windows;
+		Array<String> add_windows;
+		const Array<String>& window_names = gDebugUIWindowFactory.GetClassNames();
+		if (window_names.size() != mWindowOpen.size())
+			mWindowOpen.resize(window_names.size());
+
+		for (uint64 i = 0; i < mWindowOpen.size(); i++)
+		{
+			mWindowOpen[i] = false;
+			for (SharedPtr<DebugUIWindow>& window : mWindows)
+			{
+				if (window->GetClassName() == window_names[i])
+				{
+					mWindowOpen[i] = true;
+					break;
+				}
+			}
+		}
+
+		for (uint64 i = 0; i < window_names.size(); i++)
+		{
+			String menu_item_name = window_names[i];
+			// 13 = size of "DebugUIWindow"
+			menu_item_name.replace(0, 13, "");
+			menu_item_name += "##MenuItem";
+			bool was_open = mWindowOpen[i];
+			bool is_open = was_open;
+			ImGui::MenuItem(menu_item_name.c_str(), nullptr, &is_open);
+			mWindowOpen[i] = is_open;
+
+			// See if we need to add or remove this window
+			if (was_open != is_open)
+			{
+				if (is_open)
+					add_windows.emplace_back(window_names[i]);
+				else // was_open == true
+					remove_windows.emplace_back(window_names[i]);
+			}
+		}
+
+		for (const String& window_name : remove_windows)
+		{
+			RemoveWindow(window_name);
+		}
+		for (const String& window_name : add_windows)
+		{
+			SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+			AddWindow(window);
+		}
+
+		ImGui::EndMenu();
+	}
+}
+
+void DebugUIWindowManager::UpdateMainMenuBarDrawModes()
+{
+	if (ImGui::BeginMenu("Draw Modes##WindowsMenu"))
+	{
+		ImGui::MenuItem("Draw Entity Outline##mDrawSelectedEntityPhysicsOutlineMenuItem", nullptr, &mDrawEntityOutline);
+		ImGui::MenuItem("Draw Physics Outline##mDrawEntityOutlineMenuItem", nullptr, &mDrawSelectedEntityPhysicsOutline);
+		ImGui::MenuItem("Draw All Physics Outlines##mDrawAllPhysicsOutlineMenuItem", nullptr, &mDrawAllPhysicsOutline);
+
+		ImGui::EndMenu();
 	}
 }
 
 void DebugUIWindowManager::UpdateViewport()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::UpdateViewport)
+
+	if (mDrawAllPhysicsOutline)
+	{
+		auto view = gApp.GetWorld()->GetRegistry().view<PhysicsComponent>();
+		for (auto entity : view)
+		{
+			PhysicsComponent& physics_component = view.get<PhysicsComponent>(entity);
+
+			gDrawEntityPhysicsOutline(physics_component, {1.f, 1.f, 1.f, 1.f});
+		}
+	}
 }
 
 void DebugUIWindowManager::UpdateWindows(float inDeltaTime)
