@@ -12,6 +12,8 @@
 // External includes
 #include "External/imgui/imgui.h"
 
+RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntitySpawner)
+
 DebugUIWindowEntitySpawner::DebugUIWindowEntitySpawner()
 {}
 

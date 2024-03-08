@@ -6,6 +6,8 @@
 
 #include "Engine/Resources/ResourceManager.h"
 
+RTTI_EMPTY_SERIALIZE_DEFINITION(SolidObstacle)
+
 SolidObstacle::SolidObstacle(World* inWorld)
 	: Actor(inWorld)
 {

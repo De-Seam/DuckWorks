@@ -1,8 +1,22 @@
 #include "Precomp.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 
+// Engine includes
 #include "Engine/Renderer/Renderer.h"
+
+// External includes
 #include "External/SDL/SDL_image.h"
+
+Json TextureResource::Serialize() const
+{
+	// We don't want to serialize the texture or its size, since that might change if the texture changes
+	return Base::Serialize();
+}
+
+void TextureResource::Deserialize(const Json& inJson)
+{
+	Base::Deserialize(inJson);
+}
 
 TextureResource::~TextureResource()
 {

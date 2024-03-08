@@ -11,7 +11,7 @@
 // External includes
 #include <External/imgui/imgui.h>
 
-#include "External/box2d/b2_body.h"
+RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntityDetails)
 
 
 void DebugUIWindowEntityDetails::Update(float inDeltaTime)

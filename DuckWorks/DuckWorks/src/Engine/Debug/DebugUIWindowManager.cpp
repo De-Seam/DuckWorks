@@ -29,19 +29,41 @@ DebugUIWindowManager gDebugUIWindowManager = {};
 
 Json DebugUIWindowManager::Serialize() const
 {
-	Json json;
+	Json json = Base::Serialize();
 	JSON_SAVE(json, mDrawEntityOutline);
 	JSON_SAVE(json, mDrawSelectedEntityPhysicsOutline);
 	JSON_SAVE(json, mDrawAllPhysicsOutline);
+
+	JSON_SAVE(json, mDebugFileName);
+
+	for (const SharedPtr<DebugUIWindow>& window : mWindows)
+	{
+		if (window->IsOpen())
+			json["OpenWindows"].emplace_back(window->GetClassName());
+	}
 
 	return json;
 }
 
 void DebugUIWindowManager::Deserialize(const Json& inJson)
 {
+	Base::Deserialize(inJson);
+
 	JSON_TRY_LOAD(inJson, mDrawEntityOutline);
 	JSON_TRY_LOAD(inJson, mDrawSelectedEntityPhysicsOutline);
 	JSON_TRY_LOAD(inJson, mDrawAllPhysicsOutline);
+
+	JSON_TRY_LOAD(inJson, mDebugFileName);
+
+	if (inJson.contains("OpenWindows"))
+	{
+		auto open_windows = inJson["OpenWindows"];
+		for (String window_name : open_windows)
+		{
+			SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+			AddWindow(window);
+		}
+	}
 }
 
 void DebugUIWindowManager::Init()
@@ -115,12 +137,6 @@ void DebugUIWindowManager::Init()
 	{
 		Json json_debug_file = Json::parse(file);
 		Deserialize(json_debug_file);
-		auto open_windows = json_debug_file["OpenWindows"];
-		for (String window_name : open_windows)
-		{
-			SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
-			AddWindow(window);
-		}
 	}
 }
 
@@ -154,11 +170,6 @@ void DebugUIWindowManager::Shutdown()
 	ImGui::DestroyContext();
 
 	Json json_debug_file = Serialize();
-	for (const SharedPtr<DebugUIWindow>& window : mWindows)
-	{
-		if (window->IsOpen())
-			json_debug_file["OpenWindows"].emplace_back(window->GetClassName());
-	}
 	std::ofstream file(mDebugFileName);
 	if (!file.is_open())
 		return gLog(LogType::Error, "Failed to open debug file for writing");

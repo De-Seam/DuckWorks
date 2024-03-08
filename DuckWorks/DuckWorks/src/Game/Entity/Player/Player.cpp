@@ -15,6 +15,26 @@
 #include "Engine/Events/EventManager.h"
 #include "Engine/Renderer/AnimationManager.h"
 
+Json Player::Serialize() const
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mVelocityIncrement);
+	JSON_SAVE(json, mMaxVelocity);
+
+	return json;
+}
+
+void Player::Deserialize(const Json& inJson)
+{
+	PROFILE_SCOPE(World::Deserialize)
+
+	JSON_TRY_LOAD(inJson, mVelocityIncrement);
+	JSON_TRY_LOAD(inJson, mMaxVelocity);
+
+	Base::Deserialize(inJson);
+}
+
 Player::Player(World* inWorld)
 	: Actor(inWorld)
 {

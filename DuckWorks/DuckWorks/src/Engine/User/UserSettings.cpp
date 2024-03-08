@@ -1,23 +1,22 @@
 #include "Precomp.h"
 #include "Engine/User/UserSettings.h"
 
-Json BaseUserSettings::Serialize()
+Json BaseUserSettings::Serialize() const
 {
-	Json json;
-	json["mWindowSize"] = {mWindowSize.x, mWindowSize.y};
-	JSON_SAVE(json, mWindowFlags);
+	Json json = Base::Serialize();
+
 	JSON_SAVE(json, mMaxFPS);
+	JSON_SAVE(json, mWindowSize);
+	JSON_SAVE(json, mWindowFlags);
 
 	return json;
 }
 
 void BaseUserSettings::Deserialize(const Json& inJson)
 {
-	if (inJson.contains("mWindowSize"))
-	{
-		mWindowSize.x = inJson["mWindowSize"][0];
-		mWindowSize.y = inJson["mWindowSize"][1];
-	}
-	JSON_TRY_LOAD(inJson, mWindowFlags);
+	Base::Deserialize(inJson);
+
 	JSON_TRY_LOAD(inJson, mMaxFPS);
+	JSON_TRY_LOAD(inJson, mWindowSize);
+	JSON_TRY_LOAD(inJson, mWindowFlags);
 }

@@ -824,5 +824,8 @@
     <ClCompile Include="src\Game\Entity\SolidObstacles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Resources\ResourceTypes\BaseResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

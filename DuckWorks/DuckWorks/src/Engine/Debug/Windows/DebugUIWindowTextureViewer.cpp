@@ -4,6 +4,22 @@
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
+Json DebugUIWindowTextureViewer::Serialize() const
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mTexture);
+
+	return json;
+}
+
+void DebugUIWindowTextureViewer::Deserialize(const Json& inJson)
+{
+	Base::Deserialize(inJson);
+
+	JSON_LOAD(inJson, mTexture);
+}
+
 void DebugUIWindowTextureViewer::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowTextureViewer::Update)

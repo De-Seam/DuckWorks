@@ -20,13 +20,13 @@ struct ComponentBase : public RTTIBaseClass
 {
 	RTTI_CLASS(ComponentBase, RTTIBaseClass)
 
-	virtual Json Serialize() const = 0;
-	virtual void Deserialize(const Json& inJson) = 0;
-
 	// This is a base class for all components
 	// It is used to allow for polymorphism in the component manager
 	// It is not meant to be used directly
 };
+
+inline Json ComponentBase::Serialize() const { return Base::Serialize(); }
+inline void ComponentBase::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
 // EntityComponent is added to each entity to point towards the weak ptr entity
 struct EntityComponent : public ComponentBase
@@ -36,11 +36,11 @@ struct EntityComponent : public ComponentBase
 	EntityComponent() = default;
 	EntityComponent(WeakPtr<Entity> mEntity) : mEntity(mEntity) {}
 
-	virtual Json Serialize() const override { return {}; }
-	virtual void Deserialize(const Json&) override {}
-
 	WeakPtr<Entity> mEntity;
 };
+
+inline Json EntityComponent::Serialize() const { return Base::Serialize(); }
+inline void EntityComponent::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
 struct NameComponent : public ComponentBase
 {
@@ -48,9 +48,6 @@ struct NameComponent : public ComponentBase
 
 	NameComponent() = default;
 	NameComponent(String inName) : mName(inName) {}
-
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
 
 	String mName;
 };
@@ -74,9 +71,6 @@ struct TextureRenderComponent : public ComponentBase
 		mUseSrcRect(inUseSrcRect),
 		mFlip(inFlip)
 	{}
-
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
 
 	SharedPtr<TextureResource> mTexture;
 	fm::ivec4 mSrcRect = {};
@@ -104,9 +98,6 @@ struct AnimationComponent : public ComponentBase
 		mTimeSinceUpdate(inTimeSinceUpdate)
 	{}
 
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
-
 	SharedPtr<AnimationBase> mAnimation = nullptr;
 
 	// Private variables
@@ -121,9 +112,6 @@ struct PhysicsComponent : public ComponentBase
 	PhysicsComponent() = default;
 	PhysicsComponent(b2Body* inBody) : mBody(inBody) {}
 
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
-
 	fm::vec2 mHalfSize = {32.f, 32.f}; ///< Can be equal to the transform, or a custom half size.
 	fm::vec2 mOffset = {0.f, 0.f}; ///< Offset from the transform position
 	b2Body* mBody = nullptr;
@@ -136,9 +124,6 @@ struct TransformComponent : public ComponentBase
 	TransformComponent() = default;
 	TransformComponent(fm::Transform2D inTransform) : mTransform(inTransform) {}
 
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
-
 	fm::Transform2D mTransform = {};
 };
 
@@ -148,9 +133,6 @@ struct HealthComponent : public ComponentBase
 
 	HealthComponent() = default;
 	HealthComponent(float inHealth) : mHealth(inHealth) {}
-
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
 
 	float mHealth = 100.f;
 };
@@ -164,20 +146,20 @@ struct PhysicsPositionOrRotationUpdatedTag : public ComponentBase
 	RTTI_CLASS(PhysicsPositionOrRotationUpdatedTag, ComponentBase)
 
 	PhysicsPositionOrRotationUpdatedTag() = default;
-
-	virtual Json Serialize() const override { return {}; }
-	virtual void Deserialize(const Json&) override {}
 };
+
+inline Json PhysicsPositionOrRotationUpdatedTag::Serialize() const { return Base::Serialize(); }
+inline void PhysicsPositionOrRotationUpdatedTag::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
 struct PhysicsSizeUpdatedTag : public ComponentBase
 {
 	RTTI_CLASS(PhysicsSizeUpdatedTag, ComponentBase)
 
 	PhysicsSizeUpdatedTag() = default;
-
-	virtual Json Serialize() const override { return {}; }
-	virtual void Deserialize(const Json&) override {}
 };
+
+inline Json PhysicsSizeUpdatedTag::Serialize() const { return Base::Serialize(); }
+inline void PhysicsSizeUpdatedTag::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
 struct DestroyedTag : public ComponentBase
 {
@@ -186,8 +168,8 @@ struct DestroyedTag : public ComponentBase
 	DestroyedTag() = default;
 	DestroyedTag(const UID& inUID) : mUID(inUID) {}
 
-	virtual Json Serialize() const override { return {}; }
-	virtual void Deserialize(const Json&) override {}
-
 	UID mUID;
 };
+
+inline Json DestroyedTag::Serialize() const { return Base::Serialize(); }
+inline void DestroyedTag::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }

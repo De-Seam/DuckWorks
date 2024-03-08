@@ -35,8 +35,16 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 		ImGui::Text("%s: null", inKey.c_str());
 		break;
 	case nlohmann::detail::value_t::object:
-		ImGui::Text("%s: object", inKey.c_str());
-		break;
+	{
+		bool changed = false;
+		for (const auto& [key, value] : ioValue.items())
+		{
+			if (gHandleKeyValuePair(ioJson, label, key, value, false))
+				changed = true;
+		}
+		return changed;
+	}
+	break;
 	case nlohmann::detail::value_t::array:
 	{
 		bool changed = false;

@@ -13,6 +13,7 @@
 
 #include "External/imgui/imgui.h"
 
+RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntityList)
 
 void DebugUIWindowEntityList::Update(float)
 {

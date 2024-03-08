@@ -1,6 +1,10 @@
 #include "Precomp.h"
 #include "Core/Utilities/Utilities.h"
 
+// Engine includes. TODO: Remove these includes
+#include "Engine/Resources/ResourceManager.h"
+#include "Engine/Resources/ResourceTypes/TextureResource.h"
+
 #include "External/box2d/box2d.h"
 
 bool gIsValidTextureExtension(const std::string& inFilePath)
@@ -51,4 +55,15 @@ void gChangeB2BoxSize(b2Body* ioBody, const fm::vec2& inNewHalfSize)
 
 	// Add the new fixture to the body
 	ioBody->CreateFixture(&fixtureDef);
+}
+
+void to_json(Json& outJson, const SharedPtr<TextureResource>& inVariable)
+{
+	outJson = inVariable->Serialize();
+}
+
+void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable)
+{
+	outVariable = gResourceManager.GetResource<TextureResource>(inJson);
+	outVariable->Deserialize(inJson);
 }

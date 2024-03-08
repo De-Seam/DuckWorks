@@ -24,17 +24,23 @@
                             0,
                             0
                         ],
-                        "mTexture": "Assets/DefaultTexture.png",
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
                         "mUseSrcRect": false
                     },
                     "TransformComponent": {
-                        "mTransform": [
-                            402.0,
-                            308.0,
-                            347.0,
-                            32.0,
-                            0.0
-                        ]
+                        "mTransform": {
+                            "HalfSize": [
+                                347.0,
+                                32.0
+                            ],
+                            "Position": [
+                                0.0,
+                                0.0
+                            ],
+                            "Rotation": 0.0
+                        }
                     }
                 }
             }
@@ -62,25 +68,33 @@
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            192,
+                            0,
                             0,
                             192,
                             192
                         ],
-                        "mTexture": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
+                        "mTexture": {
+                            "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
+                        },
                         "mUseSrcRect": true
                     },
                     "TransformComponent": {
-                        "mTransform": [
-                            156.92115783691406,
-                            241.9685516357422,
-                            100.0,
-                            100.0,
-                            0.0
-                        ]
+                        "mTransform": {
+                            "HalfSize": [
+                                100.0,
+                                100.0
+                            ],
+                            "Position": [
+                                -196.94886779785156,
+                                -66.03263854980469
+                            ],
+                            "Rotation": 0.0
+                        }
                     }
                 }
-            }
+            },
+            "mMaxVelocity": 200.0,
+            "mVelocityIncrement": 600.0
         }
     ],
     "mPhysicsTimeStep": 0.01666666753590107,

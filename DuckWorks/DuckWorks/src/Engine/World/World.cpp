@@ -16,24 +16,18 @@
 #include "Game/App/App.h"
 #include "Game/Entity/Player/Player.h"
 
-
-World::World()
-{
-	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 98.f));
-}
-
-Json World::Serialize()
+Json World::Serialize() const
 {
 	PROFILE_SCOPE(World::Serialize)
 
-	Json json;
+	Json json = Base::Serialize();
 
 	JSON_SAVE(json, mVelocityIterations);
 	JSON_SAVE(json, mPositionIterations);
 	JSON_SAVE(json, mPhysicsUpdateFrequency);
 	JSON_SAVE(json, mPhysicsTimeStep);
 
-	for (EntityPtr& entity : mEntities)
+	for (const EntityPtr& entity : mEntities)
 	{
 		json["Entities"].push_back(entity->Serialize());
 	}
@@ -43,6 +37,8 @@ Json World::Serialize()
 void World::Deserialize(const Json& inJson)
 {
 	PROFILE_SCOPE(World::Deserialize)
+
+	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mVelocityIterations);
 	JSON_TRY_LOAD(inJson, mPositionIterations);
@@ -67,6 +63,11 @@ void World::Deserialize(const Json& inJson)
 			entity->Deserialize(json_entity[class_name]);
 		}
 	}
+}
+
+World::World()
+{
+	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 98.f));
 }
 
 void World::Update(float inDeltaTime)

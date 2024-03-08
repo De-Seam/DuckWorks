@@ -9,9 +9,6 @@ class DebugUIWindowManager : public RTTIBaseClass
 	RTTI_CLASS(DebugUIWindowManager, RTTIBaseClass)
 
 public:
-	Json Serialize() const;
-	void Deserialize(const Json& inJson);
-
 	void Init();
 	void BeginFrame();
 	void EndFrame();

@@ -18,9 +18,6 @@ class World : public RTTIBaseClass
 public:
 	World();
 
-	Json Serialize();
-	void Deserialize(const Json& inJson);
-
 	void Update(float inDeltaTime);
 	void Render(float inDeltaTime);
 

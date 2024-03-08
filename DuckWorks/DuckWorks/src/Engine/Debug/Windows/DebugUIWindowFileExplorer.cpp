@@ -14,6 +14,25 @@
 #include <filesystem>
 #include <algorithm>
 
+Json DebugUIWindowFileExplorer::Serialize() const
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mCurrentPath);
+	JSON_SAVE(json, mIconSize);
+
+	return json;
+}
+
+void DebugUIWindowFileExplorer::Deserialize(const Json& inJson)
+{
+	Base::Deserialize(inJson);
+
+	JSON_LOAD(inJson, mCurrentPath);
+	JSON_LOAD(inJson, mIconSize);
+}
+
+
 DebugUIWindowFileExplorer::DebugUIWindowFileExplorer()
 {
 	mFolderTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_Folder.png");

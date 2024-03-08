@@ -5,19 +5,23 @@ public: \
 	static const char* sGetClassName() { return #inClassName; } \
 	static const char* sGetParentClassName() { return #inParentClassName; } \
 	virtual const char* GetClassName() const override { return inClassName::sGetClassName(); } \
-	virtual const char* GetParentClassName() const override { return inClassName::sGetParentClassName(); }
+	virtual const char* GetParentClassName() const override { return inClassName::sGetParentClassName(); } \
+	virtual Json Serialize() const override; \
+	virtual void Deserialize(const Json& inJson) override;
+
+#define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
+	Json inClassName::Serialize() const { return Base::Serialize(); } \
+	void inClassName::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
 class RTTIBaseClass
 {
 public:
 	virtual const char* GetClassName() const = 0;
 	virtual const char* GetParentClassName() const = 0;
-};
 
-#define RTTI_STRUCT(inClassName) \
-public: \
-	static const char* sGetClassName() { return #inClassName; } \
-	virtual const char* GetClassName() const override { return inClassName::sGetClassName(); }
+	virtual Json Serialize() const { return {}; }
+	virtual void Deserialize(const Json& inJson) {}
+};
 
 #define REGISTER_ENTITY(inEntity) \
 	gEntityFactory.RegisterClass<inEntity>(#inEntity)

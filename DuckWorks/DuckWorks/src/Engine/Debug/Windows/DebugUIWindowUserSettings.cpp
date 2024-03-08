@@ -8,7 +8,7 @@
 // External includes
 #include <External/imgui/imgui.h>
 
-#include "Engine/World/World.h"
+RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowUserSettings)
 
 void DebugUIWindowUserSettings::Update(float inDeltaTime)
 {

@@ -3,6 +3,26 @@
 
 #include "External/imgui/imgui.h"
 
+Json DebugUIWindowOutputLog::Serialize() const
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mShowInfo);
+	JSON_SAVE(json, mShowWarnings);
+	JSON_SAVE(json, mShowErrors);
+
+	return json;
+}
+
+void DebugUIWindowOutputLog::Deserialize(const Json& inJson)
+{
+	Base::Deserialize(inJson);
+
+	JSON_LOAD(inJson, mShowInfo);
+	JSON_LOAD(inJson, mShowWarnings);
+	JSON_LOAD(inJson, mShowErrors);
+}
+
 void DebugUIWindowOutputLog::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowOutputLog::Update)

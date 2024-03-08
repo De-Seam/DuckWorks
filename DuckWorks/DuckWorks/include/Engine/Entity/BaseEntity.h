@@ -20,9 +20,6 @@ public:
 
 	~BaseEntity();
 
-	virtual Json Serialize();
-	virtual void Deserialize(const Json& inJson);
-
 	void GenerateNewEntityHandle(World* inWorld);
 	///< Helper function to generate a new entity handle for this entity. Should only be used for a child class which does not call the default constructor
 
