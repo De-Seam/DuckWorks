@@ -53,7 +53,7 @@ int App::Run()
 		params.mWindowTitle = "DuckWorks";
 		params.mWindowSize = GetUserSettings()->mWindowSize;
 		params.mWindowFlags = GetUserSettings()->mWindowFlags;
-		params.mRendererFlags = SDL_RENDERER_ACCELERATED;
+		params.mRendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
 		gRenderer.Init(params);
 	}
 
