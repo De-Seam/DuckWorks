@@ -18,4 +18,6 @@ struct TextureResource : public BaseResource
 
 private:
 	fm::ivec2 mSize = {};
+
+	void DestroyTexture();
 };

@@ -23,7 +23,9 @@ public:
 	std::shared_ptr<taType> GetResource(const String& inFile);
 
 private:
-	phmap::flat_hash_map<std::string, std::shared_ptr<BaseResource>> mResources;
+	phmap::flat_hash_map<std::string, SharedPtr<BaseResource>> mResources;
+
+private:
 };
 
 extern ResourceManager gResourceManager;

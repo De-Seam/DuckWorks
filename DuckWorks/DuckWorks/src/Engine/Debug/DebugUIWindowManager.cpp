@@ -69,7 +69,7 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 void DebugUIWindowManager::Init()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::Init)
-	gLog(LogType::Info, "Initializing down DebugUIWindowManager");
+	gLog(LogType::Info, "Initializing DebugUIWindowManager");
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();

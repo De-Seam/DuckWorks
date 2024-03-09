@@ -15,16 +15,20 @@ Json TextureResource::Serialize() const
 
 void TextureResource::Deserialize(const Json& inJson)
 {
+	// If we deserialize a texture, then all other resources that reference this texture will be changed as well.
+	// And after this calling gResourceManager.GetResource<TextureResource>(mFile) will return the wrong texture, unless this file is the same.
+	gLog(LogType::Error, "TextureResource::Deserialize should not be called!");
+
 	Base::Deserialize(inJson);
+
+	DestroyTexture();
+
+	LoadFromFile(GetFileName());
 }
 
 TextureResource::~TextureResource()
 {
-	if (mTexture != nullptr)
-	{
-		SDL_DestroyTexture(mTexture);
-		mTexture = nullptr;
-	}
+	DestroyTexture();
 }
 
 void TextureResource::LoadFromFile(const String& inFile)
@@ -39,4 +43,13 @@ void TextureResource::LoadFromFile(const String& inFile)
 	}
 
 	SDL_QueryTexture(mTexture, nullptr, nullptr, &mSize.x, &mSize.y);
+}
+
+void TextureResource::DestroyTexture()
+{
+	if (mTexture != nullptr)
+	{
+		SDL_DestroyTexture(mTexture);
+		mTexture = nullptr;
+	}
 }
