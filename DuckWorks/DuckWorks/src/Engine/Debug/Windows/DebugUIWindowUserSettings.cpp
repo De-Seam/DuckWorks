@@ -10,7 +10,7 @@
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowUserSettings)
 
-void DebugUIWindowUserSettings::Update(float inDeltaTime)
+void DebugUIWindowUserSettings::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowUserSettings::Update)
 

@@ -125,8 +125,10 @@ void DebugUIWindowManager::Init()
 
 				fm::vec2 world_location = gRenderer.GetWorldLocationAtWindowLocation(inEventData.mMouseDown.mMousePosition);
 				EntityPtr entity = gApp.GetWorld()->GetEntityAtLocationSlow(world_location);
-				//if (entity != nullptr)
 				SetSelectedEntity(entity);
+
+				if (entity != nullptr)
+					mSelectedEntityRelativeLocation = entity->GetComponent<TransformComponent>().mTransform.position - world_location;
 			}
 		};
 		gEventManager.AddPersistentEventFunction(event_function);
@@ -197,6 +199,8 @@ void DebugUIWindowManager::Update(float inDeltaTime)
 	mWindowsToAdd.clear();
 
 	UpdateViewport();
+
+	UpdateSelectedEntity();
 
 	UpdateMainMenuBar();
 
@@ -315,6 +319,34 @@ void DebugUIWindowManager::UpdateWindows(float inDeltaTime)
 	for (const SharedPtr<DebugUIWindow>& window : windows_to_remove)
 	{
 		RemoveWindow(window->GetClassName());
+	}
+}
+
+void DebugUIWindowManager::UpdateSelectedEntity()
+{
+	PROFILE_SCOPE(DebugUIWindowManager::UpdateSelectedEntity)
+
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+		return;
+
+	if (!gEventManager.IsMouseButtonDown(MouseButton::Left))
+		return;
+
+	EntityPtr selected_entity = mSelectedEntity.lock();
+
+	if (!selected_entity->HasComponent<TransformComponent>())
+		return;
+
+	fm::vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
+	EntityPtr old_entity = gApp.GetWorld()->GetEntityAtLocationSlow(old_world_location);
+	if (old_entity == selected_entity)
+	{
+		fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
+		selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
+		if (selected_entity->HasComponent<PhysicsComponent>())
+		{
+			selected_entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
+		}
 	}
 }
 

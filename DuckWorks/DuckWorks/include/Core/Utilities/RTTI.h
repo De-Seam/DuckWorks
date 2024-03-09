@@ -1,4 +1,8 @@
 #pragma once
+
+#pragma warning( push )
+#pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
+
 #define RTTI_CLASS(inClassName, inParentClassName) \
 public: \
 	using Base = inParentClassName; \
@@ -20,7 +24,7 @@ public:
 	virtual const char* GetParentClassName() const = 0;
 
 	virtual Json Serialize() const { return {}; }
-	virtual void Deserialize(const Json& inJson) {}
+	virtual void Deserialize(const Json& inJson) { (void)inJson; }
 };
 
 #define REGISTER_ENTITY(inEntity) \

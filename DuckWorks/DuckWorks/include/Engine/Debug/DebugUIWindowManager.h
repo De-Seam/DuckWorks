@@ -15,11 +15,14 @@ public:
 	void Shutdown();
 
 	void Update(float inDeltaTime);
+
+	void UpdateViewport();
+	void UpdateSelectedEntity();
+
 	void UpdateMainMenuBar();
 	void UpdateMainMenuBarWindowMenu();
 	void UpdateMainMenuBarDrawModes();
 
-	void UpdateViewport();
 	void UpdateWindows(float inDeltaTime);
 
 	template<typename taType>
@@ -56,6 +59,7 @@ private:
 	String mDebugFileName = "Debug.json";
 
 	WeakPtr<Entity> mSelectedEntity;
+	fm::vec2 mSelectedEntityRelativeLocation = {}; ///< 0,0 would be the center of the entity
 };
 
 extern DebugUIWindowManager gDebugUIWindowManager;

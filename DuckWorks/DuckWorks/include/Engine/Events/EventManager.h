@@ -115,7 +115,7 @@ public:
 			{
 				fm::vec2 mOldPosition;
 				fm::vec2 mNewPosition;
-				float mDelta;
+				fm::vec2 mDelta;
 			} mMouseMove;
 
 			struct MouseDown // MouseDown
@@ -153,6 +153,11 @@ public:
 	SharedPtr<EventFunction> AddEventFunction(const EventFunction& inFunction);
 	void AddPersistentEventFunction(const EventFunction& inFunction);
 
+	[[nodiscard]] bool IsKeyDown(KeyCode inKeyCode);
+	[[nodiscard]] bool IsMouseButtonDown(MouseButton inMouseButton);
+	[[nodiscard]] fm::vec2 GetOldMousePosition();
+	[[nodiscard]] fm::vec2 GetMousePosition();
+
 private:
 	HashMap<EventType, Array<WeakPtr<EventFunction>>> mEventFunctions = {};
 	Array<SharedPtr<EventFunction>> mPersistentEventFunctions;
@@ -163,12 +168,17 @@ private:
 	HashMap<SDL_Keycode, KeyCode> mSDLKeycodeToKeyCode;
 	HashMap<uint32, MouseButton> mSDLButtonToMouseButton;
 
+	fm::vec2 mOldMousePosition = {0.f, 0.f};
+	fm::vec2 mMousePosition = {0.f, 0.f};
+
 private:
 	void OnKeyDown(const SDL_Event& inEvent);
 	void OnKeyUp(const SDL_Event& inEvent);
 
 	void OnMouseDown(const SDL_Event& inEvent);
 	void OnMouseUp(const SDL_Event& inEvent);
+
+	void OnMouseMove(const SDL_Event& inEvent);
 
 	void LoopOverEventFunctions(EventType inEventType, const EventData& inEventData);
 };

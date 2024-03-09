@@ -28,6 +28,10 @@ void EventManager::Init()
 	event_function.mEventType = SDL_MOUSEBUTTONUP;
 	event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { this->OnMouseUp(inEvent); };
 	gSDLEventManager.AddPersistentEventFunction(event_function);
+
+	event_function.mEventType = SDL_MOUSEMOTION;
+	event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { this->OnMouseMove(inEvent); };
+	gSDLEventManager.AddPersistentEventFunction(event_function);
 }
 
 void EventManager::SetupSDLConversions()
@@ -101,6 +105,26 @@ void EventManager::AddPersistentEventFunction(const EventFunction& inFunction)
 	mPersistentEventFunctions.push_back(event_function);
 }
 
+bool EventManager::IsKeyDown(KeyCode inKeyCode)
+{
+	return mKeyCodeDown[SCast<uint16>(inKeyCode)];
+}
+
+bool EventManager::IsMouseButtonDown(MouseButton inMouseButton)
+{
+	return mMouseButtonDown[SCast<uint16>(inMouseButton)];
+}
+
+fm::vec2 EventManager::GetOldMousePosition()
+{
+	return mOldMousePosition;
+}
+
+fm::vec2 EventManager::GetMousePosition()
+{
+	return mMousePosition;
+}
+
 void EventManager::OnKeyDown(const SDL_Event& inEvent)
 {
 	KeyCode key_code = mSDLKeycodeToKeyCode[inEvent.key.keysym.sym];
@@ -161,6 +185,19 @@ void EventManager::OnMouseUp(const SDL_Event& inEvent)
 
 		LoopOverEventFunctions(EventType::MouseButtonUp, event_data);
 	}
+}
+
+void EventManager::OnMouseMove(const SDL_Event& inEvent)
+{
+	mOldMousePosition = mMousePosition;
+	mMousePosition = fm::vec2(SCast<float>(inEvent.motion.x), SCast<float>(inEvent.motion.y));
+
+	EventData event_data;
+	event_data.mMouseMove.mOldPosition = mOldMousePosition;
+	event_data.mMouseMove.mNewPosition = mMousePosition;
+	event_data.mMouseMove.mDelta = event_data.mMouseMove.mNewPosition - event_data.mMouseMove.mOldPosition;
+
+	LoopOverEventFunctions(EventType::MouseMove, event_data);
 }
 
 void EventManager::LoopOverEventFunctions(EventType inEventType, const EventData& inEventData)
