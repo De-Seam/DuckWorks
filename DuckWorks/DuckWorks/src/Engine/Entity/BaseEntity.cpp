@@ -59,7 +59,10 @@ BaseEntity::BaseEntity(entt::entity inHandle, World* inWorld)
 BaseEntity::~BaseEntity()
 {
 	if (mHandleWasGenerated)
+	{
+		ScopedMutexWriteLock lock(mWorld->mEntitiesMutex);
 		GetRegistry().destroy(mEntityHandle);
+	}
 }
 
 void BaseEntity::GenerateNewEntityHandle(World* inWorld)
@@ -75,4 +78,9 @@ void BaseEntity::GenerateNewEntityHandle(World* inWorld)
 entt::registry& BaseEntity::GetRegistry() const
 {
 	return mWorld->GetRegistry();
+}
+
+Mutex& BaseEntity::GetEntitiesMutexWorld() const
+{
+	return mWorld->mEntitiesMutex;
 }

@@ -121,8 +121,6 @@ void World::DestroyEntities()
 {
 	PROFILE_SCOPE(World::DestroyEntities)
 
-	ScopedMutexWriteLock lock{mEntitiesMutex};
-
 	auto view = mRegistry.view<DestroyedTag>();
 	for (entt::entity entity_handle : view)
 	{
@@ -149,8 +147,6 @@ void World::DestroyEntities()
 EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 {
 	PROFILE_SCOPE(World::AddEntity)
-	ScopedMutexWriteLock lock{mEntitiesMutex};
-
 	inEntity->AddComponent<EntityComponent>(inEntity);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
@@ -211,50 +207,59 @@ void World::UpdatePhysics(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::UpdatePhysics)
 
-	ScopedMutexReadLock lock{mEntitiesMutex};
 
 	{
 		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionOrRotationUpdatedTag>();
+		{
+			ScopedMutexReadLock lock{mEntitiesMutex};
+			for (auto entity : view)
+			{
+				fm::Transform2D& transform = view.get<TransformComponent>(entity).mTransform;
+				PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
+
+				// Make sure the body is valid
+				gDebugIf(physics.mBody == nullptr)
+					return;
+
+				fm::vec2 position = transform.position + physics.mOffset;
+
+				physics.mBody->SetTransform(b2Vec2{position.x, position.y}, transform.rotation);
+			}
+		}
 		for (auto entity : view)
 		{
-			fm::Transform2D& transform = view.get<TransformComponent>(entity).mTransform;
-			PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
-
-			// Make sure the body is valid
-			gDebugIf(physics.mBody == nullptr)
-				return;
-
-			fm::vec2 position = transform.position + physics.mOffset;
-
-			physics.mBody->SetTransform(b2Vec2{position.x, position.y}, transform.rotation);
-
 			BaseEntity entity_handler = {entity, this};
 			entity_handler.RemoveComponent<PhysicsPositionOrRotationUpdatedTag>();
 		}
 	}
 	{
 		auto view = mRegistry.view<PhysicsComponent, PhysicsSizeUpdatedTag>();
+		{
+			for (auto entity : view)
+			{
+				PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
+
+				// Make sure the body is valid
+				gDebugIf(physics.mBody == nullptr)
+					return;
+
+				b2Shape* shape = physics.mBody->GetFixtureList()->GetShape();
+				switch (shape->GetType())
+				{
+				case b2Shape::e_polygon:
+				{
+					gChangeB2BoxSize(physics.mBody, physics.mHalfSize);
+				}
+				break;
+				default:
+					shape->m_radius = physics.mHalfSize.x;
+					break;
+				}
+			}
+			ScopedMutexReadLock lock{mEntitiesMutex};
+		}
 		for (auto entity : view)
 		{
-			PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
-
-			// Make sure the body is valid
-			gDebugIf(physics.mBody == nullptr)
-				return;
-
-			b2Shape* shape = physics.mBody->GetFixtureList()->GetShape();
-			switch (shape->GetType())
-			{
-			case b2Shape::e_polygon:
-			{
-				gChangeB2BoxSize(physics.mBody, physics.mHalfSize);
-			}
-			break;
-			default:
-				shape->m_radius = physics.mHalfSize.x;
-				break;
-			}
-
 			BaseEntity entity_handler = {entity, this};
 			entity_handler.RemoveComponent<PhysicsSizeUpdatedTag>();
 		}

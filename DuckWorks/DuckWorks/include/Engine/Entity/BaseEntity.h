@@ -68,10 +68,14 @@ protected:
 	entt::entity mEntityHandle = {entt::null};
 	World* mWorld = nullptr;
 
+protected:
+	Mutex& GetEntitiesMutexWorld() const; ////< Helper function to get the world's entities mutex
+
 	friend class World;
 };
 
 
+// Inline functions
 template<typename taType, typename... taArgs>
 taType& BaseEntity::TryAddComponent(taArgs&&... inArgs)
 {
@@ -79,30 +83,24 @@ taType& BaseEntity::TryAddComponent(taArgs&&... inArgs)
 	{
 		return GetComponent<taType>();
 	}
+	ScopedMutexWriteLock lock(GetEntitiesMutexWorld());
 	taType& component = GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 	return component;
 }
 
-// Inline functions
 template<typename taType, typename... taArgs>
 taType& BaseEntity::AddComponent(taArgs&&... inArgs)
 {
 	assert(!HasComponent<taType>()); //Entity already has component!
+	ScopedMutexWriteLock lock(GetEntitiesMutexWorld());
 	taType& component = GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 	return component;
 }
 
-//template<typename taType>
-//taType& BaseEntity::AddComponent()
-//{
-//	assert(!HasComponent<taType>()); //Entity already has component!
-//	taType& component = GetRegistry().emplace<taType>(mEntityHandle);
-//	return component;
-//}
-
 template<typename taType, typename... taArgs>
 taType& BaseEntity::AddOrReplaceComponent(taArgs&&... inArgs)
 {
+	ScopedMutexWriteLock lock(GetEntitiesMutexWorld());
 	taType& component = GetRegistry().emplace_or_replace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 	return component;
 }
@@ -123,6 +121,7 @@ bool BaseEntity::HasComponent()
 template<typename taType>
 void BaseEntity::RemoveComponent()
 {
+	ScopedMutexWriteLock lock(GetEntitiesMutexWorld());
 	assert(HasComponent<taType>()); //Entity does not have component!
 	GetRegistry().remove<taType>(mEntityHandle);
 }
