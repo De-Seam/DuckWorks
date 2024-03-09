@@ -9,6 +9,7 @@ struct TextureResource : public BaseResource
 
 	virtual ~TextureResource() override;
 	virtual void LoadFromFile(const String& inFile) override;
+	void ReloadTexture();
 
 	SDL_Texture* mTexture = nullptr;
 

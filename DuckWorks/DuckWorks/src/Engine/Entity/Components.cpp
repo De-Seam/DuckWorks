@@ -39,10 +39,7 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	if (inJson.contains("mTexture"))
-		mTexture = gResourceManager.GetResource<TextureResource>(inJson["mTexture"]["mFile"]);
-	if (mTexture == nullptr)
-		mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
+	JSON_TRY_LOAD(inJson, mTexture);
 
 	mSrcRect = {inJson["mSrcRect"][0], inJson["mSrcRect"][1], inJson["mSrcRect"][2], inJson["mSrcRect"][3]};
 	JSON_TRY_LOAD(inJson, mUseSrcRect);
