@@ -51,21 +51,27 @@ public:
 	void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
 	void DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor);
 
+	void SetCamera(const SharedPtr<Camera>& inCamera) { mCamera = inCamera; }
+
 	fm::vec2 GetWorldLocationAtWindowLocation(const fm::vec2& inWindowLocation) const;
 	SDL_FRect GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize);
 
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
 	const fm::ivec2& GetWindowSize() const { return mWindowSize; }
-	Camera* GetCamera() const { return mCamera.get(); }
+	SharedPtr<Camera> GetCamera() const { return mCamera; }
 
 private:
 	SDL_Window* mWindow = nullptr;
 	SDL_Renderer* mRenderer = nullptr;
 
-	UniquePtr<Camera> mCamera = nullptr;
+	// It's entirely possible for the camera not to have an entity. In that case, it's just a stationary camera
+	SharedPtr<Camera> mCamera = nullptr;
 
 	fm::ivec2 mWindowSize;
+
+private:
+	void UpdateCamera(float inDeltaTime);
 };
 
 extern Renderer gRenderer;

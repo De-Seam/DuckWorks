@@ -333,6 +333,8 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 		return;
 
 	EntityPtr selected_entity = mSelectedEntity.lock();
+	if (selected_entity == nullptr)
+		return;
 
 	if (!selected_entity->HasComponent<TransformComponent>())
 		return;

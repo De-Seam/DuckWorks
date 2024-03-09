@@ -39,6 +39,8 @@ Player::Player(World* inWorld)
 	: Actor(inWorld)
 {
 	AddComponent<HealthComponent>();
+	CameraComponent& camera_component = AddComponent<CameraComponent>();
+	camera_component.mIsActive = true;
 
 	SetHalfSize(fm::vec2(100.0f, 100.0f));
 

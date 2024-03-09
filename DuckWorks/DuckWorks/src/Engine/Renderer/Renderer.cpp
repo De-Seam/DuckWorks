@@ -5,7 +5,12 @@
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Events/SDLEventManager.h"
 
+// Game includes
+#include "Game/App/App.h"
+
 // External includes
+#include "Engine/World/World.h"
+
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
@@ -39,7 +44,7 @@ void Renderer::Init(const InitParams& inInitParams)
 	mRenderer = SDL_CreateRenderer(mWindow, -1, inInitParams.mRendererFlags);
 	mWindowSize = inInitParams.mWindowSize;
 
-	mCamera = std::make_unique<Camera>();
+	mCamera = std::make_shared<Camera>();
 
 	// Window resize event
 	SDLEventFunction event_function;
@@ -101,7 +106,7 @@ void Renderer::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(Renderer::Update)
 
-	mCamera->Update(inDeltaTime);
+	UpdateCamera(inDeltaTime);
 }
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)
@@ -189,4 +194,42 @@ SDL_FRect Renderer::GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHa
 	sdl_frect.h = screen_half_size.y * 2;
 
 	return sdl_frect;
+}
+
+void Renderer::UpdateCamera(float inDeltaTime)
+{
+	int32 highest_priority = INT32_MIN;
+	SharedPtr<Camera> highest_priority_camera = {};
+	entt::entity highest_priority_entity = entt::null;
+
+	World* world = gApp.GetWorld();
+	entt::registry& registry = world->GetRegistry();
+	auto view = registry.view<CameraComponent>();
+	for (entt::entity entity : view)
+	{
+		const CameraComponent& camera_component = view.get<CameraComponent>(entity);
+		if (camera_component.mIsActive)
+		{
+			if (camera_component.mPriority > highest_priority)
+			{
+				highest_priority = camera_component.mPriority;
+				highest_priority_camera = camera_component.mCamera;
+				highest_priority_entity = entity;
+			}
+		}
+	}
+
+	if (highest_priority_camera != nullptr)
+	{
+		mCamera = highest_priority_camera;
+
+		BaseEntity base_entity = BaseEntity(highest_priority_entity, world);
+		if (base_entity.HasComponent<TransformComponent>())
+		{
+			TransformComponent& transform_component = base_entity.GetComponent<TransformComponent>();
+			mCamera->SetPosition(transform_component.mTransform.position);
+		}
+	}
+
+	mCamera->Update(inDeltaTime);
 }

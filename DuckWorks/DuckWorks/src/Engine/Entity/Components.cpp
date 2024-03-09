@@ -1,8 +1,10 @@
 #include "Precomp.h"
 #include "Engine/Entity/Components.h"
 
+#include "Engine/Renderer/Camera.h"
 #include "Engine/Resources/ResourceManager.h"
 
+// NameComponent
 Json NameComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -18,11 +20,7 @@ void NameComponent::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mName);
 }
 
-TextureRenderComponent::TextureRenderComponent()
-{
-	mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
-}
-
+// TextureRenderComponent
 Json TextureRenderComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -46,6 +44,12 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mFlip);
 }
 
+TextureRenderComponent::TextureRenderComponent()
+{
+	mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
+}
+
+// AnimationComponent
 Json AnimationComponent::Serialize() const
 {
 	return Base::Serialize();
@@ -56,6 +60,7 @@ void AnimationComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
+// PhysicsComponent
 Json PhysicsComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -74,6 +79,7 @@ void PhysicsComponent::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mOffset);
 }
 
+// TransformComponent
 Json TransformComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -90,6 +96,7 @@ void TransformComponent::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mTransform);
 }
 
+// HealthComponent
 Json HealthComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -104,4 +111,30 @@ void HealthComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_LOAD(inJson, mHealth);
+}
+
+// CameraComponent
+Json CameraComponent::Serialize() const
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mIsActive);
+	JSON_SAVE(json, mPriority);
+	json["mCamera"] = mCamera->Serialize();
+
+	return json;
+}
+
+void CameraComponent::Deserialize(const Json& inJson)
+{
+	Base::Deserialize(inJson);
+
+	JSON_TRY_LOAD(inJson, mIsActive);
+	JSON_TRY_LOAD(inJson, mPriority);
+	mCamera->Deserialize(inJson);
+}
+
+CameraComponent::CameraComponent()
+{
+	mCamera = std::make_shared<Camera>();
 }

@@ -1,17 +1,21 @@
 #pragma once
 #include "Core/Math/FMath.h"
+#include "Core/Utilities/RTTI.h"
 
 #define MIN_ZOOM 0.05f
 
+class Entity;
 struct SDL_Texture;
 
-class Camera
+class Camera : public RTTIBaseClass
 {
-public:
+	RTTI_CLASS(Camera, RTTIBaseClass)
+
 	Camera(fm::vec2 inPosition = {200, 0}, fm::vec2 inSize = {1920.f, 1080.f}, float inZoom = 1.f);
 
 	virtual void Update(float inDeltaTime);
 	void SetPosition(fm::vec2 inPosition);
+	void SnapPosition(fm::vec2 inPosition);
 	void SetSize(fm::vec2 inSize);
 	void SetZoom(float inZoom);
 	void SetZoomSpeed(float inZoomSpeed);
@@ -27,7 +31,9 @@ public:
 	[[nodiscard]] SDL_Texture* GetRenderTexture() const { return mRenderTexture; }
 
 private:
+	fm::vec2 mTargetPosition = {0.f, 0.f};
 	fm::vec2 mPosition = {0.f, 0.f};
+	float mPositionSpeed = 5.f;
 	fm::vec2 mSize = {1920.f, 1080.f};
 	fm::vec2 mSizeInverse = {1.f / 1920.f, 1.f / 1080.f};
 	float mZoomSpeed = 40;

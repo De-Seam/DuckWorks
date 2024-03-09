@@ -9,6 +9,7 @@
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/Renderer/AnimationBase.h"
 
+class Camera;
 class b2Body;
 class Entity;
 
@@ -134,6 +135,18 @@ struct HealthComponent : public ComponentBase
 	HealthComponent(float inHealth) : mHealth(inHealth) {}
 
 	float mHealth = 100.f;
+};
+
+struct CameraComponent : public ComponentBase
+{
+	RTTI_CLASS(CameraComponent, ComponentBase)
+
+	CameraComponent();
+	CameraComponent(SharedPtr<Camera> inCamera) : mCamera(inCamera) {}
+
+	bool mIsActive = false; ///< If the camera is active, it will render based on priority
+	int32 mPriority = 0; ///< Higher priority cameras will render on top of lower priority cameras
+	SharedPtr<Camera> mCamera = nullptr;
 };
 
 // Tag components

@@ -3,6 +3,33 @@
 
 #include "Engine/Renderer/Renderer.h"
 
+
+Json Camera::Serialize() const
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mPosition);
+	JSON_SAVE(json, mSize);
+	JSON_SAVE(json, mSizeInverse);
+	JSON_SAVE(json, mZoomSpeed);
+	JSON_SAVE(json, mTargetZoom);
+	JSON_SAVE(json, mZoom);
+
+	return json;
+}
+
+void Camera::Deserialize(const Json& inJson)
+{
+	Base::Deserialize(inJson);
+
+	JSON_LOAD(inJson, mPosition);
+	JSON_LOAD(inJson, mSize);
+	JSON_LOAD(inJson, mSizeInverse);
+	JSON_LOAD(inJson, mZoomSpeed);
+	JSON_LOAD(inJson, mTargetZoom);
+	JSON_LOAD(inJson, mZoom);
+}
+
 Camera::Camera(fm::vec2 inPosition, fm::vec2 inSize, float inZoom) :
 	mPosition(inPosition),
 	mSize(inSize),
@@ -20,10 +47,16 @@ Camera::Camera(fm::vec2 inPosition, fm::vec2 inSize, float inZoom) :
 
 void Camera::Update(float inDeltaTime)
 {
+	mPosition = lerp2(mPosition, mTargetPosition, inDeltaTime * mPositionSpeed);
 	mZoom = fm::lerp(mZoom, mTargetZoom, inDeltaTime * mZoomSpeed);
 }
 
 void Camera::SetPosition(fm::vec2 inPosition)
+{
+	mTargetPosition = inPosition;
+}
+
+void Camera::SnapPosition(fm::vec2 inPosition)
 {
 	mPosition = inPosition;
 }
