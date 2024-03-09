@@ -34,7 +34,7 @@ public:
 	Array<EntityPtr>& GetEntities() { return mEntities; }
 	const Array<EntityPtr>& GetEntities() const { return mEntities; }
 	entt::registry& GetRegistry() { return mRegistry; }
-	b2World* GetPhysicsWorld() { return mPhysicsWorld.get(); }
+	const b2World* GetPhysicsWorld() const { return mPhysicsWorld.get(); }
 
 	EntityPtr GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
 
@@ -55,6 +55,8 @@ private:
 private:
 	void UpdatePhysics(float inDeltaTime);
 	void PhysicsTimeStep();
+
+	friend class BaseEntity;
 };
 
 template<typename taType>

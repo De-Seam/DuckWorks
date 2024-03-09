@@ -90,6 +90,8 @@ void World::Render(float inDeltaTime)
 		gAnimationManager.Update(this, inDeltaTime);
 	}
 
+	ScopedMutexReadLock lock{mEntitiesMutex};
+
 	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
 	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)
 	{
@@ -171,6 +173,8 @@ b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef)
 
 EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 {
+	ScopedMutexReadLock lock{mEntitiesMutex};
+
 	auto view = mRegistry.view<TransformComponent>();
 	for (auto entity : view)
 	{
@@ -206,6 +210,8 @@ EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 void World::UpdatePhysics(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::UpdatePhysics)
+
+	ScopedMutexReadLock lock{mEntitiesMutex};
 
 	{
 		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionOrRotationUpdatedTag>();
@@ -281,6 +287,8 @@ void World::UpdatePhysics(float inDeltaTime)
 void World::PhysicsTimeStep()
 {
 	PROFILE_SCOPE(World::PhysicsTimeStep)
+
+	ScopedMutexWriteLock lock{mPhysicsWorldMutex};
 
 	//Fixed time step for physics world
 	mPhysicsWorld->Step(mPhysicsTimeStep, mVelocityIterations, mPositionIterations);

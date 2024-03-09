@@ -64,7 +64,7 @@ public:
 protected:
 
 protected:
-	bool mHandleGotGenerated = false;
+	bool mHandleWasGenerated = false;
 	entt::entity mEntityHandle = {entt::null};
 	World* mWorld = nullptr;
 
