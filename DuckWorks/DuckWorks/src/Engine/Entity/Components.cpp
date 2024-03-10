@@ -129,6 +129,8 @@ Json CameraComponent::Serialize() const
 
 	JSON_SAVE(json, mIsActive);
 	JSON_SAVE(json, mPriority);
+	if (mCamera != nullptr)
+		json["mCamera"] = mCamera->Serialize();
 	json["mCamera"] = mCamera->Serialize();
 
 	return json;
@@ -140,13 +142,17 @@ void CameraComponent::Deserialize(const Json& inJson)
 
 	JSON_TRY_LOAD(inJson, mIsActive);
 	JSON_TRY_LOAD(inJson, mPriority);
-	mCamera->Deserialize(inJson["mCamera"]);
+
+	if (inJson.contains("mCamera"))
+	{
+		if (mCamera == nullptr)
+			mCamera = std::make_shared<Camera>();
+		mCamera->Deserialize(inJson["mCamera"]);
+	}
 }
 
 CameraComponent::CameraComponent()
-{
-	mCamera = std::make_shared<Camera>();
-}
+{}
 
 PhysicsComponent::PhysicsComponent()
 {

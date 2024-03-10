@@ -91,6 +91,27 @@
             "Player": {
                 "Components": {
                     "AnimationComponent": null,
+                    "CameraComponent": {
+                        "mCamera": {
+                            "mPosition": [
+                                -57.813880920410156,
+                                -291.7664794921875
+                            ],
+                            "mSize": [
+                                1920.0,
+                                1080.0
+                            ],
+                            "mSizeInverse": [
+                                0.0005208333604969084,
+                                0.0009259259095415473
+                            ],
+                            "mTargetZoom": 1.0,
+                            "mZoom": 1.0,
+                            "mZoomSpeed": 40.0
+                        },
+                        "mIsActive": true,
+                        "mPriority": 0
+                    },
                     "HealthComponent": {
                         "mHealth": 100.0
                     },
@@ -111,12 +132,12 @@
                                 "GravityScale": 1.0,
                                 "LinearDamping": 1.0,
                                 "LinearVelocity": [
-                                    0.0,
-                                    0.5502629280090332
+                                    2.7330579541740008e-06,
+                                    -1.857245933933882e-06
                                 ],
                                 "Position": [
-                                    74.04898071289063,
-                                    -55.09434127807617
+                                    -57.81382751464844,
+                                    -291.76690673828125
                                 ],
                                 "Type": 2
                             },
@@ -152,7 +173,7 @@
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            192,
+                            576,
                             0,
                             192,
                             192
@@ -169,8 +190,8 @@
                                 100.0
                             ],
                             "Position": [
-                                74.04898071289063,
-                                -55.09434127807617
+                                -57.81382751464844,
+                                -291.76690673828125
                             ],
                             "Rotation": 0.0
                         }
@@ -190,22 +211,22 @@
                         "mBody": {
                             "BodyDef": {
                                 "AllowSleep": true,
-                                "Angle": 3.8387511267501395e-06,
+                                "Angle": 54.06220626831055,
                                 "AngularDamping": 0.0,
-                                "AngularVelocity": 6.682414177561213e-09,
+                                "AngularVelocity": 0.544547438621521,
                                 "Awake": true,
                                 "Bullet": false,
                                 "Enabled": true,
-                                "FixedRotation": false,
+                                "FixedRotation": true,
                                 "GravityScale": 1.0,
                                 "LinearDamping": 0.30000001192092896,
                                 "LinearVelocity": [
-                                    2.1175397080241964e-07,
-                                    1.6332792043685913
+                                    -0.16748516261577606,
+                                    0.05335409566760063
                                 ],
                                 "Position": [
-                                    -132.36692810058594,
-                                    -43.08256912231445
+                                    -11.087788581848145,
+                                    -99.00225830078125
                                 ],
                                 "Type": 2
                             },
@@ -258,10 +279,10 @@
                                 32.0
                             ],
                             "Position": [
-                                -132.36692810058594,
-                                -43.08256912231445
+                                -11.087788581848145,
+                                -99.00225830078125
                             ],
-                            "Rotation": 3.8387511267501395e-06
+                            "Rotation": 54.06220626831055
                         }
                     }
                 }
