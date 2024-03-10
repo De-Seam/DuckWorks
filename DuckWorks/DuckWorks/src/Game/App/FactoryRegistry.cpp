@@ -32,10 +32,10 @@ void gRegisterFactoryClasses()
 
 	// Components
 	REGISTER_COMPONENT(NameComponent);
-	REGISTER_COMPONENT(TextureRenderComponent);
-	REGISTER_COMPONENT(AnimationComponent);
-	REGISTER_COMPONENT(PhysicsComponent);
 	REGISTER_COMPONENT(TransformComponent);
+	REGISTER_COMPONENT(TextureRenderComponent);
+	REGISTER_COMPONENT(PhysicsComponent);
+	REGISTER_COMPONENT(AnimationComponent);
 	REGISTER_COMPONENT(HealthComponent);
 	//REGISTER_COMPONENT(PhysicsPositionOrRotationUpdatedTag);
 	//REGISTER_COMPONENT(PhysicsSizeUpdatedTag);
