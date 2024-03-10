@@ -28,8 +28,10 @@ public:
 	SharedPtr<taType> CreateEntity(const String& inName);
 	EntityPtr AddEntity(const EntityPtr& inEntity, const String& inName);
 
-	b2Body* CreatePhysicsBody(const b2BodyDef&, const b2FixtureDef& inFixtureDef);
+	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef, const Array<b2FixtureDef>& inFixtureDefs);
+	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef, const b2FixtureDef& inFixtureDef);
 	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef);
+	void DestroyPhysicsBody(b2Body* inBody);
 
 	Array<EntityPtr>& GetEntities() { return mEntities; }
 	const Array<EntityPtr>& GetEntities() const { return mEntities; }

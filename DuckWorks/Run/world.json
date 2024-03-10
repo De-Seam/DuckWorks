@@ -7,6 +7,48 @@
                         "mName": "SolidObstacle"
                     },
                     "PhysicsComponent": {
+                        "mBody": {
+                            "BodyDef": {
+                                "AllowSleep": true,
+                                "Angle": 0.0,
+                                "AngularDamping": 0.0,
+                                "AngularVelocity": 0.0,
+                                "Awake": false,
+                                "Bullet": false,
+                                "Enabled": true,
+                                "FixedRotation": false,
+                                "GravityScale": 1.0,
+                                "LinearDamping": 0.0,
+                                "LinearVelocity": [
+                                    0.0,
+                                    0.0
+                                ],
+                                "Position": [
+                                    -0.677764892578125,
+                                    20.92913055419922
+                                ],
+                                "Type": 0
+                            },
+                            "Fixtures": {
+                                "0": {
+                                    "Density": 1.0,
+                                    "Friction": 0.30000001192092896,
+                                    "IsSensor": false,
+                                    "PolygonShape": {
+                                        "Centroid": [
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "Count": 4,
+                                        "HalfHeight": 32.0,
+                                        "HalfWidth": 347.0,
+                                        "Rotation": 0.0
+                                    },
+                                    "Restitution": 0.5,
+                                    "RestitutionThreshold": 1.0
+                                }
+                            }
+                        },
                         "mHalfSize": [
                             347.0,
                             32.0
@@ -36,8 +78,8 @@
                                 32.0
                             ],
                             "Position": [
-                                0.0,
-                                0.0
+                                -0.677764892578125,
+                                20.92913055419922
                             ],
                             "Rotation": 0.0
                         }
@@ -56,20 +98,62 @@
                         "mName": "Player"
                     },
                     "PhysicsComponent": {
+                        "mBody": {
+                            "BodyDef": {
+                                "AllowSleep": true,
+                                "Angle": 0.0,
+                                "AngularDamping": 0.0,
+                                "AngularVelocity": 0.0,
+                                "Awake": true,
+                                "Bullet": false,
+                                "Enabled": true,
+                                "FixedRotation": true,
+                                "GravityScale": 1.0,
+                                "LinearDamping": 1.0,
+                                "LinearVelocity": [
+                                    0.0,
+                                    0.5502629280090332
+                                ],
+                                "Position": [
+                                    74.04898071289063,
+                                    -55.09434127807617
+                                ],
+                                "Type": 2
+                            },
+                            "Fixtures": {
+                                "0": {
+                                    "Density": 1.0,
+                                    "Friction": 0.30000001192092896,
+                                    "IsSensor": false,
+                                    "PolygonShape": {
+                                        "Centroid": [
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "Count": 4,
+                                        "HalfHeight": 44.0,
+                                        "HalfWidth": 44.0,
+                                        "Rotation": 0.0
+                                    },
+                                    "Restitution": 0.5,
+                                    "RestitutionThreshold": 1.0
+                                }
+                            }
+                        },
                         "mHalfSize": [
-                            36.0,
-                            38.0
+                            44.0,
+                            44.0
                         ],
                         "mOffset": [
                             0.0,
-                            -4.0
+                            0.0
                         ]
                     },
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            0,
                             192,
+                            0,
                             192,
                             192
                         ],
@@ -85,8 +169,8 @@
                                 100.0
                             ],
                             "Position": [
-                                -55.66812515258789,
-                                -256.9996643066406
+                                74.04898071289063,
+                                -55.09434127807617
                             ],
                             "Rotation": 0.0
                         }
@@ -95,6 +179,93 @@
             },
             "mMaxVelocity": 200.0,
             "mVelocityIncrement": 600.0
+        },
+        {
+            "Actor": {
+                "Components": {
+                    "NameComponent": {
+                        "mName": "Actor"
+                    },
+                    "PhysicsComponent": {
+                        "mBody": {
+                            "BodyDef": {
+                                "AllowSleep": true,
+                                "Angle": 3.8387511267501395e-06,
+                                "AngularDamping": 0.0,
+                                "AngularVelocity": 6.682414177561213e-09,
+                                "Awake": true,
+                                "Bullet": false,
+                                "Enabled": true,
+                                "FixedRotation": false,
+                                "GravityScale": 1.0,
+                                "LinearDamping": 0.30000001192092896,
+                                "LinearVelocity": [
+                                    2.1175397080241964e-07,
+                                    1.6332792043685913
+                                ],
+                                "Position": [
+                                    -132.36692810058594,
+                                    -43.08256912231445
+                                ],
+                                "Type": 2
+                            },
+                            "Fixtures": {
+                                "0": {
+                                    "Density": 1.0,
+                                    "Friction": 0.30000001192092896,
+                                    "IsSensor": false,
+                                    "PolygonShape": {
+                                        "Centroid": [
+                                            0.0,
+                                            0.0
+                                        ],
+                                        "Count": 4,
+                                        "HalfHeight": 32.0,
+                                        "HalfWidth": 32.0,
+                                        "Rotation": 0.0
+                                    },
+                                    "Restitution": 0.5,
+                                    "RestitutionThreshold": 1.0
+                                }
+                            }
+                        },
+                        "mHalfSize": [
+                            32.0,
+                            32.0
+                        ],
+                        "mOffset": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -132.36692810058594,
+                                -43.08256912231445
+                            ],
+                            "Rotation": 3.8387511267501395e-06
+                        }
+                    }
+                }
+            }
         }
     ],
     "mPhysicsTimeStep": 0.01666666753590107,

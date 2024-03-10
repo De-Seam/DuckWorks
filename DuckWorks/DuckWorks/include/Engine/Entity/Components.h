@@ -109,12 +109,13 @@ struct PhysicsComponent : public ComponentBase
 {
 	RTTI_CLASS(PhysicsComponent, ComponentBase)
 
-	PhysicsComponent() = default;
-	PhysicsComponent(b2Body* inBody) : mBody(inBody) {}
+	PhysicsComponent();
+	PhysicsComponent(b2Body* inBody);
+	PhysicsComponent(b2Body* inBody, fm::vec2 inHalfSize, fm::vec2 inOffset);
 
+	b2Body* mBody = nullptr;
 	fm::vec2 mHalfSize = {32.f, 32.f}; ///< Can be equal to the transform, or a custom half size.
 	fm::vec2 mOffset = {0.f, 0.f}; ///< Offset from the transform position
-	b2Body* mBody = nullptr;
 };
 
 struct TransformComponent : public ComponentBase
@@ -122,7 +123,7 @@ struct TransformComponent : public ComponentBase
 	RTTI_CLASS(TransformComponent, ComponentBase)
 
 	TransformComponent() = default;
-	TransformComponent(fm::Transform2D inTransform) : mTransform(inTransform) {}
+	TransformComponent(const fm::Transform2D& inTransform) : mTransform(inTransform) {}
 
 	fm::Transform2D mTransform = {};
 };

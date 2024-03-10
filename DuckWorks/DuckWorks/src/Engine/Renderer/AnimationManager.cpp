@@ -28,8 +28,8 @@ void AnimationManager::Update(World* inWorld, float inDeltaTime)
 		inRenderComponent.mUseSrcRect = true;
 		inAnimationComponent.mTimeSinceUpdate += inDeltaTime;
 
-		gDebugIf(inAnimationComponent.mAnimation == nullptr)
-			return;
+		gDebugIf(inAnimationComponent.mAnimation == nullptr, return)
+		gAssert(inAnimationComponent.mAnimation != nullptr, "Animation Component has no Animation set!");
 
 		AnimationBase::Frame& current_frame = inAnimationComponent.mCurrentFrame;
 		inRenderComponent.mFlip = inAnimationComponent.mAnimation->GetFlip();

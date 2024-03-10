@@ -47,7 +47,7 @@ using HashMap = phmap::flat_hash_map<taKey, taValue>;
 
 #define gAssert(inCondition, inMessage) assert((inCondition) && (inMessage))
 
-#define gDebugIf(inCondition) if(inCondition)
+#define gDebugIf(inCondition, inStatement) if(inCondition) {inStatement;}
 
 #define JSON_SAVE(inJson, inVariable) inJson[(#inVariable)] = (inVariable)
 
@@ -138,9 +138,19 @@ inline void from_json(const Json& inJson, Transform2D& outVariable)
 } // Namespace fm
 
 
-// Texture
+// TextureResource
 class TextureResource;
-
 void to_json(Json& outJson, const SharedPtr<TextureResource>& inVariable);
-
 void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable);
+
+// b2Body
+class b2Body;
+void to_json(Json& outJson, const b2Body* inVariable);
+// This function should only be called manually, not through the JSON_TRY_LOAD macro
+// FromJson(inJson["mBody"], mBody); is valid.
+void FromJson(const Json& inJson, b2Body*& outVariable);
+
+// b2Vec2
+class b2Vec2;
+void to_json(Json& outJson, const b2Vec2& inVariable);
+void from_json(const Json& inJson, b2Vec2& outVariable);
