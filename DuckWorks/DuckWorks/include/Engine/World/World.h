@@ -33,15 +33,18 @@ public:
 	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef);
 	void DestroyPhysicsBody(b2Body* inBody);
 
-	Array<EntityPtr>& GetEntities() { return mEntities; }
-	const Array<EntityPtr>& GetEntities() const { return mEntities; }
-	entt::registry& GetRegistry() { return mRegistry; }
-	const b2World* GetPhysicsWorld() const { return mPhysicsWorld.get(); }
+	[[nodiscard]] Array<EntityPtr>& GetEntities() { return mEntities; }
+	[[nodiscard]] const Array<EntityPtr>& GetEntities() const { return mEntities; }
+	[[nodiscard]] entt::registry& GetRegistry() { return mRegistry; }
+	// Const because we don't want to allow the user to modify the physics world without locking the mutex
+	[[nodiscard]] const b2World* GetPhysicsWorld() const { return mPhysicsWorld.get(); }
 
 	EntityPtr GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
 
 private:
 	entt::registry mRegistry = {};
+	Mutex mRegistryMutex = {};
+
 	UniquePtr<b2World> mPhysicsWorld = nullptr;
 	Mutex mPhysicsWorldMutex = {};
 
