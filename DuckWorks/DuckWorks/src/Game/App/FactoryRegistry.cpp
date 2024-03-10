@@ -37,6 +37,7 @@ void gRegisterFactoryClasses()
 	REGISTER_COMPONENT(PhysicsComponent);
 	REGISTER_COMPONENT(AnimationComponent);
 	REGISTER_COMPONENT(HealthComponent);
+	REGISTER_COMPONENT(CameraComponent);
 	//REGISTER_COMPONENT(PhysicsPositionOrRotationUpdatedTag);
 	//REGISTER_COMPONENT(PhysicsSizeUpdatedTag);
 	//REGISTER_COMPONENT(DestroyedTag);

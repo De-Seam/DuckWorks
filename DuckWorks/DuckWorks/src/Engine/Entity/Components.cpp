@@ -140,7 +140,7 @@ void CameraComponent::Deserialize(const Json& inJson)
 
 	JSON_TRY_LOAD(inJson, mIsActive);
 	JSON_TRY_LOAD(inJson, mPriority);
-	mCamera->Deserialize(inJson);
+	mCamera->Deserialize(inJson["mCamera"]);
 }
 
 CameraComponent::CameraComponent()
