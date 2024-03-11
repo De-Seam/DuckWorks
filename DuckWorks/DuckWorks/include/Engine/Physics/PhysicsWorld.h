@@ -15,5 +15,5 @@ class PhysicsWorld : public RTTIBaseClass
 	PhysicsObject* CreatePhysicsObject();
 
 private:
-	Array<PhysicsObject> mPhysicsObject = {};
+	Array<UniquePtr<PhysicsObject>> mPhysicsObject = {};
 };

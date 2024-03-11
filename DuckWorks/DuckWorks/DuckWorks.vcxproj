@@ -135,6 +135,10 @@
     <ClInclude Include="include\Engine\Events\EventManager.h" />
     <ClInclude Include="include\Engine\Factory\Factory.h" />
     <ClInclude Include="include\Engine\Events\SDLEventManager.h" />
+    <ClInclude Include="include\Engine\Physics\PhysicsHelperFunctions.h" />
+    <ClInclude Include="include\Engine\Physics\PhysicsObject.h" />
+    <ClInclude Include="include\Engine\Physics\PhysicStructs.h" />
+    <ClInclude Include="include\Engine\Physics\PhysicsWorld.h" />
     <ClInclude Include="include\Engine\Renderer\AnimationBase.h" />
     <ClInclude Include="include\Engine\Renderer\AnimationManager.h" />
     <ClInclude Include="include\Engine\Renderer\Camera.h" />
@@ -329,6 +333,7 @@
     <ClInclude Include="include\Engine\User\UserSettings.h" />
     <ClInclude Include="include\Game\Entity\SolidObstacle.h" />
     <ClInclude Include="include\Precomp.h" />
+    <ClInclude Include="src\Engine\Physics\PhysicsWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Utilities\Utilities.cpp" />
@@ -353,6 +358,8 @@
     <ClCompile Include="src\Engine\Entity\Components.cpp" />
     <ClCompile Include="src\Engine\Events\EventManager.cpp" />
     <ClCompile Include="src\Engine\Factory\Factory.cpp" />
+    <ClCompile Include="src\Engine\Physics\PhysicsHelperFunctions.cpp" />
+    <ClCompile Include="src\Engine\Physics\PhysicsObject.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp" />
     <ClCompile Include="include\External\imgui\imgui.cpp">
