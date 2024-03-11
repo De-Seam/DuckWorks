@@ -58,7 +58,7 @@ using HashMap = phmap::flat_hash_map<taKey, taValue>;
 
 // Pre definitions
 class b2Body;
-struct b2Vec2;
+class b2Vec2;
 
 // Utility functions
 bool gIsValidTextureExtension(const std::string& inFilePath);
