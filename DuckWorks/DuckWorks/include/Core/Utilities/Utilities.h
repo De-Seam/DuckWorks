@@ -2,6 +2,9 @@
 //Other Utilities
 #include "Types.h"
 
+// Core includes
+#include "Core/Math/FMath.h"
+
 // External libraries
 #include <External/nlohmann/json.hpp>
 #include <External/phmap/phmap.h>

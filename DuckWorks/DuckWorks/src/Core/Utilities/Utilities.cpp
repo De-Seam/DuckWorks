@@ -6,8 +6,10 @@
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/World/World.h"
 
+// Game includes. TODO: Remove these includes
 #include "Game/App/App.h"
 
+// External includes
 #include "External/box2d/box2d.h"
 
 bool gIsValidTextureExtension(const std::string& inFilePath)
