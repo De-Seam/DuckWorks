@@ -1,9 +1,9 @@
 #pragma once
 #include "DebugUIWindow.h"
 
-class DebugUIWindowUserSettings : public DebugUIWindow
+class DebugUIWindowWorldSettings : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowUserSettings, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowWorldSettings, DebugUIWindow)
 
 public:
 	virtual void Update(float inDeltaTime) override;

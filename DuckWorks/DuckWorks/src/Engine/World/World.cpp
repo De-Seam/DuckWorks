@@ -22,14 +22,11 @@ Json World::Serialize() const
 
 	Json json = Base::Serialize();
 
-	JSON_SAVE(json, mVelocityIterations);
-	JSON_SAVE(json, mPositionIterations);
-	JSON_SAVE(json, mPhysicsUpdateFrequency);
-	JSON_SAVE(json, mPhysicsTimeStep);
+	json.update(SerializeIgnoreEntities());
 
 	for (const EntityPtr& entity : mEntities)
 	{
-		json["Entities"].push_back(entity->Serialize());
+		json["Entities"].emplace_back(entity->Serialize());
 	}
 	return json;
 }
@@ -38,7 +35,7 @@ void World::Deserialize(const Json& inJson)
 {
 	PROFILE_SCOPE(World::Deserialize)
 
-	Base::Deserialize(inJson);
+	mEntities.clear();
 
 	JSON_TRY_LOAD(inJson, mVelocityIterations);
 	JSON_TRY_LOAD(inJson, mPositionIterations);
@@ -63,6 +60,18 @@ void World::Deserialize(const Json& inJson)
 			entity->Deserialize(json_entity[class_name]);
 		}
 	}
+}
+
+Json World::SerializeIgnoreEntities() const
+{
+	Json json;
+
+	JSON_SAVE(json, mVelocityIterations);
+	JSON_SAVE(json, mPositionIterations);
+	JSON_SAVE(json, mPhysicsUpdateFrequency);
+	JSON_SAVE(json, mPhysicsTimeStep);
+
+	return json;
 }
 
 World::World()

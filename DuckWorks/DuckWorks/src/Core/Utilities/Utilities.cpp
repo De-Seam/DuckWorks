@@ -101,7 +101,7 @@ BoxProperties ComputeBoxProperties(const std::vector<b2Vec2>& vertices)
 	BoxProperties props;
 	props.width = maxX - minX;
 	props.height = maxY - minY;
-	props.rotation = rotation * (180.f / M_PI); // Convert to degrees for convenience
+	props.rotation = rotation * (180.f / SCast<float>(M_PI)); // Convert to degrees for convenience
 
 	return props;
 }

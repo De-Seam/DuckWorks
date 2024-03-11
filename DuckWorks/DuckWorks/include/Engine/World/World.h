@@ -16,6 +16,8 @@ class World : public RTTIBaseClass
 	RTTI_CLASS(World, RTTIBaseClass)
 
 public:
+	virtual Json SerializeIgnoreEntities() const;
+
 	World();
 
 	void Update(float inDeltaTime);
