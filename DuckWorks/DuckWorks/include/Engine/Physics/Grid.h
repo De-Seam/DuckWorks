@@ -35,6 +35,5 @@ class Grid : public RTTIBaseClass
 	void AddObjectToTiles(PhysicsObject* inObject);
 
 private:
-
 	GridTile mTiles[TILES_PER_CHUNK_X][TILES_PER_CHUNK_Y] = {};
 };

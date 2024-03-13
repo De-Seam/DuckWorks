@@ -35,6 +35,7 @@ void World::Deserialize(const Json& inJson)
 {
 	PROFILE_SCOPE(World::Deserialize)
 
+	ScopedMutexWriteLock lock(mEntitiesMutex);
 	mEntities.clear();
 
 	JSON_TRY_LOAD(inJson, mVelocityIterations);
@@ -77,6 +78,11 @@ Json World::SerializeIgnoreEntities() const
 World::World()
 {
 	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 0.f));
+}
+
+World::~World()
+{
+	mEntities.clear();
 }
 
 void World::Update(float inDeltaTime)
@@ -130,6 +136,7 @@ void World::DestroyEntities()
 {
 	PROFILE_SCOPE(World::DestroyEntities)
 
+	ScopedMutexWriteLock lock(mEntitiesMutex);
 	auto view = mRegistry.view<DestroyedTag>();
 	for (entt::entity entity_handle : view)
 	{

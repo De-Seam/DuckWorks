@@ -20,10 +20,13 @@ class PhysicsObject : public RTTIBaseClass
 
 	bool Collides(const PhysicsObject* inOther) const;
 
-	void SetPosition(const fm::vec2& inPosition); ///< Set position. Will sweep and resolve collisions, new position will be set next frame
-	void SetHalfSize(const fm::vec2& inHalfSize);
-	void SetRotation(float inRotation);
-	void SetTransform(const fm::Transform2D& inTransform);
+	enum class ShapeType : uint8
+	{
+		Box,
+		Circle ///< As a circle, the radius is mTransform.halfSize.x, and mTransform.halfSize.y is ignored
+	};
+
+	[[deprecated]] void SetShapeType(ShapeType inShapeType);
 
 	const fm::vec2& GetPosition() const { return mTransform.position; }
 	const fm::vec2& GetHalfSize() const { return mTransform.halfSize; }
@@ -31,15 +34,14 @@ class PhysicsObject : public RTTIBaseClass
 	const fm::Transform2D& GetTransform() const { return mTransform; }
 	const AABB& GetAABB() const { return mAABB; }
 
-	void TeleportPosition(const fm::vec2& inPosition); ///< Teleport. Will instantly teleport, ignoring collision
-	void TeleportHalfSize(const fm::vec2& inHalfSize); ///< Teleport. Will instantly teleport, ignoring collision
-	void TeleportRotation(float inRotation); ///< Teleport. Will instantly teleport, ignoring collision
-	void TeleportTransform(const fm::Transform2D& inTransform); ///< Teleport. Will instantly teleport, ignoring collision
 private:
 	fm::Transform2D mTransform;
 	AABB mAABB;
 
+	ShapeType mShapeType = ShapeType::Box;
+
 private:
+	void SetTransform(const fm::Transform2D& inTransform);
 	void CalculateAABB();
 
 	friend class PhysicsWorld;

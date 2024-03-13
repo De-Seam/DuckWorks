@@ -8,30 +8,65 @@
 PhysicsWorld::PhysicsWorld()
 {}
 
-PhysicsObject* PhysicsWorld::CreatePhysicsObject()
+PhysicsObjectHandle PhysicsWorld::CreatePhysicsObject()
 {
-	return mPhysicsObject.emplace_back(std::make_unique<PhysicsObject>()).get();
+	PhysicsObjectHandle handle;
+	handle.mIndex = FindOrCreatePhysicsObjectIndex();
+	return handle;
 }
 
-void PhysicsWorld::DestroyPhysicsObject(PhysicsObject* inObject)
+void PhysicsWorld::DestroyPhysicsObject(const PhysicsObjectHandle& inObjectHandle)
 {
-	std::erase_if(mPhysicsObject, [inObject](const std::unique_ptr<PhysicsObject>& obj) { return obj.get() == inObject; });
+	ScopedMutexWriteLock lock(mPhysicsObjectsMutex);
+	mPhysicsObjects[inObjectHandle.mIndex] = {};
+	mFreePhysicsObjectIndices.emplace_back(inObjectHandle.mIndex);
 }
 
-void PhysicsWorld::MoveTo(PhysicsObject* inObject, const fm::vec2& inPosition)
+void PhysicsWorld::MoveTo(const PhysicsObjectHandle& inObjectHandle, const fm::vec2& inPosition)
 {
-	fm::Transform2D swept_shape = gComputeSweptShape(inObject->mTransform, inPosition);
-	for (auto& object : mPhysicsObject)
+	PhysicsObject& object = mPhysicsObjects[inObjectHandle.mIndex];
 	{
-		if (object.get() == inObject)
-			continue;
+		ScopedMutexReadLock lock(mPhysicsObjectsMutex);
 
-		if (gCollides(swept_shape, object->GetTransform()))
+		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, inPosition);
+		for (uint64 i = 0; i < mPhysicsObjects.size(); ++i)
 		{
-			gLog("Collision detected");
+			if (i == inObjectHandle.mIndex)
+				continue;
+
+			PhysicsObject& other_object = mPhysicsObjects[i];
+
+			if (gCollides(swept_shape, other_object.GetTransform()))
+			{
+				gLog("Collision detected");
+			}
 		}
+	}
+
+	{
+		ScopedMutexWriteLock lock(mPhysicsObjectsMutex);
+		fm::Transform2D transform = object.GetTransform();
+		transform.position = inPosition;
+		object.SetTransform(transform);
 	}
 }
 
-void PhysicsWorld::SetTransform(PhysicsObject* inObject, const fm::Transform2D& inTransform)
-{}
+void PhysicsWorld::SetTransform(const PhysicsObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
+{
+	ScopedMutexWriteLock lock(mPhysicsObjectsMutex);
+	mPhysicsObjects[inObjectHandle.mIndex].SetTransform(inTransform);
+}
+
+uint64 PhysicsWorld::FindOrCreatePhysicsObjectIndex()
+{
+	ScopedMutexWriteLock lock(mPhysicsObjectsMutex);
+	if (mFreePhysicsObjectIndices.empty())
+	{
+		mPhysicsObjects.emplace_back();
+		return mPhysicsObjects.size() - 1;
+	}
+	uint64 index = mFreePhysicsObjectIndices.back();
+	mFreePhysicsObjectIndices.pop_back();
+	mPhysicsObjects[index] = {};
+	return index;
+}

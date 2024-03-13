@@ -19,49 +19,13 @@ bool PhysicsObject::Collides(const PhysicsObject* inOther) const
 	return gCollides(mTransform, inOther->GetTransform());
 }
 
-void PhysicsObject::SetPosition(const fm::vec2& inPosition)
+void PhysicsObject::SetShapeType(ShapeType inShapeType)
 {
-	mTransform.position = inPosition;
-	CalculateAABB();
-}
-
-void PhysicsObject::SetHalfSize(const fm::vec2& inHalfSize)
-{
-	mTransform.halfSize = inHalfSize;
-	CalculateAABB();
-}
-
-void PhysicsObject::SetRotation(float inRotation)
-{
-	mTransform.rotation = inRotation;
+	mShapeType = inShapeType;
 	CalculateAABB();
 }
 
 void PhysicsObject::SetTransform(const fm::Transform2D& inTransform)
-{
-	mTransform = inTransform;
-	CalculateAABB();
-}
-
-void PhysicsObject::TeleportPosition(const fm::vec2& inPosition)
-{
-	mTransform.position = inPosition;
-	CalculateAABB();
-}
-
-void PhysicsObject::TeleportHalfSize(const fm::vec2& inHalfSize)
-{
-	mTransform.halfSize = inHalfSize;
-	CalculateAABB();
-}
-
-void PhysicsObject::TeleportRotation(float inRotation)
-{
-	mTransform.rotation = inRotation;
-	CalculateAABB();
-}
-
-void PhysicsObject::TeleportTransform(const fm::Transform2D& inTransform)
 {
 	mTransform = inTransform;
 	CalculateAABB();

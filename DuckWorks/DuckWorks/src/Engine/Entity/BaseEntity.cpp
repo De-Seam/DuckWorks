@@ -60,14 +60,13 @@ BaseEntity::~BaseEntity()
 {
 	if (mHandleWasGenerated)
 	{
-		ScopedMutexWriteLock lock(mWorld->mEntitiesMutex);
 		GetRegistry().destroy(mEntityHandle);
 	}
 }
 
 void BaseEntity::GenerateNewEntityHandle(World* inWorld)
 {
-	ScopedMutexWriteLock lock(inWorld->mEntitiesMutex);
+	ScopedMutexWriteLock lock(inWorld->mRegistryMutex);
 
 	mWorld = inWorld;
 	mHandleWasGenerated = true;

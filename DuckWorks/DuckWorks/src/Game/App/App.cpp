@@ -29,7 +29,10 @@ App::App()
 }
 
 App::~App()
-{}
+{
+	assert(this == &gApp);
+	mWorld.reset();
+}
 
 int App::Run()
 {

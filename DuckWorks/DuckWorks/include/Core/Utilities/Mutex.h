@@ -2,6 +2,7 @@
 
 // Core includes
 #include "Core/Utilities/Types.h"
+#include "Core/Utilities/Utilities.h"
 
 // Std includes
 #include <shared_mutex>
@@ -15,6 +16,7 @@ public:
 
 	void WriteLock(); ///< Locks the mutex for writing
 	void WriteUnlock(); ///< Unlocks the mutex from writing
+
 private:
 	std::shared_mutex mMutex;
 };
@@ -28,29 +30,13 @@ protected:
 class ScopedMutexReadLock : public BaseScopedMutexLock
 {
 public:
-	ScopedMutexReadLock(Mutex& inMutex)
-	{
-		mMutex = &inMutex;
-		mMutex->ReadLock();
-	}
-
-	~ScopedMutexReadLock()
-	{
-		mMutex->ReadUnlock();
-	}
+	ScopedMutexReadLock(Mutex& inMutex);
+	~ScopedMutexReadLock();
 };
 
 class ScopedMutexWriteLock : public BaseScopedMutexLock
 {
 public:
-	ScopedMutexWriteLock(Mutex& inMutex)
-	{
-		mMutex = &inMutex;
-		mMutex->WriteLock();
-	}
-
-	~ScopedMutexWriteLock()
-	{
-		mMutex->WriteUnlock();
-	}
+	ScopedMutexWriteLock(Mutex& inMutex);
+	~ScopedMutexWriteLock();
 };
