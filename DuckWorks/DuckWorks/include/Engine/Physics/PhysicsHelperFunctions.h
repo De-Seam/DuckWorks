@@ -7,4 +7,5 @@
 bool gCollides(const AABB& inA, const AABB& inB);
 bool gCollides(const fm::Transform2D& inTransformA, const fm::Transform2D& inTransformB);
 
-AABB gComputeAABB(const fm::Transform2D inTransform);
+AABB gComputeAABB(const fm::Transform2D& inTransform);
+fm::Transform2D gComputeSweptShape(const fm::Transform2D& inOriginalTransform, const fm::vec2& inNewPosition);

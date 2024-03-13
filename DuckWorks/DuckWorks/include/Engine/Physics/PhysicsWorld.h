@@ -13,6 +13,10 @@ class PhysicsWorld : public RTTIBaseClass
 	PhysicsWorld();
 
 	PhysicsObject* CreatePhysicsObject();
+	void DestroyPhysicsObject(PhysicsObject* inObject);
+
+	void MoveTo(PhysicsObject* inObject, const fm::vec2& inPosition);
+	void SetTransform(PhysicsObject* inObject, const fm::Transform2D& inTransform);
 
 private:
 	Array<UniquePtr<PhysicsObject>> mPhysicsObject = {};

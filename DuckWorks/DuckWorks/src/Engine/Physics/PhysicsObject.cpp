@@ -4,62 +4,70 @@
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(PhysicsObject)
 
-PhysicsObject::PhysicsObject(const PhysicsObject::InitParams& inInitParams)
+PhysicsObject::PhysicsObject(const InitParams& inInitParams)
 {
 	mTransform = inInitParams.mTransform;
-	mTargetTransform = inInitParams.mTransform;
+	CalculateAABB();
 }
 
-bool PhysicsObject::Collides(const PhysicsObject* inOther)
+bool PhysicsObject::Collides(const PhysicsObject* inOther) const
 {
+	gAssert(inOther != nullptr, "Can't pass nullptr!");
+	if (!gCollides(GetAABB(), inOther->GetAABB()))
+		return false;
+
 	return gCollides(mTransform, inOther->GetTransform());
 }
 
 void PhysicsObject::SetPosition(const fm::vec2& inPosition)
 {
-	mTargetTransform.position = inPosition;
+	mTransform.position = inPosition;
+	CalculateAABB();
 }
 
 void PhysicsObject::SetHalfSize(const fm::vec2& inHalfSize)
 {
-	mTargetTransform.halfSize = inHalfSize;
+	mTransform.halfSize = inHalfSize;
+	CalculateAABB();
 }
 
 void PhysicsObject::SetRotation(float inRotation)
 {
-	mTargetTransform.rotation = inRotation;
+	mTransform.rotation = inRotation;
+	CalculateAABB();
 }
 
-void PhysicsObject::SetTransform(const fm::Transform2D inTransform)
+void PhysicsObject::SetTransform(const fm::Transform2D& inTransform)
 {
-	mTargetTransform = inTransform;
+	mTransform = inTransform;
+	CalculateAABB();
 }
 
 void PhysicsObject::TeleportPosition(const fm::vec2& inPosition)
 {
 	mTransform.position = inPosition;
-	mTargetTransform.position = inPosition;
+	CalculateAABB();
 }
 
 void PhysicsObject::TeleportHalfSize(const fm::vec2& inHalfSize)
 {
 	mTransform.halfSize = inHalfSize;
-	mTargetTransform.halfSize = inHalfSize;
+	CalculateAABB();
 }
 
 void PhysicsObject::TeleportRotation(float inRotation)
 {
 	mTransform.rotation = inRotation;
-	mTargetTransform.rotation = inRotation;
+	CalculateAABB();
 }
 
-void PhysicsObject::TeleportTransform(const fm::Transform2D inTransform)
+void PhysicsObject::TeleportTransform(const fm::Transform2D& inTransform)
 {
 	mTransform = inTransform;
-	mTargetTransform = inTransform;
+	CalculateAABB();
 }
 
-void PhysicsObject::Sync()
+void PhysicsObject::CalculateAABB()
 {
-
+	mAABB = gComputeAABB(mTransform);
 }
