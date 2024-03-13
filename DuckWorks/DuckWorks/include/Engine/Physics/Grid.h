@@ -4,8 +4,7 @@
 
 // Engine includes
 #include "Engine/World/Chunk.h"
-#include <External/rapidjson/document.h>
-#include "PhysicStructs.h"
+#include "PhysicsStructs.h"
 
 #define TILES_PER_CHUNK_X 20
 #define TILES_PER_CHUNK_Y 20
@@ -33,7 +32,7 @@ class Grid : public RTTIBaseClass
 
 	// These functions are usually called after each other.
 	void RemoveObjectFromTiles(const PhysicsObject* inObject, const AABB& inOldAABB);
-	void AddObjectToTiles(const PhysicsObject* inObject);
+	void AddObjectToTiles(PhysicsObject* inObject);
 
 private:
 

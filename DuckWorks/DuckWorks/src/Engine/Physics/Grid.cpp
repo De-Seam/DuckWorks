@@ -1,11 +1,7 @@
 #include "Precomp.h"
 #include "Engine/Physics/Grid.h"
 #include "Engine/Physics/PhysicsObject.h"
-
-struct AABB
-{
-	fm::vec2 mMin, mMax;
-};
+#include "Engine/Physics/PhysicsStructs.h"
 
 const GridTile& Grid::GetTileAtLocation(fm::vec2 inLocation) const
 {
@@ -60,7 +56,7 @@ void Grid::RemoveObjectFromTiles(const PhysicsObject* inObject, const AABB& inOl
 	}
 }
 
-void Grid::AddObjectToTiles(const PhysicsObject* inObject)
+void Grid::AddObjectToTiles(PhysicsObject* inObject)
 {
 	const AABB& aabb = {};//inObject->GetAABB();
 
