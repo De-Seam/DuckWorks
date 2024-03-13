@@ -37,6 +37,9 @@ using StaticArray = std::array<taType, size>;
 template<typename taKey, typename taValue>
 using HashMap = phmap::flat_hash_map<taKey, taValue>;
 
+template<typename taTypeA, typename taTypeB>
+using Pair = std::pair<taTypeA, taTypeB>;
+
 // Casts
 #define SCast static_cast
 #define RCast reinterpret_cast
@@ -47,6 +50,8 @@ using HashMap = phmap::flat_hash_map<taKey, taValue>;
 #define RPCast std::reinterpret_pointer_cast
 
 #define Cast SCast
+
+#define THREADLOCAL __declspec(thread) 
 
 #define gAssert(inCondition, inMessage) assert((inCondition) && (inMessage))
 

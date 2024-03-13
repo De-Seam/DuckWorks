@@ -360,6 +360,7 @@
     <ClCompile Include="src\Engine\Entity\Components.cpp" />
     <ClCompile Include="src\Engine\Events\EventManager.cpp" />
     <ClCompile Include="src\Engine\Factory\Factory.cpp" />
+    <ClCompile Include="src\Engine\Physics\Grid.cpp" />
     <ClCompile Include="src\Engine\Physics\PhysicsHelperFunctions.cpp" />
     <ClCompile Include="src\Engine\Physics\PhysicsObject.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />
