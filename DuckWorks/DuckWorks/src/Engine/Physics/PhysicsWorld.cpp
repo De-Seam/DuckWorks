@@ -24,6 +24,18 @@ void PhysicsWorld::DestroyPhysicsObject(const PhysicsObjectHandle& inObjectHandl
 
 void PhysicsWorld::MoveTo(const PhysicsObjectHandle& inObjectHandle, const fm::vec2& inPosition)
 {
+	float rotation = mPhysicsObjects[inObjectHandle.mIndex].GetRotation();
+	MoveToAndRotate(inObjectHandle, inPosition, rotation);
+}
+
+void PhysicsWorld::Rotate(const PhysicsObjectHandle& inObjectHandle, float inRotation)
+{
+	fm::vec2 position = mPhysicsObjects[inObjectHandle.mIndex].GetPosition();
+	MoveToAndRotate(inObjectHandle, position, inRotation);
+}
+
+void PhysicsWorld::MoveToAndRotate(const PhysicsObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation)
+{
 	PhysicsObject& object = mPhysicsObjects[inObjectHandle.mIndex];
 	{
 		ScopedMutexReadLock lock(mPhysicsObjectsMutex);

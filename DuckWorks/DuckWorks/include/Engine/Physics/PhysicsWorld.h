@@ -24,7 +24,10 @@ class PhysicsWorld : public RTTIBaseClass
 	PhysicsObjectHandle CreatePhysicsObject();
 	void DestroyPhysicsObject(const PhysicsObjectHandle& inObjectHandle);
 
+	// If you move AND rotate then use MoveToAndRotate to avoid checking collisions twice!
 	void MoveTo(const PhysicsObjectHandle& inObjectHandle, const fm::vec2& inPosition);
+	void Rotate(const PhysicsObjectHandle& inObjectHandle, float inRotation);
+	void MoveToAndRotate(const PhysicsObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inNewRotation);
 	// Teleports object to the given position, does not check for collision.
 	void SetTransform(const PhysicsObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
 
