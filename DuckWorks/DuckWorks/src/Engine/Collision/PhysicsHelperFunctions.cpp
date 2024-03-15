@@ -1,5 +1,5 @@
 #include "Precomp.h"
-#include "Engine/Physics/PhysicsHelperFunctions.h"
+#include "Engine/Collision/CollisionHelperFunctions.h"
 
 bool gCollides(const AABB& inA, const AABB& inB)
 {

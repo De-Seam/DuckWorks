@@ -19,7 +19,7 @@ public:
 	virtual Json SerializeIgnoreEntities() const;
 
 	World();
-	~World();
+	virtual ~World();
 
 	void Update(float inDeltaTime);
 	void Render(float inDeltaTime);

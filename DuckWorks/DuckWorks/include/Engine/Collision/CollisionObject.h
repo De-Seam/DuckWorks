@@ -4,21 +4,21 @@
 #include "Core/Utilities/RTTI.h"
 
 // Engine includes
-#include "Engine/Physics/PhysicsStructs.h"
+#include "Engine/Collision/CollisionStructs.h"
 
-class PhysicsObject : public RTTIBaseClass
+class CollisionObject : public RTTIBaseClass
 {
-	RTTI_CLASS(PhysicsObject, RTTIBaseClass)
+	RTTI_CLASS(CollisionObject, RTTIBaseClass)
 
 	struct InitParams
 	{
 		fm::Transform2D mTransform;
 	};
 
-	PhysicsObject() = default;
-	PhysicsObject(const InitParams& inInitParams);
+	CollisionObject() = default;
+	CollisionObject(const InitParams& inInitParams);
 
-	bool Collides(const PhysicsObject* inOther) const;
+	bool Collides(const CollisionObject* inOther) const;
 
 	enum class ShapeType : uint8
 	{
@@ -44,5 +44,5 @@ private:
 	void SetTransform(const fm::Transform2D& inTransform);
 	void CalculateAABB();
 
-	friend class PhysicsWorld;
+	friend class CollisionWorld;
 };

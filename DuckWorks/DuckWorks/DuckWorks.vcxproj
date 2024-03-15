@@ -135,11 +135,11 @@
     <ClInclude Include="include\Engine\Events\EventManager.h" />
     <ClInclude Include="include\Engine\Factory\Factory.h" />
     <ClInclude Include="include\Engine\Events\SDLEventManager.h" />
-    <ClInclude Include="include\Engine\Physics\Grid.h" />
-    <ClInclude Include="include\Engine\Physics\PhysicsHelperFunctions.h" />
-    <ClInclude Include="include\Engine\Physics\PhysicsObject.h" />
-    <ClInclude Include="include\Engine\Physics\PhysicsStructs.h" />
-    <ClInclude Include="include\Engine\Physics\PhysicsWorld.h" />
+    <ClInclude Include="include\Engine\Collision\Grid.h" />
+    <ClInclude Include="include\Engine\Collision\CollisionHelperFunctions.h" />
+    <ClInclude Include="include\Engine\Collision\CollisionObject.h" />
+    <ClInclude Include="include\Engine\Collision\CollisionStructs.h" />
+    <ClInclude Include="include\Engine\Collision\CollisionWorld.h" />
     <ClInclude Include="include\Engine\Renderer\AnimationBase.h" />
     <ClInclude Include="include\Engine\Renderer\AnimationManager.h" />
     <ClInclude Include="include\Engine\Renderer\Camera.h" />
@@ -335,7 +335,7 @@
     <ClInclude Include="include\Engine\User\UserSettings.h" />
     <ClInclude Include="include\Game\Entity\SolidObstacle.h" />
     <ClInclude Include="include\Precomp.h" />
-    <ClInclude Include="src\Engine\Physics\PhysicsWorld.cpp" />
+    <ClInclude Include="src\Engine\Collision\PhysicsWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Utilities\Utilities.cpp" />
@@ -360,9 +360,9 @@
     <ClCompile Include="src\Engine\Entity\Components.cpp" />
     <ClCompile Include="src\Engine\Events\EventManager.cpp" />
     <ClCompile Include="src\Engine\Factory\Factory.cpp" />
-    <ClCompile Include="src\Engine\Physics\Grid.cpp" />
-    <ClCompile Include="src\Engine\Physics\PhysicsHelperFunctions.cpp" />
-    <ClCompile Include="src\Engine\Physics\PhysicsObject.cpp" />
+    <ClCompile Include="src\Engine\Collision\Grid.cpp" />
+    <ClCompile Include="src\Engine\Collision\PhysicsHelperFunctions.cpp" />
+    <ClCompile Include="src\Engine\Collision\PhysicsObject.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp" />
     <ClCompile Include="include\External\imgui\imgui.cpp">
