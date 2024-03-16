@@ -1,10 +1,13 @@
 #include "Precomp.h"
 #include "Game/Entity/SolidObstacle.h"
 
+// Engine includes
+#include "Engine/World/World.h"
+#include "Engine/Resources/ResourceManager.h"
+
 // External includes
 #include <External/box2d/box2d.h>
 
-#include "Engine/Resources/ResourceManager.h"
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(SolidObstacle)
 
@@ -25,11 +28,16 @@ SolidObstacle::SolidObstacle(World* inWorld)
 	fixture_def.friction = 1.f;
 	fixture_def.restitutionThreshold = 100000.f;
 
-	CreatePhysicsBody(body_def, fixture_def);
-
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
 
 	AddComponent<PhysicsPositionOrRotationUpdatedTag>();
 	AddComponent<PhysicsSizeUpdatedTag>();
+
+	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
+
+	CollisionObject::InitParams params;
+	params.mTransform = GetTransform();
+	params.mType = CollisionObject::Type::Static;
+	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 }

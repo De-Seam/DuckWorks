@@ -22,7 +22,7 @@ public:
 private:
 	Array<SharedPtr<SDLEventFunction>> mSDLEventFunctions;
 	Array<SharedPtr<EventManager::EventFunction>> mEventFunctions;
-	float mVelocityIncrement = 600.f; ///< Velocity increment per second
+	float mVelocityIncrement = 100.f; ///< Velocity increment per second
 	float mMaxVelocity = 200.f; ///< Maximum velocity
 	bool mAttacking = false; ///< Is the player attacking?
 

@@ -51,7 +51,7 @@ using Pair = std::pair<taTypeA, taTypeB>;
 
 #define Cast SCast
 
-#define THREADLOCAL __declspec(thread) 
+#define THREADLOCAL __declspec(thread)
 
 #define gAssert(inCondition, inMessage) assert((inCondition) && (inMessage))
 
@@ -59,9 +59,10 @@ using Pair = std::pair<taTypeA, taTypeB>;
 
 #define JSON_SAVE(inJson, inVariable) inJson[(#inVariable)] = (inVariable)
 
-#define JSON_LOAD(inJson, inVariable) inVariable = (inJson)[(#inVariable)].get<decltype(inVariable)>()
-
+// See if the json contains the variable, if so, load it
 #define JSON_TRY_LOAD(inJson, inVariable) if((inJson).contains((#inVariable))) (inVariable) = (inJson)[#inVariable].get<decltype(inVariable)>()
+
+#define JSON_LOAD(inJson, inVariable) inVariable = (inJson)[(#inVariable)].get<decltype(inVariable)>()
 
 
 // Pre definitions
@@ -151,14 +152,12 @@ class TextureResource;
 void to_json(Json& outJson, const SharedPtr<TextureResource>& inVariable);
 void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable);
 
-// b2Body
-class b2Body;
-void to_json(Json& outJson, const b2Body* inVariable);
-// This function should only be called manually, not through the JSON_TRY_LOAD macro
-// FromJson(inJson["mBody"], mBody); is valid.
-void FromJson(const Json& inJson, b2Body*& outVariable);
-
 // b2Vec2
 class b2Vec2;
 void to_json(Json& outJson, const b2Vec2& inVariable);
 void from_json(const Json& inJson, b2Vec2& outVariable);
+
+// AABB
+struct AABB;
+void to_json(Json& outJson, const AABB& inVariable);
+void from_json(const Json& inJson, AABB& outVariable);

@@ -77,7 +77,7 @@ Json World::SerializeIgnoreEntities() const
 
 World::World()
 {
-	mPhysicsWorld = std::make_unique<b2World>(b2Vec2(0.0f, 0.f));
+	mCollisionWorld = std::make_unique<CollisionWorld>();
 }
 
 World::~World()
@@ -90,8 +90,6 @@ void World::Update(float inDeltaTime)
 	PROFILE_SCOPE(World::Update)
 
 	UpdateEntities(inDeltaTime);
-
-	UpdatePhysics(inDeltaTime);
 
 	DestroyEntities();
 }
@@ -170,33 +168,6 @@ EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 	return mEntities.back();
 }
 
-b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef, const Array<b2FixtureDef>& inFixtureDefs)
-{
-	b2Body* body = CreatePhysicsBody(inBodyDef);
-	for (const b2FixtureDef& fixture_def : inFixtureDefs)
-		body->CreateFixture(&fixture_def);
-	return body;
-}
-
-b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef, const b2FixtureDef& inFixtureDef)
-{
-	b2Body* body = CreatePhysicsBody(inBodyDef);
-	body->CreateFixture(&inFixtureDef);
-	return body;
-}
-
-b2Body* World::CreatePhysicsBody(const b2BodyDef& inBodyDef)
-{
-	ScopedMutexWriteLock lock{mPhysicsWorldMutex};
-	return mPhysicsWorld->CreateBody(&inBodyDef);
-}
-
-void World::DestroyPhysicsBody(b2Body* inBody)
-{
-	ScopedMutexWriteLock lock{mPhysicsWorldMutex};
-	mPhysicsWorld->DestroyBody(inBody);
-}
-
 EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 {
 	ScopedMutexReadLock lock{mEntitiesMutex};
@@ -232,97 +203,4 @@ EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 		}
 	}
 	return nullptr;
-}
-
-void World::UpdatePhysics(float inDeltaTime)
-{
-	PROFILE_SCOPE(World::UpdatePhysics)
-
-	{
-		auto view = mRegistry.view<TransformComponent, PhysicsComponent, PhysicsPositionOrRotationUpdatedTag>();
-		{
-			ScopedMutexReadLock lock{mRegistryMutex};
-			for (auto entity : view)
-			{
-				fm::Transform2D& transform = view.get<TransformComponent>(entity).mTransform;
-				PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
-
-				// Make sure the body is valid
-				gAssert(physics.mBody != nullptr, "PhysicsComponent has no body");
-
-				fm::vec2 position = transform.position + physics.mOffset;
-
-				physics.mBody->SetTransform(b2Vec2{position.x, position.y}, transform.rotation);
-			}
-		}
-		for (auto entity : view)
-		{
-			BaseEntity entity_handler = {entity, this};
-			entity_handler.RemoveComponent<PhysicsPositionOrRotationUpdatedTag>();
-		}
-	}
-	{
-		auto view = mRegistry.view<PhysicsComponent, PhysicsSizeUpdatedTag>();
-		{
-			for (auto entity : view)
-			{
-				PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
-
-				// Make sure the body is valid
-				gAssert(physics.mBody != nullptr, "PhysicsComponent has no body");
-
-				b2Shape* shape = physics.mBody->GetFixtureList()->GetShape();
-				switch (shape->GetType())
-				{
-				case b2Shape::e_polygon:
-				{
-					gChangeB2BoxSize(physics.mBody, physics.mHalfSize);
-				}
-				break;
-				default:
-					shape->m_radius = physics.mHalfSize.x;
-					break;
-				}
-			}
-			ScopedMutexReadLock lock{mRegistryMutex};
-		}
-		for (auto entity : view)
-		{
-			BaseEntity entity_handler = {entity, this};
-			entity_handler.RemoveComponent<PhysicsSizeUpdatedTag>();
-		}
-	}
-
-	mPhysicsTimeAccumulator += inDeltaTime;
-	while (mPhysicsTimeAccumulator >= mPhysicsTimeStep)
-	{
-		PhysicsTimeStep();
-		mPhysicsTimeAccumulator -= mPhysicsTimeStep;
-	}
-
-	{
-		ScopedMutexReadLock lock{mRegistryMutex};
-		auto view = mRegistry.view<TransformComponent, PhysicsComponent>();
-		for (auto entity : view)
-		{
-			fm::Transform2D& transform = view.get<TransformComponent>(entity).mTransform;
-			PhysicsComponent& physics = view.get<PhysicsComponent>(entity);
-
-			// Make sure the body is valid
-			gAssert(physics.mBody != nullptr, "PhysicsComponent has no body");
-
-			transform.position = fm::vec2{physics.mBody->GetPosition().x, physics.mBody->GetPosition().y} - physics.mOffset;
-			transform.rotation = physics.mBody->GetAngle();
-		}
-	}
-}
-
-void World::PhysicsTimeStep()
-{
-	PROFILE_SCOPE(World::PhysicsTimeStep)
-
-	ScopedMutexWriteLock lock{mPhysicsWorldMutex};
-
-	//Fixed time step for physics world
-	mPhysicsWorld->Step(mPhysicsTimeStep, mVelocityIterations, mPositionIterations);
 }

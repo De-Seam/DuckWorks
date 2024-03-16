@@ -125,9 +125,10 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	return false;
 }
 
-void gDrawEntityPhysicsOutline(const PhysicsComponent& inPhysicsComponent, const fm::vec4& inColor)
+void gDrawAABB(const AABB& inAABB, const fm::vec4& inColor)
 {
-	fm::vec2 position = fm::vec2{inPhysicsComponent.mBody->GetPosition().x, inPhysicsComponent.mBody->GetPosition().y} + inPhysicsComponent.mOffset;
-	SDL_FRect rect = gRenderer.GetSDLFRect(position, inPhysicsComponent.mHalfSize);
+	fm::vec2 half_size = (inAABB.mMax - inAABB.mMin) * 0.5f;
+	fm::vec2 position = inAABB.mMin + half_size;
+	SDL_FRect rect = gRenderer.GetSDLFRect(position, half_size);
 	gRenderer.DrawRectangle(rect, inColor);
 }

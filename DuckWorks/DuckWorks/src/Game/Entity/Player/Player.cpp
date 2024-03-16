@@ -44,39 +44,6 @@ Player::Player(World* inWorld)
 
 	SetHalfSize(fm::vec2(100.0f, 100.0f));
 
-	//b2BodyDef body_def;
-	//body_def.type = b2_dynamicBody;
-	//body_def.position.Set(GetPosition().x, GetPosition().y);
-	//body_def.angle = 0.0f;
-	//
-	//b2PolygonShape dynamic_box;
-	//dynamic_box.SetAsBox(GetHalfSize().x, GetHalfSize().y);
-	//
-	//b2FixtureDef fixture_def;
-	//fixture_def.shape = &dynamic_box;
-	//fixture_def.density = 100;
-
-	//CreatePhysicsBody(body_def, fixture_def);
-	b2BodyDef body_def;
-	body_def.type = b2_dynamicBody;
-	body_def.position = b2Vec2(GetPosition().x, GetPosition().y);
-	body_def.angle = GetRotation();
-	body_def.linearVelocity = b2Vec2(0.0f, 0.0f);
-	body_def.linearDamping = 1.f;
-
-	b2PolygonShape dynamic_box;
-	dynamic_box.SetAsBox(GetHalfSize().x, GetHalfSize().y);
-
-	b2FixtureDef fixture_def;
-	fixture_def.shape = &dynamic_box;
-	fixture_def.density = 5.f;
-	fixture_def.friction = 1.f;
-	fixture_def.restitutionThreshold = 100000.f;
-
-	CreatePhysicsBody(body_def, fixture_def);
-	GetPhysicsBody()->SetFixedRotation(true);
-	//GetPhysicsBody()->SetLinearDamping(1.f);
-
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
@@ -106,6 +73,12 @@ Player::Player(World* inWorld)
 
 	AddComponent<PhysicsPositionOrRotationUpdatedTag>();
 	AddComponent<PhysicsSizeUpdatedTag>();
+
+	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
+	CollisionObject::InitParams params;
+	params.mTransform = GetTransform();
+	params.mType = CollisionObject::Type::Static;
+	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 }
 
 void Player::BeginPlay()
@@ -126,11 +99,17 @@ void Player::Update(float inDeltaTime)
 	moving_direction.x += Cast<float>(key_states[SDL_SCANCODE_D]);
 	moving_direction.x -= Cast<float>(key_states[SDL_SCANCODE_A]);
 
-	fm::vec2 velocity = GetVelocity();
-	fm::vec2 velocity_increment = moving_direction * fm::vec2(mVelocityIncrement * inDeltaTime);
-	fm::vec2 new_velocity = velocity + velocity_increment;
-	new_velocity = clamp2(new_velocity, -mMaxVelocity, mMaxVelocity);
-	SetVelocity(new_velocity);
+	fm::Transform2D& transform = GetComponent<TransformComponent>().mTransform;
+	fm::vec2 position = transform.position;
+	position += moving_direction * mVelocityIncrement * inDeltaTime;
+	GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
+	transform.position = GetWorld()->GetCollisionWorld()->GetCollisionObject(GetComponent<CollisionComponent>().mCollisionObjectHandle).GetTransform().position;
+
+	//fm::vec2 velocity = GetVelocity();
+	//fm::vec2 velocity_increment = moving_direction * fm::vec2(mVelocityIncrement * inDeltaTime);
+	//fm::vec2 new_velocity = velocity + velocity_increment;
+	//new_velocity = clamp2(new_velocity, -mMaxVelocity, mMaxVelocity);
+	//SetVelocity(new_velocity);
 }
 
 enum class EPlayerAnimationState : uint16

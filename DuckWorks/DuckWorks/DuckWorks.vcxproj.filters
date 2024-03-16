@@ -702,9 +702,6 @@
     <ClInclude Include="include\Engine\World\Chunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Collision\PhysicsWorld.cpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -857,10 +854,13 @@
     <ClCompile Include="src\Engine\Collision\Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Collision\PhysicsHelperFunctions.cpp">
+    <ClCompile Include="src\Engine\Collision\CollisionHelperFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Collision\PhysicsObject.cpp">
+    <ClCompile Include="src\Engine\Collision\CollisionObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Collision\CollisionWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

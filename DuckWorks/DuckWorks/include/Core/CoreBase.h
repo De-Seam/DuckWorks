@@ -21,4 +21,9 @@ struct Handle
 #endif
 		return result;
 	}
+
+	bool IsValid() const
+	{
+		return mIndex != UINT64_MAX;
+	}
 };

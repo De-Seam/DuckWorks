@@ -335,10 +335,10 @@
     <ClInclude Include="include\Engine\User\UserSettings.h" />
     <ClInclude Include="include\Game\Entity\SolidObstacle.h" />
     <ClInclude Include="include\Precomp.h" />
-    <ClInclude Include="src\Engine\Collision\PhysicsWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Utilities\Utilities.cpp" />
+    <ClCompile Include="src\Engine\Collision\CollisionWorld.cpp" />
     <ClCompile Include="src\Engine\Debug\DebugUIFunctions.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowOutputLog.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowImGuiExample.cpp" />
@@ -361,8 +361,8 @@
     <ClCompile Include="src\Engine\Events\EventManager.cpp" />
     <ClCompile Include="src\Engine\Factory\Factory.cpp" />
     <ClCompile Include="src\Engine\Collision\Grid.cpp" />
-    <ClCompile Include="src\Engine\Collision\PhysicsHelperFunctions.cpp" />
-    <ClCompile Include="src\Engine\Collision\PhysicsObject.cpp" />
+    <ClCompile Include="src\Engine\Collision\CollisionHelperFunctions.cpp" />
+    <ClCompile Include="src\Engine\Collision\CollisionObject.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationBase.cpp" />
     <ClCompile Include="src\Engine\Renderer\AnimationManager.cpp" />
     <ClCompile Include="include\External\imgui\imgui.cpp">

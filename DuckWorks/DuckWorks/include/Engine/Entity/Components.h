@@ -6,6 +6,7 @@
 // Engine includes
 #include "Core/Utilities/UID.h"
 
+#include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/Renderer/AnimationBase.h"
 
@@ -105,17 +106,14 @@ struct AnimationComponent : public ComponentBase
 	float mTimeSinceUpdate = 0.f;
 };
 
-struct PhysicsComponent : public ComponentBase
+struct CollisionComponent : public ComponentBase
 {
-	RTTI_CLASS(PhysicsComponent, ComponentBase)
+	RTTI_CLASS(CollisionComponent, ComponentBase)
 
-	PhysicsComponent();
-	PhysicsComponent(b2Body* inBody);
-	PhysicsComponent(b2Body* inBody, fm::vec2 inHalfSize, fm::vec2 inOffset);
+	CollisionComponent();
+	CollisionComponent(const CollisionObjectHandle& inCollisionObjectHandle) : mCollisionObjectHandle(inCollisionObjectHandle) {}
 
-	b2Body* mBody = nullptr;
-	fm::vec2 mHalfSize = {32.f, 32.f}; ///< Can be equal to the transform, or a custom half size.
-	fm::vec2 mOffset = {0.f, 0.f}; ///< Offset from the transform position
+	CollisionObjectHandle mCollisionObjectHandle;
 };
 
 struct TransformComponent : public ComponentBase

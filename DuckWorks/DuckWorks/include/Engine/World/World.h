@@ -3,11 +3,12 @@
 
 // Engine includes
 #include "Engine/Entity/Entity.h"
+#include "Engine/Collision/CollisionWorld.h"
 
 // External includes
 #include <External/entt/entt.hpp>
 #include <External/box2d/b2_world.h>
-#include "External/box2d/b2_fixture.h"
+#include <External/box2d/b2_fixture.h>
 
 class b2World;
 
@@ -31,25 +32,19 @@ public:
 	SharedPtr<taType> CreateEntity(const String& inName);
 	EntityPtr AddEntity(const EntityPtr& inEntity, const String& inName);
 
-	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef, const Array<b2FixtureDef>& inFixtureDefs);
-	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef, const b2FixtureDef& inFixtureDef);
-	b2Body* CreatePhysicsBody(const b2BodyDef& inBodyDef);
-	void DestroyPhysicsBody(b2Body* inBody);
-
 	[[nodiscard]] Array<EntityPtr>& GetEntities() { return mEntities; }
 	[[nodiscard]] const Array<EntityPtr>& GetEntities() const { return mEntities; }
 	[[nodiscard]] entt::registry& GetRegistry() { return mRegistry; }
-	// Const because we don't want to allow the user to modify the physics world without locking the mutex
-	[[nodiscard]] const b2World* GetPhysicsWorld() const { return mPhysicsWorld.get(); }
 
 	EntityPtr GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
+
+	CollisionWorld* GetCollisionWorld() const { return mCollisionWorld.get(); }
 
 private:
 	entt::registry mRegistry = {};
 	Mutex mRegistryMutex = {};
 
-	UniquePtr<b2World> mPhysicsWorld = nullptr;
-	Mutex mPhysicsWorldMutex = {};
+	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
 	Array<EntityPtr> mEntities = {};
 	Mutex mEntitiesMutex = {};
@@ -61,9 +56,6 @@ private:
 	float mPhysicsTimeAccumulator = 0.0f;
 
 private:
-	void UpdatePhysics(float inDeltaTime);
-	void PhysicsTimeStep();
-
 	friend class BaseEntity;
 };
 

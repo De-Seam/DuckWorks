@@ -43,18 +43,20 @@ bool gOverlaps(const std::pair<float, float>& a, const std::pair<float, float>& 
 	return a.first <= b.second && b.first <= a.second;
 }
 
-// Main collision detection function using SAT
-bool gCollides(const fm::Transform2D& inTransformA, const fm::Transform2D& inTransformB)
+CollisionInfo gCollides(const fm::Transform2D& inTransformA, const fm::Transform2D& inTransformB)
 {
+	float minPenetrationDepth = std::numeric_limits<float>::max();
+	fm::vec2 collisionAxis;
+	bool collisionDetected = false;
+
 	float radA = fm::to_radians(inTransformA.rotation);
 	float radB = fm::to_radians(inTransformB.rotation);
 
-	// Axes to test against, derived from the edges of both rectangles
 	std::vector<fm::vec2> axes = {
-		{std::cos(radA), std::sin(radA)}, // A's x-axis
-		{std::cos(radA + fm::pi() / 2), std::sin(radA + fm::pi() / 2)}, // A's y-axis
-		{std::cos(radB), std::sin(radB)}, // B's x-axis
-		{std::cos(radB + fm::pi() / 2), std::sin(radB + fm::pi() / 2)} // B's y-axis
+		{std::cos(radA), std::sin(radA)},
+		{std::cos(radA + fm::pi() / 2), std::sin(radA + fm::pi() / 2)},
+		{std::cos(radB), std::sin(radB)},
+		{std::cos(radB + fm::pi() / 2), std::sin(radB + fm::pi() / 2)}
 	};
 
 	for (const auto& axis : axes)
@@ -63,11 +65,32 @@ bool gCollides(const fm::Transform2D& inTransformA, const fm::Transform2D& inTra
 		auto projB = gProjectRectangle(inTransformB, axis);
 		if (!gOverlaps(projA, projB))
 		{
-			return false; // No collision if there's no overlap on this axis
+			return CollisionInfo(false, fm::vec2(0, 0), 0); // No collision
+		}
+		collisionDetected = true;
+		// Calculate overlap (penetration depth) on this axis
+		float overlap = std::min(projA.second, projB.second) - std::max(projA.first, projB.first);
+		if (overlap < minPenetrationDepth)
+		{
+			minPenetrationDepth = overlap;
+			collisionAxis = axis;
 		}
 	}
 
-	return true; // Collision detected
+	if (collisionDetected)
+	{
+		fm::vec2 centerA = inTransformA.position;
+		fm::vec2 centerB = inTransformB.position;
+		fm::vec2 direction = centerB - centerA;
+
+		// Refine collisionAxis based on the direction of the collision
+		if (direction.dot(collisionAxis) > 0)
+		{
+			collisionAxis = -collisionAxis;
+		}
+		return CollisionInfo(true, collisionAxis, minPenetrationDepth);
+	}
+	return CollisionInfo(false, fm::vec2(0, 0), 0); // Just in case
 }
 
 // Helper function to rotate a point around another point by a given angle

@@ -22,7 +22,7 @@ void NameComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_LOAD(inJson, mName);
+	JSON_TRY_LOAD(inJson, mName);
 }
 
 // TextureRenderComponent
@@ -65,27 +65,33 @@ void AnimationComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-// PhysicsComponent
-Json PhysicsComponent::Serialize() const
+// CollisionComponent
+Json CollisionComponent::Serialize() const
 {
 	Json json = Base::Serialize();
 
-	JSON_SAVE(json, mBody);
-	//to_json(json["mBody"], mBody);
-	JSON_SAVE(json, mHalfSize);
-	JSON_SAVE(json, mOffset);
+	if (!mCollisionObjectHandle.IsValid())
+		return json;
+
+	json.update(gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle).Serialize());
 
 	return json;
 }
 
-void PhysicsComponent::Deserialize(const Json& inJson)
+void CollisionComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	if (inJson.contains("mBody"))
-		FromJson(inJson["mBody"], mBody);
-	JSON_TRY_LOAD(inJson, mHalfSize);
-	JSON_TRY_LOAD(inJson, mOffset);
+	CollisionObject::InitParams params;
+	if (!mCollisionObjectHandle.IsValid())
+		mCollisionObjectHandle = gApp.GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
+	gApp.GetWorld()->GetCollisionWorld()->DeserializeCollisionObject(mCollisionObjectHandle, inJson);
+}
+
+CollisionComponent::CollisionComponent()
+{
+	CollisionObject::InitParams params;
+	mCollisionObjectHandle = gApp.GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 }
 
 // TransformComponent
@@ -131,7 +137,6 @@ Json CameraComponent::Serialize() const
 	JSON_SAVE(json, mPriority);
 	if (mCamera != nullptr)
 		json["mCamera"] = mCamera->Serialize();
-	json["mCamera"] = mCamera->Serialize();
 
 	return json;
 }
@@ -152,36 +157,4 @@ void CameraComponent::Deserialize(const Json& inJson)
 }
 
 CameraComponent::CameraComponent()
-{}
-
-PhysicsComponent::PhysicsComponent()
-{
-	b2BodyDef body_def;
-	body_def.type = b2_dynamicBody;
-	body_def.position = {0.f, 0.f};
-	body_def.angle = {0.f};
-	body_def.linearVelocity = b2Vec2(0.0f, 0.0f);
-	body_def.linearDamping = 0.3f;
-
-	b2PolygonShape dynamic_box;
-	dynamic_box.SetAsBox(32.f, 32.f);
-
-	b2FixtureDef fixture_def;
-	fixture_def.shape = &dynamic_box;
-	fixture_def.density = 1.0f;
-	fixture_def.friction = 1.f;
-	fixture_def.restitutionThreshold = 100000.f;
-	fixture_def.isSensor = true;
-
-	mBody = gApp.GetWorld()->CreatePhysicsBody(body_def, fixture_def);
-}
-
-PhysicsComponent::PhysicsComponent(b2Body* inBody)
-	: mBody(inBody)
-{}
-
-PhysicsComponent::PhysicsComponent(b2Body* inBody, fm::vec2 inHalfSize, fm::vec2 inOffset)
-	: mBody(inBody)
-	, mHalfSize(inHalfSize)
-	, mOffset(inOffset)
 {}

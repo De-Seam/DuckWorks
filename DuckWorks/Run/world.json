@@ -3,261 +3,23 @@
         {
             "SolidObstacle": {
                 "Components": {
-                    "NameComponent": {
-                        "mName": "SolidObstacle"
-                    },
-                    "PhysicsComponent": {
-                        "mBody": {
-                            "BodyDef": {
-                                "AllowSleep": true,
-                                "Angle": 0.0,
-                                "AngularDamping": 0.0,
-                                "AngularVelocity": 0.0,
-                                "Awake": false,
-                                "Bullet": false,
-                                "Enabled": true,
-                                "FixedRotation": false,
-                                "GravityScale": 1.0,
-                                "LinearDamping": 0.0,
-                                "LinearVelocity": [
-                                    0.0,
-                                    0.0
-                                ],
-                                "Position": [
-                                    -0.677764892578125,
-                                    20.92913055419922
-                                ],
-                                "Type": 0
-                            },
-                            "Fixtures": {
-                                "0": {
-                                    "Density": 1.0,
-                                    "Friction": 0.30000001192092896,
-                                    "IsSensor": false,
-                                    "PolygonShape": {
-                                        "Centroid": [
-                                            0.0,
-                                            0.0
-                                        ],
-                                        "Count": 4,
-                                        "HalfHeight": 32.0,
-                                        "HalfWidth": 347.0,
-                                        "Rotation": 0.0
-                                    },
-                                    "Restitution": 0.5,
-                                    "RestitutionThreshold": 1.0
-                                }
-                            }
-                        },
-                        "mHalfSize": [
-                            347.0,
-                            32.0
-                        ],
-                        "mOffset": [
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    "TextureRenderComponent": {
-                        "mFlip": 0,
-                        "mSrcRect": [
-                            0,
-                            0,
-                            0,
-                            0
-                        ],
-                        "mTexture": {
-                            "mFile": "Assets/DefaultTexture.png"
-                        },
-                        "mUseSrcRect": false
-                    },
-                    "TransformComponent": {
+                    "CollisionComponent": {
+                        "mShapeType": 0,
                         "mTransform": {
                             "HalfSize": [
-                                347.0,
+                                32.0,
                                 32.0
                             ],
                             "Position": [
-                                -0.677764892578125,
-                                20.92913055419922
+                                -32.0,
+                                0.0
                             ],
                             "Rotation": 0.0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "Player": {
-                "Components": {
-                    "AnimationComponent": null,
-                    "CameraComponent": {
-                        "mCamera": {
-                            "mPosition": [
-                                -144.18655395507813,
-                                -98.15653228759766
-                            ],
-                            "mSize": [
-                                1920.0,
-                                1080.0
-                            ],
-                            "mSizeInverse": [
-                                0.0005208333604969084,
-                                0.0009259259095415473
-                            ],
-                            "mTargetZoom": 1.0,
-                            "mZoom": 1.0,
-                            "mZoomSpeed": 40.0
                         },
-                        "mIsActive": true,
-                        "mPriority": 0
-                    },
-                    "HealthComponent": {
-                        "mHealth": 100.0
+                        "mType": 0
                     },
                     "NameComponent": {
-                        "mName": "Player"
-                    },
-                    "PhysicsComponent": {
-                        "mBody": {
-                            "BodyDef": {
-                                "AllowSleep": true,
-                                "Angle": 0.0,
-                                "AngularDamping": 0.0,
-                                "AngularVelocity": 0.0,
-                                "Awake": true,
-                                "Bullet": false,
-                                "Enabled": true,
-                                "FixedRotation": true,
-                                "GravityScale": 1.0,
-                                "LinearDamping": 1.0,
-                                "LinearVelocity": [
-                                    3.1190232591789466e-18,
-                                    5.362374923935782e-18
-                                ],
-                                "Position": [
-                                    -144.18643188476563,
-                                    -98.1564712524414
-                                ],
-                                "Type": 2
-                            },
-                            "Fixtures": {
-                                "0": {
-                                    "Density": 1.0,
-                                    "Friction": 0.30000001192092896,
-                                    "IsSensor": false,
-                                    "PolygonShape": {
-                                        "Centroid": [
-                                            0.0,
-                                            0.0
-                                        ],
-                                        "Count": 4,
-                                        "HalfHeight": 44.0,
-                                        "HalfWidth": 44.0,
-                                        "Rotation": 0.0
-                                    },
-                                    "Restitution": 0.5,
-                                    "RestitutionThreshold": 1.0
-                                }
-                            }
-                        },
-                        "mHalfSize": [
-                            44.0,
-                            44.0
-                        ],
-                        "mOffset": [
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    "TextureRenderComponent": {
-                        "mFlip": 0,
-                        "mSrcRect": [
-                            768,
-                            0,
-                            192,
-                            192
-                        ],
-                        "mTexture": {
-                            "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                        },
-                        "mUseSrcRect": true
-                    },
-                    "TransformComponent": {
-                        "mTransform": {
-                            "HalfSize": [
-                                100.0,
-                                100.0
-                            ],
-                            "Position": [
-                                -144.18643188476563,
-                                -98.1564712524414
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                }
-            },
-            "mMaxVelocity": 200.0,
-            "mVelocityIncrement": 600.0
-        },
-        {
-            "Actor": {
-                "Components": {
-                    "NameComponent": {
-                        "mName": "Actor"
-                    },
-                    "PhysicsComponent": {
-                        "mBody": {
-                            "BodyDef": {
-                                "AllowSleep": true,
-                                "Angle": 103.80165100097656,
-                                "AngularDamping": 0.0,
-                                "AngularVelocity": 0.544547438621521,
-                                "Awake": true,
-                                "Bullet": false,
-                                "Enabled": true,
-                                "FixedRotation": true,
-                                "GravityScale": 1.0,
-                                "LinearDamping": 0.30000001192092896,
-                                "LinearVelocity": [
-                                    2.0267703803256154e-05,
-                                    0.00017698555893730372
-                                ],
-                                "Position": [
-                                    226.49285888671875,
-                                    -140.8089141845703
-                                ],
-                                "Type": 2
-                            },
-                            "Fixtures": {
-                                "0": {
-                                    "Density": 1.0,
-                                    "Friction": 0.30000001192092896,
-                                    "IsSensor": false,
-                                    "PolygonShape": {
-                                        "Centroid": [
-                                            0.0,
-                                            0.0
-                                        ],
-                                        "Count": 4,
-                                        "HalfHeight": 32.0,
-                                        "HalfWidth": 32.0,
-                                        "Rotation": 0.0
-                                    },
-                                    "Restitution": 0.5,
-                                    "RestitutionThreshold": 1.0
-                                }
-                            }
-                        },
-                        "mHalfSize": [
-                            32.0,
-                            32.0
-                        ],
-                        "mOffset": [
-                            0.0,
-                            0.0
-                        ]
+                        "mName": "SolidObstacle"
                     },
                     "TextureRenderComponent": {
                         "mFlip": 0,
@@ -279,10 +41,137 @@
                                 32.0
                             ],
                             "Position": [
-                                226.49285888671875,
-                                -140.8089141845703
+                                -32.0,
+                                0.0
                             ],
-                            "Rotation": 103.80165100097656
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "Player": {
+                "Components": {
+                    "AnimationComponent": null,
+                    "CameraComponent": {
+                        "mCamera": {
+                            "mPosition": [
+                                110.69856262207031,
+                                -64.00011444091797
+                            ],
+                            "mSize": [
+                                1920.0,
+                                1080.0
+                            ],
+                            "mSizeInverse": [
+                                0.0005208333604969084,
+                                0.0009259259095415473
+                            ],
+                            "mTargetZoom": 1.0,
+                            "mZoom": 1.0,
+                            "mZoomSpeed": 40.0
+                        },
+                        "mIsActive": true,
+                        "mPriority": 0
+                    },
+                    "CollisionComponent": {
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                110.22175598144531,
+                                -64.00000762939453
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "HealthComponent": {
+                        "mHealth": 100.0
+                    },
+                    "NameComponent": {
+                        "mName": "Player"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            768,
+                            0,
+                            192,
+                            192
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
+                        },
+                        "mUseSrcRect": true
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                100.0,
+                                100.0
+                            ],
+                            "Position": [
+                                110.22175598144531,
+                                -64.00000762939453
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            },
+            "mMaxVelocity": 200.0,
+            "mVelocityIncrement": 100.0
+        },
+        {
+            "Actor": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                128.0,
+                                32.0
+                            ],
+                            "Position": [
+                                128.0,
+                                0.0
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "Actor"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                128.0,
+                                0.0
+                            ],
+                            "Rotation": 0.0
                         }
                     }
                 }

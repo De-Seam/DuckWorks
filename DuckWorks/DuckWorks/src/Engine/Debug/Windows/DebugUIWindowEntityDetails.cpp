@@ -71,10 +71,10 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 		gRenderer.DrawRectangle(rect, {0.5f, 1.f, 0.5f, 0.75f});
 	}
 
-	if (gDebugUIWindowManager.mDrawSelectedEntityPhysicsOutline && selected_entity->HasComponent<PhysicsComponent>())
-	{
-		gDrawEntityPhysicsOutline(selected_entity->GetComponent<PhysicsComponent>(), {1.f, 1.f, 1.f, 1.f});
-	}
+	//if (gDebugUIWindowManager.mDrawSelectedEntityPhysicsOutline && selected_entity->HasComponent<PhysicsComponent>())
+	//{
+	//	//gDrawEntityPhysicsOutline(selected_entity->GetComponent<PhysicsComponent>(), {1.f, 1.f, 1.f, 1.f});
+	//}
 
 	ImGui::End();
 }

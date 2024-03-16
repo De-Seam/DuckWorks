@@ -32,7 +32,7 @@ Json DebugUIWindowManager::Serialize() const
 	Json json = Base::Serialize();
 	JSON_SAVE(json, mDrawEntityOutline);
 	JSON_SAVE(json, mDrawSelectedEntityPhysicsOutline);
-	JSON_SAVE(json, mDrawAllPhysicsOutline);
+	JSON_SAVE(json, mDrawCollision);
 
 	JSON_SAVE(json, mDebugFileName);
 
@@ -51,7 +51,7 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 
 	JSON_TRY_LOAD(inJson, mDrawEntityOutline);
 	JSON_TRY_LOAD(inJson, mDrawSelectedEntityPhysicsOutline);
-	JSON_TRY_LOAD(inJson, mDrawAllPhysicsOutline);
+	JSON_TRY_LOAD(inJson, mDrawCollision);
 
 	JSON_TRY_LOAD(inJson, mDebugFileName);
 
@@ -284,7 +284,7 @@ void DebugUIWindowManager::UpdateMainMenuBarDrawModes()
 	{
 		ImGui::MenuItem("Draw Entity Outline##mDrawSelectedEntityPhysicsOutlineMenuItem", nullptr, &mDrawEntityOutline);
 		ImGui::MenuItem("Draw Physics Outline##mDrawEntityOutlineMenuItem", nullptr, &mDrawSelectedEntityPhysicsOutline);
-		ImGui::MenuItem("Draw All Physics Outlines##mDrawAllPhysicsOutlineMenuItem", nullptr, &mDrawAllPhysicsOutline);
+		ImGui::MenuItem("Draw Collision##mDrawCollisionMenuItem", nullptr, &mDrawCollision);
 
 		ImGui::EndMenu();
 	}
@@ -294,15 +294,12 @@ void DebugUIWindowManager::UpdateViewport()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::UpdateViewport)
 
-	if (mDrawAllPhysicsOutline)
+	if (mDrawCollision)
 	{
-		auto view = gApp.GetWorld()->GetRegistry().view<PhysicsComponent>();
-		for (auto entity : view)
+		gApp.GetWorld()->GetCollisionWorld()->LoopCollisionObjects([](const CollisionObject& inObject)
 		{
-			PhysicsComponent& physics_component = view.get<PhysicsComponent>(entity);
-
-			gDrawEntityPhysicsOutline(physics_component, {1.f, 1.f, 1.f, 1.f});
-		}
+			gDrawAABB(inObject.GetAABB(), {1.f, 1.f, 1.f, 1.f});
+		});
 	}
 }
 
@@ -345,10 +342,10 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 	{
 		fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
 		selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
-		if (selected_entity->HasComponent<PhysicsComponent>())
-		{
-			selected_entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
-		}
+		//if (selected_entity->HasComponent<PhysicsComponent>())
+		//{
+		//	selected_entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
+		//}
 	}
 }
 

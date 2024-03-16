@@ -49,7 +49,7 @@ public:
 public:
 	bool mDrawEntityOutline = true;
 	bool mDrawSelectedEntityPhysicsOutline = true;
-	bool mDrawAllPhysicsOutline = false;
+	bool mDrawCollision = false;
 
 private:
 	Array<SharedPtr<DebugUIWindow>> mWindows;

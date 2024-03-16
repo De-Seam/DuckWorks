@@ -11,4 +11,4 @@ bool gDebugDrawJson(Json& ioJson, const String& inLabel);
 // Return true if the value was modified
 bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine = false);
 
-void gDrawEntityPhysicsOutline(const PhysicsComponent& inPhysicsComponent, const fm::vec4& inColor = fm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+void gDrawAABB(const AABB& inAABB, const fm::vec4& inColor);
