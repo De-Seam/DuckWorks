@@ -57,8 +57,8 @@
                     "CameraComponent": {
                         "mCamera": {
                             "mPosition": [
-                                -29.28843879699707,
-                                63.99994659423828
+                                -29.27728843688965,
+                                63.999996185302734
                             ],
                             "mSize": [
                                 1920.0,
@@ -99,7 +99,7 @@
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            768,
+                            0,
                             0,
                             192,
                             192

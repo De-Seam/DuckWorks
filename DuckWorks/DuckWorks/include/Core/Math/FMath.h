@@ -115,6 +115,12 @@ struct vec2
 		return *(&x + i);
 	}
 
+	const float& operator[](size_t i) const
+	{
+		assert(i < 2);
+		return *(&x + i);
+	}
+
 	ivec2 to_ivec2() const
 	{
 		return {static_cast<int>(x), static_cast<int>(y)};

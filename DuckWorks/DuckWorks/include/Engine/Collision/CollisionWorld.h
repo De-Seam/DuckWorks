@@ -7,6 +7,7 @@
 // Engine includes
 #include "Engine/Collision/CollisionObject.h"
 #include "Engine/Collision/Grid.h"
+#include "Engine/Collision/BVH/BVH.h"
 
 class CollisionWorld : public RTTIBaseClass
 {
@@ -33,6 +34,8 @@ private:
 	Array<uint64> mFreeCollisionObjectIndices = {};
 
 	Mutex mCollisionObjectsMutex;
+
+	BVH mBVH;
 
 private:
 	// Sets the transform. Does NOT lock the mCollisionObjects mutex. That needs to be locked already.

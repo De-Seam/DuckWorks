@@ -16,7 +16,9 @@ public:
 
 	// Generate the BVH. Expensive operation.
 	void Generate();
-
+	
+	// Broadphase collision detection. It returns a const ref to avoid having to keep allocating memory. Keep in mind not to call this in a nested loop as the previous returned array will be invalidated!
+	const Array<CollisionObjectHandle>& GetBroadphaseCollisions(const AABB& inAABB);
 private:
 	Mutex mBVHMutex; ///< For generating or resizing the BVH itself
 
@@ -28,8 +30,12 @@ private:
 
 private:
 	// Creates AABB from objects. Uses mIndices.
-	AABB mCreateAABBFromObjects(uint32 inFirst, uint32 inCount);
+	AABB CreateAABBFromObjects(uint64 inFirst, uint64 inCount);
 
-	void Subdivide(BVHNode* inNode, int32 inFirst, int32 inCount, int32 inDepth);
-	void Partition(BVHNode* inNode, int32 inFirst, int32 inCount, int32 inDepth);
+	void Subdivide(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth);
+	void Partition(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth);
+	float ComputeSplitCost(uint64 first, uint64 count, float split_location, uint64 split_axis);
+	uint64 SplitIndices(uint64 inFirst, uint64 inCount, float inSplitLocation, uint64 inSplitAxis);
+
+	void CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const AABB& inAABB, uint64 inNodeIndex);
 };

@@ -1,9 +1,12 @@
 #pragma once
 #include "Core/CoreBase.h"
 
+// Engine includes
+#include "Engine/Collision/CollisionStructs.h"
+
 struct BVHNode
 {
 	AABB mAABB;
-	int32 mLeftFirst;
-	int32 mRightCount;
+	uint32 mLeftFirst;
+	uint32 mCount;
 };
