@@ -55,35 +55,21 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 				gLog("%v2", collision_info.mDirection);
 				new_position += collision_info.mDirection * collision_info.mDepth;
 				swept_shape = gComputeSweptShape(object.mTransform, new_position, inRotation);
-				//colliding_objects.emplace_back(other_object.GetHandle(), collision_info);
 			}
 		}
 	}
-	//fm::vec2 adjustment = {0, 0};
-	//{
-	//	for (Pair<CollisionObjectHandle, CollisionInfo>& collision : colliding_objects)
-	//	{
-	//		CollisionObject& other_object = mCollisionObjects[collision.first.mIndex];
-	//		fm::vec2 penetration = collision.second.mDirection * collision.second.mDepth;
-	//
-	//		if (std::abs(adjustment.x) < std::abs(penetration.x))
-	//			adjustment.x = penetration.x;
-	//		if (std::abs(adjustment.y) < std::abs(penetration.y))
-	//			adjustment.y = penetration.y;
-	//	}
-	//}
-
-	//fm::vec2 new_position = inPosition + adjustment;
 
 	{
 		ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 		fm::Transform2D transform = object.GetTransform();
 		transform.position = new_position;
-		object.SetTransform(transform);
+		transform.rotation = inRotation;
+		SetTransformInternal(inObjectHandle, transform);
+		//object.SetTransform(transform);
 	}
 }
 
-void CollisionWorld::SetTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
+void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {
 	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(inTransform);
@@ -107,6 +93,11 @@ void CollisionWorld::LoopCollisionObjects(const std::function<void(const Collisi
 	{
 		inFunction(object);
 	}
+}
+
+void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
+{
+
 }
 
 CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const CollisionObject::InitParams& inInitParams)

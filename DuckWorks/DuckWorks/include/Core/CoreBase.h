@@ -4,6 +4,7 @@
 #include "Utilities/Utilities.h"
 #include "Core/Utilities/UID.h"
 
+// General Handle pointing to an index. The default constructor makes an invalid handle.
 template<typename taType>
 struct Handle
 {

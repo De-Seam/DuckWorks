@@ -22,7 +22,7 @@ class CollisionWorld : public RTTIBaseClass
 	void Rotate(const CollisionObjectHandle& inObjectHandle, float inRotation);
 	void MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation);
 	// Teleports object to the given position, does not check for collision.
-	void SetTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
+	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
 
 	void DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson);
 	const CollisionObject& GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
@@ -35,5 +35,7 @@ private:
 	Mutex mCollisionObjectsMutex;
 
 private:
+	// Sets the transform. Does NOT lock the mCollisionObjects mutex. That needs to be locked already.
+	void SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
 	CollisionObjectHandle FindOrCreateCollisionObjectIndex(const CollisionObject::InitParams& inInitParams);
 };

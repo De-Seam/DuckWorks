@@ -115,6 +115,8 @@
     <ClInclude Include="include\Core\Utilities\Types.h" />
     <ClInclude Include="include\Core\Utilities\UID.h" />
     <ClInclude Include="include\Core\Utilities\Utilities.h" />
+    <ClInclude Include="include\Engine\Collision\BVH\BVH.h" />
+    <ClInclude Include="include\Engine\Collision\BVH\BVHNode.h" />
     <ClInclude Include="include\Engine\Debug\DebugUIFunctions.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindow.h" />
     <ClInclude Include="include\Engine\Debug\DebugUIWindowManager.h" />
@@ -338,6 +340,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Utilities\Utilities.cpp" />
+    <ClCompile Include="src\Engine\Collision\BVH\BVH.cpp" />
     <ClCompile Include="src\Engine\Collision\CollisionWorld.cpp" />
     <ClCompile Include="src\Engine\Debug\DebugUIFunctions.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowOutputLog.cpp" />
