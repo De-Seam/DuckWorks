@@ -18,8 +18,7 @@ struct AABB
 
 	float Area() const
 	{
-		// TODO: Double check this formula
 		fm::vec2 length = mMax - mMin;
-		return (2.0f * (length.x * length.y + length.y * length.x));
+		return length.x * length.y;
 	}
 };
