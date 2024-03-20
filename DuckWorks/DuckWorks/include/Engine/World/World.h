@@ -25,6 +25,8 @@ public:
 	void Update(float inDeltaTime);
 	void Render(float inDeltaTime);
 
+	void BeginPlay();
+	
 	void UpdateEntities(float inDeltaTime);
 	void DestroyEntities();
 
@@ -54,6 +56,8 @@ private:
 	int32 mPhysicsUpdateFrequency = 60; //60 hz
 	float mPhysicsTimeStep = 1.0f / Cast<float>(mPhysicsUpdateFrequency);
 	float mPhysicsTimeAccumulator = 0.0f;
+
+	bool mBegunPlay = false;
 
 private:
 	friend class BaseEntity;

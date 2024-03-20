@@ -1,6 +1,15 @@
 #include "Precomp.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
 
+bool gFullyInsideOf(const AABB& inA, const AABB& inB)
+{
+	return
+		inA.mMin.x >= inB.mMin.x &&
+		inA.mMax.x <= inB.mMax.x &&
+		inA.mMin.y >= inB.mMin.y &&
+		inA.mMax.y <= inB.mMax.y;
+}
+
 bool gCollides(const AABB& inA, const AABB& inB)
 {
 	return
@@ -8,6 +17,15 @@ bool gCollides(const AABB& inA, const AABB& inB)
 		inA.mMin.x <= inB.mMax.x &&
 		inA.mMax.y >= inB.mMin.y &&
 		inA.mMin.y <= inB.mMax.y;
+}
+
+bool gCollides(const fm::vec2& inPoint, const AABB& inAABB)
+{
+	return
+		inPoint.x >= inAABB.mMin.x &&
+		inPoint.x <= inAABB.mMax.x &&
+		inPoint.y >= inAABB.mMin.y &&
+		inPoint.y <= inAABB.mMax.y;
 }
 
 

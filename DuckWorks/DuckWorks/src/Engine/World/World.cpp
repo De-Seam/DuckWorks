@@ -120,6 +120,15 @@ void World::Render(float inDeltaTime)
 	});
 }
 
+void World::BeginPlay()
+{
+	mBegunPlay = true;
+	mCollisionWorld->BeginPlay();
+
+	for (EntityPtr& entity : mEntities)
+		entity->BeginPlay();
+}
+
 void World::UpdateEntities(float inDeltaTime)
 {
 	ScopedMutexReadLock lock{mEntitiesMutex};
@@ -164,7 +173,8 @@ EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 	inEntity->AddComponent<EntityComponent>(inEntity);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
-	inEntity->BeginPlay();
+	if(mBegunPlay)
+		inEntity->BeginPlay();
 	return mEntities.back();
 }
 

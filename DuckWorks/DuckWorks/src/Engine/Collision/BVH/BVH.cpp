@@ -5,19 +5,48 @@
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
 
-void BVH::AddObject(CollisionObjectHandle inObject)
+void BVH::Init(const InitParams& inParams)
 {
-	if(mObjects.size() < inObject.mIndex)
-		mObjects.resize(inObject.mIndex + 1);
-	else
-		gAssert(mObjects[inObject.mIndex].mIndex == inObject.mIndex, "Previously added object somehow has the wrong index!");
-	mObjects[inObject.mIndex] = inObject;
+	mCollisionWorld = inParams.mCollisionWorld;
 }
 
-void BVH::RemoveObject(CollisionObjectHandle inObject)
+BVH::~BVH()
 {
-	gAssert(mObjects[inObject.mIndex].mIndex == inObject.mIndex, "Trying to remove an object that was never added!");
-	mObjects[inObject.mIndex] = CollisionObjectHandle();
+	if (mIndices)
+		_aligned_free(mIndices);
+}
+
+void BVH::AddObject(const CollisionObjectHandle& inObject)
+{
+	if (mObjects.size() <= inObject.mIndex)
+	{
+		mObjects.reserve(inObject.mIndex + 32); ///< Reserve some extra space to avoid reallocations
+		mObjects.resize(inObject.mIndex + 1);
+	}
+	else
+		gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle.mIndex == inObject.mIndex, "Previously added object somehow has the wrong index!");
+	
+	CollisionObjectData data;
+	data.mCollisionObjectHandle = inObject;
+	const CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
+	data.mAABB = object.GetAABB();
+	if (object.GetType() == CollisionObject::Type::Dynamic)
+	{
+		AdjustAABBForDynamicObject(data.mAABB);
+	}
+	mObjects[inObject.mIndex] = data;
+}
+
+void BVH::AddObjects(const Array<CollisionObjectHandle>& inObjects)
+{
+	for (const CollisionObjectHandle& object : inObjects)
+		AddObject(object);
+}
+
+void BVH::RemoveObject(const CollisionObjectHandle& inObject)
+{
+	gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle == inObject, "Trying to remove an object that was never added!");
+	mObjects[inObject.mIndex] = {};
 }
 
 void BVH::Generate()
@@ -29,9 +58,10 @@ void BVH::Generate()
 
 	mNodes.clear();
 
-	mIndices = static_cast<uint32*>(_aligned_malloc((static_cast<size_t>(mObjects.size()) + 1) * 4, 64));
+	mIndexCount = SCast<uint32>(mObjects.size());
+	mIndices = SCast<uint32*>(_aligned_malloc((SCast<size_t>(mIndexCount) + 1) * sizeof(uint32), 64));
 	for (size_t i = 0; i < mObjects.size(); i++)
-		mIndices[i] = static_cast<uint32>(i);
+		mIndices[i] = SCast<uint32>(i);
 
 	mNodes.reserve(mObjects.size() * 2 + 1);
 	mNodes.emplace_back(BVHNode()); //Root Node
@@ -43,10 +73,39 @@ void BVH::Generate()
 	gLog("BVH Created with %i nodes\n", mNodes.size());
 }
 
+void BVH::RefreshObject(const CollisionObjectHandle& inObject)
+{
+	const CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
+	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
+	if (gFullyInsideOf(object.GetAABB(), mObjects[inObject.mIndex].mAABB))
+		return;
+
+	AABB aabb = object.GetAABB();
+	if (object.GetType() == CollisionObject::Type::Dynamic)
+		AdjustAABBForDynamicObject(aabb);
+
+	if (!IsGenerated())
+	{
+		mObjects[inObject.mIndex].mAABB = aabb;
+		return;
+	}
+
+	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject);
+	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
+
+	mObjects[mIndices[node_hierarchy[0]]].mAABB = aabb;
+
+	// Starting at 1 since we don't want to handle the index of the object iself, only the nodes for resizing
+	for (uint64 i = 1; i < node_hierarchy.size(); i++)
+	{
+		ExpandNodeToFitAABB(&mNodes[node_hierarchy[i]], aabb);
+	}
+}
+
 const Array<CollisionObjectHandle>& BVH::GetBroadphaseCollisions(const AABB& inAABB)
 {
 	static THREADLOCAL Array<CollisionObjectHandle> sReturnArray;
-	sReturnArray.empty();
+	sReturnArray.clear();
 
 	ScopedMutexReadLock lock(mBVHMutex);
 	CollisionInternal(sReturnArray, inAABB, 0);
@@ -61,7 +120,7 @@ AABB BVH::CreateAABBFromObjects(uint64 inFirst, uint64 inCount)
 
 	for (uint32 i = 0; i < inCount; i++)
 	{
-		const AABB& mObjectAABB = mCollisionWorld->GetCollisionObject(mObjects[mIndices[inFirst + i]]).GetAABB();
+		const AABB& mObjectAABB = mObjects[mIndices[inFirst + i]].mAABB;
 		min.x = fm::min(mObjectAABB.mMin.x, min.x);
 		min.y = fm::min(mObjectAABB.mMin.y, min.y);
 
@@ -74,7 +133,7 @@ AABB BVH::CreateAABBFromObjects(uint64 inFirst, uint64 inCount)
 
 void BVH::Subdivide(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth)
 {
-	inNode->mAABB = CreateAABBFromObjects(inFirst, inFirst + inCount);
+	inNode->mAABB = CreateAABBFromObjects(inFirst, inCount);
 	Partition(inNode, inFirst, inCount, inDepth);
 }
 
@@ -86,8 +145,8 @@ void BVH::Partition(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDe
 	size_t best_split_axis = 0;
 
 	uint64 split_amount = 20;
-	if (inCount < split_amount)
-		split_amount = inCount;
+	if (inCount-1 < split_amount)
+		split_amount = inCount-1;
 	float split_amount_flt = static_cast<float>(split_amount);
 	float split_amount_inv_flt = 1.f / split_amount_flt;
 
@@ -135,8 +194,8 @@ float BVH::ComputeSplitCost(uint64 inFirst, uint64 inCount, float inSplitLocatio
 	uint64 count_left = index - inFirst;
 	uint64 count_right = inCount - count_left;
 
-	AABB aabb_left = CreateAABBFromObjects(inFirst, inFirst + count_left);
-	AABB aabb_right = CreateAABBFromObjects(index, index + count_right);
+	AABB aabb_left = CreateAABBFromObjects(inFirst, count_left);
+	AABB aabb_right = CreateAABBFromObjects(index, count_right);
 
 	return aabb_left.Area() * count_left + aabb_right.Area() + count_right;
 }
@@ -146,8 +205,7 @@ uint64 BVH::SplitIndices(uint64 inFirst, uint64 inCount, float inSplitLocation, 
 	uint64 index = inFirst;
 	for (uint64 i = inFirst; i < inFirst + inCount; i++)
 	{
-		const CollisionObject& object = mCollisionWorld->GetCollisionObject(mObjects[mIndices[i]]);
-		const fm::vec2& position = object.GetPosition();
+		const fm::vec2& position = mObjects[mIndices[i]].mAABB.GetCenter();
 		if (position[inSplitAxis] <= inSplitLocation)
 		{
 			//std::swap(m_indices[index], m_indices[i]);
@@ -172,8 +230,11 @@ void BVH::CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const A
 		// This leaf node collides, add all objects inside of it to the return array.
 		for (uint64 i = 0; i < node->mCount; i++)
 		{
-			const CollisionObjectHandle& handle = mObjects[mIndices[node->mLeftFirst + i]];
-			ioReturnArray.emplace_back(handle);
+			const CollisionObjectData& data = mObjects[mIndices[node->mLeftFirst + i]];
+			// TODO: Performance profile whether it might be faster to remove this if statement.
+			// If it basically always returns true it might.
+			if(gCollides(inAABB, data.mAABB))
+				ioReturnArray.emplace_back(data.mCollisionObjectHandle);
 		}
 	}
 	else // Branch Node
@@ -181,4 +242,65 @@ void BVH::CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const A
 		CollisionInternal(ioReturnArray, inAABB, node->mLeftFirst);
 		CollisionInternal(ioReturnArray, inAABB, node->mLeftFirst+1);
 	}
+}
+
+void BVH::AdjustAABBForDynamicObject(AABB& ioAABB)
+{
+	fm::vec2 size = ioAABB.mMax - ioAABB.mMin;
+	ioAABB.mMin -= size * 0.1f;
+	ioAABB.mMax += size * 0.1f;
+}
+
+// This will find the node hierarchy containing inObject.
+// It will be reserved, so index[0] will be the mIndices index of the object itself
+// And index[1] will be the mNodes index of the leaf node
+// And index.back() will be the root node, 0.
+const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjectHandle& inObject)
+{
+	static THREADLOCAL Array<uint64> sReturnArray;
+	sReturnArray.clear();
+
+	ScopedMutexReadLock lock(mBVHMutex);
+	fm::vec2 center = mObjects[inObject.mIndex].mAABB.GetCenter();
+
+	FindNodeHierarchyContainingObjectRecursive(sReturnArray, inObject, center, 0);
+	sReturnArray.emplace_back(0);
+
+	return sReturnArray;
+}
+
+void BVH::ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB)
+{
+	ioNode->mAABB.mMin = fm::min2(ioNode->mAABB.mMin, inAABB.mMin);
+	ioNode->mAABB.mMax = fm::max2(ioNode->mAABB.mMax, inAABB.mMax);
+}
+
+bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const fm::vec2 inCenter, uint64 inNodeIndex)
+{
+	BVHNode* node = &mNodes[inNodeIndex];
+	// Early out if this node does not collide with the aabbb
+	if (!gCollides(inCenter, node->mAABB))
+		return false;
+
+	if (node->mCount != 0) //Leaf node
+	{
+		// This leaf node collides, add all objects inside of it to the return array.
+		for (uint64 i = 0; i < node->mCount; i++)
+		{
+			if (mObjects[mIndices[i]].mCollisionObjectHandle == inObject)
+			{
+				ioIndices.emplace_back(i);
+				return true;
+			}
+		}
+	}
+	else // Branch Node
+	{
+		if(FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst))
+			ioIndices.emplace_back(node->mLeftFirst);
+		// We can use else if here because only 1 node contains the object, so we can early out
+		else if(FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst + 1))
+			ioIndices.emplace_back(node->mLeftFirst+1);
+	}
+	return false;
 }

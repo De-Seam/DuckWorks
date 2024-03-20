@@ -106,6 +106,8 @@ int App::Run()
 		mWorld->Deserialize(in_json);
 	}
 
+	mWorld->BeginPlay();
+
 	MainLoop();
 
 	Json json = mWorld->Serialize();

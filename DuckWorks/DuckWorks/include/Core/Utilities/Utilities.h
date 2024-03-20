@@ -28,8 +28,8 @@ template<typename taType>
 using WeakPtr = std::weak_ptr<taType>;
 
 // Containers
-template<typename taType>
-using Array = std::vector<taType>;
+template<typename taType, class taAllocator = std::allocator<taType>>
+using Array = std::vector<taType, taAllocator>;
 
 template<typename taType, size_t size>
 using StaticArray = std::array<taType, size>;

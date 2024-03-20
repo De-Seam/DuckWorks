@@ -16,9 +16,20 @@ struct AABB
 {
 	fm::vec2 mMin, mMax;
 
+	fm::vec2 GetSidesLength() const
+	{
+		return mMax - mMin;
+	}
+
 	float Area() const
 	{
-		fm::vec2 length = mMax - mMin;
+		fm::vec2 length = GetSidesLength();
 		return length.x * length.y;
+	}
+
+	fm::vec2 GetCenter() const
+	{
+		fm::vec2 length = GetSidesLength();
+		return mMax - (length * 0.5f);
 	}
 };

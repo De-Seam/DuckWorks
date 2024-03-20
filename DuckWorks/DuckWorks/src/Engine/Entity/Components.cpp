@@ -90,8 +90,6 @@ void CollisionComponent::Deserialize(const Json& inJson)
 
 CollisionComponent::CollisionComponent()
 {
-	CollisionObject::InitParams params;
-	mCollisionObjectHandle = gApp.GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 }
 
 // TransformComponent

@@ -13,7 +13,9 @@ struct CollisionInfo
 	CollisionInfo(bool c, fm::vec2 dir, float d) : mCollides(c), mDirection(dir), mDepth(d) {}
 };
 
+bool gFullyInsideOf(const AABB& inA, const AABB& inB);
 bool gCollides(const AABB& inA, const AABB& inB);
+bool gCollides(const fm::vec2& inPoint, const AABB& inAABB);
 CollisionInfo gCollides(const fm::Transform2D& inTransformA, const fm::Transform2D& inTransformB);
 
 AABB gComputeAABB(const fm::Transform2D& inTransform);

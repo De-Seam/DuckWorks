@@ -13,7 +13,8 @@ class CollisionWorld : public RTTIBaseClass
 {
 	RTTI_CLASS(CollisionWorld, RTTIBaseClass)
 
-	CollisionWorld() = default;
+	CollisionWorld();
+	void BeginPlay();
 
 	CollisionObjectHandle CreateCollisionObject(const CollisionObject::InitParams& inInitParams);
 	void DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle);

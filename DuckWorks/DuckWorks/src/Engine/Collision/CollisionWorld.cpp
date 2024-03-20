@@ -7,16 +7,33 @@
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)
 
+CollisionWorld::CollisionWorld()
+{
+	BVH::InitParams params;
+	params.mCollisionWorld = this;
+	mBVH.Init(params);
+}
+
+void CollisionWorld::BeginPlay()
+{
+	mBVH.Generate();
+}
+
 CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObject::InitParams& inInitParams)
 {
-	return FindOrCreateCollisionObjectIndex(inInitParams);
+	CollisionObjectHandle handle = FindOrCreateCollisionObjectIndex(inInitParams);
+	mBVH.AddObject(handle);
+	return handle;
 }
 
 void CollisionWorld::DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle)
 {
 	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
+	gAssert(mCollisionObjects[inObjectHandle.mIndex].mHandle == inObjectHandle, "Invalid Handle!");
 	mCollisionObjects[inObjectHandle.mIndex] = {};
 	mFreeCollisionObjectIndices.emplace_back(inObjectHandle.mIndex);
+
+	mBVH.RemoveObject(inObjectHandle);
 }
 
 void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)
@@ -36,49 +53,48 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 	static THREADLOCAL Array<Pair<CollisionObjectHandle, CollisionInfo>> colliding_objects;
 	colliding_objects.clear();
 
-	fm::vec2 new_position = inPosition;
-	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+	fm::Transform2D new_transform;
 	{
 		ScopedMutexReadLock lock(mCollisionObjectsMutex);
+		CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+		new_transform = object.GetTransform();
+		new_transform.position = inPosition;
 
-		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, new_position, inRotation);
-		for (uint64 i = 0; i < mCollisionObjects.size(); ++i)
+		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, new_transform.position, inRotation);
+		AABB swept_shape_aabb = gComputeAABB(swept_shape);
+		const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(swept_shape_aabb);
+		for (const CollisionObjectHandle& collision : broadphase_collisions)
 		{
-			if (i == inObjectHandle.mIndex)
+			if (collision == inObjectHandle)
 				continue;
 
-			CollisionObject& other_object = mCollisionObjects[i];
-
+			const CollisionObject& other_object = GetCollisionObject(collision);
 			CollisionInfo collision_info = gCollides(swept_shape, other_object.GetTransform());
 			if (collision_info.mCollides)
 			{
 				gLog("%v2", collision_info.mDirection);
-				new_position += collision_info.mDirection * collision_info.mDepth;
-				swept_shape = gComputeSweptShape(object.mTransform, new_position, inRotation);
+				new_transform.position += collision_info.mDirection * collision_info.mDepth;
+				swept_shape = gComputeSweptShape(object.mTransform, new_transform.position, inRotation);
 			}
 		}
-	}
 
-	{
-		ScopedMutexWriteLock lock(mCollisionObjectsMutex);
-		fm::Transform2D transform = object.GetTransform();
-		transform.position = new_position;
-		transform.rotation = inRotation;
-		SetTransformInternal(inObjectHandle, transform);
-		//object.SetTransform(transform);
+		new_transform.rotation = inRotation;
 	}
+	SetTransformInternal(inObjectHandle, new_transform);
 }
 
 void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {
 	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(inTransform);
+	mBVH.RefreshObject(inObjectHandle);
 }
 
 void CollisionWorld::DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson)
 {
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	mCollisionObjects[inObjectHandle.mIndex].Deserialize(inJson);
+	mBVH.RefreshObject(inObjectHandle);
 }
 
 const CollisionObject& CollisionWorld::GetCollisionObject(const CollisionObjectHandle& inObjectHandle)
@@ -97,7 +113,10 @@ void CollisionWorld::LoopCollisionObjects(const std::function<void(const Collisi
 
 void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {
-
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+	object.SetTransform(inTransform);
+	mBVH.RefreshObject(inObjectHandle);
 }
 
 CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const CollisionObject::InitParams& inInitParams)
@@ -108,6 +127,7 @@ CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const Col
 	{
 		mCollisionObjects.emplace_back();
 		handle.mIndex = mCollisionObjects.size() - 1;
+		mCollisionObjects.back() = { inInitParams };
 		mCollisionObjects.back().mHandle = handle;
 		return handle;
 	}

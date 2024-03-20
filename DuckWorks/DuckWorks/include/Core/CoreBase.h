@@ -15,7 +15,7 @@ struct Handle
 	{
 		bool result = mIndex == inObjectHandle.mIndex;
 #ifdef _DEBUG
-		if (!result)
+		if (result)
 		{
 			gAssert(mUID == inObjectHandle.mUID, "Invalid Handle!");
 		}
