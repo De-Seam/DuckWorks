@@ -64,7 +64,7 @@ private:
 
 	void Subdivide(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth);
 	void Partition(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth);
-	float ComputeSplitCost(uint64 first, uint64 count, float split_location, uint64 split_axis);
+	float ComputeSplitCost(uint64 inFirst, uint64 inCount, float inSplitLocation, uint64 inSplitAxis);
 	uint64 SplitIndices(uint64 inFirst, uint64 inCount, float inSplitLocation, uint64 inSplitAxis);
 
 	void CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const AABB& inAABB, uint64 inNodeIndex);
