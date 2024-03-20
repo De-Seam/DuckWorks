@@ -71,9 +71,6 @@ Player::Player(World* inWorld)
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 
-	AddComponent<PhysicsPositionOrRotationUpdatedTag>();
-	AddComponent<PhysicsSizeUpdatedTag>();
-
 	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
 	CollisionObject::InitParams params;
 	params.mTransform = GetTransform();

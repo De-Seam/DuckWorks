@@ -81,9 +81,6 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 		}
 	}
 
-	selected_entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
-	selected_entity->TryAddComponent<PhysicsSizeUpdatedTag>();
-
 	if (gDebugUIWindowManager.mDrawEntityOutline && selected_entity->HasComponent<TransformComponent>())
 	{
 		TransformComponent& transform_component = selected_entity->GetComponent<TransformComponent>();

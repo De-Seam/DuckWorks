@@ -294,8 +294,8 @@ void BVH::CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const A
 void BVH::AdjustAABBForDynamicObject(AABB& ioAABB)
 {
 	fm::vec2 size = ioAABB.mMax - ioAABB.mMin;
-	ioAABB.mMin -= size * 0.1f;
-	ioAABB.mMax += size * 0.1f;
+	ioAABB.mMin -= size * mDynamicAABBModifier;
+	ioAABB.mMax += size * mDynamicAABBModifier;
 }
 
 // This will find the node hierarchy containing inObject.

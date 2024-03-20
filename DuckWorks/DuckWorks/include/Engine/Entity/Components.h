@@ -171,28 +171,6 @@ struct CameraComponent : public ComponentBase
 
 // Tag components
 
-// This tag is used to mark entities that have been teleported and need to update their physics position.
-// They will automatically get cleared after usage
-struct PhysicsPositionOrRotationUpdatedTag : public ComponentBase
-{
-	RTTI_CLASS(PhysicsPositionOrRotationUpdatedTag, ComponentBase)
-
-	PhysicsPositionOrRotationUpdatedTag() = default;
-};
-
-inline Json PhysicsPositionOrRotationUpdatedTag::Serialize() const { return Base::Serialize(); }
-inline void PhysicsPositionOrRotationUpdatedTag::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
-
-struct PhysicsSizeUpdatedTag : public ComponentBase
-{
-	RTTI_CLASS(PhysicsSizeUpdatedTag, ComponentBase)
-
-	PhysicsSizeUpdatedTag() = default;
-};
-
-inline Json PhysicsSizeUpdatedTag::Serialize() const { return Base::Serialize(); }
-inline void PhysicsSizeUpdatedTag::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
-
 struct DestroyedTag : public ComponentBase
 {
 	RTTI_CLASS(DestroyedTag, ComponentBase)

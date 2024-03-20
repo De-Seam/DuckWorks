@@ -3,7 +3,6 @@
 
 #define STRING_BUFFER_SIZE 256
 
-struct PhysicsComponent;
 // Assumes a imgui window is created.
 // Return true if the value was modified
 bool gDebugDrawJson(Json& ioJson, const String& inLabel);

@@ -31,9 +31,6 @@ SolidObstacle::SolidObstacle(World* inWorld)
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
 
-	AddComponent<PhysicsPositionOrRotationUpdatedTag>();
-	AddComponent<PhysicsSizeUpdatedTag>();
-
 	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
 
 	CollisionObject::InitParams params;
