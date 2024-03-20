@@ -22,14 +22,16 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::AddObject)
 
+	bool resized = false;
 	if (mObjects.size() <= inObject.mIndex)
 	{
 		mObjects.reserve(inObject.mIndex + 32); ///< Reserve some extra space to avoid reallocations
 		mObjects.resize(inObject.mIndex + 1);
+		resized = true;
 	}
 	else
 		gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle.mIndex == inObject.mIndex, "Previously added object somehow has the wrong index!");
-	
+
 	CollisionObjectData data;
 	data.mCollisionObjectHandle = inObject;
 	const CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
@@ -39,6 +41,14 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 		AdjustAABBForDynamicObject(data.mAABB);
 	}
 	mObjects[inObject.mIndex] = data;
+
+	if (IsGenerated())
+	{
+		if (!resized)
+			RefreshObject(inObject);
+		else
+			Generate();
+	}
 }
 
 void BVH::AddObjects(const Array<CollisionObjectHandle>& inObjects)
@@ -92,10 +102,10 @@ void BVH::Draw()
 	for (DrawData& draw_data : sDrawDatas)
 	{
 		AABB& aabb = draw_data.mAABB;
-		fm::vec4 color = { 1.f, 0.f, 0.f, 1.f };
+		fm::vec4 color = {1.f, 0.f, 0.f, 1.f};
 		color.y = SCast<float>(draw_data.mDepth) / SCast<float>(max_depth);
 		if (draw_data.mLeaf)
-			color = { 0.f, 1.f, 0.f, 1.f };
+			color = {0.f, 1.f, 0.f, 1.f};
 
 		gDrawAABB(aabb, color);
 	}
@@ -121,11 +131,14 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 	}
 
 	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject);
+
+	gAssert(mObjects[mIndices[node_hierarchy[0]]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
+
 	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
 
 	mObjects[mIndices[node_hierarchy[0]]].mAABB = aabb;
 
-	// Starting at 1 since we don't want to handle the index of the object iself, only the nodes for resizing
+	// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
 	for (uint64 i = 1; i < node_hierarchy.size(); i++)
 	{
 		ExpandNodeToFitAABB(&mNodes[node_hierarchy[i]], aabb);
@@ -147,8 +160,8 @@ const Array<CollisionObjectHandle>& BVH::GetBroadphaseCollisions(const AABB& inA
 
 AABB BVH::CreateAABBFromObjects(uint64 inFirst, uint64 inCount)
 {
-	fm::vec2 min = { INFINITY };
-	fm::vec2 max = { -INFINITY };
+	fm::vec2 min = {INFINITY};
+	fm::vec2 max = {-INFINITY};
 
 	for (uint32 i = 0; i < inCount; i++)
 	{
@@ -160,7 +173,7 @@ AABB BVH::CreateAABBFromObjects(uint64 inFirst, uint64 inCount)
 		max.y = fm::max(mObjectAABB.mMax.y, max.y);
 	}
 
-	return { min, max };
+	return {min, max};
 }
 
 void BVH::Subdivide(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth)
@@ -179,8 +192,8 @@ void BVH::Partition(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDe
 	size_t best_split_axis = 0;
 
 	uint64 split_amount = 20;
-	if (inCount-1 < split_amount)
-		split_amount = inCount-1;
+	if (inCount - 1 < split_amount)
+		split_amount = inCount - 1;
 	float split_amount_flt = static_cast<float>(split_amount);
 	float split_amount_inv_flt = 1.f / split_amount_flt;
 
@@ -267,14 +280,14 @@ void BVH::CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const A
 			const CollisionObjectData& data = mObjects[mIndices[node->mLeftFirst + i]];
 			// TODO: Performance profile whether it might be faster to remove this if statement.
 			// If it basically always returns true it might.
-			if(gCollides(inAABB, data.mAABB))
+			if (gCollides(inAABB, data.mAABB))
 				ioReturnArray.emplace_back(data.mCollisionObjectHandle);
 		}
 	}
 	else // Branch Node
 	{
 		CollisionInternal(ioReturnArray, inAABB, node->mLeftFirst);
-		CollisionInternal(ioReturnArray, inAABB, node->mLeftFirst+1);
+		CollisionInternal(ioReturnArray, inAABB, node->mLeftFirst + 1);
 	}
 }
 
@@ -303,7 +316,8 @@ const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjec
 	return sReturnArray;
 }
 
-bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const fm::vec2 inCenter, uint64 inNodeIndex)
+bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const fm::vec2 inCenter,
+													uint64 inNodeIndex)
 {
 	BVHNode* node = &mNodes[inNodeIndex];
 	// Early out if this node does not collide with the aabbb
@@ -324,19 +338,68 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, c
 	}
 	else // Branch Node
 	{
-		if(FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst))
+		if (FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst))
+		{
 			ioIndices.emplace_back(node->mLeftFirst);
+			return true;
+		}
 		// We can use else if here because only 1 node contains the object, so we can early out
-		else if(FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst + 1))
-			ioIndices.emplace_back(node->mLeftFirst+1);
+		if (FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst + 1))
+		{
+			ioIndices.emplace_back(node->mLeftFirst + 1);
+			return true;
+		}
+	}
+	return false;
+}
+
+
+// This will find the node hierarchy containing inObject.
+// It will be reserved, so index[0] will be the mNodes index of the leaf node
+// And index.back() will be the root node, 0.
+const Array<uint64>& BVH::FindFirstNodeHierarchyAtLocation(const fm::vec2& inlocation)
+{
+	static THREADLOCAL Array<uint64> sReturnArray;
+	sReturnArray.clear();
+
+	ScopedMutexReadLock lock(mBVHMutex);
+
+	FindFirstNodeHierarchyAtLocationRecursive(sReturnArray, inlocation, 0);
+	sReturnArray.emplace_back(0);
+
+	return sReturnArray;
+}
+
+bool BVH::FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, const fm::vec2 inLocation, uint64 inNodeIndex)
+{
+	BVHNode* node = &mNodes[inNodeIndex];
+	// Early out if this node does not collide with the aabbb
+	if (!gCollides(inLocation, node->mAABB))
+		return false;
+
+	if (node->mCount != 0) //Leaf node
+	{
+		return true;
+	}
+	// Branch Node
+	if (FindFirstNodeHierarchyAtLocationRecursive(ioIndices, inLocation, node->mLeftFirst))
+	{
+		ioIndices.emplace_back(node->mLeftFirst);
+		return true;
+	}
+	// We can use else if here because only 1 node contains the object, so we can early out
+	if (FindFirstNodeHierarchyAtLocationRecursive(ioIndices, inLocation, node->mLeftFirst + 1))
+	{
+		ioIndices.emplace_back(node->mLeftFirst + 1);
+		return true;
 	}
 	return false;
 }
 
 void BVH::ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB)
 {
-	ioNode->mAABB.mMin = fm::min2(ioNode->mAABB.mMin, inAABB.mMin);
-	ioNode->mAABB.mMax = fm::max2(ioNode->mAABB.mMax, inAABB.mMax);
+	ioNode->mAABB.mMin = min2(ioNode->mAABB.mMin, inAABB.mMin);
+	ioNode->mAABB.mMax = max2(ioNode->mAABB.mMax, inAABB.mMax);
 }
 
 void BVH::GetDrawDataRecursively(Array<DrawData>& ioDrawData, uint64 inNodeIndex, uint64 inDepth, uint64& ioMaxDepth)
@@ -366,6 +429,6 @@ void BVH::GetDrawDataRecursively(Array<DrawData>& ioDrawData, uint64 inNodeIndex
 	else // Branch Node
 	{
 		GetDrawDataRecursively(ioDrawData, node->mLeftFirst, inDepth + 1, ioMaxDepth);
-		GetDrawDataRecursively(ioDrawData, node->mLeftFirst+1, inDepth + 1, ioMaxDepth);
+		GetDrawDataRecursively(ioDrawData, node->mLeftFirst + 1, inDepth + 1, ioMaxDepth);
 	}
 }

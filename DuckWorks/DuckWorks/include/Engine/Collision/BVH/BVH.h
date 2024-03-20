@@ -18,10 +18,11 @@ public:
 	{
 		CollisionWorld* mCollisionWorld;
 	};
+
 	void Init(const InitParams& inParams);
 
 	void Draw(); ///< Debug draw the BVH
-	
+
 	void AddObject(const CollisionObjectHandle& inObject);
 	void AddObjects(const Array<CollisionObjectHandle>& inObjects);
 	void RemoveObject(const CollisionObjectHandle& inObject);
@@ -33,9 +34,10 @@ public:
 
 	// Refresh the object, adjusting its bounds
 	void RefreshObject(const CollisionObjectHandle& inObject);
-	
+
 	// Broadphase collision detection. It returns a const ref to avoid having to keep allocating memory. Keep in mind not to call this in a nested loop as the previous returned array will be invalidated!
 	const Array<CollisionObjectHandle>& GetBroadphaseCollisions(const AABB& inAABB);
+
 private:
 	Mutex mBVHMutex; ///< For generating or resizing the BVH itself
 
@@ -43,9 +45,11 @@ private:
 
 	struct CollisionObjectData
 	{
-		AABB mAABB = { FLT_MAX, FLT_MIN }; ///< The AABB is usually slightly bigger then the collision object's handle so it can move without having to immediately resize the BVH
+		AABB mAABB = {FLT_MAX, FLT_MIN};
+		///< The AABB is usually slightly bigger then the collision object's handle so it can move without having to immediately resize the BVH
 		CollisionObjectHandle mCollisionObjectHandle = {};
 	};
+
 	Array<CollisionObjectData> mObjects;
 	Array<BVHNode> mNodes;
 	uint32* mIndices = nullptr; ///< Indices of the objects in the mObjects array, uses int32 for space efficiency
@@ -64,7 +68,10 @@ private:
 
 	void CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const AABB& inAABB, uint64 inNodeIndex);
 	const Array<uint64>& FindNodeHierarchyContainingObject(const CollisionObjectHandle& inObject);
-	bool FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const fm::vec2 inCenter, uint64 inNodeIndex);
+	bool FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, fm::vec2 inCenter, uint64 inNodeIndex);
+
+	const Array<uint64>& FindFirstNodeHierarchyAtLocation(const fm::vec2& inlocation);
+	bool FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, fm::vec2 inLocation, uint64 inNodeIndex);
 
 	void ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB);
 
@@ -74,5 +81,6 @@ private:
 		uint64 mDepth;
 		bool mLeaf = false;
 	};
+
 	void GetDrawDataRecursively(Array<DrawData>& ioDrawData, uint64 inNodeIndex, uint64 inDepth, uint64& ioMaxDepth);
 };

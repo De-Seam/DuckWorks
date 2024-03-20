@@ -85,6 +85,7 @@ void Factory<taFactoryType, taArgs...>::RegisterClass(const String& inClassName)
 	gAssert(!mClassConstructors.contains(inClassName), "Class already registered!");
 	mClassConstructors[inClassName] = [](taArgs&&... inArgs)
 	{
+		gLog("Factory created class %s", taType::sGetClassName());
 		return std::make_shared<taType>(std::forward<taArgs>(inArgs)...);
 	};
 	mKeyList.push_back(inClassName);

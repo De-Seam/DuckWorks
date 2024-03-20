@@ -101,9 +101,39 @@ void Player::Update(float inDeltaTime)
 	moving_direction.x += Cast<float>(key_states[SDL_SCANCODE_D]);
 	moving_direction.x -= Cast<float>(key_states[SDL_SCANCODE_A]);
 
+	if (moving_direction.x == 0.f && moving_direction.y == 0.f)
+	{
+		if (mVelocity.x > 0.f)
+		{
+			mVelocity.x -= mVelocityDecrement.x * inDeltaTime;
+			mVelocity.x = std::max(mVelocity.x, 0.f);
+		}
+		else if (mVelocity.x < 0.f)
+		{
+			mVelocity.x += mVelocityDecrement.x * inDeltaTime;
+			mVelocity.x = std::min(mVelocity.x, 0.f);
+		}
+
+		if (mVelocity.y > 0.f)
+		{
+			mVelocity.y -= mVelocityDecrement.y * inDeltaTime;
+			mVelocity.y = std::max(mVelocity.y, 0.f);
+		}
+		else if (mVelocity.y < 0.f)
+		{
+			mVelocity.y += mVelocityDecrement.y * inDeltaTime;
+			mVelocity.y = std::min(mVelocity.y, 0.f);
+		}
+	}
+	else
+	{
+		mVelocity += moving_direction * mVelocityIncrement * inDeltaTime;
+	}
+	mVelocity = clamp2(mVelocity, -mMaxVelocity, mMaxVelocity);
+
 	fm::Transform2D& transform = GetComponent<TransformComponent>().mTransform;
 	fm::vec2 position = transform.position;
-	position += moving_direction * mVelocityIncrement * inDeltaTime;
+	position += mVelocity * inDeltaTime;
 	GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
 	transform.position = GetWorld()->GetCollisionWorld()->GetCollisionObject(GetComponent<CollisionComponent>().mCollisionObjectHandle).GetTransform().position;
 
@@ -124,28 +154,6 @@ void Player::SetupAnimations()
 {
 	AnimationComponent& animation_component = AddComponent<AnimationComponent>();
 	animation_component.mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
-	//AnimationBase::Frame frame = animation_component.mAnimation->GetFrame(Cast<uint16>(EPlayerAnimationState::Idle), 0);
-	//frame.mFunctionPtr = [this]()
-	//{
-	//	b2World* physics_world = mWorld->GetPhysicsWorld();
-	//	b2AABB aabb;
-	//	aabb.lowerBound = GetPhysicsBody()->GetPosition() - b2Vec2(1.f, 1.f);
-	//	aabb.upperBound = GetPhysicsBody()->GetPosition() + b2Vec2(1.f, 1.f);
-	//	physics_world->QueryAABB([this](b2Fixture* inFixture)
-	//		{
-	//		// This is a lambda function that is called for each fixture found in the query.
-	//		// If it returns true then the query will continue, otherwise it will stop.
-	//		// This is useful for finding the first fixture that matches a condition.
-	//		// In this case we are looking for the ground.
-	//		b2Body* body = inFixture->GetBody();
-	//		if (body->GetType() == b2_staticBody)
-	//		{
-	//			// We found the ground, so we can stop the query.
-	//			return false;
-	//		}
-	//		return true;
-	//	}, GetPhysicsBody()->GetAABB());
-	//};
 }
 
 void Player::OnMouseDown(const EventManager::EventData& inData)

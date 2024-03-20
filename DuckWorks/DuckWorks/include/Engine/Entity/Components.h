@@ -116,6 +116,27 @@ struct CollisionComponent : public ComponentBase
 	CollisionObjectHandle mCollisionObjectHandle;
 };
 
+struct GravityComponent : public ComponentBase
+{
+	RTTI_CLASS(GravityComponent, ComponentBase)
+
+	GravityComponent() = default;
+	GravityComponent(float inGravity) : mGravity(inGravity) {}
+
+	// Increase velocity by gravity per second
+	float mGravity = 100.f;
+};
+
+struct VelocityComponent : public ComponentBase
+{
+	RTTI_CLASS(VelocityComponent, ComponentBase)
+
+	VelocityComponent() = default;
+	VelocityComponent(const fm::vec2& inVelocity) : mVelocity(inVelocity) {}
+
+	fm::vec2 mVelocity = {};
+};
+
 struct TransformComponent : public ComponentBase
 {
 	RTTI_CLASS(TransformComponent, ComponentBase)
