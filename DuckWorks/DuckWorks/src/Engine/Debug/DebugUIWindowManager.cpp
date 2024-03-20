@@ -338,11 +338,21 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 	if (old_entity == selected_entity)
 	{
 		fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
-		selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
-		//if (selected_entity->HasComponent<PhysicsComponent>())
-		//{
-		//	selected_entity->TryAddComponent<PhysicsPositionOrRotationUpdatedTag>();
-		//}
+
+		if (selected_entity->HasComponent<CollisionComponent>())
+		{
+			const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
+			const fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(
+				collision_object_handle).GetTransform();
+			fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
+
+			selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
+
+			const fm::Transform2D& entity_transform = selected_entity->GetComponent<TransformComponent>().mTransform;
+			selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
+		}
+		else
+			selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
 	}
 }
 

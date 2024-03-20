@@ -11,6 +11,8 @@
 // External includes
 #include <External/imgui/imgui.h>
 
+#include "Engine/World/World.h"
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntityDetails)
 
 
@@ -49,7 +51,25 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 			bool changed = gDebugDrawJson(json, component_name);
 			if (changed)
-				component->Deserialize(json);
+			{
+				if (component->GetClassName() == TransformComponent::sGetClassName())
+				{
+					if (selected_entity->HasComponent<CollisionComponent>())
+					{
+						const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
+						const fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(
+							collision_object_handle).GetTransform();
+						fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
+
+						component->Deserialize(json);
+
+						const fm::Transform2D& entity_transform = selected_entity->GetComponent<TransformComponent>().mTransform;
+						selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
+					}
+				}
+				else
+					component->Deserialize(json);
+			}
 		}
 		else
 		{
@@ -70,11 +90,6 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 		SDL_FRect rect = gRenderer.GetSDLFRect(transform_component.mTransform.position, transform_component.mTransform.halfSize);
 		gRenderer.DrawRectangle(rect, {0.5f, 1.f, 0.5f, 0.75f});
 	}
-
-	//if (gDebugUIWindowManager.mDrawSelectedEntityPhysicsOutline && selected_entity->HasComponent<PhysicsComponent>())
-	//{
-	//	//gDrawEntityPhysicsOutline(selected_entity->GetComponent<PhysicsComponent>(), {1.f, 1.f, 1.f, 1.f});
-	//}
 
 	ImGui::End();
 }

@@ -25,9 +25,9 @@ void CollisionWorld::Draw()
 	mBVH.Draw();
 
 	LoopCollisionObjects([](const CollisionObject& inObject)
-		{
-			gDrawAABB(inObject.GetAABB(), { 1.f, 1.f, 1.f, 1.f });
-		});
+	{
+		gDrawAABB(inObject.GetAABB(), {1.f, 1.f, 1.f, 1.f});
+	});
 }
 
 CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObject::InitParams& inInitParams)
@@ -144,7 +144,7 @@ CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const Col
 	{
 		mCollisionObjects.emplace_back();
 		handle.mIndex = mCollisionObjects.size() - 1;
-		mCollisionObjects.back() = { inInitParams };
+		mCollisionObjects.back() = {inInitParams};
 		mCollisionObjects.back().mHandle = handle;
 		return handle;
 	}
