@@ -88,6 +88,8 @@ void Player::BeginPlay()
 
 void Player::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(Player::Update)
+
 	Base::Update(inDeltaTime);
 
 

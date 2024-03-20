@@ -18,6 +18,8 @@ BVH::~BVH()
 
 void BVH::AddObject(const CollisionObjectHandle& inObject)
 {
+	PROFILE_SCOPE(BVH::AddObject)
+
 	if (mObjects.size() <= inObject.mIndex)
 	{
 		mObjects.reserve(inObject.mIndex + 32); ///< Reserve some extra space to avoid reallocations
@@ -51,6 +53,8 @@ void BVH::RemoveObject(const CollisionObjectHandle& inObject)
 
 void BVH::Generate()
 {
+	PROFILE_SCOPE(BVH::Generate)
+
 	ScopedMutexWriteLock lock(mBVHMutex);
 
 	if (mIndices)
@@ -75,6 +79,8 @@ void BVH::Generate()
 
 void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 {
+	PROFILE_SCOPE(BVH::RefreshObject)
+
 	const CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
 	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
 	if (gFullyInsideOf(object.GetAABB(), mObjects[inObject.mIndex].mAABB))
@@ -104,6 +110,8 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 
 const Array<CollisionObjectHandle>& BVH::GetBroadphaseCollisions(const AABB& inAABB)
 {
+	PROFILE_SCOPE(BVH::GetBroadphaseCollisions)
+
 	static THREADLOCAL Array<CollisionObjectHandle> sReturnArray;
 	sReturnArray.clear();
 
@@ -133,6 +141,8 @@ AABB BVH::CreateAABBFromObjects(uint64 inFirst, uint64 inCount)
 
 void BVH::Subdivide(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth)
 {
+	PROFILE_SCOPE(BVH::Subdivide)
+
 	inNode->mAABB = CreateAABBFromObjects(inFirst, inCount);
 	Partition(inNode, inFirst, inCount, inDepth);
 }
@@ -287,9 +297,9 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, c
 		// This leaf node collides, add all objects inside of it to the return array.
 		for (uint64 i = 0; i < node->mCount; i++)
 		{
-			if (mObjects[mIndices[i]].mCollisionObjectHandle == inObject)
+			if (mObjects[mIndices[node->mLeftFirst + i]].mCollisionObjectHandle == inObject)
 			{
-				ioIndices.emplace_back(i);
+				ioIndices.emplace_back(node->mLeftFirst + i);
 				return true;
 			}
 		}

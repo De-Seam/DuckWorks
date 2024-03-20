@@ -21,6 +21,8 @@ void CollisionWorld::BeginPlay()
 
 CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObject::InitParams& inInitParams)
 {
+	PROFILE_SCOPE(CollisionWorld::CreateCollisionObject)
+
 	CollisionObjectHandle handle = FindOrCreateCollisionObjectIndex(inInitParams);
 	mBVH.AddObject(handle);
 	return handle;
@@ -28,6 +30,8 @@ CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObjec
 
 void CollisionWorld::DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle)
 {
+	PROFILE_SCOPE(CollisionWorld::DestroyCollisionObject)
+
 	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 	gAssert(mCollisionObjects[inObjectHandle.mIndex].mHandle == inObjectHandle, "Invalid Handle!");
 	mCollisionObjects[inObjectHandle.mIndex] = {};
@@ -50,6 +54,8 @@ void CollisionWorld::Rotate(const CollisionObjectHandle& inObjectHandle, float i
 
 void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation)
 {
+	PROFILE_SCOPE(CollisionWorld::MoveToAndRotate)
+
 	static THREADLOCAL Array<Pair<CollisionObjectHandle, CollisionInfo>> colliding_objects;
 	colliding_objects.clear();
 
