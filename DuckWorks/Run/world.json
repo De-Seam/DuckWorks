@@ -57,8 +57,8 @@
                     "CameraComponent": {
                         "mCamera": {
                             "mPosition": [
-                                152.42840576171875,
-                                64.0
+                                266.9788513183594,
+                                -90.16069030761719
                             ],
                             "mSize": [
                                 1920.0,
@@ -83,12 +83,12 @@
                                 32.0
                             ],
                             "Position": [
-                                152.4283905029297,
-                                64.00000762939453
+                                266.97894287109375,
+                                -90.16071319580078
                             ],
                             "Rotation": 0.0
                         },
-                        "mType": 0
+                        "mType": 1
                     },
                     "HealthComponent": {
                         "mHealth": 100.0
@@ -99,7 +99,7 @@
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            960,
+                            576,
                             0,
                             192,
                             192
@@ -116,8 +116,8 @@
                                 100.0
                             ],
                             "Position": [
-                                152.4283905029297,
-                                64.00000762939453
+                                266.97894287109375,
+                                -90.16071319580078
                             ],
                             "Rotation": 0.0
                         }
@@ -170,6 +170,56 @@
                             "Position": [
                                 128.0,
                                 0.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                158.4219970703125,
+                                -147.4499969482422
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                158.42214965820313,
+                                -147.4503173828125
                             ],
                             "Rotation": 0.0
                         }

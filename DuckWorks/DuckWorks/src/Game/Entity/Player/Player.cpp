@@ -77,7 +77,7 @@ Player::Player(World* inWorld)
 	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
 	CollisionObject::InitParams params;
 	params.mTransform = GetTransform();
-	params.mType = CollisionObject::Type::Static;
+	params.mType = CollisionObject::Type::Dynamic;
 	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 }
 

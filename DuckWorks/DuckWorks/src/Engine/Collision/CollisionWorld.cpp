@@ -4,6 +4,7 @@
 // Engine includes
 #include "Engine/Collision/CollisionHelperFunctions.h"
 #include "Engine/Collision/CollisionStructs.h"
+#include "Engine/Debug/DebugUIFunctions.h"
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)
 
@@ -17,6 +18,16 @@ CollisionWorld::CollisionWorld()
 void CollisionWorld::BeginPlay()
 {
 	mBVH.Generate();
+}
+
+void CollisionWorld::Draw()
+{
+	mBVH.Draw();
+
+	LoopCollisionObjects([](const CollisionObject& inObject)
+		{
+			gDrawAABB(inObject.GetAABB(), { 1.f, 1.f, 1.f, 1.f });
+		});
 }
 
 CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObject::InitParams& inInitParams)

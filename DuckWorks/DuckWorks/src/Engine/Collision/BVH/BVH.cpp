@@ -4,6 +4,8 @@
 // Engine includes
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
+#include "Engine/Renderer/Renderer.h"
+#include "Engine/Debug/DebugUIFunctions.h"
 
 void BVH::Init(const InitParams& inParams)
 {
@@ -75,6 +77,28 @@ void BVH::Generate()
 	Subdivide(&mNodes[0], 0, mObjects.size(), 0);
 
 	gLog("BVH Created with %i nodes\n", mNodes.size());
+}
+
+void BVH::Draw()
+{
+	PROFILE_SCOPE(BVH::Draw)
+
+	static Array<DrawData> sDrawDatas;
+	sDrawDatas.clear();
+
+	uint64 max_depth = 0;
+	GetDrawDataRecursively(sDrawDatas, 0, 0, max_depth);
+
+	for (DrawData& draw_data : sDrawDatas)
+	{
+		AABB& aabb = draw_data.mAABB;
+		fm::vec4 color = { 1.f, 0.f, 0.f, 1.f };
+		color.y = SCast<float>(draw_data.mDepth) / SCast<float>(max_depth);
+		if (draw_data.mLeaf)
+			color = { 0.f, 1.f, 0.f, 1.f };
+
+		gDrawAABB(aabb, color);
+	}
 }
 
 void BVH::RefreshObject(const CollisionObjectHandle& inObject)
@@ -279,12 +303,6 @@ const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjec
 	return sReturnArray;
 }
 
-void BVH::ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB)
-{
-	ioNode->mAABB.mMin = fm::min2(ioNode->mAABB.mMin, inAABB.mMin);
-	ioNode->mAABB.mMax = fm::max2(ioNode->mAABB.mMax, inAABB.mMax);
-}
-
 bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const fm::vec2 inCenter, uint64 inNodeIndex)
 {
 	BVHNode* node = &mNodes[inNodeIndex];
@@ -313,4 +331,41 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, c
 			ioIndices.emplace_back(node->mLeftFirst+1);
 	}
 	return false;
+}
+
+void BVH::ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB)
+{
+	ioNode->mAABB.mMin = fm::min2(ioNode->mAABB.mMin, inAABB.mMin);
+	ioNode->mAABB.mMax = fm::max2(ioNode->mAABB.mMax, inAABB.mMax);
+}
+
+void BVH::GetDrawDataRecursively(Array<DrawData>& ioDrawData, uint64 inNodeIndex, uint64 inDepth, uint64& ioMaxDepth)
+{
+	ioMaxDepth = fm::max(inDepth, ioMaxDepth);
+	BVHNode* node = &mNodes[inNodeIndex];
+
+	{
+		DrawData draw_data;
+		draw_data.mAABB = node->mAABB;
+		draw_data.mDepth = inDepth;
+		ioDrawData.emplace_back(draw_data);
+	}
+
+	if (node->mCount != 0) //Leaf node
+	{
+		// This leaf node collides, add all objects inside of it to the return array.
+		for (uint64 i = 0; i < node->mCount; i++)
+		{
+			DrawData draw_data;
+			draw_data.mAABB = mObjects[mIndices[node->mLeftFirst + i]].mAABB;
+			draw_data.mDepth = inDepth;
+			draw_data.mLeaf = true;
+			ioDrawData.emplace_back(draw_data);
+		}
+	}
+	else // Branch Node
+	{
+		GetDrawDataRecursively(ioDrawData, node->mLeftFirst, inDepth + 1, ioMaxDepth);
+		GetDrawDataRecursively(ioDrawData, node->mLeftFirst+1, inDepth + 1, ioMaxDepth);
+	}
 }

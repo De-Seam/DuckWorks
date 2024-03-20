@@ -296,10 +296,7 @@ void DebugUIWindowManager::UpdateViewport()
 
 	if (mDrawCollision)
 	{
-		gApp.GetWorld()->GetCollisionWorld()->LoopCollisionObjects([](const CollisionObject& inObject)
-		{
-			gDrawAABB(inObject.GetAABB(), {1.f, 1.f, 1.f, 1.f});
-		});
+		gApp.GetWorld()->GetCollisionWorld()->Draw();
 	}
 }
 

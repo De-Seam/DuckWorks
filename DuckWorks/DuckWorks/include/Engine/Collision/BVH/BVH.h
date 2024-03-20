@@ -19,6 +19,8 @@ public:
 		CollisionWorld* mCollisionWorld;
 	};
 	void Init(const InitParams& inParams);
+
+	void Draw(); ///< Debug draw the BVH
 	
 	void AddObject(const CollisionObjectHandle& inObject);
 	void AddObjects(const Array<CollisionObjectHandle>& inObjects);
@@ -65,4 +67,12 @@ private:
 	bool FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const fm::vec2 inCenter, uint64 inNodeIndex);
 
 	void ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB);
+
+	struct DrawData
+	{
+		AABB mAABB;
+		uint64 mDepth;
+		bool mLeaf = false;
+	};
+	void GetDrawDataRecursively(Array<DrawData>& ioDrawData, uint64 inNodeIndex, uint64 inDepth, uint64& ioMaxDepth);
 };
