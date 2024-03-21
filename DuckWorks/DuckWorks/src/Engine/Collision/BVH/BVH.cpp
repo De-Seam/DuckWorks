@@ -138,10 +138,18 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 
 	mObjects[mIndices[node_hierarchy[0]]].mAABB = aabb;
 
+	// Here we resize the leaf node to tightly fit around its objects.
+	// We do this because it's a relatively cheap operation which gives a big performance boost
+	// Index 1 is the leaf node
+	BVHNode* leaf_node = &mNodes[node_hierarchy[1]];
+	leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
+
+	// All the parent nodes we simply expand instead of resizing.
+	// This because otherwise it would be a very expensive operation.
 	// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
-	for (uint64 i = 1; i < node_hierarchy.size(); i++)
+	for (uint64 i = 2; i < node_hierarchy.size(); i++)
 	{
-		ExpandNodeToFitAABB(&mNodes[node_hierarchy[i]], aabb);
+		ExpandNodeToFitAABB(&mNodes[node_hierarchy[i]], leaf_node->mAABB);
 	}
 }
 
