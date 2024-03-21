@@ -58,8 +58,8 @@
                     "CameraComponent": {
                         "mCamera": {
                             "mPosition": [
-                                236.502197265625,
-                                -135.68421936035156
+                                87.28289794921875,
+                                -91.23970031738281
                             ],
                             "mSize": [
                                 1920.0,
@@ -85,8 +85,8 @@
                                 32.0
                             ],
                             "Position": [
-                                236.50241088867188,
-                                -135.68443298339844
+                                87.28292846679688,
+                                -91.23966217041016
                             ],
                             "Rotation": 0.0
                         },
@@ -101,7 +101,7 @@
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            192,
+                            576,
                             0,
                             192,
                             192
@@ -118,8 +118,8 @@
                                 100.0
                             ],
                             "Position": [
-                                236.50241088867188,
-                                -135.68443298339844
+                                87.28292846679688,
+                                -91.23966217041016
                             ],
                             "Rotation": 0.0
                         }
@@ -246,8 +246,8 @@
                                 32.0
                             ],
                             "Position": [
-                                54.834022521972656,
-                                -221.52667236328125
+                                -25.380271911621094,
+                                -214.29397583007813
                             ],
                             "Rotation": 0.0
                         },
@@ -276,8 +276,8 @@
                                 32.0
                             ],
                             "Position": [
-                                54.834381103515625,
-                                -221.52685546875
+                                -25.379913330078125,
+                                -214.29415893554688
                             ],
                             "Rotation": 0.0
                         }
@@ -431,6 +431,822 @@
                             "Position": [
                                 404.5090026855469,
                                 -446.42242431640625
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                307.76251220703125,
+                                -239.96054077148438
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                307.76251220703125,
+                                -239.96054077148438
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -48.705970764160156,
+                                -340.3605041503906
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -48.705970764160156,
+                                -340.3605041503906
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                96.75126647949219,
+                                -387.79388427734375
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                96.75126647949219,
+                                -387.7939758300781
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                6.946189880371094,
+                                -497.30322265625
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                6.946189880371094,
+                                -497.3028869628906
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                213.96865844726563,
+                                -455.1090087890625
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                213.96865844726563,
+                                -455.108642578125
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -104.87385559082031,
+                                -474.1189880371094
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -104.87385559082031,
+                                -474.1190185546875
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                23.53960418701172,
+                                -593.0130615234375
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                23.53960418701172,
+                                -593.0128784179688
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -132.64620971679688,
+                                -589.7581787109375
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -132.64620971679688,
+                                -589.7578125
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                15.940299987792969,
+                                -693.7418823242188
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                15.940299987792969,
+                                -693.7420043945313
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -173.80776977539063,
+                                -736.2880249023438
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -173.80776977539063,
+                                -736.2882690429688
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                236.43797302246094,
+                                -596.2146606445313
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                236.43797302246094,
+                                -596.2150268554688
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -452.4870910644531,
+                                -633.1949462890625
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -452.4870910644531,
+                                -633.1951904296875
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                137.28952026367188,
+                                -900.0989990234375
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                137.28952026367188,
+                                -900.0990600585938
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                349.0060119628906,
+                                -688.9051513671875
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                349.00634765625,
+                                -688.9051513671875
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                260.3185729980469,
+                                -816.5750122070313
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                260.3185729980469,
+                                -816.5747680664063
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "SolidObstacle": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                32.76554870605469,
+                                -790.319091796875
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 0
+                    },
+                    "NameComponent": {
+                        "mName": "SolidObstacle"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/DefaultTexture.png"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                32.76554870605469,
+                                -790.319091796875
                             ],
                             "Rotation": 0.0
                         }

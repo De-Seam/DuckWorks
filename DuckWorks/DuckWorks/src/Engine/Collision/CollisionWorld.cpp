@@ -128,9 +128,18 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 	}
 }
 
+void CollisionWorld::TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)
+{
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	fm::Transform2D transform = mCollisionObjects[inObjectHandle.mIndex].GetTransform();
+	transform.position = inPosition;
+	mCollisionObjects[inObjectHandle.mIndex].SetTransform(transform);
+	mBVH.RefreshObject(inObjectHandle);
+}
+
 void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {
-	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(inTransform);
 	mBVH.RefreshObject(inObjectHandle);
 }
@@ -166,16 +175,18 @@ void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectH
 
 CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const CollisionObject::InitParams& inInitParams)
 {
-	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 	CollisionObjectHandle handle;
 	if (mFreeCollisionObjectIndices.empty())
 	{
+		ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 		mCollisionObjects.emplace_back();
 		handle.mIndex = mCollisionObjects.size() - 1;
 		mCollisionObjects.back() = {inInitParams};
 		mCollisionObjects.back().mHandle = handle;
 		return handle;
 	}
+
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	uint64 index = mFreeCollisionObjectIndices.back();
 	handle.mIndex = index;
 	mFreeCollisionObjectIndices.pop_back();

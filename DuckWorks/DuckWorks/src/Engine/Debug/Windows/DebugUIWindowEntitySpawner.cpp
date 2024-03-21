@@ -32,10 +32,16 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 		{
 			SharedPtr<Entity> entity = gEntityFactory.CreateClass(entity_name, gApp.GetWorld());
 			gApp.GetWorld()->AddEntity(entity, entity_name);
+			fm::vec2 position = gRenderer.GetCamera()->GetPosition();
 			if (entity->HasComponent<TransformComponent>())
 			{
 				TransformComponent& transform_component = entity->GetComponent<TransformComponent>();
-				transform_component.mTransform.position = gRenderer.GetCamera()->GetPosition();
+				transform_component.mTransform.position = position;
+			}
+			if (entity->HasComponent<CollisionComponent>())
+			{
+				CollisionComponent& collision_component = entity->GetComponent<CollisionComponent>();
+				gApp.GetWorld()->GetCollisionWorld()->TeleportPosition(collision_component.mCollisionObjectHandle, position);
 			}
 		}
 	}

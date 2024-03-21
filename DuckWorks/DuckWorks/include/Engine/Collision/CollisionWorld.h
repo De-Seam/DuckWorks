@@ -26,6 +26,7 @@ class CollisionWorld : public RTTIBaseClass
 	void Rotate(const CollisionObjectHandle& inObjectHandle, float inRotation);
 	void MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation);
 	// Teleports object to the given position, does not check for collision.
+	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
 	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
 
 	void DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson);
