@@ -22,7 +22,7 @@ public:
 private:
 	Array<SharedPtr<SDLEventFunction>> mSDLEventFunctions;
 	Array<SharedPtr<EventManager::EventFunction>> mEventFunctions;
-	fm::vec2 mVelocityIncrement = {1000.f}; ///< Velocity increment per second
+	fm::vec2 mVelocityIncrement = {1700.f, 1200.f}; ///< Velocity increment per second
 	fm::vec2 mVelocity = {0.f};
 	float mMaxVelocity = 200.f; ///< Maximum velocity
 	fm::vec2 mVelocityDecrement = {700.f, 200.f}; ///< Velocity decrement per second

@@ -98,34 +98,30 @@ void Player::Update(float inDeltaTime)
 	moving_direction.x += Cast<float>(key_states[SDL_SCANCODE_D]);
 	moving_direction.x -= Cast<float>(key_states[SDL_SCANCODE_A]);
 
-	if (moving_direction.x == 0.f && moving_direction.y == 0.f)
+	if (mVelocity.x > 0.f)
 	{
-		if (mVelocity.x > 0.f)
-		{
-			mVelocity.x -= mVelocityDecrement.x * inDeltaTime;
-			mVelocity.x = std::max(mVelocity.x, 0.f);
-		}
-		else if (mVelocity.x < 0.f)
-		{
-			mVelocity.x += mVelocityDecrement.x * inDeltaTime;
-			mVelocity.x = std::min(mVelocity.x, 0.f);
-		}
+		mVelocity.x -= mVelocityDecrement.x * inDeltaTime;
+		mVelocity.x = std::max(mVelocity.x, 0.f);
+	}
+	else if (mVelocity.x < 0.f)
+	{
+		mVelocity.x += mVelocityDecrement.x * inDeltaTime;
+		mVelocity.x = std::min(mVelocity.x, 0.f);
+	}
 
-		if (mVelocity.y > 0.f)
-		{
-			mVelocity.y -= mVelocityDecrement.y * inDeltaTime;
-			mVelocity.y = std::max(mVelocity.y, 0.f);
-		}
-		else if (mVelocity.y < 0.f)
-		{
-			mVelocity.y += mVelocityDecrement.y * inDeltaTime;
-			mVelocity.y = std::min(mVelocity.y, 0.f);
-		}
-	}
-	else
+	if (mVelocity.y > 0.f)
 	{
-		mVelocity += moving_direction * mVelocityIncrement * inDeltaTime;
+		mVelocity.y -= mVelocityDecrement.y * inDeltaTime;
+		mVelocity.y = std::max(mVelocity.y, 0.f);
 	}
+	else if (mVelocity.y < 0.f)
+	{
+		mVelocity.y += mVelocityDecrement.y * inDeltaTime;
+		mVelocity.y = std::min(mVelocity.y, 0.f);
+	}
+
+	mVelocity += moving_direction * mVelocityIncrement * inDeltaTime;
+
 	mVelocity = clamp2(mVelocity, -mMaxVelocity, mMaxVelocity);
 
 	fm::Transform2D& transform = GetComponent<TransformComponent>().mTransform;
