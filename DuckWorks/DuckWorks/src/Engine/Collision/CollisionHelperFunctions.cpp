@@ -178,3 +178,11 @@ AABB gComputeAABB(const fm::Transform2D& inTransform)
 
 	return aabb;
 }
+
+AABB gComputeEncompassingAABB(const AABB& inA, const AABB& inB)
+{
+	AABB aabb;
+	aabb.mMin = fm::min2(inA.mMin, inB.mMin);
+	aabb.mMax = fm::max2(inA.mMax, inB.mMax);
+	return aabb;
+}
