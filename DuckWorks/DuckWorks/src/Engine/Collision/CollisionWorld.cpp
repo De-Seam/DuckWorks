@@ -67,8 +67,8 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 {
 	PROFILE_SCOPE(CollisionWorld::MoveToAndRotate)
 
-	static THREADLOCAL Array<Pair<CollisionObjectHandle, CollisionInfo>> colliding_objects;
-	colliding_objects.clear();
+	static THREADLOCAL Array<Pair<CollisionObject::OnCollisionFunc, CollisionObject::CollisionFuncParams>> collision_callback_functions;
+	collision_callback_functions.clear();
 
 	fm::Transform2D new_transform;
 	{
@@ -80,6 +80,7 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, new_transform.position, inRotation);
 		AABB swept_shape_aabb = gComputeAABB(swept_shape);
 		const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(swept_shape_aabb);
+		
 		for (const CollisionObjectHandle& collision : broadphase_collisions)
 		{
 			if (collision == inObjectHandle)
@@ -89,15 +90,36 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 			CollisionInfo collision_info = gCollides(swept_shape, other_object.GetTransform());
 			if (collision_info.mCollides)
 			{
-				gLog("%v2", collision_info.mDirection);
-				new_transform.position += collision_info.mDirection * collision_info.mDepth;
-				swept_shape = gComputeSweptShape(object.mTransform, new_transform.position, inRotation);
+				CollisionObject::CollisionFuncParams collision_func_params;
+				collision_func_params.mOther = inObjectHandle;
+				collision_func_params.mSelf = collision;
+				collision_func_params.mCollisionInfo = collision_info;
+
+				if (object.IsBlocking() && other_object.IsBlocking())
+				{
+					new_transform.position += collision_info.mDirection * collision_info.mDepth;
+					swept_shape = gComputeSweptShape(object.mTransform, new_transform.position, inRotation);
+				}
+
+				collision_callback_functions.emplace_back(other_object.mOnCollisionFunction, collision_func_params);
 			}
 		}
 
 		new_transform.rotation = inRotation;
 	}
 	SetTransformInternal(inObjectHandle, new_transform);
+
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+	for (auto& function : collision_callback_functions)
+	{
+		function.first(function.second);
+	}
+	for (auto& function : collision_callback_functions)
+	{
+		fm::swap(function.second.mSelf, function.second.mOther);
+		object.mOnCollisionFunction(function.second);
+	}
 }
 
 void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)

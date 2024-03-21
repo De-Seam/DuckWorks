@@ -7,6 +7,7 @@ Json CollisionObject::Serialize() const
 	Json json = Base::Serialize();
 
 	JSON_SAVE(json, mType);
+	JSON_SAVE(json, mBlocking);
 	JSON_SAVE(json, mShapeType);
 	JSON_SAVE(json, mTransform);
 
@@ -18,6 +19,7 @@ void CollisionObject::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mType);
+	JSON_TRY_LOAD(inJson, mBlocking);
 	JSON_TRY_LOAD(inJson, mShapeType);
 	JSON_TRY_LOAD(inJson, mTransform);
 
@@ -28,6 +30,7 @@ CollisionObject::CollisionObject(const InitParams& inInitParams)
 {
 	mTransform = inInitParams.mTransform;
 	mType = inInitParams.mType;
+	mBlocking = inInitParams.mBlocking;
 	CalculateAABB();
 }
 

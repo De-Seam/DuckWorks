@@ -9,6 +9,7 @@
 class CollisionObject : public RTTIBaseClass
 {
 	RTTI_CLASS(CollisionObject, RTTIBaseClass)
+public:
 
 	enum class Type : uint8
 	{
@@ -20,6 +21,7 @@ class CollisionObject : public RTTIBaseClass
 	{
 		fm::Transform2D mTransform;
 		Type mType = Type::Static;
+		bool mBlocking = true;
 	};
 
 	CollisionObject() = default;
@@ -34,6 +36,7 @@ class CollisionObject : public RTTIBaseClass
 	};
 
 	void SetType(Type inType) { mType = inType; }
+	void SetBlocking(bool inBlocking) { mBlocking = inBlocking; }
 	[[deprecated]] void SetShapeType(ShapeType inShapeType);
 
 	const CollisionObjectHandle& GetHandle() const { return mHandle; }
@@ -44,6 +47,16 @@ class CollisionObject : public RTTIBaseClass
 	const AABB& GetAABB() const { return mAABB; }
 
 	Type GetType() const { return mType; }
+	bool IsBlocking() const { return mBlocking; }
+
+	struct CollisionFuncParams
+	{
+		CollisionFuncParams() = default;
+
+		CollisionObjectHandle mSelf;
+		CollisionObjectHandle mOther;
+		CollisionInfo mCollisionInfo;
+	};
 
 private:
 	CollisionObjectHandle mHandle;
@@ -52,8 +65,12 @@ private:
 	AABB mAABB;
 
 	Type mType = Type::Static;
+	bool mBlocking = true;
 
 	ShapeType mShapeType = ShapeType::Box;
+
+	using OnCollisionFunc = std::function<void(const CollisionFuncParams& inParams)>;
+	OnCollisionFunc mOnCollisionFunction;
 
 private:
 	void SetTransform(const fm::Transform2D& inTransform);

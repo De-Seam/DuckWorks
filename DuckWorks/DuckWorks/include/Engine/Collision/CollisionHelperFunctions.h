@@ -4,15 +4,6 @@
 // Engine includes
 #include "Engine/Collision/CollisionStructs.h"
 
-struct CollisionInfo
-{
-	bool mCollides;
-	fm::vec2 mDirection;
-	float mDepth;
-
-	CollisionInfo(bool c, fm::vec2 dir, float d) : mCollides(c), mDirection(dir), mDepth(d) {}
-};
-
 bool gFullyInsideOf(const AABB& inA, const AABB& inB);
 bool gCollides(const AABB& inA, const AABB& inB);
 bool gCollides(const fm::vec2& inPoint, const AABB& inAABB);

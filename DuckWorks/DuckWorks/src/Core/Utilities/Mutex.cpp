@@ -22,6 +22,19 @@ void Mutex::ReadUnlock()
 	mMutex.unlock_shared();
 }
 
+bool Mutex::TryReadLock()
+{
+	bool locked = mMutex.try_lock_shared();
+#ifdef _DEBUG
+	if (locked)
+	{
+		gAssert(std::ranges::find(gMutexes.begin(), gMutexes.end(), this) == gMutexes.end(), "Mutex was already locked!");
+		gMutexes.push_back(this);
+	}
+#endif
+	return locked;
+}
+
 void Mutex::WriteLock()
 {
 #ifdef _DEBUG

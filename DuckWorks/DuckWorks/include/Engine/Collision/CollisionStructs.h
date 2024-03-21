@@ -33,3 +33,13 @@ struct AABB
 		return mMax - (length * 0.5f);
 	}
 };
+
+struct CollisionInfo
+{
+	bool mCollides;
+	fm::vec2 mDirection;
+	float mDepth;
+
+	CollisionInfo(bool c, fm::vec2 dir, float d) : mCollides(c), mDirection(dir), mDepth(d) {}
+	CollisionInfo() = default;
+};
