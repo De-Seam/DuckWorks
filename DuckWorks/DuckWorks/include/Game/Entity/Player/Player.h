@@ -32,4 +32,6 @@ private:
 	void SetupAnimations();
 	void OnMouseDown(const EventManager::EventData& inData);
 	void OnMouseUp(const EventManager::EventData& inData);
+
+	void OnCollision(const CollisionFuncParams& inParams);
 };

@@ -43,3 +43,14 @@ struct CollisionInfo
 	CollisionInfo(bool c, fm::vec2 dir, float d) : mCollides(c), mDirection(dir), mDepth(d) {}
 	CollisionInfo() = default;
 };
+
+struct CollisionFuncParams
+{
+	CollisionFuncParams() = default;
+
+	CollisionObjectHandle mSelf;
+	CollisionObjectHandle mOther;
+	CollisionInfo mCollisionInfo;
+};
+
+using OnCollisionFunc = std::function<void(const CollisionFuncParams& inParams)>;

@@ -75,6 +75,10 @@ Player::Player(World* inWorld)
 	CollisionObject::InitParams params;
 	params.mTransform = GetTransform();
 	params.mType = CollisionObject::Type::Dynamic;
+	params.mOnCollisionFunction = [this](const CollisionFuncParams& inParams)
+	{
+		OnCollision(inParams);
+	};
 	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 }
 
@@ -163,4 +167,9 @@ void Player::OnMouseUp(const EventManager::EventData& inData)
 	{
 		mAttacking = false;
 	}
+}
+
+void Player::OnCollision(const CollisionFuncParams& inParams)
+{
+	gLog("Player collided with %u", inParams.mOther.mIndex);
 }

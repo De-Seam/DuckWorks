@@ -67,7 +67,7 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 {
 	PROFILE_SCOPE(CollisionWorld::MoveToAndRotate)
 
-	static THREADLOCAL Array<Pair<CollisionObject::OnCollisionFunc, CollisionObject::CollisionFuncParams>> collision_callback_functions;
+	static THREADLOCAL Array<Pair<OnCollisionFunc, CollisionFuncParams>> collision_callback_functions;
 	collision_callback_functions.clear();
 
 	fm::Transform2D new_transform;
@@ -80,7 +80,7 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, new_transform.position, inRotation);
 		AABB swept_shape_aabb = gComputeAABB(swept_shape);
 		const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(swept_shape_aabb);
-		
+
 		for (const CollisionObjectHandle& collision : broadphase_collisions)
 		{
 			if (collision == inObjectHandle)
@@ -90,7 +90,7 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 			CollisionInfo collision_info = gCollides(swept_shape, other_object.GetTransform());
 			if (collision_info.mCollides)
 			{
-				CollisionObject::CollisionFuncParams collision_func_params;
+				CollisionFuncParams collision_func_params;
 				collision_func_params.mOther = inObjectHandle;
 				collision_func_params.mSelf = collision;
 				collision_func_params.mCollisionInfo = collision_info;
@@ -113,10 +113,16 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
 	for (auto& function : collision_callback_functions)
 	{
+		if (function.first == nullptr)
+			continue;
+
 		function.first(function.second);
 	}
 	for (auto& function : collision_callback_functions)
 	{
+		if (object.mOnCollisionFunction == nullptr)
+			continue;
+
 		fm::swap(function.second.mSelf, function.second.mOther);
 		object.mOnCollisionFunction(function.second);
 	}

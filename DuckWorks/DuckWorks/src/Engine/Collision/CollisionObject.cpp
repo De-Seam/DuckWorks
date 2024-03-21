@@ -31,6 +31,8 @@ CollisionObject::CollisionObject(const InitParams& inInitParams)
 	mTransform = inInitParams.mTransform;
 	mType = inInitParams.mType;
 	mBlocking = inInitParams.mBlocking;
+	if (inInitParams.mOnCollisionFunction != nullptr)
+		mOnCollisionFunction = inInitParams.mOnCollisionFunction;
 	CalculateAABB();
 }
 
