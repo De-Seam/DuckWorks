@@ -4,6 +4,7 @@
 // Engine includes
 #include "Engine/World/World.h"
 #include "Engine/Collision/CollisionWorld.h"
+#include "Engine/Resources/ResourceManager.h"
 
 // Game includes
 #include "Game/Entity/Player/Player.h"
@@ -39,6 +40,8 @@ MovingPlatform::MovingPlatform(World* inWorld)
 	init_params.mType = CollisionObject::EType::Dynamic;
 	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(
 		CollisionObject::InitParams(transform, CollisionObject::EType::Dynamic, true));
+
+	AddComponent<TextureRenderComponent>().mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
 }
 
 void MovingPlatform::BeginPlay()
