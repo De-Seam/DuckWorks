@@ -9,7 +9,7 @@ Json BaseEntity::Serialize() const
 {
 	Json json;
 	const Array<String>& component_names = gComponentFactory.GetClassNames();
-	Json& json_component = json[GetClassName()]["Components"];
+	Json& json_component = json["Components"];
 	for (const String& component_name : component_names)
 	{
 		if (gComponentFactory.HasComponent(component_name, GetRegistry(), GetEntityHandle()))

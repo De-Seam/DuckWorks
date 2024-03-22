@@ -22,9 +22,9 @@ class CollisionWorld : public RTTIBaseClass
 	void DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle);
 
 	// If you move AND rotate then use MoveToAndRotate to avoid checking collisions twice!
-	void MoveTo(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
-	void Rotate(const CollisionObjectHandle& inObjectHandle, float inRotation);
-	void MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation);
+	fm::vec2 MoveTo(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
+	float Rotate(const CollisionObjectHandle& inObjectHandle, float inRotation);
+	fm::Transform2D MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation);
 	// Teleports object to the given position, does not check for collision.
 	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
 	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);

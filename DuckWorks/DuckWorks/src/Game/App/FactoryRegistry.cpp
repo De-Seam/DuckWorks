@@ -20,6 +20,7 @@
 // Game includes
 #include "Game/Entity/SolidObstacle.h"
 #include "Game/Entity/Player/Player.h"
+#include "Game/Entity/MovingPlatform.h"
 
 
 void gRegisterFactoryClasses()
@@ -30,6 +31,7 @@ void gRegisterFactoryClasses()
 	REGISTER_ENTITY(Actor);
 	REGISTER_ENTITY(Player);
 	REGISTER_ENTITY(SolidObstacle);
+	REGISTER_ENTITY(MovingPlatform);
 
 	// Components
 	REGISTER_COMPONENT(NameComponent);

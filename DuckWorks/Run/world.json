@@ -58,8 +58,8 @@
                     "CameraComponent": {
                         "mCamera": {
                             "mPosition": [
-                                87.28289794921875,
-                                -91.23970031738281
+                                -126.12982940673828,
+                                -188.6060333251953
                             ],
                             "mSize": [
                                 1920.0,
@@ -85,8 +85,8 @@
                                 32.0
                             ],
                             "Position": [
-                                87.28292846679688,
-                                -91.23966217041016
+                                -126.12980651855469,
+                                -188.6060791015625
                             ],
                             "Rotation": 0.0
                         },
@@ -118,19 +118,19 @@
                                 100.0
                             ],
                             "Position": [
-                                87.28292846679688,
-                                -91.23966217041016
+                                -126.12980651855469,
+                                -188.6060791015625
                             ],
                             "Rotation": 0.0
                         }
                     }
-                }
-            },
-            "mMaxVelocity": 200.0,
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ]
+                },
+                "mMaxVelocity": 200.0,
+                "mVelocityIncrement": [
+                    2000.0,
+                    2000.0
+                ]
+            }
         },
         {
             "Actor": {
@@ -1252,6 +1252,69 @@
                         }
                     }
                 }
+            }
+        },
+        {
+            "MovingPlatform": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -145.0,
+                                96.66963958740234
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 1
+                    },
+                    "NameComponent": {
+                        "mName": "MovingPlatform"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/top.jpg"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -145.0,
+                                96.66963958740234
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                },
+                "mMoveExtents": [
+                    0.0,
+                    100.0
+                ],
+                "mMoveSpeed": [
+                    -0.0,
+                    100.0
+                ],
+                "mStartPosition": [
+                    -145.0,
+                    0.0
+                ]
             }
         }
     ],

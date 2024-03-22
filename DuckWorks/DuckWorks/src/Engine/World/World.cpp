@@ -26,7 +26,10 @@ Json World::Serialize() const
 
 	for (const EntityPtr& entity : mEntities)
 	{
-		json["Entities"].emplace_back(entity->Serialize());
+		Json entity_json;
+		entity_json[entity->GetClassName()] = entity->Serialize();
+		json["Entities"].emplace_back(entity_json);
+		//json["Entities"].emplace_back(entity->Serialize());
 	}
 	return json;
 }

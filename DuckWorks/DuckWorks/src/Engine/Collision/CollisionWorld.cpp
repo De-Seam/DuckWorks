@@ -51,19 +51,19 @@ void CollisionWorld::DestroyCollisionObject(const CollisionObjectHandle& inObjec
 	mBVH.RemoveObject(inObjectHandle);
 }
 
-void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)
+fm::vec2 CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)
 {
 	float rotation = mCollisionObjects[inObjectHandle.mIndex].GetRotation();
-	MoveToAndRotate(inObjectHandle, inPosition, rotation);
+	return MoveToAndRotate(inObjectHandle, inPosition, rotation).position;
 }
 
-void CollisionWorld::Rotate(const CollisionObjectHandle& inObjectHandle, float inRotation)
+float CollisionWorld::Rotate(const CollisionObjectHandle& inObjectHandle, float inRotation)
 {
 	fm::vec2 position = mCollisionObjects[inObjectHandle.mIndex].GetPosition();
-	MoveToAndRotate(inObjectHandle, position, inRotation);
+	return MoveToAndRotate(inObjectHandle, position, inRotation).rotation;
 }
 
-void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation)
+fm::Transform2D CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation)
 {
 	PROFILE_SCOPE(CollisionWorld::MoveToAndRotate)
 
@@ -74,6 +74,9 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 	{
 		ScopedMutexReadLock lock(mCollisionObjectsMutex);
 		CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+
+		gDebugIf(object.GetType() == CollisionObject::Type::Static, gLog(LogType::Warning, "Trying to move a static object!"));
+
 		new_transform = object.GetTransform();
 		new_transform.position = inPosition;
 
@@ -126,6 +129,8 @@ void CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inObjectHandle
 		fm::swap(function.second.mSelf, function.second.mOther);
 		object.mOnCollisionFunction(function.second);
 	}
+
+	return new_transform;
 }
 
 void CollisionWorld::TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)

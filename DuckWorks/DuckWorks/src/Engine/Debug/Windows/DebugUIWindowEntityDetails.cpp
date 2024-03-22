@@ -37,17 +37,37 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	if (ImGui::Button("Destroy##DeleteButton"))
 		selected_entity->TryAddComponent<DestroyedTag>(selected_entity->mUID);
 
+	Json json_entity = selected_entity->Serialize();
+	bool entity_changed = false;
+
+	for (const auto& [key, value] : json_entity.items())
+	{
+		if (key == "Components")
+			continue;
+
+		if (gHandleKeyValuePair(json_entity, "EntityVariables##EntityDetails", key, value, false))
+			entity_changed = true;
+	}
+	if(entity_changed)
+		selected_entity->Deserialize(json_entity);
+
+	Json& json_components = json_entity["Components"];
+
+	ImGui::Separator();
+	ImGui::TextColored(ImVec4(1.f, 1.f, 1.f, 1.f), "Components");
+
 	const Array<String>& all_component_names = gComponentFactory.GetClassNames();
 	for (const String& component_name : all_component_names)
 	{
-		bool has_component = gComponentFactory.HasComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
+		bool has_component = json_components.contains(component_name);
 		ImGui::Separator();
 		ImVec4 component_text_color = has_component ? ImVec4{0.25, 1.f, 0.25f, 1.f} : ImVec4{1.f, 0.25f, 0.25f, 1.f};
 		ImGui::TextColored(component_text_color, "%s", component_name.c_str());
 		if (has_component)
 		{
 			ComponentBase* component = gComponentFactory.GetComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
-			Json json = component->Serialize();
+
+			Json& json = json_components[component_name];
 
 			bool changed = gDebugDrawJson(json, component_name);
 			if (changed)

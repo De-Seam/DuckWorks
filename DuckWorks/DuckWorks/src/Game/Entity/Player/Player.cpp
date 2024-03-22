@@ -27,8 +27,6 @@ Json Player::Serialize() const
 
 void Player::Deserialize(const Json& inJson)
 {
-	PROFILE_SCOPE(World::Deserialize)
-
 	JSON_TRY_LOAD(inJson, mVelocityIncrement);
 	JSON_TRY_LOAD(inJson, mMaxVelocity);
 
