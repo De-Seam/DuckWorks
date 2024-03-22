@@ -11,7 +11,7 @@ class CollisionObject : public RTTIBaseClass
 	RTTI_CLASS(CollisionObject, RTTIBaseClass)
 
 public:
-	enum class Type : uint8
+	enum class EType : uint8
 	{
 		Static,
 		Dynamic
@@ -20,8 +20,10 @@ public:
 	struct InitParams
 	{
 		fm::Transform2D mTransform;
-		Type mType = Type::Static;
+		EType mType = EType::Static;
 		bool mBlocking = true;
+
+		EntityWeakPtr mEntity;
 
 		OnCollisionFunc mOnCollisionFunction = nullptr;
 	};
@@ -37,7 +39,7 @@ public:
 		Circle ///< As a circle, the radius is mTransform.halfSize.x, and mTransform.halfSize.y is ignored
 	};
 
-	void SetType(Type inType) { mType = inType; }
+	void SetType(EType inType) { mType = inType; }
 	void SetBlocking(bool inBlocking) { mBlocking = inBlocking; }
 	[[deprecated]] void SetShapeType(ShapeType inShapeType);
 
@@ -47,8 +49,9 @@ public:
 	float GetRotation() const { return mTransform.rotation; }
 	const fm::Transform2D& GetTransform() const { return mTransform; }
 	const AABB& GetAABB() const { return mAABB; }
+	EntityWeakPtr GetEntity() const { return mEntity; }
 
-	Type GetType() const { return mType; }
+	EType GetType() const { return mType; }
 	bool IsBlocking() const { return mBlocking; }
 
 private:
@@ -57,12 +60,14 @@ private:
 	fm::Transform2D mTransform;
 	AABB mAABB;
 
-	Type mType = Type::Static;
+	EType mType = EType::Static;
 	bool mBlocking = true;
 
 	ShapeType mShapeType = ShapeType::Box;
 
 	OnCollisionFunc mOnCollisionFunction;
+
+	EntityWeakPtr mEntity;
 
 private:
 	void SetTransform(const fm::Transform2D& inTransform);

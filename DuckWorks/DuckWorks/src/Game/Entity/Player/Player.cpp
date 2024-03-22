@@ -72,7 +72,8 @@ Player::Player(World* inWorld)
 	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
 	CollisionObject::InitParams params;
 	params.mTransform = GetTransform();
-	params.mType = CollisionObject::Type::Dynamic;
+	params.mType = CollisionObject::EType::Dynamic;
+	params.mEntity = mThisWeakPtr;
 	params.mOnCollisionFunction = [this](const CollisionFuncParams& inParams)
 	{
 		OnCollision(inParams);

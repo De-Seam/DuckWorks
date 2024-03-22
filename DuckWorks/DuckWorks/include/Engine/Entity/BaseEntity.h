@@ -3,6 +3,7 @@
 #include "Components.h"
 
 // External includes
+#include "Core/Utilities/Utilities.h"
 #include "Core/Utilities/UID.h"
 
 #include "External/entt/entt.hpp"

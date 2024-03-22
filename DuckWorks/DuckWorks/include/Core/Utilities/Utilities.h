@@ -40,6 +40,10 @@ using HashMap = phmap::flat_hash_map<taKey, taValue>;
 template<typename taTypeA, typename taTypeB>
 using Pair = std::pair<taTypeA, taTypeB>;
 
+class Entity;
+using EntityPtr = SharedPtr<Entity>;
+using EntityWeakPtr = WeakPtr<Entity>;
+
 // Casts
 #define SCast static_cast
 #define RCast reinterpret_cast

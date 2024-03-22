@@ -36,7 +36,7 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 	data.mCollisionObjectHandle = inObject;
 	const CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
 	data.mAABB = object.GetAABB();
-	if (object.GetType() == CollisionObject::Type::Dynamic)
+	if (object.GetType() == CollisionObject::EType::Dynamic)
 	{
 		AdjustAABBForDynamicObject(data.mAABB);
 	}
@@ -121,7 +121,7 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 		return;
 
 	AABB aabb = object.GetAABB();
-	if (object.GetType() == CollisionObject::Type::Dynamic)
+	if (object.GetType() == CollisionObject::EType::Dynamic)
 		AdjustAABBForDynamicObject(aabb);
 
 	// If this BVH has not been generated yet there are no nodes to resize, so we can early out.

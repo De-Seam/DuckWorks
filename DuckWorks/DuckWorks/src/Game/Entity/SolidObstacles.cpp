@@ -35,6 +35,6 @@ SolidObstacle::SolidObstacle(World* inWorld)
 
 	CollisionObject::InitParams params;
 	params.mTransform = GetTransform();
-	params.mType = CollisionObject::Type::Static;
+	params.mType = CollisionObject::EType::Static;
 	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 }

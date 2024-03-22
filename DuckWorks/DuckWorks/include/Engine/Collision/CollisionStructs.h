@@ -54,3 +54,9 @@ struct CollisionFuncParams
 };
 
 using OnCollisionFunc = std::function<void(const CollisionFuncParams& inParams)>;
+
+struct CollisionData
+{
+	CollisionObjectHandle mHandle;
+	CollisionInfo mCollisionInfo;
+};

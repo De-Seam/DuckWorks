@@ -75,7 +75,7 @@ fm::Transform2D CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inO
 		ScopedMutexReadLock lock(mCollisionObjectsMutex);
 		CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
 
-		gDebugIf(object.GetType() == CollisionObject::Type::Static, gLog(LogType::Warning, "Trying to move a static object!"));
+		gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(LogType::Warning, "Trying to move a static object!"));
 
 		new_transform = object.GetTransform();
 		new_transform.position = inPosition;
@@ -147,6 +147,33 @@ void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHand
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(inTransform);
 	mBVH.RefreshObject(inObjectHandle);
+}
+
+const Array<CollisionData>& CollisionWorld::CheckCollisions(const fm::Transform2D mTransform)
+{
+	PROFILE_SCOPE(CollisionWorld::CheckCollision)
+
+	static THREADLOCAL Array<CollisionData> collision_data;
+	collision_data.clear();
+
+	AABB aabb = gComputeAABB(mTransform);
+	const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(aabb);
+
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	for (const CollisionObjectHandle& collision : broadphase_collisions)
+	{
+		const CollisionObject& other_object = GetCollisionObject(collision);
+		CollisionInfo collision_info = gCollides(mTransform, other_object.GetTransform());
+		if (collision_info.mCollides)
+		{
+			CollisionData data;
+			data.mHandle = collision;
+			data.mCollisionInfo = collision_info;
+			collision_data.emplace_back(data);
+		}
+	}
+
+	return collision_data;
 }
 
 void CollisionWorld::DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson)

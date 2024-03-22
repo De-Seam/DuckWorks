@@ -1,11 +1,6 @@
 #pragma once
 #include "BaseEntity.h"
 
-
-class Entity;
-
-using EntityPtr = SharedPtr<Entity>;
-using EntityWeakPtr = WeakPtr<Entity>;
 /*
  * Entity rules:
  * An EntityPtr (SharedPtr<Entity>) is a reference to an entity which is always valid.
@@ -18,6 +13,12 @@ class Entity : public BaseEntity
 	RTTI_CLASS(Entity, BaseEntity)
 
 public:
+	struct InitParams
+	{
+		World* mWorld = nullptr;
+		EntityWeakPtr mThisWeakPtr;
+	};
+
 	Entity(World* inWorld)
 		: BaseEntity(inWorld) {}
 
