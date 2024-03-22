@@ -42,6 +42,7 @@ public:
 	void SetType(EType inType) { mType = inType; }
 	void SetBlocking(bool inBlocking) { mBlocking = inBlocking; }
 	[[deprecated]] void SetShapeType(ShapeType inShapeType);
+	void SetEntityPtr(const EntityWeakPtr& inEntity) { mEntity = inEntity; }
 
 	const CollisionObjectHandle& GetHandle() const { return mHandle; }
 	const fm::vec2& GetPosition() const { return mTransform.position; }

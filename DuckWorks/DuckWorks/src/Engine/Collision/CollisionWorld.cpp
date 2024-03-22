@@ -197,6 +197,12 @@ void CollisionWorld::LoopCollisionObjects(const std::function<void(const Collisi
 	}
 }
 
+void CollisionWorld::SetEntityPtr(const CollisionObjectHandle& inObjectHandle, EntityWeakPtr inEntity)
+{
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	mCollisionObjects[inObjectHandle.mIndex].SetEntityPtr(inEntity);
+}
+
 void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);

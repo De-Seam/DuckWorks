@@ -173,10 +173,11 @@ void World::DestroyEntities()
 EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 {
 	PROFILE_SCOPE(World::AddEntity)
+	inEntity->mThisWeakPtr = inEntity;
 	inEntity->AddComponent<EntityComponent>(inEntity);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
-	if(mBegunPlay)
+	if (mBegunPlay)
 		inEntity->BeginPlay();
 	return mEntities.back();
 }

@@ -29,11 +29,13 @@ class CollisionWorld : public RTTIBaseClass
 	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
 	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
 
-	const Array<CollisionData>& CheckCollisions(const fm::Transform2D mTransform);
+	const Array<CollisionData>& CheckCollisions(fm::Transform2D mTransform);
 
 	void DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson);
 	const CollisionObject& GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
 	void LoopCollisionObjects(const std::function<void(const CollisionObject&)>& inFunction);
+
+	void SetEntityPtr(const CollisionObjectHandle& inObjectHandle, EntityWeakPtr inEntity);
 
 private:
 	Array<CollisionObject> mCollisionObjects = {};

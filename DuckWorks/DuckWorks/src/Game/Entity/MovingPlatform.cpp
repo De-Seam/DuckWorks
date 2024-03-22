@@ -37,7 +37,8 @@ MovingPlatform::MovingPlatform(World* inWorld)
 	CollisionObject::InitParams init_params;
 	init_params.mTransform = transform;
 	init_params.mType = CollisionObject::EType::Dynamic;
-	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(CollisionObject::InitParams(transform, CollisionObject::EType::Dynamic, true));
+	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(
+		CollisionObject::InitParams(transform, CollisionObject::EType::Dynamic, true));
 }
 
 void MovingPlatform::BeginPlay()
@@ -84,7 +85,7 @@ void MovingPlatform::Update(float inDeltaTime)
 	const Array<CollisionData>& collision_data = GetWorld()->GetCollisionWorld()->CheckCollisions(transform);
 	for (const CollisionData& data : collision_data)
 	{
-		if(data.mHandle == GetComponent<CollisionComponent>().mCollisionObjectHandle)
+		if (data.mHandle == GetComponent<CollisionComponent>().mCollisionObjectHandle)
 			continue;
 
 		if (data.mHandle.IsValid())
@@ -97,8 +98,8 @@ void MovingPlatform::Update(float inDeltaTime)
 				{
 					SharedPtr<Player> player = SPCast<Player>(entity);
 					fm::vec2 player_position = player->GetPosition();
-					player_position += (old_position - position);
-					player->SetPosition(player_position);
+					player_position += (position - old_position);
+					player->SetPosition(GetWorld()->GetCollisionWorld()->MoveTo(data.mHandle, player_position));
 				}
 			}
 		}

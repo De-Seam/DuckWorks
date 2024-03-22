@@ -84,6 +84,9 @@ Player::Player(World* inWorld)
 void Player::BeginPlay()
 {
 	Base::BeginPlay();
+
+	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
+	GetWorld()->GetCollisionWorld()->SetEntityPtr(handle, mThisWeakPtr);
 }
 
 void Player::Update(float inDeltaTime)
@@ -130,8 +133,8 @@ void Player::Update(float inDeltaTime)
 	fm::Transform2D& transform = GetComponent<TransformComponent>().mTransform;
 	fm::vec2 position = transform.position;
 	position += mVelocity * inDeltaTime;
-	GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
-	transform.position = GetWorld()->GetCollisionWorld()->GetCollisionObject(GetComponent<CollisionComponent>().mCollisionObjectHandle).GetTransform().position;
+	transform.position = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
+	//transform.position = GetWorld()->GetCollisionWorld()->GetCollisionObject(GetComponent<CollisionComponent>().mCollisionObjectHandle).GetTransform().position;
 
 	//fm::vec2 velocity = GetVelocity();
 	//fm::vec2 velocity_increment = moving_direction * fm::vec2(mVelocityIncrement * inDeltaTime);
