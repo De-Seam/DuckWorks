@@ -42,8 +42,6 @@ public:
 		RedWhite = 0x0040 + 15
 	};
 
-	void SetConsoleColor(int32 inColor);
-
 	void CleanLogQueue(bool inErrorOnly = false);
 
 	Mutex& GetLogMutex() { return mLogMutex; }

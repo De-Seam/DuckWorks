@@ -2,8 +2,6 @@
 #include "Core/Log/Log.h"
 
 #include <cstdarg>
-#include <iostream>
-#include <WTypesbase.h>
 #include <fstream>
 
 void gLog(const char* fmt ...)
@@ -62,8 +60,8 @@ void LogManager::Log(LogType logType, const char* fmt ...)
 void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 {
 	PROFILE_SCOPE(LogManager::Log)
-	String msg;
-	msg.reserve(128);
+	static THREADLOCAL String msg;
+	msg.clear();
 
 	switch (inLogType)
 	{
@@ -132,12 +130,6 @@ void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 
 	LogQueueItem logQueueItem = {inLogType, msg};
 	mLogQueue.enqueue(logQueueItem);
-}
-
-void LogManager::SetConsoleColor(int32 inColor)
-{
-	HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(console_handle, static_cast<WORD>(inColor));
 }
 
 void LogManager::CleanLogQueue(bool inErrorOnly)
@@ -255,19 +247,6 @@ void LogManager::LogThreadLoop()
 
 		PROFILE_SCOPE(LogManager::LogThreadLoop)
 
-		switch (queueItem.logType)
-		{
-		case LogType::Info:
-			SetConsoleColor(static_cast<int32>(ConsoleColor::White));
-			break;
-		case LogType::Warning:
-			SetConsoleColor(static_cast<int32>(ConsoleColor::Yellow));
-			break;
-		case LogType::Error:
-			SetConsoleColor(static_cast<int32>(ConsoleColor::Red));
-			break;
-		}
-
 		mLogMutex.WriteLock();
 
 		LogEntry log_entry = {queueItem.logType, queueItem.msg};
@@ -276,8 +255,6 @@ void LogManager::LogThreadLoop()
 		queueItem.msg += "\n";
 		mOutputLog += queueItem.msg;
 		mLogMutex.WriteUnlock();
-
-		SetConsoleColor(static_cast<int32>(ConsoleColor::White));
 
 		if (mOutputLog.size() > mMaxOutputLogSize)
 			WriteLogToFile();
