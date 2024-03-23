@@ -34,14 +34,6 @@ public:
 	void Log(LogType inLogType, const char* fmt...);
 	void Log(LogType inLogType, const char* fmt, va_list args);
 
-	enum class ConsoleColor : int32
-	{
-		White = 15,
-		Yellow = 14,
-		Red = 4,
-		RedWhite = 0x0040 + 15
-	};
-
 	void CleanLogQueue(bool inErrorOnly = false);
 
 	Mutex& GetLogMutex() { return mLogMutex; }
