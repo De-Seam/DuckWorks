@@ -7,7 +7,6 @@
 #include "Engine/Resources/ResourceManager.h"
 
 // External includes
-#include <External/box2d/box2d.h>
 #include <External/SDL/SDL.h>
 
 // Game includes (ILLEGAL!)

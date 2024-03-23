@@ -68,15 +68,8 @@ using EntityWeakPtr = WeakPtr<Entity>;
 
 #define JSON_LOAD(inJson, inVariable) inVariable = (inJson)[(#inVariable)].get<decltype(inVariable)>()
 
-
-// Pre definitions
-class b2Body;
-class b2Vec2;
-
 // Utility functions
 bool gIsValidTextureExtension(const std::string& inFilePath);
-
-void gChangeB2BoxSize(b2Body* ioBody, const fm::vec2& inNewHalfSize);
 
 // JSON Serialization helper functions
 namespace fm
@@ -155,11 +148,6 @@ inline void from_json(const Json& inJson, Transform2D& outVariable)
 class TextureResource;
 void to_json(Json& outJson, const SharedPtr<TextureResource>& inVariable);
 void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable);
-
-// b2Vec2
-class b2Vec2;
-void to_json(Json& outJson, const b2Vec2& inVariable);
-void from_json(const Json& inJson, b2Vec2& outVariable);
 
 // AABB
 struct AABB;

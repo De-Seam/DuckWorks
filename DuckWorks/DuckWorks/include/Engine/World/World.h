@@ -7,8 +7,6 @@
 
 // External includes
 #include <External/entt/entt.hpp>
-#include <External/box2d/b2_world.h>
-#include <External/box2d/b2_fixture.h>
 
 class b2World;
 
@@ -26,7 +24,7 @@ public:
 	void Render(float inDeltaTime);
 
 	void BeginPlay();
-	
+
 	void UpdateEntities(float inDeltaTime);
 	void DestroyEntities();
 

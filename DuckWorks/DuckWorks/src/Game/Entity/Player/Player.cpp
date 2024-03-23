@@ -2,18 +2,15 @@
 #include "Game/Entity/Player/Player.h"
 
 // Engine includes
-#include <Engine/World/World.h>
-#include <Engine/Resources/ResourceManager.h>
+#include "Engine/World/World.h"
+#include "Engine/Resources/ResourceManager.h"
+#include "Engine/Events/EventManager.h"
+#include "Engine/Renderer/AnimationManager.h"
 
 // Game includes
 #include "Game/App/App.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 
-// External includes
-#include <External/box2d/box2d.h>
-
-#include "Engine/Events/EventManager.h"
-#include "Engine/Renderer/AnimationManager.h"
 
 Json Player::Serialize() const
 {

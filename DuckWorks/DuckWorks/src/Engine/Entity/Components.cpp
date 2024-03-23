@@ -7,8 +7,6 @@
 
 #include "Game/App/App.h"
 
-#include "External/box2d/box2d.h"
-
 // NameComponent
 Json NameComponent::Serialize() const
 {
@@ -89,8 +87,7 @@ void CollisionComponent::Deserialize(const Json& inJson)
 }
 
 CollisionComponent::CollisionComponent()
-{
-}
+{}
 
 // TransformComponent
 Json TransformComponent::Serialize() const

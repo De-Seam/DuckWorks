@@ -68,7 +68,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>box2d.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
@@ -97,7 +97,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>box2d.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
@@ -153,46 +153,6 @@
     <ClInclude Include="include\Engine\World\Chunk.h" />
     <ClInclude Include="include\Engine\World\World.h" />
     <ClInclude Include="include\External\BitBool\BitBool.h" />
-    <ClInclude Include="include\External\box2d\b2_api.h" />
-    <ClInclude Include="include\External\box2d\b2_block_allocator.h" />
-    <ClInclude Include="include\External\box2d\b2_body.h" />
-    <ClInclude Include="include\External\box2d\b2_broad_phase.h" />
-    <ClInclude Include="include\External\box2d\b2_chain_shape.h" />
-    <ClInclude Include="include\External\box2d\b2_circle_shape.h" />
-    <ClInclude Include="include\External\box2d\b2_collision.h" />
-    <ClInclude Include="include\External\box2d\b2_common.h" />
-    <ClInclude Include="include\External\box2d\b2_contact.h" />
-    <ClInclude Include="include\External\box2d\b2_contact_manager.h" />
-    <ClInclude Include="include\External\box2d\b2_distance.h" />
-    <ClInclude Include="include\External\box2d\b2_distance_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_draw.h" />
-    <ClInclude Include="include\External\box2d\b2_dynamic_tree.h" />
-    <ClInclude Include="include\External\box2d\b2_edge_shape.h" />
-    <ClInclude Include="include\External\box2d\b2_fixture.h" />
-    <ClInclude Include="include\External\box2d\b2_friction_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_gear_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_growable_stack.h" />
-    <ClInclude Include="include\External\box2d\b2_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_math.h" />
-    <ClInclude Include="include\External\box2d\b2_motor_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_mouse_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_polygon_shape.h" />
-    <ClInclude Include="include\External\box2d\b2_prismatic_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_pulley_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_revolute_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_rope.h" />
-    <ClInclude Include="include\External\box2d\b2_settings.h" />
-    <ClInclude Include="include\External\box2d\b2_shape.h" />
-    <ClInclude Include="include\External\box2d\b2_stack_allocator.h" />
-    <ClInclude Include="include\External\box2d\b2_timer.h" />
-    <ClInclude Include="include\External\box2d\b2_time_of_impact.h" />
-    <ClInclude Include="include\External\box2d\b2_time_step.h" />
-    <ClInclude Include="include\External\box2d\b2_types.h" />
-    <ClInclude Include="include\External\box2d\b2_weld_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_wheel_joint.h" />
-    <ClInclude Include="include\External\box2d\b2_world.h" />
-    <ClInclude Include="include\External\box2d\b2_world_callbacks.h" />
-    <ClInclude Include="include\External\box2d\box2d.h" />
     <ClInclude Include="include\External\entt\entt.hpp" />
     <ClInclude Include="include\External\imgui\imconfig.h" />
     <ClInclude Include="include\External\imgui\imgui.h" />

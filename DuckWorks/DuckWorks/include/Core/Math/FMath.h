@@ -1,12 +1,11 @@
 #pragma once
+#include "Core/Utilities/Types.h"
+
 #include <cmath>
 #include <cassert>
 #include <cstdint>
-#include <immintrin.h>
 #include <string>
-#include <iostream>
 
-#include <External/box2d/b2_types.h>
 
 #pragma warning (push)
 #pragma warning (disable : 4201) //to avoid nameless struct / union warning.

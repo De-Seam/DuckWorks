@@ -1,6 +1,5 @@
 #pragma once
 #include "Entity.h"
-#include "External/box2d/b2_body.h"
 
 // An actor is an entity that has a transform component. It can be moved and rotated, and physics can be added
 class Actor : public Entity

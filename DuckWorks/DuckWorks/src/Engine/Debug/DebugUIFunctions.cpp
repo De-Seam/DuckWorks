@@ -5,7 +5,6 @@
 
 // External includes
 #include "External/imgui/imgui.h"
-#include "External/box2d/box2d.h"
 
 bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 {

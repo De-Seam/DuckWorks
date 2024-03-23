@@ -97,7 +97,7 @@ void MovingPlatform::Update(float inDeltaTime)
 			EntityPtr entity = collision_object.GetEntity().lock();
 			if (entity != nullptr)
 			{
-				if (entity->GetClassName() == "Player")
+				if (strcmp(entity->GetClassName(), "Player") == 0)
 				{
 					SharedPtr<Player> player = SPCast<Player>(entity);
 					fm::vec2 player_position = player->GetPosition();
