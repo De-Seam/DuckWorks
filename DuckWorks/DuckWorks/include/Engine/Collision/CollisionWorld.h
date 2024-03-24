@@ -17,6 +17,8 @@ class CollisionWorld : public RTTIBaseClass
 	void BeginPlay();
 
 	void Draw();
+	void DrawCollision();
+	void DrawBVH();
 
 	CollisionObjectHandle CreateCollisionObject(const CollisionObject::InitParams& inInitParams);
 	void DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle);

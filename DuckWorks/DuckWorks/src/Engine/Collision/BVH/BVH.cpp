@@ -99,11 +99,15 @@ void BVH::Draw()
 	uint64 max_depth = 0;
 	GetDrawDataRecursively(sDrawDatas, 0, 0, max_depth);
 
+	uint32 seed = 1;
 	for (DrawData& draw_data : sDrawDatas)
 	{
 		AABB& aabb = draw_data.mAABB;
-		fm::vec4 color = {1.f, 0.f, 0.f, 1.f};
-		color.y = SCast<float>(draw_data.mDepth) / SCast<float>(max_depth);
+		fm::vec4 color = {0.f, 0.f, 1.f, 1.f};
+		float rand = fm::xorshift32f(&seed) * 0.5f + 0.5f;
+		color.x = SCast<float>(draw_data.mDepth) / SCast<float>(max_depth);
+		color.y = rand;
+
 		if (draw_data.mLeaf)
 			color = {0.f, 1.f, 0.f, 1.f};
 

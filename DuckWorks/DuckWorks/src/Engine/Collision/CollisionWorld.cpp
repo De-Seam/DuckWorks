@@ -22,12 +22,21 @@ void CollisionWorld::BeginPlay()
 
 void CollisionWorld::Draw()
 {
-	mBVH.Draw();
+	DrawBVH();
+	DrawCollision();
+}
 
+void CollisionWorld::DrawCollision()
+{
 	LoopCollisionObjects([](const CollisionObject& inObject)
 	{
 		gDrawAABB(inObject.GetAABB(), {1.f, 1.f, 1.f, 1.f});
 	});
+}
+
+void CollisionWorld::DrawBVH()
+{
+	mBVH.Draw();
 }
 
 CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObject::InitParams& inInitParams)

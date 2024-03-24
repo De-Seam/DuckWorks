@@ -95,7 +95,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 		}
 		else
 		{
-			String label = String("+##" + component_name + "AddButton").c_str();
+			String label = String("+##" + component_name + "AddButton");
 			if (ImGui::SmallButton(label.c_str()))
 			{
 				gComponentFactory.CreateComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());

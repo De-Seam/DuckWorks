@@ -33,6 +33,7 @@ Json DebugUIWindowManager::Serialize() const
 	JSON_SAVE(json, mDrawEntityOutline);
 	JSON_SAVE(json, mDrawSelectedEntityPhysicsOutline);
 	JSON_SAVE(json, mDrawCollision);
+	JSON_SAVE(json, mDrawBVH);
 
 	JSON_SAVE(json, mDebugFileName);
 
@@ -52,6 +53,7 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mDrawEntityOutline);
 	JSON_TRY_LOAD(inJson, mDrawSelectedEntityPhysicsOutline);
 	JSON_TRY_LOAD(inJson, mDrawCollision);
+	JSON_TRY_LOAD(inJson, mDrawBVH);
 
 	JSON_TRY_LOAD(inJson, mDebugFileName);
 
@@ -285,6 +287,7 @@ void DebugUIWindowManager::UpdateMainMenuBarDrawModes()
 		ImGui::MenuItem("Draw Entity Outline##mDrawSelectedEntityPhysicsOutlineMenuItem", nullptr, &mDrawEntityOutline);
 		ImGui::MenuItem("Draw Physics Outline##mDrawEntityOutlineMenuItem", nullptr, &mDrawSelectedEntityPhysicsOutline);
 		ImGui::MenuItem("Draw Collision##mDrawCollisionMenuItem", nullptr, &mDrawCollision);
+		ImGui::MenuItem("Draw BVH##mDrawCollisionMenuItem", nullptr, &mDrawBVH);
 
 		ImGui::EndMenu();
 	}
@@ -294,9 +297,14 @@ void DebugUIWindowManager::UpdateViewport()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::UpdateViewport)
 
+	if (mDrawBVH)
+	{
+		gApp.GetWorld()->GetCollisionWorld()->DrawBVH();
+	}
+
 	if (mDrawCollision)
 	{
-		gApp.GetWorld()->GetCollisionWorld()->Draw();
+		gApp.GetWorld()->GetCollisionWorld()->DrawCollision();
 	}
 }
 
