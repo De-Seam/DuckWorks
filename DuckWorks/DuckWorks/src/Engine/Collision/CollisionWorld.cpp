@@ -89,7 +89,7 @@ fm::Transform2D CollisionWorld::MoveToAndRotate(const CollisionObjectHandle& inO
 			if (collision == inObjectHandle)
 				continue;
 
-			const CollisionObject& other_object = GetCollisionObject(collision);
+			CollisionObject& other_object = GetCollisionObjectNoMutex(collision);
 			CollisionInfo collision_info = gCollides(swept_shape, other_object.GetTransform());
 			if (collision_info.mCollides)
 			{
@@ -162,7 +162,7 @@ const Array<CollisionData>& CollisionWorld::CheckCollisions(const fm::Transform2
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	for (const CollisionObjectHandle& collision : broadphase_collisions)
 	{
-		const CollisionObject& other_object = GetCollisionObject(collision);
+		CollisionObject& other_object = GetCollisionObjectNoMutex(collision);
 		CollisionInfo collision_info = gCollides(mTransform, other_object.GetTransform());
 		if (collision_info.mCollides)
 		{
@@ -183,7 +183,13 @@ void CollisionWorld::DeserializeCollisionObject(const CollisionObjectHandle& inO
 	mBVH.RefreshObject(inObjectHandle);
 }
 
-const CollisionObject& CollisionWorld::GetCollisionObject(const CollisionObjectHandle& inObjectHandle)
+Pair<Mutex&, CollisionObject&> CollisionWorld::GetCollisionObject(const CollisionObjectHandle& inObjectHandle)
+{
+	mCollisionObjectsMutex.ReadLock();
+	return {mCollisionObjectsMutex, GetCollisionObjectNoMutex(inObjectHandle)};
+}
+
+CollisionObject& CollisionWorld::GetCollisionObjectNoMutex(const CollisionObjectHandle& inObjectHandle)
 {
 	return mCollisionObjects[inObjectHandle.mIndex];
 }
@@ -202,6 +208,7 @@ void CollisionWorld::SetEntityPtr(const CollisionObjectHandle& inObjectHandle, E
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	mCollisionObjects[inObjectHandle.mIndex].SetEntityPtr(inEntity);
 }
+
 
 void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {

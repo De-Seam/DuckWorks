@@ -34,7 +34,7 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 
 	CollisionObjectData data;
 	data.mCollisionObjectHandle = inObject;
-	const CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
+	CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
 	data.mAABB = object.GetAABB();
 	if (object.GetType() == CollisionObject::EType::Dynamic)
 	{
@@ -115,7 +115,7 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::RefreshObject)
 
-	const CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
+	CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
 	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
 	if (gFullyInsideOf(object.GetAABB(), mObjects[inObject.mIndex].mAABB))
 		return;

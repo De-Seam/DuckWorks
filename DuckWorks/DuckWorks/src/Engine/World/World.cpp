@@ -183,7 +183,6 @@ EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 
 EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 {
-	ScopedMutexReadLock lock{mEntitiesMutex};
 	ScopedMutexReadLock lock2{mRegistryMutex};
 
 	auto view = mRegistry.view<TransformComponent>();
@@ -210,6 +209,7 @@ EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 		// Check if the rotated point lies within the rectangle's bounds
 		if (std::abs(rotatedPoint.x) <= half_size.x && std::abs(rotatedPoint.y) <= half_size.y)
 		{
+			ScopedMutexReadLock lock{mEntitiesMutex};
 			// The point is inside this entity's rotated bounding box
 			BaseEntity base_entity = {entity, this};
 			return base_entity.GetComponent<EntityComponent>().mEntity.lock(); // Assuming EntityPtr can be constructed from entity directly

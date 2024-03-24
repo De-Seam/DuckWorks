@@ -32,7 +32,10 @@ class CollisionWorld : public RTTIBaseClass
 	const Array<CollisionData>& CheckCollisions(fm::Transform2D mTransform);
 
 	void DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson);
-	const CollisionObject& GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
+	Mutex& GetCollisionObjectsMutex() { return mCollisionObjectsMutex; }
+	Pair<Mutex&, CollisionObject&> GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
+	CollisionObject& GetCollisionObjectNoMutex(const CollisionObjectHandle& inObjectHandle);
+	///< Returns a locked mutex and a reference to the object. The mutex should be unlocked when done with it.
 	void LoopCollisionObjects(const std::function<void(const CollisionObject&)>& inFunction);
 
 	void SetEntityPtr(const CollisionObjectHandle& inObjectHandle, EntityWeakPtr inEntity);

@@ -48,7 +48,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 		if (gHandleKeyValuePair(json_entity, "EntityVariables##EntityDetails", key, value, false))
 			entity_changed = true;
 	}
-	if(entity_changed)
+	if (entity_changed)
 		selected_entity->Deserialize(json_entity);
 
 	Json& json_components = json_entity["Components"];
@@ -77,8 +77,10 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 					if (selected_entity->HasComponent<CollisionComponent>())
 					{
 						const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
-						const fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(
-							collision_object_handle).GetTransform();
+						Pair<Mutex&, CollisionObject&> collision_object = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(
+							collision_object_handle);
+						const fm::Transform2D collision_transform = collision_object.second.GetTransform();
+						collision_object.first.ReadUnlock();
 						fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
 
 						component->Deserialize(json);

@@ -93,8 +93,9 @@ void MovingPlatform::Update(float inDeltaTime)
 
 		if (data.mHandle.IsValid())
 		{
-			const CollisionObject& collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle);
-			EntityPtr entity = collision_object.GetEntity().lock();
+			Pair<Mutex&, CollisionObject&> collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle);
+			EntityPtr entity = collision_object.second.GetEntity().lock();
+			collision_object.first.ReadUnlock();
 			if (entity != nullptr)
 			{
 				if (strcmp(entity->GetClassName(), "Player") == 0)

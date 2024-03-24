@@ -71,7 +71,9 @@ Json CollisionComponent::Serialize() const
 	if (!mCollisionObjectHandle.IsValid())
 		return json;
 
-	json.update(gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle).Serialize());
+	Pair<Mutex&, CollisionObject&> collision_object = gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
+	json.update(collision_object.second.Serialize());
+	collision_object.first.ReadUnlock();
 
 	return json;
 }
