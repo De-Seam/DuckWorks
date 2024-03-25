@@ -291,6 +291,8 @@
     <ClInclude Include="include\External\SDL\SDL_vulkan.h" />
     <ClInclude Include="include\Game\App\App.h" />
     <ClInclude Include="include\Game\App\FactoryRegistry.h" />
+    <ClInclude Include="include\Game\Entity\Enemies\EnemyBase.h" />
+    <ClInclude Include="include\Game\Entity\Enemies\Zombie.h" />
     <ClInclude Include="include\Game\Entity\MovingPlatform.h" />
     <ClInclude Include="include\Game\Entity\Player\Player.h" />
     <ClInclude Include="include\Game\Entity\Player\PlayerAnimation.h" />
