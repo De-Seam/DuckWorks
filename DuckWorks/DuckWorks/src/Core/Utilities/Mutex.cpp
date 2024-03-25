@@ -5,6 +5,13 @@
 THREADLOCAL Array<Mutex*> gMutexes;
 #endif
 
+Mutex::~Mutex()
+{
+#ifdef _DEBUG
+	gAssert(std::ranges::find(gMutexes.begin(), gMutexes.end(), this) == gMutexes.end(), "Mutex was still locked!");
+#endif
+}
+
 void Mutex::ReadLock()
 {
 #ifdef _DEBUG

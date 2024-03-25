@@ -10,6 +10,7 @@
 class Mutex
 {
 public:
+	~Mutex();
 	void ReadLock(); ///< Locks the mutex for reading
 	void ReadUnlock(); ///< Unlocks the mutex from reading
 	bool TryReadLock(); ///< Tries to read lock the mutex. Returns true if successfull

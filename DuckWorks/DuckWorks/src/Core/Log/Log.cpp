@@ -41,12 +41,13 @@ void LogManager::Init()
 void LogManager::Shutdown()
 {
 	// We have to log something here so the thread which is waiting for a log message can exit.
-	Log(LogType::Info, "LogManager shutting down.");
 	mThreadRunning = false;
+	Log(LogType::Info, "LogManager shutting down.");
+
+	// We join the thread first so we can have lock free access to the log string
+	mLogThread.join();
 
 	WriteLogToFile();
-
-	mLogThread.join();
 }
 
 void LogManager::Log(LogType logType, const char* fmt ...)
@@ -199,6 +200,7 @@ void LogManager::WriteLogToFile()
 {
 	PROFILE_SCOPE(LogManager::WriteLogToFile)
 
+
 	// Construct the full path
 	std::filesystem::path dir(mLogFilePath);
 	std::filesystem::path file = dir / (mLogFileName + GetCurrentDateTime() + mLogFileExtension);
@@ -213,6 +215,8 @@ void LogManager::WriteLogToFile()
 			return;
 		}
 	}
+
+	ScopedMutexReadLock lock(mLogMutex);
 
 	std::ofstream log_file;
 	log_file.open(file, std::ios::out);
@@ -247,14 +251,15 @@ void LogManager::LogThreadLoop()
 
 		PROFILE_SCOPE(LogManager::LogThreadLoop)
 
-		mLogMutex.WriteLock();
+		{
+			ScopedMutexWriteLock lock(mLogMutex);
 
-		LogEntry log_entry = {queueItem.logType, queueItem.msg};
-		mLogEntries.emplace_back(log_entry);
+			LogEntry log_entry = { queueItem.logType, queueItem.msg };
+			mLogEntries.emplace_back(log_entry);
 
-		queueItem.msg += "\n";
-		mOutputLog += queueItem.msg;
-		mLogMutex.WriteUnlock();
+			queueItem.msg += "\n";
+			mOutputLog += queueItem.msg;
+		}
 
 		if (mOutputLog.size() > mMaxOutputLogSize)
 			WriteLogToFile();
