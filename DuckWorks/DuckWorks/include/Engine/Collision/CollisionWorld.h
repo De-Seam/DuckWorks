@@ -6,7 +6,6 @@
 
 // Engine includes
 #include "Engine/Collision/CollisionObject.h"
-#include "Engine/Collision/Grid.h"
 #include "Engine/Collision/BVH/BVH.h"
 
 class CollisionWorld : public RTTIBaseClass
