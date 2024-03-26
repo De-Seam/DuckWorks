@@ -132,6 +132,7 @@
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowWorldSettings.h" />
     <ClInclude Include="include\Engine\Entity\Actor.h" />
     <ClInclude Include="include\Engine\Entity\BaseEntity.h" />
+    <ClInclude Include="include\Engine\Entity\CollisionActor.h" />
     <ClInclude Include="include\Engine\Entity\Components.h" />
     <ClInclude Include="include\Engine\Entity\Entity.h" />
     <ClInclude Include="include\Engine\Events\EventManager.h" />
@@ -301,6 +302,7 @@
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Entity\CollisionActor.cpp" />
     <ClCompile Include="src\Game\Entity\MovingPlatform.cpp" />
     <ClCompile Include="src\Core\Utilities\Utilities.cpp" />
     <ClCompile Include="src\Engine\Collision\BVH\BVH.cpp" />

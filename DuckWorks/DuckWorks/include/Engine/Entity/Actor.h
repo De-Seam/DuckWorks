@@ -9,10 +9,10 @@ class Actor : public Entity
 public:
 	Actor(World* inWorld);
 
-	void SetTransform(const fm::Transform2D& transform) { GetComponent<TransformComponent>().mTransform = transform; }
-	void SetPosition(const fm::vec2& inPosition) { GetComponent<TransformComponent>().mTransform.position = inPosition; }
-	void SetHalfSize(const fm::vec2& inHalfSize) { GetComponent<TransformComponent>().mTransform.halfSize = inHalfSize; }
-	void SetRotation(float inRotation) { GetComponent<TransformComponent>().mTransform.rotation = inRotation; }
+	virtual void SetTransform(const fm::Transform2D& transform) { GetComponent<TransformComponent>().mTransform = transform; }
+	virtual void SetPosition(const fm::vec2& inPosition) { GetComponent<TransformComponent>().mTransform.position = inPosition; }
+	virtual void SetHalfSize(const fm::vec2& inHalfSize) { GetComponent<TransformComponent>().mTransform.halfSize = inHalfSize; }
+	virtual void SetRotation(float inRotation) { GetComponent<TransformComponent>().mTransform.rotation = inRotation; }
 
 	[[nodiscard]] TransformComponent& GetTransformComponent() { return GetComponent<TransformComponent>(); }
 	[[nodiscard]] fm::Transform2D& GetTransformRef() { return GetComponent<TransformComponent>().mTransform; }
