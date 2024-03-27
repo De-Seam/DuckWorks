@@ -44,6 +44,7 @@ fm::Transform2D CollisionActor::MoveTo(Optional<fm::vec2> inPosition, Optional<f
 
 	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
 	fm::Transform2D transform = GetWorld()->GetCollisionWorld()->MoveTo(handle, inPosition, inRotation, inHalfSize);
+	transform = transform + mRelativeTransform;
 	Base::SetTransform(transform);
 	return transform;
 }
@@ -52,12 +53,12 @@ void CollisionActor::TeleportPosition(const fm::vec2& inPosition)
 {
 	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
 	GetWorld()->GetCollisionWorld()->TeleportPosition(handle, inPosition - mRelativeTransform.position);
-	Base::SetPosition(inPosition);
+	Base::SetPosition(inPosition + mRelativeTransform.position);
 }
 
 void CollisionActor::TeleportTransform(const fm::Transform2D& inTransform)
 {
 	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
 	GetWorld()->GetCollisionWorld()->TeleportTransform(handle, inTransform - mRelativeTransform);
-	Base::SetTransform(inTransform);
+	Base::SetTransform(inTransform + mRelativeTransform);
 }
