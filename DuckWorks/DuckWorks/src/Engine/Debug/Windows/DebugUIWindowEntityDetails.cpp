@@ -77,10 +77,10 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 					if (selected_entity->HasComponent<CollisionComponent>())
 					{
 						const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
-						Pair<Mutex&, CollisionObject&> collision_object = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(
+						CollisionObjectWrapper collision_object = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(
 							collision_object_handle);
-						const fm::Transform2D collision_transform = collision_object.second.GetTransform();
-						collision_object.first.ReadUnlock();
+						const fm::Transform2D collision_transform = collision_object->GetTransform();
+						collision_object.Unlock();
 						fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
 
 						component->Deserialize(json);

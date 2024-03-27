@@ -93,9 +93,7 @@ void MovingPlatform::Update(float inDeltaTime)
 
 		if (data.mHandle.IsValid())
 		{
-			Pair<Mutex&, CollisionObject&> collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle);
-			EntityPtr entity = collision_object.second.GetEntity().lock();
-			collision_object.first.ReadUnlock();
+			EntityPtr entity = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle)->GetEntity().lock();
 			if (entity != nullptr)
 			{
 				if (strcmp(entity->GetClassName(), "Player") == 0)
@@ -103,12 +101,12 @@ void MovingPlatform::Update(float inDeltaTime)
 					SharedPtr<Player> player = SPCast<Player>(entity);
 					fm::vec2 player_position = player->GetPosition();
 					player_position += (position - old_position);
-					player->SetPosition(GetWorld()->GetCollisionWorld()->MoveTo(data.mHandle, player_position));
+					player->SetPosition(GetWorld()->GetCollisionWorld()->MoveTo(data.mHandle, player_position).position);
 				}
 			}
 		}
 	}
 
-	position = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
-	SetPosition(position);
+	transform = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
+	SetPosition(transform.position);
 }

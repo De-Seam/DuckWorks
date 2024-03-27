@@ -8,6 +8,38 @@
 #include "Engine/Collision/CollisionObject.h"
 #include "Engine/Collision/BVH/BVH.h"
 
+struct CollisionObjectWrapper
+{
+	CollisionObjectWrapper(Mutex& inMutex, CollisionObject& inObject)
+		: mMutex(&inMutex), mObject(inObject)
+	{
+	}
+
+	~CollisionObjectWrapper()
+	{
+		if(mMutex)
+			mMutex->ReadUnlock();
+	}
+
+	CollisionObject* operator->() 
+	{
+		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		return &mObject; 
+	}
+
+	void Unlock()
+	{
+		if (mMutex)
+			mMutex->ReadUnlock();
+		mMutex = nullptr;
+	}
+
+
+private:
+	CollisionObject& mObject;
+	Mutex* mMutex;
+};
+
 class CollisionWorld : public RTTIBaseClass
 {
 	RTTI_CLASS(CollisionWorld, RTTIBaseClass)
@@ -22,10 +54,8 @@ class CollisionWorld : public RTTIBaseClass
 	CollisionObjectHandle CreateCollisionObject(const CollisionObject::InitParams& inInitParams);
 	void DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle);
 
-	// If you move AND rotate then use MoveToAndRotate to avoid checking collisions twice!
-	fm::vec2 MoveTo(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
-	float Rotate(const CollisionObjectHandle& inObjectHandle, float inRotation);
-	fm::Transform2D MoveToAndRotate(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition, float inRotation);
+	// This function immediately checks for collision so don't call it multiple times on the same object if you can do it once!
+	fm::Transform2D MoveTo(const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation = NullOpt, Optional<fm::vec2> inHalfSize = NullOpt);
 	// Teleports object to the given position, does not check for collision.
 	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
 	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
@@ -34,7 +64,7 @@ class CollisionWorld : public RTTIBaseClass
 
 	void DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson);
 	Mutex& GetCollisionObjectsMutex() { return mCollisionObjectsMutex; }
-	Pair<Mutex&, CollisionObject&> GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
+	CollisionObjectWrapper GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
 	CollisionObject& GetCollisionObjectNoMutex(const CollisionObjectHandle& inObjectHandle);
 	///< Returns a locked mutex and a reference to the object. The mutex should be unlocked when done with it.
 	void LoopCollisionObjects(const std::function<void(const CollisionObject&)>& inFunction);

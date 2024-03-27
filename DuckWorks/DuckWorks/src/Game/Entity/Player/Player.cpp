@@ -31,13 +31,15 @@ void Player::Deserialize(const Json& inJson)
 }
 
 Player::Player(World* inWorld)
-	: Actor(inWorld)
+	: Base(inWorld)
 {
+	mRelativeTransform = { { 0.f,0.f }, { 192 - 64, 192 - 64 }, 0.f };
+
 	AddComponent<HealthComponent>();
 	CameraComponent& camera_component = AddComponent<CameraComponent>();
 	camera_component.mIsActive = true;
 
-	SetHalfSize(fm::vec2(100.0f, 100.0f));
+	SetHalfSize(fm::vec2(64.f, 64.f));
 
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
@@ -66,16 +68,15 @@ Player::Player(World* inWorld)
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 
-	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
-	CollisionObject::InitParams params;
-	params.mTransform = GetTransform();
-	params.mType = CollisionObject::EType::Dynamic;
-	params.mEntity = mThisWeakPtr;
-	params.mOnCollisionFunction = [this](const CollisionFuncParams& inParams)
-	{
-		OnCollision(inParams);
-	};
-	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
+	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
+	CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component.mCollisionObjectHandle);
+	
+	collision_object->SetType(CollisionObject::EType::Dynamic);
+	collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
+		{
+			OnCollision(inParams);
+		});
+	collision_object->SetEntityPtr(mThisWeakPtr);
 }
 
 void Player::BeginPlay()
@@ -130,7 +131,8 @@ void Player::Update(float inDeltaTime)
 	fm::Transform2D& transform = GetComponent<TransformComponent>().mTransform;
 	fm::vec2 position = transform.position;
 	position += mVelocity * inDeltaTime;
-	transform.position = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
+	MoveTo(position);
+	//transform = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
 	//transform.position = GetWorld()->GetCollisionWorld()->GetCollisionObject(GetComponent<CollisionComponent>().mCollisionObjectHandle).GetTransform().position;
 
 	//fm::vec2 velocity = GetVelocity();

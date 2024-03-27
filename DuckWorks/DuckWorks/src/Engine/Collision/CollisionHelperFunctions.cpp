@@ -161,6 +161,51 @@ fm::Transform2D gComputeSweptShape(const fm::Transform2D& inOriginalTransform, c
 	return fm::Transform2D{center, size * 0.5f, midRotation};
 }
 
+fm::Transform2D gComputeSweptShape(const fm::Transform2D& inOriginalTransform, const fm::Transform2D& inNewTransform)
+{
+	// Assuming rotation is about the center of the rectangle for both transformations
+	fm::vec2 originalCorners[4] = {
+		{inOriginalTransform.halfSize.x, inOriginalTransform.halfSize.y},
+		{-inOriginalTransform.halfSize.x, inOriginalTransform.halfSize.y},
+		{-inOriginalTransform.halfSize.x, -inOriginalTransform.halfSize.y},
+		{inOriginalTransform.halfSize.x, -inOriginalTransform.halfSize.y}
+	};
+
+	fm::vec2 newCorners[4] = {
+		{inNewTransform.halfSize.x, inNewTransform.halfSize.y},
+		{-inNewTransform.halfSize.x, inNewTransform.halfSize.y},
+		{-inNewTransform.halfSize.x, -inNewTransform.halfSize.y},
+		{inNewTransform.halfSize.x, -inNewTransform.halfSize.y}
+	};
+
+	fm::vec2 allPoints[8];
+	// Calculate transformed corner points for both original and new positions
+	for (int i = 0; i < 4; ++i)
+	{
+		allPoints[i] = RotatePoint(originalCorners[i] + inOriginalTransform.position, inOriginalTransform.position, inOriginalTransform.rotation);
+		allPoints[i + 4] = RotatePoint(newCorners[i] + inNewTransform.position, inNewTransform.position, inNewTransform.rotation);
+	}
+
+	// Use axis-aligned bounding box (AABB) to approximate the swept shape.
+	fm::vec2 minPoint = allPoints[0], maxPoint = allPoints[0];
+	for (const auto& point : allPoints)
+	{
+		minPoint.x = std::min(minPoint.x, point.x);
+		minPoint.y = std::min(minPoint.y, point.y);
+		maxPoint.x = std::max(maxPoint.x, point.x);
+		maxPoint.y = std::max(maxPoint.y, point.y);
+	}
+
+	fm::vec2 center = (maxPoint + minPoint) * 0.5f;
+	fm::vec2 size = maxPoint - minPoint;
+
+	// Approximate the swept shape's rotation as the mid-point of the original and new rotations
+	float midRotation = (inOriginalTransform.rotation + inNewTransform.rotation) / 2.0f;
+
+	return fm::Transform2D{ center, size * 0.5f, midRotation };
+}
+
+
 AABB gComputeAABB(const fm::Transform2D& inTransform)
 {
 	float rotation = fm::to_radians(inTransform.rotation);

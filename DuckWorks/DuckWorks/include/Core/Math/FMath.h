@@ -370,6 +370,25 @@ struct Transform2D
 
 	Transform2D(const Transform2D& i) = default;
 	Transform2D& operator=(const Transform2D& i) = default;
+
+	Transform2D operator+(const Transform2D& i) const
+	{
+		return
+		{
+			position + i.position,
+			halfSize + i.halfSize,
+			rotation + i.rotation
+		};
+	}
+	Transform2D operator-(const Transform2D& i) const
+	{
+		return
+		{
+			position - i.position,
+			halfSize - i.halfSize,
+			rotation - i.rotation
+		};
+	}
 };
 
 using Transform = Transform2D;

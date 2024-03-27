@@ -350,9 +350,8 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 		if (selected_entity->HasComponent<CollisionComponent>())
 		{
 			const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
-			Pair<Mutex&, CollisionObject&> collision_object = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle);
-			fm::Transform2D collision_transform = collision_object.second.GetTransform();
-			collision_object.first.ReadUnlock();
+			fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle)->GetTransform();
+
 			fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
 
 			selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;

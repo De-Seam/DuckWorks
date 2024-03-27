@@ -12,3 +12,4 @@ CollisionInfo gCollides(const fm::Transform2D& inTransformA, const fm::Transform
 AABB gComputeAABB(const fm::Transform2D& inTransform);
 AABB gComputeEncompassingAABB(const AABB& inA, const AABB& inB);
 fm::Transform2D gComputeSweptShape(const fm::Transform2D& inOriginalTransform, const fm::vec2& inNewPosition, float inNewRotation);
+fm::Transform2D gComputeSweptShape(const fm::Transform2D& inOriginalTransform, const fm::Transform2D& inNewTransform);

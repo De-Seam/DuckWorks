@@ -1,15 +1,15 @@
 #pragma once
 // Engine includes
-#include <Engine/Entity/Actor.h>
+#include "Engine/Entity/CollisionActor.h"
 #include <Engine/Events/SDLEventManager.h>
 
 #include "Engine/Events/EventManager.h"
 
 struct EventManager::EventFunction;
 
-class Player : public Actor
+class Player : public CollisionActor
 {
-	RTTI_CLASS(Player, Actor)
+	RTTI_CLASS(Player, CollisionActor)
 
 public:
 	Player(World* inWorld);

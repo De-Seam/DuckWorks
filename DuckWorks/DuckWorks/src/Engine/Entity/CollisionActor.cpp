@@ -10,12 +10,16 @@ Json CollisionActor::Serialize() const
 {
 	Json json = Base::Serialize();
 
+	JSON_SAVE(json, mRelativeTransform);
+
 	return json;
 }
 
 void CollisionActor::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
+
+	JSON_TRY_LOAD(inJson, mRelativeTransform);
 }
 
 CollisionActor::CollisionActor(World* inWorld)
@@ -29,33 +33,31 @@ CollisionActor::CollisionActor(World* inWorld)
 	AddComponent<CollisionComponent>(handle);
 }
 
-void CollisionActor::SetTransform(const fm::Transform2D& inTransform)
+fm::Transform2D CollisionActor::MoveTo(Optional<fm::vec2> inPosition, Optional<float> inRotation, Optional<fm::vec2> inHalfSize)
 {
-	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	fm::Transform2D transform = GetWorld()->GetCollisionWorld()->MoveToAndRotate(handle, inTransform.position, inTransform.rotation);
-	transform.halfSize = inTransform.halfSize;
+	if (inPosition.has_value())
+		inPosition.value() -= mRelativeTransform.position;
+	if (inRotation.has_value())
+		inRotation.value() -= mRelativeTransform.rotation;
+	if (inHalfSize.has_value())
+		inHalfSize.value() -= mRelativeTransform.halfSize;
 
+	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
+	fm::Transform2D transform = GetWorld()->GetCollisionWorld()->MoveTo(handle, inPosition, inRotation, inHalfSize);
 	Base::SetTransform(transform);
+	return transform;
 }
 
-void CollisionActor::SetPosition(const fm::vec2& inPosition)
+void CollisionActor::TeleportPosition(const fm::vec2& inPosition)
 {
 	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	fm::vec2 position = GetWorld()->GetCollisionWorld()->MoveTo(handle, inPosition);
-	
-	Base::SetPosition(position);
+	GetWorld()->GetCollisionWorld()->TeleportPosition(handle, inPosition - mRelativeTransform.position);
+	Base::SetPosition(inPosition);
 }
 
-void CollisionActor::SetHalfSize(const fm::vec2& inHalfSize)
+void CollisionActor::TeleportTransform(const fm::Transform2D& inTransform)
 {
-	Base::SetHalfSize(inHalfSize);
-}
-
-void CollisionActor::SetRotation(float inRotation)
-{
-	const fm::vec2& position = Base::GetPosition();
 	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	fm::Transform2D transform = GetWorld()->GetCollisionWorld()->MoveToAndRotate(handle, position, inRotation);
-
-	Base::SetTransform(transform);
+	GetWorld()->GetCollisionWorld()->TeleportTransform(handle, inTransform - mRelativeTransform);
+	Base::SetTransform(inTransform);
 }
