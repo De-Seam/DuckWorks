@@ -52,7 +52,7 @@ private:
 	int32 mVelocityIterations = 6;
 	int32 mPositionIterations = 2;
 	int32 mPhysicsUpdateFrequency = 60; //60 hz
-	float mPhysicsTimeStep = 1.0f / Cast<float>(mPhysicsUpdateFrequency);
+	float mPhysicsTimeStep = 1.0f / SCast<float>(mPhysicsUpdateFrequency);
 	float mPhysicsTimeAccumulator = 0.0f;
 
 	bool mBegunPlay = false;

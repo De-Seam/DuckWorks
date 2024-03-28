@@ -1,5 +1,6 @@
 #pragma once
 #include "UID.h"
+#include "Utilities.h"
 
 #pragma warning( push )
 #pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
@@ -78,6 +79,19 @@ public:
 private:
 	static UID sRTTIBaseClassRTTIUID;
 };
+
+// Dynamic casting
+template<typename taCastType>
+taCastType* gCast(RTTIBaseClass* inObject)
+{
+	bool is_a = inObject->IsA<taCastType>();
+	if (is_a)
+	{
+		return RCast<taCastType*>(inObject);
+	}
+
+	return nullptr;
+}
 
 #define REGISTER_ENTITY(inEntity) \
 	gEntityFactory.RegisterClass<inEntity>(#inEntity)
