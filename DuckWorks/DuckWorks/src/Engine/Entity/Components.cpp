@@ -7,7 +7,14 @@
 
 #include "Game/App/App.h"
 
+// ComponentBase
+RTTI_CLASS_DECLARATION(ComponentBase)
+
+RTTI_EMPTY_SERIALIZE_DEFINITION(ComponentBase)
+
 // NameComponent
+RTTI_CLASS_DECLARATION(NameComponent)
+
 Json NameComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -24,6 +31,8 @@ void NameComponent::Deserialize(const Json& inJson)
 }
 
 // TextureRenderComponent
+RTTI_CLASS_DECLARATION(TextureRenderComponent)
+
 Json TextureRenderComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -53,6 +62,8 @@ TextureRenderComponent::TextureRenderComponent()
 }
 
 // AnimationComponent
+RTTI_CLASS_DECLARATION(AnimationComponent)
+
 Json AnimationComponent::Serialize() const
 {
 	return Base::Serialize();
@@ -64,6 +75,8 @@ void AnimationComponent::Deserialize(const Json& inJson)
 }
 
 // CollisionComponent
+RTTI_CLASS_DECLARATION(CollisionComponent)
+
 Json CollisionComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -91,6 +104,8 @@ CollisionComponent::CollisionComponent()
 {}
 
 // TransformComponent
+RTTI_CLASS_DECLARATION(TransformComponent)
+
 Json TransformComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -107,7 +122,14 @@ void TransformComponent::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mTransform);
 }
 
+// Entity Component
+RTTI_CLASS_DECLARATION(EntityComponent)
+
+RTTI_EMPTY_SERIALIZE_DEFINITION(EntityComponent)
+
 // HealthComponent
+RTTI_CLASS_DECLARATION(HealthComponent)
+
 Json HealthComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -125,6 +147,8 @@ void HealthComponent::Deserialize(const Json& inJson)
 }
 
 // CameraComponent
+RTTI_CLASS_DECLARATION(CameraComponent)
+
 Json CameraComponent::Serialize() const
 {
 	Json json = Base::Serialize();
@@ -154,3 +178,8 @@ void CameraComponent::Deserialize(const Json& inJson)
 
 CameraComponent::CameraComponent()
 {}
+
+// DestroyedTag
+RTTI_CLASS_DECLARATION(DestroyedTag)
+
+RTTI_EMPTY_SERIALIZE_DEFINITION(DestroyedTag)

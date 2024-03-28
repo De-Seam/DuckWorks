@@ -13,6 +13,8 @@
 
 #include "Engine/World/World.h"
 
+RTTI_CLASS_DECLARATION(DebugUIWindowEntityDetails)
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntityDetails)
 
 

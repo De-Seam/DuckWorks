@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Resources/ResourceTypes/BaseResource.h"
 
+RTTI_CLASS_DECLARATION(BaseResource)
+
 Json BaseResource::Serialize() const
 {
 	Json json = Base::Serialize();

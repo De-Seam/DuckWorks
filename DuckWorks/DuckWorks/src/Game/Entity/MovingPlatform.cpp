@@ -9,6 +9,8 @@
 // Game includes
 #include "Game/Entity/Player/Player.h"
 
+RTTI_CLASS_DECLARATION(MovingPlatform)
+
 Json MovingPlatform::Serialize() const
 {
 	Json json = Base::Serialize();

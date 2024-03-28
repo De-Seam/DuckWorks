@@ -26,9 +26,6 @@ struct ComponentBase : public RTTIBaseClass
 	// It is not meant to be used directly
 };
 
-inline Json ComponentBase::Serialize() const { return Base::Serialize(); }
-inline void ComponentBase::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
-
 // EntityComponent is added to each entity to point towards the weak ptr entity
 struct EntityComponent : public ComponentBase
 {
@@ -39,9 +36,6 @@ struct EntityComponent : public ComponentBase
 
 	WeakPtr<Entity> mEntity;
 };
-
-inline Json EntityComponent::Serialize() const { return Base::Serialize(); }
-inline void EntityComponent::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
 struct NameComponent : public ComponentBase
 {
@@ -170,7 +164,6 @@ struct CameraComponent : public ComponentBase
 };
 
 // Tag components
-
 struct DestroyedTag : public ComponentBase
 {
 	RTTI_CLASS(DestroyedTag, ComponentBase)
@@ -180,6 +173,3 @@ struct DestroyedTag : public ComponentBase
 
 	UID mUID;
 };
-
-inline Json DestroyedTag::Serialize() const { return Base::Serialize(); }
-inline void DestroyedTag::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }

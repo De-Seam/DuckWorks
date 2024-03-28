@@ -7,6 +7,8 @@
 // External includes
 #include "External/SDL/SDL_image.h"
 
+RTTI_CLASS_DECLARATION(TextureResource)
+
 Json TextureResource::Serialize() const
 {
 	// We don't want to serialize the texture or its size, since that might change if the texture changes

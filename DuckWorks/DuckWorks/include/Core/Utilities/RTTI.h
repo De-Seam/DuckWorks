@@ -1,4 +1,5 @@
 #pragma once
+#include "UID.h"
 
 #pragma warning( push )
 #pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
@@ -11,7 +12,21 @@ public: \
 	virtual const char* GetClassName() const override { return inClassName::sGetClassName(); } \
 	virtual const char* GetParentClassName() const override { return inClassName::sGetParentClassName(); } \
 	virtual Json Serialize() const override; \
-	virtual void Deserialize(const Json& inJson) override;
+	virtual void Deserialize(const Json& inJson) override; \
+	static const UID& sGetRTTIUID() { return s##inClassNameRTTIUID; } \
+	virtual bool IsAUID(const UID& inRTTIUID) const override \
+		{ \
+			if (inRTTIUID == sGetRTTIUID()) \
+				return true; \
+			else \
+				return Base::IsAUID(inRTTIUID); \
+		} \
+private: \
+	static UID s##inClassNameRTTIUID; \
+public: 
+
+#define RTTI_CLASS_DECLARATION(inClassName) \
+	UID inClassName::s##inClassNameRTTIUID;
 
 #define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
 	Json inClassName::Serialize() const { return Base::Serialize(); } \
@@ -25,6 +40,21 @@ public:
 
 	virtual Json Serialize() const { return {}; }
 	virtual void Deserialize(const Json& inJson) { (void)inJson; }
+
+	static const UID& sGetRTTIUID() { return sRTTIBaseClassRTTIUID; }
+
+	template<typename taType>
+	inline bool IsA() const
+	{
+		return IsAUID(taType::sGetRTTIUID());
+	}
+	virtual bool IsAUID(const UID& inRTTIUID) const
+	{
+		return inRTTIUID == sGetRTTIUID();
+	}
+
+private:
+	static UID sRTTIBaseClassRTTIUID;
 };
 
 #define REGISTER_ENTITY(inEntity) \

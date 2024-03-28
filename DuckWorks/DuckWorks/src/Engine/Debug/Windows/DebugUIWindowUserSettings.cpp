@@ -8,6 +8,8 @@
 // External includes
 #include <External/imgui/imgui.h>
 
+RTTI_CLASS_DECLARATION(DebugUIWindowUserSettings)
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowUserSettings)
 
 void DebugUIWindowUserSettings::Update(float)

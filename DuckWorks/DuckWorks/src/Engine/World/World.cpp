@@ -15,6 +15,8 @@
 #include "Game/App/App.h"
 #include "Game/Entity/Player/Player.h"
 
+RTTI_CLASS_DECLARATION(World)
+
 Json World::Serialize() const
 {
 	PROFILE_SCOPE(World::Serialize)

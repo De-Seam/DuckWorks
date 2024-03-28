@@ -302,7 +302,9 @@
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Utilities\RTTI.cpp" />
     <ClCompile Include="src\Engine\Entity\CollisionActor.cpp" />
+    <ClCompile Include="src\Game\Entity\Enemies\EnemyBase.cpp" />
     <ClCompile Include="src\Game\Entity\MovingPlatform.cpp" />
     <ClCompile Include="src\Core\Utilities\Utilities.cpp" />
     <ClCompile Include="src\Engine\Collision\BVH\BVH.cpp" />

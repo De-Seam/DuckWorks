@@ -6,6 +6,8 @@
 #include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Debug/DebugUIFunctions.h"
 
+RTTI_CLASS_DECLARATION(CollisionWorld)
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)
 
 CollisionWorld::CollisionWorld()

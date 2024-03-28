@@ -11,6 +11,7 @@
 #include "Game/App/App.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 
+RTTI_CLASS_DECLARATION(Player)
 
 Json Player::Serialize() const
 {
@@ -92,7 +93,6 @@ void Player::Update(float inDeltaTime)
 	PROFILE_SCOPE(Player::Update)
 
 	Base::Update(inDeltaTime);
-
 
 	fm::vec2 moving_direction = {0.f, 0.f};
 	const Uint8* key_states = SDL_GetKeyboardState(nullptr);

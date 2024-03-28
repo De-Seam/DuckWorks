@@ -14,6 +14,8 @@
 #include <filesystem>
 #include <algorithm>
 
+RTTI_CLASS_DECLARATION(DebugUIWindowFileExplorer)
+
 Json DebugUIWindowFileExplorer::Serialize() const
 {
 	Json json = Base::Serialize();

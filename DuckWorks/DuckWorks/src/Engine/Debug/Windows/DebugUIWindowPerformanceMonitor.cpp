@@ -4,6 +4,8 @@
 // External includes
 #include <External/imgui/imgui.h>
 
+RTTI_CLASS_DECLARATION(DebugUIWindowPerformanceMonitor)
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowPerformanceMonitor)
 
 DebugUIWindowPerformanceMonitor::DebugUIWindowPerformanceMonitor()

@@ -3,6 +3,7 @@
 
 #include "Engine/Renderer/Renderer.h"
 
+RTTI_CLASS_DECLARATION(Camera)
 
 Json Camera::Serialize() const
 {

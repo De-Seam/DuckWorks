@@ -24,6 +24,7 @@
 // Std includes
 #include <fstream>
 
+RTTI_CLASS_DECLARATION(DebugUIWindowManager)
 
 DebugUIWindowManager gDebugUIWindowManager = {};
 

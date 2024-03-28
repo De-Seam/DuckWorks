@@ -4,6 +4,8 @@
 // Engine includes
 #include "Engine/World/World.h"
 
+RTTI_CLASS_DECLARATION(Actor)
+
 Json Actor::Serialize() const
 {
 	Json json = Base::Serialize();

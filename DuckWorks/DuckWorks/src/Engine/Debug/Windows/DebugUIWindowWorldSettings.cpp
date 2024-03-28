@@ -11,6 +11,8 @@
 // External includes
 #include <External/imgui/imgui.h>
 
+RTTI_CLASS_DECLARATION(DebugUIWindowWorldSettings)
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowWorldSettings)
 
 void DebugUIWindowWorldSettings::Update(float)

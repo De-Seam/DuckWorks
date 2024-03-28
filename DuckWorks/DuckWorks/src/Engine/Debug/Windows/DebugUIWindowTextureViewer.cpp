@@ -1,8 +1,11 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 
+// External includes
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
+
+RTTI_CLASS_DECLARATION(DebugUIWindowTextureViewer)
 
 Json DebugUIWindowTextureViewer::Serialize() const
 {

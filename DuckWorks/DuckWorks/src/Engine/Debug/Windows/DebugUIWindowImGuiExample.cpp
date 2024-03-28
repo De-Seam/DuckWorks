@@ -3,6 +3,8 @@
 
 #include "External/imgui/imgui.h"
 
+RTTI_CLASS_DECLARATION(DebugUIWindowImGuiExample)
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowImGuiExample)
 
 void DebugUIWindowImGuiExample::Update(float)

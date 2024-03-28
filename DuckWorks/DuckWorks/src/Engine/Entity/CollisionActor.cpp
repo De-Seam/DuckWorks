@@ -6,6 +6,8 @@
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/World/WOrld.h"
 
+RTTI_CLASS_DECLARATION(CollisionActor)
+
 Json CollisionActor::Serialize() const
 {
 	Json json = Base::Serialize();
