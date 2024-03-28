@@ -82,14 +82,10 @@ private:
 
 // Dynamic casting
 template<typename taCastType>
-taCastType* gCast(RTTIBaseClass* inObject)
+inline taCastType* gCast(RTTIBaseClass* inObject)
 {
-	bool is_a = inObject->IsA<taCastType>();
-	if (is_a)
-	{
+	if (inObject->IsA<taCastType>())
 		return RCast<taCastType*>(inObject);
-	}
-
 	return nullptr;
 }
 
