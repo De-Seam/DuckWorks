@@ -21,6 +21,18 @@ public: \
 			else \
 				return Base::IsAUID(inRTTIUID); \
 		} \
+template<typename taType> \
+static bool sIsA() \
+{ \
+	return sIsAUID(taType::sGetRTTIUID()); \
+} \
+static bool sIsAUID(const UID& inRTTIUID) \
+{ \
+if(inRTTIUID == sGetRTTIUID()) \
+	return true; \
+else \
+	return Base::sIsAUID(inRTTIUID); \
+} \
 private: \
 	static UID s##inClassNameRTTIUID; \
 public: 
@@ -42,6 +54,16 @@ public:
 	virtual void Deserialize(const Json& inJson) { (void)inJson; }
 
 	static const UID& sGetRTTIUID() { return sRTTIBaseClassRTTIUID; }
+
+	template<typename taType>
+	static bool sIsA()
+	{
+		return sIsAUID(taType::sGetRTTIUID());
+	}
+	static bool sIsAUID(const UID& inRTTIUID)
+	{
+		return inRTTIUID == sGetRTTIUID();
+	}
 
 	template<typename taType>
 	inline bool IsA() const
