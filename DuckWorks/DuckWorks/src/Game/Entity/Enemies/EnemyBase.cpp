@@ -13,5 +13,5 @@ EnemyBase::EnemyBase(World* inWorld)
 
 void EnemyBase::Update(float inDeltaTime)
 {
-
+	Base::Update(inDeltaTime);
 }

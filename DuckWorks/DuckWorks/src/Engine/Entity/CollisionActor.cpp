@@ -35,6 +35,14 @@ CollisionActor::CollisionActor(World* inWorld)
 	AddComponent<CollisionComponent>(handle);
 }
 
+void CollisionActor::BeginPlay()
+{
+	Base::BeginPlay();
+
+	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
+	GetWorld()->GetCollisionWorld()->SetEntityPtr(handle, mThisWeakPtr);
+}
+
 fm::Transform2D CollisionActor::MoveTo(Optional<fm::vec2> inPosition, Optional<float> inRotation, Optional<fm::vec2> inHalfSize)
 {
 	if (inPosition.has_value())

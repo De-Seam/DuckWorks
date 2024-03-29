@@ -34,14 +34,11 @@ void MovingPlatform::Deserialize(const Json& inJson)
 MovingPlatform::MovingPlatform(World* inWorld)
 	: Base(inWorld)
 {
-	fm::Transform2D& transform = GetComponent<TransformComponent>().mTransform;
-
-	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
-	CollisionObject::InitParams init_params;
-	init_params.mTransform = transform;
-	init_params.mType = CollisionObject::EType::Dynamic;
-	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(
-		CollisionObject::InitParams(transform, CollisionObject::EType::Dynamic, true));
+	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
+	{
+		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component.mCollisionObjectHandle);
+		collision_object->SetType(CollisionObject::EType::Dynamic);
+	}
 
 	AddComponent<TextureRenderComponent>().mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
 }
@@ -96,19 +93,18 @@ void MovingPlatform::Update(float inDeltaTime)
 		if (data.mHandle.IsValid())
 		{
 			EntityPtr entity = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle)->GetEntity().lock();
-			if (entity != nullptr)
+			if (entity == nullptr)
+				continue;
+
+			CollisionActor* actor = gCast<CollisionActor>(entity.get());
+			if (actor != nullptr)
 			{
-				if (strcmp(entity->GetClassName(), "Player") == 0)
-				{
-					SharedPtr<Player> player = SPCast<Player>(entity);
-					fm::vec2 player_position = player->GetPosition();
-					player_position += (position - old_position);
-					player->SetPosition(GetWorld()->GetCollisionWorld()->MoveTo(data.mHandle, player_position).position);
-				}
+				fm::vec2 actor_position = actor->GetPosition();
+				actor_position += (position - old_position);
+				actor->MoveTo(actor_position);
 			}
 		}
 	}
 
-	transform = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
-	SetPosition(transform.position);
+	MoveTo(transform.position);
 }

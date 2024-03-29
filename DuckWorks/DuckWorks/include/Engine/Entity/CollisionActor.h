@@ -11,6 +11,8 @@ class CollisionActor : public Actor
 public:
 	CollisionActor(World* inWorld);
 
+	virtual void BeginPlay() override;
+
 	// The variables you pass here are the RENDER variables. The Collision variables are adjusted using mRelativeTransform
 	virtual fm::Transform2D MoveTo(Optional<fm::vec2> inPosition, Optional<float> inRotation = NullOpt, Optional<fm::vec2> inHalfSize = NullOpt);
 	void TeleportPosition(const fm::vec2& inPosition);

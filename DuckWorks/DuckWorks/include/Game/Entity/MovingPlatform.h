@@ -1,10 +1,10 @@
 #pragma once
 // Engine includes
-#include <Engine/Entity/Actor.h>
+#include <Engine/Entity/CollisionActor.h>
 
-class MovingPlatform : public Actor
+class MovingPlatform : public CollisionActor
 {
-	RTTI_CLASS(MovingPlatform, Actor)
+	RTTI_CLASS(MovingPlatform, CollisionActor)
 
 public:
 	MovingPlatform(World* inWorld);

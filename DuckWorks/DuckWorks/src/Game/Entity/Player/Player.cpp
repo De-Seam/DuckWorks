@@ -83,9 +83,6 @@ Player::Player(World* inWorld)
 void Player::BeginPlay()
 {
 	Base::BeginPlay();
-
-	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	GetWorld()->GetCollisionWorld()->SetEntityPtr(handle, mThisWeakPtr);
 }
 
 void Player::Update(float inDeltaTime)
