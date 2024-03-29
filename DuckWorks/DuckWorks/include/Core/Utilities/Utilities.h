@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <atomic>
 
 using String = std::string;
 using Json = nlohmann::json;
@@ -44,6 +45,9 @@ using HashMap = phmap::flat_hash_map<taKey, taValue>;
 
 template<typename taTypeA, typename taTypeB>
 using Pair = std::pair<taTypeA, taTypeB>;
+
+template<typename taType>
+using Atomic = std::atomic<taType>;
 
 class Entity;
 using EntityPtr = SharedPtr<Entity>;

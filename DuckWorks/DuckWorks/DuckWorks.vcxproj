@@ -110,6 +110,7 @@
     <ClInclude Include="include\Core\Log\Log.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
     <ClInclude Include="include\Core\Utilities\Mutex.h" />
+    <ClInclude Include="include\Core\Utilities\RefObject.h" />
     <ClInclude Include="include\Core\Utilities\RTTI.h" />
     <ClInclude Include="include\Core\Utilities\SafeQueue.h" />
     <ClInclude Include="include\Core\Utilities\Types.h" />
