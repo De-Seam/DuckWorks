@@ -7,30 +7,30 @@ PlayerAnimation::PlayerAnimation(Player* inPlayer)
 	: mPlayer(inPlayer)
 {
 	CreateFramesParams params;
-	params.mState = Cast<uint16>(State::Idle);
+	params.mState = SCast<uint16>(State::Idle);
 	params.mStart = {0, 0};
 	params.mSize = {192, 192};
 	params.mDuration = 0.1f;
 	params.mCount = 6;
 	CreateHorizontalFrames(params);
 
-	params.mState = Cast<uint16>(State::Walk);
+	params.mState = SCast<uint16>(State::Walk);
 	params.mStart.y = 192 * 1;
 	CreateHorizontalFrames(params);
 
-	params.mState = Cast<uint16>(State::Attack1);
+	params.mState = SCast<uint16>(State::Attack1);
 	params.mStart.y = 192 * 2;
 	CreateHorizontalFrames(params);
 
-	params.mState = Cast<uint16>(State::Attack2);
+	params.mState = SCast<uint16>(State::Attack2);
 	params.mStart.y = 192 * 3;
 	CreateHorizontalFrames(params);
 
-	params.mState = Cast<uint16>(State::Attack3);
+	params.mState = SCast<uint16>(State::Attack3);
 	params.mStart.y = 192 * 4;
 	CreateHorizontalFrames(params);
 
-	params.mState = Cast<uint16>(State::Attack4);
+	params.mState = SCast<uint16>(State::Attack4);
 	params.mStart.y = 192 * 5;
 	CreateHorizontalFrames(params);
 }

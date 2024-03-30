@@ -32,7 +32,7 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 	{
 		average_timing += mTimings[i];
 	}
-	average_timing = average_timing / Cast<float>(mTimings.size());
+	average_timing = average_timing / SCast<float>(mTimings.size());
 
 	float fps = 1.f / average_timing * 1000.f;
 	if (fps < 1.f)
@@ -49,7 +49,7 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 		}
 		if ((SCast<float>(mTimings.size()) < fps * 0.9f || SCast<float>(mTimings.size()) > fps * 1.1f))
 		{
-			mTimings.resize(Cast<uint64>(fps));
+			mTimings.resize(SCast<uint64>(fps));
 		}
 	}
 
