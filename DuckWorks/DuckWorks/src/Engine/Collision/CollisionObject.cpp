@@ -2,7 +2,7 @@
 #include "Engine/Collision/CollisionObject.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
 
-RTTI_CLASS_DECLARATION(CollisionObject)
+RTTI_CLASS_DEFINITION(CollisionObject)
 
 Json CollisionObject::Serialize() const
 {

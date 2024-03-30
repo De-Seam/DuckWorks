@@ -7,7 +7,7 @@
 // External includes
 #include "External/SDL/SDL_image.h"
 
-RTTI_CLASS_DECLARATION(TextureResource)
+RTTI_CLASS_DEFINITION(TextureResource)
 
 Json TextureResource::Serialize() const
 {

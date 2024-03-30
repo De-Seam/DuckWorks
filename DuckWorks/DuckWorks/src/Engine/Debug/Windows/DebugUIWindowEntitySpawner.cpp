@@ -12,7 +12,7 @@
 // External includes
 #include "External/imgui/imgui.h"
 
-RTTI_CLASS_DECLARATION(DebugUIWindowEntitySpawner)
+RTTI_CLASS_DEFINITION(DebugUIWindowEntitySpawner)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntitySpawner)
 

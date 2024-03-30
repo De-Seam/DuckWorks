@@ -380,6 +380,7 @@ struct Transform2D
 			rotation + i.rotation
 		};
 	}
+
 	Transform2D operator-(const Transform2D& i) const
 	{
 		return

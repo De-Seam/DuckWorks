@@ -5,7 +5,7 @@
 #include "Engine/World/World.h"
 #include "Engine/Resources/ResourceManager.h"
 
-RTTI_CLASS_DECLARATION(SolidObstacle)
+RTTI_CLASS_DEFINITION(SolidObstacle)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(SolidObstacle)
 

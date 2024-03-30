@@ -1,7 +1,7 @@
 #include "Precomp.h"
 #include "Engine/Entity/Entity.h"
 
-RTTI_CLASS_DECLARATION(Entity)
+RTTI_CLASS_DEFINITION(Entity)
 
 Json Entity::Serialize() const
 {

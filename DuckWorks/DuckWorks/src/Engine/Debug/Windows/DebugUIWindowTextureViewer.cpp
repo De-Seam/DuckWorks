@@ -5,7 +5,7 @@
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
-RTTI_CLASS_DECLARATION(DebugUIWindowTextureViewer)
+RTTI_CLASS_DEFINITION(DebugUIWindowTextureViewer)
 
 Json DebugUIWindowTextureViewer::Serialize() const
 {

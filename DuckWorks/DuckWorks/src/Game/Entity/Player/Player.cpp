@@ -8,10 +8,12 @@
 #include "Engine/Renderer/AnimationManager.h"
 
 // Game includes
+#include "Core/Utilities/RefObject.h"
+
 #include "Game/App/App.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 
-RTTI_CLASS_DECLARATION(Player)
+RTTI_CLASS_DEFINITION(Player)
 
 Json Player::Serialize() const
 {
@@ -31,10 +33,13 @@ void Player::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
+class RefCountedClass : public RefObject
+{};
+
 Player::Player(World* inWorld)
 	: Base(inWorld)
 {
-	mRelativeTransform = { { 0.f,0.f }, { 192 - 64, 192 - 64 }, 0.f };
+	mRelativeTransform = {{0.f, 0.f}, {192 - 64, 192 - 64}, 0.f};
 
 	AddComponent<HealthComponent>();
 	CameraComponent& camera_component = AddComponent<CameraComponent>();
@@ -47,6 +52,8 @@ Player::Player(World* inWorld)
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
 	texture_render_component.mSrcRect = {0, 0, 192, 192};
 	texture_render_component.mUseSrcRect = true;
+
+	Ref<RefCountedClass> actor_ref;
 
 	SetupAnimations();
 
@@ -71,12 +78,12 @@ Player::Player(World* inWorld)
 
 	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
 	CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component.mCollisionObjectHandle);
-	
+
 	collision_object->SetType(CollisionObject::EType::Dynamic);
 	collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
-		{
-			OnCollision(inParams);
-		});
+	{
+		OnCollision(inParams);
+	});
 	collision_object->SetEntityPtr(mThisWeakPtr);
 }
 

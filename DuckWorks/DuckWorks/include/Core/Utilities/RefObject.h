@@ -5,15 +5,21 @@ class RefObject : public RTTIBaseClass
 {
 	RTTI_CLASS(RefObject, RTTIBaseClass)
 private:
-	struct RefCounter
+	Atomic<int32> mRefCount = 1;
+
+	struct WeakRefCounter
 	{
+		bool mIsAlive = true;
 		Atomic<int32> mRefCount = 1;
-		Atomic<int32> mWeakRefCount = 1;
 	};
-	RefCounter* mRefCounter = nullptr;
-	
+
+	WeakRefCounter* mWeakRefCounter = nullptr;
+
 	template<typename taRefClassType, typename... taRefClassArgs>
 	friend class Ref;
+
+	template<typename taRefClassType>
+	friend class WeakRef;
 };
 
 template<typename taType>
@@ -27,35 +33,35 @@ public:
 	{
 		static_assert(std::is_base_of_v<RefObject, taType>);
 		mPtr = new taType(std::forward<taArgs>(inArgs)...);
-		mPtr->mRefCounter = new RefObject::RefCounter();
+		mPtr->mWeakRefCounter = new RefObject::WeakRefCounter();
 	}
 
 	Ref(const Ref& inOther)
 	{
-		gAssert(inOther->mRefCount > 0, "Ref object is already destroyed!");
+		gAssert(inOther->mPtr->mRefCount > 0, "Ref object is already destroyed!");
 		mPtr = inOther.mPtr;
-		mPtr->mWeakRefCount->mRefCount++;
+		++mPtr->mRefCount;
 	}
 
-	Ref(const WeakRef& inOther)
+	Ref(const WeakRef<taType>& inOther)
 	{
-		gAssert(inOther.GetTotalRefCountPtr)
-		gAssert(inPtr->mRefCount > 0, "Ref object is already destroyed!");
+		gAssert(inOther->mPtr->mRefCount > 0, "Ref object is already destroyed!");
 		mPtr = inOther.mPtr;
-		mPtr->mRefCount++;
+		++mPtr->mRefCount;
 	}
 
 	~Ref()
 	{
 		gAssert(mPtr != nullptr, "The object was destroyed but a Ref was still held!");
 
-		mPtr->mRefCounter->mRefCount--;
-		mPtr->mRefCounter->mWeakRefCount--;
+		--mPtr->mRefCount;
 
-		if (mPtr->mRefCounter->mRefCount <= 0)
+		if (mPtr->mWeakRefCounter->mRefCount <= 0)
 		{
-			if(mPtr->mRefCounter->mWeakRefCount <= 0)
-				delete mPtr->mRefCounter;
+			if (mPtr->mWeakRefCounter->mRefCount <= 0)
+				delete mPtr->mWeakRefCounter;
+			else
+				mPtr->mWeakRefCounter->mIsAlive = false;
 
 			delete mPtr;
 		}
@@ -83,35 +89,35 @@ public:
 	WeakRef(const Ref<taType>& inRef)
 	{
 		mPtr = inRef.mPtr;
-		mPtr->(*mAllRefCount)++;
+		++mWeakRefCounter->mRefCount;
 	}
 
 	WeakRef(const WeakRef<taType>& inWeakRef)
 	{
 		mPtr = inWeakRef.mPtr;
-		mPtr->(*mTotalRefCount)++;
+		++mWeakRefCounter->mRefCount;
 	}
 
 	~WeakRef()
 	{
-		mPtr->(*mAllRefCount)--;
+		--mWeakRefCounter->mRefCount;
 		// If this was the last Ref and WeakRef referencing the ptr then we can destroy the all ref count
-		if (*mAllRefCount <= 0)
+		if (mWeakRefCounter->mRefCount <= 0)
 		{
-			delete mAllRefCount;
+			// Only destroy it if the object is already destroyed
+			if (!mWeakRefCounter->mIsAlive)
+				delete mWeakRefCounter;
 		}
 	}
 
-	Ref<taType>* Get() const 
-	{ 
-		if(*mTotalRefCount >= 0)
-			return Ref<taType>(*this); 
+	Ref<taType>* Get() const
+	{
+		if (mWeakRefCounter->mIsAlive)
+			return Ref<taType>(*this);
 		return nullptr;
 	}
 
-	Atomic<int32>* GetTotalRefCountPtr() const { return mAllRefCount; }
 private:
 	taType* mPtr = nullptr;
-	RefObject::RefCounter* a = nullptr;
-	Atomic<int32>* mTotalRefCount = nullptr;
+	RefObject::WeakRefCounter* mWeakRefCounter = nullptr;
 };

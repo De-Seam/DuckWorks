@@ -15,7 +15,7 @@
 #include "Game/App/App.h"
 #include "Game/Entity/Player/Player.h"
 
-RTTI_CLASS_DECLARATION(World)
+RTTI_CLASS_DEFINITION(World)
 
 Json World::Serialize() const
 {

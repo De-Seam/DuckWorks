@@ -5,7 +5,7 @@
 #include "Engine/Factory/Factory.h"
 #include "Engine/World/World.h"
 
-RTTI_CLASS_DECLARATION(BaseEntity)
+RTTI_CLASS_DEFINITION(BaseEntity)
 
 Json BaseEntity::Serialize() const
 {

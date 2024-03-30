@@ -6,7 +6,7 @@
 #include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Debug/DebugUIFunctions.h"
 
-RTTI_CLASS_DECLARATION(CollisionWorld)
+RTTI_CLASS_DEFINITION(CollisionWorld)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)
 
@@ -62,7 +62,8 @@ void CollisionWorld::DestroyCollisionObject(const CollisionObjectHandle& inObjec
 	mBVH.RemoveObject(inObjectHandle);
 }
 
-fm::Transform2D CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation, Optional<fm::vec2> inHalfSize)
+fm::Transform2D CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation,
+										Optional<fm::vec2> inHalfSize)
 {
 	PROFILE_SCOPE(CollisionWorld::MoveToAndRotate)
 

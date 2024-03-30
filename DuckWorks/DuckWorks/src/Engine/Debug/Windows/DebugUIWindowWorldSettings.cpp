@@ -11,14 +11,14 @@
 // External includes
 #include <External/imgui/imgui.h>
 
-RTTI_CLASS_DECLARATION(DebugUIWindowWorldSettings)
+RTTI_CLASS_DEFINITION(DebugUIWindowWorldSettings)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowWorldSettings)
 
 void DebugUIWindowWorldSettings::Update(float)
 {
 	ImGui::Begin("WorldSettings##DebugUIWindoWorldSettings", &mOpen);
-	
+
 	World* world = gApp.GetWorld();
 	Json json = world->SerializeIgnoreEntities();
 	if (gDebugDrawJson(json, "##WorldSettings"))

@@ -36,9 +36,9 @@ else \
 } \
 private: \
 	static UID s##inClassNameRTTIUID; \
-public: 
+public:
 
-#define RTTI_CLASS_DECLARATION(inClassName) \
+#define RTTI_CLASS_DEFINITION(inClassName) \
 	UID inClassName::s##inClassNameRTTIUID;
 
 #define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
@@ -61,16 +61,18 @@ public:
 	{
 		return sIsAUID(taType::sGetRTTIUID());
 	}
+
 	static bool sIsAUID(const UID& inRTTIUID)
 	{
 		return inRTTIUID == sGetRTTIUID();
 	}
 
 	template<typename taType>
-	inline bool IsA() const
+	bool IsA() const
 	{
 		return IsAUID(taType::sGetRTTIUID());
 	}
+
 	virtual bool IsAUID(const UID& inRTTIUID) const
 	{
 		return inRTTIUID == sGetRTTIUID();
@@ -82,7 +84,7 @@ private:
 
 // Dynamic casting
 template<typename taCastType>
-inline taCastType* gCast(RTTIBaseClass* inObject)
+taCastType* gCast(RTTIBaseClass* inObject)
 {
 	if (inObject->IsA<taCastType>())
 		return RCast<taCastType*>(inObject);

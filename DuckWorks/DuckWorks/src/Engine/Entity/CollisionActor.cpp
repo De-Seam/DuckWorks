@@ -6,7 +6,7 @@
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/World/WOrld.h"
 
-RTTI_CLASS_DECLARATION(CollisionActor)
+RTTI_CLASS_DEFINITION(CollisionActor)
 
 Json CollisionActor::Serialize() const
 {

@@ -3,7 +3,7 @@
 
 #include "External/imgui/imgui.h"
 
-RTTI_CLASS_DECLARATION(DebugUIWindowOutputLog)
+RTTI_CLASS_DEFINITION(DebugUIWindowOutputLog)
 
 Json DebugUIWindowOutputLog::Serialize() const
 {

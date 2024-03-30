@@ -8,12 +8,12 @@
 #include "Game/App/App.h"
 
 // ComponentBase
-RTTI_CLASS_DECLARATION(ComponentBase)
+RTTI_CLASS_DEFINITION(ComponentBase)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(ComponentBase)
 
 // NameComponent
-RTTI_CLASS_DECLARATION(NameComponent)
+RTTI_CLASS_DEFINITION(NameComponent)
 
 Json NameComponent::Serialize() const
 {
@@ -31,7 +31,7 @@ void NameComponent::Deserialize(const Json& inJson)
 }
 
 // TextureRenderComponent
-RTTI_CLASS_DECLARATION(TextureRenderComponent)
+RTTI_CLASS_DEFINITION(TextureRenderComponent)
 
 Json TextureRenderComponent::Serialize() const
 {
@@ -62,7 +62,7 @@ TextureRenderComponent::TextureRenderComponent()
 }
 
 // AnimationComponent
-RTTI_CLASS_DECLARATION(AnimationComponent)
+RTTI_CLASS_DEFINITION(AnimationComponent)
 
 Json AnimationComponent::Serialize() const
 {
@@ -75,7 +75,7 @@ void AnimationComponent::Deserialize(const Json& inJson)
 }
 
 // CollisionComponent
-RTTI_CLASS_DECLARATION(CollisionComponent)
+RTTI_CLASS_DEFINITION(CollisionComponent)
 
 Json CollisionComponent::Serialize() const
 {
@@ -104,7 +104,7 @@ CollisionComponent::CollisionComponent()
 {}
 
 // TransformComponent
-RTTI_CLASS_DECLARATION(TransformComponent)
+RTTI_CLASS_DEFINITION(TransformComponent)
 
 Json TransformComponent::Serialize() const
 {
@@ -123,12 +123,12 @@ void TransformComponent::Deserialize(const Json& inJson)
 }
 
 // Entity Component
-RTTI_CLASS_DECLARATION(EntityComponent)
+RTTI_CLASS_DEFINITION(EntityComponent)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(EntityComponent)
 
 // HealthComponent
-RTTI_CLASS_DECLARATION(HealthComponent)
+RTTI_CLASS_DEFINITION(HealthComponent)
 
 Json HealthComponent::Serialize() const
 {
@@ -147,7 +147,7 @@ void HealthComponent::Deserialize(const Json& inJson)
 }
 
 // CameraComponent
-RTTI_CLASS_DECLARATION(CameraComponent)
+RTTI_CLASS_DEFINITION(CameraComponent)
 
 Json CameraComponent::Serialize() const
 {
@@ -180,6 +180,6 @@ CameraComponent::CameraComponent()
 {}
 
 // DestroyedTag
-RTTI_CLASS_DECLARATION(DestroyedTag)
+RTTI_CLASS_DEFINITION(DestroyedTag)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DestroyedTag)

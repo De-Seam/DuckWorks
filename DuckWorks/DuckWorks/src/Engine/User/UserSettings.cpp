@@ -1,7 +1,7 @@
 #include "Precomp.h"
 #include "Engine/User/UserSettings.h"
 
-RTTI_CLASS_DECLARATION(BaseUserSettings)
+RTTI_CLASS_DEFINITION(BaseUserSettings)
 
 Json BaseUserSettings::Serialize() const
 {
