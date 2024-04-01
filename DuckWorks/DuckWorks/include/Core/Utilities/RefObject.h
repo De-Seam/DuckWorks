@@ -50,6 +50,15 @@ public:
 		++mPtr->mRefCount;
 	}
 
+	template<typename taParentClass>
+	Ref(const Ref<taParentClass>& inOther)
+	{
+		static_assert(std::is_base_of_v<taParentClass, taType>);
+		gAssert(inOther->mPtr->mRefCount > 0, "Ref object is already destroyed!");
+		mPtr = SCast<taParentClass>(inOther.mPtr);
+		++mPtr->mRefCount;
+	}
+
 	~Ref()
 	{
 		gAssert(mPtr != nullptr, "The object was destroyed but a Ref was still held!");
