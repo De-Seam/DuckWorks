@@ -152,6 +152,7 @@
     <ClInclude Include="include\Engine\Resources\ResourceTypes\TextureResource.h" />
     <ClInclude Include="include\Engine\Timer\TimerManager.h" />
     <ClInclude Include="include\Engine\World\Chunk.h" />
+    <ClInclude Include="include\Engine\World\Globals.h" />
     <ClInclude Include="include\Engine\World\World.h" />
     <ClInclude Include="include\External\BitBool\BitBool.h" />
     <ClInclude Include="include\External\entt\entt.hpp" />

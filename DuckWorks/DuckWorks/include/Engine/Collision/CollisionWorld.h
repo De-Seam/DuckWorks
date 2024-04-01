@@ -11,29 +11,33 @@
 struct CollisionObjectWrapper
 {
 	CollisionObjectWrapper(Mutex& inMutex, CollisionObject& inObject)
-		: mMutex(&inMutex), mObject(inObject)
-	{
-	}
+		: mObject(inObject), mMutex(&inMutex)
+	{}
 
 	~CollisionObjectWrapper()
 	{
-		if(mMutex)
+		if (mMutex)
 			mMutex->ReadUnlock();
 	}
 
-	CollisionObject* operator->() 
+	CollisionObject* operator->()
 	{
 		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
-		return &mObject; 
+		return &mObject;
+	}
+
+	const CollisionObject* operator->() const
+	{
+		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		return &mObject;
 	}
 
 	void Unlock()
 	{
-		if (mMutex)
-			mMutex->ReadUnlock();
+		gAssert(mMutex != nullptr, "The mutex was already unlocked!");
+		mMutex->ReadUnlock();
 		mMutex = nullptr;
 	}
-
 
 private:
 	CollisionObject& mObject;
@@ -43,7 +47,6 @@ private:
 class CollisionWorld : public RTTIBaseClass
 {
 	RTTI_CLASS(CollisionWorld, RTTIBaseClass)
-
 	CollisionWorld();
 	void BeginPlay();
 
@@ -55,7 +58,8 @@ class CollisionWorld : public RTTIBaseClass
 	void DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle);
 
 	// This function immediately checks for collision so don't call it multiple times on the same object if you can do it once!
-	fm::Transform2D MoveTo(const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation = NullOpt, Optional<fm::vec2> inHalfSize = NullOpt);
+	fm::Transform2D MoveTo(const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation = NullOpt,
+							Optional<fm::vec2> inHalfSize = NullOpt);
 	// Teleports object to the given position, does not check for collision.
 	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
 	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
