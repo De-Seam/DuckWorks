@@ -24,9 +24,9 @@ void CollisionActor::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mRelativeTransform);
 }
 
-CollisionActor::CollisionActor(World* inWorld)
-	: Base(inWorld)
+void CollisionActor::Init(const Entity::InitParams& inInitParams)
 {
+	Base::Init(inInitParams);
 	CollisionObject::InitParams params;
 	params.mBlocking = true;
 	params.mTransform = GetTransform();

@@ -7,7 +7,8 @@ class Actor : public Entity
 	RTTI_CLASS(Actor, Entity)
 
 public:
-	Actor(World* inWorld);
+	Actor() = default;
+	virtual void Init(const Entity::InitParams& inInitParams) override;
 
 	virtual void SetTransform(const fm::Transform2D& transform) { GetComponent<TransformComponent>().mTransform = transform; }
 	virtual void SetPosition(const fm::vec2& inPosition) { GetComponent<TransformComponent>().mTransform.position = inPosition; }

@@ -1,6 +1,9 @@
 #pragma once
-#include "Windows/DebugUIWindow.h"
+// Core includes
 #include "Core/CoreBase.h"
+
+// Engine includes
+#include "Windows/DebugUIWindow.h"
 
 class Entity;
 
@@ -26,14 +29,14 @@ public:
 	void UpdateWindows(float inDeltaTime);
 
 	template<typename taType>
-	WeakPtr<DebugUIWindow> CreateWindow();
-	WeakPtr<DebugUIWindow> AddWindow(SharedPtr<DebugUIWindow> inWindow);
+	WeakRef<DebugUIWindow> CreateWindow();
+	WeakRef<DebugUIWindow> AddWindow(Ref<DebugUIWindow> inWindow);
 
 	template<typename taType>
 	[[nodiscard]]
-	SharedPtr<DebugUIWindow> GetWindow() const;
+	Ref<DebugUIWindow> GetWindow() const;
 	[[nodiscard]]
-	SharedPtr<DebugUIWindow> GetWindow(const String& inWindowClassName) const;
+	Ref<DebugUIWindow> GetWindow(const String& inWindowClassName) const;
 
 	template<typename taType>
 	bool WindowExists() const;
@@ -43,8 +46,8 @@ public:
 	void RemoveWindow();
 	void RemoveWindow(const String& inWindowClassName);
 
-	void SetSelectedEntity(const WeakPtr<Entity>& inEntity);
-	WeakPtr<Entity> GetSelectedEntity() const { return mSelectedEntity; }
+	void SetSelectedEntity(const Optional<WeakRef<Entity>>& inEntity);
+	Optional<WeakRef<Entity>> GetSelectedEntity() const { return mSelectedEntity; }
 
 public:
 	bool mDrawEntityOutline = true;
@@ -53,27 +56,27 @@ public:
 	bool mDrawBVH = false;
 
 private:
-	Array<SharedPtr<DebugUIWindow>> mWindows;
-	Array<SharedPtr<DebugUIWindow>> mWindowsToAdd;
+	Array<Ref<DebugUIWindow>> mWindows;
+	Array<Ref<DebugUIWindow>> mWindowsToAdd;
 
 	Array<bool> mWindowOpen;
 	String mDebugFileName = "Debug.json";
 
-	WeakPtr<Entity> mSelectedEntity;
+	Optional<WeakRef<Entity>> mSelectedEntity;
 	fm::vec2 mSelectedEntityRelativeLocation = {}; ///< 0,0 would be the center of the entity
 };
 
 extern DebugUIWindowManager gDebugUIWindowManager;
 
 template<typename taType>
-WeakPtr<DebugUIWindow> DebugUIWindowManager::CreateWindow()
+WeakRef<DebugUIWindow> DebugUIWindowManager::CreateWindow()
 {
-	SharedPtr<taType> new_window = std::make_shared<taType>();
+	Ref<taType> new_window = {};
 	return AddWindow(new_window);
 }
 
 template<typename taType>
-SharedPtr<DebugUIWindow> DebugUIWindowManager::GetWindow() const
+Ref<DebugUIWindow> DebugUIWindowManager::GetWindow() const
 {
 	return GetWindow(taType::sGetClassName());
 }

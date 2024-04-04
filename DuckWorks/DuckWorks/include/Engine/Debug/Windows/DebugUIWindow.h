@@ -2,13 +2,14 @@
 #include "Core/CoreBase.h"
 #include "Core/Utilities/RTTI.h"
 
-class DebugUIWindow : public RTTIBaseClass
+class DebugUIWindow : public RefObject
 {
-	RTTI_CLASS(DebugUIWindow, RTTIBaseClass)
+	RTTI_CLASS(DebugUIWindow, RefObject)
 
 public:
 	DebugUIWindow() = default;
-
+	virtual ~DebugUIWindow() override = default;
+	
 	virtual void Update(float inDeltaTime) = 0;
 
 	[[nodiscard]] virtual bool IsOpen() const { return mOpen; }

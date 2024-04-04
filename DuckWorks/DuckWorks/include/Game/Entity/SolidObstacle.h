@@ -7,5 +7,6 @@ class SolidObstacle : public Actor
 	RTTI_CLASS(SolidObstacle, Actor)
 
 public:
-	SolidObstacle(World* inWorld);
+	SolidObstacle() = default;
+	virtual void Init(const Entity::InitParams& inInitParams) override;
 };

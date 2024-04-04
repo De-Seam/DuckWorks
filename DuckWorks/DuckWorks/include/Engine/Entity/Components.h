@@ -32,9 +32,9 @@ struct EntityComponent : public ComponentBase
 	RTTI_CLASS(EntityComponent, ComponentBase)
 
 	EntityComponent() = default;
-	EntityComponent(WeakPtr<Entity> mEntity) : mEntity(mEntity) {}
+	EntityComponent(WeakRef<Entity> mEntity) : mEntity(mEntity) {}
 
-	WeakPtr<Entity> mEntity;
+	WeakRef<Entity> mEntity;
 };
 
 struct NameComponent : public ComponentBase

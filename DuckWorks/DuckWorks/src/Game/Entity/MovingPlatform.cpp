@@ -31,9 +31,10 @@ void MovingPlatform::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-MovingPlatform::MovingPlatform(World* inWorld)
-	: Base(inWorld)
+void MovingPlatform::Init(const Entity::InitParams& inInitParams)
 {
+	Base::Init(inInitParams);
+
 	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
 	{
 		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component.mCollisionObjectHandle);

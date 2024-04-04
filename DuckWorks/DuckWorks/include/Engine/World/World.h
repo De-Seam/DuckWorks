@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/Utilities/Utilities.h"
+#include "Core/Utilities/RefObject.h"
 
 // Engine includes
 #include "Engine/Entity/Entity.h"
@@ -29,14 +30,14 @@ public:
 	void DestroyEntities();
 
 	template<typename taType>
-	SharedPtr<taType> CreateEntity(const String& inName);
-	EntityPtr AddEntity(const EntityPtr& inEntity, const String& inName);
+	Ref<taType> CreateEntity(const String& inName);
+	Ref<Entity> AddEntity(const Ref<Entity>& inEntity, const String& inName, Entity::InitParams inInitParams = {});
 
-	[[nodiscard]] Array<EntityPtr>& GetEntities() { return mEntities; }
-	[[nodiscard]] const Array<EntityPtr>& GetEntities() const { return mEntities; }
+	[[nodiscard]] Array<Ref<Entity>>& GetEntities() { return mEntities; }
+	[[nodiscard]] const Array<Ref<Entity>>& GetEntities() const { return mEntities; }
 	[[nodiscard]] entt::registry& GetRegistry() { return mRegistry; }
 
-	EntityPtr GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
+	Optional<Ref<Entity>> GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
 
 	CollisionWorld* GetCollisionWorld() const { return mCollisionWorld.get(); }
 
@@ -46,7 +47,7 @@ private:
 
 	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
-	Array<EntityPtr> mEntities = {};
+	Array<Ref<Entity>> mEntities = {};
 	Mutex mEntitiesMutex = {};
 
 	int32 mVelocityIterations = 6;
@@ -62,12 +63,11 @@ private:
 };
 
 template<typename taType>
-std::shared_ptr<taType> World::CreateEntity(const String& inName)
+Ref<taType> World::CreateEntity(const String& inName)
 {
 	static_assert(std::is_base_of_v<Entity, taType>);
 
-	std::shared_ptr<taType> entity = std::make_shared<taType>(this);
-	entity->mThisWeakPtr = entity;
-	AddEntity(std::static_pointer_cast<Entity>(entity), inName);
+	Ref<taType> entity = { this };
+	AddEntity(entity, inName);
 	return entity;
 }

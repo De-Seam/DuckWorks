@@ -45,9 +45,17 @@ public:
 	Json inClassName::Serialize() const { return Base::Serialize(); } \
 	void inClassName::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
+/****
+Order of initialization with RTTI:
+1. Constructor
+2. Init (Called by the factory)
+3. Deserialize
+*****/
 class RTTIBaseClass
 {
 public:
+	virtual ~RTTIBaseClass() = default;
+
 	virtual const char* GetClassName() const = 0;
 	virtual const char* GetParentClassName() const = 0;
 

@@ -23,12 +23,14 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	(void)inDeltaTime;
 	PROFILE_SCOPE(DebugUIWindowEntityDetails::Update)
 
-	SharedPtr selected_entity = gDebugUIWindowManager.GetSelectedEntity().lock();
-	if (!selected_entity)
+	Optional<WeakRef<Entity>> selected_entity_weak_ref = gDebugUIWindowManager.GetSelectedEntity();
+	if (!selected_entity_weak_ref.has_value())
 	{
 		mOpen = false;
 		return;
 	}
+
+	Ref<Entity> selected_entity = selected_entity_weak_ref.value().Get();
 
 	ImGui::Begin("Entity Details", &mOpen);
 

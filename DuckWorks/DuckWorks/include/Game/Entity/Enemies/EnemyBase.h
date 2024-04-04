@@ -8,7 +8,8 @@ class EnemyBase : public Actor
 {
 	RTTI_CLASS(EnemyBase, Actor)
 public:
-	EnemyBase(World* inWorld);
+	EnemyBase() = default;
+	virtual void Init(const Entity::InitParams& inInitParams) override;
 
 	void Update(float inDeltaTime);
 

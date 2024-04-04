@@ -18,9 +18,9 @@ void Actor::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-
-Actor::Actor(World* inWorld)
-	: Entity(inWorld)
+void Actor::Init(const Entity::InitParams& inInitParams)
 {
+	Base::Init(inInitParams);
+
 	AddComponent<TransformComponent>();
 }

@@ -25,7 +25,7 @@ Json World::Serialize() const
 
 	json.update(SerializeIgnoreEntities());
 
-	for (const EntityPtr& entity : mEntities)
+	for (const Ref<Entity>& entity : mEntities)
 	{
 		Json entity_json;
 		entity_json[entity->GetClassName()] = entity->Serialize();
@@ -52,7 +52,7 @@ void World::Deserialize(const Json& inJson)
 		for (const Json& json_entity : inJson["Entities"])
 		{
 			String class_name = json_entity.begin().key();
-			EntityPtr entity = gEntityFactory.CreateClass(class_name, this);
+			Ref<Entity> entity = gEntityFactory.CreateClass(class_name);
 
 			const Json& components = json_entity[class_name]["Components"];
 
@@ -129,7 +129,7 @@ void World::BeginPlay()
 	mBegunPlay = true;
 	mCollisionWorld->BeginPlay();
 
-	for (EntityPtr& entity : mEntities)
+	for (Ref<Entity>& entity : mEntities)
 		entity->BeginPlay();
 }
 
@@ -137,7 +137,7 @@ void World::UpdateEntities(float inDeltaTime)
 {
 	ScopedMutexReadLock lock{mEntitiesMutex};
 
-	for (std::shared_ptr<Entity>& entity : mEntities)
+	for (Ref<Entity>& entity : mEntities)
 	{
 		entity->Update(inDeltaTime);
 	}
@@ -155,7 +155,7 @@ void World::DestroyEntities()
 
 		for (auto rit = mEntities.rbegin(); rit != mEntities.rend(); ++rit)
 		{
-			SharedPtr<Entity>& entity = *rit;
+			Ref<Entity>& entity = *rit;
 			if (entity->mUID == destroyed_tag.mUID)
 			{
 				gAssert(entity->GetEntityHandle() == entity_handle, "This could indicate multiple entities with the same UID somehow");
@@ -171,10 +171,11 @@ void World::DestroyEntities()
 	}
 }
 
-EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
+Ref<Entity> World::AddEntity(const Ref<Entity>& inEntity, const String& inName, Entity::InitParams inInitParams)
 {
 	PROFILE_SCOPE(World::AddEntity)
-	inEntity->mThisWeakPtr = inEntity;
+	inInitParams.mWorld = this;
+	inEntity->Init(inInitParams);
 	inEntity->AddComponent<EntityComponent>(inEntity);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
@@ -183,7 +184,7 @@ EntityPtr World::AddEntity(const EntityPtr& inEntity, const String& inName)
 	return mEntities.back();
 }
 
-EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
+Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 {
 	ScopedMutexReadLock lock2{mRegistryMutex};
 
@@ -214,8 +215,8 @@ EntityPtr World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 			ScopedMutexReadLock lock{mEntitiesMutex};
 			// The point is inside this entity's rotated bounding box
 			BaseEntity base_entity = {entity, this};
-			return base_entity.GetComponent<EntityComponent>().mEntity.lock(); // Assuming EntityPtr can be constructed from entity directly
+			return base_entity.GetComponent<EntityComponent>().mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
 		}
 	}
-	return nullptr;
+	return NullOpt;
 }

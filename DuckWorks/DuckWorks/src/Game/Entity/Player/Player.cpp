@@ -33,13 +33,11 @@ void Player::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-class RefCountedClass : public RefObject
-{};
-
-Player::Player(World* inWorld)
-	: Base(inWorld)
+void Player::Init(const Entity::InitParams& inInitParams)
 {
-	mRelativeTransform = {{0.f, 0.f}, {192 - 64, 192 - 64}, 0.f};
+	Base::Init(inInitParams);
+
+	mRelativeTransform = { {0.f, 0.f}, {192 - 64, 192 - 64}, 0.f };
 
 	AddComponent<HealthComponent>();
 	CameraComponent& camera_component = AddComponent<CameraComponent>();
@@ -50,10 +48,8 @@ Player::Player(World* inWorld)
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
-	texture_render_component.mSrcRect = {0, 0, 192, 192};
+	texture_render_component.mSrcRect = { 0, 0, 192, 192 };
 	texture_render_component.mUseSrcRect = true;
-
-	Ref<RefCountedClass> actor_ref;
 
 	SetupAnimations();
 
@@ -61,18 +57,18 @@ Player::Player(World* inWorld)
 		EventManager::EventFunction event_function;
 		event_function.mEventType = EventType::MouseButtonDown;
 		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
-		{
-			OnMouseDown(inData);
-		};
+			{
+				OnMouseDown(inData);
+			};
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 	{
 		EventManager::EventFunction event_function;
 		event_function.mEventType = EventType::MouseButtonUp;
 		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
-		{
-			OnMouseUp(inData);
-		};
+			{
+				OnMouseUp(inData);
+			};
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 
@@ -81,9 +77,9 @@ Player::Player(World* inWorld)
 
 	collision_object->SetType(CollisionObject::EType::Dynamic);
 	collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
-	{
-		OnCollision(inParams);
-	});
+		{
+			OnCollision(inParams);
+		});
 	collision_object->SetEntityPtr(mThisWeakPtr);
 }
 

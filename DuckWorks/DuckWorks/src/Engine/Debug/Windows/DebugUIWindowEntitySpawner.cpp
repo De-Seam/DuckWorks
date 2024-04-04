@@ -32,7 +32,8 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 	{
 		if (ImGui::Button(entity_name.c_str()))
 		{
-			SharedPtr<Entity> entity = gEntityFactory.CreateClass(entity_name, gApp.GetWorld());
+
+			Ref<Entity> entity = gEntityFactory.CreateClass(entity_name);
 			gApp.GetWorld()->AddEntity(entity, entity_name);
 			fm::vec2 position = gRenderer.GetCamera()->GetPosition();
 			if (entity->HasComponent<TransformComponent>())

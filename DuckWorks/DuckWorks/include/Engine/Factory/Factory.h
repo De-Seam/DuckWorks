@@ -6,16 +6,16 @@ class World;
 class DebugUIWindow;
 class ComponentBase;
 
-template<typename taFactoryType, typename... taArgs>
+template<typename taFactoryType>
 class Factory
 {
 public:
-	using ConstructorFunction = std::function<SharedPtr<taFactoryType>(taArgs&&... inArgs)>;
+	using ConstructorFunction = std::function<taFactoryType*()>;
 
 	template<typename taType>
 	void RegisterClass(const String& inClassName);
 
-	[[nodiscard]] SharedPtr<taFactoryType> CreateClass(const String& inClassName, taArgs&&... inArgs);
+	[[nodiscard]] taFactoryType* CreateClass(const String& inClassName);
 
 	[[nodiscard]] const Array<String>& GetClassNames() const;
 
@@ -24,7 +24,7 @@ private:
 	Array<String> mKeyList;
 };
 
-extern Factory<Entity, World*> gEntityFactory;
+extern Factory<Entity> gEntityFactory;
 extern Factory<DebugUIWindow> gDebugUIWindowFactory;
 
 class ComponentFactory : public Factory<ComponentBase>
@@ -78,28 +78,29 @@ private:
 
 extern ComponentFactory gComponentFactory;
 
-template<typename taFactoryType, typename... taArgs>
+template<typename taFactoryType>
 template<typename taType>
-void Factory<taFactoryType, taArgs...>::RegisterClass(const String& inClassName)
+void Factory<taFactoryType>::RegisterClass(const String& inClassName)
 {
 	gAssert(!mClassConstructors.contains(inClassName), "Class already registered!");
-	mClassConstructors[inClassName] = [](taArgs&&... inArgs)
+	ConstructorFunction func = []()
 	{
 		gLog("Factory created class %s", taType::sGetClassName());
-		return std::make_shared<taType>(std::forward<taArgs>(inArgs)...);
+		return new taType;
 	};
-	mKeyList.push_back(inClassName);
+	mClassConstructors[inClassName] = func;
+	mKeyList.emplace_back(inClassName);
 }
 
-template<typename taFactoryType, typename... taArgs>
-SharedPtr<taFactoryType> Factory<taFactoryType, taArgs...>::CreateClass(const String& inClassName, taArgs&&... inArgs)
+template<typename taFactoryType>
+taFactoryType* Factory<taFactoryType>::CreateClass(const String& inClassName)
 {
 	gAssert(mClassConstructors.contains(inClassName), "Class not registered!");
-	return mClassConstructors[inClassName](std::forward<taArgs>(inArgs)...);
+	return mClassConstructors[inClassName]();
 }
 
-template<typename taFactoryType, typename... taArgs>
-const Array<String>& Factory<taFactoryType, taArgs...>::GetClassNames() const
+template<typename taFactoryType>
+const Array<String>& Factory<taFactoryType>::GetClassNames() const
 {
 	return mKeyList;
 }

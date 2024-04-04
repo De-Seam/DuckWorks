@@ -5,9 +5,10 @@ RTTI_CLASS_DEFINITION(EnemyBase)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(EnemyBase)
 
-EnemyBase::EnemyBase(World* inWorld)
-	: Base(inWorld)
-{}
+void EnemyBase::Init(const Entity::InitParams& inInitParams)
+{
+	Base::Init(inInitParams);
+}
 
 void EnemyBase::Update(float inDeltaTime)
 {

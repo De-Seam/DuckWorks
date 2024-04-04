@@ -12,7 +12,8 @@ class Player : public CollisionActor
 	RTTI_CLASS(Player, CollisionActor)
 
 public:
-	Player(World* inWorld);
+	Player() = default;
+	virtual void Init(const Entity::InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;
 	virtual void Update(float inDeltaTime) override;

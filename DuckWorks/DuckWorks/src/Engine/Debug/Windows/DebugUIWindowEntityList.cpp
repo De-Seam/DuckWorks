@@ -24,16 +24,16 @@ void DebugUIWindowEntityList::Update(float)
 	ImGui::Begin("Entity List");
 
 	World* world = gApp.GetWorld();
-	Array<EntityPtr> entities = world->GetEntities();
-	EntityPtr selected_entity = gDebugUIWindowManager.GetSelectedEntity().lock();
+	Array<Ref<Entity>> entities = world->GetEntities();
+	Optional<WeakRef<Entity>> selected_entity = gDebugUIWindowManager.GetSelectedEntity();
 
 	ImVec2 button_size = ImVec2(ImGui::GetContentRegionAvail().x, 0);
 	for (uint64 i = 0; i < entities.size(); i++)
 	{
-		EntityPtr& entity = entities[i];
+		Ref<Entity>& entity = entities[i];
 		String entity_name = entity->GetName() + "##EntityButton" + std::to_string(i);
 
-		bool change_color = entity == selected_entity;
+		bool change_color = selected_entity.has_value() && entity == selected_entity.value();
 		if (change_color)
 		{
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 1.0f)); // Red button

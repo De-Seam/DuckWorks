@@ -38,7 +38,7 @@ Json DebugUIWindowManager::Serialize() const
 
 	JSON_SAVE(json, mDebugFileName);
 
-	for (const SharedPtr<DebugUIWindow>& window : mWindows)
+	for (const Ref<DebugUIWindow>& window : mWindows)
 	{
 		if (window->IsOpen())
 			json["OpenWindows"].emplace_back(window->GetClassName());
@@ -63,7 +63,7 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 		auto open_windows = inJson["OpenWindows"];
 		for (String window_name : open_windows)
 		{
-			SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+			Ref<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
 			AddWindow(window);
 		}
 	}
@@ -107,9 +107,9 @@ void DebugUIWindowManager::Init()
 		{
 			if (inEventData.mKeyDown.mKeyCode == KeyCode::Delete)
 			{
-				if (!mSelectedEntity.expired())
+				if (mSelectedEntity.has_value())
 				{
-					SharedPtr<Entity> entity = mSelectedEntity.lock();
+					Ref<Entity> entity = mSelectedEntity.value().Get();
 					entity->TryAddComponent<DestroyedTag>(entity->mUID);
 				}
 			}
@@ -127,11 +127,11 @@ void DebugUIWindowManager::Init()
 					return;
 
 				fm::vec2 world_location = gRenderer.GetWorldLocationAtWindowLocation(inEventData.mMouseDown.mMousePosition);
-				EntityPtr entity = gApp.GetWorld()->GetEntityAtLocationSlow(world_location);
+				Optional<Ref<Entity>> entity = gApp.GetWorld()->GetEntityAtLocationSlow(world_location);
 				SetSelectedEntity(entity);
 
-				if (entity != nullptr)
-					mSelectedEntityRelativeLocation = entity->GetComponent<TransformComponent>().mTransform.position - world_location;
+				if (entity.has_value())
+					mSelectedEntityRelativeLocation = entity.value()->GetComponent<TransformComponent>().mTransform.position - world_location;
 			}
 		};
 		gEventManager.AddPersistentEventFunction(event_function);
@@ -195,7 +195,7 @@ void DebugUIWindowManager::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowManager::Update)
 
-	for (SharedPtr<DebugUIWindow>& window : mWindowsToAdd)
+	for (Ref<DebugUIWindow>& window : mWindowsToAdd)
 	{
 		mWindows.push_back(window);
 	}
@@ -236,7 +236,7 @@ void DebugUIWindowManager::UpdateMainMenuBarWindowMenu()
 		for (uint64 i = 0; i < mWindowOpen.size(); i++)
 		{
 			mWindowOpen[i] = false;
-			for (SharedPtr<DebugUIWindow>& window : mWindows)
+			for (Ref<DebugUIWindow>& window : mWindows)
 			{
 				if (window->GetClassName() == window_names[i])
 				{
@@ -273,7 +273,7 @@ void DebugUIWindowManager::UpdateMainMenuBarWindowMenu()
 		}
 		for (const String& window_name : add_windows)
 		{
-			SharedPtr<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+			Ref<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
 			AddWindow(window);
 		}
 
@@ -312,14 +312,14 @@ void DebugUIWindowManager::UpdateViewport()
 void DebugUIWindowManager::UpdateWindows(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowManager::UpdateWindows)
-	Array<SharedPtr<DebugUIWindow>> windows_to_remove;
-	for (SharedPtr<DebugUIWindow>& window : mWindows)
+	Array<Ref<DebugUIWindow>> windows_to_remove;
+	for (Ref<DebugUIWindow>& window : mWindows)
 	{
 		window->Update(inDeltaTime);
 		if (!window->IsOpen())
 			windows_to_remove.push_back(window);
 	}
-	for (const SharedPtr<DebugUIWindow>& window : windows_to_remove)
+	for (const Ref<DebugUIWindow>& window : windows_to_remove)
 	{
 		RemoveWindow(window->GetClassName());
 	}
@@ -335,46 +335,50 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 	if (!gEventManager.IsMouseButtonDown(MouseButton::Left))
 		return;
 
-	EntityPtr selected_entity = mSelectedEntity.lock();
-	if (selected_entity == nullptr)
+	if (!mSelectedEntity.has_value())
+		return;
+
+	Ref<Entity> selected_entity = mSelectedEntity.value().Get();
+	if (!selected_entity.IsValid())
 		return;
 
 	if (!selected_entity->HasComponent<TransformComponent>())
 		return;
 
 	fm::vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
-	EntityPtr old_entity = gApp.GetWorld()->GetEntityAtLocationSlow(old_world_location);
-	if (old_entity == selected_entity)
+	Optional<Ref<Entity>> old_entity = gApp.GetWorld()->GetEntityAtLocationSlow(old_world_location);
+
+	if (!old_entity.has_value() || old_entity.value() != selected_entity)
+		return;
+
+	fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
+
+	if (selected_entity->HasComponent<CollisionComponent>())
 	{
-		fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
+		const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
+		fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle)->GetTransform();
 
-		if (selected_entity->HasComponent<CollisionComponent>())
-		{
-			const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
-			fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle)->GetTransform();
+		fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
 
-			fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
+		selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
 
-			selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
-
-			const fm::Transform2D& entity_transform = selected_entity->GetComponent<TransformComponent>().mTransform;
-			selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
-		}
-		else
-			selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
+		const fm::Transform2D& entity_transform = selected_entity->GetComponent<TransformComponent>().mTransform;
+		selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
 	}
+	else
+		selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
 }
 
-WeakPtr<DebugUIWindow> DebugUIWindowManager::AddWindow(SharedPtr<DebugUIWindow> inWindow)
+WeakRef<DebugUIWindow> DebugUIWindowManager::AddWindow(Ref<DebugUIWindow> inWindow)
 {
 	PROFILE_SCOPE(DebugUIWindowManager::AddWindow)
 
-	for (SharedPtr<DebugUIWindow>& window : mWindows)
+	for (Ref<DebugUIWindow>& window : mWindows)
 	{
 		if (window == inWindow || window->GetClassName() == inWindow->GetClassName())
 		{
 			gAssert(false, "Duplicate window already exists! If this is a mistake, check that RTTI_CLASS is defined.");
-			return {};
+			return inWindow;
 		}
 	}
 
@@ -382,14 +386,14 @@ WeakPtr<DebugUIWindow> DebugUIWindowManager::AddWindow(SharedPtr<DebugUIWindow> 
 	return inWindow;
 }
 
-SharedPtr<DebugUIWindow> DebugUIWindowManager::GetWindow(const String& inWindowClassName) const
+Ref<DebugUIWindow> DebugUIWindowManager::GetWindow(const String& inWindowClassName) const
 {
-	for (const SharedPtr<DebugUIWindow>& window : mWindows)
+	for (const Ref<DebugUIWindow>& window : mWindows)
 	{
 		if (window->GetClassName() == inWindowClassName)
 			return window;
 	}
-	for (const SharedPtr<DebugUIWindow>& window : mWindowsToAdd)
+	for (const Ref<DebugUIWindow>& window : mWindowsToAdd)
 	{
 		if (window->GetClassName() == inWindowClassName)
 			return window;
@@ -399,7 +403,7 @@ SharedPtr<DebugUIWindow> DebugUIWindowManager::GetWindow(const String& inWindowC
 
 bool DebugUIWindowManager::WindowExists(const String& inWindowClassName) const
 {
-	for (const SharedPtr<DebugUIWindow>& window : mWindows)
+	for (const Ref<DebugUIWindow>& window : mWindows)
 	{
 		if (window->GetClassName() == inWindowClassName)
 			return true;
@@ -421,7 +425,7 @@ void DebugUIWindowManager::RemoveWindow(const String& inWindowClassName)
 	}
 }
 
-void DebugUIWindowManager::SetSelectedEntity(const WeakPtr<Entity>& inEntity)
+void DebugUIWindowManager::SetSelectedEntity(const Optional<WeakRef<Entity>>& inEntity)
 {
 	mSelectedEntity = inEntity;
 	if (!WindowExists(DebugUIWindowEntityDetails::sGetClassName()))

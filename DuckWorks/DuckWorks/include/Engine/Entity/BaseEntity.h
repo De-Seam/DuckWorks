@@ -1,20 +1,25 @@
 #pragma once
+// Core includes
+#include "Core/Utilities/Utilities.h"
+#include "Core/Utilities/UID.h"
+#include "Core/Utilities/RefObject.h"
+
 // Engine includes
 #include "Components.h"
 
 // External includes
-#include "Core/Utilities/Utilities.h"
-#include "Core/Utilities/UID.h"
-
 #include "External/entt/entt.hpp"
+
 
 class World;
 
-class BaseEntity : public RTTIBaseClass
+class BaseEntity : public RefObject
 {
-	RTTI_CLASS(BaseEntity, RTTIBaseClass)
+	RTTI_CLASS(BaseEntity, RefObject)
 
 public:
+	BaseEntity() = default; ///< Default constructor for RTTI
+
 	BaseEntity(World* inWorld); ///< Will create a new handle with the world
 	BaseEntity(entt::entity inHandle, World* inWorld); ///< Will assign the given handle to the entity
 	BaseEntity(const BaseEntity& inOther) = default;

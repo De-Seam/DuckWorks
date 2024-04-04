@@ -9,7 +9,8 @@ class CollisionActor : public Actor
 {
 	RTTI_CLASS(CollisionActor, Actor)
 public:
-	CollisionActor(World* inWorld);
+	CollisionActor() = default;
+	virtual void Init(const Entity::InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;
 

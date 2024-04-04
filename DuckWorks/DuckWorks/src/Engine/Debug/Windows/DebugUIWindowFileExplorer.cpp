@@ -177,8 +177,7 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 				if (!gDebugUIWindowManager.WindowExists<DebugUIWindowTextureViewer>())
 					gDebugUIWindowManager.CreateWindow<DebugUIWindowTextureViewer>();
 
-				SharedPtr<DebugUIWindowTextureViewer> texture_viewer = SPCast<DebugUIWindowTextureViewer>(
-					gDebugUIWindowManager.GetWindow<DebugUIWindowTextureViewer>());
+				Ref<DebugUIWindowTextureViewer> texture_viewer = gDebugUIWindowManager.GetWindow<DebugUIWindowTextureViewer>();
 
 				texture_viewer->SetTexture(texture);
 			}

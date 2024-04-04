@@ -2,6 +2,7 @@
 // CoreBase includes the core utilities and math
 #include "Utilities/Types.h"
 #include "Utilities/Utilities.h"
+#include "Utilities/RefObject.h"
 #include "Core/Utilities/UID.h"
 
 // General Handle pointing to an index. The default constructor makes an invalid handle.
