@@ -24,7 +24,7 @@ void DebugUIWindowEntityList::Update(float)
 	ImGui::Begin("Entity List");
 
 	World* world = gApp.GetWorld();
-	Array<Ref<Entity>> entities = world->GetEntities();
+	Array<Ref<Entity>>& entities = world->GetEntities();
 	Optional<WeakRef<Entity>> selected_entity = gDebugUIWindowManager.GetSelectedEntity();
 
 	ImVec2 button_size = ImVec2(ImGui::GetContentRegionAvail().x, 0);
@@ -42,7 +42,6 @@ void DebugUIWindowEntityList::Update(float)
 		}
 		if (ImGui::Button(entity_name.c_str(), button_size))
 		{
-			selected_entity = entity;
 			gDebugUIWindowManager.SetSelectedEntity(entity);
 		}
 		if (change_color)
