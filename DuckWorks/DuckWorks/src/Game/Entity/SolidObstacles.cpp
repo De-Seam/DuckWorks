@@ -16,10 +16,11 @@ void SolidObstacle::Init(const Entity::InitParams& inInitParams)
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
 
-	CollisionComponent& collision_component = AddComponent<CollisionComponent>();
 
 	CollisionObject::InitParams params;
 	params.mTransform = GetTransform();
 	params.mType = CollisionObject::EType::Static;
-	collision_component.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
+	CollisionObjectHandle handle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
+	
+	CollisionComponent& collision_component = AddComponent<CollisionComponent>(handle);
 }

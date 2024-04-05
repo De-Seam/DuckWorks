@@ -58,8 +58,8 @@
                     "CameraComponent": {
                         "mCamera": {
                             "mPosition": [
-                                67.536865234375,
-                                -726.3193969726563
+                                129.3858184814453,
+                                -322.4994812011719
                             ],
                             "mSize": [
                                 1920.0,
@@ -85,8 +85,8 @@
                                 32.0
                             ],
                             "Position": [
-                                67.53730010986328,
-                                -726.319091796875
+                                129.41070556640625,
+                                -322.4973449707031
                             ],
                             "Rotation": 0.0
                         },
@@ -101,7 +101,7 @@
                     "TextureRenderComponent": {
                         "mFlip": 0,
                         "mSrcRect": [
-                            960,
+                            192,
                             0,
                             192,
                             192
@@ -118,8 +118,8 @@
                                 96.0
                             ],
                             "Position": [
-                                67.53730010986328,
-                                -726.319091796875
+                                129.41070556640625,
+                                -322.4973449707031
                             ],
                             "Rotation": 0.0
                         }
@@ -1062,7 +1062,7 @@
             }
         },
         {
-            "SolidObstacle": {
+            "MovingPlatform": {
                 "Components": {
                     "CollisionComponent": {
                         "mBlocking": true,
@@ -1073,15 +1073,15 @@
                                 32.0
                             ],
                             "Position": [
-                                137.28952026367188,
-                                -900.0989990234375
+                                729.0,
+                                -59.024593353271484
                             ],
                             "Rotation": 0.0
                         },
-                        "mType": 0
+                        "mType": 1
                     },
                     "NameComponent": {
-                        "mName": "SolidObstacle"
+                        "mName": "MovingPlatform"
                     },
                     "TextureRenderComponent": {
                         "mFlip": 0,
@@ -1092,7 +1092,7 @@
                             0
                         ],
                         "mTexture": {
-                            "mFile": "Assets/DefaultTexture.png"
+                            "mFile": "Assets/top.jpg"
                         },
                         "mUseSrcRect": false
                     },
@@ -1103,13 +1103,36 @@
                                 32.0
                             ],
                             "Position": [
-                                137.28952026367188,
-                                -900.0990600585938
+                                729.0,
+                                -59.024593353271484
                             ],
                             "Rotation": 0.0
                         }
                     }
-                }
+                },
+                "mMoveExtents": [
+                    0.0,
+                    93.0
+                ],
+                "mMoveSpeed": [
+                    -0.0,
+                    -57.0
+                ],
+                "mRelativeTransform": {
+                    "HalfSize": [
+                        0.0,
+                        0.0
+                    ],
+                    "Position": [
+                        0.0,
+                        0.0
+                    ],
+                    "Rotation": 0.0
+                },
+                "mStartPosition": [
+                    729.0,
+                    0.0
+                ]
             }
         },
         {
@@ -1215,57 +1238,6 @@
             }
         },
         {
-            "SolidObstacle": {
-                "Components": {
-                    "CollisionComponent": {
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Position": [
-                                32.76554870605469,
-                                -790.319091796875
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 0
-                    },
-                    "NameComponent": {
-                        "mName": "SolidObstacle"
-                    },
-                    "TextureRenderComponent": {
-                        "mFlip": 0,
-                        "mSrcRect": [
-                            0,
-                            0,
-                            0,
-                            0
-                        ],
-                        "mTexture": {
-                            "mFile": "Assets/DefaultTexture.png"
-                        },
-                        "mUseSrcRect": false
-                    },
-                    "TransformComponent": {
-                        "mTransform": {
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Position": [
-                                32.76554870605469,
-                                -790.319091796875
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                }
-            }
-        },
-        {
             "MovingPlatform": {
                 "Components": {
                     "CollisionComponent": {
@@ -1277,8 +1249,8 @@
                                 32.0
                             ],
                             "Position": [
-                                -109.11786651611328,
-                                -10.239520072937012
+                                440.39398193359375,
+                                3.2475674152374268
                             ],
                             "Rotation": 0.0
                         },
@@ -1307,8 +1279,82 @@
                                 32.0
                             ],
                             "Position": [
-                                -109.11786651611328,
-                                -10.239520072937012
+                                440.39398193359375,
+                                3.2475674152374268
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                },
+                "mMoveExtents": [
+                    0.0,
+                    61.0
+                ],
+                "mMoveSpeed": [
+                    -0.0,
+                    110.0
+                ],
+                "mRelativeTransform": {
+                    "HalfSize": [
+                        0.0,
+                        0.0
+                    ],
+                    "Position": [
+                        0.0,
+                        0.0
+                    ],
+                    "Rotation": 0.0
+                },
+                "mStartPosition": [
+                    440.0,
+                    0.0
+                ]
+            }
+        },
+        {
+            "MovingPlatform": {
+                "Components": {
+                    "CollisionComponent": {
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -164.60546875,
+                                68.33299255371094
+                            ],
+                            "Rotation": 0.0
+                        },
+                        "mType": 1
+                    },
+                    "NameComponent": {
+                        "mName": "MovingPlatform"
+                    },
+                    "TextureRenderComponent": {
+                        "mFlip": 0,
+                        "mSrcRect": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "mTexture": {
+                            "mFile": "Assets/top.jpg"
+                        },
+                        "mUseSrcRect": false
+                    },
+                    "TransformComponent": {
+                        "mTransform": {
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Position": [
+                                -164.60546875,
+                                68.33299255371094
                             ],
                             "Rotation": 0.0
                         }
@@ -1319,7 +1365,7 @@
                     100.0
                 ],
                 "mMoveSpeed": [
-                    12.0,
+                    -12.0,
                     -100.0
                 ],
                 "mRelativeTransform": {
@@ -1351,8 +1397,8 @@
                                 32.0
                             ],
                             "Position": [
-                                115.85860443115234,
-                                114.77531433105469
+                                -25.047889709472656,
+                                98.65687561035156
                             ],
                             "Rotation": 0.0
                         },
@@ -1381,8 +1427,8 @@
                                 32.0
                             ],
                             "Position": [
-                                115.85860443115234,
-                                114.77531433105469
+                                -25.047889709472656,
+                                98.65687561035156
                             ],
                             "Rotation": 0.0
                         }
@@ -1425,8 +1471,8 @@
                                 32.0
                             ],
                             "Position": [
-                                -173.11785888671875,
-                                38.84918212890625
+                                145.38816833496094,
+                                164.20355224609375
                             ],
                             "Rotation": 0.0
                         },
@@ -1455,8 +1501,8 @@
                                 32.0
                             ],
                             "Position": [
-                                -173.11785888671875,
-                                38.84918212890625
+                                145.38816833496094,
+                                164.20355224609375
                             ],
                             "Rotation": 0.0
                         }
@@ -1468,7 +1514,7 @@
                 ],
                 "mMoveSpeed": [
                     200.0,
-                    50.0
+                    -50.0
                 ],
                 "mRelativeTransform": {
                     "HalfSize": [
@@ -1499,8 +1545,8 @@
                                 32.0
                             ],
                             "Position": [
-                                22.817533493041992,
-                                370.65277099609375
+                                17.699317932128906,
+                                360.7067565917969
                             ],
                             "Rotation": 0.0
                         },
@@ -1529,8 +1575,8 @@
                                 32.0
                             ],
                             "Position": [
-                                22.817533493041992,
-                                370.65277099609375
+                                17.699317932128906,
+                                360.7067565917969
                             ],
                             "Rotation": 0.0
                         }
@@ -1541,8 +1587,8 @@
                     100.0
                 ],
                 "mMoveSpeed": [
-                    17.0,
-                    -100.0
+                    -17.0,
+                    100.0
                 ],
                 "mRelativeTransform": {
                     "HalfSize": [
@@ -1573,8 +1619,8 @@
                                 32.0
                             ],
                             "Position": [
-                                480.9432678222656,
-                                151.7582550048828
+                                375.5773010253906,
+                                60.34756088256836
                             ],
                             "Rotation": 0.0
                         },
@@ -1603,8 +1649,8 @@
                                 32.0
                             ],
                             "Position": [
-                                480.9432678222656,
-                                151.7582550048828
+                                375.5773010253906,
+                                60.34756088256836
                             ],
                             "Rotation": 0.0
                         }
@@ -1616,7 +1662,7 @@
                 ],
                 "mMoveSpeed": [
                     -49.0,
-                    97.0
+                    -97.0
                 ],
                 "mRelativeTransform": {
                     "HalfSize": [
@@ -1647,8 +1693,8 @@
                                 32.0
                             ],
                             "Position": [
-                                125.09043884277344,
-                                50.77531433105469
+                                31.386877059936523,
+                                34.65687561035156
                             ],
                             "Rotation": 0.0
                         },
@@ -1677,8 +1723,8 @@
                                 32.0
                             ],
                             "Position": [
-                                125.09043884277344,
-                                50.77531433105469
+                                31.386877059936523,
+                                34.65687561035156
                             ],
                             "Rotation": 0.0
                         }
@@ -1721,8 +1767,8 @@
                                 32.0
                             ],
                             "Position": [
-                                86.81753540039063,
-                                309.9202880859375
+                                218.45968627929688,
+                                83.07254028320313
                             ],
                             "Rotation": 0.0
                         },
@@ -1751,8 +1797,8 @@
                                 32.0
                             ],
                             "Position": [
-                                86.81753540039063,
-                                309.9202880859375
+                                218.45968627929688,
+                                83.07254028320313
                             ],
                             "Rotation": 0.0
                         }
@@ -1763,7 +1809,7 @@
                     200.0
                 ],
                 "mMoveSpeed": [
-                    -100.0,
+                    100.0,
                     -189.0
                 ],
                 "mRelativeTransform": {
@@ -1780,154 +1826,6 @@
                 "mStartPosition": [
                     118.0,
                     258.0
-                ]
-            }
-        },
-        {
-            "MovingPlatform": {
-                "Components": {
-                    "CollisionComponent": {
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Position": [
-                                729.0,
-                                11.023018836975098
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "NameComponent": {
-                        "mName": "MovingPlatform"
-                    },
-                    "TextureRenderComponent": {
-                        "mFlip": 0,
-                        "mSrcRect": [
-                            0,
-                            0,
-                            0,
-                            0
-                        ],
-                        "mTexture": {
-                            "mFile": "Assets/top.jpg"
-                        },
-                        "mUseSrcRect": false
-                    },
-                    "TransformComponent": {
-                        "mTransform": {
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Position": [
-                                729.0,
-                                11.023018836975098
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                "mMoveExtents": [
-                    0.0,
-                    93.0
-                ],
-                "mMoveSpeed": [
-                    -0.0,
-                    -57.0
-                ],
-                "mRelativeTransform": {
-                    "HalfSize": [
-                        0.0,
-                        0.0
-                    ],
-                    "Position": [
-                        0.0,
-                        0.0
-                    ],
-                    "Rotation": 0.0
-                },
-                "mStartPosition": [
-                    729.0,
-                    0.0
-                ]
-            }
-        },
-        {
-            "MovingPlatform": {
-                "Components": {
-                    "CollisionComponent": {
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Position": [
-                                440.0,
-                                -7.252410888671875
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "NameComponent": {
-                        "mName": "MovingPlatform"
-                    },
-                    "TextureRenderComponent": {
-                        "mFlip": 0,
-                        "mSrcRect": [
-                            0,
-                            0,
-                            0,
-                            0
-                        ],
-                        "mTexture": {
-                            "mFile": "Assets/top.jpg"
-                        },
-                        "mUseSrcRect": false
-                    },
-                    "TransformComponent": {
-                        "mTransform": {
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Position": [
-                                440.0,
-                                -7.252410888671875
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                "mMoveExtents": [
-                    0.0,
-                    61.0
-                ],
-                "mMoveSpeed": [
-                    0.0,
-                    -110.0
-                ],
-                "mRelativeTransform": {
-                    "HalfSize": [
-                        0.0,
-                        0.0
-                    ],
-                    "Position": [
-                        0.0,
-                        0.0
-                    ],
-                    "Rotation": 0.0
-                },
-                "mStartPosition": [
-                    440.0,
-                    0.0
                 ]
             }
         }

@@ -9,6 +9,12 @@
 template<typename taType>
 struct Handle
 {
+	Handle() = default;
+	Handle(uint64 inIndex, UID inUID)
+		: mIndex(inIndex)
+		, mUID(inUID)
+	{}
+
 	uint64 mIndex = UINT64_MAX;
 	UID mUID = {};
 
@@ -27,5 +33,19 @@ struct Handle
 	bool IsValid() const
 	{
 		return mIndex != UINT64_MAX;
+	}
+
+	Handle& operator=(const Handle& inOther)
+	{
+		//gAssert(mIndex == UINT64_MAX, "Old handle was destroyed!");
+		mIndex = inOther.mIndex;
+		mUID = inOther.mUID;
+		return *this;
+	}
+
+	Handle(const Handle& inOther)
+	{
+		mIndex = inOther.mIndex;
+		mUID = inOther.mUID;
 	}
 };

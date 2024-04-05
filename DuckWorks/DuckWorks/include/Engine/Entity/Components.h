@@ -106,6 +106,7 @@ struct CollisionComponent : public ComponentBase
 
 	CollisionComponent();
 	CollisionComponent(const CollisionObjectHandle& inCollisionObjectHandle) : mCollisionObjectHandle(inCollisionObjectHandle) {}
+	~CollisionComponent();
 
 	CollisionObjectHandle mCollisionObjectHandle;
 };

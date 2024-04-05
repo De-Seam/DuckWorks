@@ -23,6 +23,7 @@ public:
 		: BaseEntity(inWorld) {}
 
 	Entity() = default;
+	virtual ~Entity() override;
 
 	struct InitParams
 	{

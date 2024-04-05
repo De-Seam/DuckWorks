@@ -24,13 +24,14 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	PROFILE_SCOPE(DebugUIWindowEntityDetails::Update)
 
 	Optional<WeakRef<Entity>> selected_entity_weak_ref = gDebugUIWindowManager.GetSelectedEntity();
-	if (!selected_entity_weak_ref.has_value())
+	if (!selected_entity_weak_ref.has_value() || !selected_entity_weak_ref->IsAlive())
 	{
 		mOpen = false;
 		return;
 	}
 
 	Ref<Entity> selected_entity = selected_entity_weak_ref.value().Get();
+	gAssert(selected_entity.IsValid(), "Somehow the selected entity was invalid!");
 
 	ImGui::Begin("Entity Details", &mOpen);
 

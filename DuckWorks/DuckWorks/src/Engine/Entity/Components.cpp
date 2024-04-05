@@ -103,6 +103,10 @@ void CollisionComponent::Deserialize(const Json& inJson)
 CollisionComponent::CollisionComponent()
 {}
 
+CollisionComponent::~CollisionComponent()
+{
+}
+
 // TransformComponent
 RTTI_CLASS_DEFINITION(TransformComponent)
 

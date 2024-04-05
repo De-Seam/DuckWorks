@@ -48,8 +48,29 @@ public:
 		mPtr->mRefCount++;
 	}
 
+	Ref(Ref<taType>&& inOther)
+	{
+		mPtr = inOther.mPtr;
+		inOther.mPtr->mRefCount++; ///< Increment ref count because it will be decremented later.
+	}
+
 	Ref<taType>& operator=(const Ref<taType>& inOther)
 	{
+		if(mPtr != nullptr)
+		{
+			mPtr->mRefCount--;
+			if (mPtr->mRefCount <= 0)
+			{
+				if (mPtr->mWeakRefCounter->mRefCount <= 0)
+					delete mPtr->mWeakRefCounter;
+				else
+					mPtr->mWeakRefCounter->mIsAlive = false;
+
+				delete mPtr;
+			}
+		}
+
+		mPtr = inOther.mPtr;
 		gAssert(mPtr->mRefCount > 0, "Ref object is already destroyed!");
 		mPtr->mRefCount++;
 		return *this;
