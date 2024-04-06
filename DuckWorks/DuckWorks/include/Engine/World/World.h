@@ -19,12 +19,13 @@ public:
 	virtual Json SerializeIgnoreEntities() const;
 
 	World();
-	virtual ~World();
+	virtual ~World() override;
 
 	void Update(float inDeltaTime);
 	void Render(float inDeltaTime);
 
 	void BeginPlay();
+	void EndPlay();
 
 	void UpdateEntities(float inDeltaTime);
 	void DestroyEntities();
@@ -67,7 +68,7 @@ Ref<taType> World::CreateEntity(const String& inName)
 {
 	static_assert(std::is_base_of_v<Entity, taType>);
 
-	Ref<taType> entity = { this };
+	Ref<taType> entity = {this};
 	AddEntity(entity, inName);
 	return entity;
 }

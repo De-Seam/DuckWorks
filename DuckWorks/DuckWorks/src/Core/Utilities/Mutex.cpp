@@ -2,21 +2,56 @@
 #include "Core/Utilities/Mutex.h"
 
 #ifdef _DEBUG
-THREADLOCAL Array<Mutex*> gMutexes;
+struct MutexTracker
+{
+	bool IsLocked(Mutex* inMutex) const { return std::ranges::find(mMutexes.begin(), mMutexes.end(), inMutex) != mMutexes.end(); }
+
+	void AddMutex(Mutex* inMutex)
+	{
+		gAssert(!IsLocked(inMutex), "Mutex was already locked!");
+		mMutexes.push_back(inMutex);
+	}
+
+	void RemoveMutex(const Mutex* inMutex)
+	{
+		for (int64 i = 0; i < mMutexes.size(); i++)
+		{
+			if (mMutexes[i] == inMutex)
+			{
+				mMutexes.erase(mMutexes.begin() + i);
+				break;
+			}
+		}
+	}
+
+	Array<Mutex*> mMutexes;
+};
+
+THREADLOCAL MutexTracker gMutexTracker;
 #endif
+
+void gInitMutexTracker()
+{
+#ifdef _DEBUG
+
+
+#endif
+}
+
+void gDestroyMutexTracker()
+{}
 
 Mutex::~Mutex()
 {
 #ifdef _DEBUG
-	gAssert(std::ranges::find(gMutexes.begin(), gMutexes.end(), this) == gMutexes.end(), "Mutex was still locked!");
+	gAssert(!gMutexTracker.IsLocked(this), "Mutex was still locked!");
 #endif
 }
 
 void Mutex::ReadLock()
 {
 #ifdef _DEBUG
-	gAssert(std::ranges::find(gMutexes.begin(), gMutexes.end(), this) == gMutexes.end(), "Mutex was already locked!");
-	gMutexes.push_back(this);
+	gMutexTracker.AddMutex(this);
 #endif
 	mMutex.lock_shared();
 }
@@ -24,7 +59,7 @@ void Mutex::ReadLock()
 void Mutex::ReadUnlock()
 {
 #ifdef _DEBUG
-	std::erase(gMutexes, this);
+	gMutexTracker.RemoveMutex(this);
 #endif
 	mMutex.unlock_shared();
 }
@@ -35,8 +70,7 @@ bool Mutex::TryReadLock()
 #ifdef _DEBUG
 	if (locked)
 	{
-		gAssert(std::ranges::find(gMutexes.begin(), gMutexes.end(), this) == gMutexes.end(), "Mutex was already locked!");
-		gMutexes.push_back(this);
+		gMutexTracker.AddMutex(this);
 	}
 #endif
 	return locked;
@@ -45,8 +79,7 @@ bool Mutex::TryReadLock()
 void Mutex::WriteLock()
 {
 #ifdef _DEBUG
-	gAssert(std::ranges::find(gMutexes.begin(), gMutexes.end(), this) == gMutexes.end(), "Mutex was already locked!");
-	gMutexes.push_back(this);
+	gMutexTracker.AddMutex(this);
 #endif
 	mMutex.lock();
 }
@@ -54,7 +87,7 @@ void Mutex::WriteLock()
 void Mutex::WriteUnlock()
 {
 #ifdef _DEBUG
-	std::erase(gMutexes, this);
+	gMutexTracker.RemoveMutex(this);
 #endif
 	mMutex.unlock();
 }

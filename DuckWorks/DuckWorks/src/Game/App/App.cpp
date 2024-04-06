@@ -31,7 +31,6 @@ App::App()
 App::~App()
 {
 	assert(this == &gApp);
-	mWorld.reset();
 }
 
 int App::Run()
@@ -189,6 +188,9 @@ void App::Update(float inDeltaTime)
 
 void App::ShutdownInternal()
 {
+	mWorld->EndPlay();
+	mWorld = nullptr;
+
 	gRenderer.Shutdown();
 
 	SaveUserSettingsToFile(mUserSettingsFile);

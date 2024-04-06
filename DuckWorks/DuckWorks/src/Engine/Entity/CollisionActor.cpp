@@ -27,10 +27,12 @@ void CollisionActor::Deserialize(const Json& inJson)
 CollisionActor::~CollisionActor()
 {
 	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
-	GetWorld()->GetCollisionWorld()->DestroyCollisionObject(collision_component.mCollisionObjectHandle);
+	World* world = GetWorld();
+	CollisionWorld* collision_world = world->GetCollisionWorld();
+	collision_world->DestroyCollisionObject(collision_component.mCollisionObjectHandle);
 }
 
-void CollisionActor::Init(const Entity::InitParams& inInitParams)
+void CollisionActor::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
 	CollisionObject::InitParams params;

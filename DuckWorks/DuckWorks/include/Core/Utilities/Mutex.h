@@ -7,6 +7,9 @@
 // Std includes
 #include <shared_mutex>
 
+void gInitMutexTracker();
+void gDestroyMutexTracker();
+
 class Mutex
 {
 public:
@@ -26,27 +29,27 @@ private:
 class BaseScopedMutexLock
 {
 protected:
-	Mutex *mMutex = nullptr;
+	Mutex* mMutex = nullptr;
 };
 
 class ScopedMutexReadLock : public BaseScopedMutexLock
 {
 public:
-	ScopedMutexReadLock(Mutex &inMutex);
+	ScopedMutexReadLock(Mutex& inMutex);
 	~ScopedMutexReadLock();
 };
 
 class ScopedMutexWriteLock : public BaseScopedMutexLock
 {
 public:
-	ScopedMutexWriteLock(Mutex &inMutex);
+	ScopedMutexWriteLock(Mutex& inMutex);
 	~ScopedMutexWriteLock();
 };
 
 template<typename taType>
 struct MutexReadProtectedValue
 {
-	MutexReadProtectedValue(Mutex &inMutex, taType &inValue, bool inAlreadyLocked = false) :
+	MutexReadProtectedValue(Mutex& inMutex, taType& inValue, bool inAlreadyLocked = false) :
 		mValue(inValue), mMutex(&inMutex)
 	{
 		if (!inAlreadyLocked)
@@ -59,18 +62,18 @@ struct MutexReadProtectedValue
 			mMutex->ReadUnlock();
 	}
 
-	MutexReadProtectedValue(const MutexReadProtectedValue &) = delete;
-	MutexReadProtectedValue &operator=(const MutexReadProtectedValue &) = delete;
+	MutexReadProtectedValue(const MutexReadProtectedValue&) = delete;
+	MutexReadProtectedValue& operator=(const MutexReadProtectedValue&) = delete;
 
 	// Move constructor
-	MutexReadProtectedValue(MutexReadProtectedValue &&other) noexcept :
+	MutexReadProtectedValue(MutexReadProtectedValue&& other) noexcept :
 		mValue(other.mValue), mMutex(other.mMutex)
 	{
 		other.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
 	}
 
 	// Move assignment operator
-	MutexReadProtectedValue &operator=(MutexReadProtectedValue &&other) noexcept
+	MutexReadProtectedValue& operator=(MutexReadProtectedValue&& other) noexcept
 	{
 		if (this != &other)
 		{
@@ -88,13 +91,13 @@ struct MutexReadProtectedValue
 		return *this;
 	}
 
-	taType *operator->()
+	taType* operator->()
 	{
 		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
 		return &mValue;
 	}
 
-	const taType *operator->() const
+	const taType* operator->() const
 	{
 		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
 		return &mValue;
@@ -108,6 +111,6 @@ struct MutexReadProtectedValue
 	}
 
 private:
-	taType &mValue;
-	Mutex *mMutex = nullptr;
+	taType& mValue;
+	Mutex* mMutex = nullptr;
 };

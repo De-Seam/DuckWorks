@@ -126,6 +126,7 @@ void World::Render(float inDeltaTime)
 
 void World::BeginPlay()
 {
+	PROFILE_SCOPE(World::BeginPlay)
 	mBegunPlay = true;
 	mCollisionWorld->BeginPlay();
 
@@ -133,8 +134,16 @@ void World::BeginPlay()
 		entity->BeginPlay();
 }
 
+void World::EndPlay()
+{
+	PROFILE_SCOPE(World::EndPlay)
+	for (Ref<Entity>& entity : mEntities)
+		entity->EndPlay();
+}
+
 void World::UpdateEntities(float inDeltaTime)
 {
+	PROFILE_SCOPE(World::UpdateEntities)
 	ScopedMutexReadLock lock{mEntitiesMutex};
 
 	for (Ref<Entity>& entity : mEntities)
