@@ -26,19 +26,88 @@ private:
 class BaseScopedMutexLock
 {
 protected:
-	Mutex* mMutex = nullptr;
+	Mutex *mMutex = nullptr;
 };
 
 class ScopedMutexReadLock : public BaseScopedMutexLock
 {
 public:
-	ScopedMutexReadLock(Mutex& inMutex);
+	ScopedMutexReadLock(Mutex &inMutex);
 	~ScopedMutexReadLock();
 };
 
 class ScopedMutexWriteLock : public BaseScopedMutexLock
 {
 public:
-	ScopedMutexWriteLock(Mutex& inMutex);
+	ScopedMutexWriteLock(Mutex &inMutex);
 	~ScopedMutexWriteLock();
+};
+
+template<typename taType>
+struct MutexReadProtectedValue
+{
+	MutexReadProtectedValue(Mutex &inMutex, taType &inValue, bool inAlreadyLocked = false) :
+		mValue(inValue), mMutex(&inMutex)
+	{
+		if (!inAlreadyLocked)
+			mMutex->ReadLock();
+	}
+
+	~MutexReadProtectedValue()
+	{
+		if (mMutex)
+			mMutex->ReadUnlock();
+	}
+
+	MutexReadProtectedValue(const MutexReadProtectedValue &) = delete;
+	MutexReadProtectedValue &operator=(const MutexReadProtectedValue &) = delete;
+
+	// Move constructor
+	MutexReadProtectedValue(MutexReadProtectedValue &&other) noexcept :
+		mValue(other.mValue), mMutex(other.mMutex)
+	{
+		other.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
+	}
+
+	// Move assignment operator
+	MutexReadProtectedValue &operator=(MutexReadProtectedValue &&other) noexcept
+	{
+		if (this != &other)
+		{
+			// Safely unlock the current mutex if it exists
+			if (mMutex)
+			{
+				mMutex->ReadUnlock();
+			}
+
+			// Transfer ownership
+			mValue = other.mValue;
+			mMutex = other.mMutex;
+			other.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
+		}
+		return *this;
+	}
+
+	taType *operator->()
+	{
+		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		return &mValue;
+	}
+
+	const taType *operator->() const
+	{
+		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		return &mValue;
+	}
+
+	void Unlock()
+	{
+		gAssert(mMutex != nullptr, "The mutex was already unlocked!");
+		mMutex->ReadUnlock();
+		mMutex = nullptr;
+	}
+
+private:
+	taType &mValue;
+	Mutex *mMutex = nullptr;
 };
