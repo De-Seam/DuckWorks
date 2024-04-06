@@ -51,7 +51,7 @@ void DebugUIWindowOutputLog::Update(float)
 		if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
 			mAutoScroll = false;
 
-		int32 start_index = log_array->size() - mMaxEntryCount;
+		int32 start_index = SCast<int32>(log_array->size()) - mMaxEntryCount;
 		start_index = fm::max(start_index, 0);
 		for (uint64 i = SCast<uint64>(start_index); i < log_array->size(); i++)
 		{
