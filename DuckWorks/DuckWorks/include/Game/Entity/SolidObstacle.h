@@ -1,10 +1,10 @@
 #pragma once
 // Engine includes
-#include "Engine/Entity/Actor.h"
+#include "Engine/Entity/CollisionActor.h"
 
-class SolidObstacle : public Actor
+class SolidObstacle : public CollisionActor
 {
-	RTTI_CLASS(SolidObstacle, Actor)
+	RTTI_CLASS(SolidObstacle, CollisionActor)
 
 public:
 	SolidObstacle() = default;

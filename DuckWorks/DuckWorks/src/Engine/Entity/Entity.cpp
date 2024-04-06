@@ -18,10 +18,4 @@ void Entity::Deserialize(const Json& inJson)
 }
 
 Entity::~Entity()
-{
-	if (HasComponent<CollisionComponent>())
-	{
-		CollisionComponent& collision_component = GetComponent<CollisionComponent>();
-		GetWorld()->GetCollisionWorld()->DestroyCollisionObject(collision_component.mCollisionObjectHandle);
-	}
-}
+{}

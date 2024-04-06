@@ -24,6 +24,12 @@ void CollisionActor::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mRelativeTransform);
 }
 
+CollisionActor::~CollisionActor()
+{
+	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
+	GetWorld()->GetCollisionWorld()->DestroyCollisionObject(collision_component.mCollisionObjectHandle);
+}
+
 void CollisionActor::Init(const Entity::InitParams& inInitParams)
 {
 	Base::Init(inInitParams);

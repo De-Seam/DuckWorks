@@ -10,6 +10,7 @@ class CollisionActor : public Actor
 	RTTI_CLASS(CollisionActor, Actor)
 public:
 	CollisionActor() = default;
+	virtual ~CollisionActor() override;
 	virtual void Init(const Entity::InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;
