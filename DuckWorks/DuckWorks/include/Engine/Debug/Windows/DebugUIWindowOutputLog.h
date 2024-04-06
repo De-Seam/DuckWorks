@@ -18,5 +18,7 @@ private:
 
 	bool mAutoScroll = true;
 
+	int32 mMaxEntryCount = 512;
+
 private:
 };

@@ -12,6 +12,7 @@ Json DebugUIWindowOutputLog::Serialize() const
 	JSON_SAVE(json, mShowInfo);
 	JSON_SAVE(json, mShowWarnings);
 	JSON_SAVE(json, mShowErrors);
+	JSON_SAVE(json, mMaxEntryCount);
 
 	return json;
 }
@@ -23,6 +24,7 @@ void DebugUIWindowOutputLog::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mShowInfo);
 	JSON_LOAD(inJson, mShowWarnings);
 	JSON_LOAD(inJson, mShowErrors);
+	JSON_LOAD(inJson, mMaxEntryCount);
 }
 
 void DebugUIWindowOutputLog::Update(float)
@@ -36,45 +38,53 @@ void DebugUIWindowOutputLog::Update(float)
 	ImGui::Checkbox("Warning##DebugUIWindowOutputLogFilter", &mShowWarnings);
 	ImGui::SameLine();
 	ImGui::Checkbox("Error##DebugUIWindowOutputLogFilter", &mShowErrors);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(64.f);
+	ImGui::InputInt("Max Entries", &mMaxEntryCount, 0, 0);
+	fm::clamp(mMaxEntryCount, 10, INT32_MAX);
 
-	gLogManager.GetLogMutex().ReadLock();
-	const Array<LogManager::LogEntry>& log_array = gLogManager.GetLogArray();
-
-	// Check if the user has scrolled up
-	if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
-		mAutoScroll = false;
-
-	for (const LogManager::LogEntry& log_entry : log_array)
+	if (ImGui::BeginChild("LogContent", ImVec2(0, 0)))
 	{
-		if (log_entry.mType == LogType::Info && !mShowInfo)
-			continue;
-		if (log_entry.mType == LogType::Warning && !mShowWarnings)
-			continue;
-		if (log_entry.mType == LogType::Error && !mShowErrors)
-			continue;
+		gLogManager.GetLogMutex().ReadLock();
+		const Array<LogManager::LogEntry>& log_array = gLogManager.GetLogArray();
 
-		switch (log_entry.mType)
+		// Check if the user has scrolled up
+		if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
+			mAutoScroll = false;
+
+		int32 start_index = log_array.size() - mMaxEntryCount;
+		start_index = fm::max(start_index, 0);
+		for (uint64 i = start_index; i < log_array.size(); i++)
 		{
-		case LogType::Info:
-			ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.f), log_entry.mMessage.c_str());
-			break;
-		case LogType::Warning:
-			ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), log_entry.mMessage.c_str());
-			break;
-		case LogType::Error:
-			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), log_entry.mMessage.c_str());
-			break;
+			const LogManager::LogEntry& log_entry = log_array[i];
+			switch (log_entry.mType)
+			{
+			case LogType::Info:
+				if (mShowInfo)
+					ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.f), log_entry.mMessage.c_str());
+				break;
+			case LogType::Warning:
+				if (mShowWarnings)
+					ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), log_entry.mMessage.c_str());
+				break;
+			case LogType::Error:
+				if (mShowErrors)
+					ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), log_entry.mMessage.c_str());
+				break;
+			}
 		}
+		gLogManager.GetLogMutex().ReadUnlock();
+
+		// If the user scrolls back to the bottom manually, re-enable auto-scrolling
+		if (!mAutoScroll && ImGui::GetScrollY() == ImGui::GetScrollMaxY())
+			mAutoScroll = true;
+
+		// Auto-scroll logic
+		if (mAutoScroll)
+			ImGui::SetScrollHereY(1.0f); // 1.0f is the bottom
+
+		ImGui::EndChild();
 	}
-	gLogManager.GetLogMutex().ReadUnlock();
-
-	// If the user scrolls back to the bottom manually, re-enable auto-scrolling
-	if (!mAutoScroll && ImGui::GetScrollY() == ImGui::GetScrollMaxY())
-		mAutoScroll = true;
-
-	// Auto-scroll logic
-	if (mAutoScroll)
-		ImGui::SetScrollHereY(1.0f); // 1.0f is the bottom
 
 	ImGui::End();
 }
