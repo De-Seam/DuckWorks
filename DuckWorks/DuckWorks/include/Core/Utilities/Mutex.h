@@ -93,14 +93,24 @@ struct MutexReadProtectedValue
 
 	taType* operator->()
 	{
-		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
-		return &mValue;
+		return &Value();
 	}
 
 	const taType* operator->() const
 	{
+		return &Value();
+	}
+
+	taType& Value()
+	{
 		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
-		return &mValue;
+		return mValue;
+	}
+
+	const taType& Value() const
+	{
+		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		return mValue;
 	}
 
 	void Unlock()

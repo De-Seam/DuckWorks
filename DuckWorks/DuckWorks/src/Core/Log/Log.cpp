@@ -160,9 +160,9 @@ void LogManager::CleanLogQueue(bool inErrorOnly)
 	Log(LogType::Warning, "Log queue had to be cleaned.");
 }
 
-const Array<LogManager::LogEntry>& LogManager::GetLogArray() const
+const MutexReadProtectedValue<Array<LogManager::LogEntry>> LogManager::GetLogArray()
 {
-	return mLogEntries;
+	return {mLogMutex, mLogEntries, false};
 }
 
 void LogManager::SetLogFilePath(const String& inFilePath)
@@ -254,7 +254,7 @@ void LogManager::LogThreadLoop()
 		{
 			ScopedMutexWriteLock lock(mLogMutex);
 
-			LogEntry log_entry = { queueItem.logType, queueItem.msg };
+			LogEntry log_entry = {queueItem.logType, queueItem.msg};
 			mLogEntries.emplace_back(log_entry);
 
 			queueItem.msg += "\n";

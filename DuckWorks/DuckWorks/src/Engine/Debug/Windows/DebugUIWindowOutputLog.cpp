@@ -45,18 +45,17 @@ void DebugUIWindowOutputLog::Update(float)
 
 	if (ImGui::BeginChild("LogContent", ImVec2(0, 0)))
 	{
-		gLogManager.GetLogMutex().ReadLock();
-		const Array<LogManager::LogEntry>& log_array = gLogManager.GetLogArray();
+		const MutexReadProtectedValue<Array<LogManager::LogEntry>> log_array = gLogManager.GetLogArray();
 
 		// Check if the user has scrolled up
 		if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
 			mAutoScroll = false;
 
-		int32 start_index = log_array.size() - mMaxEntryCount;
+		int32 start_index = log_array->size() - mMaxEntryCount;
 		start_index = fm::max(start_index, 0);
-		for (uint64 i = start_index; i < log_array.size(); i++)
+		for (uint64 i = SCast<uint64>(start_index); i < log_array->size(); i++)
 		{
-			const LogManager::LogEntry& log_entry = log_array[i];
+			const LogManager::LogEntry& log_entry = log_array.Value()[i];
 			switch (log_entry.mType)
 			{
 			case LogType::Info:
@@ -73,7 +72,6 @@ void DebugUIWindowOutputLog::Update(float)
 				break;
 			}
 		}
-		gLogManager.GetLogMutex().ReadUnlock();
 
 		// If the user scrolls back to the bottom manually, re-enable auto-scrolling
 		if (!mAutoScroll && ImGui::GetScrollY() == ImGui::GetScrollMaxY())
