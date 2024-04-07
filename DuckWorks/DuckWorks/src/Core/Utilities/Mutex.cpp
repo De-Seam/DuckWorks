@@ -34,12 +34,10 @@ void gInitMutexTracker()
 {
 #ifdef _DEBUG
 
-
 #endif
 }
 
-void gDestroyMutexTracker()
-{}
+void gDestroyMutexTracker() {}
 
 Mutex::~Mutex()
 {
@@ -50,6 +48,10 @@ Mutex::~Mutex()
 
 void Mutex::ReadLock()
 {
+#ifdef PROFILE_MUTEXES
+	PROFILE_SCOPE(Mutex::ReadLock)
+#endif
+
 #ifdef _DEBUG
 	gMutexTracker.AddMutex(this);
 #endif
@@ -58,6 +60,10 @@ void Mutex::ReadLock()
 
 void Mutex::ReadUnlock()
 {
+#ifdef PROFILE_MUTEXES
+	PROFILE_SCOPE(Mutex::ReadUnlock)
+#endif
+
 #ifdef _DEBUG
 	gMutexTracker.RemoveMutex(this);
 #endif
@@ -66,6 +72,10 @@ void Mutex::ReadUnlock()
 
 bool Mutex::TryReadLock()
 {
+#ifdef PROFILE_MUTEXES
+	PROFILE_SCOPE(Mutex::TryReadLock)
+#endif
+
 	bool locked = mMutex.try_lock_shared();
 #ifdef _DEBUG
 	if (locked)
@@ -78,6 +88,10 @@ bool Mutex::TryReadLock()
 
 void Mutex::WriteLock()
 {
+#ifdef PROFILE_MUTEXES
+	PROFILE_SCOPE(Mutex::WriteLock)
+#endif
+
 #ifdef _DEBUG
 	gMutexTracker.AddMutex(this);
 #endif
@@ -86,6 +100,10 @@ void Mutex::WriteLock()
 
 void Mutex::WriteUnlock()
 {
+#ifdef PROFILE_MUTEXES
+	PROFILE_SCOPE(Mutex::ReadLock)
+#endif
+
 #ifdef _DEBUG
 	gMutexTracker.RemoveMutex(this);
 #endif

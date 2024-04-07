@@ -12,6 +12,8 @@
 // Game includes (ILLEGAL!)
 #include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/AnimationManager.h"
+#include "Engine/Threads/ThreadManager.h"
+
 #include "Game/App/App.h"
 #include "Game/Entity/Player/Player.h"
 
@@ -148,20 +150,39 @@ void World::UpdateEntities(float inDeltaTime)
 
 	for (Ref<Entity>& entity : mEntities)
 	{
-		entity->Update(inDeltaTime);
+		class UpdateEntityThreadTask : public ThreadTask
+		{
+		public:
+			virtual void Execute() override
+			{
+				mEntity->Update(mDeltaTime);
+			}
+
+			Ref<Entity> mEntity;
+			float mDeltaTime;
+		};
+
+		SharedPtr<UpdateEntityThreadTask> task = std::make_shared<UpdateEntityThreadTask>();
+		task->mEntity = entity;
+		task->mDeltaTime = inDeltaTime;
+
+		gThreadManager.AddTask(task, ThreadPriority::High);
 	}
+
+	gThreadManager.WaitUntilPriorityEmpty(ThreadPriority::High);
 }
 
 void World::DestroyEntities()
 {
 	PROFILE_SCOPE(World::DestroyEntities)
 
-	ScopedMutexWriteLock lock(mEntitiesMutex);
+	mRegistryMutex.ReadLock();
 	auto view = mRegistry.view<DestroyedTag>();
 	for (entt::entity entity_handle : view)
 	{
 		DestroyedTag& destroyed_tag = view.get<DestroyedTag>(entity_handle);
 
+		ScopedMutexWriteLock entities_write_lock(mEntitiesMutex);
 		for (auto rit = mEntities.rbegin(); rit != mEntities.rend(); ++rit)
 		{
 			Ref<Entity>& entity = *rit;
@@ -170,6 +191,7 @@ void World::DestroyEntities()
 				gAssert(entity->GetEntityHandle() == entity_handle, "This could indicate multiple entities with the same UID somehow");
 
 				entity->EndPlay();
+				mRegistryMutex.ReadUnlock();
 				entity->RemoveComponent<DestroyedTag>();
 
 				std::iter_swap(rit, mEntities.rbegin());
@@ -177,7 +199,9 @@ void World::DestroyEntities()
 				break;
 			}
 		}
+		mRegistryMutex.TryReadLock();
 	}
+	mRegistryMutex.ReadUnlock();
 }
 
 Ref<Entity> World::AddEntity(const Ref<Entity>& inEntity, const String& inName, Entity::InitParams inInitParams)
@@ -195,8 +219,7 @@ Ref<Entity> World::AddEntity(const Ref<Entity>& inEntity, const String& inName, 
 
 Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 {
-	ScopedMutexReadLock lock2{mRegistryMutex};
-
+	mRegistryMutex.ReadLock();
 	auto view = mRegistry.view<TransformComponent>();
 	for (auto entity : view)
 	{
@@ -221,9 +244,9 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 		// Check if the rotated point lies within the rectangle's bounds
 		if (std::abs(rotatedPoint.x) <= half_size.x && std::abs(rotatedPoint.y) <= half_size.y)
 		{
-			ScopedMutexReadLock lock{mEntitiesMutex};
 			// The point is inside this entity's rotated bounding box
 			BaseEntity base_entity = {entity, this};
+			mRegistryMutex.ReadUnlock();
 			return base_entity.GetComponent<EntityComponent>().mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
 		}
 	}

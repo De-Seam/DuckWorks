@@ -1,15 +1,14 @@
 #pragma once
 // Core includes
-#include "Core/Utilities/Utilities.h"
-#include "Core/Utilities/UID.h"
 #include "Core/Utilities/RefObject.h"
+#include "Core/Utilities/UID.h"
+#include "Core/Utilities/Utilities.h"
 
 // Engine includes
 #include "Components.h"
 
 // External includes
 #include "External/entt/entt.hpp"
-
 
 class World;
 
@@ -24,7 +23,7 @@ public:
 	BaseEntity(entt::entity inHandle, World* inWorld); ///< Will assign the given handle to the entity
 	BaseEntity(const BaseEntity& inOther) = default;
 
-	~BaseEntity();
+	virtual ~BaseEntity() override;
 
 	void GenerateNewEntityHandle(World* inWorld);
 	///< Helper function to generate a new entity handle for this entity. Should only be used for a child class which does not call the default constructor
@@ -49,7 +48,7 @@ public:
 	taType& GetComponent();
 
 	template<typename taType>
-	bool HasComponent();
+	bool HasComponent() const;
 
 	template<typename taType>
 	void RemoveComponent();
@@ -80,7 +79,6 @@ protected:
 
 	friend class World;
 };
-
 
 // Inline functions
 template<typename taType, typename... taArgs>
@@ -116,19 +114,21 @@ template<typename taType>
 taType& BaseEntity::GetComponent()
 {
 	assert(HasComponent<taType>()); //Entity does not have component!
+	ScopedMutexReadLock lock(GetRegistryMutexWorld());
 	return GetRegistry().get<taType>(mEntityHandle);
 }
 
 template<typename taType>
-bool BaseEntity::HasComponent()
+bool BaseEntity::HasComponent() const
 {
+	ScopedMutexReadLock lock(GetRegistryMutexWorld());
 	return GetRegistry().any_of<taType>(mEntityHandle);
 }
 
 template<typename taType>
 void BaseEntity::RemoveComponent()
 {
-	ScopedMutexWriteLock lock(GetRegistryMutexWorld());
 	assert(HasComponent<taType>()); //Entity does not have component!
+	ScopedMutexWriteLock lock(GetRegistryMutexWorld());
 	GetRegistry().remove<taType>(mEntityHandle);
 }

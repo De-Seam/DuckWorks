@@ -1,10 +1,10 @@
 #pragma once
-#include "Core/Utilities/Utilities.h"
 #include "Core/Utilities/RefObject.h"
+#include "Core/Utilities/Utilities.h"
 
 // Engine includes
-#include "Engine/Entity/Entity.h"
 #include "Engine/Collision/CollisionWorld.h"
+#include "Engine/Entity/Entity.h"
 
 // External includes
 #include <External/entt/entt.hpp>

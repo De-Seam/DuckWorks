@@ -2,12 +2,19 @@
 
 #include <Core/Utilities/Mutex.h>
 
-#include <queue>
-#include <mutex>
 #include <condition_variable>
+#include <mutex>
 #include <optional>
+#include <queue>
 
 // A threadsafe-queue.
+enum class DequeueResult
+{
+	Success,
+	Empty,
+	Locked
+};
+
 template<class T>
 class SafeQueue
 {
@@ -22,14 +29,14 @@ public:
 	{}
 
 	// Add an element to the queue.
-	void enqueue(T t)
+	void Enqueue(T t)
 	{
 		std::lock_guard<std::mutex> lock(m);
 		q.push(t);
 		c.notify_one();
 	}
 
-	bool try_enqueue(T t)
+	bool TryEnqueue(T t)
 	{
 		if (m.try_lock())
 		{
@@ -43,7 +50,7 @@ public:
 
 	// Get the "front"-element.
 	// If the queue is empty, wait till a element is available.
-	T dequeue(void)
+	T Dequeue(void)
 	{
 		std::unique_lock<std::mutex> lock(m);
 		while (q.empty())
@@ -56,14 +63,7 @@ public:
 		return val;
 	}
 
-	enum class DequeueResult
-	{
-		Success,
-		Empty,
-		Locked
-	};
-
-	std::pair<DequeueResult, T> try_dequeue()
+	Pair<DequeueResult, T> TryDequeue()
 	{
 		if (m.try_lock())
 		{
@@ -80,7 +80,7 @@ public:
 		return {DequeueResult::Locked, T()};
 	}
 
-	void clear()
+	void Clear()
 	{
 		std::lock_guard<std::mutex> lock(m);
 		while (!q.empty())
@@ -89,22 +89,22 @@ public:
 		}
 	}
 
-	uint64 size() const
+	uint64 Size() const
 	{
 		return q.size();
 	}
 
-	bool empty() const
+	bool IsEmpty() const
 	{
 		return q.empty();
 	}
 
-	void lock()
+	void Lock()
 	{
 		m.lock();
 	}
 
-	void unlock()
+	void Unlock()
 	{
 		m.unlock();
 	}

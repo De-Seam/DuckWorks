@@ -20,6 +20,7 @@
 // Std includes
 #include <fstream>
 
+#include "Engine/Threads/ThreadManager.h"
 
 App gApp;
 
@@ -41,6 +42,8 @@ int App::Run()
 
 	gLog(LogType::Info, "Initializing App");
 	gLogManager.Init();
+
+	gThreadManager.Init();
 
 	gRegisterFactoryClasses();
 
@@ -91,7 +94,6 @@ int App::Run()
 	{
 		gEventManager.Init();
 	}
-
 
 	// Create World
 	mWorld = std::make_unique<World>();
@@ -195,5 +197,6 @@ void App::ShutdownInternal()
 
 	SaveUserSettingsToFile(mUserSettingsFile);
 
+	gThreadManager.Shutdown();
 	gLogManager.Shutdown();
 }

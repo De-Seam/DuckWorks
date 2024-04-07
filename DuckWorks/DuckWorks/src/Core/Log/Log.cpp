@@ -30,11 +30,8 @@ LogManager::LogManager()
 void LogManager::Init()
 {
 	gLog(LogType::Info, "Initializing LogManager");
-
 	mOutputLog.reserve(8192);
-
 	mLogThread = std::thread(&LogManager::LogThreadLoop, this);
-
 	gLog(LogType::Info, "LogManager Initialized");
 }
 
@@ -43,10 +40,8 @@ void LogManager::Shutdown()
 	// We have to log something here so the thread which is waiting for a log message can exit.
 	mThreadRunning = false;
 	Log(LogType::Info, "LogManager shutting down.");
-
 	// We join the thread first so we can have lock free access to the log string
 	mLogThread.join();
-
 	WriteLogToFile();
 }
 
@@ -63,7 +58,6 @@ void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 	PROFILE_SCOPE(LogManager::Log)
 	static THREADLOCAL String msg;
 	msg.clear();
-
 	switch (inLogType)
 	{
 	case LogType::Info:
@@ -76,7 +70,6 @@ void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 		msg = "[E] ";
 		break;
 	}
-
 	while (*fmt != '\0')
 	{
 		if (*fmt == '%')
@@ -128,22 +121,18 @@ void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
 		}
 		++fmt;
 	}
-
 	LogQueueItem logQueueItem = {inLogType, msg};
-	mLogQueue.enqueue(logQueueItem);
+	mLogQueue.Enqueue(logQueueItem);
 }
 
 void LogManager::CleanLogQueue(bool inErrorOnly)
 {
 	PROFILE_SCOPE(LogManager::CleanLogQueue)
-
 	std::vector<LogQueueItem> items_to_requeue;
-
-	while (!mLogQueue.empty())
+	while (!mLogQueue.IsEmpty())
 	{
 		// Anything that's not info is important enough that it needs to be re-queued
-		LogQueueItem queue_item = mLogQueue.dequeue();
-
+		LogQueueItem queue_item = mLogQueue.Dequeue();
 		if (inErrorOnly)
 		{
 			if (queue_item.logType == LogType::Error)
@@ -152,11 +141,9 @@ void LogManager::CleanLogQueue(bool inErrorOnly)
 		else if (queue_item.logType != LogType::Info)
 			items_to_requeue.push_back(queue_item);
 	}
-
 	// Requeue the items to requeue
 	for (LogQueueItem& item : items_to_requeue)
-		mLogQueue.enqueue(item);
-
+		mLogQueue.Enqueue(item);
 	Log(LogType::Warning, "Log queue had to be cleaned.");
 }
 
@@ -180,7 +167,6 @@ std::string GetCurrentDateTime()
 	// Get current time as time_point
 	auto now = std::chrono::system_clock::now();
 	auto in_time_t = std::chrono::system_clock::to_time_t(now);
-
 	// Convert to tm struct for formatting
 	std::tm bt;
 	errno_t error = localtime_s(&bt, &in_time_t);
@@ -189,7 +175,6 @@ std::string GetCurrentDateTime()
 		gAssert(!error, "Error getting current time.");
 		return "Error";
 	}
-
 	// Format the time into a string with format YYYY-MM-DD_HH-MM-SS
 	std::ostringstream ss;
 	ss << std::put_time(&bt, "%y-%m-%d_%H-%M-%S");
@@ -199,12 +184,9 @@ std::string GetCurrentDateTime()
 void LogManager::WriteLogToFile()
 {
 	PROFILE_SCOPE(LogManager::WriteLogToFile)
-
-
 	// Construct the full path
 	std::filesystem::path dir(mLogFilePath);
 	std::filesystem::path file = dir / (mLogFileName + GetCurrentDateTime() + mLogFileExtension);
-
 	// Check if folder exists, if not create it
 	if (!exists(dir))
 	{
@@ -215,9 +197,7 @@ void LogManager::WriteLogToFile()
 			return;
 		}
 	}
-
 	ScopedMutexReadLock lock(mLogMutex);
-
 	std::ofstream log_file;
 	log_file.open(file, std::ios::out);
 	if (log_file.is_open())
@@ -238,29 +218,22 @@ void LogManager::LogThreadLoop()
 	mThreadRunning = true;
 	while (mThreadRunning)
 	{
-		if (mLogQueue.size() > 128)
+		if (mLogQueue.Size() > 128)
 			CleanLogQueue();
-		if (mLogQueue.size() > 512)
+		if (mLogQueue.Size() > 512)
 			CleanLogQueue(true);
-		if (mLogQueue.size() > 1024)
-			mLogQueue.clear();
-
-		gAssert(mLogQueue.size() < 2048, "Log queue is getting too big. This is a sign that the log thread is not keeping up with the log messages.");
-
-		LogQueueItem queueItem = mLogQueue.dequeue();
-
+		if (mLogQueue.Size() > 1024)
+			mLogQueue.Clear();
+		gAssert(mLogQueue.Size() < 2048, "Log queue is getting too big. This is a sign that the log thread is not keeping up with the log messages.");
+		LogQueueItem queueItem = mLogQueue.Dequeue();
 		PROFILE_SCOPE(LogManager::LogThreadLoop)
-
 		{
 			ScopedMutexWriteLock lock(mLogMutex);
-
 			LogEntry log_entry = {queueItem.logType, queueItem.msg};
 			mLogEntries.emplace_back(log_entry);
-
 			queueItem.msg += "\n";
 			mOutputLog += queueItem.msg;
 		}
-
 		if (mOutputLog.size() > mMaxOutputLogSize)
 			WriteLogToFile();
 	}

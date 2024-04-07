@@ -10,10 +10,12 @@
 #include <External/phmap/phmap.h>
 
 // STD includes
+#include <atomic>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
-#include <atomic>
+
+#define PROFILE_MUTEXES 1
 
 using String = std::string;
 using Json = nlohmann::json;
@@ -22,7 +24,7 @@ using Json = nlohmann::json;
 template<typename taType>
 using UniquePtr = std::unique_ptr<taType>;
 
-_EXPORT_STD inline constexpr std::nullopt_t NullOpt{ std::nullopt_t::_Tag{} };
+_EXPORT_STD inline constexpr std::nullopt_t NullOpt{std::nullopt_t::_Tag{}};
 
 template<typename taType>
 using SharedPtr = std::shared_ptr<taType>;
@@ -91,7 +93,6 @@ inline void from_json(const Json& inJson, vec2& outVariable)
 	inJson.at(1).get_to(outVariable.y);
 }
 
-
 // vec3
 inline void to_json(Json& outJson, const vec3& inVariable)
 {
@@ -104,7 +105,6 @@ inline void from_json(const Json& inJson, vec3& outVariable)
 	inJson.at(1).get_to(outVariable.y);
 	inJson.at(2).get_to(outVariable.z);
 }
-
 
 // vec4
 inline void to_json(Json& outJson, const vec4& inVariable)
@@ -120,7 +120,6 @@ inline void from_json(const Json& inJson, vec4& outVariable)
 	inJson.at(3).get_to(outVariable.w);
 };
 
-
 // ivec2
 inline void to_json(Json& outJson, const ivec2& inVariable)
 {
@@ -132,7 +131,6 @@ inline void from_json(const Json& inJson, ivec2& outVariable)
 	inJson.at(0).get_to(outVariable.x);
 	inJson.at(1).get_to(outVariable.y);
 }
-
 
 // Transform2D
 inline void to_json(Json& outJson, const Transform2D& inVariable)
@@ -147,7 +145,6 @@ inline void from_json(const Json& inJson, Transform2D& outVariable)
 	inJson.at("Rotation").get_to(outVariable.rotation);
 }
 } // Namespace fm
-
 
 // TextureResource
 class TextureResource;
