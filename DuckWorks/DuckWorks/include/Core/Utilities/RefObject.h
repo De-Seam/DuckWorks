@@ -182,6 +182,7 @@ public:
 
 	Ref<taType> Get() const
 	{
+		gAssert(IsAlive(), "Can't make a reference if it isn't alive anymore! Check IsAlive() first");
 		return Ref<taType>(*this);
 	}
 

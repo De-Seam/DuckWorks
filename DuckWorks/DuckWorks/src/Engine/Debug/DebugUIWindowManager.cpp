@@ -338,6 +338,9 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 	if (!mSelectedEntity.has_value())
 		return;
 
+	if (!mSelectedEntity.value().IsAlive())
+		return;
+
 	Ref<Entity> selected_entity = mSelectedEntity.value().Get();
 	if (!selected_entity.IsValid())
 		return;
