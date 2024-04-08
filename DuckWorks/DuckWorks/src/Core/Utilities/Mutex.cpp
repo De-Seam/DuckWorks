@@ -14,7 +14,7 @@ struct MutexTracker
 
 	void RemoveMutex(const Mutex* inMutex)
 	{
-		for (int64 i = 0; i < mMutexes.size(); i++)
+		for (uint64 i = 0; i < mMutexes.size(); i++)
 		{
 			if (mMutexes[i] == inMutex)
 			{

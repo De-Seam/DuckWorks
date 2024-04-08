@@ -81,8 +81,8 @@ void DebugUIWindowOutputLog::Update(float)
 		if (mAutoScroll)
 			ImGui::SetScrollHereY(1.0f); // 1.0f is the bottom
 
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
 
 	ImGui::End();
 }
