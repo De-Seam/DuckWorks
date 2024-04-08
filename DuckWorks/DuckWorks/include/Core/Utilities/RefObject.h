@@ -185,12 +185,19 @@ public:
 
 	WeakRef<taType>& operator=(const WeakRef<taType>& inOther)
 	{
-		mPtr = inOther.mPtr;
-		mWeakRefCounter = inOther.mWeakRefCounter;
-
-		if (mWeakRefCounter != nullptr)
-			mWeakRefCounter->mRefCount++;
-
+		if (mWeakRefCounter != inOther.mWeakRefCounter)
+		{
+			if (mWeakRefCounter != nullptr && --mWeakRefCounter->mRefCount <= 0 && !mWeakRefCounter->mIsAlive)
+			{
+				delete mWeakRefCounter;
+			}
+			mPtr = inOther.mPtr;
+			mWeakRefCounter = inOther.mWeakRefCounter;
+			if (mWeakRefCounter != nullptr)
+			{
+				mWeakRefCounter->mRefCount++;
+			}
+		}
 		return *this;
 	}
 
