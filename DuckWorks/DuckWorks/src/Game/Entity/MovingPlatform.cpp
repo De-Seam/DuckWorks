@@ -93,11 +93,14 @@ void MovingPlatform::Update(float inDeltaTime)
 
 		if (data.mHandle.IsValid())
 		{
-			EntityPtr entity = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle)->GetEntity().lock();
-			if (entity == nullptr)
+			WeakRef<Entity> entity_weaakref = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle)->GetEntity();
+			
+			if (!entity_weakref.IsAlive())
 				continue;
 
-			CollisionActor* actor = gCast<CollisionActor>(entity.get());
+			Ref<Entity> entity = entity_weakref.Get();
+
+			CollisionActor *actor = entity.Cast<CollisionActor>();
 			if (actor != nullptr)
 			{
 				fm::vec2 actor_position = actor->GetPosition();

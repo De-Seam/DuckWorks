@@ -44,12 +44,12 @@ public:
 
 private:
 	entt::registry mRegistry = {};
-	Mutex mRegistryMutex = {};
+	Mutex mRegistryMutex = {}; ///< Used for creating new entities in the registry
 
 	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
 	Array<Ref<Entity>> mEntities = {};
-	Mutex mEntitiesMutex = {};
+	Mutex mEntitiesMutex = {}; ///< Used to protect the mEntities array
 
 	int32 mVelocityIterations = 6;
 	int32 mPositionIterations = 2;

@@ -28,12 +28,12 @@ void CollisionObject::Deserialize(const Json& inJson)
 	SetTransform(mTransform);
 }
 
-CollisionObject::CollisionObject(const InitParams& inInitParams)
+CollisionObject::CollisionObject(const InitParams &inInitParams) :
+	mTransform(inInitParams.mTransform),
+	mEntity(inInitParams.mEntity), 
+	mType(inInitParams.mType),
+	mBlocking(inInitParams.mBlocking)
 {
-	mTransform = inInitParams.mTransform;
-	mType = inInitParams.mType;
-	mBlocking = inInitParams.mBlocking;
-	mEntity = inInitParams.mEntity;
 	if (inInitParams.mOnCollisionFunction != nullptr)
 		mOnCollisionFunction = inInitParams.mOnCollisionFunction;
 	CalculateAABB();

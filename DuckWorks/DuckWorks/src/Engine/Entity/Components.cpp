@@ -14,6 +14,7 @@ RTTI_EMPTY_SERIALIZE_DEFINITION(ComponentBase)
 
 // NameComponent
 RTTI_CLASS_DEFINITION(NameComponent)
+COMPONENT_DEFINITION(NameComponent)
 
 Json NameComponent::Serialize() const
 {
@@ -32,6 +33,7 @@ void NameComponent::Deserialize(const Json& inJson)
 
 // TextureRenderComponent
 RTTI_CLASS_DEFINITION(TextureRenderComponent)
+COMPONENT_DEFINITION(TextureRenderComponent)
 
 Json TextureRenderComponent::Serialize() const
 {
@@ -63,6 +65,7 @@ TextureRenderComponent::TextureRenderComponent()
 
 // AnimationComponent
 RTTI_CLASS_DEFINITION(AnimationComponent)
+COMPONENT_DEFINITION(AnimationComponent)
 
 Json AnimationComponent::Serialize() const
 {
@@ -76,6 +79,7 @@ void AnimationComponent::Deserialize(const Json& inJson)
 
 // CollisionComponent
 RTTI_CLASS_DEFINITION(CollisionComponent)
+COMPONENT_DEFINITION(CollisionComponent)
 
 Json CollisionComponent::Serialize() const
 {
@@ -109,6 +113,7 @@ CollisionComponent::~CollisionComponent()
 
 // TransformComponent
 RTTI_CLASS_DEFINITION(TransformComponent)
+COMPONENT_DEFINITION(TransformComponent)
 
 Json TransformComponent::Serialize() const
 {
@@ -129,10 +134,14 @@ void TransformComponent::Deserialize(const Json& inJson)
 // Entity Component
 RTTI_CLASS_DEFINITION(EntityComponent)
 
+COMPONENT_DEFINITION(EntityComponent)
+
 RTTI_EMPTY_SERIALIZE_DEFINITION(EntityComponent)
 
 // HealthComponent
 RTTI_CLASS_DEFINITION(HealthComponent)
+
+COMPONENT_DEFINITION(HealthComponent)
 
 Json HealthComponent::Serialize() const
 {
@@ -152,6 +161,8 @@ void HealthComponent::Deserialize(const Json& inJson)
 
 // CameraComponent
 RTTI_CLASS_DEFINITION(CameraComponent)
+
+COMPONENT_DEFINITION(CameraComponent)
 
 Json CameraComponent::Serialize() const
 {
@@ -185,5 +196,7 @@ CameraComponent::CameraComponent()
 
 // DestroyedTag
 RTTI_CLASS_DEFINITION(DestroyedTag)
+
+COMPONENT_DEFINITION(DestroyedTag)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DestroyedTag)

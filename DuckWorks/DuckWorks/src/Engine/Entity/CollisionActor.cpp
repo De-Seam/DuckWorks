@@ -39,6 +39,7 @@ void CollisionActor::Init(const InitParams& inInitParams)
 	params.mBlocking = true;
 	params.mTransform = GetTransform();
 	params.mType = CollisionObject::EType::Static;
+	params.mEntity = this;
 	CollisionObjectHandle handle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 	AddComponent<CollisionComponent>(handle);
 }
@@ -46,9 +47,6 @@ void CollisionActor::Init(const InitParams& inInitParams)
 void CollisionActor::BeginPlay()
 {
 	Base::BeginPlay();
-
-	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	GetWorld()->GetCollisionWorld()->SetEntityPtr(handle, mThisWeakPtr);
 }
 
 fm::Transform2D CollisionActor::MoveTo(Optional<fm::vec2> inPosition, Optional<float> inRotation, Optional<fm::vec2> inHalfSize)

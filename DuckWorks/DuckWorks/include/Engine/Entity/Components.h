@@ -17,6 +17,9 @@ class Entity;
 #pragma warning( push )
 #pragma warning( disable : 4324) // Structure was padded due to alignment specifier
 
+#define COMPONENT() static Mutex sComponentMutex;
+#define COMPONENT_DEFINITION(inName) Mutex inName::sComponentMutex = {};
+
 struct ComponentBase : public RTTIBaseClass
 {
 	RTTI_CLASS(ComponentBase, RTTIBaseClass)
@@ -30,6 +33,7 @@ struct ComponentBase : public RTTIBaseClass
 struct EntityComponent : public ComponentBase
 {
 	RTTI_CLASS(EntityComponent, ComponentBase)
+	COMPONENT()
 
 	EntityComponent() = default;
 	EntityComponent(WeakRef<Entity> mEntity) : mEntity(mEntity) {}
@@ -40,6 +44,7 @@ struct EntityComponent : public ComponentBase
 struct NameComponent : public ComponentBase
 {
 	RTTI_CLASS(NameComponent, ComponentBase)
+	COMPONENT()
 
 	NameComponent() = default;
 	NameComponent(String inName) : mName(inName) {}
@@ -51,6 +56,7 @@ struct NameComponent : public ComponentBase
 struct TextureRenderComponent : public ComponentBase
 {
 	RTTI_CLASS(TextureRenderComponent, ComponentBase)
+	COMPONENT()
 
 	TextureRenderComponent();
 
@@ -79,6 +85,7 @@ struct TextureRenderComponent : public ComponentBase
 struct AnimationComponent : public ComponentBase
 {
 	RTTI_CLASS(AnimationComponent, ComponentBase)
+	COMPONENT()
 
 	AnimationComponent() = default;
 
@@ -103,6 +110,7 @@ struct AnimationComponent : public ComponentBase
 struct CollisionComponent : public ComponentBase
 {
 	RTTI_CLASS(CollisionComponent, ComponentBase)
+	COMPONENT()
 
 	CollisionComponent();
 	CollisionComponent(const CollisionObjectHandle& inCollisionObjectHandle) : mCollisionObjectHandle(inCollisionObjectHandle) {}
@@ -114,6 +122,7 @@ struct CollisionComponent : public ComponentBase
 struct GravityComponent : public ComponentBase
 {
 	RTTI_CLASS(GravityComponent, ComponentBase)
+	COMPONENT()
 
 	GravityComponent() = default;
 	GravityComponent(float inGravity) : mGravity(inGravity) {}
@@ -125,6 +134,7 @@ struct GravityComponent : public ComponentBase
 struct VelocityComponent : public ComponentBase
 {
 	RTTI_CLASS(VelocityComponent, ComponentBase)
+	COMPONENT()
 
 	VelocityComponent() = default;
 	VelocityComponent(const fm::vec2& inVelocity) : mVelocity(inVelocity) {}
@@ -135,6 +145,7 @@ struct VelocityComponent : public ComponentBase
 struct TransformComponent : public ComponentBase
 {
 	RTTI_CLASS(TransformComponent, ComponentBase)
+	COMPONENT()
 
 	TransformComponent() = default;
 	TransformComponent(const fm::Transform2D& inTransform) : mTransform(inTransform) {}
@@ -145,6 +156,7 @@ struct TransformComponent : public ComponentBase
 struct HealthComponent : public ComponentBase
 {
 	RTTI_CLASS(HealthComponent, ComponentBase)
+	COMPONENT()
 
 	HealthComponent() = default;
 	HealthComponent(float inHealth) : mHealth(inHealth) {}
@@ -155,6 +167,7 @@ struct HealthComponent : public ComponentBase
 struct CameraComponent : public ComponentBase
 {
 	RTTI_CLASS(CameraComponent, ComponentBase)
+	COMPONENT()
 
 	CameraComponent();
 	CameraComponent(SharedPtr<Camera> inCamera) : mCamera(inCamera) {}
@@ -168,6 +181,7 @@ struct CameraComponent : public ComponentBase
 struct DestroyedTag : public ComponentBase
 {
 	RTTI_CLASS(DestroyedTag, ComponentBase)
+	COMPONENT()
 
 	DestroyedTag() = default;
 	DestroyedTag(const UID& inUID) : mUID(inUID) {}

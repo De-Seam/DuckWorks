@@ -39,8 +39,6 @@ class CollisionWorld : public RTTIBaseClass
 	///< Returns a locked mutex and a reference to the object. The mutex should be unlocked when done with it.
 	void LoopCollisionObjects(const std::function<void(const CollisionObject &)> &inFunction);
 
-	void SetEntityPtr(const CollisionObjectHandle &inObjectHandle, EntityWeakPtr inEntity);
-
 private:
 	Array<CollisionObject> mCollisionObjects = {};
 	Array<uint64> mFreeCollisionObjectIndices = {};

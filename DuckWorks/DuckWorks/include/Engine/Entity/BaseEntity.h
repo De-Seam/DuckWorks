@@ -38,6 +38,7 @@ public:
 	decltype(auto) AddComponent()
 	{
 		assert(!HasComponent<taType>()); //Entity already has component!
+		ScopedMutexWriteLock lock(taType::sComponentMutex);
 		return GetRegistry().emplace<taType>(mEntityHandle);
 	}
 
@@ -75,7 +76,6 @@ protected:
 
 protected:
 	Mutex& GetEntitiesMutexWorld() const; ////< Helper function to get the world's entities mutex
-	Mutex& GetRegistryMutexWorld() const; ///< Helper function to get the world's registry mutex
 
 	friend class World;
 };
@@ -88,7 +88,7 @@ taType& BaseEntity::TryAddComponent(taArgs&&... inArgs)
 	{
 		return GetComponent<taType>();
 	}
-	ScopedMutexWriteLock lock(GetRegistryMutexWorld());
+	ScopedMutexWriteLock lock(taType::sComponentMutex);
 	taType& component = GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 	return component;
 }
@@ -97,7 +97,7 @@ template<typename taType, typename... taArgs>
 taType& BaseEntity::AddComponent(taArgs&&... inArgs)
 {
 	assert(!HasComponent<taType>()); //Entity already has component!
-	ScopedMutexWriteLock lock(GetRegistryMutexWorld());
+	ScopedMutexWriteLock lock(taType::sComponentMutex);
 	taType& component = GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 	return component;
 }
@@ -105,7 +105,7 @@ taType& BaseEntity::AddComponent(taArgs&&... inArgs)
 template<typename taType, typename... taArgs>
 taType& BaseEntity::AddOrReplaceComponent(taArgs&&... inArgs)
 {
-	ScopedMutexWriteLock lock(GetRegistryMutexWorld());
+	ScopedMutexWriteLock lock(taType::sComponentMutex);
 	taType& component = GetRegistry().emplace_or_replace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 	return component;
 }
@@ -114,14 +114,14 @@ template<typename taType>
 taType& BaseEntity::GetComponent()
 {
 	assert(HasComponent<taType>()); //Entity does not have component!
-	ScopedMutexReadLock lock(GetRegistryMutexWorld());
+	ScopedMutexReadLock lock(taType::sComponentMutex);
 	return GetRegistry().get<taType>(mEntityHandle);
 }
 
 template<typename taType>
 bool BaseEntity::HasComponent() const
 {
-	ScopedMutexReadLock lock(GetRegistryMutexWorld());
+	ScopedMutexReadLock lock(taType::sComponentMutex);
 	return GetRegistry().any_of<taType>(mEntityHandle);
 }
 
@@ -129,6 +129,6 @@ template<typename taType>
 void BaseEntity::RemoveComponent()
 {
 	assert(HasComponent<taType>()); //Entity does not have component!
-	ScopedMutexWriteLock lock(GetRegistryMutexWorld());
+	ScopedMutexWriteLock lock(taType::sComponentMutex);
 	GetRegistry().remove<taType>(mEntityHandle);
 }

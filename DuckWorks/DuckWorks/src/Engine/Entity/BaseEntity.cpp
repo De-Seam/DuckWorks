@@ -85,8 +85,3 @@ Mutex& BaseEntity::GetEntitiesMutexWorld() const
 {
 	return mWorld->mEntitiesMutex;
 }
-
-Mutex& BaseEntity::GetRegistryMutexWorld() const
-{
-	return mWorld->mRegistryMutex;
-}

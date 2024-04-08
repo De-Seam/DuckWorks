@@ -109,7 +109,8 @@ void World::Render(float inDeltaTime)
 		gAnimationManager.Update(this, inDeltaTime);
 	}
 
-	ScopedMutexReadLock lock{mRegistryMutex};
+	ScopedMutexReadLock texture_render_lock{TextureRenderComponent::sComponentMutex};
+	ScopedMutexReadLock transform_lock{TransformComponent::sComponentMutex};
 
 	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
 	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)
@@ -176,7 +177,7 @@ void World::DestroyEntities()
 {
 	PROFILE_SCOPE(World::DestroyEntities)
 
-	mRegistryMutex.ReadLock();
+	ScopedMutexReadLock destroyed_tag_lock(DestroyedTag::sComponentMutex);
 	auto view = mRegistry.view<DestroyedTag>();
 	for (entt::entity entity_handle : view)
 	{
@@ -191,17 +192,15 @@ void World::DestroyEntities()
 				gAssert(entity->GetEntityHandle() == entity_handle, "This could indicate multiple entities with the same UID somehow");
 
 				entity->EndPlay();
-				mRegistryMutex.ReadUnlock();
-				entity->RemoveComponent<DestroyedTag>();
+				// Removing raw here so we don't double lock the mutex.
+				mRegistry.remove<DestroyedTag>(entity->GetEntityHandle());
 
 				std::iter_swap(rit, mEntities.rbegin());
 				mEntities.pop_back();
 				break;
 			}
 		}
-		mRegistryMutex.TryReadLock();
 	}
-	mRegistryMutex.ReadUnlock();
 }
 
 Ref<Entity> World::AddEntity(const Ref<Entity>& inEntity, const String& inName, Entity::InitParams inInitParams)
@@ -219,7 +218,7 @@ Ref<Entity> World::AddEntity(const Ref<Entity>& inEntity, const String& inName, 
 
 Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 {
-	mRegistryMutex.ReadLock();
+	ScopedMutexReadLock transform_lock{TransformComponent::sComponentMutex};
 	auto view = mRegistry.view<TransformComponent>();
 	for (auto entity : view)
 	{
@@ -246,10 +245,8 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 		{
 			// The point is inside this entity's rotated bounding box
 			BaseEntity base_entity = {entity, this};
-			mRegistryMutex.ReadUnlock();
 			return base_entity.GetComponent<EntityComponent>().mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
 		}
 	}
-	mRegistryMutex.ReadUnlock();
 	return NullOpt;
 }

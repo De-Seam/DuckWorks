@@ -5,6 +5,7 @@
 
 // Engine includes
 #include "Engine/Collision/CollisionStructs.h"
+#include "Engine/Entity/Entity.h"
 
 class CollisionObject : public RTTIBaseClass
 {
@@ -23,7 +24,7 @@ public:
 		EType mType = EType::Static;
 		bool mBlocking = true;
 
-		EntityWeakPtr mEntity;
+		Ref<Entity> mEntity;
 
 		OnCollisionFunc mOnCollisionFunction = nullptr;
 	};
@@ -42,7 +43,7 @@ public:
 	void SetType(EType inType) { mType = inType; }
 	void SetBlocking(bool inBlocking) { mBlocking = inBlocking; }
 	[[deprecated]] void SetShapeType(ShapeType inShapeType);
-	void SetEntityPtr(const EntityWeakPtr& inEntity) { mEntity = inEntity; }
+	void SetEntityRef(const Ref<Entity>& inEntity) { mEntity = inEntity; }
 	void SetOnCollisionFunc(const OnCollisionFunc& inOnCollisionFunc) { mOnCollisionFunction = inOnCollisionFunc; }
 
 	const CollisionObjectHandle& GetHandle() const { return mHandle; }
@@ -51,7 +52,7 @@ public:
 	float GetRotation() const { return mTransform.rotation; }
 	const fm::Transform2D& GetTransform() const { return mTransform; }
 	const AABB& GetAABB() const { return mAABB; }
-	EntityWeakPtr GetEntity() const { return mEntity; }
+	WeakRef<Entity> GetEntity() const { return mEntity; }
 
 	EType GetType() const { return mType; }
 	bool IsBlocking() const { return mBlocking; }
@@ -69,7 +70,7 @@ private:
 
 	OnCollisionFunc mOnCollisionFunction;
 
-	EntityWeakPtr mEntity;
+	WeakRef<Entity> mEntity;
 
 private:
 	void SetTransform(const fm::Transform2D& inTransform);

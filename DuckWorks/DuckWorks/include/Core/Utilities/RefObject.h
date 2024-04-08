@@ -8,14 +8,13 @@ public:
 	RefObject() = default;
 	virtual ~RefObject() override = default;
 
-private:
-	Atomic<int32> mRefCount = 0;
-
 	struct WeakRefCounter
 	{
 		bool mIsAlive = true;
 		Atomic<int32> mRefCount = 0;
 	};
+private:
+	Atomic<int32> mRefCount = 0;
 
 	WeakRefCounter* mWeakRefCounter = nullptr;
 
@@ -105,10 +104,9 @@ public:
 
 		if (mPtr->mRefCount <= 0)
 		{
+			mPtr->mWeakRefCounter->mIsAlive = false;
 			if (mPtr->mWeakRefCounter->mRefCount <= 0)
 				delete mPtr->mWeakRefCounter;
-			else
-				mPtr->mWeakRefCounter->mIsAlive = false;
 
 			delete mPtr;
 		}
@@ -150,10 +148,25 @@ private:
 	friend class WeakRef;
 };
 
+// This is an invalid weak ref counter to be used when nullptr is passed. It always keeps 1 reference to itself to prevent it's destruction
+extern RefObject::WeakRefCounter gInvalidWeakRefCounter;
+
 template<typename taType>
 class WeakRef
 {
 public:
+	WeakRef(taType* inPtr = nullptr)
+	{
+		mPtr = inPtr;
+		if (mPtr != nullptr)
+		{
+			mWeakRefCounter = mPtr->mWeakRefCounter;
+			mWeakRefCounter->mRefCount++;
+		}
+		else
+			mWeakRefCounter = &gInvalidWeakRefCounter;
+	}
+
 	WeakRef(const Ref<taType>& inRef)
 	{
 		mPtr = inRef.mPtr;
@@ -191,6 +204,8 @@ public:
 	bool operator==(const Ref<taType>& inOther) const { return mPtr == inOther.mPtr; }
 
 private:
+	static RefObject::WeakRefCounter sInvalidWeakRefCounter;
+
 	taType* mPtr = nullptr;
 	RefObject::WeakRefCounter* mWeakRefCounter = nullptr;
 

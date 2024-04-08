@@ -80,7 +80,6 @@ void Player::Init(const Entity::InitParams& inInitParams)
 		{
 			OnCollision(inParams);
 		});
-	collision_object->SetEntityPtr(mThisWeakPtr);
 }
 
 void Player::BeginPlay()
