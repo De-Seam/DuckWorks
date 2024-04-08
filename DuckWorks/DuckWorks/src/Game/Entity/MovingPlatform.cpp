@@ -84,7 +84,7 @@ void MovingPlatform::Update(float inDeltaTime)
 		mMoveSpeed.y *= -1.f;
 	}
 
-	fm::Transform2D transform = GetComponent<TransformComponent>()->mTransform;
+	fm::Transform2D transform = GetTransform();
 	transform.position = position;
 	CollisionObjectHandle own_handle = GetComponent<CollisionComponent>()->mCollisionObjectHandle;
 	const Array<CollisionData>& collision_data = GetWorld()->GetCollisionWorld()->CheckCollisions(transform);

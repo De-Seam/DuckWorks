@@ -63,10 +63,9 @@ public:
 			mPtr->mRefCount--;
 			if (mPtr->mRefCount <= 0)
 			{
+				mPtr->mWeakRefCounter->mIsAlive = false;
 				if (mPtr->mWeakRefCounter->mRefCount <= 0)
 					delete mPtr->mWeakRefCounter;
-				else
-					mPtr->mWeakRefCounter->mIsAlive = false;
 
 				delete mPtr;
 			}
@@ -135,13 +134,10 @@ private:
 	// Private so only WeakRef can use it
 	Ref(const WeakRef<taType>& inOther)
 	{
-		// Empty ref
-		if (!inOther.mWeakRefCounter->mIsAlive)
-			return;
-
+		gAssert(inOther.IsAlive(), "Invalid Weak Ref passed!");
 		gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
 		mPtr = inOther.mPtr;
-		++mPtr->mRefCount;
+		mPtr->mRefCount++;
 	}
 
 	template<typename taRefClassType, typename... taRefClassArgs>
@@ -185,6 +181,17 @@ public:
 		mPtr = inWeakRef.mPtr;
 		mWeakRefCounter = inWeakRef.mWeakRefCounter;
 		mWeakRefCounter->mRefCount++;
+	}
+
+	WeakRef<taType>& operator=(const WeakRef<taType>& inOther)
+	{
+		mPtr = inOther.mPtr;
+		mWeakRefCounter = inOther.mWeakRefCounter;
+
+		if (mWeakRefCounter != nullptr)
+			mWeakRefCounter->mRefCount++;
+
+		return *this;
 	}
 
 	~WeakRef()

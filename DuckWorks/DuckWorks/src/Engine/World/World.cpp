@@ -88,13 +88,23 @@ World::World()
 
 World::~World()
 {
-#ifdef _SHIPPING
-	mEntities.clear();
-#else
 	for (Ref<Entity>& entity : mEntities)
 	{
 		entity->EndPlay();
-		gAssert(entity->GetRefCount() == 1, "Entity still has lingering references!");
+	}
+
+#ifdef _DEBUG
+	Array<WeakRef<Entity>> entities;
+	entities.reserve(mEntities.size());
+	for (Ref<Entity>& entity : mEntities)
+		entities.push_back(entity);
+#endif
+	mEntities.clear();
+
+#ifdef _DEBUG
+	for (WeakRef<Entity>& entity : entities)
+	{
+		gAssert(!entity.IsAlive(), "Entity still has lingering references!");
 	}
 #endif
 }
