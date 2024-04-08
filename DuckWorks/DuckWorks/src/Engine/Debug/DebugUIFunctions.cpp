@@ -20,14 +20,18 @@ bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 	return changed;
 }
 
-bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine)
+bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine, bool inShowKey)
 {
 	PROFILE_SCOPE(gHandleKeyValuePair)
 	String label = String("##" + inLabel + inKey);
 	nlohmann::detail::value_t value_type = ioValue.type();
-	ImGui::Text(inKey.c_str());
-	if (inSameLine)
-		ImGui::SameLine();
+	
+	if (inShowKey)
+	{
+		ImGui::Text(inKey.c_str());
+		if (inSameLine)
+			ImGui::SameLine();
+	}
 	switch (value_type)
 	{
 	case nlohmann::detail::value_t::null:
@@ -38,8 +42,12 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 		bool changed = false;
 		for (const auto& [key, value] : ioValue.items())
 		{
-			if (gHandleKeyValuePair(ioJson, label, key, value, false))
-				changed = true;
+			if (ImGui::TreeNodeEx((key + label + "TreeNode").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				if (gHandleKeyValuePair(ioJson, label, key, value, false, false))
+					changed = true;
+				ImGui::TreePop();
+			}
 		}
 		return changed;
 	}
