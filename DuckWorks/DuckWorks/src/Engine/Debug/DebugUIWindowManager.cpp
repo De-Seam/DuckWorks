@@ -2,15 +2,15 @@
 #include "Engine/Debug/DebugUIWindowManager.h"
 
 // Engine includes
+#include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
-#include "Engine/Renderer/Renderer.h"
-#include "Engine/Events/SDLEventManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 #include "Engine/Entity/Components.h"
-#include "Engine/Events/EventManager.h"
-#include "Engine/Factory/Factory.h"
 #include "Engine/Entity/Entity.h"
-#include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Events/EventManager.h"
+#include "Engine/Events/SDLEventManager.h"
+#include "Engine/Factory/Factory.h"
+#include "Engine/Renderer/Renderer.h"
 #include "Engine/World/World.h"
 
 // Game includes
@@ -88,7 +88,6 @@ void DebugUIWindowManager::Init()
 	ImGui::StyleColorsDark();
 	ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w = 0.4f;
 
-
 	// Setup Platform/Renderer backends
 	ImGui_ImplSDL2_InitForSDLRenderer(gRenderer.GetWindow(), gRenderer.GetRenderer());
 	ImGui_ImplSDLRenderer2_Init(gRenderer.GetRenderer());
@@ -131,7 +130,7 @@ void DebugUIWindowManager::Init()
 				SetSelectedEntity(entity);
 
 				if (entity.has_value())
-					mSelectedEntityRelativeLocation = entity.value()->GetComponent<TransformComponent>().mTransform.position - world_location;
+					mSelectedEntityRelativeLocation = entity.value()->GetComponent<TransformComponent>()->mTransform.position - world_location;
 			}
 		};
 		gEventManager.AddPersistentEventFunction(event_function);
@@ -358,18 +357,19 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 
 	if (selected_entity->HasComponent<CollisionComponent>())
 	{
-		const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
+		MutexReadProtectedPtr<CollisionComponent> collision_component = selected_entity->GetComponent<CollisionComponent>();
+		const CollisionObjectHandle& collision_object_handle = collision_component->mCollisionObjectHandle;
 		fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle)->GetTransform();
 
-		fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
+		MutexReadProtectedPtr<TransformComponent> transform_component = selected_entity->GetComponent<TransformComponent>();
 
-		selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
+		fm::vec2 delta_position = collision_transform.position - transform_component->mTransform.position;
+		transform_component->mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
 
-		const fm::Transform2D& entity_transform = selected_entity->GetComponent<TransformComponent>().mTransform;
-		selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
+		selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, transform_component->mTransform.position + delta_position);
 	}
 	else
-		selected_entity->GetComponent<TransformComponent>().mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
+		selected_entity->GetComponent<TransformComponent>()->mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
 }
 
 WeakRef<DebugUIWindow> DebugUIWindowManager::AddWindow(Ref<DebugUIWindow> inWindow)

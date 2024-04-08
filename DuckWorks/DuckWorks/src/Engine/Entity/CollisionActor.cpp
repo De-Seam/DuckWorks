@@ -26,10 +26,10 @@ void CollisionActor::Deserialize(const Json& inJson)
 
 CollisionActor::~CollisionActor()
 {
-	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
+	MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
 	World* world = GetWorld();
 	CollisionWorld* collision_world = world->GetCollisionWorld();
-	collision_world->DestroyCollisionObject(collision_component.mCollisionObjectHandle);
+	collision_world->DestroyCollisionObject(collision_component->mCollisionObjectHandle);
 }
 
 void CollisionActor::Init(const InitParams& inInitParams)
@@ -58,8 +58,11 @@ fm::Transform2D CollisionActor::MoveTo(Optional<fm::vec2> inPosition, Optional<f
 	if (inHalfSize.has_value())
 		inHalfSize.value() -= mRelativeTransform.halfSize;
 
-	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	fm::Transform2D transform = GetWorld()->GetCollisionWorld()->MoveTo(handle, inPosition, inRotation, inHalfSize);
+	fm::Transform2D transform;
+	{
+		MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
+		transform = GetWorld()->GetCollisionWorld()->MoveTo(collision_component->mCollisionObjectHandle, inPosition, inRotation, inHalfSize);
+	}
 	transform = transform + mRelativeTransform;
 	Base::SetTransform(transform);
 	return transform;
@@ -67,14 +70,14 @@ fm::Transform2D CollisionActor::MoveTo(Optional<fm::vec2> inPosition, Optional<f
 
 void CollisionActor::TeleportPosition(const fm::vec2& inPosition)
 {
-	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	GetWorld()->GetCollisionWorld()->TeleportPosition(handle, inPosition - mRelativeTransform.position);
+	MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
+	GetWorld()->GetCollisionWorld()->TeleportPosition(collision_component->mCollisionObjectHandle, inPosition - mRelativeTransform.position);
 	Base::SetPosition(inPosition + mRelativeTransform.position);
 }
 
 void CollisionActor::TeleportTransform(const fm::Transform2D& inTransform)
 {
-	const CollisionObjectHandle& handle = GetComponent<CollisionComponent>().mCollisionObjectHandle;
-	GetWorld()->GetCollisionWorld()->TeleportTransform(handle, inTransform - mRelativeTransform);
+	MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
+	GetWorld()->GetCollisionWorld()->TeleportTransform(collision_component->mCollisionObjectHandle, inTransform - mRelativeTransform);
 	Base::SetTransform(inTransform + mRelativeTransform);
 }

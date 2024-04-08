@@ -3,8 +3,8 @@
 
 // Engine includes
 #include "Engine/Factory/Factory.h"
-#include "Engine/World/World.h"
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/World/World.h"
 
 // Game includes
 #include "Game/App/App.h"
@@ -16,8 +16,7 @@ RTTI_CLASS_DEFINITION(DebugUIWindowEntitySpawner)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntitySpawner)
 
-DebugUIWindowEntitySpawner::DebugUIWindowEntitySpawner()
-{}
+DebugUIWindowEntitySpawner::DebugUIWindowEntitySpawner() {}
 
 void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 {
@@ -32,19 +31,18 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 	{
 		if (ImGui::Button(entity_name.c_str()))
 		{
-
 			Ref<Entity> entity = gEntityFactory.CreateClass(entity_name);
 			gApp.GetWorld()->AddEntity(entity, entity_name);
 			fm::vec2 position = gRenderer.GetCamera()->GetPosition();
 			if (entity->HasComponent<TransformComponent>())
 			{
-				TransformComponent& transform_component = entity->GetComponent<TransformComponent>();
-				transform_component.mTransform.position = position;
+				MutexReadProtectedPtr<TransformComponent> transform_component = entity->GetComponent<TransformComponent>();
+				transform_component->mTransform.position = position;
 			}
 			if (entity->HasComponent<CollisionComponent>())
 			{
-				CollisionComponent& collision_component = entity->GetComponent<CollisionComponent>();
-				gApp.GetWorld()->GetCollisionWorld()->TeleportPosition(collision_component.mCollisionObjectHandle, position);
+				MutexReadProtectedPtr<CollisionComponent> collision_component = entity->GetComponent<CollisionComponent>();
+				gApp.GetWorld()->GetCollisionWorld()->TeleportPosition(collision_component->mCollisionObjectHandle, position);
 			}
 		}
 	}

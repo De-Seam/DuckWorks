@@ -13,6 +13,9 @@ public:
 		bool mIsAlive = true;
 		Atomic<int32> mRefCount = 0;
 	};
+
+	int32 GetRefCount() const { return mRefCount; }
+
 private:
 	Atomic<int32> mRefCount = 0;
 
@@ -55,7 +58,7 @@ public:
 
 	Ref<taType>& operator=(const Ref<taType>& inOther)
 	{
-		if(mPtr != nullptr)
+		if (mPtr != nullptr)
 		{
 			mPtr->mRefCount--;
 			if (mPtr->mRefCount <= 0)
@@ -83,7 +86,7 @@ public:
 		static_assert(std::is_base_of_v<RefObject, taType>);
 		mPtr = inSelf;
 		mPtr->mRefCount++;
-		if(mPtr->mWeakRefCounter == nullptr)
+		if (mPtr->mWeakRefCounter == nullptr)
 			mPtr->mWeakRefCounter = new RefObject::WeakRefCounter();
 	}
 
@@ -164,7 +167,10 @@ public:
 			mWeakRefCounter->mRefCount++;
 		}
 		else
+		{
 			mWeakRefCounter = &gInvalidWeakRefCounter;
+			mWeakRefCounter->mRefCount++;
+		}
 	}
 
 	WeakRef(const Ref<taType>& inRef)

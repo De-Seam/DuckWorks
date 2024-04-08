@@ -2,9 +2,9 @@
 #include "Game/Entity/MovingPlatform.h"
 
 // Engine includes
-#include "Engine/World/World.h"
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Resources/ResourceManager.h"
+#include "Engine/World/World.h"
 
 // Game includes
 #include "Game/Entity/Player/Player.h"
@@ -31,17 +31,18 @@ void MovingPlatform::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-void MovingPlatform::Init(const Entity::InitParams& inInitParams)
+void MovingPlatform::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
 
-	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
 	{
-		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component.mCollisionObjectHandle);
+		MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
+		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component->mCollisionObjectHandle);
 		collision_object->SetType(CollisionObject::EType::Dynamic);
 	}
 
-	AddComponent<TextureRenderComponent>().mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+	AddComponent<TextureRenderComponent>();
+	GetComponent<TextureRenderComponent>()->mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
 }
 
 void MovingPlatform::BeginPlay()
@@ -83,24 +84,25 @@ void MovingPlatform::Update(float inDeltaTime)
 		mMoveSpeed.y *= -1.f;
 	}
 
-	fm::Transform2D transform = GetComponent<TransformComponent>().mTransform;
+	fm::Transform2D transform = GetComponent<TransformComponent>()->mTransform;
 	transform.position = position;
+	CollisionObjectHandle own_handle = GetComponent<CollisionComponent>()->mCollisionObjectHandle;
 	const Array<CollisionData>& collision_data = GetWorld()->GetCollisionWorld()->CheckCollisions(transform);
 	for (const CollisionData& data : collision_data)
 	{
-		if (data.mHandle == GetComponent<CollisionComponent>().mCollisionObjectHandle)
+		if (data.mHandle == own_handle)
 			continue;
 
 		if (data.mHandle.IsValid())
 		{
-			WeakRef<Entity> entity_weaakref = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle)->GetEntity();
-			
+			WeakRef<Entity> entity_weakref = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle)->GetEntity();
+
 			if (!entity_weakref.IsAlive())
 				continue;
 
 			Ref<Entity> entity = entity_weakref.Get();
 
-			CollisionActor *actor = entity.Cast<CollisionActor>();
+			CollisionActor* actor = entity.Cast<CollisionActor>();
 			if (actor != nullptr)
 			{
 				fm::vec2 actor_position = actor->GetPosition();

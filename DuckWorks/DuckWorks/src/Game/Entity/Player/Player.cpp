@@ -2,10 +2,10 @@
 #include "Game/Entity/Player/Player.h"
 
 // Engine includes
-#include "Engine/World/World.h"
-#include "Engine/Resources/ResourceManager.h"
 #include "Engine/Events/EventManager.h"
 #include "Engine/Renderer/AnimationManager.h"
+#include "Engine/Resources/ResourceManager.h"
+#include "Engine/World/World.h"
 
 // Game includes
 #include "Core/Utilities/RefObject.h"
@@ -33,23 +33,27 @@ void Player::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-void Player::Init(const Entity::InitParams& inInitParams)
+void Player::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
 
-	mRelativeTransform = { {0.f, 0.f}, {192 - 64, 192 - 64}, 0.f };
+	mRelativeTransform = {{0.f, 0.f}, {192 - 64, 192 - 64}, 0.f};
 
 	AddComponent<HealthComponent>();
-	CameraComponent& camera_component = AddComponent<CameraComponent>();
-	camera_component.mIsActive = true;
+	AddComponent<CameraComponent>();
+	{
+		MutexReadProtectedPtr<CameraComponent> camera_component = GetComponent<CameraComponent>();
+		camera_component->mIsActive = true;
+	}
 
 	SetHalfSize(fm::vec2(64.f, 64.f));
 
-	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
+	TextureRenderComponent texture_render_component;
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
 	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
-	texture_render_component.mSrcRect = { 0, 0, 192, 192 };
+	texture_render_component.mSrcRect = {0, 0, 192, 192};
 	texture_render_component.mUseSrcRect = true;
+	AddComponent<TextureRenderComponent>(texture_render_component);
 
 	SetupAnimations();
 
@@ -57,29 +61,29 @@ void Player::Init(const Entity::InitParams& inInitParams)
 		EventManager::EventFunction event_function;
 		event_function.mEventType = EventType::MouseButtonDown;
 		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
-			{
-				OnMouseDown(inData);
-			};
+		{
+			OnMouseDown(inData);
+		};
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 	{
 		EventManager::EventFunction event_function;
 		event_function.mEventType = EventType::MouseButtonUp;
 		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
-			{
-				OnMouseUp(inData);
-			};
+		{
+			OnMouseUp(inData);
+		};
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 
-	CollisionComponent& collision_component = GetComponent<CollisionComponent>();
-	CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component.mCollisionObjectHandle);
+	MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
+	CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component->mCollisionObjectHandle);
 
 	collision_object->SetType(CollisionObject::EType::Dynamic);
 	collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
-		{
-			OnCollision(inParams);
-		});
+	{
+		OnCollision(inParams);
+	});
 }
 
 void Player::BeginPlay()
@@ -127,8 +131,7 @@ void Player::Update(float inDeltaTime)
 
 	mVelocity = clamp2(mVelocity, -mMaxVelocity, mMaxVelocity);
 
-	fm::Transform2D& transform = GetComponent<TransformComponent>().mTransform;
-	fm::vec2 position = transform.position;
+	fm::vec2 position = GetPosition();
 	position += mVelocity * inDeltaTime;
 	MoveTo(position);
 	//transform = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
@@ -149,8 +152,9 @@ enum class EPlayerAnimationState : uint16
 
 void Player::SetupAnimations()
 {
-	AnimationComponent& animation_component = AddComponent<AnimationComponent>();
-	animation_component.mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
+	AddComponent<AnimationComponent>();
+	MutexReadProtectedPtr<AnimationComponent> animation_component = GetComponent<AnimationComponent>();
+	animation_component->mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
 }
 
 void Player::OnMouseDown(const EventManager::EventData& inData)

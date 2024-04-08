@@ -18,7 +18,6 @@ public:
 	void ReadUnlock(); ///< Unlocks the mutex from reading
 	bool TryReadLock(); ///< Tries to read lock the mutex. Returns true if successfull
 
-
 	void WriteLock(); ///< Locks the mutex for writing
 	void WriteUnlock(); ///< Unlocks the mutex from writing
 
@@ -47,35 +46,35 @@ public:
 };
 
 template<typename taType>
-struct MutexReadProtectedValue
+struct MutexReadProtectedPtr
 {
-	MutexReadProtectedValue(Mutex& inMutex, taType& inValue, bool inAlreadyLocked = false) :
-		mValue(inValue), mMutex(&inMutex)
+	MutexReadProtectedPtr(Mutex& inMutex, taType* inPtr, bool inAlreadyLocked = false) :
+		mPtr(inPtr), mMutex(&inMutex)
 	{
 		if (!inAlreadyLocked)
 			mMutex->ReadLock();
 	}
 
-	~MutexReadProtectedValue()
+	~MutexReadProtectedPtr()
 	{
 		if (mMutex)
 			mMutex->ReadUnlock();
 	}
 
-	MutexReadProtectedValue(const MutexReadProtectedValue&) = delete;
-	MutexReadProtectedValue& operator=(const MutexReadProtectedValue&) = delete;
+	MutexReadProtectedPtr(const MutexReadProtectedPtr&) = delete;
+	MutexReadProtectedPtr& operator=(const MutexReadProtectedPtr&) = delete;
 
 	// Move constructor
-	MutexReadProtectedValue(MutexReadProtectedValue&& other) noexcept :
-		mValue(other.mValue), mMutex(other.mMutex)
+	MutexReadProtectedPtr(MutexReadProtectedPtr&& inOther) noexcept :
+		mPtr(inOther.mPtr), mMutex(inOther.mMutex)
 	{
-		other.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
+		inOther.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
 	}
 
 	// Move assignment operator
-	MutexReadProtectedValue& operator=(MutexReadProtectedValue&& other) noexcept
+	MutexReadProtectedPtr& operator=(MutexReadProtectedPtr&& inOther) noexcept
 	{
-		if (this != &other)
+		if (this != &inOther)
 		{
 			// Safely unlock the current mutex if it exists
 			if (mMutex)
@@ -84,33 +83,33 @@ struct MutexReadProtectedValue
 			}
 
 			// Transfer ownership
-			mValue = other.mValue;
-			mMutex = other.mMutex;
-			other.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
+			mPtr = inOther.mPtr;
+			mMutex = inOther.mMutex;
+			inOther.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
 		}
 		return *this;
 	}
 
 	taType* operator->()
 	{
-		return &Value();
+		return mPtr;
 	}
 
 	const taType* operator->() const
 	{
-		return &Value();
+		return mPtr;
 	}
 
-	taType& Value()
+	taType* Get()
 	{
 		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
-		return mValue;
+		return mPtr;
 	}
 
-	const taType& Value() const
+	const taType* Get() const
 	{
 		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
-		return mValue;
+		return mPtr;
 	}
 
 	void Unlock()
@@ -121,6 +120,77 @@ struct MutexReadProtectedValue
 	}
 
 private:
-	taType& mValue;
+	taType* mPtr = nullptr;
+	Mutex* mMutex = nullptr;
+};
+
+template<typename taType>
+struct MutexWriteProtectedPtr
+{
+	MutexWriteProtectedPtr(Mutex& inMutex, taType* inPtr, bool inAlreadyLocked = false) : mPtr(inPtr), mMutex(&inMutex)
+	{
+		if (!inAlreadyLocked)
+			mMutex->WriteLock();
+	}
+
+	~MutexWriteProtectedPtr()
+	{
+		if (mMutex)
+			mMutex->WriteUnlock();
+	}
+
+	MutexWriteProtectedPtr(const MutexWriteProtectedPtr&) = delete;
+	MutexWriteProtectedPtr& operator=(const MutexWriteProtectedPtr&) = delete;
+
+	// Move constructor
+	MutexWriteProtectedPtr(MutexWriteProtectedPtr&& inOther) noexcept : mPtr(inOther.mPtr), mMutex(inOther.mMutex)
+	{
+		inOther.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
+	}
+
+	// Move assignment operator
+	MutexWriteProtectedPtr& operator=(MutexWriteProtectedPtr&& inOther) noexcept
+	{
+		if (this != &inOther)
+		{
+			// Safely unlock the current mutex if it exists
+			if (mMutex)
+			{
+				mMutex->WriteUnlock();
+			}
+
+			// Transfer ownership
+			mPtr = inOther.mPtr;
+			mMutex = inOther.mMutex;
+			inOther.mMutex = nullptr; // Prevent the destructor of 'other' from unlocking the mutex
+		}
+		return *this;
+	}
+
+	taType* operator->() { return mPtr; }
+
+	const taType* operator->() const { return mPtr; }
+
+	taType* Get()
+	{
+		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		return mPtr;
+	}
+
+	const taType* Get() const
+	{
+		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		return mPtr;
+	}
+
+	void Unlock()
+	{
+		gAssert(mMutex != nullptr, "The mutex was already unlocked!");
+		mMutex->WriteUnlock();
+		mMutex = nullptr;
+	}
+
+private:
+	taType* mPtr = nullptr;
 	Mutex* mMutex = nullptr;
 };

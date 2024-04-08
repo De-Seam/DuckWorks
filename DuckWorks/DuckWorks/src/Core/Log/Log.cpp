@@ -147,9 +147,9 @@ void LogManager::CleanLogQueue(bool inErrorOnly)
 	Log(LogType::Warning, "Log queue had to be cleaned.");
 }
 
-const MutexReadProtectedValue<Array<LogManager::LogEntry>> LogManager::GetLogArray()
+const MutexReadProtectedPtr<Array<LogManager::LogEntry>> LogManager::GetLogArray()
 {
-	return {mLogMutex, mLogEntries, false};
+	return {mLogMutex, &mLogEntries, false};
 }
 
 void LogManager::SetLogFilePath(const String& inFilePath)

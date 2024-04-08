@@ -21,6 +21,12 @@ enum class ThreadPriority : uint8
 class ThreadTask
 {
 public:
+	// Reset the thread task to its default values for reuse.
+	virtual void Reset()
+	{
+		mIsDone = false;
+	}
+
 	virtual void Execute() = 0;
 
 	bool IsDone() const { return mIsDone; }

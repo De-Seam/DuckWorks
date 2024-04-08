@@ -45,7 +45,7 @@ void DebugUIWindowOutputLog::Update(float)
 
 	if (ImGui::BeginChild("LogContent", ImVec2(0, 0)))
 	{
-		const MutexReadProtectedValue<Array<LogManager::LogEntry>> log_array = gLogManager.GetLogArray();
+		const MutexReadProtectedPtr<Array<LogManager::LogEntry>> log_array = gLogManager.GetLogArray();
 
 		// Check if the user has scrolled up
 		if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
@@ -55,7 +55,7 @@ void DebugUIWindowOutputLog::Update(float)
 		start_index = fm::max(start_index, 0);
 		for (uint64 i = SCast<uint64>(start_index); i < log_array->size(); i++)
 		{
-			const LogManager::LogEntry& log_entry = log_array.Value()[i];
+			const LogManager::LogEntry& log_entry = (*log_array.Get())[i];
 			switch (log_entry.mType)
 			{
 			case LogType::Info:
@@ -80,7 +80,6 @@ void DebugUIWindowOutputLog::Update(float)
 		// Auto-scroll logic
 		if (mAutoScroll)
 			ImGui::SetScrollHereY(1.0f); // 1.0f is the bottom
-
 	}
 	ImGui::EndChild();
 

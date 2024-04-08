@@ -88,7 +88,15 @@ World::World()
 
 World::~World()
 {
+#ifdef _SHIPPING
 	mEntities.clear();
+#else
+	for (Ref<Entity>& entity : mEntities)
+	{
+		entity->EndPlay();
+		gAssert(entity->GetRefCount() == 1, "Entity still has lingering references!");
+	}
+#endif
 }
 
 void World::Update(float inDeltaTime)
@@ -144,26 +152,35 @@ void World::EndPlay()
 		entity->EndPlay();
 }
 
+class UpdateEntityThreadTask : public ThreadTask
+{
+public:
+	virtual void Execute() override
+	{
+		if (!mEntity.IsAlive())
+			return;
+		Ref<Entity> entity = mEntity.Get();
+		entity->Update(mDeltaTime);
+	}
+
+	WeakRef<Entity> mEntity;
+	float mDeltaTime;
+};
+
 void World::UpdateEntities(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::UpdateEntities)
 	ScopedMutexReadLock lock{mEntitiesMutex};
 
-	for (Ref<Entity>& entity : mEntities)
+	static Array<SharedPtr<UpdateEntityThreadTask>> entity_update_tasks;
+	for (uint64 i = entity_update_tasks.size(); i < mEntities.size(); i++)
+		entity_update_tasks.push_back(std::make_shared<UpdateEntityThreadTask>());
+
+	for (uint64 i = 0; i < mEntities.size(); i++)
 	{
-		class UpdateEntityThreadTask : public ThreadTask
-		{
-		public:
-			virtual void Execute() override
-			{
-				mEntity->Update(mDeltaTime);
-			}
-
-			Ref<Entity> mEntity;
-			float mDeltaTime;
-		};
-
-		SharedPtr<UpdateEntityThreadTask> task = std::make_shared<UpdateEntityThreadTask>();
+		Ref<Entity>& entity = mEntities[i];
+		SharedPtr<UpdateEntityThreadTask> task = entity_update_tasks[i];
+		task->Reset();
 		task->mEntity = entity;
 		task->mDeltaTime = inDeltaTime;
 
@@ -245,7 +262,7 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 		{
 			// The point is inside this entity's rotated bounding box
 			BaseEntity base_entity = {entity, this};
-			return base_entity.GetComponent<EntityComponent>().mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
+			return base_entity.GetComponent<EntityComponent>()->mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
 		}
 	}
 	return NullOpt;

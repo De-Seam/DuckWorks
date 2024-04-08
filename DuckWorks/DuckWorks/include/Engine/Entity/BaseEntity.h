@@ -28,25 +28,29 @@ public:
 	void GenerateNewEntityHandle(World* inWorld);
 	///< Helper function to generate a new entity handle for this entity. Should only be used for a child class which does not call the default constructor
 
+	// Returns true if the component was added, false if it already exists
 	template<typename taType, typename... taArgs>
-	taType& TryAddComponent(taArgs&&... inArgs);
+	bool TryAddComponent(taArgs&&... inArgs);
 
 	template<typename taType, typename... taArgs>
-	taType& AddComponent(taArgs&&... inArgs);
+	void AddComponent(taArgs&&... inArgs);
 
 	template<typename taType>
-	decltype(auto) AddComponent()
+	void AddComponent()
 	{
 		assert(!HasComponent<taType>()); //Entity already has component!
 		ScopedMutexWriteLock lock(taType::sComponentMutex);
-		return GetRegistry().emplace<taType>(mEntityHandle);
+		GetRegistry().emplace<taType>(mEntityHandle);
 	}
 
 	template<typename taType, typename... taArgs>
-	taType& AddOrReplaceComponent(taArgs&&... inArgs);
+	MutexWriteProtectedPtr<taType> AddAndGetComponent(taArgs&&... inArgs);
+
+	template<typename taType, typename... taArgs>
+	void AddOrReplaceComponent(taArgs&&... inArgs);
 
 	template<typename taType>
-	taType& GetComponent();
+	MutexReadProtectedPtr<taType> GetComponent();
 
 	template<typename taType>
 	bool HasComponent() const;
@@ -58,7 +62,7 @@ public:
 	operator entt::entity() const { return mEntityHandle; }
 	operator uint32_t() const { return static_cast<uint32_t>(mEntityHandle); }
 
-	const std::string& GetName() { return GetComponent<NameComponent>().mName; }
+	String GetName() { return GetComponent<NameComponent>()->mName; }
 	World* GetWorld() const { return mWorld; }
 
 	bool operator==(const BaseEntity& inOther) const { return mEntityHandle == inOther.mEntityHandle && mWorld == inOther.mWorld; }
@@ -82,40 +86,47 @@ protected:
 
 // Inline functions
 template<typename taType, typename... taArgs>
-taType& BaseEntity::TryAddComponent(taArgs&&... inArgs)
+bool BaseEntity::TryAddComponent(taArgs&&... inArgs)
 {
 	if (HasComponent<taType>())
-	{
-		return GetComponent<taType>();
-	}
+		return false;
+
 	ScopedMutexWriteLock lock(taType::sComponentMutex);
-	taType& component = GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
-	return component;
+	GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
+	return true;
 }
 
 template<typename taType, typename... taArgs>
-taType& BaseEntity::AddComponent(taArgs&&... inArgs)
+void BaseEntity::AddComponent(taArgs&&... inArgs)
 {
 	assert(!HasComponent<taType>()); //Entity already has component!
 	ScopedMutexWriteLock lock(taType::sComponentMutex);
-	taType& component = GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
-	return component;
+	GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 }
 
 template<typename taType, typename... taArgs>
-taType& BaseEntity::AddOrReplaceComponent(taArgs&&... inArgs)
+MutexWriteProtectedPtr<taType> BaseEntity::AddAndGetComponent(taArgs&&... inArgs)
+{
+	assert(!HasComponent<taType>()); // Entity already has component!
+	taType::sComponentMutex.WriteLock();
+	taType& component = GetRegistry().emplace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
+	return {taType::sComponentMutex, &component, true};
+}
+
+template<typename taType, typename... taArgs>
+void BaseEntity::AddOrReplaceComponent(taArgs&&... inArgs)
 {
 	ScopedMutexWriteLock lock(taType::sComponentMutex);
-	taType& component = GetRegistry().emplace_or_replace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
-	return component;
+	GetRegistry().emplace_or_replace<taType>(mEntityHandle, std::forward<taArgs>(inArgs)...);
 }
 
 template<typename taType>
-taType& BaseEntity::GetComponent()
+MutexReadProtectedPtr<taType> BaseEntity::GetComponent()
 {
 	assert(HasComponent<taType>()); //Entity does not have component!
-	ScopedMutexReadLock lock(taType::sComponentMutex);
-	return GetRegistry().get<taType>(mEntityHandle);
+	taType::sComponentMutex.ReadLock();
+	taType& component = GetRegistry().get<taType>(mEntityHandle);
+	return {taType::sComponentMutex, &component, true};
 }
 
 template<typename taType>

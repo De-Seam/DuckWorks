@@ -24,7 +24,7 @@ public:
 		EType mType = EType::Static;
 		bool mBlocking = true;
 
-		Ref<Entity> mEntity;
+		WeakRef<Entity> mEntity = nullptr;
 
 		OnCollisionFunc mOnCollisionFunction = nullptr;
 	};
@@ -70,7 +70,7 @@ private:
 
 	OnCollisionFunc mOnCollisionFunction;
 
-	WeakRef<Entity> mEntity;
+	WeakRef<Entity> mEntity = nullptr;
 
 private:
 	void SetTransform(const fm::Transform2D& inTransform);

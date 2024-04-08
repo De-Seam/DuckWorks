@@ -46,7 +46,7 @@ public:
 		String mMessage;
 	};
 
-	const MutexReadProtectedValue<Array<LogEntry>> GetLogArray();
+	const MutexReadProtectedPtr<Array<LogEntry>> GetLogArray();
 	void SetLogFilePath(const String& inFilePath);
 	void SetLogFileName(const String& inFileName);
 

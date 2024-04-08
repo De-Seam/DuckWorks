@@ -16,11 +16,9 @@
 
 Renderer gRenderer;
 
-Renderer::Renderer()
-{}
+Renderer::Renderer() {}
 
-Renderer::~Renderer()
-{}
+Renderer::~Renderer() {}
 
 void Renderer::Init(const InitParams& inInitParams)
 {
@@ -175,7 +173,6 @@ fm::vec2 Renderer::GetWorldLocationAtWindowLocation(const fm::vec2& inWindowLoca
 	return world_location;
 }
 
-
 SDL_FRect Renderer::GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize)
 {
 	const fm::vec2 camera_position = mCamera->GetPosition();
@@ -226,8 +223,8 @@ void Renderer::UpdateCamera(float inDeltaTime)
 		BaseEntity base_entity = BaseEntity(highest_priority_entity, world);
 		if (base_entity.HasComponent<TransformComponent>())
 		{
-			TransformComponent& transform_component = base_entity.GetComponent<TransformComponent>();
-			mCamera->SetPosition(transform_component.mTransform.position);
+			MutexReadProtectedPtr<TransformComponent> transform_component = base_entity.GetComponent<TransformComponent>();
+			mCamera->SetPosition(transform_component->mTransform.position);
 		}
 	}
 
