@@ -250,5 +250,6 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 			return base_entity.GetComponent<EntityComponent>().mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
 		}
 	}
+	mRegistryMutex.ReadUnlock();
 	return NullOpt;
 }

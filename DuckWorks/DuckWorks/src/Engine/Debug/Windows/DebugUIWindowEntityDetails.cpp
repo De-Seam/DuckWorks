@@ -65,47 +65,55 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	for (const String& component_name : all_component_names)
 	{
 		bool has_component = json_components.contains(component_name);
-		ImGui::Separator();
-		ImVec4 component_text_color = has_component ? ImVec4{0.25, 1.f, 0.25f, 1.f} : ImVec4{1.f, 0.25f, 0.25f, 1.f};
-		ImGui::TextColored(component_text_color, "%s", component_name.c_str());
-		if (has_component)
+
+		if (!has_component)
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.4f, 0.4f, 1.f));
+
+		if (ImGui::TreeNode((component_name + "##TreeNode").c_str()))
 		{
-			ComponentBase* component = gComponentFactory.GetComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
-
-			Json& json = json_components[component_name];
-
-			bool changed = gDebugDrawJson(json, component_name);
-			if (changed)
+			if (has_component)
 			{
-				if (component->GetClassName() == TransformComponent::sGetClassName())
+				ComponentBase *component = gComponentFactory.GetComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
+
+				Json &json = json_components[component_name];
+
+				bool changed = gDebugDrawJson(json, component_name);
+				if (changed)
 				{
-					if (selected_entity->HasComponent<CollisionComponent>())
+					if (component->GetClassName() == TransformComponent::sGetClassName())
 					{
-						const CollisionObjectHandle& collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
-						CollisionObjectWrapper collision_object = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(
-							collision_object_handle);
-						const fm::Transform2D collision_transform = collision_object->GetTransform();
-						collision_object.Unlock();
-						fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
+						if (selected_entity->HasComponent<CollisionComponent>())
+						{
+							const CollisionObjectHandle &collision_object_handle = selected_entity->GetComponent<CollisionComponent>().mCollisionObjectHandle;
+							CollisionObjectWrapper collision_object =
+								selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle);
+							const fm::Transform2D collision_transform = collision_object->GetTransform();
+							collision_object.Unlock();
+							fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>().mTransform.position;
 
-						component->Deserialize(json);
+							component->Deserialize(json);
 
-						const fm::Transform2D& entity_transform = selected_entity->GetComponent<TransformComponent>().mTransform;
-						selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
+							const fm::Transform2D &entity_transform = selected_entity->GetComponent<TransformComponent>().mTransform;
+							selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
+						}
 					}
+					else
+						component->Deserialize(json);
 				}
-				else
-					component->Deserialize(json);
 			}
-		}
-		else
-		{
-			String label = String("+##" + component_name + "AddButton");
-			if (ImGui::SmallButton(label.c_str()))
+			else
 			{
-				gComponentFactory.CreateComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
+				ImGui::PopStyleColor(1);
+				String label = String("+##" + component_name + "AddButton");
+				if (ImGui::SmallButton(label.c_str()))
+				{
+					gComponentFactory.CreateComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
+				}
 			}
+			ImGui::TreePop();
 		}
+		else if (!has_component)
+			ImGui::PopStyleColor(1);
 	}
 
 	if (gDebugUIWindowManager.mDrawEntityOutline && selected_entity->HasComponent<TransformComponent>())
