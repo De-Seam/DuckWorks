@@ -23,7 +23,11 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 	(void)inDeltaTime;
 	PROFILE_SCOPE(DebugUIWindowEntitySpawner::Update)
 
-	ImGui::Begin("Entity Spawner", &mOpen);
+	if(!ImGui::Begin("Entity Spawner", &mOpen))
+	{
+		ImGui::End();
+		return;
+	}
 
 	const Array<String>& entity_names = gEntityFactory.GetClassNames();
 

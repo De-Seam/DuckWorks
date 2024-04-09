@@ -17,7 +17,11 @@ RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowWorldSettings)
 
 void DebugUIWindowWorldSettings::Update(float)
 {
-	ImGui::Begin("WorldSettings##DebugUIWindoWorldSettings", &mOpen);
+	if(!ImGui::Begin("WorldSettings##DebugUIWindoWorldSettings", &mOpen))
+	{
+		ImGui::End();
+		return;
+	}
 
 	World* world = gApp.GetWorld();
 	Json json = world->SerializeIgnoreEntities();

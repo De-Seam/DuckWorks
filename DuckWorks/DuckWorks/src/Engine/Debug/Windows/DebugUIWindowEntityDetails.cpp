@@ -32,7 +32,11 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	Ref<Entity> selected_entity = selected_entity_weak_ref.value().Get();
 	gAssert(selected_entity.IsValid(), "Somehow the selected entity was invalid!");
 
-	ImGui::Begin("Entity Details", &mOpen);
+	if(!ImGui::Begin("Entity Details", &mOpen))
+	{
+		ImGui::End();
+		return;
+	}
 
 	ImGui::Text("%s", selected_entity->GetName().c_str());
 

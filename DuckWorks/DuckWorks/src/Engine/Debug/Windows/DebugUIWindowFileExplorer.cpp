@@ -47,7 +47,11 @@ void DebugUIWindowFileExplorer::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowFileExplorer::Update)
 
-	ImGui::Begin("File Explorer", &mOpen);
+	if (!ImGui::Begin("File Explorer", &mOpen))
+	{
+		ImGui::End();
+		return;
+	}
 
 	fs::path directory_path = mCurrentPath;
 

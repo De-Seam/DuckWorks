@@ -19,7 +19,11 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 
 	float delta_time_seconds = inDeltaTime * 1000.f;
 
-	ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize);
+	if(!ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize))
+	{
+		ImGui::End();
+		return;
+	}
 
 	mTimingsIndex = (mTimingsIndex + 1) % mTimings.size();
 	mTimings[mTimingsIndex] = delta_time_seconds;

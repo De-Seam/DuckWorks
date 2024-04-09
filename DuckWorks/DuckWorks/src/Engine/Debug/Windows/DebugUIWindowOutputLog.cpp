@@ -31,7 +31,11 @@ void DebugUIWindowOutputLog::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowOutputLog::Update)
 
-	ImGui::Begin("Output Log", &mOpen);
+	if(!ImGui::Begin("Output Log", &mOpen))
+	{
+		ImGui::End();
+		return;
+	}
 
 	ImGui::Checkbox("Info##DebugUIWindowOutputLogFilter", &mShowInfo);
 	ImGui::SameLine();

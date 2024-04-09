@@ -16,7 +16,11 @@ void DebugUIWindowUserSettings::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowUserSettings::Update)
 
-	ImGui::Begin("User Settings", &mOpen);
+	if(!ImGui::Begin("User Settings", &mOpen))
+	{
+		ImGui::End();
+		return;
+	}
 
 	Json json = gApp.GetUserSettings()->Serialize();
 	if (gDebugDrawJson(json, "UserSettings"))

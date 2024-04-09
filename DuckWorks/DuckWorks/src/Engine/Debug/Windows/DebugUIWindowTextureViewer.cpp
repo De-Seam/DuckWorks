@@ -27,7 +27,11 @@ void DebugUIWindowTextureViewer::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowTextureViewer::Update)
 
-	ImGui::Begin("Texture Viewer", &mOpen);
+	if(!ImGui::Begin("Texture Viewer", &mOpen))
+	{
+		ImGui::End();
+		return;
+	}
 
 	if (mTexture == nullptr)
 	{
