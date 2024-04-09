@@ -201,6 +201,7 @@ void Renderer::UpdateCamera(float inDeltaTime)
 
 	World* world = gApp.GetWorld();
 	entt::registry& registry = world->GetRegistry();
+	ScopedMutexReadLock lock(CameraComponent::sComponentMutex);
 	auto view = registry.view<CameraComponent>();
 	for (entt::entity entity : view)
 	{

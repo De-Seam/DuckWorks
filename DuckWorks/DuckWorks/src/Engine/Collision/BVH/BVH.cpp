@@ -22,25 +22,29 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::AddObject)
 
-	bool resized = false;
-	if (mObjects.size() <= inObject.mIndex)
-	{
-		mObjects.reserve(inObject.mIndex + 32); ///< Reserve some extra space to avoid reallocations
-		mObjects.resize(inObject.mIndex + 1);
-		resized = true;
-	}
-	else
-		gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle.mIndex == inObject.mIndex, "Previously added object somehow has the wrong index!");
 
-	CollisionObjectData data;
-	data.mCollisionObjectHandle = inObject;
-	CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
-	data.mAABB = object.GetAABB();
-	if (object.GetType() == CollisionObject::EType::Dynamic)
+	bool resized = false;
 	{
-		AdjustAABBForDynamicObject(data.mAABB);
+		ScopedMutexWriteLock lock(mBVHMutex);
+		if (mObjects.size() <= inObject.mIndex)
+		{
+			mObjects.reserve(inObject.mIndex + 32); ///< Reserve some extra space to avoid reallocations
+			mObjects.resize(inObject.mIndex + 1);
+			resized = true;
+		}
+		else
+			gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle.mIndex == inObject.mIndex, "Previously added object somehow has the wrong index!");
+
+		CollisionObjectData data;
+		data.mCollisionObjectHandle = inObject;
+		CollisionObject &object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
+		data.mAABB = object.GetAABB();
+		if (object.GetType() == CollisionObject::EType::Dynamic)
+		{
+			AdjustAABBForDynamicObject(data.mAABB);
+		}
+		mObjects[inObject.mIndex] = data;
 	}
-	mObjects[inObject.mIndex] = data;
 
 	if (IsGenerated())
 	{
@@ -137,8 +141,10 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 		return;
 	}
 
+	AABB old_aabb = mObjects[inObject.mIndex].mAABB;
+
 	//mBVHMutex.ReadLock();
-	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject, aabb);
+	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject, old_aabb);
 
 	gAssert(mObjects[mIndices[node_hierarchy[0]]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
 	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
