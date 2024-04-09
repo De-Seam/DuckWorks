@@ -198,9 +198,7 @@ void World::UpdateEntities(float inDeltaTime)
 	}
 
 	for (SharedPtr<UpdateEntityThreadTask>& task : entity_update_tasks)
-	{
 		task->WaitUntilCompleted();
-	}
 }
 
 void World::DestroyEntities()

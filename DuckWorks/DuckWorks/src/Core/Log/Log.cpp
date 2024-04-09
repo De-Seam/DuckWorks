@@ -214,7 +214,7 @@ void LogManager::WriteLogToFile()
 
 void LogManager::LogThreadLoop()
 {
-	OPTICK_THREAD("LogManagerThread")
+	OPTICK_THREAD("LogManager::LogManagerThread")
 	mThreadRunning = true;
 	while (mThreadRunning)
 	{

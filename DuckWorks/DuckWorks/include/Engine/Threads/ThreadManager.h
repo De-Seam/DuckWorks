@@ -74,4 +74,6 @@ private:
 	void OnTaskCompleted(SharedPtr<ThreadTask> &inTask);
 };
 
+// Gets the current Thread Index. 0 is the main thread.
+int32 gGetCurrentThreadIndex();
 extern ThreadManager gThreadManager;

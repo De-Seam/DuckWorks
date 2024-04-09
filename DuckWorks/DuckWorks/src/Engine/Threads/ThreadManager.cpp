@@ -21,14 +21,15 @@ ThreadManager::ThreadManager() {}
 
 void ThreadManager::Init()
 {
+	// We want to keep 1 thread free for system resources. Not doing this will cause wild variety in performance due to competing programs
 	uint32 threadCount = std::thread::hardware_concurrency() - 1;
 	mRunning = true;
-	for (uint32 i = 0; i < threadCount; ++i)
+	for (uint32 i = 0; i < threadCount; i++)
 	{
 		mThreads.emplace_back(std::thread([&](int32 inIndex)
 		{
 			WorkerThread(inIndex);
-		}, i));
+		}, i+1));
 	}
 }
 
@@ -66,9 +67,13 @@ void ThreadManager::WaitUntilPriorityEmpty(ThreadPriority inPriority)
 	});
 }
 
+THREADLOCAL static int32 sThreadIndex = 0;
+
 void ThreadManager::WorkerThread(int32 inIndex)
 {
 	OPTICK_THREAD("ThreadManager::WorkerThread")
+
+	sThreadIndex = inIndex;
 	while (mRunning)
 	{
 		{
@@ -117,4 +122,9 @@ void ThreadManager::OnTaskCompleted(SharedPtr<ThreadTask> &inTask)
 		std::lock_guard<std::mutex> lock(mPriorityEmptyMutex[index]); // Lock if needed
 		mPriorityEmptyCV[index].notify_all();
 	}
+}
+
+int32 gGetCurrentThreadIndex() 
+{
+	return sThreadIndex;
 }
