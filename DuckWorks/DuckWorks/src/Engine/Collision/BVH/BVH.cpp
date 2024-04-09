@@ -119,6 +119,8 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::RefreshObject)
 
+	ScopedMutexWriteLock lock(mBVHMutex);
+
 	CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
 	AABB aabb = object.GetAABB();
 	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
@@ -135,28 +137,25 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 		return;
 	}
 
-	mBVHMutex.ReadLock();
+	//mBVHMutex.ReadLock();
 	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject, aabb);
 
 	gAssert(mObjects[mIndices[node_hierarchy[0]]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
 	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
 
 	mObjects[inObject.mIndex].mAABB = aabb;
-	mBVHMutex.ReadUnlock();
-	{
-		ScopedMutexWriteLock lock(mBVHMutex);
-		// Here we resize the nodes to tighly fit around their objects
-		// Index 1 is the leaf node
-		BVHNode *leaf_node = &mNodes[node_hierarchy[1]];
-		leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
+	
+	// Here we resize the nodes to tighly fit around their objects
+	// Index 1 is the leaf node
+	BVHNode *leaf_node = &mNodes[node_hierarchy[1]];
+	leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
 
-		// Here we don't need to calculate the node to encompass all objects, only the other node's AABBs
-		// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
-		for (uint64 i = 2; i < node_hierarchy.size(); i++)
-		{
-			BVHNode *node = &mNodes[node_hierarchy[i]];
-			node->mAABB = gComputeEncompassingAABB(mNodes[node->mLeftFirst].mAABB, mNodes[node->mLeftFirst + 1].mAABB);
-		}
+	// Here we don't need to calculate the node to encompass all objects, only the other node's AABBs
+	// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
+	for (uint64 i = 2; i < node_hierarchy.size(); i++)
+	{
+		BVHNode *node = &mNodes[node_hierarchy[i]];
+		node->mAABB = gComputeEncompassingAABB(mNodes[node->mLeftFirst].mAABB, mNodes[node->mLeftFirst + 1].mAABB);
 	}
 }
 
