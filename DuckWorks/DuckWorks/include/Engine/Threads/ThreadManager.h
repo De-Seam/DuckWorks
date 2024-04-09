@@ -60,7 +60,7 @@ private:
 
 	std::atomic_bool mRunning = false;
 
-	std::condition_variable_any mThreadConditionVariable;
+	std::condition_variable mThreadConditionVariable;
 
 	std::condition_variable mPriorityEmptyCV[SCast<uint64>(ThreadPriority::VeryHigh) + 1];
 	std::mutex mPriorityEmptyMutex[SCast<uint64>(ThreadPriority::VeryHigh) + 1]; // If needed
