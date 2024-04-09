@@ -66,7 +66,7 @@ fm::Transform2D CollisionWorld::MoveTo(
 	const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation,
 	Optional<fm::vec2> inHalfSize)
 {
-	PROFILE_SCOPE(CollisionWorld::MoveToAndRotate)
+	PROFILE_SCOPE(CollisionWorld::MoveTo)
 
 	static THREADLOCAL Array<Pair<OnCollisionFunc, CollisionFuncParams>> collision_callback_functions;
 	collision_callback_functions.clear();

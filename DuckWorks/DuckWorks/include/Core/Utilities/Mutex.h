@@ -21,6 +21,8 @@ public:
 	void WriteLock(); ///< Locks the mutex for writing
 	void WriteUnlock(); ///< Unlocks the mutex from writing
 
+	const std::shared_mutex& GetRawMutex() const { return mMutex; }
+
 private:
 	std::shared_mutex mMutex;
 };

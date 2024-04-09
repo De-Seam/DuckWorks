@@ -55,6 +55,8 @@ void MovingPlatform::BeginPlay()
 
 void MovingPlatform::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(MovingPlatform::Update)
+
 	Base::Update(inDeltaTime);
 
 	fm::vec2 old_position = GetPosition();

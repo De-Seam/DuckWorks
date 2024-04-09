@@ -120,11 +120,11 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 	PROFILE_SCOPE(BVH::RefreshObject)
 
 	CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
+	AABB aabb = object.GetAABB();
 	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
-	if (gFullyInsideOf(object.GetAABB(), mObjects[inObject.mIndex].mAABB))
+	if (gFullyInsideOf(aabb, mObjects[inObject.mIndex].mAABB))
 		return;
 
-	AABB aabb = object.GetAABB();
 	if (object.GetType() == CollisionObject::EType::Dynamic)
 		AdjustAABBForDynamicObject(aabb);
 
@@ -135,24 +135,28 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 		return;
 	}
 
-	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject);
+	mBVHMutex.ReadLock();
+	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject, aabb);
 
 	gAssert(mObjects[mIndices[node_hierarchy[0]]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
 	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
 
-	mObjects[mIndices[node_hierarchy[0]]].mAABB = aabb;
-
-	// Here we resize the nodes to tighly fit around their objects
-	// Index 1 is the leaf node
-	BVHNode* leaf_node = &mNodes[node_hierarchy[1]];
-	leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
-
-	// Here we don't need to calculate the node to encompass all objects, only the other node's AABBs
-	// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
-	for (uint64 i = 2; i < node_hierarchy.size(); i++)
+	mObjects[inObject.mIndex].mAABB = aabb;
+	mBVHMutex.ReadUnlock();
 	{
-		BVHNode* node = &mNodes[node_hierarchy[i]];
-		node->mAABB = gComputeEncompassingAABB(mNodes[node->mLeftFirst].mAABB, mNodes[node->mLeftFirst + 1].mAABB);
+		ScopedMutexWriteLock lock(mBVHMutex);
+		// Here we resize the nodes to tighly fit around their objects
+		// Index 1 is the leaf node
+		BVHNode *leaf_node = &mNodes[node_hierarchy[1]];
+		leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
+
+		// Here we don't need to calculate the node to encompass all objects, only the other node's AABBs
+		// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
+		for (uint64 i = 2; i < node_hierarchy.size(); i++)
+		{
+			BVHNode *node = &mNodes[node_hierarchy[i]];
+			node->mAABB = gComputeEncompassingAABB(mNodes[node->mLeftFirst].mAABB, mNodes[node->mLeftFirst + 1].mAABB);
+		}
 	}
 }
 
@@ -313,26 +317,23 @@ void BVH::AdjustAABBForDynamicObject(AABB& ioAABB)
 // It will be reserved, so index[0] will be the mIndices index of the object itself
 // And index[1] will be the mNodes index of the leaf node
 // And index.back() will be the root node, 0.
-const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjectHandle& inObject)
+const Array<uint64> &BVH::FindNodeHierarchyContainingObject(const CollisionObjectHandle &inObject, const AABB &inAABB)
 {
 	static THREADLOCAL Array<uint64> sReturnArray;
 	sReturnArray.clear();
 
-	ScopedMutexReadLock lock(mBVHMutex);
-	fm::vec2 center = mObjects[inObject.mIndex].mAABB.GetCenter();
-
-	FindNodeHierarchyContainingObjectRecursive(sReturnArray, inObject, center, 0);
+	FindNodeHierarchyContainingObjectRecursive(sReturnArray, inObject, inAABB, 0);
 	sReturnArray.emplace_back(0);
 
 	return sReturnArray;
 }
 
-bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const fm::vec2 inCenter,
+bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64> &ioIndices, const CollisionObjectHandle &inObject, const AABB &inAABB,
 													uint64 inNodeIndex)
 {
 	BVHNode* node = &mNodes[inNodeIndex];
 	// Early out if this node does not collide with the aabbb
-	if (!gCollides(inCenter, node->mAABB))
+	if (!gCollides(inAABB, node->mAABB))
 		return false;
 
 	if (node->mCount != 0) //Leaf node
@@ -349,13 +350,13 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, c
 	}
 	else // Branch Node
 	{
-		if (FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst))
+		if (FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inAABB, node->mLeftFirst))
 		{
 			ioIndices.emplace_back(node->mLeftFirst);
 			return true;
 		}
 		// We can use else if here because only 1 node contains the object, so we can early out
-		if (FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inCenter, node->mLeftFirst + 1))
+		if (FindNodeHierarchyContainingObjectRecursive(ioIndices, inObject, inAABB, node->mLeftFirst + 1))
 		{
 			ioIndices.emplace_back(node->mLeftFirst + 1);
 			return true;

@@ -42,7 +42,10 @@ void ThreadManager::Shutdown()
 void ThreadManager::AddTask(const SharedPtr<ThreadTask>& inTask, ThreadPriority inPriority)
 {
 	inTask->mPriority = inPriority;
-	mTasks[SCast<uint64>(inPriority)].Enqueue(inTask);
+	{
+		std::unique_lock<std::mutex> lock(mTaskMutex);
+		mTasks[SCast<uint64>(inPriority)].Enqueue(inTask);
+	}
 	mThreadConditionVariable.notify_one();
 }
 
@@ -58,19 +61,22 @@ void ThreadManager::WaitUntilPriorityEmpty(ThreadPriority inPriority)
 void ThreadManager::WorkerThread(int32 inIndex)
 {
 	OPTICK_THREAD("ThreadManager::WorkerThread")
-	std::mutex mutex;
-	std::unique_lock<std::mutex> lock(mutex);
 	while (mRunning)
 	{
-		mThreadConditionVariable.wait(lock, [this]
 		{
-			for (int32 i = SCast<int32>(ThreadPriority::VeryHigh); i >= 0; i--)
+			PROFILE_SCOPE(ThreadManager::WaitForTask)
+			std::unique_lock<std::mutex> lock(mTaskMutex);
+
+			mThreadConditionVariable.wait(lock,[this]
 			{
-				if (!mTasks[i].IsEmpty())
-					return true;
-			}
-			return !mRunning;
-		});
+				for (int32 i = SCast<int32>(ThreadPriority::VeryHigh); i >= 0; i--)
+				{
+					if (!mTasks[i].IsEmpty())
+						return true;
+				}
+				return !mRunning;
+			});
+		}
 		for (int32 i = SCast<int32>(ThreadPriority::VeryHigh); i >= 0; i--)
 		{
 			SafeQueue<SharedPtr<ThreadTask>>& tasks_queue = mTasks[i];
@@ -82,6 +88,7 @@ void ThreadManager::WorkerThread(int32 inIndex)
 			if (item.first == DequeueResult::Locked)
 				break;
 
+			PROFILE_SCOPE(ThreadManager::ExecuteTask)
 			item.second->Execute();
 			OnTaskFinished(item.second);
 		}
@@ -90,6 +97,7 @@ void ThreadManager::WorkerThread(int32 inIndex)
 
 void ThreadManager::OnTaskFinished(SharedPtr<ThreadTask>& inTask)
 {
+	PROFILE_SCOPE(ThreadManager::OnTaskFinished)
 	inTask->mIsDone = true;
 	const uint64 index = SCast<uint64>(inTask->mPriority);
 	if (mTasks[index].IsEmpty())

@@ -54,12 +54,13 @@ public:
 private:
 	// mTasks[mPriority] contains all tasks that are of that priority.
 	SafeQueue<SharedPtr<ThreadTask>> mTasks[SCast<uint64>(ThreadPriority::VeryHigh) + 1] = {};
+	std::mutex mTaskMutex;
 
 	Array<std::thread> mThreads = {};
 
 	std::atomic_bool mRunning = false;
 
-	std::condition_variable mThreadConditionVariable;
+	std::condition_variable_any mThreadConditionVariable;
 
 	std::condition_variable mPriorityEmptyCV[SCast<uint64>(ThreadPriority::VeryHigh) + 1];
 	std::mutex mPriorityEmptyMutex[SCast<uint64>(ThreadPriority::VeryHigh) + 1]; // If needed

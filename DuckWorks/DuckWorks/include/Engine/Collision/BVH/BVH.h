@@ -68,8 +68,8 @@ private:
 	uint64 SplitIndices(uint64 inFirst, uint64 inCount, float inSplitLocation, uint64 inSplitAxis);
 
 	void CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const AABB& inAABB, uint64 inNodeIndex);
-	const Array<uint64>& FindNodeHierarchyContainingObject(const CollisionObjectHandle& inObject);
-	bool FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, fm::vec2 inCenter, uint64 inNodeIndex);
+	const Array<uint64> &FindNodeHierarchyContainingObject(const CollisionObjectHandle &inObject, const AABB &inAABB);
+	bool FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const AABB& inAABB, uint64 inNodeIndex);
 
 	const Array<uint64>& FindFirstNodeHierarchyAtLocation(const fm::vec2& inlocation);
 	bool FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, fm::vec2 inLocation, uint64 inNodeIndex);
