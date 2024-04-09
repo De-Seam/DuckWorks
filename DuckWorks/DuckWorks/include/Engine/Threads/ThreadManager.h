@@ -24,16 +24,20 @@ public:
 	// Reset the thread task to its default values for reuse.
 	virtual void Reset()
 	{
-		mIsDone = false;
+		mCompleted = false;
 	}
 
 	virtual void Execute() = 0;
 
-	bool IsDone() const { return mIsDone; }
+	bool IsCompleted() const { return mCompleted; }
+	void WaitUntilCompleted();
 
 private:
-	bool mIsDone = false;
+	bool mCompleted = false;
 	ThreadPriority mPriority = ThreadPriority::Normal;
+
+	std::condition_variable mCompletedConditionVariable;
+	std::mutex mCompletedMutex;
 
 	friend class ThreadManager;
 };
@@ -67,7 +71,7 @@ private:
 
 private:
 	void WorkerThread(int32 inIndex);
-	void OnTaskFinished(SharedPtr<ThreadTask>& inTask);
+	void OnTaskCompleted(SharedPtr<ThreadTask> &inTask);
 };
 
 extern ThreadManager gThreadManager;

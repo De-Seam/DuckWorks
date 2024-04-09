@@ -197,7 +197,10 @@ void World::UpdateEntities(float inDeltaTime)
 		gThreadManager.AddTask(task, ThreadPriority::High);
 	}
 
-	gThreadManager.WaitUntilPriorityEmpty(ThreadPriority::High);
+	for (SharedPtr<UpdateEntityThreadTask>& task : entity_update_tasks)
+	{
+		task->WaitUntilCompleted();
+	}
 }
 
 void World::DestroyEntities()

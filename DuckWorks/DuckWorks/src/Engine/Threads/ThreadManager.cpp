@@ -9,11 +9,19 @@ RTTI_EMPTY_SERIALIZE_DEFINITION(ThreadManager)
 
 ThreadManager gThreadManager;
 
+void ThreadTask::WaitUntilCompleted() 
+{
+	std::unique_lock<std::mutex> lock(mCompletedMutex);
+	if (mCompleted)
+		return;
+	mCompletedConditionVariable.wait(lock, [this] { return mCompleted; });
+}
+
 ThreadManager::ThreadManager() {}
 
 void ThreadManager::Init()
 {
-	uint32 threadCount = std::thread::hardware_concurrency();
+	uint32 threadCount = std::thread::hardware_concurrency() - 1;
 	mRunning = true;
 	for (uint32 i = 0; i < threadCount; ++i)
 	{
@@ -90,15 +98,19 @@ void ThreadManager::WorkerThread(int32 inIndex)
 
 			PROFILE_SCOPE(ThreadManager::ExecuteTask)
 			item.second->Execute();
-			OnTaskFinished(item.second);
+			OnTaskCompleted(item.second);
 		}
 	}
 }
 
-void ThreadManager::OnTaskFinished(SharedPtr<ThreadTask>& inTask)
+void ThreadManager::OnTaskCompleted(SharedPtr<ThreadTask> &inTask)
 {
-	PROFILE_SCOPE(ThreadManager::OnTaskFinished)
-	inTask->mIsDone = true;
+	PROFILE_SCOPE(ThreadManager::OnTaskCompleted)
+	{
+		std::unique_lock<std::mutex> lock(inTask->mCompletedMutex);
+		inTask->mCompleted = true;
+	}
+	inTask->mCompletedConditionVariable.notify_all();
 	const uint64 index = SCast<uint64>(inTask->mPriority);
 	if (mTasks[index].IsEmpty())
 	{
