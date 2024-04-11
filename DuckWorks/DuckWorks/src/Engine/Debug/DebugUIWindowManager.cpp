@@ -12,6 +12,7 @@
 #include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/World/World.h"
+#include "Engine/Threads/ThreadManager.h"
 
 // Game includes
 #include "Game/App/App.h"
@@ -308,9 +309,43 @@ void DebugUIWindowManager::UpdateViewport()
 	}
 }
 
+class DebugWindowUpdateTask : public ThreadTask
+{
+public:
+	virtual void Execute() override
+	{
+		if (!mWindow.IsAlive())
+			return;
+		Ref<DebugUIWindow> window = mWindow.Get();
+		window->UpdateMultiThreaded(mDeltaTime);
+	}
+
+	WeakRef<DebugUIWindow> mWindow;
+	float mDeltaTime;
+};
+
 void DebugUIWindowManager::UpdateWindows(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowManager::UpdateWindows)
+
+	static Array<SharedPtr<DebugWindowUpdateTask>> window_update_tasks;
+	for (uint64 i = window_update_tasks.size(); i < mWindows.size(); i++)
+		window_update_tasks.push_back(std::make_shared<DebugWindowUpdateTask>());
+
+	for (uint64 i = 0; i < mWindows.size(); i++)
+	{
+		Ref<DebugUIWindow>& window = mWindows[i];
+		SharedPtr<DebugWindowUpdateTask> task = window_update_tasks[i];
+		task->Reset();
+		task->mWindow = window;
+		task->mDeltaTime = inDeltaTime;
+
+		gThreadManager.AddTask(task, ThreadPriority::High);
+	}
+
+	for (SharedPtr<DebugWindowUpdateTask> &task : window_update_tasks)
+		task->WaitUntilCompleted();
+
 	Array<Ref<DebugUIWindow>> windows_to_remove;
 	for (Ref<DebugUIWindow>& window : mWindows)
 	{

@@ -30,6 +30,6 @@ private:
 
 private:
 	void UpdateEntry(const std::filesystem::directory_entry& inEntry, int32& ioButtonCount, int32 inButtonsPerRow);
-	Array<String> ListFoldersInDirectory(const std::filesystem::path& inDirectoryPath);
+	const Array<String>& ListFoldersInDirectory(const std::filesystem::path& inDirectoryPath);
 	String TruncateTextToFitWidth(String& inText, float inMaxWidth);
 };

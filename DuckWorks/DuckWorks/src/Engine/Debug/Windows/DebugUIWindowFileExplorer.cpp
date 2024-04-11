@@ -55,9 +55,9 @@ void DebugUIWindowFileExplorer::Update(float)
 
 	fs::path directory_path = mCurrentPath;
 
-	Array<String> folders = ListFoldersInDirectory(directory_path);
+	const Array<String>& folders = ListFoldersInDirectory(directory_path);
 
-	for (String& folder : folders)
+	for (const String& folder : folders)
 	{
 		if (ImGui::Button((folder + "##Path").c_str()))
 		{
@@ -66,7 +66,7 @@ void DebugUIWindowFileExplorer::Update(float)
 			if (start_pos != std::string::npos)
 			{
 				String new_path = "";
-				for (String& f : folders)
+				for (const String& f : folders)
 				{
 					new_path += f;
 					if (f == folder)
@@ -114,8 +114,10 @@ void DebugUIWindowFileExplorer::Update(float)
 					button_count = 0; // Reset counter for the next row
 			}
 
-			Array<std::filesystem::directory_entry> directory_entries;
-			Array<std::filesystem::directory_entry> file_entries;
+			THREADLOCAL static Array<std::filesystem::directory_entry> directory_entries;
+			directory_entries.clear();
+			THREADLOCAL static Array<std::filesystem::directory_entry> file_entries;
+			file_entries.clear();
 
 			for (const auto& entry : fs::directory_iterator(directory_path))
 			{
@@ -207,9 +209,10 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 		ioButtonCount = 0; // Reset counter for the next row
 }
 
-Array<String> DebugUIWindowFileExplorer::ListFoldersInDirectory(const fs::path& inDirectoryPath)
+const Array<String>& DebugUIWindowFileExplorer::ListFoldersInDirectory(const fs::path& inDirectoryPath)
 {
-	Array<String> folders;
+	THREADLOCAL static Array<String> folders;
+	folders.clear();
 	fs::path currentPath = inDirectoryPath;
 
 	// Print or use the parent path

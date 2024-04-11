@@ -13,17 +13,14 @@ DebugUIWindowPerformanceMonitor::DebugUIWindowPerformanceMonitor()
 	mTimings.resize(128);
 }
 
-void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
+void DebugUIWindowPerformanceMonitor::UpdateMultiThreaded(float inDeltaTime) 
 {
-	PROFILE_SCOPE(DebugUIWindowPerformanceMonitor::Update)
+	PROFILE_SCOPE(DebugUIWindowPerformanceMonitor::UpdateMultiThreaded)
+
+	if (!mVisible)
+		return;
 
 	float delta_time_seconds = inDeltaTime * 1000.f;
-
-	if(!ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize))
-	{
-		ImGui::End();
-		return;
-	}
 
 	mTimingsIndex = (mTimingsIndex + 1) % mTimings.size();
 	mTimings[mTimingsIndex] = delta_time_seconds;
@@ -31,33 +28,47 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 	if (delta_time_seconds > mHighestTiming)
 		mHighestTiming = delta_time_seconds;
 
-	float average_timing = 0.f;
+	mAverageTiming = 0.f;
 	for (uint64 i = 0; i < mTimings.size(); i++)
 	{
-		average_timing += mTimings[i];
+		mAverageTiming += mTimings[i];
 	}
-	average_timing = average_timing / SCast<float>(mTimings.size());
+	mAverageTiming = mAverageTiming / SCast<float>(mTimings.size());
 
-	float fps = 1.f / average_timing * 1000.f;
-	if (fps < 1.f)
-		fps = 1.f;
+	mFPS = 1.f / mAverageTiming * 1000.f;
+	if (mFPS < 1.f)
+		mFPS = 1.f;
 
 	// When we're at the last index we can resize the array to fit the average fps
 	if (mTimingsIndex == mTimings.size() - 1)
 	{
 		// Check if highest timing is ridiculously high, if so, reset it
-		if (mHighestTiming > average_timing * 10)
+		if (mHighestTiming > mAverageTiming * 10)
 		{
-			gLog("Highest timing was %f, average timing was %f, resetting", mHighestTiming, average_timing);
-			mHighestTiming = average_timing;
+			gLog("Highest timing was %f, average timing was %f, resetting", mHighestTiming, mAverageTiming);
+			mHighestTiming = mAverageTiming;
 		}
-		if ((SCast<float>(mTimings.size()) < fps * 0.9f || SCast<float>(mTimings.size()) > fps * 1.1f))
+		if ((SCast<float>(mTimings.size()) < mFPS * 0.9f || SCast<float>(mTimings.size()) > mFPS * 1.1f))
 		{
-			mTimings.resize(SCast<uint64>(fps));
+			mTimings.resize(SCast<uint64>(mFPS));
 		}
 	}
+}
 
-	ImGui::Text("Frame time (ms): %.3f | FPS: %.0f", average_timing, fps);
+void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
+{
+	PROFILE_SCOPE(DebugUIWindowPerformanceMonitor::Update)
+
+
+	if(!ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize))
+	{
+		mVisible = false;
+		ImGui::End();
+		return;
+	}
+	mVisible = true;
+
+	ImGui::Text("Frame time (ms): %.3f | FPS: %.0f", mAverageTiming, mFPS);
 
 	ImVec2 window_size = ImGui::GetWindowSize();
 
