@@ -59,11 +59,14 @@ private:
 	Array<Ref<DebugUIWindow>> mWindows;
 	Array<Ref<DebugUIWindow>> mWindowsToAdd;
 
+
 	Array<bool> mWindowOpen;
 	String mDebugFileName = "Debug.json";
 
 	Optional<WeakRef<Entity>> mSelectedEntity;
 	fm::vec2 mSelectedEntityRelativeLocation = {}; ///< 0,0 would be the center of the entity
+
+	HashMap<UID, Json> mSavedWindowSettings; ///< The saved settings for each Window.
 };
 
 extern DebugUIWindowManager gDebugUIWindowManager;

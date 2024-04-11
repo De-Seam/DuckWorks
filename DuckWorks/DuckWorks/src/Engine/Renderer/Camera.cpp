@@ -5,7 +5,7 @@
 
 RTTI_CLASS_DEFINITION(Camera)
 
-Json Camera::Serialize() const
+Json Camera::Serialize()
 {
 	Json json = Base::Serialize();
 

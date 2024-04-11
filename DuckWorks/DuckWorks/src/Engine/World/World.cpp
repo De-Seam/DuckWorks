@@ -19,7 +19,7 @@
 
 RTTI_CLASS_DEFINITION(World)
 
-Json World::Serialize() const
+Json World::Serialize()
 {
 	PROFILE_SCOPE(World::Serialize)
 

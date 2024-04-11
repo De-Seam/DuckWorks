@@ -16,7 +16,7 @@
 
 RTTI_CLASS_DEFINITION(DebugUIWindowFileExplorer)
 
-Json DebugUIWindowFileExplorer::Serialize() const
+Json DebugUIWindowFileExplorer::Serialize()
 {
 	Json json = Base::Serialize();
 

@@ -21,4 +21,6 @@ public:
 protected:
 	// The open variable should be given to ImGui::Begin() as the second parameter
 	bool mOpen = true;
+
+	friend class DebugUIWindowManager;
 };

@@ -12,9 +12,10 @@ public: \
 	static const char* sGetParentClassName() { return #inParentClassName; } \
 	virtual const char* GetClassName() const override { return inClassName::sGetClassName(); } \
 	virtual const char* GetParentClassName() const override { return inClassName::sGetParentClassName(); } \
-	virtual Json Serialize() const override; \
+	virtual Json Serialize() override; \
 	virtual void Deserialize(const Json& inJson) override; \
 	static const UID& sGetRTTIUID() { return s##inClassNameRTTIUID; } \
+	virtual const UID& GetRTTIUID() const override { return s##inClassNameRTTIUID; } \
 	virtual bool IsAUID(const UID& inRTTIUID) const override \
 		{ \
 			if (inRTTIUID == sGetRTTIUID()) \
@@ -42,7 +43,7 @@ public:
 	UID inClassName::s##inClassNameRTTIUID;
 
 #define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
-	Json inClassName::Serialize() const { return Base::Serialize(); } \
+	Json inClassName::Serialize() { return Base::Serialize(); } \
 	void inClassName::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
 /****
@@ -59,10 +60,11 @@ public:
 	virtual const char* GetClassName() const = 0;
 	virtual const char* GetParentClassName() const = 0;
 
-	virtual Json Serialize() const { return {}; }
+	virtual Json Serialize();
 	virtual void Deserialize(const Json& inJson) { (void)inJson; }
 
 	static const UID& sGetRTTIUID() { return sRTTIBaseClassRTTIUID; }
+	virtual const UID& GetRTTIUID() const { return sRTTIBaseClassRTTIUID; }
 
 	template<typename taType>
 	static bool sIsA()

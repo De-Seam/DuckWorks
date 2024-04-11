@@ -4,7 +4,7 @@
 
 RTTI_CLASS_DEFINITION(CollisionObject)
 
-Json CollisionObject::Serialize() const
+Json CollisionObject::Serialize()
 {
 	Json json = Base::Serialize();
 

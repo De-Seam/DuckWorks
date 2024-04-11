@@ -11,7 +11,7 @@
 
 RTTI_CLASS_DEFINITION(MovingPlatform)
 
-Json MovingPlatform::Serialize() const
+Json MovingPlatform::Serialize()
 {
 	Json json = Base::Serialize();
 

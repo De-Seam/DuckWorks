@@ -5,7 +5,7 @@
 
 RTTI_CLASS_DEFINITION(DebugUIWindowOutputLog)
 
-Json DebugUIWindowOutputLog::Serialize() const
+Json DebugUIWindowOutputLog::Serialize()
 {
 	Json json = Base::Serialize();
 
@@ -21,10 +21,10 @@ void DebugUIWindowOutputLog::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_LOAD(inJson, mShowInfo);
-	JSON_LOAD(inJson, mShowWarnings);
-	JSON_LOAD(inJson, mShowErrors);
-	JSON_LOAD(inJson, mMaxEntryCount);
+	JSON_TRY_LOAD(inJson, mShowInfo);
+	JSON_TRY_LOAD(inJson, mShowWarnings);
+	JSON_TRY_LOAD(inJson, mShowErrors);
+	JSON_TRY_LOAD(inJson, mMaxEntryCount);
 }
 
 void DebugUIWindowOutputLog::Update(float)

@@ -7,11 +7,12 @@
 
 RTTI_CLASS_DEFINITION(DebugUIWindowTextureViewer)
 
-Json DebugUIWindowTextureViewer::Serialize() const
+Json DebugUIWindowTextureViewer::Serialize()
 {
 	Json json = Base::Serialize();
 
-	JSON_SAVE(json, mTexture);
+	if (mTexture != nullptr)
+		JSON_SAVE(json, mTexture);
 
 	return json;
 }
@@ -20,7 +21,7 @@ void DebugUIWindowTextureViewer::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_LOAD(inJson, mTexture);
+	JSON_TRY_LOAD(inJson, mTexture);
 }
 
 void DebugUIWindowTextureViewer::Update(float inDeltaTime)

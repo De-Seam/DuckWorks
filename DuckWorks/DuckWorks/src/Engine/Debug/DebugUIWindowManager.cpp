@@ -29,7 +29,7 @@ RTTI_CLASS_DEFINITION(DebugUIWindowManager)
 
 DebugUIWindowManager gDebugUIWindowManager = {};
 
-Json DebugUIWindowManager::Serialize() const
+Json DebugUIWindowManager::Serialize()
 {
 	Json json = Base::Serialize();
 	JSON_SAVE(json, mDrawEntityOutline);
@@ -39,11 +39,13 @@ Json DebugUIWindowManager::Serialize() const
 
 	JSON_SAVE(json, mDebugFileName);
 
+	// Serialize all open windows to the mSavedWindowSettings map
 	for (const Ref<DebugUIWindow>& window : mWindows)
-	{
-		if (window->IsOpen())
-			json["OpenWindows"].emplace_back(window->GetClassName());
-	}
+		mSavedWindowSettings[window->GetRTTIUID()] = window->Serialize();
+
+	// Add all the windows settings to the json
+	for (const auto& it : mSavedWindowSettings)
+		json["Windows"].emplace_back(it.second);
 
 	return json;
 }
@@ -59,12 +61,19 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 
 	JSON_TRY_LOAD(inJson, mDebugFileName);
 
-	if (inJson.contains("OpenWindows"))
+	if (inJson.contains("Windows"))
 	{
-		auto open_windows = inJson["OpenWindows"];
-		for (String window_name : open_windows)
+		for (const Json& json_window : inJson["Windows"])
 		{
-			Ref<DebugUIWindow> window = gDebugUIWindowFactory.CreateClass(window_name);
+			const String& class_name = json_window["ClassName"];
+			UID rtti_uid = gDebugUIWindowFactory.GetRTTIUID(class_name);
+			mSavedWindowSettings[rtti_uid] = json_window;
+
+			if (!json_window.contains("mOpen") || json_window["mOpen"] == false)
+				continue;
+
+			Ref<DebugUIWindow> window = gDebugUIWindowFactory.CreateClassFromJsonAndDeserialize(json_window);
+
 			AddWindow(window);
 		}
 	}
@@ -411,6 +420,11 @@ WeakRef<DebugUIWindow> DebugUIWindowManager::AddWindow(Ref<DebugUIWindow> inWind
 {
 	PROFILE_SCOPE(DebugUIWindowManager::AddWindow)
 
+	if (mSavedWindowSettings.contains(inWindow->GetRTTIUID()))
+	{
+		inWindow->Deserialize(mSavedWindowSettings[inWindow->GetRTTIUID()]);
+		inWindow->mOpen = true;
+	}
 	for (Ref<DebugUIWindow>& window : mWindows)
 	{
 		if (window == inWindow || window->GetClassName() == inWindow->GetClassName())
@@ -457,6 +471,7 @@ void DebugUIWindowManager::RemoveWindow(const String& inWindowClassName)
 	{
 		if (mWindows[i]->GetClassName() == inWindowClassName)
 		{
+			mSavedWindowSettings[mWindows[i]->GetRTTIUID()] = mWindows[i]->Serialize();
 			mWindows.erase(mWindows.begin() + i);
 			return;
 		}

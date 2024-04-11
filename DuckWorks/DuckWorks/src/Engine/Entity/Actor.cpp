@@ -6,7 +6,7 @@
 
 RTTI_CLASS_DEFINITION(Actor)
 
-Json Actor::Serialize() const
+Json Actor::Serialize()
 {
 	Json json = Base::Serialize();
 

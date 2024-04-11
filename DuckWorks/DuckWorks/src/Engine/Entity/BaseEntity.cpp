@@ -7,7 +7,7 @@
 
 RTTI_CLASS_DEFINITION(BaseEntity)
 
-Json BaseEntity::Serialize() const
+Json BaseEntity::Serialize()
 {
 	Json json;
 	const Array<String>& component_names = gComponentFactory.GetClassNames();

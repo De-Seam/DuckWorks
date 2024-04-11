@@ -3,7 +3,7 @@
 
 RTTI_CLASS_DEFINITION(BaseUserSettings)
 
-Json BaseUserSettings::Serialize() const
+Json BaseUserSettings::Serialize()
 {
 	Json json = Base::Serialize();
 

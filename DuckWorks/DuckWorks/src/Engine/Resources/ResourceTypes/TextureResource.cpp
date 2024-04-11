@@ -9,7 +9,7 @@
 
 RTTI_CLASS_DEFINITION(TextureResource)
 
-Json TextureResource::Serialize() const
+Json TextureResource::Serialize()
 {
 	// We don't want to serialize the texture or its size, since that might change if the texture changes
 	return Base::Serialize();

@@ -3,4 +3,18 @@
 
 RTTI_CLASS_DEFINITION(DebugUIWindow)
 
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindow)
+Json DebugUIWindow::Serialize()
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mOpen);
+
+	return json;
+}
+
+void DebugUIWindow::Deserialize(const Json &inJson)
+{
+	Base::Deserialize(inJson);
+
+	JSON_TRY_LOAD(inJson, mOpen);
+}

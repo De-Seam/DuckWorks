@@ -15,7 +15,7 @@
 
 RTTI_CLASS_DEFINITION(Player)
 
-Json Player::Serialize() const
+Json Player::Serialize()
 {
 	Json json = Base::Serialize();
 

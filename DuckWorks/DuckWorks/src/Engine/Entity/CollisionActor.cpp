@@ -8,7 +8,7 @@
 
 RTTI_CLASS_DEFINITION(CollisionActor)
 
-Json CollisionActor::Serialize() const
+Json CollisionActor::Serialize()
 {
 	Json json = Base::Serialize();
 

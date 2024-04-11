@@ -5,7 +5,7 @@
 
 RTTI_CLASS_DEFINITION(Entity)
 
-Json Entity::Serialize() const
+Json Entity::Serialize()
 {
 	Json json = Base::Serialize();
 

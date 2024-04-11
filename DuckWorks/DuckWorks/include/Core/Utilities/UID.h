@@ -8,6 +8,9 @@ public:
 	UID(const UID& inOther) = default;
 
 	operator uint64() const { return mUID; }
+
+	friend size_t hash_value(const UID &inUID) { return inUID.mUID; }
+
 private:
 	uint64 mUID;
 };

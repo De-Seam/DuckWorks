@@ -15,12 +15,16 @@ public:
 	template<typename taType>
 	void RegisterClass(const String& inClassName);
 
+	[[nodiscard]] taFactoryType* CreateClassFromJsonAndDeserialize(const Json &inJson);
 	[[nodiscard]] taFactoryType* CreateClass(const String& inClassName);
+
+	[[nodiscard]] UID GetRTTIUID(const String &inClassName) const;
 
 	[[nodiscard]] const Array<String>& GetClassNames() const;
 
 private:
 	HashMap<String, ConstructorFunction> mClassConstructors;
+	HashMap<String, UID> mClassUIDs;
 	Array<String> mKeyList;
 };
 
@@ -89,7 +93,16 @@ void Factory<taFactoryType>::RegisterClass(const String& inClassName)
 		return new taType;
 	};
 	mClassConstructors[inClassName] = func;
+	mClassUIDs[inClassName] = taType::sGetRTTIUID();
 	mKeyList.emplace_back(inClassName);
+}
+
+template<typename taFactoryType>
+inline taFactoryType *Factory<taFactoryType>::CreateClassFromJsonAndDeserialize(const Json &inJson)
+{
+	taFactoryType* return_ptr = CreateClass(inJson["ClassName"]);
+	return_ptr->Deserialize(inJson);
+	return return_ptr;
 }
 
 template<typename taFactoryType>
@@ -97,6 +110,12 @@ taFactoryType* Factory<taFactoryType>::CreateClass(const String& inClassName)
 {
 	gAssert(mClassConstructors.contains(inClassName), "Class not registered!");
 	return mClassConstructors[inClassName]();
+}
+
+template<typename taFactoryType>
+inline UID Factory<taFactoryType>::GetRTTIUID(const String &inClassName) const
+{
+	return mClassUIDs.at(inClassName);
 }
 
 template<typename taFactoryType>

@@ -3,7 +3,7 @@
 
 RTTI_CLASS_DEFINITION(BaseResource)
 
-Json BaseResource::Serialize() const
+Json BaseResource::Serialize()
 {
 	Json json = Base::Serialize();
 
