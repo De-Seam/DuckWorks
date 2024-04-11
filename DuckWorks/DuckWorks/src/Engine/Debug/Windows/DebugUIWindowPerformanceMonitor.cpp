@@ -55,10 +55,9 @@ void DebugUIWindowPerformanceMonitor::UpdateMultiThreaded(float inDeltaTime)
 	}
 }
 
-void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
+void DebugUIWindowPerformanceMonitor::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowPerformanceMonitor::Update)
-
 
 	if(!ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize))
 	{
@@ -76,7 +75,6 @@ void DebugUIWindowPerformanceMonitor::Update(float inDeltaTime)
 	ImGui::Text("Frame time graph: 0 - %.3f (ms)", mHighestTiming);
 	ImGui::PlotLines("##FrameTimingsLineGraph", mTimings.data(), SCast<int>(mTimings.size()), 0, nullptr, FLT_EPSILON,
 					mHighestTiming, ImVec2(window_size.x, 40));
-
 
 	ImGui::End();
 }

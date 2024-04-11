@@ -11,6 +11,7 @@ class DebugUIWindowFileExplorer : public DebugUIWindow
 public:
 	DebugUIWindowFileExplorer();
 
+	virtual void UpdateMultiThreaded(float inDeltaTime) override;
 	virtual void Update(float inDeltaTime) override;
 
 	enum class FileType
@@ -27,6 +28,11 @@ private:
 	fm::vec2 mIconSize = {64.f, 64.f};
 
 	HashMap<String, SharedPtr<TextureResource>> mTextures;
+
+	// Per frame variables
+	Array<String> mFoldersInCurrentDirectory;
+	Array<std::filesystem::directory_entry> mDirectoryEntries;
+	Array<std::filesystem::directory_entry> mFileEntries;
 
 private:
 	void UpdateEntry(const std::filesystem::directory_entry& inEntry, int32& ioButtonCount, int32 inButtonsPerRow);

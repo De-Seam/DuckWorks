@@ -43,6 +43,23 @@ DebugUIWindowFileExplorer::DebugUIWindowFileExplorer()
 
 namespace fs = std::filesystem;
 
+void DebugUIWindowFileExplorer::UpdateMultiThreaded(float) 
+{
+	PROFILE_SCOPE(DebugUIWindowFileExplorer::UpdateMultiThreaded)
+
+	mFoldersInCurrentDirectory = ListFoldersInDirectory(mCurrentPath);
+
+	mDirectoryEntries.clear();
+	mFileEntries.clear();
+	for (const auto &entry : fs::directory_iterator(mCurrentPath))
+	{
+		if (entry.is_directory())
+			mDirectoryEntries.push_back(entry);
+		else if (entry.is_regular_file())
+			mFileEntries.push_back(entry);
+	}
+}
+
 void DebugUIWindowFileExplorer::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowFileExplorer::Update)
@@ -55,9 +72,7 @@ void DebugUIWindowFileExplorer::Update(float)
 
 	fs::path directory_path = mCurrentPath;
 
-	const Array<String>& folders = ListFoldersInDirectory(directory_path);
-
-	for (const String& folder : folders)
+	for (const String& folder : mFoldersInCurrentDirectory)
 	{
 		if (ImGui::Button((folder + "##Path").c_str()))
 		{
@@ -66,7 +81,7 @@ void DebugUIWindowFileExplorer::Update(float)
 			if (start_pos != std::string::npos)
 			{
 				String new_path = "";
-				for (const String& f : folders)
+				for (const String& f : mFoldersInCurrentDirectory)
 				{
 					new_path += f;
 					if (f == folder)
@@ -77,7 +92,7 @@ void DebugUIWindowFileExplorer::Update(float)
 				directory_path = mCurrentPath;
 			}
 		}
-		if (folder != folders.back())
+		if (folder != mFoldersInCurrentDirectory.back())
 		{
 			ImGui::SameLine();
 			ImGui::Text("/");
@@ -89,7 +104,6 @@ void DebugUIWindowFileExplorer::Update(float)
 	float window_width = ImGui::GetContentRegionAvail().x;
 	int buttons_per_row = std::max(1, static_cast<int>(window_width / (mIconSize.x + ImGui::GetStyle().ItemSpacing.x)));
 	int button_count = 0;
-
 
 	try
 	{
@@ -114,23 +128,11 @@ void DebugUIWindowFileExplorer::Update(float)
 					button_count = 0; // Reset counter for the next row
 			}
 
-			THREADLOCAL static Array<std::filesystem::directory_entry> directory_entries;
-			directory_entries.clear();
-			THREADLOCAL static Array<std::filesystem::directory_entry> file_entries;
-			file_entries.clear();
-
-			for (const auto& entry : fs::directory_iterator(directory_path))
-			{
-				if (entry.is_directory())
-					directory_entries.push_back(entry);
-				else if (entry.is_regular_file())
-					file_entries.push_back(entry);
-			}
-
-			for (std::filesystem::directory_entry entry : directory_entries)
+			// mDirectoryEntries and mFileEntries were populated multi threaded
+			for (std::filesystem::directory_entry entry : mDirectoryEntries)
 				UpdateEntry(entry, button_count, buttons_per_row);
 
-			for (std::filesystem::directory_entry entry : file_entries)
+			for (std::filesystem::directory_entry entry : mFileEntries)
 				UpdateEntry(entry, button_count, buttons_per_row);
 		}
 	}
@@ -211,7 +213,7 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 
 const Array<String>& DebugUIWindowFileExplorer::ListFoldersInDirectory(const fs::path& inDirectoryPath)
 {
-	THREADLOCAL static Array<String> folders;
+	static Array<String> folders;
 	folders.clear();
 	fs::path currentPath = inDirectoryPath;
 
