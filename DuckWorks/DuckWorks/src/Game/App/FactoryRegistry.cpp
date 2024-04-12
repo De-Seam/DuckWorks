@@ -16,6 +16,7 @@
 #include "Engine/Debug/Windows/DebugUIWindowOutputLog.h"
 #include "Engine/Debug/Windows/DebugUIWindowUserSettings.h"
 #include "Engine/Debug/Windows/DebugUIWindowWorldSettings.h"
+#include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
 
 // Game includes
 #include "Game/Entity/SolidObstacle.h"
@@ -56,4 +57,5 @@ void gRegisterFactoryClasses()
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowUserSettings);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowWorldSettings);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowImGuiExample);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEditorToolbar);
 }

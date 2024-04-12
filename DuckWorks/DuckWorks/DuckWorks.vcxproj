@@ -109,6 +109,7 @@
     <ClInclude Include="include\Core\CoreBase.h" />
     <ClInclude Include="include\Core\Log\Log.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEditorToolbar.h" />
     <ClInclude Include="include\Engine\Threads\ThreadManager.h" />
     <ClInclude Include="include\Core\Utilities\Mutex.h" />
     <ClInclude Include="include\Core\Utilities\RefObject.h" />
@@ -306,6 +307,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\CoreBase.cpp" />
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEditorToolbar.cpp" />
     <ClCompile Include="src\Engine\Threads\ThreadManager.cpp" />
     <ClCompile Include="src\Core\Utilities\RefObject.cpp" />
     <ClCompile Include="src\Core\Utilities\RTTI.cpp" />
