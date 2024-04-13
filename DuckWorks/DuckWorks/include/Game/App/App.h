@@ -24,7 +24,8 @@ public:
 
 	void SetPaused(bool inPaused) { mPaused = inPaused; }
 	bool IsPaused() const { return mPaused; }
-
+	
+	void CreateNewWorld(const Json& inJson) const;
 	World* GetWorld() const { return mWorld.get(); }
 
 	template<typename taType>
@@ -39,7 +40,7 @@ private:
 	void ShutdownInternal(); ///< Internal shutdown app.
 
 private:
-	UniquePtr<World> mWorld;
+	UniquePtr<World> mWorld = nullptr;
 
 	float mDeltaTime = FLT_EPSILON;
 

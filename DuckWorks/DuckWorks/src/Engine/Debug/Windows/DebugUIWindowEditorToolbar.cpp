@@ -4,6 +4,7 @@
 // Engine includes
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
+#include "Engine/World/World.h"
 
 // External includes
 #include <External/imgui/imgui.h>
@@ -19,6 +20,7 @@ DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar()
 { 
 	mPlayButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_PlayButton.png");
 	mPauseButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_PauseButton.png");
+	mStopButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_StopButton.png");
 
 	gApp.SetPaused(true);
 }
@@ -43,7 +45,14 @@ void DebugUIWindowEditorToolbar::Update(float inDeltaTime)
 	SharedPtr<TextureResource> texture = paused ? mPauseButtonTexture : mPlayButtonTexture;
 	if (ImGui::ImageButton("##PausePlayButton", (ImTextureID)texture->mTexture, {32, 32}, {1, 0}, {0,1}))
 	{
+		if (paused && mGameState == ToolbarGameState::Stopped)
+			mWorldJson = gApp.GetWorld()->Serialize();
+		mGameState = paused ? ToolbarGameState::Playing : ToolbarGameState::Paused;
 		gApp.SetPaused(!paused);
+	}
+	if (mGameState != ToolbarGameState::Stopped && ImGui::ImageButton("##StopButton", (ImTextureID)mStopButtonTexture->mTexture, {32, 32}, {1, 0}, {0, 1}))
+	{
+		gApp.CreateNewWorld(mWorldJson);
 	}
 
 	ImGui::PopStyleVar(2);
