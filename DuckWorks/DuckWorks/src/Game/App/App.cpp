@@ -99,10 +99,10 @@ int App::Run()
 	// Create World
 	mWorld = std::make_unique<World>();
 
-	Json json;
 	std::ifstream in_file("world.json");
 	if (in_file.is_open())
 	{
+		Json json;
 		in_file >> json;
 
 		CreateNewWorld(json);
