@@ -16,8 +16,8 @@ RTTI_CLASS_DEFINITION(DebugUIWindowEditorToolbar)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEditorToolbar)
 
-DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar() 
-{ 
+DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar()
+{
 	mPlayButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_PlayButton.png");
 	mPauseButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_PauseButton.png");
 	mStopButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_StopButton.png");
@@ -27,7 +27,7 @@ DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar()
 
 void DebugUIWindowEditorToolbar::UpdateMultiThreaded(float inDeltaTime) {}
 
-void DebugUIWindowEditorToolbar::Update(float inDeltaTime) 
+void DebugUIWindowEditorToolbar::Update(float inDeltaTime)
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
@@ -39,20 +39,22 @@ void DebugUIWindowEditorToolbar::Update(float inDeltaTime)
 		return;
 	}
 
-	ImGui::SetWindowSize({32, 32});
+	ImGui::SetWindowSize({72, 32});
 
 	bool paused = gApp.IsPaused();
 	SharedPtr<TextureResource> texture = paused ? mPauseButtonTexture : mPlayButtonTexture;
-	if (ImGui::ImageButton("##PausePlayButton", (ImTextureID)texture->mTexture, {32, 32}, {1, 0}, {0,1}))
+	if (ImGui::ImageButton("##PausePlayButton", (ImTextureID)texture->mTexture, {32, 32}, {1, 0}, {0, 1}))
 	{
 		if (paused && mGameState == ToolbarGameState::Stopped)
 			mWorldJson = gApp.GetWorld()->Serialize();
 		mGameState = paused ? ToolbarGameState::Playing : ToolbarGameState::Paused;
 		gApp.SetPaused(!paused);
 	}
-	if (mGameState != ToolbarGameState::Stopped && ImGui::ImageButton("##StopButton", (ImTextureID)mStopButtonTexture->mTexture, {32, 32}, {1, 0}, {0, 1}))
+	if (mGameState != ToolbarGameState::Stopped)
 	{
-		gApp.CreateNewWorld(mWorldJson);
+		ImGui::SameLine();
+		if (ImGui::ImageButton("##StopButton", (ImTextureID)mStopButtonTexture->mTexture, {32, 32}, {1, 0}, {0, 1}))
+			gApp.CreateNewWorld(mWorldJson);
 	}
 
 	ImGui::PopStyleVar(2);

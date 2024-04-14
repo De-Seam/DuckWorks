@@ -149,12 +149,13 @@ void App::SaveUserSettingsToFile(const String& inFile)
 	file << json.dump(4);
 }
 
-void App::CreateNewWorld(const Json &inJson) const 
+void App::CreateNewWorld(const Json& inJson)
 {
 	mWorld->EndPlay();
 	mWorld = nullptr;
 	mWorld = std::make_unique<World>();
 	mWorld->Deserialize(inJson);
+	mWorld->BeginPlay();
 }
 
 void App::MainLoop()

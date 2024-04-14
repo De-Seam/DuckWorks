@@ -5,7 +5,6 @@
 // Std includes
 #include <memory>
 
-
 class World;
 
 class App
@@ -24,8 +23,8 @@ public:
 
 	void SetPaused(bool inPaused) { mPaused = inPaused; }
 	bool IsPaused() const { return mPaused; }
-	
-	void CreateNewWorld(const Json& inJson) const;
+
+	void CreateNewWorld(const Json& inJson);
 	World* GetWorld() const { return mWorld.get(); }
 
 	template<typename taType>
