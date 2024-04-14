@@ -54,7 +54,11 @@ void DebugUIWindowEditorToolbar::Update(float inDeltaTime)
 	{
 		ImGui::SameLine();
 		if (ImGui::ImageButton("##StopButton", (ImTextureID)mStopButtonTexture->mTexture, {32, 32}, {1, 0}, {0, 1}))
+		{
+			mGameState = ToolbarGameState::Stopped;
 			gApp.CreateNewWorld(mWorldJson);
+			gApp.SetPaused(true);
+		}
 	}
 
 	ImGui::PopStyleVar(2);
