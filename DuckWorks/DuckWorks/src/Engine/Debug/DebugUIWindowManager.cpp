@@ -11,8 +11,8 @@
 #include "Engine/Events/SDLEventManager.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/Renderer.h"
-#include "Engine/World/World.h"
 #include "Engine/Threads/ThreadManager.h"
+#include "Engine/World/World.h"
 
 // Game includes
 #include "Game/App/App.h"
@@ -352,7 +352,7 @@ void DebugUIWindowManager::UpdateWindows(float inDeltaTime)
 		gThreadManager.AddTask(task, ThreadPriority::High);
 	}
 
-	for (SharedPtr<DebugWindowUpdateTask> &task : window_update_tasks)
+	for (SharedPtr<DebugWindowUpdateTask>& task : window_update_tasks)
 		task->WaitUntilCompleted();
 
 	Array<Ref<DebugUIWindow>> windows_to_remove;
@@ -372,23 +372,15 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::UpdateSelectedEntity)
 
-	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
-		return;
-
-	if (!gEventManager.IsMouseButtonDown(MouseButton::Left))
-		return;
-
-	if (!mSelectedEntity.has_value())
-		return;
-
-	if (!mSelectedEntity.value().IsAlive())
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) ||
+		!gEventManager.IsMouseButtonDown(MouseButton::Left) ||
+		!mSelectedEntity.has_value() ||
+		!mSelectedEntity.value().IsAlive())
 		return;
 
 	Ref<Entity> selected_entity = mSelectedEntity.value().Get();
-	if (!selected_entity.IsValid())
-		return;
-
-	if (!selected_entity->HasComponent<TransformComponent>())
+	if (!selected_entity.IsValid() ||
+		!selected_entity->HasComponent<TransformComponent>())
 		return;
 
 	fm::vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
@@ -410,7 +402,8 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 		fm::vec2 delta_position = collision_transform.position - transform_component->mTransform.position;
 		transform_component->mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
 
-		selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, transform_component->mTransform.position + delta_position);
+		transform_component->mTransform.position = selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle,
+																											transform_component->mTransform.position + delta_position).position;
 	}
 	else
 		selected_entity->GetComponent<TransformComponent>()->mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
