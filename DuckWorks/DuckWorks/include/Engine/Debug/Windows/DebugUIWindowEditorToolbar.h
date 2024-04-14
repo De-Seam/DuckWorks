@@ -18,7 +18,11 @@ public:
 	virtual void UpdateMultiThreaded(float inDeltaTime) override;
 	virtual void Update(float inDeltaTime) override;
 
+	void Save();
+	void SaveStateToFile();
+
 private:
+	SharedPtr<TextureResource> mSaveButtonTexture = nullptr;
 	SharedPtr<TextureResource> mPlayButtonTexture = nullptr;
 	SharedPtr<TextureResource> mPauseButtonTexture = nullptr;
 	SharedPtr<TextureResource> mStopButtonTexture = nullptr;

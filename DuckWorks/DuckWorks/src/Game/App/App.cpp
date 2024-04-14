@@ -20,6 +20,7 @@
 // Std includes
 #include <fstream>
 
+#include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
 #include "Engine/Threads/ThreadManager.h"
 
 App gApp;
@@ -98,22 +99,18 @@ int App::Run()
 	// Create World
 	mWorld = std::make_unique<World>();
 
-	Json in_json;
+	Json json;
 	std::ifstream in_file("world.json");
 	if (in_file.is_open())
 	{
-		in_file >> in_json;
+		in_file >> json;
 
-		mWorld->Deserialize(in_json);
+		CreateNewWorld(json);
 	}
-
-	mWorld->BeginPlay();
 
 	MainLoop();
 
-	Json json = mWorld->Serialize();
-	std::ofstream file("world.json");
-	file << json.dump(4);
+	gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>()->SaveStateToFile();
 
 	ShutdownInternal();
 	return 0;
@@ -151,7 +148,8 @@ void App::SaveUserSettingsToFile(const String& inFile)
 
 void App::CreateNewWorld(const Json& inJson)
 {
-	mWorld->EndPlay();
+	if (mWorld != nullptr)
+		mWorld->EndPlay();
 	mWorld = nullptr;
 	mWorld = std::make_unique<World>();
 	mWorld->Deserialize(inJson);

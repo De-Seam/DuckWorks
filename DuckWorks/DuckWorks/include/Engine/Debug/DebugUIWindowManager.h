@@ -34,7 +34,7 @@ public:
 
 	template<typename taType>
 	[[nodiscard]]
-	Ref<DebugUIWindow> GetWindow() const;
+	Ref<taType> GetWindow() const;
 	[[nodiscard]]
 	Ref<DebugUIWindow> GetWindow(const String& inWindowClassName) const;
 
@@ -59,7 +59,6 @@ private:
 	Array<Ref<DebugUIWindow>> mWindows;
 	Array<Ref<DebugUIWindow>> mWindowsToAdd;
 
-
 	Array<bool> mWindowOpen;
 	String mDebugFileName = "Debug.json";
 
@@ -79,7 +78,7 @@ WeakRef<DebugUIWindow> DebugUIWindowManager::CreateWindow()
 }
 
 template<typename taType>
-Ref<DebugUIWindow> DebugUIWindowManager::GetWindow() const
+Ref<taType> DebugUIWindowManager::GetWindow() const
 {
 	return GetWindow(taType::sGetClassName());
 }
