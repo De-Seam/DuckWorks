@@ -110,7 +110,11 @@ int App::Run()
 
 	MainLoop();
 
-	gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>()->SaveStateToFile();
+	Ref<DebugUIWindowEditorToolbar> toolbar = gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>();
+	if (toolbar->GetGameState() != ToolbarGameState::Stopped)
+		toolbar->StopPlay();
+	toolbar->Save();
+	toolbar->SaveStateToFile();
 
 	ShutdownInternal();
 	return 0;

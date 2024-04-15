@@ -68,17 +68,21 @@ void DebugUIWindowEditorToolbar::Update(float inDeltaTime)
 	if (ImGui::ImageButton("##StopButton", (ImTextureID)mStopButtonTexture->mTexture, {32, 32}, {0, 0}, {1, 1}, {0, 0, 0, 0}, tint_color) &&
 		stop_button_enabled)
 	{
-		mGameState = ToolbarGameState::Stopped;
-		gApp.CreateNewWorld(mWorldJson);
-		gApp.SetPaused(true);
+		StopPlay();
 	}
 
 	ImGui::PopStyleVar(2);
 	ImGui::End();
 }
 
-void DebugUIWindowEditorToolbar::Save()
+void DebugUIWindowEditorToolbar::StopPlay() 
 {
+	mGameState = ToolbarGameState::Stopped;
+	gApp.CreateNewWorld(mWorldJson);
+	gApp.SetPaused(true);
+}
+
+void DebugUIWindowEditorToolbar::Save() {
 	mWorldJson = gApp.GetWorld()->Serialize();
 }
 

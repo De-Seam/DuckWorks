@@ -18,6 +18,9 @@ public:
 	virtual void UpdateMultiThreaded(float inDeltaTime) override;
 	virtual void Update(float inDeltaTime) override;
 
+	ToolbarGameState GetGameState() const { return mGameState; }
+
+	void StopPlay();
 	void Save();
 	void SaveStateToFile();
 
