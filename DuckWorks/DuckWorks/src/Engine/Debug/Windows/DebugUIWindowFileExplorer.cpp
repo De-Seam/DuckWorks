@@ -71,6 +71,7 @@ void DebugUIWindowFileExplorer::Update(float)
 	}
 
 	fs::path directory_path = mCurrentPath;
+	ImVec2 window_size = ImGui::GetWindowSize();
 
 	for (const String& folder : mFoldersInCurrentDirectory)
 	{
@@ -139,6 +140,24 @@ void DebugUIWindowFileExplorer::Update(float)
 	catch (fs::filesystem_error& error)
 	{
 		gLog(LogType::Error, error.what());
+	}
+
+	// Context menu (under default mouse threshold)
+	ImGui::InvisibleButton("canvas", window_size, ImGuiButtonFlags_MouseButtonRight);
+	ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
+	if (drag_delta.x == 0.0f && drag_delta.y == 0.0f)
+		ImGui::OpenPopupOnItemClick("Context", ImGuiPopupFlags_MouseButtonRight);
+	if (ImGui::BeginPopup("Context"))
+	{
+		if (ImGui::MenuItem("New Folder", NULL, false, true))
+		{
+			fs::create_directory(directory_path / "NewFolder");
+		}
+		if (ImGui::MenuItem("New File", NULL, false, true))
+		{
+
+		}
+		ImGui::EndPopup();
 	}
 
 	ImGui::End();
