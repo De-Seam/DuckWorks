@@ -25,6 +25,7 @@ public:
 	bool IsPaused() const { return mPaused; }
 
 	void CreateNewWorld(const Json& inJson);
+	void CreateNewEmptyWorld();
 	World* GetWorld() const { return mWorld.get(); }
 
 	template<typename taType>

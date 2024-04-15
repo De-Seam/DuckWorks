@@ -41,6 +41,7 @@ public:
 	Optional<Ref<Entity>> GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
 
 	CollisionWorld* GetCollisionWorld() const { return mCollisionWorld.get(); }
+	bool HasBegunPlay() const { return mBegunPlay; }
 
 private:
 	entt::registry mRegistry = {};

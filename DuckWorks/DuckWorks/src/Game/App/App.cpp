@@ -152,12 +152,27 @@ void App::SaveUserSettingsToFile(const String& inFile)
 
 void App::CreateNewWorld(const Json& inJson)
 {
-	if (mWorld != nullptr)
+	if (mWorld != nullptr && mWorld->HasBegunPlay())
 		mWorld->EndPlay();
+
 	mWorld = nullptr;
 	mWorld = std::make_unique<World>();
 	mWorld->Deserialize(inJson);
-	mWorld->BeginPlay();
+
+	if (!IsPaused())
+		mWorld->BeginPlay();
+}
+
+void App::CreateNewEmptyWorld() 
+{
+	if (mWorld != nullptr && mWorld->HasBegunPlay())
+		mWorld->EndPlay();
+
+	mWorld = nullptr;
+	mWorld = std::make_unique<World>();
+
+	if (!IsPaused())
+		mWorld->BeginPlay();
 }
 
 void App::MainLoop()

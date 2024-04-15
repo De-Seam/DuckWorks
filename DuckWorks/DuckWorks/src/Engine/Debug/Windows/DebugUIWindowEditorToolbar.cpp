@@ -59,8 +59,13 @@ void DebugUIWindowEditorToolbar::Update(float inDeltaTime)
 	{
 		if (paused && mGameState == ToolbarGameState::Stopped)
 			Save();
+
+
 		mGameState = paused ? ToolbarGameState::Playing : ToolbarGameState::Paused;
 		gApp.SetPaused(!paused);
+
+		if (!gApp.GetWorld()->HasBegunPlay())
+			gApp.GetWorld()->BeginPlay();
 	}
 	ImGui::SameLine();
 	bool stop_button_enabled = mGameState != ToolbarGameState::Stopped;

@@ -609,6 +609,9 @@
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEditorToolbar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowNewFilePopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -792,6 +795,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEditorToolbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowNewFilePopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
+#include "Engine/Debug/Windows/DebugUIWindowNewFilePopup.h"
 
 // External includes
 #include <External/imgui/imgui.h>
@@ -155,7 +156,7 @@ void DebugUIWindowFileExplorer::Update(float)
 		}
 		if (ImGui::MenuItem("New File", NULL, false, true))
 		{
-
+			gDebugUIWindowManager.CreateWindow<DebugUIWindowNewFilePopup>();
 		}
 		ImGui::EndPopup();
 	}
