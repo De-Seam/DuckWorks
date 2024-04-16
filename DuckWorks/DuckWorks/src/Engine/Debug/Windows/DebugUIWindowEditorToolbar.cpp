@@ -29,9 +29,9 @@ DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar()
 	gApp.SetPaused(true);
 }
 
-void DebugUIWindowEditorToolbar::UpdateMultiThreaded(float inDeltaTime) {}
+void DebugUIWindowEditorToolbar::UpdateMultiThreaded(float) {}
 
-void DebugUIWindowEditorToolbar::Update(float inDeltaTime)
+void DebugUIWindowEditorToolbar::Update(float)
 {
 	if (mWorldJson.empty() && mGameState == ToolbarGameState::Stopped)
 		Save();

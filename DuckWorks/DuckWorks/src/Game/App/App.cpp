@@ -159,8 +159,7 @@ void App::CreateNewWorld(const Json& inJson)
 	mWorld = std::make_unique<World>();
 	mWorld->Deserialize(inJson);
 
-	if (!IsPaused())
-		mWorld->BeginPlay();
+	mWorld->BeginPlay();
 }
 
 void App::CreateNewEmptyWorld() 
@@ -170,9 +169,7 @@ void App::CreateNewEmptyWorld()
 
 	mWorld = nullptr;
 	mWorld = std::make_unique<World>();
-
-	if (!IsPaused())
-		mWorld->BeginPlay();
+	mWorld->BeginPlay();
 }
 
 void App::MainLoop()
