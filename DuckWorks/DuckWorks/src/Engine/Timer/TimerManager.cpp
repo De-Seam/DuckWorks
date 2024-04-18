@@ -17,7 +17,7 @@ void TimerManager::Update(float inDeltaTime)
 		handle = handle->mNext.get();
 
 		// previous_handle basically follows the handle cleaning up pointers.
-		if (previous_handle)
+		if (previous_handle != nullptr)
 		{
 			previous_handle = std::move(previous_handle->mNext);
 			HandleTimerLooping(previous_handle.get());
@@ -56,17 +56,17 @@ TimerManager::TimerHandle TimerManager::AddTimer(TimerParams inParams)
 	// Find the correct place to insert the timer
 	Timer* handle = mFirstTimerHandle.get();
 	Timer* previous_handle = nullptr;
-	while (handle && new_timer->mTriggerTime < handle->mTriggerTime)
+	while (handle != nullptr && new_timer->mTriggerTime < handle->mTriggerTime)
 	{
 		previous_handle = handle;
 		handle = handle->mNext.get();
 	}
 
 	// Set the handles
-	if (handle)
+	if (handle != nullptr)
 		new_timer->mNext = std::move(handle->mNext);
 
-	if (previous_handle)
+	if (previous_handle != nullptr)
 		previous_handle->mNext = std::move(new_timer);
 	else
 		mFirstTimerHandle = std::move(new_timer);
