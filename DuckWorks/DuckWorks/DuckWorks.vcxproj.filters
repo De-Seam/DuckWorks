@@ -612,6 +612,9 @@
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowNewFilePopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\Entity\Projectiles\Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
