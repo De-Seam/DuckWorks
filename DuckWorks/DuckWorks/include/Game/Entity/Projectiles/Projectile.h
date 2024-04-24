@@ -10,6 +10,10 @@ class Projectile : public CollisionActor
 {
 	RTTI_CLASS(Projectile, CollisionActor)
 public:
+	Projectile();
+
+	virtual void Init(const InitParams &inInitParams) override;
+
 	virtual void Update(float inDeltaTime) override;
 
 	void SetVelocity(fm::vec2 inVelocity) { mVelocity = inVelocity; }

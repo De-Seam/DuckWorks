@@ -803,5 +803,8 @@
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowNewFilePopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Entity\Projectiles\Projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

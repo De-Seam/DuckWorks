@@ -391,6 +391,7 @@
     <ClCompile Include="src\Game\Entity\Player\Player.cpp" />
     <ClCompile Include="src\Game\Entity\Player\PlayerAnimation.cpp" />
     <ClCompile Include="src\Engine\User\UserSettings.cpp" />
+    <ClCompile Include="src\Game\Entity\Projectiles\Projectile.cpp" />
     <ClCompile Include="src\Game\Entity\SolidObstacles.cpp" />
     <ClCompile Include="src\Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

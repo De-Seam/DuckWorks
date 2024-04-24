@@ -22,6 +22,7 @@
 #include "Game/Entity/SolidObstacle.h"
 #include "Game/Entity/Player/Player.h"
 #include "Game/Entity/MovingPlatform.h"
+#include "Game/Entity/Projectiles/Projectile.h"
 
 
 void gRegisterFactoryClasses()
@@ -33,6 +34,7 @@ void gRegisterFactoryClasses()
 	REGISTER_ENTITY(Player);
 	REGISTER_ENTITY(SolidObstacle);
 	REGISTER_ENTITY(MovingPlatform);
+	REGISTER_ENTITY(Projectile);
 
 	// Components
 	REGISTER_COMPONENT(NameComponent);
