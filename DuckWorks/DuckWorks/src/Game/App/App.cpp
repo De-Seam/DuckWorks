@@ -162,7 +162,7 @@ void App::CreateNewWorld(const Json& inJson)
 	mWorld->BeginPlay();
 }
 
-void App::CreateNewEmptyWorld() 
+void App::CreateNewEmptyWorld()
 {
 	if (mWorld != nullptr && mWorld->HasBegunPlay())
 		mWorld->EndPlay();

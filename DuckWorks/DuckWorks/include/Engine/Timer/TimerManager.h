@@ -21,7 +21,7 @@ public:
 		bool mLoop = false;
 	};
 
-	TimerHandle AddTimer(TimerParams inParams);
+	TimerHandle AddTimer(const TimerParams& inParams);
 
 	bool RemoveTimer(const TimerHandle& inHandle);
 

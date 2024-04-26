@@ -5,7 +5,7 @@ TimerManager gTimerManager;
 
 void TimerManager::Update(float inDeltaTime)
 {
-	OPTICK_EVENT("TimerManager::Update");
+	PROFILE_SCOPE(TimerManager::Update)
 
 	mWorldTime += inDeltaTime;
 
@@ -30,7 +30,7 @@ void TimerManager::Update(float inDeltaTime)
 	}
 }
 
-TimerManager::TimerHandle TimerManager::AddTimer(TimerParams inParams)
+TimerManager::TimerHandle TimerManager::AddTimer(const TimerParams& inParams)
 {
 	gAssert(inParams.mFunctionPtr != nullptr, "Function pointer is null!");
 	gAssert(inParams.mDelay >= 0.0f, "Delay is negative!");
