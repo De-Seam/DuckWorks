@@ -1,14 +1,14 @@
 #pragma once
 // Core includes
-#include "Core/Utilities/Utilities.h"
 #include "Core/Math/FMath.h"
+#include "Core/Utilities/Utilities.h"
 
 // Engine includes
 #include "Core/Utilities/UID.h"
 
 #include "Engine/Collision/CollisionStructs.h"
-#include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/Renderer/AnimationBase.h"
+#include "Engine/Resources/ResourceTypes/TextureResource.h"
 
 class Camera;
 class b2Body;
@@ -23,7 +23,6 @@ class Entity;
 struct ComponentBase : public RTTIBaseClass
 {
 	RTTI_CLASS(ComponentBase, RTTIBaseClass)
-
 	// This is a base class for all components
 	// It is used to allow for polymorphism in the component manager
 	// It is not meant to be used directly
@@ -36,7 +35,7 @@ struct EntityComponent : public ComponentBase
 	COMPONENT()
 
 	EntityComponent() = default;
-	EntityComponent(WeakRef<Entity> mEntity) : mEntity(mEntity) {}
+	EntityComponent(const WeakRef<Entity>& inEntity) : mEntity(inEntity) {}
 
 	WeakRef<Entity> mEntity;
 };
@@ -61,7 +60,7 @@ struct TextureRenderComponent : public ComponentBase
 	TextureRenderComponent();
 
 	TextureRenderComponent(
-		SharedPtr<TextureResource> inTexture,
+		const SharedPtr<TextureResource>& inTexture,
 		fm::ivec4 inSrcRect,
 		bool inUseSrcRect,
 		SDL_RendererFlip inFlip
@@ -70,8 +69,7 @@ struct TextureRenderComponent : public ComponentBase
 		mTexture(inTexture),
 		mSrcRect(inSrcRect),
 		mUseSrcRect(inUseSrcRect),
-		mFlip(inFlip)
-	{}
+		mFlip(inFlip) {}
 
 	SharedPtr<TextureResource> mTexture;
 	fm::ivec4 mSrcRect = {};
@@ -90,15 +88,14 @@ struct AnimationComponent : public ComponentBase
 	AnimationComponent() = default;
 
 	AnimationComponent(
-		SharedPtr<AnimationBase> inAnimation,
-		AnimationBase::Frame inCurrentFrame,
+		const SharedPtr<AnimationBase>& inAnimation,
+		const AnimationBase::Frame& inCurrentFrame,
 		float inTimeSinceUpdate
 	)
 		:
 		mAnimation(inAnimation),
 		mCurrentFrame(inCurrentFrame),
-		mTimeSinceUpdate(inTimeSinceUpdate)
-	{}
+		mTimeSinceUpdate(inTimeSinceUpdate) {}
 
 	SharedPtr<AnimationBase> mAnimation = nullptr;
 
@@ -114,7 +111,7 @@ struct CollisionComponent : public ComponentBase
 
 	CollisionComponent();
 	CollisionComponent(const CollisionObjectHandle& inCollisionObjectHandle) : mCollisionObjectHandle(inCollisionObjectHandle) {}
-	~CollisionComponent();
+	virtual ~CollisionComponent() override;
 
 	CollisionObjectHandle mCollisionObjectHandle;
 };
@@ -170,7 +167,7 @@ struct CameraComponent : public ComponentBase
 	COMPONENT()
 
 	CameraComponent();
-	CameraComponent(SharedPtr<Camera> inCamera) : mCamera(inCamera) {}
+	CameraComponent(const SharedPtr<Camera>& inCamera) : mCamera(inCamera) {}
 
 	bool mIsActive = false; ///< If the camera is active, it will render based on priority
 	int32 mPriority = 0; ///< Higher priority cameras will render on top of lower priority cameras
