@@ -41,9 +41,4 @@ public:
 
 public:
 	const UID mUID = {};
-
-protected:
-	WeakPtr<Entity> mThisWeakPtr;
-
-	friend class World;
 };
