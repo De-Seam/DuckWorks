@@ -24,3 +24,48 @@ void Actor::Init(const Entity::InitParams& inInitParams)
 
 	AddComponent<TransformComponent>();
 }
+
+void Actor::SetTransform(const fm::Transform2D& transform) 
+{
+	GetTransformComponent()->mTransform = transform; 
+}
+
+void Actor::SetPosition(const fm::vec2& inPosition) 
+{
+	GetTransformComponent()->mTransform.position = inPosition; 
+}
+
+void Actor::SetHalfSize(const fm::vec2& inHalfSize) 
+{
+	GetTransformComponent()->mTransform.halfSize = inHalfSize; 
+}
+
+void Actor::SetRotation(float inRotation) 
+{
+	GetTransformComponent()->mTransform.rotation = inRotation; 
+}
+
+MutexReadProtectedPtr<TransformComponent> Actor::GetTransformComponent() 
+{ 
+	return GetComponent<TransformComponent>(); 
+}
+
+fm::Transform2D Actor::GetTransform() 
+{ 
+	return GetTransformComponent()->mTransform; 
+}
+
+fm::vec2 Actor::GetPosition() 
+{ 
+	return GetTransform().position; 
+}
+
+fm::vec2 Actor::GetHalfSize() 
+{ 
+	return GetTransform().halfSize; 
+}
+
+float Actor::GetRotation()
+{
+	return GetTransform().rotation;
+}
