@@ -14,6 +14,8 @@ Order of initialization:
 3. BeginPlay. This is called on BeginPlay of the world.
 */
 
+class EntityRefComponent;
+
 class Entity : public BaseEntity
 {
 	RTTI_CLASS(Entity, BaseEntity)
@@ -41,4 +43,6 @@ public:
 
 public:
 	const UID mUID = {};
+
+	Array<Handle<EntityRefComponent>> mComponents;
 };

@@ -132,11 +132,11 @@ void TransformComponent::Deserialize(const Json& inJson)
 }
 
 // Entity Component
-RTTI_CLASS_DEFINITION(EntityComponent)
+RTTI_CLASS_DEFINITION(EntityRefComponent)
 
-COMPONENT_DEFINITION(EntityComponent)
+COMPONENT_DEFINITION(EntityRefComponent)
 
-RTTI_EMPTY_SERIALIZE_DEFINITION(EntityComponent)
+RTTI_EMPTY_SERIALIZE_DEFINITION(EntityRefComponent)
 
 // HealthComponent
 RTTI_CLASS_DEFINITION(HealthComponent)

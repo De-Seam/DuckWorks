@@ -28,14 +28,14 @@ struct ComponentBase : public RTTIBaseClass
 	// It is not meant to be used directly
 };
 
-// EntityComponent is added to each entity to point towards the weak ptr entity
-struct EntityComponent : public ComponentBase
+// EntityRefComponent is added to each entity to point towards the weak ptr entity
+struct EntityRefComponent : public ComponentBase
 {
-	RTTI_CLASS(EntityComponent, ComponentBase)
+	RTTI_CLASS(EntityRefComponent, ComponentBase)
 	COMPONENT()
 
-	EntityComponent() = default;
-	EntityComponent(const WeakRef<Entity>& inEntity) : mEntity(inEntity) {}
+	EntityRefComponent() = default;
+	EntityRefComponent(const WeakRef<Entity>& inEntity) : mEntity(inEntity) {}
 
 	WeakRef<Entity> mEntity;
 };

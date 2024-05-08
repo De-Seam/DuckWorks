@@ -5,6 +5,7 @@
 #include "Core/Utilities/RTTI.h"
 
 // Engine includes
+#include "Engine/Entity/Components/EntityComponentManager.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 #include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"

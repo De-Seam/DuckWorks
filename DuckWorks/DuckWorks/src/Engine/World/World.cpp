@@ -236,7 +236,7 @@ Ref<Entity> World::AddEntity(const Ref<Entity>& inEntity, const String& inName, 
 	PROFILE_SCOPE(World::AddEntity)
 	inInitParams.mWorld = this;
 	inEntity->Init(inInitParams);
-	inEntity->AddComponent<EntityComponent>(inEntity);
+	inEntity->AddComponent<EntityRefComponent>(inEntity);
 	inEntity->AddComponent<NameComponent>(inName);
 	mEntities.push_back(inEntity);
 	if (mBegunPlay)
@@ -273,7 +273,7 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 		{
 			// The point is inside this entity's rotated bounding box
 			BaseEntity base_entity = {entity, this};
-			return base_entity.GetComponent<EntityComponent>()->mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
+			return base_entity.GetComponent<EntityRefComponent>()->mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
 		}
 	}
 	return NullOpt;

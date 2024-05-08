@@ -51,6 +51,9 @@ using Pair = std::pair<taTypeA, taTypeB>;
 template<typename taType>
 using Atomic = std::atomic<taType>;
 
+template<typename taType>
+using Function = std::function<taType>;
+
 class Entity;
 using EntityPtr = SharedPtr<Entity>;
 using EntityWeakPtr = WeakPtr<Entity>;

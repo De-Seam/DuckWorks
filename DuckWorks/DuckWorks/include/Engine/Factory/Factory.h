@@ -1,7 +1,12 @@
 #pragma once
+// Core includes
 #include "Core/CoreBase.h"
 
+// Engine includes
+#include "Engine/Entity/Components/EntityComponent.h"
+
 class Entity;
+class EntityComponent;
 class World;
 class DebugUIWindow;
 class ComponentBase;
@@ -29,6 +34,7 @@ private:
 };
 
 extern Factory<Entity> gEntityFactory;
+extern Factory<EntityComponent> gEntityComponentFactory;
 extern Factory<DebugUIWindow> gDebugUIWindowFactory;
 
 class ComponentFactory : public Factory<ComponentBase>
