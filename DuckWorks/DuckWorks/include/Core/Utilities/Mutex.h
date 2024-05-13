@@ -1,5 +1,4 @@
 #pragma once
-
 // Core includes
 #include "Core/Utilities/Types.h"
 #include "Core/Utilities/Utilities.h"
@@ -27,6 +26,20 @@ private:
 	std::shared_mutex mMutex;
 };
 
+class UniqueMutex
+{
+public:
+	~UniqueMutex();
+
+	void Lock(); ///< Locks the mutex
+	void Unlock(); ///< Unlocks the mutex
+
+	const std::mutex& GetRawMutex() const { return mMutex; }
+
+private:
+	std::mutex mMutex;
+};
+
 class BaseScopedMutexLock
 {
 protected:
@@ -45,6 +58,16 @@ class ScopedMutexWriteLock : public BaseScopedMutexLock
 public:
 	ScopedMutexWriteLock(Mutex& inMutex);
 	~ScopedMutexWriteLock();
+};
+
+class ScopedUniqueMutexLock
+{
+public:
+	ScopedUniqueMutexLock(UniqueMutex& inMutex);
+	~ScopedUniqueMutexLock();
+
+private:
+	UniqueMutex* mMutex = nullptr;
 };
 
 template<typename taType>

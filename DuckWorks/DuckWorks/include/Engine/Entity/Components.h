@@ -1,12 +1,12 @@
 #pragma once
 // Core includes
 #include "Core/Math/FMath.h"
+#include "Core/Utilities/UID.h"
 #include "Core/Utilities/Utilities.h"
 
 // Engine includes
-#include "Core/Utilities/UID.h"
-
 #include "Engine/Collision/CollisionStructs.h"
+#include "Engine/Entity/Components/EntityComponent.h"
 #include "Engine/Renderer/AnimationBase.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 
@@ -20,7 +20,7 @@ class Entity;
 #define COMPONENT() static Mutex sComponentMutex;
 #define COMPONENT_DEFINITION(inName) Mutex inName::sComponentMutex = {};
 
-struct ComponentBase : public RTTIBaseClass
+struct ComponentBase : public EntityComponent
 {
 	RTTI_CLASS(ComponentBase, RTTIBaseClass)
 	// This is a base class for all components

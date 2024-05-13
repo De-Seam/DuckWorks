@@ -32,7 +32,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	Ref<Entity> selected_entity = selected_entity_weak_ref.value().Get();
 	gAssert(selected_entity.IsValid(), "Somehow the selected entity was invalid!");
 
-	if(!ImGui::Begin("Entity Details", &mOpen))
+	if (!ImGui::Begin("Entity Details", &mOpen))
 	{
 		ImGui::End();
 		return;
@@ -43,7 +43,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	ImGui::SameLine();
 
 	if (ImGui::Button("Destroy##DeleteButton"))
-		selected_entity->TryAddComponent<DestroyedTag>(selected_entity->mUID);
+		selected_entity->Destroy();
 
 	Json json_entity = selected_entity->Serialize();
 	bool entity_changed = false;
@@ -64,10 +64,11 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(1.f, 1.f, 1.f, 1.f), "Components");
 
-	const Array<String>& all_component_names = gComponentFactory.GetClassNames();
+	const Array<String>& all_component_names = gEntityComponentFactory.GetClassNames();
 	for (const String& component_name : all_component_names)
 	{
-		bool has_component = json_components.contains(component_name);
+		UID component_type_uid = gEntityComponentFactory.GetRTTIUID(component_name);
+		bool has_component = selected_entity->HasComponent(component_type_uid);
 
 		if (!has_component)
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.4f, 0.4f, 1.f));
@@ -76,7 +77,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 		{
 			if (has_component)
 			{
-				ComponentBase* component = gComponentFactory.GetComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
+				ComponentBase* component = gEntityComponentFactory.GetComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
 
 				Json& json = json_components[component_name];
 

@@ -101,8 +101,11 @@ public:
 		return inRTTIUID == sGetRTTIUID();
 	}
 
+	const UID& GetUID() const { return mUID; }
+
 private:
 	static UID sRTTIBaseClassRTTIUID;
+	UID mUID = {};
 };
 
 // Dynamic casting

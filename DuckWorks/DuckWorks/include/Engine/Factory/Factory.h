@@ -20,10 +20,10 @@ public:
 	template<typename taType>
 	void RegisterClass(const String& inClassName);
 
-	[[nodiscard]] taFactoryType* CreateClassFromJsonAndDeserialize(const Json &inJson);
+	[[nodiscard]] taFactoryType* CreateClassFromJsonAndDeserialize(const Json& inJson);
 	[[nodiscard]] taFactoryType* CreateClass(const String& inClassName);
 
-	[[nodiscard]] UID GetRTTIUID(const String &inClassName) const;
+	[[nodiscard]] UID GetRTTIUID(const String& inClassName) const;
 
 	[[nodiscard]] const Array<String>& GetClassNames() const;
 
@@ -86,8 +86,6 @@ private:
 	HashMap<String, HasComponentFunction> mHasComponentFunctions;
 };
 
-extern ComponentFactory gComponentFactory;
-
 template<typename taFactoryType>
 template<typename taType>
 void Factory<taFactoryType>::RegisterClass(const String& inClassName)
@@ -104,7 +102,7 @@ void Factory<taFactoryType>::RegisterClass(const String& inClassName)
 }
 
 template<typename taFactoryType>
-inline taFactoryType *Factory<taFactoryType>::CreateClassFromJsonAndDeserialize(const Json &inJson)
+taFactoryType* Factory<taFactoryType>::CreateClassFromJsonAndDeserialize(const Json& inJson)
 {
 	taFactoryType* return_ptr = CreateClass(inJson["ClassName"]);
 	return_ptr->Deserialize(inJson);
@@ -119,7 +117,7 @@ taFactoryType* Factory<taFactoryType>::CreateClass(const String& inClassName)
 }
 
 template<typename taFactoryType>
-inline UID Factory<taFactoryType>::GetRTTIUID(const String &inClassName) const
+UID Factory<taFactoryType>::GetRTTIUID(const String& inClassName) const
 {
 	return mClassUIDs.at(inClassName);
 }

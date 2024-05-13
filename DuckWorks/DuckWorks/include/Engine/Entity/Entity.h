@@ -1,5 +1,13 @@
 #pragma once
-#include "BaseEntity.h"
+// Core includes
+#include "Core/CoreBase.h"
+#include "Core/Utilities/RefObject.h"
+#include "Core/Utilities/UID.h"
+#include "Core/Utilities/Utilities.h"
+
+// Engine includes
+#include "Engine/Entity/Components/EntityComponent.h"
+#include "Engine/Entity/Components/EntityComponentManager.h"
 
 /*
  * Entity rules:
@@ -14,35 +22,121 @@ Order of initialization:
 3. BeginPlay. This is called on BeginPlay of the world.
 */
 
-class EntityRefComponent;
+class World;
 
-class Entity : public BaseEntity
+class Entity : public RefObject
 {
-	RTTI_CLASS(Entity, BaseEntity)
+	RTTI_CLASS(Entity, RefObject)
 
 public:
-	Entity(World* inWorld)
-		: BaseEntity(inWorld) {}
-
 	Entity() = default;
 	virtual ~Entity() override;
 
 	struct InitParams
 	{
 		World* mWorld = nullptr;
+		String mName;
 	};
+
 	virtual void Init(const InitParams& inInitParams)
 	{
-		if (mEntityHandle == entt::null)
-			GenerateNewEntityHandle(inInitParams.mWorld);
+		mWorld = inInitParams.mWorld;
+		mName = inInitParams.mName;
 	}
 
 	virtual void BeginPlay() {}
 	virtual void EndPlay() {}
 	virtual void Update(float inDeltaTime) { (void)inDeltaTime; }
 
-public:
-	const UID mUID = {};
+	void Destroy();
 
-	Array<Handle<EntityRefComponent>> mComponents;
+	template<typename taType, typename... taArgs>
+	void AddComponent(taArgs&&... inArgs);
+	template<typename taType>
+	Array<MutexReadProtectedPtr<taType>> GetComponentsOfType(); ///< Warning: Slow!
+	template<typename taType>
+	bool HasComponent();
+	bool HasComponent(UID inComponentUID);
+	template<typename taType>
+	void RemoveComponent(Handle<EntityComponent> inHandle);
+
+	template<typename taType>
+	void LoopOverComponents(Function<void(taType& inComponent)> inFunction);
+
+	virtual void SetTransform(const fm::Transform2D& inTransform);
+	virtual void SetPosition(const fm::vec2& inPosition);
+	virtual void SetHalfSize(const fm::vec2& inHalfSize);
+	virtual void SetRotation(float inRotation);
+
+	[[nodiscard]] fm::Transform2D GetTransform();
+	[[nodiscard]] fm::vec2 GetPosition();
+	[[nodiscard]] fm::vec2 GetHalfSize();
+	[[nodiscard]] float GetRotation();
+
+	[[nodiscard]] World* GetWorld() { return mWorld; }
+	[[nodiscard]] const World* GetWorld() const { return mWorld; }
+	[[nodiscard]] String GetName() { return mName; }
+
+private:
+	fm::Transform2D mTransform = {};
+	Mutex mTransformMutex;
+
+	// HashMap of [Component UID] to Array of Entity Component Handles
+	HashMap<UID, Array<Handle<EntityComponent>>> mEntityComponents;
+	Mutex mEntityComponentsMutex;
+
+	String mName;
+	World* mWorld = nullptr;
 };
+
+template<typename taType, typename... taArgs>
+void Entity::AddComponent(taArgs&&... inArgs)
+{
+	ScopedMutexWriteLock lock(mEntityComponentsMutex);
+
+	mEntityComponents[taType::sGetRTTIUID()].emplace_back(gEntityComponentManager.AddComponent<taType>(std::forward<taArgs>(inArgs)...));
+}
+
+template<typename taType>
+Array<MutexReadProtectedPtr<taType>> Entity::GetComponentsOfType()
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	Array<MutexReadProtectedPtr<taType>> return_array;
+
+	Array<Handle<EntityComponent>>& components = mEntityComponents[taType::sGetRTTIUID()];
+	for (Handle<EntityComponent>& component : components)
+	{
+		return_array.emplace_back(gEntityComponentManager.GetComponent<taType>(component));
+	}
+
+	return return_array;
+}
+
+template<typename taType>
+bool Entity::HasComponent()
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+
+	auto iterator = mEntityComponents.find(taType::sGetRTTIUID());
+	return iterator.is_valid() && !iterator.value().empty();
+}
+
+template<typename taType>
+void Entity::RemoveComponent(Handle<EntityComponent> inHandle)
+{
+	ScopedMutexWriteLock lock(mEntityComponentsMutex);
+
+	gEntityComponentManager.RemoveComponent<taType>(inHandle);
+}
+
+template<typename taType>
+void Entity::LoopOverComponents(Function<void(taType& inComponent)> inFunction)
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	Array<Handle<EntityComponent>>& component_handles = mEntityComponents[taType::sGetRTTIUID()];
+	for (Handle<EntityComponent>& component_handle : component_handles)
+	{
+		MutexReadProtectedPtr<taType> component = gEntityComponentManager.GetComponent<taType>(component_handle);
+		inFunction(*component.Get());
+	}
+}

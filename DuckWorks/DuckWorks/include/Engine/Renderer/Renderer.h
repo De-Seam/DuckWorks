@@ -70,6 +70,27 @@ private:
 
 	fm::ivec2 mWindowSize;
 
+	struct RenderTextureData
+	{
+		SDL_Texture* mTexture = nullptr;
+		SDL_Rect mSourceRectangle;
+		SDL_FRect mDestinationRectangle;
+		float mRotation;
+		SDL_RendererFlip mFlip;
+	};
+
+	Array<RenderTextureData> mRenderTextureDatas;
+	UniqueMutex mRenderTextureDatasMutex;
+
+	struct RenderRectangleData
+	{
+		SDL_FRect mRectangle;
+		fm::vec4 mColor;
+	};
+
+	Array<RenderRectangleData> mRenderRectangleDatas;
+	UniqueMutex mRenderRectangleDatasMutex;
+
 private:
 	void UpdateCamera(float inDeltaTime);
 };

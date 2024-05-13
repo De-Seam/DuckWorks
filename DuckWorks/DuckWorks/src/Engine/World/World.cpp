@@ -10,6 +10,7 @@
 #include <External/SDL/SDL.h>
 
 // Game includes (ILLEGAL!)
+#include "Engine/Entity/Components.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/AnimationManager.h"
 #include "Engine/Threads/ThreadManager.h"
@@ -54,13 +55,13 @@ void World::Deserialize(const Json& inJson)
 		for (const Json& json_entity : inJson["Entities"])
 		{
 			String class_name = json_entity.begin().key();
-			Ref<Entity> entity = gEntityFactory.CreateClass(class_name);
-
 			const Json& components = json_entity[class_name]["Components"];
 
 			String name = "Empty";
 			if (components.contains("NameComponent"))
 				name = components["NameComponent"]["mName"];
+
+			Ref<Entity> entity = gEntityFactory.CreateClass(class_name);
 
 			AddEntity(entity, name);
 
@@ -127,19 +128,16 @@ void World::Render(float inDeltaTime)
 		gAnimationManager.Update(this, inDeltaTime);
 	}
 
-	ScopedMutexReadLock texture_render_lock{TextureRenderComponent::sComponentMutex};
-	ScopedMutexReadLock transform_lock{TransformComponent::sComponentMutex};
-
-	auto view = mRegistry.view<TextureRenderComponent, TransformComponent>();
-	view.each([](const TextureRenderComponent& inRenderComponent, const TransformComponent& inTransformComponent)
+	gEntityComponentManager.LoopOverComponents<TextureRenderComponent>([](const TextureRenderComponent& inTextureRenderComponent)
 	{
+		fm::Transform2D transform = inTextureRenderComponent.GetEntity()->GetTransform();
 		Renderer::DrawTextureParams params;
-		params.mTexture = inRenderComponent.mTexture->mTexture;
-		params.mPosition = inTransformComponent.mTransform.position;
-		params.mHalfSize = inTransformComponent.mTransform.halfSize;
-		params.mRotation = inTransformComponent.mTransform.rotation;
-		params.mFlip = inRenderComponent.mFlip;
-		params.mSrcRect = inRenderComponent.mUseSrcRect ? &inRenderComponent.mSrcRect : nullptr;
+		params.mTexture = inTextureRenderComponent.mTexture->mTexture;
+		params.mPosition = transform.position;
+		params.mHalfSize = transform.halfSize;
+		params.mRotation = transform.rotation;
+		params.mFlip = inTextureRenderComponent.mFlip;
+		params.mSrcRect = inTextureRenderComponent.mUseSrcRect ? &inTextureRenderComponent.mSrcRect : nullptr;
 
 		gRenderer.DrawTexture(params);
 	});
@@ -177,6 +175,71 @@ public:
 	float mDeltaTime;
 };
 
+void World::AddEntity(const Ref<Entity>& inEntity, const String& inName)
+{
+	PROFILE_SCOPE(World::AddEntity)
+	Entity::InitParams params;
+	params.mWorld = this;
+	params.mName = inName;
+	inEntity->Init(params);
+
+	if (mBegunPlay)
+	{
+		ScopedUniqueMutexLock lock(mEntitiesToAddMutex);
+		mEntitiesToAdd.push_back(inEntity);
+		return;
+	}
+
+	mEntities.push_back(inEntity);
+	if (mBegunPlay)
+		inEntity->BeginPlay();
+}
+
+void World::DestroyEntity(const Ref<Entity>& inEntity)
+{
+	PROFILE_SCOPE(World::DestroyEntity)
+	if (mBegunPlay)
+	{
+		ScopedUniqueMutexLock lock(mEntitiesToRemoveMutex);
+		mEntitiesToRemove.push_back(inEntity);
+		return;
+	}
+
+	inEntity->EndPlay();
+	ScopedMutexWriteLock lock2(mEntitiesMutex);
+	std::erase(mEntities, inEntity);
+}
+
+Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
+{
+	ScopedMutexReadLock lock(mEntitiesMutex);
+	for (const Ref<Entity> entity : mEntities)
+	{
+		fm::Transform2D transform = entity->GetTransform();
+		fm::vec2& position = transform.position;
+		fm::vec2& half_size = transform.halfSize;
+		float& rotation = transform.rotation;
+
+		// Convert the rotation to a normalized direction vector
+		fm::vec2 rotation_dir(cos(rotation), sin(rotation));
+
+		// Translate the world location to the rectangle's local space
+		fm::vec2 local_point = inWorldLocation - position;
+
+		// Rotate the point in the opposite direction of the rectangle's rotation
+		// to align it with the rectangle's local axes
+		fm::vec2 rotatedPoint(local_point.x * rotation_dir.x + local_point.y * rotation_dir.y,
+							-local_point.x * rotation_dir.y + local_point.y * rotation_dir.x);
+
+		// Check if the rotated point lies within the rectangle's bounds
+		if (std::abs(rotatedPoint.x) <= half_size.x && std::abs(rotatedPoint.y) <= half_size.y)
+		{
+			return entity;
+		}
+	}
+	return NullOpt;
+}
+
 void World::UpdateEntities(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::UpdateEntities)
@@ -201,80 +264,35 @@ void World::UpdateEntities(float inDeltaTime)
 		task->WaitUntilCompleted();
 }
 
+void World::AddEntities()
+{
+	PROFILE_SCOPE(World::AddEntities)
+
+	if (mEntitiesToAdd.empty())
+		return;
+
+	ScopedUniqueMutexLock lock(mEntitiesToAddMutex);
+	ScopedMutexWriteLock lock2(mEntitiesMutex);
+	for (Ref<Entity>& entity : mEntitiesToAdd)
+	{
+		mEntities.push_back(entity);
+		entity->BeginPlay();
+	}
+	mEntitiesToAdd.clear();
+}
+
 void World::DestroyEntities()
 {
 	PROFILE_SCOPE(World::DestroyEntities)
 
-	ScopedMutexReadLock destroyed_tag_lock(DestroyedTag::sComponentMutex);
-	auto view = mRegistry.view<DestroyedTag>();
-	for (entt::entity entity_handle : view)
+	if (mEntitiesToRemove.empty())
+		return;
+
+	ScopedUniqueMutexLock lock(mEntitiesToRemoveMutex);
+	ScopedMutexWriteLock lock2(mEntitiesMutex);
+	for (Ref<Entity>& entity : mEntitiesToRemove)
 	{
-		DestroyedTag& destroyed_tag = view.get<DestroyedTag>(entity_handle);
-
-		ScopedMutexWriteLock entities_write_lock(mEntitiesMutex);
-		for (auto rit = mEntities.rbegin(); rit != mEntities.rend(); ++rit)
-		{
-			Ref<Entity>& entity = *rit;
-			if (entity->mUID == destroyed_tag.mUID)
-			{
-				gAssert(entity->GetEntityHandle() == entity_handle, "This could indicate multiple entities with the same UID somehow");
-
-				entity->EndPlay();
-				// Removing raw here so we don't double lock the mutex.
-				mRegistry.remove<DestroyedTag>(entity->GetEntityHandle());
-
-				std::iter_swap(rit, mEntities.rbegin());
-				mEntities.pop_back();
-				break;
-			}
-		}
+		entity->EndPlay();
+		std::erase(mEntities, entity);
 	}
-}
-
-Ref<Entity> World::AddEntity(const Ref<Entity>& inEntity, const String& inName, Entity::InitParams inInitParams)
-{
-	PROFILE_SCOPE(World::AddEntity)
-	inInitParams.mWorld = this;
-	inEntity->Init(inInitParams);
-	inEntity->AddComponent<EntityRefComponent>(inEntity);
-	inEntity->AddComponent<NameComponent>(inName);
-	mEntities.push_back(inEntity);
-	if (mBegunPlay)
-		inEntity->BeginPlay();
-	return mEntities.back();
-}
-
-Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
-{
-	ScopedMutexReadLock transform_lock{TransformComponent::sComponentMutex};
-	auto view = mRegistry.view<TransformComponent>();
-	for (auto entity : view)
-	{
-		fm::Transform2D& transform = view.get<TransformComponent>(entity).mTransform;
-		fm::vec2& position = transform.position;
-		fm::vec2& half_size = transform.halfSize;
-		float& rotation = transform.rotation;
-
-		// Convert the rotation to a normalized direction vector
-		fm::vec2 rotation_dir(cos(rotation), sin(rotation));
-
-		// Translate the world location to the rectangle's local space
-		fm::vec2 local_point = inWorldLocation - position;
-
-		// Rotate the point in the opposite direction of the rectangle's rotation
-		// to align it with the rectangle's local axes
-		fm::vec2 rotatedPoint(
-			local_point.x * rotation_dir.x + local_point.y * rotation_dir.y,
-			-local_point.x * rotation_dir.y + local_point.y * rotation_dir.x
-		);
-
-		// Check if the rotated point lies within the rectangle's bounds
-		if (std::abs(rotatedPoint.x) <= half_size.x && std::abs(rotatedPoint.y) <= half_size.y)
-		{
-			// The point is inside this entity's rotated bounding box
-			BaseEntity base_entity = {entity, this};
-			return base_entity.GetComponent<EntityRefComponent>()->mEntity.Get(); // Assuming EntityPtr can be constructed from entity directly
-		}
-	}
-	return NullOpt;
 }

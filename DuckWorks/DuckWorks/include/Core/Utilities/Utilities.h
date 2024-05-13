@@ -24,15 +24,18 @@ using Json = nlohmann::json;
 template<typename taType>
 using UniquePtr = std::unique_ptr<taType>;
 
-_EXPORT_STD inline constexpr std::nullopt_t NullOpt{std::nullopt_t::_Tag{}};
-
 template<typename taType>
 using SharedPtr = std::shared_ptr<taType>;
 
 template<typename taType>
 using WeakPtr = std::weak_ptr<taType>;
 
+#define gMakeUnique std::make_unique
+#define gMakeShared std::make_shared
+
 // Containers
+_EXPORT_STD inline constexpr std::nullopt_t NullOpt{std::nullopt_t::_Tag{}};
+
 template<typename taType>
 using Optional = std::optional<taType>;
 

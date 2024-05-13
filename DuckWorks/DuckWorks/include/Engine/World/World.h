@@ -27,12 +27,10 @@ public:
 	void BeginPlay();
 	void EndPlay();
 
-	void UpdateEntities(float inDeltaTime);
-	void DestroyEntities();
-
 	template<typename taType>
 	Ref<taType> CreateEntity(const String& inName);
-	Ref<Entity> AddEntity(const Ref<Entity>& inEntity, const String& inName, Entity::InitParams inInitParams = {});
+	void AddEntity(const Ref<Entity>& inEntity, const String& inName);
+	void DestroyEntity(const Ref<Entity>& inEntity);
 
 	[[nodiscard]] Array<Ref<Entity>>& GetEntities() { return mEntities; }
 	[[nodiscard]] const Array<Ref<Entity>>& GetEntities() const { return mEntities; }
@@ -44,6 +42,11 @@ public:
 	bool HasBegunPlay() const { return mBegunPlay; }
 
 private:
+	void UpdateEntities(float inDeltaTime);
+	void AddEntities();
+	void DestroyEntities();
+
+private:
 	entt::registry mRegistry = {};
 	Mutex mRegistryMutex = {}; ///< Used for creating new entities in the registry
 
@@ -51,6 +54,12 @@ private:
 
 	Array<Ref<Entity>> mEntities = {};
 	Mutex mEntitiesMutex = {}; ///< Used to protect the mEntities array
+
+	Array<Ref<Entity>> mEntitiesToAdd = {};
+	UniqueMutex mEntitiesToAddMutex = {};
+
+	Array<Ref<Entity>> mEntitiesToRemove = {};
+	UniqueMutex mEntitiesToRemoveMutex = {};
 
 	int32 mVelocityIterations = 6;
 	int32 mPositionIterations = 2;
@@ -68,8 +77,7 @@ template<typename taType>
 Ref<taType> World::CreateEntity(const String& inName)
 {
 	static_assert(std::is_base_of_v<Entity, taType>);
-
-	Ref<taType> entity = {this};
+	Ref<taType> entity = {};
 	AddEntity(entity, inName);
 	return entity;
 }

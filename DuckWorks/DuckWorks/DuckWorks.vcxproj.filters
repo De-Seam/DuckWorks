@@ -438,9 +438,6 @@
     <ClInclude Include="include\Engine\Renderer\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Engine\Entity\BaseEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Engine\Entity\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -650,9 +647,6 @@
     <ClCompile Include="src\Engine\World\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Entity\BaseEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Core\Utilities\Mutex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -813,6 +807,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Entity\Components\EntityComponentManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Entity\Components\EntityComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "Game/App/App.h"
 
 // External includes
+#include "Engine/Entity/Components.h"
 #include "Engine/World/World.h"
 
 #include "External/imgui/imgui.h"
@@ -105,24 +106,62 @@ void Renderer::Update(float inDeltaTime)
 	PROFILE_SCOPE(Renderer::Update)
 
 	UpdateCamera(inDeltaTime);
+
+	// We're using these local Arrays to allow us to call DrawTexture one separate threads
+	static Array<RenderTextureData> sCurrentRenderTextureDatas;
+	static Array<RenderRectangleData> sCurrentRenderRectangleDatas;
+
+	{
+		ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
+		fm::swap(mRenderTextureDatas, sCurrentRenderTextureDatas);
+	}
+	{
+		ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
+		fm::swap(mRenderRectangleDatas, sCurrentRenderRectangleDatas);
+	}
+
+	for (const RenderTextureData& data : sCurrentRenderTextureDatas)
+		SDL_RenderCopyExF(mRenderer, data.mTexture, &data.mSourceRectangle, &data.mDestinationRectangle, data.mRotation, nullptr, data.mFlip);
+
+	for (const RenderRectangleData& data : sCurrentRenderRectangleDatas)
+	{
+		uint32 rgba = data.mColor.get_rgba();
+		uint8 r = (rgba >> 24) & 0xFF;
+		uint8 g = (rgba >> 16) & 0xFF;
+		uint8 b = (rgba >> 8) & 0xFF;
+		uint8 a = (rgba >> 0) & 0xFF;
+		SDL_SetRenderDrawColor(mRenderer, r, g, b, a);
+		SDL_RenderDrawRectF(mRenderer, &data.mRectangle);
+	}
+
+	sCurrentRenderTextureDatas.clear();
+	sCurrentRenderRectangleDatas.clear();
 }
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)
 {
 	const SDL_FRect dst_rect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
 	const SDL_Rect* src_rect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
-	SDL_RenderCopyExF(mRenderer, inParams.mTexture, src_rect, &dst_rect, inParams.mRotation, nullptr, inParams.mFlip);
+
+	RenderTextureData data;
+	data.mTexture = inParams.mTexture;
+	data.mSourceRectangle = *src_rect;
+	data.mDestinationRectangle = dst_rect;
+	data.mRotation = inParams.mRotation;
+	data.mFlip = inParams.mFlip;
+
+	ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
+	mRenderTextureDatas.emplace_back(data);
 }
 
 void Renderer::DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor)
 {
-	uint32 rgba = inColor.get_rgba();
-	uint8 r = (rgba >> 24) & 0xFF;
-	uint8 g = (rgba >> 16) & 0xFF;
-	uint8 b = (rgba >> 8) & 0xFF;
-	uint8 a = (rgba >> 0) & 0xFF;
-	SDL_SetRenderDrawColor(mRenderer, r, g, b, a);
-	SDL_RenderDrawRectF(mRenderer, &inRect);
+	RenderRectangleData data;
+	data.mRectangle = inRect;
+	data.mColor = inColor;
+
+	ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
+	mRenderRectangleDatas.emplace_back(data);
 }
 
 void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor)
@@ -185,8 +224,8 @@ SDL_FRect Renderer::GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHa
 	fm::vec2 screen_half_size = inHalfSize * camera_zoom;
 
 	SDL_FRect sdl_frect;
-	sdl_frect.x = screen_center.x - screen_half_size.x + static_cast<float>(mCamera->GetSize().x) * 0.5f;
-	sdl_frect.y = screen_center.y - screen_half_size.y + static_cast<float>(mCamera->GetSize().y) * 0.5f;
+	sdl_frect.x = screen_center.x - screen_half_size.x + SCast<float>(mCamera->GetSize().x) * 0.5f;
+	sdl_frect.y = screen_center.y - screen_half_size.y + SCast<float>(mCamera->GetSize().y) * 0.5f;
 	sdl_frect.w = screen_half_size.x * 2;
 	sdl_frect.h = screen_half_size.y * 2;
 
@@ -197,36 +236,27 @@ void Renderer::UpdateCamera(float inDeltaTime)
 {
 	int32 highest_priority = INT32_MIN;
 	SharedPtr<Camera> highest_priority_camera = {};
-	entt::entity highest_priority_entity = entt::null;
+	CameraComponent* highest_component_camera = nullptr;
 
-	World* world = gApp.GetWorld();
-	entt::registry& registry = world->GetRegistry();
-	ScopedMutexReadLock lock(CameraComponent::sComponentMutex);
-	auto view = registry.view<CameraComponent>();
-	for (entt::entity entity : view)
+	gEntityComponentManager.LoopOverComponents<CameraComponent>([&](CameraComponent& inCameraComponent)
 	{
-		const CameraComponent& camera_component = view.get<CameraComponent>(entity);
-		if (camera_component.mIsActive)
+		if (inCameraComponent.mIsActive)
 		{
-			if (camera_component.mPriority > highest_priority)
+			if (inCameraComponent.mPriority > highest_priority)
 			{
-				highest_priority = camera_component.mPriority;
-				highest_priority_camera = camera_component.mCamera;
-				highest_priority_entity = entity;
+				highest_priority = inCameraComponent.mPriority;
+				highest_priority_camera = inCameraComponent.mCamera;
+				highest_component_camera = &inCameraComponent;
 			}
 		}
-	}
+	});
 
 	if (highest_priority_camera != nullptr)
 	{
 		mCamera = highest_priority_camera;
 
-		BaseEntity base_entity = BaseEntity(highest_priority_entity, world);
-		if (base_entity.HasComponent<TransformComponent>())
-		{
-			MutexReadProtectedPtr<TransformComponent> transform_component = base_entity.GetComponent<TransformComponent>();
-			mCamera->SetPosition(transform_component->mTransform.position);
-		}
+		Entity* entity = highest_component_camera->GetEntity();
+		mCamera->SetPosition(entity->GetPosition());
 	}
 
 	mCamera->Update(inDeltaTime);
