@@ -121,7 +121,6 @@ taCastType* gCast(RTTIBaseClass* inObject)
 	gEntityFactory.RegisterClass<inEntity>(#inEntity)
 
 #define REGISTER_COMPONENT(inComponent) \
-	gComponentFactory.RegisterClass<inComponent>(#inComponent); \
 	gEntityComponentFactory.RegisterClass<inComponent>(#inComponent); \
 	gEntityComponentManager.RegisterComponentType<inComponent>()
 

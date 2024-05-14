@@ -14,7 +14,8 @@ void SolidObstacle::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
 
-	AddComponent<TextureRenderComponent>();
-	MutexReadProtectedPtr<TextureRenderComponent> texture_render_component = GetComponent<TextureRenderComponent>();
-	texture_render_component->mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
+	TextureRenderComponent texture_render_component;
+	String texture_path = "Assets/DefaultTexture.png";
+	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
+	AddComponent<TextureRenderComponent>(texture_render_component);
 }

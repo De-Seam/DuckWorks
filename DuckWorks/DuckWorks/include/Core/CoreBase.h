@@ -14,6 +14,8 @@ struct Handle
 		: mIndex(inIndex)
 		, mUID(inUID)
 	{}
+	Handle(uint64 inIndex)
+		: mIndex(inIndex) {}
 
 	uint64 mIndex = UINT64_MAX;
 	UID mUID = {};

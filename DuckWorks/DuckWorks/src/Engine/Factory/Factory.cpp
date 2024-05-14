@@ -2,5 +2,5 @@
 #include "Engine/Factory/Factory.h"
 
 Factory<Entity> gEntityFactory = {};
-Factory<EntityComponent> gEntityComponentFactory = {};
+EntityComponentFactory gEntityComponentFactory = {};
 Factory<DebugUIWindow> gDebugUIWindowFactory = {};

@@ -131,8 +131,8 @@ bool Entity::HasComponent()
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 
-	auto iterator = mEntityComponents.find(taType::sGetRTTIUID());
-	return iterator.is_valid() && !iterator.value().empty();
+	HashMap<UID, Array<Handle<EntityComponent>>>::iterator iterator = mEntityComponents.find(taType::sGetRTTIUID());
+	return iterator != mEntityComponents.end() && !iterator->second.empty();
 }
 
 template<typename taType>

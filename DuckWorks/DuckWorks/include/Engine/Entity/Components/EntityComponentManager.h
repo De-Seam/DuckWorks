@@ -27,11 +27,17 @@ public:
 	void LoopOverComponents(Function<void(taType& inComponent)> inFunction);
 
 private:
-	template<typename taType, typename... taArgs>
+	template<typename taType>
 	struct EntityComponentData
 	{
-		EntityComponentData(taArgs&&... inArgs) :
-			mComponent(std::forward<taArgs>(inArgs)...) {}
+		EntityComponentData(taType&& inComponent) :
+			mComponent(inComponent) {}
+
+		template<typename... taArgs>
+		void ReplaceComponent(taArgs&&... inArgs)
+		{
+			mComponent = taType(std::forward<taArgs>(inArgs)...);
+		}
 
 		bool mAlive = true;
 		taType mComponent;
@@ -67,17 +73,18 @@ Handle<EntityComponent> EntityComponentManager::AddComponent(taArgs&&... inArgs)
 {
 	EntityComponentLine& entity_component_line = mEntityComponentLinesMap[taType::sGetRTTIUID()];
 	ScopedMutexWriteLock lock(*entity_component_line.mMutex);
-	Array<EntityComponentData<taType>>* component_datas = RCast<Array<EntityComponentData<taType>>*>(entity_component_line.mComponents);
+	Array<EntityComponentData<taType>>& component_datas = *RCast<Array<EntityComponentData<taType>>*>(entity_component_line.mComponents);
 
 	if (!entity_component_line.mFreeIndices.empty())
 	{
 		uint64 free_index = entity_component_line.mFreeIndices.back();
 		entity_component_line.mFreeIndices.pop_back();
-		(*component_datas)[free_index] = EntityComponentData<taType>(std::forward<taArgs>(inArgs)...);
+		component_datas[free_index].mAlive = true;
+		component_datas[free_index].ReplaceComponent(std::forward<taArgs>(inArgs)...);
 		return Handle<EntityComponent>(free_index, {});
 	}
-	component_datas->emplace_back(EntityComponentData<taType>(std::forward<taArgs>(inArgs)...));
-	return Handle<EntityComponent>(component_datas->size() - 1);
+	component_datas.emplace_back(taType(std::forward<taArgs>(inArgs)...));
+	return Handle<EntityComponent>(component_datas.size() - 1);
 }
 
 template<typename taType>
@@ -103,7 +110,7 @@ void EntityComponentManager::LoopOverComponents(Function<void(taType& inComponen
 {
 	EntityComponentLine& entity_component_line = mEntityComponentLinesMap[taType::sGetRTTIUID()];
 	ScopedMutexReadLock lock(*entity_component_line.mMutex);
-	Array<EntityComponentData<taType>>& component_datas = *RCast<Array<EntityComponentData<taType>*>>(entity_component_line.mComponents);
+	Array<EntityComponentData<taType>>& component_datas = *RCast<Array<EntityComponentData<taType>>*>(entity_component_line.mComponents);
 	for (EntityComponentData<taType>& component_data : component_datas)
 	{
 		if (component_data.mAlive)
