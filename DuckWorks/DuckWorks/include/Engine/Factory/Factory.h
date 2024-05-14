@@ -34,57 +34,34 @@ private:
 };
 
 extern Factory<Entity> gEntityFactory;
-extern Factory<EntityComponent> gEntityComponentFactory;
 extern Factory<DebugUIWindow> gDebugUIWindowFactory;
 
-class ComponentFactory : public Factory<ComponentBase>
+class EntityComponentFactory : public Factory<EntityComponent>
 {
 public:
-	using ComponentCreationFunction = std::function<ComponentBase*(entt::registry&, entt::entity)>;
-	using ComponentGetFunction = std::function<ComponentBase*(entt::registry&, entt::entity)>;
-	using HasComponentFunction = std::function<bool(entt::registry&, entt::entity)>;
+	using ComponentAddFunction = std::function<void(Ref<Entity>&)>;
 
 	template<typename taType>
 	void RegisterClass(const String& inClassName)
 	{
 		Factory<ComponentBase>::RegisterClass<taType>(inClassName);
 
-		mComponentCreationFunctions[inClassName] = [](entt::registry& inRegistry, entt::entity inEntity)
+		mComponentAddFunctions[inClassName] = [](Ref<Entity>& inEntity)
 		{
-			return &inRegistry.emplace<taType>(inEntity);
-		};
-
-		mComponentGetFunctions[inClassName] = [](entt::registry& inRegistry, entt::entity inEntity)
-		{
-			return &inRegistry.get<taType>(inEntity);
-		};
-
-		mHasComponentFunctions[inClassName] = [](entt::registry& inRegistry, entt::entity inEntity)
-		{
-			return inRegistry.any_of<taType>(inEntity);
+			inEntity->AddComponent<taType>();
 		};
 	}
 
-	ComponentBase* CreateComponent(const String& inClassName, entt::registry& inRegistry, entt::entity inEntity)
+	void AddComponent(Ref<Entity>& inEntity, const String& inClassName)
 	{
-		return mComponentCreationFunctions[inClassName](inRegistry, inEntity);
-	}
-
-	ComponentBase* GetComponent(const String& inClassName, entt::registry& inRegistry, entt::entity inEntity)
-	{
-		return mComponentGetFunctions[inClassName](inRegistry, inEntity);
-	}
-
-	bool HasComponent(const String& inClassName, entt::registry& inRegistry, entt::entity inEntity)
-	{
-		return mHasComponentFunctions[inClassName](inRegistry, inEntity);
+		mComponentAddFunctions[inClassName](inEntity);
 	}
 
 private:
-	HashMap<String, ComponentCreationFunction> mComponentCreationFunctions;
-	HashMap<String, ComponentGetFunction> mComponentGetFunctions;
-	HashMap<String, HasComponentFunction> mHasComponentFunctions;
+	HashMap<String, ComponentAddFunction> mComponentAddFunctions;
 };
+
+extern EntityComponentFactory gEntityComponentFactory;
 
 template<typename taFactoryType>
 template<typename taType>

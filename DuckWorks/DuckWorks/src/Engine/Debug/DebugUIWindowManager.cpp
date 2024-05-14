@@ -24,6 +24,7 @@
 
 // Std includes
 #include <fstream>
+#include <Engine/Entity/CollisionActor.h>
 
 RTTI_CLASS_DEFINITION(DebugUIWindowManager)
 
@@ -116,11 +117,8 @@ void DebugUIWindowManager::Init()
 		{
 			if (inEventData.mKeyDown.mKeyCode == KeyCode::Delete)
 			{
-				if (mSelectedEntity.has_value())
-				{
-					Ref<Entity> entity = mSelectedEntity.value().Get();
-					entity->TryAddComponent<DestroyedTag>(entity->mUID);
-				}
+				if (mSelectedEntity.has_value() && mSelectedEntity.value().IsAlive())
+					mSelectedEntity.value().Get()->Destroy();
 			}
 		};
 		gEventManager.AddPersistentEventFunction(event_function);
@@ -140,7 +138,7 @@ void DebugUIWindowManager::Init()
 				SetSelectedEntity(entity);
 
 				if (entity.has_value())
-					mSelectedEntityRelativeLocation = entity.value()->GetComponent<TransformComponent>()->mTransform.position - world_location;
+					mSelectedEntityRelativeLocation = entity.value()->GetPosition() - world_location;
 			}
 		};
 		gEventManager.AddPersistentEventFunction(event_function);
@@ -391,22 +389,14 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 
 	fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
 
-	if (selected_entity->HasComponent<CollisionComponent>())
+	if (CollisionActor* collision_actor = selected_entity.Cast<CollisionActor>(); collision_actor != nullptr)
 	{
-		MutexReadProtectedPtr<CollisionComponent> collision_component = selected_entity->GetComponent<CollisionComponent>();
-		const CollisionObjectHandle& collision_object_handle = collision_component->mCollisionObjectHandle;
-		fm::Transform2D collision_transform = selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle)->GetTransform();
+		fm::vec2 new_position = new_world_location + mSelectedEntityRelativeLocation;
 
-		MutexReadProtectedPtr<TransformComponent> transform_component = selected_entity->GetComponent<TransformComponent>();
-
-		fm::vec2 delta_position = collision_transform.position - transform_component->mTransform.position;
-		transform_component->mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
-
-		transform_component->mTransform.position = selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle,
-																											transform_component->mTransform.position + delta_position).position;
+		collision_actor->MoveTo(new_position);
 	}
 	else
-		selected_entity->GetComponent<TransformComponent>()->mTransform.position = new_world_location + mSelectedEntityRelativeLocation;
+		selected_entity->SetPosition(new_world_location + mSelectedEntityRelativeLocation);
 }
 
 WeakRef<DebugUIWindow> DebugUIWindowManager::AddWindow(Ref<DebugUIWindow> inWindow)

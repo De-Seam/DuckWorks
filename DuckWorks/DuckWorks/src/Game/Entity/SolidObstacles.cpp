@@ -2,6 +2,7 @@
 #include "Game/Entity/SolidObstacle.h"
 
 // Engine includes
+#include "Engine/Entity/Components.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 

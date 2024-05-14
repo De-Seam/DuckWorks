@@ -5,13 +5,15 @@
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Entity/Entity.h"
+#include "Engine/Entity/Components.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/World/World.h"
 
 // External includes
 #include <External/imgui/imgui.h>
+#include <Engine/Entity/CollisionActor.h>
 
-#include "Engine/World/World.h"
 
 RTTI_CLASS_DEFINITION(DebugUIWindowEntityDetails)
 
@@ -77,33 +79,27 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 		{
 			if (has_component)
 			{
-				ComponentBase* component = gEntityComponentFactory.GetComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
+				UID component_rtti_uid = gEntityComponentFactory.GetRTTIUID(component_name);
+				Array<MutexReadProtectedPtr<EntityComponent>> components = selected_entity->GetComponentsOfType(component_rtti_uid);
 
-				Json& json = json_components[component_name];
-
-				bool changed = gDebugDrawJson(json, component_name);
-				if (changed)
+				for (MutexReadProtectedPtr<EntityComponent>& component : components)
 				{
-					if (component->GetClassName() == TransformComponent::sGetClassName())
+					Json& json = json_components[component_name];
+
+					bool changed = gDebugDrawJson(json, component_name);
+					if (changed)
 					{
-						if (selected_entity->HasComponent<CollisionComponent>())
+						if (TransformComponent* transform_component = gCast<TransformComponent>(component.Get()); transform_component != nullptr)
 						{
-							MutexReadProtectedPtr<CollisionComponent> collision_component = selected_entity->GetComponent<CollisionComponent>();
-							const CollisionObjectHandle& collision_object_handle = collision_component->mCollisionObjectHandle;
-							CollisionObjectWrapper collision_object =
-								selected_entity->GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_object_handle);
-							const fm::Transform2D collision_transform = collision_object->GetTransform();
-							collision_object.Unlock();
-							fm::vec2 delta_position = collision_transform.position - selected_entity->GetComponent<TransformComponent>()->mTransform.position;
-
-							component->Deserialize(json);
-
-							const fm::Transform2D& entity_transform = selected_entity->GetComponent<TransformComponent>()->mTransform;
-							selected_entity->GetWorld()->GetCollisionWorld()->MoveTo(collision_object_handle, entity_transform.position + delta_position);
+							if (CollisionActor* collision_actor = selected_entity.Cast<CollisionActor>(); collision_actor != nullptr)
+							{
+								component->Deserialize(json);
+								collision_actor->MoveTo(transform_component->mTransform.position);
+							}
 						}
+						else
+							component->Deserialize(json);
 					}
-					else
-						component->Deserialize(json);
 				}
 			}
 			else
@@ -111,9 +107,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 				ImGui::PopStyleColor(1);
 				String label = String("+##" + component_name + "AddButton");
 				if (ImGui::SmallButton(label.c_str()))
-				{
-					gComponentFactory.CreateComponent(component_name, selected_entity->GetRegistry(), selected_entity->GetEntityHandle());
-				}
+					gEntityComponentFactory.AddComponent(selected_entity, component_name);
 			}
 			ImGui::TreePop();
 		}
@@ -124,10 +118,8 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	if (gDebugUIWindowManager.mDrawEntityOutline && selected_entity->HasComponent<TransformComponent>())
 	{
 		SDL_FRect rect;
-		{
-			MutexReadProtectedPtr<TransformComponent> transform_component = selected_entity->GetComponent<TransformComponent>();
-			rect = gRenderer.GetSDLFRect(transform_component->mTransform.position, transform_component->mTransform.halfSize);
-		}
+		fm::Transform2D transform = selected_entity->GetTransform();
+		rect = gRenderer.GetSDLFRect(transform.position, transform.halfSize);
 		gRenderer.DrawRectangle(rect, {0.5f, 1.f, 0.5f, 0.75f});
 	}
 

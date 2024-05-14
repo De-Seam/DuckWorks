@@ -1,15 +1,17 @@
 #include "Precomp.h"
 #include "Game/Entity/Player/Player.h"
 
+// Core includes
+#include "Core/Utilities/RefObject.h"
+
 // Engine includes
 #include "Engine/Events/EventManager.h"
+#include "Engine/Entity/Components.h"
 #include "Engine/Renderer/AnimationManager.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
 // Game includes
-#include "Core/Utilities/RefObject.h"
-
 #include "Game/App/App.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 
@@ -41,10 +43,10 @@ void Player::Init(const InitParams& inInitParams)
 
 	AddComponent<HealthComponent>();
 	AddComponent<CameraComponent>();
+	LoopOverComponents<CameraComponent>([this](CameraComponent& inCameraComponent)
 	{
-		MutexReadProtectedPtr<CameraComponent> camera_component = GetComponent<CameraComponent>();
-		camera_component->mIsActive = true;
-	}
+		inCameraComponent.mIsActive = false;
+	});
 
 	SetHalfSize(fm::vec2(64.f, 64.f));
 
@@ -76,14 +78,16 @@ void Player::Init(const InitParams& inInitParams)
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 
-	MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
-	CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component->mCollisionObjectHandle);
+	LoopOverComponents<CollisionComponent>([this](CollisionComponent& inCollisionComponent)
+		{
+			CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
 
-	collision_object->SetType(CollisionObject::EType::Dynamic);
-	collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
-	{
-		OnCollision(inParams);
-	});
+			collision_object->SetType(CollisionObject::EType::Dynamic);
+			collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
+				{
+					OnCollision(inParams);
+				});
+		});
 }
 
 void Player::BeginPlay()
@@ -153,7 +157,7 @@ enum class EPlayerAnimationState : uint16
 void Player::SetupAnimations()
 {
 	AddComponent<AnimationComponent>();
-	MutexReadProtectedPtr<AnimationComponent> animation_component = GetComponent<AnimationComponent>();
+	MutexReadProtectedPtr<AnimationComponent> animation_component = GetFirstComponentOfType<AnimationComponent>();
 	animation_component->mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
 }
 

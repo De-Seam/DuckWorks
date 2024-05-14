@@ -2,6 +2,7 @@
 #include "Game/Entity/Projectiles/Projectile.h"
 
 // Engine includes
+#include "Engine/Entity/Components.h"
 #include "Engine/Resources/ResourceManager.h"
 
 RTTI_CLASS_DEFINITION(Projectile)

@@ -54,6 +54,9 @@ public:
 	void AddComponent(taArgs&&... inArgs);
 	template<typename taType>
 	Array<MutexReadProtectedPtr<taType>> GetComponentsOfType(); ///< Warning: Slow!
+	Array<MutexReadProtectedPtr<EntityComponent>> GetComponentsOfType(UID inComponentUID);
+	template<typename taType>
+	MutexReadProtectedPtr<taType> GetFirstComponentOfType();
 	template<typename taType>
 	bool HasComponent();
 	bool HasComponent(UID inComponentUID);
@@ -110,6 +113,17 @@ Array<MutexReadProtectedPtr<taType>> Entity::GetComponentsOfType()
 	}
 
 	return return_array;
+}
+
+template<typename taType>
+inline MutexReadProtectedPtr<taType> Entity::GetFirstComponentOfType()
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+
+	Array<Handle<EntityComponent>>& components = mEntityComponents[taType::sGetRTTIUID()];
+
+	gAssert(!components.empty(), "Component not found!");
+	return gEntityComponentManager.GetComponent<taType>(components.front());
 }
 
 template<typename taType>

@@ -6,6 +6,7 @@
 #include "Engine/Events/EventManager.h"
 
 struct EventManager::EventFunction;
+struct CollisionFuncParams;
 
 class Player : public CollisionActor
 {

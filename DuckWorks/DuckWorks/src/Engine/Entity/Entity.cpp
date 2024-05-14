@@ -24,6 +24,18 @@ void Entity::Destroy()
 	GetWorld()->DestroyEntity(this);
 }
 
+Array<MutexReadProtectedPtr<EntityComponent>> Entity::GetComponentsOfType(UID inComponentUID)
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	Array<MutexReadProtectedPtr<EntityComponent>> return_array;
+
+	Array<Handle<EntityComponent>>& components = mEntityComponents[inComponentUID];
+	for (Handle<EntityComponent>& component : components)
+		return_array.emplace_back(gEntityComponentManager.GetComponent(component, inComponentUID));
+
+	return return_array;
+}
+
 bool Entity::HasComponent(UID inComponentUID)
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);

@@ -3,6 +3,7 @@
 
 // Engine includes
 #include "Engine/Collision/CollisionWorld.h"
+#include "Engine/Entity/Components.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
@@ -36,13 +37,13 @@ void MovingPlatform::Init(const InitParams& inInitParams)
 	Base::Init(inInitParams);
 
 	{
-		MutexReadProtectedPtr<CollisionComponent> collision_component = GetComponent<CollisionComponent>();
+		MutexReadProtectedPtr<CollisionComponent> collision_component = GetFirstComponentOfType<CollisionComponent>();
 		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component->mCollisionObjectHandle);
 		collision_object->SetType(CollisionObject::EType::Dynamic);
 	}
 
 	AddComponent<TextureRenderComponent>();
-	GetComponent<TextureRenderComponent>()->mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+	GetFirstComponentOfType<TextureRenderComponent>()->mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
 }
 
 void MovingPlatform::BeginPlay()
@@ -88,7 +89,7 @@ void MovingPlatform::Update(float inDeltaTime)
 
 	fm::Transform2D transform = GetTransform();
 	transform.position = position;
-	CollisionObjectHandle own_handle = GetComponent<CollisionComponent>()->mCollisionObjectHandle;
+	CollisionObjectHandle own_handle = GetFirstComponentOfType<CollisionComponent>()->mCollisionObjectHandle;
 	const Array<CollisionData>& collision_data = GetWorld()->GetCollisionWorld()->CheckCollisions(transform);
 	for (const CollisionData& data : collision_data)
 	{

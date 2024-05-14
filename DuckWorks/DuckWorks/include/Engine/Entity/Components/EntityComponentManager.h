@@ -7,7 +7,7 @@
 #include "Engine/Threads/ThreadManager.h"
 
 class Entity;
-class EntityRefComponent;
+class EntityComponent;
 
 class EntityComponentManager
 {
@@ -16,11 +16,12 @@ public:
 	void RegisterComponentType();
 
 	template<typename taType, typename... taArgs>
-	Handle<EntityRefComponent> AddComponent(taArgs&&... inArgs);
+	Handle<EntityComponent> AddComponent(taArgs&&... inArgs);
 	template<typename taType>
-	MutexReadProtectedPtr<taType> GetComponent(Handle<EntityRefComponent> inEntityComponentHandle);
+	MutexReadProtectedPtr<taType> GetComponent(Handle<EntityComponent> inEntityComponentHandle);
+	MutexReadProtectedPtr<EntityComponent> GetComponent(Handle<EntityComponent> inEntityComponentHandle, UID inComponentTypeUID);
 	template<typename taType>
-	void RemoveComponent(Handle<EntityRefComponent> inEntityComponentHandle);
+	void RemoveComponent(Handle<EntityComponent> inEntityComponentHandle);
 
 	template<typename taType>
 	void LoopOverComponents(Function<void(taType& inComponent)> inFunction);
@@ -38,7 +39,7 @@ private:
 
 	struct EntityComponentLine
 	{
-		void* mComponents = nullptr; // Array of EntityComponents, it's Array<Pair<bool, taType>> with the bool flag to determine whether it's alive
+		void* mComponents = nullptr; // Array of EntityComponentDatas, it's Array<Pair<EntityComponentData>> with the bool flag to determine whether it's alive
 		Array<uint64> mFreeIndices; // Indices of free slots in the array
 		UniquePtr<Mutex> mMutex; // One mutex per EntityComponent type
 	};
@@ -62,33 +63,33 @@ void EntityComponentManager::RegisterComponentType()
 }
 
 template<typename taType, typename... taArgs>
-Handle<EntityRefComponent> EntityComponentManager::AddComponent(taArgs&&... inArgs)
+Handle<EntityComponent> EntityComponentManager::AddComponent(taArgs&&... inArgs)
 {
 	EntityComponentLine& entity_component_line = mEntityComponentLinesMap[taType::sGetRTTIUID()];
 	ScopedMutexWriteLock lock(*entity_component_line.mMutex);
-	Array<EntityComponentData<taType>>* component_datas = RCast<Array<EntityComponentData<taType>*>>(entity_component_line.mComponents);
+	Array<EntityComponentData<taType>>* component_datas = RCast<Array<EntityComponentData<taType>>*>(entity_component_line.mComponents);
 
 	if (!entity_component_line.mFreeIndices.empty())
 	{
 		uint64 free_index = entity_component_line.mFreeIndices.back();
 		entity_component_line.mFreeIndices.pop_back();
-		*component_datas[free_index] = EntityComponentData<taType>(std::forward<taArgs>(inArgs)...);
-		return Handle<EntityRefComponent>(free_index, {});
+		(*component_datas)[free_index] = EntityComponentData<taType>(std::forward<taArgs>(inArgs)...);
+		return Handle<EntityComponent>(free_index, {});
 	}
 	component_datas->emplace_back(EntityComponentData<taType>(std::forward<taArgs>(inArgs)...));
-	return Handle<EntityRefComponent>(component_datas->size() - 1);
+	return Handle<EntityComponent>(component_datas->size() - 1);
 }
 
 template<typename taType>
-MutexReadProtectedPtr<taType> EntityComponentManager::GetComponent(Handle<EntityRefComponent> inEntityComponentHandle)
+MutexReadProtectedPtr<taType> EntityComponentManager::GetComponent(Handle<EntityComponent> inEntityComponentHandle)
 {
 	EntityComponentLine& entity_component_line = mEntityComponentLinesMap[taType::sGetRTTIUID()];
-	Array<EntityComponentData<taType>>* component_datas = RCast<Array<EntityComponentData<taType>*>>(entity_component_line.mComponents);
-	return MutexReadProtectedPtr<taType>(*entity_component_line.mMutex, *component_datas[inEntityComponentHandle.mIndex]);
+	Array<EntityComponentData<taType>>* component_datas = RCast<Array<EntityComponentData<taType>>*>(entity_component_line.mComponents);
+	return MutexReadProtectedPtr<taType>(*entity_component_line.mMutex, &(*component_datas)[inEntityComponentHandle.mIndex].mComponent);
 }
 
 template<typename taType>
-void EntityComponentManager::RemoveComponent(Handle<EntityRefComponent> inEntityComponentHandle)
+void EntityComponentManager::RemoveComponent(Handle<EntityComponent> inEntityComponentHandle)
 {
 	EntityComponentLine& entity_component_line = mEntityComponentLinesMap[taType::sGetRTTIUID()];
 	ScopedMutexWriteLock lock(*entity_component_line.mMutex);
