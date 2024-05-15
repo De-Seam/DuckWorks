@@ -58,13 +58,17 @@ public:
 	template<typename taType>
 	MutexReadProtectedPtr<taType> GetFirstComponentOfType();
 	template<typename taType>
+	MutexReadProtectedPtr<taType> GetLastComponentOfType();
+	MutexReadProtectedPtr<EntityComponent> GetLastComponentOfType(UID inRTTIUUID);
+	template<typename taType>
 	bool HasComponent();
 	bool HasComponent(UID inComponentUID);
 	template<typename taType>
 	void RemoveComponent(Handle<EntityComponent> inHandle);
 
 	template<typename taType>
-	void LoopOverComponents(Function<void(taType& inComponent)> inFunction);
+	void LoopOverComponents(const Function<void(taType& inComponent)>& inFunction);
+	void LoopOverComponents(UID inComponentUID, const Function<void(EntityComponent& inComponent)>& inFunction);
 
 	virtual void SetTransform(const fm::Transform2D& inTransform);
 	virtual void SetPosition(const fm::vec2& inPosition);
@@ -116,7 +120,7 @@ Array<MutexReadProtectedPtr<taType>> Entity::GetComponentsOfType()
 }
 
 template<typename taType>
-inline MutexReadProtectedPtr<taType> Entity::GetFirstComponentOfType()
+MutexReadProtectedPtr<taType> Entity::GetFirstComponentOfType()
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 
@@ -124,6 +128,17 @@ inline MutexReadProtectedPtr<taType> Entity::GetFirstComponentOfType()
 
 	gAssert(!components.empty(), "Component not found!");
 	return gEntityComponentManager.GetComponent<taType>(components.front());
+}
+
+template<typename taType>
+MutexReadProtectedPtr<taType> Entity::GetLastComponentOfType()
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+
+	Array<Handle<EntityComponent>>& components = mEntityComponents[taType::sGetRTTIUID()];
+
+	gAssert(!components.empty(), "Component not found!");
+	return gEntityComponentManager.GetComponent<taType>(components.back());
 }
 
 template<typename taType>
@@ -144,7 +159,7 @@ void Entity::RemoveComponent(Handle<EntityComponent> inHandle)
 }
 
 template<typename taType>
-void Entity::LoopOverComponents(Function<void(taType& inComponent)> inFunction)
+void Entity::LoopOverComponents(const Function<void(taType& inComponent)>& inFunction)
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	Array<Handle<EntityComponent>>& component_handles = mEntityComponents[taType::sGetRTTIUID()];

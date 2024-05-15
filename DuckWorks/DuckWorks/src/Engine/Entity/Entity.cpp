@@ -1,6 +1,9 @@
 #include "Precomp.h"
 #include "Engine/Entity/Entity.h"
+
+// Engine includes
 #include "Engine/Collision/CollisionWorld.h"
+#include "Engine/Factory/Factory.h"
 #include "Engine/World/World.h"
 
 RTTI_CLASS_DEFINITION(Entity)
@@ -11,6 +14,19 @@ Json Entity::Serialize()
 
 	JSON_SAVE(json, mTransform);
 
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+
+	const Array<String>& component_names = gEntityComponentFactory.GetClassNames();
+	Json& json_component = json["Components"];
+	for (const String& component_name : component_names)
+	{
+		UID rtti_uuid = gEntityComponentFactory.GetRTTIUID(component_name);
+		LoopOverComponents(rtti_uuid, [&](EntityComponent& inComponent)
+		{
+			json_component[component_name] = inComponent.Serialize();
+		});
+	}
+
 	return json;
 }
 
@@ -19,6 +35,22 @@ void Entity::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mTransform);
+
+	if (inJson.contains("Components"))
+	{
+		const Json& json_components = inJson["Components"];
+
+		const Array<String>& component_names = gEntityComponentFactory.GetClassNames();
+		for (const String& component_name : component_names)
+		{
+			if (!json_components.contains(component_name))
+				continue;
+
+			gEntityComponentFactory.AddComponent(this, component_name);
+			MutexReadProtectedPtr<EntityComponent> component = GetLastComponentOfType(gEntityComponentFactory.GetRTTIUID(component_name));
+			component->Deserialize(json_components[component_name]);
+		}
+	}
 }
 
 Entity::~Entity() {}
@@ -40,6 +72,16 @@ Array<MutexReadProtectedPtr<EntityComponent>> Entity::GetComponentsOfType(UID in
 	return return_array;
 }
 
+MutexReadProtectedPtr<EntityComponent> Entity::GetLastComponentOfType(UID inRTTIUUID)
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+
+	Array<Handle<EntityComponent>>& components = mEntityComponents[inRTTIUUID];
+
+	gAssert(!components.empty(), "Component not found!");
+	return gEntityComponentManager.GetComponent(components.back(), inRTTIUUID);
+}
+
 bool Entity::HasComponent(UID inComponentUID)
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
@@ -49,6 +91,18 @@ bool Entity::HasComponent(UID inComponentUID)
 		return false;
 
 	return !it->second.empty();
+}
+
+void Entity::LoopOverComponents(UID inComponentUID, const Function<void(EntityComponent& inComponent)>& inFunction)
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+
+	Array<Handle<EntityComponent>>& component_handles = mEntityComponents[inComponentUID];
+	for (Handle<EntityComponent>& component_handle : component_handles)
+	{
+		MutexReadProtectedPtr<EntityComponent> component = gEntityComponentManager.GetComponent(component_handle, inComponentUID);
+		inFunction(*component.Get());
+	}
 }
 
 void Entity::SetTransform(const fm::Transform2D& inTransform)

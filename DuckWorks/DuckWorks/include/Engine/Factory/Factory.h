@@ -3,8 +3,8 @@
 #include "Core/CoreBase.h"
 
 // Engine includes
-#include "Engine/Entity/Components/EntityComponent.h"
 #include "Engine/Entity/Entity.h"
+#include "Engine/Entity/Components/EntityComponent.h"
 
 class Entity;
 class EntityComponent;
@@ -40,14 +40,14 @@ extern Factory<DebugUIWindow> gDebugUIWindowFactory;
 class EntityComponentFactory : public Factory<EntityComponent>
 {
 public:
-	using ComponentAddFunction = std::function<void(Ref<Entity>&)>;
+	using ComponentAddFunction = std::function<void(const Ref<Entity>&)>;
 
 	template<typename taType>
 	void RegisterClass(const String& inClassName)
 	{
 		Factory<EntityComponent>::RegisterClass<taType>(inClassName);
 
-		ComponentAddFunction func = ComponentAddFunction([](Ref<Entity>& inEntity)
+		ComponentAddFunction func = ComponentAddFunction([](const Ref<Entity>& inEntity)
 		{
 			inEntity->AddComponent<taType>();
 		});
@@ -55,7 +55,7 @@ public:
 		mComponentAddFunctions[inClassName] = func;
 	}
 
-	void AddComponent(Ref<Entity>& inEntity, const String& inClassName)
+	void AddComponent(const Ref<Entity>& inEntity, const String& inClassName)
 	{
 		mComponentAddFunctions[inClassName](inEntity);
 	}
