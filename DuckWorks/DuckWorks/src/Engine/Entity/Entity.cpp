@@ -44,7 +44,7 @@ bool Entity::HasComponent(UID inComponentUID)
 	if (it == mEntityComponents.end())
 		return false;
 
-	return it->second.empty();
+	return !it->second.empty();
 }
 
 void Entity::SetTransform(const fm::Transform2D& inTransform)

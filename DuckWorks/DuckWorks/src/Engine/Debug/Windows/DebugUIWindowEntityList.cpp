@@ -1,16 +1,18 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityList.h"
 
+// Core includes
 #include "Core/Utilities/Types.h"
 
+// Engine includes
 #include "Engine/Entity/Entity.h"
 #include "Engine/World/World.h"
+#include "Engine/Debug/DebugUIWindowManager.h"
 
+// Game includes
 #include "Game/App/App.h"
 
 // External includes
-#include "Engine/Debug/DebugUIWindowManager.h"
-
 #include "External/imgui/imgui.h"
 
 RTTI_CLASS_DEFINITION(DebugUIWindowEntityList)

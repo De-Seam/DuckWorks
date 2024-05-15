@@ -4,6 +4,7 @@
 
 // Engine includes
 #include "Engine/Entity/Components/EntityComponent.h"
+#include "Engine/Entity/Entity.h"
 
 class Entity;
 class EntityComponent;
@@ -44,12 +45,14 @@ public:
 	template<typename taType>
 	void RegisterClass(const String& inClassName)
 	{
-		Factory<ComponentBase>::RegisterClass<taType>(inClassName);
+		Factory<EntityComponent>::RegisterClass<taType>(inClassName);
 
-		mComponentAddFunctions[inClassName] = [](Ref<Entity>& inEntity)
+		ComponentAddFunction func = ComponentAddFunction([](Ref<Entity>& inEntity)
 		{
 			inEntity->AddComponent<taType>();
-		};
+		});
+
+		mComponentAddFunctions[inClassName] = func;
 	}
 
 	void AddComponent(Ref<Entity>& inEntity, const String& inClassName)

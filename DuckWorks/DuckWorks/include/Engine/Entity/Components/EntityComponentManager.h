@@ -16,7 +16,7 @@ public:
 	void RegisterComponentType();
 
 	template<typename taType, typename... taArgs>
-	Handle<EntityComponent> AddComponent(taArgs&&... inArgs);
+	Handle<EntityComponent> AddComponent(Entity* inEntity, taArgs&&... inArgs);
 	template<typename taType>
 	MutexReadProtectedPtr<taType> GetComponent(Handle<EntityComponent> inEntityComponentHandle);
 	MutexReadProtectedPtr<EntityComponent> GetComponent(Handle<EntityComponent> inEntityComponentHandle, UID inComponentTypeUID);
@@ -27,6 +27,8 @@ public:
 	void LoopOverComponents(Function<void(taType& inComponent)> inFunction);
 
 private:
+	void SetEntityOnEntityComponent(Entity* inEntity, EntityComponent* inEntityComponent);
+
 	template<typename taType>
 	struct EntityComponentData
 	{
@@ -69,7 +71,7 @@ void EntityComponentManager::RegisterComponentType()
 }
 
 template<typename taType, typename... taArgs>
-Handle<EntityComponent> EntityComponentManager::AddComponent(taArgs&&... inArgs)
+Handle<EntityComponent> EntityComponentManager::AddComponent(Entity* inEntity, taArgs&&... inArgs)
 {
 	EntityComponentLine& entity_component_line = mEntityComponentLinesMap[taType::sGetRTTIUID()];
 	ScopedMutexWriteLock lock(*entity_component_line.mMutex);
@@ -81,9 +83,11 @@ Handle<EntityComponent> EntityComponentManager::AddComponent(taArgs&&... inArgs)
 		entity_component_line.mFreeIndices.pop_back();
 		component_datas[free_index].mAlive = true;
 		component_datas[free_index].ReplaceComponent(std::forward<taArgs>(inArgs)...);
+		SetEntityOnEntityComponent(inEntity, &component_datas[free_index].mComponent);
 		return Handle<EntityComponent>(free_index, {});
 	}
 	component_datas.emplace_back(taType(std::forward<taArgs>(inArgs)...));
+	SetEntityOnEntityComponent(inEntity, &component_datas.back().mComponent);
 	return Handle<EntityComponent>(component_datas.size() - 1);
 }
 

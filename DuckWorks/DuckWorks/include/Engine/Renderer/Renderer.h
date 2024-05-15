@@ -74,6 +74,7 @@ private:
 	{
 		SDL_Texture* mTexture = nullptr;
 		SDL_Rect mSourceRectangle;
+		bool mUseSourceRectangle = false;
 		SDL_FRect mDestinationRectangle;
 		float mRotation;
 		SDL_RendererFlip mFlip;

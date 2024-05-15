@@ -121,7 +121,7 @@ void Renderer::Update(float inDeltaTime)
 	}
 
 	for (const RenderTextureData& data : sCurrentRenderTextureDatas)
-		SDL_RenderCopyExF(mRenderer, data.mTexture, &data.mSourceRectangle, &data.mDestinationRectangle, data.mRotation, nullptr, data.mFlip);
+		SDL_RenderCopyExF(mRenderer, data.mTexture, data.mUseSourceRectangle ? &data.mSourceRectangle : nullptr, &data.mDestinationRectangle, data.mRotation, nullptr, data.mFlip);
 
 	for (const RenderRectangleData& data : sCurrentRenderRectangleDatas)
 	{
@@ -145,7 +145,9 @@ void Renderer::DrawTexture(const DrawTextureParams& inParams)
 
 	RenderTextureData data;
 	data.mTexture = inParams.mTexture;
-	data.mSourceRectangle = *src_rect;
+	data.mUseSourceRectangle = src_rect != nullptr;
+	if (data.mUseSourceRectangle)
+		data.mSourceRectangle = *src_rect;
 	data.mDestinationRectangle = dst_rect;
 	data.mRotation = inParams.mRotation;
 	data.mFlip = inParams.mFlip;

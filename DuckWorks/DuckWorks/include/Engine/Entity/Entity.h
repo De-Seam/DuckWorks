@@ -97,7 +97,7 @@ void Entity::AddComponent(taArgs&&... inArgs)
 {
 	ScopedMutexWriteLock lock(mEntityComponentsMutex);
 
-	mEntityComponents[taType::sGetRTTIUID()].emplace_back(gEntityComponentManager.AddComponent<taType>(std::forward<taArgs>(inArgs)...));
+	mEntityComponents[taType::sGetRTTIUID()].emplace_back(gEntityComponentManager.AddComponent<taType>(this, std::forward<taArgs>(inArgs)...));
 }
 
 template<typename taType>
