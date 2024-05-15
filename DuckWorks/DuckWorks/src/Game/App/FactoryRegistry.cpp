@@ -39,15 +39,11 @@ void gRegisterFactoryClasses()
 	REGISTER_ENTITY(Projectile);
 
 	// Components
-	REGISTER_COMPONENT(TransformComponent);
 	REGISTER_COMPONENT(TextureRenderComponent);
 	REGISTER_COMPONENT(CollisionComponent);
 	REGISTER_COMPONENT(AnimationComponent);
 	REGISTER_COMPONENT(HealthComponent);
 	REGISTER_COMPONENT(CameraComponent);
-	//REGISTER_COMPONENT(PhysicsPositionOrRotationUpdatedTag);
-	//REGISTER_COMPONENT(PhysicsSizeUpdatedTag);
-	//REGISTER_COMPONENT(DestroyedTag);
 
 	// Debug UI Windows
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);

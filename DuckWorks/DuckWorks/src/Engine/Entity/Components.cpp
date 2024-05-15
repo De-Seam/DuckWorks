@@ -111,26 +111,6 @@ CollisionComponent::~CollisionComponent()
 {
 }
 
-// TransformComponent
-RTTI_CLASS_DEFINITION(TransformComponent)
-COMPONENT_DEFINITION(TransformComponent)
-
-Json TransformComponent::Serialize()
-{
-	Json json = Base::Serialize();
-
-	JSON_SAVE(json, mTransform);
-
-	return json;
-}
-
-void TransformComponent::Deserialize(const Json& inJson)
-{
-	Base::Deserialize(inJson);
-
-	JSON_LOAD(inJson, mTransform);
-}
-
 // Entity Component
 RTTI_CLASS_DEFINITION(EntityRefComponent)
 

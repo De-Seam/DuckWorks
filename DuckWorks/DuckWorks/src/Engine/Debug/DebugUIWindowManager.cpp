@@ -377,8 +377,7 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 		return;
 
 	Ref<Entity> selected_entity = mSelectedEntity.value().Get();
-	if (!selected_entity.IsValid() ||
-		!selected_entity->HasComponent<TransformComponent>())
+	if (!selected_entity.IsValid())
 		return;
 
 	fm::vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());

@@ -9,12 +9,16 @@ Json Entity::Serialize()
 {
 	Json json = Base::Serialize();
 
+	JSON_SAVE(json, mTransform);
+
 	return json;
 }
 
 void Entity::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
+
+	JSON_TRY_LOAD(inJson, mTransform);
 }
 
 Entity::~Entity() {}

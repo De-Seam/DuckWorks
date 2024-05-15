@@ -139,17 +139,6 @@ struct VelocityComponent : public ComponentBase
 	fm::vec2 mVelocity = {};
 };
 
-struct TransformComponent : public ComponentBase
-{
-	RTTI_CLASS(TransformComponent, ComponentBase)
-	COMPONENT()
-
-	TransformComponent() = default;
-	TransformComponent(const fm::Transform2D& inTransform) : mTransform(inTransform) {}
-
-	fm::Transform2D mTransform = {};
-};
-
 struct HealthComponent : public ComponentBase
 {
 	RTTI_CLASS(HealthComponent, ComponentBase)

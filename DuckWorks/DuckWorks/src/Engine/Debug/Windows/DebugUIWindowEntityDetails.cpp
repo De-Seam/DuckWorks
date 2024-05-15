@@ -88,18 +88,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 					bool changed = gDebugDrawJson(json, component_name);
 					if (changed)
-					{
-						if (TransformComponent* transform_component = gCast<TransformComponent>(component.Get()); transform_component != nullptr)
-						{
-							if (CollisionActor* collision_actor = selected_entity.Cast<CollisionActor>(); collision_actor != nullptr)
-							{
-								component->Deserialize(json);
-								collision_actor->MoveTo(transform_component->mTransform.position);
-							}
-						}
-						else
-							component->Deserialize(json);
-					}
+						component->Deserialize(json);
 				}
 			}
 			else
@@ -115,7 +104,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 			ImGui::PopStyleColor(1);
 	}
 
-	if (gDebugUIWindowManager.mDrawEntityOutline && selected_entity->HasComponent<TransformComponent>())
+	if (gDebugUIWindowManager.mDrawEntityOutline)
 	{
 		SDL_FRect rect;
 		fm::Transform2D transform = selected_entity->GetTransform();
