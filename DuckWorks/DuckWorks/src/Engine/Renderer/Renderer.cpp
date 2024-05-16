@@ -24,18 +24,18 @@ Renderer::~Renderer() {}
 void Renderer::Init(const InitParams& inInitParams)
 {
 	PROFILE_SCOPE(Renderer::Init)
-	gLog(LogType::Info, "Initializing Renderer");
+	gLog(ELogType::Info, "Initializing Renderer");
 
 	SDL_SetMainReady();
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
-		gLog(LogType::Error, "Error initializing SDL: %s\n", SDL_GetError());
+		gLog(ELogType::Error, "Error initializing SDL: %s\n", SDL_GetError());
 		exit(1);
 	}
 
 	if (std::atexit(SDL_Quit) != 0)
 	{
-		gLog(LogType::Error, "Error assigning SDL_Quit to atexit.");
+		gLog(ELogType::Error, "Error assigning SDL_Quit to atexit.");
 	}
 
 	mWindow = SDL_CreateWindow(inInitParams.mWindowTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, inInitParams.mWindowSize.x,
@@ -64,7 +64,7 @@ void Renderer::Init(const InitParams& inInitParams)
 void Renderer::Shutdown()
 {
 	PROFILE_SCOPE(Renderer::Shutdown)
-	gLog(LogType::Info, "Shutting down Renderer");
+	gLog(ELogType::Info, "Shutting down Renderer");
 
 	gDebugUIWindowManager.Shutdown();
 

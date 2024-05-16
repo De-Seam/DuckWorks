@@ -618,6 +618,9 @@
     <ClInclude Include="include\Engine\Entity\Components\EntityComponentManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Core\Allocators\AllocatorBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -810,6 +813,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Entity\Components\EntityComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Allocators\AllocatorBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

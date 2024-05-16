@@ -42,7 +42,7 @@ Camera::Camera(fm::vec2 inPosition, fm::vec2 inSize, float inZoom) :
 	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
 	if (!mRenderTexture)
 	{
-		gLog(LogType::Error, "Error creating render target texture: %s\n", SDL_GetError());
+		gLog(ELogType::Error, "Error creating render target texture: %s\n", SDL_GetError());
 	}
 }
 

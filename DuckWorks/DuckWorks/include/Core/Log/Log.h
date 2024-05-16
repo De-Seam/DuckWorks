@@ -3,7 +3,7 @@
 #include "Core/Utilities/SafeQueue.h"
 #include "Core/Utilities/Utilities.h"
 
-enum class LogType
+enum class ELogType
 {
 	Info = 0,
 	Warning,
@@ -11,7 +11,7 @@ enum class LogType
 };
 
 void gLog(const char* fmt...);
-void gLog(LogType inLogType, const char* fmt...);
+void gLog(ELogType inLogType, const char* fmt...);
 
 class LogManager;
 
@@ -19,7 +19,7 @@ extern LogManager gLogManager;
 
 struct LogQueueItem
 {
-	LogType logType;
+	ELogType logType;
 	std::string msg;
 };
 
@@ -31,8 +31,8 @@ public:
 	void Init();
 	void Shutdown();
 
-	void Log(LogType inLogType, const char* fmt...);
-	void Log(LogType inLogType, const char* fmt, va_list args);
+	void Log(ELogType inLogType, const char* fmt...);
+	void Log(ELogType inLogType, const char* fmt, va_list args);
 
 	void CleanLogQueue(bool inErrorOnly = false);
 
@@ -42,7 +42,7 @@ public:
 
 	struct LogEntry
 	{
-		LogType mType;
+		ELogType mType;
 		String mMessage;
 	};
 

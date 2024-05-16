@@ -83,7 +83,7 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 void DebugUIWindowManager::Init()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::Init)
-	gLog(LogType::Info, "Initializing DebugUIWindowManager");
+	gLog(ELogType::Info, "Initializing DebugUIWindowManager");
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -175,7 +175,7 @@ void DebugUIWindowManager::Shutdown()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::Shutdown)
 
-	gLog(LogType::Info, "Shutting down DebugUIWindowManager");
+	gLog(ELogType::Info, "Shutting down DebugUIWindowManager");
 
 	ImGui_ImplSDLRenderer2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
@@ -184,7 +184,7 @@ void DebugUIWindowManager::Shutdown()
 	Json json_debug_file = Serialize();
 	std::ofstream file(mDebugFileName);
 	if (!file.is_open())
-		return gLog(LogType::Error, "Failed to open debug file for writing");
+		return gLog(ELogType::Error, "Failed to open debug file for writing");
 
 	file << json_debug_file.dump(4);
 }

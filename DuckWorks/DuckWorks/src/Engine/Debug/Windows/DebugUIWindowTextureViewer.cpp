@@ -73,7 +73,7 @@ void DebugUIWindowTextureViewer::Update(float inDeltaTime)
 	if (ImGui::ImageButton("##TextureViewerButton", (ImTextureID)mTexture->mTexture, displaySize))
 	{
 		if (SDL_SetClipboardText(mTexture->GetFileName().c_str()) != 0)
-			gLog(LogType::Error, "Unable to set clipboard text! SDL_Error: %s", SDL_GetError());
+			gLog(ELogType::Error, "Unable to set clipboard text! SDL_Error: %s", SDL_GetError());
 
 		mTimeSinceClipboardCopied = 0.f;
 	}

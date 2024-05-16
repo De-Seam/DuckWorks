@@ -76,7 +76,7 @@ fm::Transform2D CollisionWorld::MoveTo(
 		ScopedMutexReadLock lock(mCollisionObjectsMutex);
 		CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
 
-		gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(LogType::Warning, "Trying to move a static object!"));
+		gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
 
 		new_transform = object.GetTransform();
 		if (inPosition.has_value())

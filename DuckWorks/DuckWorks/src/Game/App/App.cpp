@@ -41,7 +41,7 @@ int App::Run()
 
 	PROFILE_SCOPE(App::Run)
 
-	gLog(LogType::Info, "Initializing App");
+	gLog(ELogType::Info, "Initializing App");
 	gLogManager.Init();
 
 	gThreadManager.Init();
@@ -133,7 +133,7 @@ void App::LoadUserSettingsFromFile(const String& inFile)
 
 	std::ifstream file(inFile);
 	if (!file.is_open())
-		return gLog(LogType::Warning, "Failed to open user settings file: %s. A default one will be created when the program shuts down", inFile.c_str());
+		return gLog(ELogType::Warning, "Failed to open user settings file: %s. A default one will be created when the program shuts down", inFile.c_str());
 
 	Json json = Json::parse(file);
 	mUserSettings->Deserialize(json);

@@ -8,11 +8,11 @@ void gLog(const char* fmt ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	gLogManager.Log(LogType::Info, fmt, args);
+	gLogManager.Log(ELogType::Info, fmt, args);
 	va_end(args);
 }
 
-void gLog(LogType inLogType, const char* fmt ...)
+void gLog(ELogType inLogType, const char* fmt ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -29,23 +29,23 @@ LogManager::LogManager()
 
 void LogManager::Init()
 {
-	gLog(LogType::Info, "Initializing LogManager");
+	gLog(ELogType::Info, "Initializing LogManager");
 	mOutputLog.reserve(8192);
 	mLogThread = std::thread(&LogManager::LogThreadLoop, this);
-	gLog(LogType::Info, "LogManager Initialized");
+	gLog(ELogType::Info, "LogManager Initialized");
 }
 
 void LogManager::Shutdown()
 {
 	// We have to log something here so the thread which is waiting for a log message can exit.
 	mThreadRunning = false;
-	Log(LogType::Info, "LogManager shutting down.");
+	Log(ELogType::Info, "LogManager shutting down.");
 	// We join the thread first so we can have lock free access to the log string
 	mLogThread.join();
 	WriteLogToFile();
 }
 
-void LogManager::Log(LogType logType, const char* fmt ...)
+void LogManager::Log(ELogType logType, const char* fmt ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -53,20 +53,20 @@ void LogManager::Log(LogType logType, const char* fmt ...)
 	va_end(args);
 }
 
-void LogManager::Log(LogType inLogType, const char* fmt, va_list args)
+void LogManager::Log(ELogType inLogType, const char* fmt, va_list args)
 {
 	PROFILE_SCOPE(LogManager::Log)
 	static THREADLOCAL String msg;
 	msg.clear();
 	switch (inLogType)
 	{
-	case LogType::Info:
+	case ELogType::Info:
 		msg = "[I] ";
 		break;
-	case LogType::Warning:
+	case ELogType::Warning:
 		msg = "[W] ";
 		break;
-	case LogType::Error:
+	case ELogType::Error:
 		msg = "[E] ";
 		break;
 	}
@@ -135,16 +135,16 @@ void LogManager::CleanLogQueue(bool inErrorOnly)
 		LogQueueItem queue_item = mLogQueue.Dequeue();
 		if (inErrorOnly)
 		{
-			if (queue_item.logType == LogType::Error)
+			if (queue_item.logType == ELogType::Error)
 				items_to_requeue.push_back(queue_item);
 		}
-		else if (queue_item.logType != LogType::Info)
+		else if (queue_item.logType != ELogType::Info)
 			items_to_requeue.push_back(queue_item);
 	}
 	// Requeue the items to requeue
 	for (LogQueueItem& item : items_to_requeue)
 		mLogQueue.Enqueue(item);
-	Log(LogType::Warning, "Log queue had to be cleaned.");
+	Log(ELogType::Warning, "Log queue had to be cleaned.");
 }
 
 const MutexReadProtectedPtr<Array<LogManager::LogEntry>> LogManager::GetLogArray()
@@ -193,7 +193,7 @@ void LogManager::WriteLogToFile()
 		if (!create_directories(dir))
 		{
 			// Create the directory.
-			gLog(LogType::Error, "Error: Unable to create directory: %s", mLogFilePath.c_str());
+			gLog(ELogType::Error, "Error: Unable to create directory: %s", mLogFilePath.c_str());
 			return;
 		}
 	}
@@ -208,7 +208,7 @@ void LogManager::WriteLogToFile()
 	}
 	else
 	{
-		Log(LogType::Error, "Failed to open log file for writing.");
+		Log(ELogType::Error, "Failed to open log file for writing.");
 	}
 }
 

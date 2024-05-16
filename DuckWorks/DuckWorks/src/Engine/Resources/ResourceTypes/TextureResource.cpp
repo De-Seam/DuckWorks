@@ -19,7 +19,7 @@ void TextureResource::Deserialize(const Json& inJson)
 {
 	if (inJson["mFile"] != GetFileName())
 	{
-		gLog(LogType::Error, "TextureResource::Deserialize should not be called with a different file than the current file!");
+		gLog(ELogType::Error, "TextureResource::Deserialize should not be called with a different file than the current file!");
 		return;
 	}
 

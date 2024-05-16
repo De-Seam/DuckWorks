@@ -62,15 +62,15 @@ void DebugUIWindowOutputLog::Update(float)
 			const LogManager::LogEntry& log_entry = (*log_array.Get())[i];
 			switch (log_entry.mType)
 			{
-			case LogType::Info:
+			case ELogType::Info:
 				if (mShowInfo)
 					ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.f), log_entry.mMessage.c_str());
 				break;
-			case LogType::Warning:
+			case ELogType::Warning:
 				if (mShowWarnings)
 					ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), log_entry.mMessage.c_str());
 				break;
-			case LogType::Error:
+			case ELogType::Error:
 				if (mShowErrors)
 					ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), log_entry.mMessage.c_str());
 				break;

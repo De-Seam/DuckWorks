@@ -140,7 +140,7 @@ void DebugUIWindowFileExplorer::Update(float)
 	}
 	catch (fs::filesystem_error& error)
 	{
-		gLog(LogType::Error, error.what());
+		gLog(ELogType::Error, error.what());
 	}
 
 	// Context menu (under default mouse threshold)
@@ -212,7 +212,7 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 			break;
 			case FileType::Other:
 			{
-				gLog(LogType::Warning, "Tried to open file which extension was not recognized: %s", file_path.c_str());
+				gLog(ELogType::Warning, "Tried to open file which extension was not recognized: %s", file_path.c_str());
 				break;
 			}
 			}
