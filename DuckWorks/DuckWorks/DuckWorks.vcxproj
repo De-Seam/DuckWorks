@@ -107,6 +107,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Allocators\AllocatorBase.h" />
+    <ClInclude Include="include\Core\Allocators\ClassAllocator.h" />
     <ClInclude Include="include\Core\CoreBase.h" />
     <ClInclude Include="include\Core\Log\Log.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
@@ -311,6 +312,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Allocators\AllocatorBase.cpp" />
+    <ClCompile Include="src\Core\Allocators\ClassAllocator.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\EntityComponent.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\EntityComponentManager.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowNewFilePopup.cpp" />

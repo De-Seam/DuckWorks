@@ -18,7 +18,7 @@ public:
 	virtual ~AllocatorBase();
 
 	template<typename taType, typename... taArgs>
-	taType* New(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs&&... inArgs);
+	taType* Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs&&... inArgs);
 
 protected:
 #ifdef TRACK_ALLOCATIONS
@@ -30,7 +30,7 @@ protected:
 };
 
 template<typename taType, typename... taArgs>
-inline taType* AllocatorBase::New(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs &&... inArgs)
+inline taType* AllocatorBase::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs &&... inArgs)
 {
 	IF_TRACK_ALLOCATIONS((void)inAllocationOrigin;)
 	(void)inArgs;
