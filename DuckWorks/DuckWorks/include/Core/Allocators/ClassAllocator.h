@@ -6,7 +6,7 @@ template<typename taType>
 class ClassAllocator : public AllocatorBase
 {
 public:
-	ClassAllocator(uint64 inClassAmount, uint64 inInitialPages = 1);
+	ClassAllocator(uint64 inClassAmount = 32, uint64 inInitialPages = 1);
 	virtual ~ClassAllocator() override;
 
 	taType* Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin));

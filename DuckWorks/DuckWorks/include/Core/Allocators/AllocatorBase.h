@@ -1,5 +1,6 @@
 #pragma once
-#include "Core/CoreBase.h"
+#include "Core/Utilities/Types.h"
+#include "Core/Utilities/Utilities.h"
 
 #ifdef _DEBUG
 #define TRACK_ALLOCATIONS

@@ -1,6 +1,7 @@
 #include "Precomp.h"
 #include "Core/Utilities/RTTI.h"
 
+ClassAllocator<RTTIBaseClass> RTTIBaseClass::sRTTIBaseClassClassAllocator;
 UID RTTIBaseClass::sRTTIBaseClassRTTIUID;
 
 Json RTTIBaseClass::Serialize() 

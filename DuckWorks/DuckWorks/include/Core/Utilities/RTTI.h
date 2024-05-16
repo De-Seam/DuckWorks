@@ -1,6 +1,7 @@
 #pragma once
 #include "UID.h"
 #include "Utilities.h"
+#include "Core/Allocators/ClassAllocator.h"
 
 #pragma warning( push )
 #pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
@@ -47,13 +48,29 @@ public: \
 		return Base::sIsAUID(inRTTIUID); \
 	} \
 \
+	template<typename... taArgs> \
+	static inClassName* sNewInstance(taArgs&&... inArgs) \
+	{ \
+		##inClassName* instance = s##inClassName##ClassAllocator.Allocate(ALLOC_TRACK); \
+		instance->operator new(std::forward(inArgs)...); \
+		return instance; \
+	} \
+\
+	virtual void Delete() override \
+	{ \
+		this->~##inClassName##(); \
+		s##inClassName##ClassAllocator.Free(this); \
+	} \
+\
 	private: \
+		static ClassAllocator<##inClassName##> s##inClassName##ClassAllocator; \
 		static UID s##inClassName##RTTIUID; \
 \
 	public:
 
 #define RTTI_CLASS_DEFINITION(inClassName) \
-	UID inClassName::s##inClassName##RTTIUID;
+	UID inClassName::s##inClassName##RTTIUID; \
+	ClassAllocator<inClassName> inClassName::s##inClassName##ClassAllocator; 
 
 #define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
 	Json inClassName::Serialize() { return Base::Serialize(); } \
@@ -103,7 +120,22 @@ public:
 
 	const UID& GetUID() const { return mUID; }
 
+	template<typename... taArgs>
+	static RTTIBaseClass* sNewInstance(taArgs&&... inArgs)
+	{
+		RTTIBaseClass* instance = sRTTIBaseClassClassAllocator.Allocate(ALLOC_TRACK);
+		instance->operator new(std::forward(inArgs)...);
+		return instance;
+	}
+
+	virtual void Delete()
+	{
+		this->~RTTIBaseClass();
+		sRTTIBaseClassClassAllocator.Free(this);
+	}
+
 private:
+	static ClassAllocator<RTTIBaseClass> sRTTIBaseClassClassAllocator;
 	static UID sRTTIBaseClassRTTIUID;
 	UID mUID = {};
 };

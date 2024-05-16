@@ -4,6 +4,7 @@
 class RefObject : public RTTIBaseClass
 {
 	RTTI_CLASS(RefObject, RTTIBaseClass)
+
 public:
 	RefObject() = default;
 	virtual ~RefObject() override = default;
