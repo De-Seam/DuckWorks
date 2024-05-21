@@ -45,16 +45,23 @@ private:
 		taType mComponent;
 	};
 
+	struct EntityComponentLine;
+
+	using ComponentGetFunction = Function<EntityComponent*(const EntityComponentLine&, const Handle<EntityComponent>&)>;
+
 	struct EntityComponentLine
 	{
 		void* mComponents = nullptr; // Array of EntityComponentDatas, it's Array<Pair<EntityComponentData>> with the bool flag to determine whether it's alive
 		Array<uint64> mFreeIndices; // Indices of free slots in the array
 		UniquePtr<Mutex> mMutex; // One mutex per EntityComponent type
+
+		ComponentGetFunction mGetFunction;
 	};
 
 	// Maps [EntityComponentTypeUID] -> [EntityComponent Array]
 	HashMap<UID, EntityComponentLine> mEntityComponentLinesMap;
 	Mutex mEntityComponentsDataMapMutex;
+
 };
 
 extern EntityComponentManager gEntityComponentManager;
@@ -68,6 +75,11 @@ void EntityComponentManager::RegisterComponentType()
 	EntityComponentLine& line = mEntityComponentLinesMap[taType::sGetRTTIUID()];
 	line.mComponents = new Array<EntityComponentData<taType>>();
 	line.mMutex = gMakeUnique<Mutex>();
+	line.mGetFunction = [](const EntityComponentLine& inEntityComponentLine, const Handle<EntityComponent>& inEntityComponentHandle)
+	{
+		Array<EntityComponentData<taType>>& component_datas = *RCast<Array<EntityComponentData<taType>>*>(inEntityComponentLine.mComponents);
+		return &component_datas[inEntityComponentHandle.mIndex].mComponent;
+	};
 }
 
 template<typename taType, typename... taArgs>

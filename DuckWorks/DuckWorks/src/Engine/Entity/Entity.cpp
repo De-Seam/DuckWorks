@@ -14,8 +14,6 @@ Json Entity::Serialize()
 
 	JSON_SAVE(json, mTransform);
 
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
-
 	const Array<String>& component_names = gEntityComponentFactory.GetClassNames();
 	Json& json_component = json["Components"];
 	for (const String& component_name : component_names)
