@@ -25,6 +25,17 @@ void CollisionActor::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mRelativeTransform);
 }
 
+CollisionActor::CollisionActor()
+{
+	CollisionObject::InitParams params;
+	params.mBlocking = true;
+	params.mTransform = GetTransform();
+	params.mType = CollisionObject::EType::Static;
+	params.mEntity = this;
+	CollisionObjectHandle handle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
+	AddComponent<CollisionComponent>(handle);
+}
+
 CollisionActor::~CollisionActor()
 {
 	Array<MutexReadProtectedPtr<CollisionComponent>> collision_components = GetComponentsOfType<CollisionComponent>();
@@ -38,13 +49,7 @@ CollisionActor::~CollisionActor()
 void CollisionActor::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
-	CollisionObject::InitParams params;
-	params.mBlocking = true;
-	params.mTransform = GetTransform();
-	params.mType = CollisionObject::EType::Static;
-	params.mEntity = this;
-	CollisionObjectHandle handle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
-	AddComponent<CollisionComponent>(handle);
+	
 }
 
 void CollisionActor::BeginPlay()

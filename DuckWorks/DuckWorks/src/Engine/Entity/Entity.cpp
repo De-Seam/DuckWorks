@@ -44,9 +44,8 @@ void Entity::Deserialize(const Json& inJson)
 			if (!json_components.contains(component_name))
 				continue;
 
-			gEntityComponentFactory.AddComponent(this, component_name);
-			MutexReadProtectedPtr<EntityComponent> component = GetLastComponentOfType(gEntityComponentFactory.GetRTTIUID(component_name));
-			component->Deserialize(json_components[component_name]);
+			EntityComponent& component = gEntityComponentFactory.AddComponent(this, component_name);
+			component.Deserialize(json_components[component_name]);
 		}
 	}
 }
@@ -58,26 +57,16 @@ void Entity::Destroy()
 	GetWorld()->DestroyEntity(this);
 }
 
-Array<MutexReadProtectedPtr<EntityComponent>> Entity::GetComponentsOfType(UID inComponentUID)
+Array<EntityComponent*> Entity::GetComponentsOfType(UID inComponentUID)
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
-	Array<MutexReadProtectedPtr<EntityComponent>> return_array;
+	Array<EntityComponent*> return_array;
 
-	Array<Handle<EntityComponent>>& components = mEntityComponents[inComponentUID];
-	for (Handle<EntityComponent>& component : components)
-		return_array.emplace_back(gEntityComponentManager.GetComponent(component, inComponentUID));
+	Array<EntityComponent*>& components = mEntityComponents[inComponentUID];
+	for (EntityComponent* component : components)
+		return_array.emplace_back(component);
 
 	return return_array;
-}
-
-MutexReadProtectedPtr<EntityComponent> Entity::GetLastComponentOfType(UID inRTTIUUID)
-{
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
-
-	Array<Handle<EntityComponent>>& components = mEntityComponents[inRTTIUUID];
-
-	gAssert(!components.empty(), "Component not found!");
-	return gEntityComponentManager.GetComponent(components.back(), inRTTIUUID);
 }
 
 bool Entity::HasComponent(UID inComponentUID)
@@ -95,12 +84,9 @@ void Entity::LoopOverComponents(UID inComponentUID, const Function<void(EntityCo
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 
-	Array<Handle<EntityComponent>>& component_handles = mEntityComponents[inComponentUID];
-	for (Handle<EntityComponent>& component_handle : component_handles)
-	{
-		MutexReadProtectedPtr<EntityComponent> component = gEntityComponentManager.GetComponent(component_handle, inComponentUID);
-		inFunction(*component.Get());
-	}
+	Array<EntityComponent*>& components = mEntityComponents[inComponentUID];
+	for (EntityComponent* component : components)
+		inFunction(*component);
 }
 
 void Entity::SetTransform(const fm::Transform2D& inTransform)

@@ -1,7 +1,7 @@
 #pragma once
 #include "AllocatorBase.h"
 
-// Allocator to alloce instances of a specific class
+// Allocator to allocate instances of a specific class
 template<typename taType>
 class ClassAllocator : public AllocatorBase
 {

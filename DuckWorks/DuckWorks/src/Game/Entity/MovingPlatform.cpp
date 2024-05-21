@@ -32,18 +32,20 @@ void MovingPlatform::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
+MovingPlatform::MovingPlatform()
+{
+	AddComponent<TextureRenderComponent>()->mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+}
+
 void MovingPlatform::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
 
+	LoopOverComponents<CollisionComponent>([this](CollisionComponent& inCollisionComponent)
 	{
-		MutexReadProtectedPtr<CollisionComponent> collision_component = GetFirstComponentOfType<CollisionComponent>();
-		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(collision_component->mCollisionObjectHandle);
+		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
 		collision_object->SetType(CollisionObject::EType::Dynamic);
-	}
-
-	AddComponent<TextureRenderComponent>();
-	GetFirstComponentOfType<TextureRenderComponent>()->mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+	});
 }
 
 void MovingPlatform::BeginPlay()
@@ -89,11 +91,16 @@ void MovingPlatform::Update(float inDeltaTime)
 
 	fm::Transform2D transform = GetTransform();
 	transform.position = position;
-	CollisionObjectHandle own_handle = GetFirstComponentOfType<CollisionComponent>()->mCollisionObjectHandle;
 	const Array<CollisionData>& collision_data = GetWorld()->GetCollisionWorld()->CheckCollisions(transform);
 	for (const CollisionData& data : collision_data)
 	{
-		if (data.mHandle == own_handle)
+		bool self = false;
+		LoopOverComponents<CollisionComponent>([data, &self](CollisionComponent& inCollisionComponent)
+		{
+			if (data.mHandle == inCollisionComponent.mCollisionObjectHandle)
+				self = true;
+		});
+		if (self)
 			continue;
 
 		if (data.mHandle.IsValid())
