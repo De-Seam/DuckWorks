@@ -31,9 +31,8 @@ Json World::Serialize()
 	for (const Ref<Entity>& entity : mEntities)
 	{
 		Json entity_json;
-		entity_json[entity->GetClassName()] = entity->Serialize();
+		entity_json = entity->Serialize();
 		json["Entities"].emplace_back(entity_json);
-		//json["Entities"].emplace_back(entity->Serialize());
 	}
 	return json;
 }
@@ -54,18 +53,20 @@ void World::Deserialize(const Json& inJson)
 	{
 		for (const Json& json_entity : inJson["Entities"])
 		{
-			String class_name = json_entity.begin().key();
-			const Json& components = json_entity[class_name]["Components"];
+			if (!json_entity.contains("ClassName"))
+				continue;
+
+			String class_name = json_entity["ClassName"];
+			const Json& components = json_entity["Components"];
 
 			String name = "Empty";
 			if (components.contains("NameComponent"))
 				name = components["NameComponent"]["mName"];
 
 			Ref<Entity> entity = gEntityFactory.CreateClass(class_name);
+			entity->Deserialize(json_entity);
 
 			AddEntity(entity, name);
-
-			entity->Deserialize(json_entity[class_name]);
 		}
 	}
 }

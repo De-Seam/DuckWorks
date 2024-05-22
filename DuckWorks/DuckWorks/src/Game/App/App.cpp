@@ -158,8 +158,6 @@ void App::CreateNewWorld(const Json& inJson)
 	mWorld = nullptr;
 	mWorld = std::make_unique<World>();
 	mWorld->Deserialize(inJson);
-
-	mWorld->BeginPlay();
 }
 
 void App::CreateNewEmptyWorld()

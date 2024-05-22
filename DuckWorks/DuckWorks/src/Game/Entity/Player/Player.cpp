@@ -39,8 +39,6 @@ void Player::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
 
-	mRelativeTransform = {{0.f, 0.f}, {192 - 64, 192 - 64}, 0.f};
-
 	AddComponent<HealthComponent>();
 	AddComponent<CameraComponent>();
 	LoopOverComponents<CameraComponent>([this](CameraComponent& inCameraComponent)

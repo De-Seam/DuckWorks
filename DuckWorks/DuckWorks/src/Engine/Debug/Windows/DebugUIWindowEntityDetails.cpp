@@ -82,13 +82,14 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 				UID component_rtti_uid = gEntityComponentFactory.GetRTTIUID(component_name);
 				Array<EntityComponent*> components = selected_entity->GetComponentsOfType(component_rtti_uid);
 
-				for (EntityComponent* component : components)
+				for (uint64 i = 0; i < components.size(); i++)
 				{
-					Json& json = json_components[component_name];
+					EntityComponent* component = components[i];
+					Json& json_component = json_components[i];
 
-					bool changed = gDebugDrawJson(json, component_name);
+					bool changed = gDebugDrawJson(json_component, component_name);
 					if (changed)
-						component->Deserialize(json);
+						component->Deserialize(json_component);
 				}
 			}
 			else

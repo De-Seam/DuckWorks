@@ -57,6 +57,7 @@ public:
 
 	EntityComponent* AddComponent(const Ref<Entity>& inEntity, const String& inClassName)
 	{
+		gAssert(mComponentAddFunctions.contains(inClassName), "Class Name not found! Was it registered?");
 		return mComponentAddFunctions[inClassName](inEntity);
 	}
 

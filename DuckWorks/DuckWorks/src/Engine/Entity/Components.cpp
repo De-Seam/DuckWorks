@@ -53,7 +53,8 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 
 	JSON_TRY_LOAD(inJson, mTexture);
 
-	mSrcRect = {inJson["mSrcRect"][0], inJson["mSrcRect"][1], inJson["mSrcRect"][2], inJson["mSrcRect"][3]};
+	if (inJson.contains("mSrcRect"))
+		mSrcRect = {inJson["mSrcRect"][0], inJson["mSrcRect"][1], inJson["mSrcRect"][2], inJson["mSrcRect"][3]};
 	JSON_TRY_LOAD(inJson, mUseSrcRect);
 	JSON_TRY_LOAD(inJson, mFlip);
 }
@@ -89,7 +90,7 @@ Json CollisionComponent::Serialize()
 		return json;
 
 	CollisionObjectWrapper collision_object = gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
-	json.update(collision_object->Serialize());
+	json["CollisionObject"] = collision_object->Serialize();
 
 	return json;
 }
@@ -101,7 +102,7 @@ void CollisionComponent::Deserialize(const Json& inJson)
 	CollisionObject::InitParams params;
 	if (!mCollisionObjectHandle.IsValid())
 		mCollisionObjectHandle = gApp.GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
-	gApp.GetWorld()->GetCollisionWorld()->DeserializeCollisionObject(mCollisionObjectHandle, inJson);
+	gApp.GetWorld()->GetCollisionWorld()->DeserializeCollisionObject(mCollisionObjectHandle, inJson["CollisionObject"]);
 }
 
 CollisionComponent::CollisionComponent()

@@ -13,16 +13,12 @@ Json CollisionActor::Serialize()
 {
 	Json json = Base::Serialize();
 
-	JSON_SAVE(json, mRelativeTransform);
-
 	return json;
 }
 
 void CollisionActor::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
-
-	JSON_TRY_LOAD(inJson, mRelativeTransform);
 }
 
 CollisionActor::CollisionActor()
@@ -62,26 +58,20 @@ void CollisionActor::BeginPlay()
 
 fm::Transform2D CollisionActor::MoveTo(Optional<fm::vec2> inPosition, Optional<float> inRotation, Optional<fm::vec2> inHalfSize)
 {
-	if (inPosition.has_value())
-		inPosition.value() -= mRelativeTransform.position;
-	if (inRotation.has_value())
-		inRotation.value() -= mRelativeTransform.rotation;
-	if (inHalfSize.has_value())
-		inHalfSize.value() -= mRelativeTransform.halfSize;
-
-	fm::Transform2D transform;
+	fm::Transform2D transform = GetTransform();
 	LoopOverComponents<CollisionComponent>([&](const CollisionComponent& inCollisionComponent)
 	{
-		transform = GetWorld()->GetCollisionWorld()->MoveTo(inCollisionComponent.mCollisionObjectHandle, inPosition, inRotation, inHalfSize);
+		fm::Transform2D new_transform = GetWorld()->GetCollisionWorld()->MoveTo(inCollisionComponent.mCollisionObjectHandle, inPosition, inRotation, inHalfSize);
+		transform.position = new_transform.position;
+		transform.rotation = new_transform.rotation;
 	});
-	transform = transform + mRelativeTransform;
 	Base::SetTransform(transform);
 	return transform;
 }
 
 void CollisionActor::TeleportPosition(const fm::vec2& inPosition)
 {
-	Base::SetPosition(inPosition + mRelativeTransform.position);
+	Base::SetPosition(inPosition);
 
 	LoopOverComponents<CollisionComponent>([&](const CollisionComponent& inCollisionComponent)
 	{
@@ -91,7 +81,7 @@ void CollisionActor::TeleportPosition(const fm::vec2& inPosition)
 
 void CollisionActor::TeleportTransform(const fm::Transform2D& inTransform)
 {
-	Base::SetTransform(inTransform + mRelativeTransform);
+	Base::SetTransform(inTransform);
 
 	LoopOverComponents<CollisionComponent>([&](const CollisionComponent& inCollisionComponent)
 	{

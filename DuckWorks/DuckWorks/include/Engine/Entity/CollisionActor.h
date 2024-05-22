@@ -19,11 +19,4 @@ public:
 	virtual fm::Transform2D MoveTo(Optional<fm::vec2> inPosition, Optional<float> inRotation = NullOpt, Optional<fm::vec2> inHalfSize = NullOpt);
 	void TeleportPosition(const fm::vec2& inPosition);
 	void TeleportTransform(const fm::Transform2D& inTransform);
-
-protected:
-	// Relative Transform:
-	// Render Position = Collision Position + Relative Transform Position
-	// Render Half Size = Collision Half Size + Relative Transform Half Size
-	// Render Rotation = Collision Rotation + Relative Transform Rotation
-	fm::Transform2D mRelativeTransform = { {0.f,0.f}, {0.f,0.f}, 0.f };
 };

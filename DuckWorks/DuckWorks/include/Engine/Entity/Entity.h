@@ -55,6 +55,7 @@ public:
 	template<typename taType>
 	Array<taType*> GetComponentsOfType(); ///< Warning: Slow!
 	Array<EntityComponent*> GetComponentsOfType(UID inComponentUID);
+	int32 GetComponentCountOfType(UID inComponentUID);
 	template<typename taType>
 	bool HasComponent();
 	bool HasComponent(UID inComponentUID);

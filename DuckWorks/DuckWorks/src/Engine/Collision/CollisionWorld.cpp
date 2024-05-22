@@ -47,6 +47,8 @@ CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObjec
 
 	CollisionObjectHandle handle = FindOrCreateCollisionObjectIndex(inInitParams);
 	mBVH.AddObject(handle);
+	if (!mBVH.IsGenerated())
+		mBVH.Generate();
 	return handle;
 }
 

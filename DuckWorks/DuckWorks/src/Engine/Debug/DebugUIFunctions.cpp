@@ -23,6 +23,15 @@ bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine, bool inShowKey)
 {
 	PROFILE_SCOPE(gHandleKeyValuePair)
+
+	static HashMap<String, bool> sIgnoreKeys =
+	{
+		{ "ClassName", true }
+	};
+
+	if (sIgnoreKeys.contains(inKey))
+		return false;
+
 	String label = String("##" + inLabel + inKey);
 	nlohmann::detail::value_t value_type = ioValue.type();
 	
@@ -42,6 +51,9 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 		bool changed = false;
 		for (const auto& [key, value] : ioValue.items())
 		{
+			if (sIgnoreKeys.contains(key))
+				continue;
+
 			if (ImGui::TreeNodeEx((key + label + "TreeNode").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				if (gHandleKeyValuePair(ioJson, label, key, value, false, false))
