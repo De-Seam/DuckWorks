@@ -27,6 +27,25 @@ void CollisionActor::Deserialize(const Json& inJson)
 
 CollisionActor::CollisionActor()
 {
+	
+}
+
+CollisionActor::~CollisionActor()
+{
+	Array<CollisionComponent*> collision_components = GetComponentsOfType<CollisionComponent>();
+	World* world = GetWorld();
+	CollisionWorld* collision_world = world->GetCollisionWorld();
+
+	LoopOverComponents<CollisionComponent>([collision_world](CollisionComponent& inCollisionComponent)
+	{
+		collision_world->DestroyCollisionObject(inCollisionComponent.mCollisionObjectHandle);
+	});
+}
+
+void CollisionActor::Init(const InitParams& inInitParams)
+{
+	Base::Init(inInitParams);
+	
 	CollisionObject::InitParams params;
 	params.mBlocking = true;
 	params.mTransform = GetTransform();
@@ -34,22 +53,6 @@ CollisionActor::CollisionActor()
 	params.mEntity = this;
 	CollisionObjectHandle handle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
 	AddComponent<CollisionComponent>(handle);
-}
-
-CollisionActor::~CollisionActor()
-{
-	Array<MutexReadProtectedPtr<CollisionComponent>> collision_components = GetComponentsOfType<CollisionComponent>();
-	World* world = GetWorld();
-	CollisionWorld* collision_world = world->GetCollisionWorld();
-
-	for (MutexReadProtectedPtr<CollisionComponent>& collision_component : collision_components)
-		collision_world->DestroyCollisionObject(collision_component->mCollisionObjectHandle);
-}
-
-void CollisionActor::Init(const InitParams& inInitParams)
-{
-	Base::Init(inInitParams);
-	
 }
 
 void CollisionActor::BeginPlay()

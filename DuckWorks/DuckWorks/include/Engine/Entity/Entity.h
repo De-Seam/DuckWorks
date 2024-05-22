@@ -95,19 +95,20 @@ taType* Entity::AddComponent(taArgs&&... inArgs)
 {
 	ScopedMutexWriteLock lock(mEntityComponentsMutex);
 
-	taType* component = taType::sNewInstance(std::forward(inArgs)...;
-	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component));
+	taType* component = taType::sNewInstance(std::forward<taArgs>(inArgs)...);
+	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component);
+	return component;
 }
 
 template<typename taType>
 Array<taType*> Entity::GetComponentsOfType()
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
-	Array<MutexReadProtectedPtr<taType>> return_array;
+	Array<taType*> return_array;
 
 	Array<EntityComponent*>& components = mEntityComponents[taType::sGetRTTIUID()];
 	for (EntityComponent* component : components)
-		return_array.emplace_back(component);
+		return_array.emplace_back(SCast<taType*>(component));
 
 	return return_array;
 }
@@ -121,28 +122,11 @@ bool Entity::HasComponent()
 	return iterator != mEntityComponents.end() && !iterator->second.empty();
 }
 
-void Entity::RemoveComponent(EntityComponent* inEntityComponent)
-{
-	ScopedMutexWriteLock lock(mEntityComponentsMutex);
-
-	Array<EntityComponent*>& components = mEntityComponents[inEntityComponent->GetRTTIUID()];
-	for (auto it = components.rbegin(); it != components.rend(); it++)
-	{
-		if (*it == inEntityComponent)
-		{
-			components.erase(it.base());
-			delete inEntityComponent;
-			return;
-		}
-	}
-	gAssert(false, "Component not found!");
-}
-
 template<typename taType>
 void Entity::LoopOverComponents(const Function<void(taType& inComponent)>& inFunction)
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	Array<EntityComponent*>& components = mEntityComponents[taType::sGetRTTIUID()];
 	for (EntityComponent* component : components)
-		inFunction(*component);
+		inFunction(*SCast<taType*>(component));
 }

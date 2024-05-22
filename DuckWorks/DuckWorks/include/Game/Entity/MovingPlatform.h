@@ -7,7 +7,7 @@ class MovingPlatform : public CollisionActor
 	RTTI_CLASS(MovingPlatform, CollisionActor)
 
 public:
-	MovingPlatform() = default;
+	MovingPlatform();
 	virtual void Init(const Entity::InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;

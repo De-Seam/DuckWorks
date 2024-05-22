@@ -80,9 +80,9 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 			if (has_component)
 			{
 				UID component_rtti_uid = gEntityComponentFactory.GetRTTIUID(component_name);
-				Array<MutexReadProtectedPtr<EntityComponent>> components = selected_entity->GetComponentsOfType(component_rtti_uid);
+				Array<EntityComponent*> components = selected_entity->GetComponentsOfType(component_rtti_uid);
 
-				for (MutexReadProtectedPtr<EntityComponent>& component : components)
+				for (EntityComponent* component : components)
 				{
 					Json& json = json_components[component_name];
 

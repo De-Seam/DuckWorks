@@ -40,7 +40,7 @@ extern Factory<DebugUIWindow> gDebugUIWindowFactory;
 class EntityComponentFactory : public Factory<EntityComponent>
 {
 public:
-	using ComponentAddFunction = std::function<EntityComponent&(const Ref<Entity>&)>;
+	using ComponentAddFunction = std::function<EntityComponent*(const Ref<Entity>&)>;
 
 	template<typename taType>
 	void RegisterClass(const String& inClassName)
@@ -49,15 +49,15 @@ public:
 
 		ComponentAddFunction func = ComponentAddFunction([](const Ref<Entity>& inEntity)
 		{
-			return *inEntity->AddComponent<taType>();
+			return inEntity->AddComponent<taType>();
 		});
 
 		mComponentAddFunctions[inClassName] = func;
 	}
 
-	EntityComponent& AddComponent(const Ref<Entity>& inEntity, const String& inClassName)
+	EntityComponent* AddComponent(const Ref<Entity>& inEntity, const String& inClassName)
 	{
-		mComponentAddFunctions[inClassName](inEntity);
+		return mComponentAddFunctions[inClassName](inEntity);
 	}
 
 private:

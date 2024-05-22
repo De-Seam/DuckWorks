@@ -6,8 +6,16 @@ class RefObject : public RTTIBaseClass
 	RTTI_CLASS(RefObject, RTTIBaseClass)
 
 public:
-	RefObject() = default;
-	virtual ~RefObject() override = default;
+	RefObject()
+	{
+		mWeakRefCounter = new RefObject::WeakRefCounter();
+	}
+	virtual ~RefObject() override
+	{
+		mWeakRefCounter->mIsAlive = false;
+		if (mWeakRefCounter->mRefCount <= 0)
+			delete mWeakRefCounter;
+	}
 
 	struct WeakRefCounter
 	{
@@ -40,7 +48,6 @@ public:
 	{
 		static_assert(std::is_base_of_v<RefObject, taType>);
 		mPtr = new taType(std::forward<taArgs>(inArgs)...);
-		mPtr->mWeakRefCounter = new RefObject::WeakRefCounter();
 		mPtr->mRefCount++;
 	}
 
@@ -63,13 +70,7 @@ public:
 		{
 			mPtr->mRefCount--;
 			if (mPtr->mRefCount <= 0)
-			{
-				mPtr->mWeakRefCounter->mIsAlive = false;
-				if (mPtr->mWeakRefCounter->mRefCount <= 0)
-					delete mPtr->mWeakRefCounter;
-
 				delete mPtr;
-			}
 		}
 
 		mPtr = inOther.mPtr;
@@ -86,8 +87,6 @@ public:
 		static_assert(std::is_base_of_v<RefObject, taType>);
 		mPtr = inSelf;
 		mPtr->mRefCount++;
-		if (mPtr->mWeakRefCounter == nullptr)
-			mPtr->mWeakRefCounter = new RefObject::WeakRefCounter();
 	}
 
 	template<typename taParentClass>
@@ -106,13 +105,7 @@ public:
 		mPtr->mRefCount--;
 
 		if (mPtr->mRefCount <= 0)
-		{
-			mPtr->mWeakRefCounter->mIsAlive = false;
-			if (mPtr->mWeakRefCounter->mRefCount <= 0)
-				delete mPtr->mWeakRefCounter;
-
 			delete mPtr;
-		}
 	}
 
 	taType* Get() const { return mPtr; }

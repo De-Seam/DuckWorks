@@ -52,7 +52,7 @@ public: \
 	static inClassName* sNewInstance(taArgs&&... inArgs) \
 	{ \
 		##inClassName* instance = s##inClassName##ClassAllocator.Allocate(ALLOC_TRACK); \
-		instance->operator new(std::forward(inArgs)...); \
+		instance = new (instance) inClassName(std::forward<taArgs>(inArgs)...); \
 		return instance; \
 	} \
 \
@@ -124,7 +124,7 @@ public:
 	static RTTIBaseClass* sNewInstance(taArgs&&... inArgs)
 	{
 		RTTIBaseClass* instance = sRTTIBaseClassClassAllocator.Allocate(ALLOC_TRACK);
-		instance->operator new(std::forward(inArgs)...);
+		instance = new (instance) RTTIBaseClass(std::forward<taArgs>(inArgs)...);
 		return instance;
 	}
 

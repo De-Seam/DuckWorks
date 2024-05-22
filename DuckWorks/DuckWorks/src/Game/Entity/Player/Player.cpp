@@ -156,8 +156,7 @@ enum class EPlayerAnimationState : uint16
 
 void Player::SetupAnimations()
 {
-	AddComponent<AnimationComponent>();
-	MutexReadProtectedPtr<AnimationComponent> animation_component = GetFirstComponentOfType<AnimationComponent>();
+	AnimationComponent* animation_component = AddComponent<AnimationComponent>();
 	animation_component->mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
 }
 

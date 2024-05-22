@@ -44,8 +44,8 @@ void Entity::Deserialize(const Json& inJson)
 			if (!json_components.contains(component_name))
 				continue;
 
-			EntityComponent& component = gEntityComponentFactory.AddComponent(this, component_name);
-			component.Deserialize(json_components[component_name]);
+			EntityComponent* component = gEntityComponentFactory.AddComponent(this, component_name);
+			component->Deserialize(json_components[component_name]);
 		}
 	}
 }
@@ -78,6 +78,23 @@ bool Entity::HasComponent(UID inComponentUID)
 		return false;
 
 	return !it->second.empty();
+}
+
+void Entity::RemoveComponent(EntityComponent* inEntityComponent)
+{
+	ScopedMutexWriteLock lock(mEntityComponentsMutex);
+
+	Array<EntityComponent*>& components = mEntityComponents[inEntityComponent->GetRTTIUID()];
+	for (auto it = components.rbegin(); it != components.rend(); it++)
+	{
+		if (*it == inEntityComponent)
+		{
+			components.erase(it.base());
+			delete inEntityComponent;
+			return;
+		}
+	}
+	gAssert(false, "Component not found!");
 }
 
 void Entity::LoopOverComponents(UID inComponentUID, const Function<void(EntityComponent& inComponent)>& inFunction)

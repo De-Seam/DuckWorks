@@ -12,6 +12,9 @@ public:
 	taType* Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin));
 	void Free(taType* inPtr);
 
+	const Array<void*> GetPages() const { return mPages; }
+	uint64 GetPageSize() const { return mPageSize; }
+
 protected:
 	virtual void* CreateNewPage();
 
@@ -42,13 +45,14 @@ inline taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const Strin
 {
 	for (void* page : mPages)
 	{
-		for (void* ptr = page; ptr < page + mPageSize; ptr += sizeof(bool) + sizeof(taType))
+		for (void* ptr = page; ptr < RCast<void*>((uint64)page + mPageSize); ptr = RCast<void*>((uint64)ptr + sizeof(bool) + sizeof(taType)))
 		{
 			if (*RCast<bool*>(ptr) == true)
 			{
 				*RCast<bool*>(ptr) = false;
-				IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, ptr + sizeof(bool)));
-				return ptr + sizeof(bool);
+				taType* return_ptr = RCast<taType*>((uint64)ptr + sizeof(bool));
+				IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, return_ptr));
+				return return_ptr;
 			}
 		}
 	}
@@ -56,8 +60,9 @@ inline taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const Strin
 	void* page = mPages.back();
 	void* ptr = page;
 	*RCast<bool*>(ptr) = false;
-	IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, ptr + sizeof(bool)));
-	return ptr + sizeof(bool);
+	taType* return_ptr = RCast<taType*>((uint64)ptr + sizeof(bool));
+	IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, return_ptr));
+	return return_ptr;
 }
 
 template<typename taType>
