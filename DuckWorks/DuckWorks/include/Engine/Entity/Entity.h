@@ -96,6 +96,7 @@ taType* Entity::AddComponent(taArgs&&... inArgs)
 	ScopedMutexWriteLock lock(mEntityComponentsMutex);
 
 	taType* component = taType::sNewInstance(std::forward<taArgs>(inArgs)...);
+	component->mEntity = this;
 	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component);
 	return component;
 }

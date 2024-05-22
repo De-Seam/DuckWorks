@@ -62,6 +62,8 @@ public: \
 		s##inClassName##ClassAllocator.Free(this); \
 	} \
 \
+	static ClassAllocator<##inClassName##>& sGetClassAllocator() { return s##inClassName##ClassAllocator; } \
+\
 	private: \
 		static ClassAllocator<##inClassName##> s##inClassName##ClassAllocator; \
 		static UID s##inClassName##RTTIUID; \
@@ -134,6 +136,8 @@ public:
 		sRTTIBaseClassClassAllocator.Free(this);
 	}
 
+	static ClassAllocator<RTTIBaseClass>& sGetClassAllocator() { return sRTTIBaseClassClassAllocator; }
+
 private:
 	static ClassAllocator<RTTIBaseClass> sRTTIBaseClassClassAllocator;
 	static UID sRTTIBaseClassRTTIUID;
@@ -153,8 +157,7 @@ taCastType* gCast(RTTIBaseClass* inObject)
 	gEntityFactory.RegisterClass<inEntity>(#inEntity)
 
 #define REGISTER_COMPONENT(inComponent) \
-	gEntityComponentFactory.RegisterClass<inComponent>(#inComponent); \
-	gEntityComponentManager.RegisterComponentType<inComponent>()
+	gEntityComponentFactory.RegisterClass<inComponent>(#inComponent); 
 
 #define REGISTER_DEBUG_UI_WINDOW(inWindow) \
 	gDebugUIWindowFactory.RegisterClass<inWindow>(#inWindow)

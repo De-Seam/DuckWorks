@@ -16,10 +16,10 @@ public:
 	virtual void EndPlay() {}
 	virtual void Update([[maybe_unused]] float inDeltaTime) {}
 
-	Entity* GetEntity() const { return mEntity; }
+	Entity* GetEntity() const { gAssert(mEntity != nullptr, "Entity was not set!"); return mEntity; }
 
 private:
 	Entity* mEntity = nullptr;
 
-	friend class EntityComponentManager;
+	friend class Entity;
 };
