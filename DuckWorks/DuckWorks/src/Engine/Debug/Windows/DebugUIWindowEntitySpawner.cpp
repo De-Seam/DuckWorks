@@ -36,6 +36,7 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 		if (ImGui::Button(entity_name.c_str()))
 		{
 			Ref<Entity> entity = gEntityFactory.CreateClass(entity_name);
+			entity->SetGUID(GUID::sCreate());
 			gApp.GetWorld()->AddEntity(entity, entity_name);
 			fm::vec2 position = gRenderer.GetCamera()->GetPosition();
 			entity->SetPosition(position);

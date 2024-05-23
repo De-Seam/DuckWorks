@@ -98,6 +98,7 @@ taType* Entity::AddComponent(taArgs&&... inArgs)
 
 	taType* component = taType::sNewInstance(std::forward<taArgs>(inArgs)...);
 	component->mEntity = this;
+	component->SetGUID(GUID::sCreate());
 	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component);
 	return component;
 }

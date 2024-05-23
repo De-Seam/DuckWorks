@@ -1,5 +1,10 @@
 {
     "ClassName": "World",
+    "Entities": [
+        {
+        }
+    ],
+    "mGUID": "0000-0000-0000-0000",
     "mPhysicsTimeStep": 0.01666666753590107,
     "mPhysicsUpdateFrequency": 60,
     "mPositionIterations": 2,

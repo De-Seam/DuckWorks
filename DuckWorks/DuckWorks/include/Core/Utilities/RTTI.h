@@ -1,7 +1,10 @@
 #pragma once
+// Core includes
 #include "UID.h"
 #include "Utilities.h"
-#include "Core/Allocators/ClassAllocator.h"
+#include <Core/Allocators/ClassAllocator.h>
+#include <Core/Utilities/GUID.h>
+
 
 #pragma warning( push )
 #pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
@@ -93,7 +96,7 @@ public:
 	virtual const char* GetParentClassName() const = 0;
 
 	virtual Json Serialize();
-	virtual void Deserialize(const Json& inJson) { (void)inJson; }
+	virtual void Deserialize(const Json& inJson);
 
 	static const UID& sGetRTTIUID() { return sRTTIBaseClassRTTIUID; }
 	virtual const UID& GetRTTIUID() const { return sRTTIBaseClassRTTIUID; }
@@ -138,7 +141,12 @@ public:
 
 	static ClassAllocator<RTTIBaseClass>& sGetClassAllocator() { return sRTTIBaseClassClassAllocator; }
 
+	void SetGUID(const GUID& inGUID) { mGUID = inGUID; }
+	const GUID& GetGUID() const { return mGUID; }
+
 private:
+	GUID mGUID = {};
+
 	static ClassAllocator<RTTIBaseClass> sRTTIBaseClassClassAllocator;
 	static UID sRTTIBaseClassRTTIUID;
 	UID mUID = {};

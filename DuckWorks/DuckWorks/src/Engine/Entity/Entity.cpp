@@ -39,33 +39,25 @@ void Entity::Deserialize(const Json& inJson)
 	if (inJson.contains("Components"))
 	{
 		const Json& json_components = inJson["Components"];
-		static THREADLOCAL HashMap<String, int32> sComponentCounts;
-		sComponentCounts.clear();
 
 		for (const Json& json_component : json_components)
 		{
 			const String& class_name = json_component["ClassName"];
+			UID rtti_uid = gEntityComponentFactory.GetRTTIUID(class_name);
 			EntityComponent* component = nullptr;
-			if (!sComponentCounts.contains(class_name))
+
+			for (EntityComponent* current_component : mEntityComponents[rtti_uid])
 			{
-				//component = gEntityComponentFactory.AddComponent(this, json_component["ClassName"]);
-				sComponentCounts[class_name] = 0;
+				if (json_component["mGUID"] == current_component->GetGUID().ToString())
+				{
+					component = current_component;
+					break;
+				}
 			}
 
-			{
-				int32& count = sComponentCounts[class_name];
-				count++;
-				UID rtti_uid = gEntityComponentFactory.GetRTTIUID(class_name);
-				if (count > GetComponentCountOfType(rtti_uid))
-				{
-					component = gEntityComponentFactory.AddComponent(this, json_component["ClassName"]);
-				}
-				else
-				{
-					component = GetComponentsOfType(rtti_uid)[count - 1];
-				}
-			}
-			
+			if (component == nullptr)
+				component = gEntityComponentFactory.AddComponent(this, class_name);
+
 			component->Deserialize(json_component);
 		}
 	}
@@ -93,7 +85,7 @@ Array<EntityComponent*> Entity::GetComponentsOfType(UID inComponentUID)
 int32 Entity::GetComponentCountOfType(UID inComponentUID)
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
-	return mEntityComponents[inComponentUID].size();
+	return SCast<int32>(mEntityComponents[inComponentUID].size());
 }
 
 bool Entity::HasComponent(UID inComponentUID)
