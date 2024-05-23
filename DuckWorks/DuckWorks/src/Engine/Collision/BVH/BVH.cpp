@@ -2,10 +2,10 @@
 #include "Engine/Collision/BVH/BVH.h"
 
 // Engine includes
-#include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
-#include "Engine/Renderer/Renderer.h"
+#include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Renderer/Renderer.h"
 
 void BVH::Init(const InitParams& inParams)
 {
@@ -22,7 +22,6 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::AddObject)
 
-
 	bool resized = false;
 	{
 		ScopedMutexWriteLock lock(mBVHMutex);
@@ -37,7 +36,7 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 
 		CollisionObjectData data;
 		data.mCollisionObjectHandle = inObject;
-		CollisionObject &object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
+		CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
 		data.mAABB = object.GetAABB();
 		if (object.GetType() == CollisionObject::EType::Dynamic)
 		{
@@ -97,6 +96,9 @@ void BVH::Draw()
 {
 	PROFILE_SCOPE(BVH::Draw)
 
+	if (!IsGenerated())
+		return;
+
 	static Array<DrawData> sDrawDatas;
 	sDrawDatas.clear();
 
@@ -150,17 +152,17 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
 
 	mObjects[inObject.mIndex].mAABB = aabb;
-	
+
 	// Here we resize the nodes to tighly fit around their objects
 	// Index 1 is the leaf node
-	BVHNode *leaf_node = &mNodes[node_hierarchy[1]];
+	BVHNode* leaf_node = &mNodes[node_hierarchy[1]];
 	leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
 
 	// Here we don't need to calculate the node to encompass all objects, only the other node's AABBs
 	// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
 	for (uint64 i = 2; i < node_hierarchy.size(); i++)
 	{
-		BVHNode *node = &mNodes[node_hierarchy[i]];
+		BVHNode* node = &mNodes[node_hierarchy[i]];
 		node->mAABB = gComputeEncompassingAABB(mNodes[node->mLeftFirst].mAABB, mNodes[node->mLeftFirst + 1].mAABB);
 	}
 }
@@ -322,7 +324,7 @@ void BVH::AdjustAABBForDynamicObject(AABB& ioAABB)
 // It will be reserved, so index[0] will be the mIndices index of the object itself
 // And index[1] will be the mNodes index of the leaf node
 // And index.back() will be the root node, 0.
-const Array<uint64> &BVH::FindNodeHierarchyContainingObject(const CollisionObjectHandle &inObject, const AABB &inAABB)
+const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjectHandle& inObject, const AABB& inAABB)
 {
 	static THREADLOCAL Array<uint64> sReturnArray;
 	sReturnArray.clear();
@@ -333,8 +335,9 @@ const Array<uint64> &BVH::FindNodeHierarchyContainingObject(const CollisionObjec
 	return sReturnArray;
 }
 
-bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64> &ioIndices, const CollisionObjectHandle &inObject, const AABB &inAABB,
-													uint64 inNodeIndex)
+bool BVH::FindNodeHierarchyContainingObjectRecursive(
+	Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const AABB& inAABB,
+	uint64 inNodeIndex)
 {
 	BVHNode* node = &mNodes[inNodeIndex];
 	// Early out if this node does not collide with the aabbb
@@ -369,7 +372,6 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(Array<uint64> &ioIndices, c
 	}
 	return false;
 }
-
 
 // This will find the node hierarchy containing inObject.
 // It will be reserved, so index[0] will be the mNodes index of the leaf node

@@ -4,16 +4,15 @@
 // Engine includes
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
-#include "Engine/Entity/Entity.h"
 #include "Engine/Entity/Components.h"
+#include "Engine/Entity/Entity.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/World/World.h"
 
 // External includes
-#include <External/imgui/imgui.h>
 #include <Engine/Entity/CollisionActor.h>
-
+#include <External/imgui/imgui.h>
 
 RTTI_CLASS_DEFINITION(DebugUIWindowEntityDetails)
 
@@ -66,44 +65,15 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(1.f, 1.f, 1.f, 1.f), "Components");
 
-	const Array<String>& all_component_names = gEntityComponentFactory.GetClassNames();
-	for (const String& component_name : all_component_names)
+	selected_entity->LoopOverAllComponents([&](EntityComponent& inComponent)
 	{
-		UID component_type_uid = gEntityComponentFactory.GetRTTIUID(component_name);
-		bool has_component = selected_entity->HasComponent(component_type_uid);
+		String component_name = inComponent.GetClassName();
+		Json json_component = inComponent.Serialize();
 
-		if (!has_component)
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.4f, 0.4f, 1.f));
-
-		if (ImGui::TreeNode((component_name + "##TreeNode").c_str()))
-		{
-			if (has_component)
-			{
-				UID component_rtti_uid = gEntityComponentFactory.GetRTTIUID(component_name);
-				Array<EntityComponent*> components = selected_entity->GetComponentsOfType(component_rtti_uid);
-
-				for (uint64 i = 0; i < components.size(); i++)
-				{
-					EntityComponent* component = components[i];
-					Json& json_component = json_components[i];
-
-					bool changed = gDebugDrawJson(json_component, component_name);
-					if (changed)
-						component->Deserialize(json_component);
-				}
-			}
-			else
-			{
-				ImGui::PopStyleColor(1);
-				String label = String("+##" + component_name + "AddButton");
-				if (ImGui::SmallButton(label.c_str()))
-					gEntityComponentFactory.AddComponent(selected_entity, component_name);
-			}
-			ImGui::TreePop();
-		}
-		else if (!has_component)
-			ImGui::PopStyleColor(1);
-	}
+		bool changed = gDebugDrawJson(json_component, component_name);
+		if (changed)
+			inComponent.Deserialize(json_component);
+	});
 
 	if (gDebugUIWindowManager.mDrawEntityOutline)
 	{

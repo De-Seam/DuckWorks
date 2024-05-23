@@ -35,21 +35,19 @@ ClassAllocator<taType>::ClassAllocator(uint64 inClassAmount, uint64 inInitialPag
 template<typename taType>
 ClassAllocator<taType>::~ClassAllocator()
 {
-	for (void* page : mPages)
-		free(page);
 	mPages.clear();
 }
 
 template<typename taType>
-inline taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin))
+taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin))
 {
 	for (void* page : mPages)
 	{
 		for (void* ptr = page; ptr < RCast<void*>((uint64)page + mPageSize); ptr = RCast<void*>((uint64)ptr + sizeof(bool) + sizeof(taType)))
 		{
-			if (*RCast<bool*>(ptr) == true)
+			if (*SCast<bool*>(ptr) == true)
 			{
-				*RCast<bool*>(ptr) = false;
+				*SCast<bool*>(ptr) = false;
 				taType* return_ptr = RCast<taType*>((uint64)ptr + sizeof(bool));
 				IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, return_ptr));
 				return return_ptr;
@@ -59,7 +57,7 @@ inline taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const Strin
 	CreateNewPage();
 	void* page = mPages.back();
 	void* ptr = page;
-	*RCast<bool*>(ptr) = false;
+	*SCast<bool*>(ptr) = false;
 	taType* return_ptr = RCast<taType*>((uint64)ptr + sizeof(bool));
 	IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, return_ptr));
 	return return_ptr;
@@ -68,14 +66,17 @@ inline taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const Strin
 template<typename taType>
 void ClassAllocator<taType>::Free(taType* inPtr)
 {
+	IF_TRACK_ALLOCATIONS(UntrackAllocation(inPtr));
+
 	void* ptr = inPtr - sizeof(bool);
-	*RCast<bool*>(ptr) = true;
+	*SCast<bool*>(ptr) = true;
 }
 
 template<typename taType>
 void* ClassAllocator<taType>::CreateNewPage()
 {
 	void* page = malloc(mPageSize);
+	gAssert(page != nullptr, "Failed to allocate memory for new page");
 	// memset to 1 to set the Available flags to true
 	memset(page, 0x01010101, mPageSize);
 	mPages.emplace_back(page);

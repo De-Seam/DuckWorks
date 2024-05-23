@@ -26,7 +26,8 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 
 	static HashMap<String, bool> sIgnoreKeys =
 	{
-		{ "ClassName", true }
+		{"ClassName", true},
+		{"mGUID", true}
 	};
 
 	if (sIgnoreKeys.contains(inKey))
@@ -34,7 +35,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 
 	String label = String("##" + inLabel + inKey);
 	nlohmann::detail::value_t value_type = ioValue.type();
-	
+
 	if (inShowKey)
 	{
 		ImGui::Text(inKey.c_str());

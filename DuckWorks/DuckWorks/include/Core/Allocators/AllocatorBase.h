@@ -5,7 +5,7 @@
 #ifdef _DEBUG
 #define TRACK_ALLOCATIONS
 #define IF_TRACK_ALLOCATIONS(x) x
-#define ALLOC_TRACK __FILE__
+#define ALLOC_TRACK __FILE__ ":" + std::to_string(__LINE__)
 #else
 #define IF_TRACK_ALLOCATIONS(x)
 #define ALLOC_TRACK 
@@ -31,7 +31,7 @@ protected:
 };
 
 template<typename taType, typename... taArgs>
-inline taType* AllocatorBase::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs &&... inArgs)
+taType* AllocatorBase::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs&&... inArgs)
 {
 	IF_TRACK_ALLOCATIONS((void)inAllocationOrigin;)
 	(void)inArgs;

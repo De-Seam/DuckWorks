@@ -65,6 +65,8 @@ public:
 	void LoopOverComponents(const Function<void(taType& inComponent)>& inFunction);
 	void LoopOverComponents(UID inComponentUID, const Function<void(EntityComponent& inComponent)>& inFunction);
 
+	void LoopOverAllComponents(const Function<void(EntityComponent& inComponent)>& inFunction);
+
 	virtual void SetTransform(const fm::Transform2D& inTransform);
 	virtual void SetPosition(const fm::vec2& inPosition);
 	virtual void SetHalfSize(const fm::vec2& inHalfSize);
@@ -89,6 +91,8 @@ private:
 
 	String mName;
 	World* mWorld = nullptr;
+
+	int32 mEntityComponentSalt = 0;
 };
 
 template<typename taType, typename... taArgs>
@@ -98,7 +102,8 @@ taType* Entity::AddComponent(taArgs&&... inArgs)
 
 	taType* component = taType::sNewInstance(std::forward<taArgs>(inArgs)...);
 	component->mEntity = this;
-	component->SetGUID(GUID::sCreate());
+	static GUID sBaseComponentGUID = GUID("52af-b8bb-1b48-d338");
+	component->SetGUID(GUID::sCombine(GetGUID(), sBaseComponentGUID, mEntityComponentSalt++));
 	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component);
 	return component;
 }

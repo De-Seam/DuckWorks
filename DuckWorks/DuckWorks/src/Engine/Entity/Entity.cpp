@@ -63,7 +63,15 @@ void Entity::Deserialize(const Json& inJson)
 	}
 }
 
-Entity::~Entity() {}
+Entity::~Entity()
+{
+	// Delete and Clear all components
+	LoopOverAllComponents([&](EntityComponent& inComponent)
+	{
+		inComponent.Delete();
+	});
+	mEntityComponents.clear();
+}
 
 void Entity::Destroy()
 {
@@ -123,6 +131,18 @@ void Entity::LoopOverComponents(UID inComponentUID, const Function<void(EntityCo
 	Array<EntityComponent*>& components = mEntityComponents[inComponentUID];
 	for (EntityComponent* component : components)
 		inFunction(*component);
+}
+
+void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inComponent)>& inFunction)
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+
+	for (auto& pair : mEntityComponents)
+	{
+		Array<EntityComponent*>& components = pair.second;
+		for (EntityComponent* component : components)
+			inFunction(*component);
+	}
 }
 
 void Entity::SetTransform(const fm::Transform2D& inTransform)

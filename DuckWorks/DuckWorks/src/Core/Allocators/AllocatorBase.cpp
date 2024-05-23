@@ -1,7 +1,6 @@
 #include "Precomp.h"
 #include "Core/Allocators/AllocatorBase.h"
 
-
 AllocatorBase::~AllocatorBase()
 {
 #ifdef TRACK_ALLOCATIONS
@@ -24,7 +23,8 @@ void AllocatorBase::TrackAllocation(const String& inAllocationOrigin, void* inAl
 
 void AllocatorBase::UntrackAllocation(void* inAllocatedPtr)
 {
-	mAllocations.erase(inAllocatedPtr);
+	if (mAllocations.erase(inAllocatedPtr) == 0)
+		gAssert(false, "Trying to untrack allocation that was not tracked!");
 }
 
 #endif // TRACK_ALLOCATIONS

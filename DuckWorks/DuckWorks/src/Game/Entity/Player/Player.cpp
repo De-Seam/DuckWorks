@@ -5,8 +5,8 @@
 #include "Core/Utilities/RefObject.h"
 
 // Engine includes
-#include "Engine/Events/EventManager.h"
 #include "Engine/Entity/Components.h"
+#include "Engine/Events/EventManager.h"
 #include "Engine/Renderer/AnimationManager.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
@@ -77,15 +77,15 @@ void Player::Init(const InitParams& inInitParams)
 	}
 
 	LoopOverComponents<CollisionComponent>([this](CollisionComponent& inCollisionComponent)
-		{
-			CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
+	{
+		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
 
-			collision_object->SetType(CollisionObject::EType::Dynamic);
-			collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
-				{
-					OnCollision(inParams);
-				});
+		collision_object->SetType(CollisionObject::EType::Dynamic);
+		collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
+		{
+			OnCollision(inParams);
 		});
+	});
 }
 
 void Player::BeginPlay()
