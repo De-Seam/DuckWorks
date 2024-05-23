@@ -624,6 +624,9 @@
     <ClInclude Include="include\Core\Allocators\ClassAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Core\Utilities\GUID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -822,6 +825,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Allocators\ClassAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Utilities\GUID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,9 @@
 #pragma once
 #include "RTTI.h"
 
+// Core includes
+#include <Core/Utilities/GUID.h>
+
 class RefObject : public RTTIBaseClass
 {
 	RTTI_CLASS(RefObject, RTTIBaseClass)
@@ -25,7 +28,12 @@ public:
 
 	int32 GetRefCount() const { return mRefCount; }
 
+	void SetGUID(const GUID& inGUID) { mGUID = inGUID; }
+	const GUID& GetGUID() const { return mGUID; }
+
 private:
+	GUID mGUID = {};
+
 	Atomic<int32> mRefCount = 0;
 
 	WeakRefCounter* mWeakRefCounter = nullptr;

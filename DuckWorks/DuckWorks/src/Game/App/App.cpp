@@ -2,6 +2,9 @@
 // Own include
 #include "Game/App/App.h"
 
+// Core includes
+#include "Core/Utilities/GUID.h"
+
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Events/SDLEventManager.h"
