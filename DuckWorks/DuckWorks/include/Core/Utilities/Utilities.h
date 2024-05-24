@@ -18,7 +18,7 @@
 #define PROFILE_MUTEXES 1
 
 using String = std::string;
-using Json = nlohmann::json;
+using Json = nlohmann::ordered_json;
 
 // Smart Pointers
 template<typename taType>

@@ -48,7 +48,7 @@ void Entity::Deserialize(const Json& inJson)
 
 			for (EntityComponent* current_component : mEntityComponents[rtti_uid])
 			{
-				if (json_component["mGUID"] == current_component->GetGUID().ToString())
+				if (GUID(json_component["mGUID"]) == current_component->GetGUID())
 				{
 					component = current_component;
 					break;

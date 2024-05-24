@@ -26,8 +26,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 
 	static HashMap<String, bool> sIgnoreKeys =
 	{
-		{"ClassName", true},
-		{"mGUID", true}
+		{"ClassName", true}
 	};
 
 	if (sIgnoreKeys.contains(inKey))
@@ -35,6 +34,13 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 
 	String label = String("##" + inLabel + inKey);
 	nlohmann::detail::value_t value_type = ioValue.type();
+
+	if (inKey == "mGUID")
+	{
+		String value = ioValue.get<String>();
+		ImGui::Text(value.c_str());
+		return false;
+	}
 
 	if (inShowKey)
 	{
@@ -49,20 +55,27 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 		break;
 	case nlohmann::detail::value_t::object:
 	{
-		bool changed = false;
-		for (const auto& [key, value] : ioValue.items())
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{0.f, 3.f});
+		if (ImGui::TreeNodeEx((inKey + label + "TreeNode").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			if (sIgnoreKeys.contains(key))
-				continue;
+			ImGui::PopStyleVar(2);
 
-			if (ImGui::TreeNodeEx((key + label + "TreeNode").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+			bool changed = false;
+			for (const auto& [key, value] : ioValue.items())
 			{
+				if (sIgnoreKeys.contains(key))
+					continue;
+				
 				if (gHandleKeyValuePair(ioJson, label, key, value, false, false))
 					changed = true;
-				ImGui::TreePop();
 			}
+			ImGui::TreePop();
+			return changed;
 		}
-		return changed;
+		else
+			ImGui::PopStyleVar(2);
+		return false;
 	}
 	break;
 	case nlohmann::detail::value_t::array:
@@ -78,15 +91,15 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	break;
 	case nlohmann::detail::value_t::string:
 	{
+		String value = ioValue.get<String>();
 		char buffer[STRING_BUFFER_SIZE] = {'\0'};
-		String old_value = ioValue.get<std::string>();
 		//std::memset(buffer, 0, STRING_BUFFER_SIZE); ///< Initialize buffer to 0
-		std::memcpy(buffer, old_value.c_str(), old_value.size()); ///< Copy string to buffer
+		std::memcpy(buffer, value.c_str(), value.size()); ///< Copy string to buffer
 		ImGui::SetNextItemWidth(-FLT_MIN); // Make the next item span the whole width
 		if (ImGui::InputText(label.c_str(), buffer, STRING_BUFFER_SIZE, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			String new_value = std::string(buffer);
-			if (old_value != new_value)
+			if (value != new_value)
 			{
 				ioValue = new_value;
 				return true;

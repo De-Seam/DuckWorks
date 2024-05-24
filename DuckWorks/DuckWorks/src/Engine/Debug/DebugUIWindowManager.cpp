@@ -98,6 +98,7 @@ void DebugUIWindowManager::Init()
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w = 0.4f;
+	ImGui::GetStyle().IndentSpacing = 14.f;
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplSDL2_InitForSDLRenderer(gRenderer.GetWindow(), gRenderer.GetRenderer());

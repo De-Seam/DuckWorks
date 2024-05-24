@@ -1,842 +1,194 @@
 {
     "ClassName": "World",
+    "mGUID": "0000-0000-0000-0000",
+    "mVelocityIterations": 6,
+    "mPositionIterations": 2,
+    "mPhysicsUpdateFrequency": 60,
+    "mPhysicsTimeStep": 0.01666666753590107,
     "Entities": [
         {
             "ClassName": "Player",
-            "Components": [
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8fb1",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8fba",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8fbf",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8fa0",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8fa5",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8fae",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8f93",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8f94",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8f99",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8f82",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8f87",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8f88",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8f8d",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8ff6",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mFlip": 0,
-                    "mGUID": "eaf0-4841-cee8-8ffb",
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png",
-                        "mGUID": "0000-0000-0000-0000"
-                    },
-                    "mUseSrcRect": true
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8fb2"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8fb7"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8fb8"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8fbd"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8fa6"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8fab"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8fac"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8f91"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8f9a"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8f9f"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8f80"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8f85"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8f8e"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8ff3"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mBlocking": true,
-                        "mGUID": "0000-0000-0000-0000",
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Position": [
-                                -278.247314453125,
-                                38.87091064453125
-                            ],
-                            "Rotation": 0.0
-                        },
-                        "mType": 1
-                    },
-                    "mGUID": "eaf0-4841-cee8-8ff4"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8fb6"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8fbb"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8fbc"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8fa1"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8faa"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8faf"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8f90"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8f95"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8f9e"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8f83"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8f84"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8f89"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8ff2"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8ff7"
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "eaf0-4841-cee8-8ff8"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8fb3",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8fb4",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8fb9",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8fa2",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8fa7",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8fa8",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8fad",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8f96",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8f9b",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8f9c",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8f81",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8f8a",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8f8f",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8ff0",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "eaf0-4841-cee8-8ff5",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8fb0",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8fb5",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8fbe",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8fa3",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8fa4",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8fa9",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8f92",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8f97",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8f98",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8f9d",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8f86",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8f8b",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8f8c",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8ff1",
-                    "mIsActive": false,
-                    "mPriority": 0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "eaf0-4841-cee8-8ffa",
-                    "mIsActive": false,
-                    "mPriority": 0
-                }
-            ],
-            "mGUID": "b85f-f0fa-d5a0-5c8a",
-            "mMaxVelocity": 200.0,
+            "mGUID": "dff2-48c4-6ead-2ac6",
             "mTransform": {
+                "Position": [
+                    15.71923542022705,
+                    31.999984741210938
+                ],
                 "HalfSize": [
                     64.0,
                     64.0
                 ],
-                "Position": [
-                    -278.247314453125,
-                    38.87091064453125
-                ],
                 "Rotation": 0.0
             },
+            "Components": [
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9fd",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f6",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f3",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9fe",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 1,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                8.701723098754883,
+                                -64.00001525878906
+                            ],
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9fb",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 1,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                -119.29827880859375,
+                                31.999984741210938
+                            ],
+                            "HalfSize": [
+                                64.0,
+                                64.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f4",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 1,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                15.71923542022705,
+                                31.999984741210938
+                            ],
+                            "HalfSize": [
+                                64.0,
+                                64.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                },
+                {
+                    "ClassName": "AnimationComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9fa"
+                },
+                {
+                    "ClassName": "AnimationComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f7"
+                },
+                {
+                    "ClassName": "AnimationComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f0"
+                },
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9ff",
+                    "mHealth": 100.0
+                },
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f8",
+                    "mHealth": 100.0
+                },
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f5",
+                    "mHealth": 100.0
+                },
+                {
+                    "ClassName": "CameraComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9fc",
+                    "mIsActive": false,
+                    "mPriority": 0
+                },
+                {
+                    "ClassName": "CameraComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f9",
+                    "mIsActive": false,
+                    "mPriority": 0
+                },
+                {
+                    "ClassName": "CameraComponent",
+                    "mGUID": "8d5d-f07f-75e5-f9f2",
+                    "mIsActive": false,
+                    "mPriority": 0
+                }
+            ],
             "mVelocityIncrement": [
                 2000.0,
                 2000.0
-            ]
+            ],
+            "mMaxVelocity": 200.0
         }
-    ],
-    "mGUID": "0000-0000-0000-0000",
-    "mPhysicsTimeStep": 0.01666666753590107,
-    "mPhysicsUpdateFrequency": 60,
-    "mPositionIterations": 2,
-    "mVelocityIterations": 6
+    ]
 }
