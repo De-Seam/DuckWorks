@@ -34,8 +34,9 @@ void EntityComponentManager::LoopOverComponents(Function<void(taType& inComponen
 	{
 		for (void* ptr = page; ptr < RCast<void*>((uint64)page + page_size); ptr = RCast<void*>((uint64)ptr + sizeof(bool) + sizeof(taType)))
 		{
+			const uint8& is_available = *RCast<uint8*>(ptr);
 			// If the ptr is available and thus not valid, then we skip it
-			if (*RCast<bool*>(ptr) == true)
+			if (is_available == 1)
 				continue;
 
 			taType* class_ptr = RCast<taType*>((uint64)ptr + sizeof(bool));

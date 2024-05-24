@@ -60,8 +60,6 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 	if (entity_changed)
 		selected_entity->Deserialize(json_entity);
 
-	Json& json_components = json_entity["Components"];
-
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(1.f, 1.f, 1.f, 1.f), "Components");
 

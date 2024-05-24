@@ -68,8 +68,10 @@ void ClassAllocator<taType>::Free(taType* inPtr)
 {
 	IF_TRACK_ALLOCATIONS(UntrackAllocation(inPtr));
 
-	void* ptr = inPtr - sizeof(bool);
-	*SCast<bool*>(ptr) = true;
+	bool* is_available_ptr = RCast<bool*>((uint64)inPtr - sizeof(bool));
+	bool& is_available_bool = *SCast<bool*>(is_available_ptr);
+	gAssert(is_available_bool == false, "Free called on Memory that was not Allocated!");
+	is_available_bool = true;
 }
 
 template<typename taType>
