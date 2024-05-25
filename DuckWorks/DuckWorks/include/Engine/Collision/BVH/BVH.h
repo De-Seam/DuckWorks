@@ -30,7 +30,7 @@ public:
 	// Generate the BVH. Expensive operation.
 	void Generate();
 
-	bool IsGenerated() { return mIndices != nullptr; }
+	bool IsGenerated() const { return mIndices != nullptr; }
 
 	// Refresh the object, adjusting its bounds. Returns true if successful 
 	bool RefreshObject(const CollisionObjectHandle& inObject);

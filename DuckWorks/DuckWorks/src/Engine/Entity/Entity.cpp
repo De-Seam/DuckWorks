@@ -35,7 +35,8 @@ void Entity::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mName);
+	if (inJson.contains("mName"))
+		mName = inJson["mName"];
 	JSON_TRY_LOAD(inJson, mTransform);
 
 	if (inJson.contains("Components"))

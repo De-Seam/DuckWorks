@@ -142,21 +142,10 @@ public:
 
 	const UID& GetUID() const { return mUID; }
 
-	template<typename... taArgs>
-	static RTTIBaseClass* sNewInstance(taArgs&&... inArgs)
-	{
-		RTTIBaseClass* instance = sRTTIBaseClassClassAllocator.Allocate(ALLOC_TRACK);
-		instance = new(instance) RTTIBaseClass(std::forward<taArgs>(inArgs)...);
-		return instance;
-	}
-
 	virtual void Delete()
 	{
-		this->~RTTIBaseClass();
-		sRTTIBaseClassClassAllocator.Free(this);
+		gAssert(false, "Delete not implemented for this class");
 	}
-
-	static ClassAllocator<RTTIBaseClass>& sGetClassAllocator() { return sRTTIBaseClassClassAllocator; }
 
 	void SetGUID(const GUID& inGUID) { mGUID = inGUID; }
 	const GUID& GetGUID() const { return mGUID; }
@@ -164,7 +153,6 @@ public:
 private:
 	GUID mGUID = {};
 
-	static ClassAllocator<RTTIBaseClass> sRTTIBaseClassClassAllocator;
 	static UID sRTTIBaseClassRTTIUID;
 	UID mUID = {};
 };

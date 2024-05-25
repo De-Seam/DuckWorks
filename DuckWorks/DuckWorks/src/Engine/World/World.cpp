@@ -178,7 +178,6 @@ void World::AddEntity(const Ref<Entity>& inEntity)
 {
 	PROFILE_SCOPE(World::AddEntity)
 	Entity::InitParams params;
-	params.mWorld = this;
 	inEntity->Init(params);
 
 	if (mBegunPlay)

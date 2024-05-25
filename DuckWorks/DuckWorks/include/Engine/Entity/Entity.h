@@ -44,17 +44,9 @@ public:
 
 	virtual ~Entity() override;
 
-	struct InitParams
-	{
-		World* mWorld = nullptr;
-		String mName;
-	};
+	struct InitParams {};
 
-	virtual void Init(const InitParams& inInitParams)
-	{
-		mWorld = inInitParams.mWorld;
-		mName = inInitParams.mName;
-	}
+	virtual void Init(const InitParams& inInitParams) { (void)inInitParams; }
 
 	virtual void BeginPlay() {}
 	virtual void EndPlay() {}
