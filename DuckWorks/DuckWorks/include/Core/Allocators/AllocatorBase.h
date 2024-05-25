@@ -4,12 +4,15 @@
 
 #ifdef _DEBUG
 #define TRACK_ALLOCATIONS
+#endif //_DEBUG
+
+#ifdef TRACK_ALLOCATIONS
 #define IF_TRACK_ALLOCATIONS(x) x
 #define ALLOC_TRACK __FILE__ ":" + std::to_string(__LINE__)
 #else
 #define IF_TRACK_ALLOCATIONS(x) 
 #define ALLOC_TRACK 
-#endif
+#endif // TRACK_ALLOCATIONS
 
 #define gNew
 
@@ -19,7 +22,11 @@ public:
 	virtual ~AllocatorBase();
 
 	template<typename taType, typename... taArgs>
-	taType* Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs&&... inArgs);
+#ifdef TRACK_ALLOCATIONS
+	taType* Allocate(const String& inAllocationOrigin, taArgs&&... inArgs);
+#else
+	taType *Allocate(taArgs &&...inArgs);
+#endif // TRACK_ALLOCATIONS
 
 protected:
 #ifdef TRACK_ALLOCATIONS
@@ -31,7 +38,11 @@ protected:
 };
 
 template<typename taType, typename... taArgs>
-taType* AllocatorBase::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin), taArgs&&... inArgs)
+#ifdef TRACK_ALLOCATIONS
+taType* Allocate(const String& inAllocationOrigin, taArgs&&... inArgs)
+#else
+taType* Allocate(taArgs &&...inArgs)
+#endif // TRACK_ALLOCATIONS
 {
 	IF_TRACK_ALLOCATIONS((void)inAllocationOrigin;)
 	(void)inArgs;
