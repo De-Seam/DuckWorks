@@ -22,6 +22,8 @@ protected:
 	// Each page is [bool : Is Available][taType]
 	Array<void*> mPages;
 	uint64 mPageSize;
+
+	UniqueMutex mMutex;
 };
 
 template<typename taType>
@@ -41,6 +43,7 @@ ClassAllocator<taType>::~ClassAllocator()
 template<typename taType>
 taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin))
 {
+	ScopedUniqueMutexLock lock(mMutex);
 	for (void* page : mPages)
 	{
 		for (void* ptr = page; ptr < RCast<void*>((uint64)page + mPageSize); ptr = RCast<void*>((uint64)ptr + sizeof(bool) + sizeof(taType)))
@@ -66,6 +69,8 @@ taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAl
 template<typename taType>
 void ClassAllocator<taType>::Free(taType* inPtr)
 {
+	ScopedUniqueMutexLock lock(mMutex);
+
 	IF_TRACK_ALLOCATIONS(UntrackAllocation(inPtr));
 
 	bool* is_available_ptr = RCast<bool*>((uint64)inPtr - sizeof(bool));
