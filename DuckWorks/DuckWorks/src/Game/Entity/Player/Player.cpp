@@ -39,7 +39,9 @@ Player::Player(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {
 	AddComponent<HealthComponent>(HealthComponent::ConstructParameters());
-	AddComponent<CameraComponent>(CameraComponent::ConstructParameters());
+	CameraComponent::ConstructParameters camera_component_construct_parameters;
+	camera_component_construct_parameters.mIsActive = true;
+	AddComponent<CameraComponent>(camera_component_construct_parameters);
 	LoopOverComponents<CameraComponent>([this](CameraComponent& inCameraComponent) { inCameraComponent.mIsActive = false; });
 
 	SetHalfSize(fm::vec2(64.f, 64.f));

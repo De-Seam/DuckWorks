@@ -12,6 +12,7 @@ Json Entity::Serialize()
 {
 	Json json = Base::Serialize();
 
+	JSON_SAVE(json, mName);
 	JSON_SAVE(json, mTransform);
 
 	const Array<String>& component_names = gEntityComponentFactory.GetClassNames();
@@ -34,6 +35,7 @@ void Entity::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
+	JSON_TRY_LOAD(inJson, mName);
 	JSON_TRY_LOAD(inJson, mTransform);
 
 	if (inJson.contains("Components"))

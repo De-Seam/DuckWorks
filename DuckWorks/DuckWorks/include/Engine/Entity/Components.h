@@ -103,11 +103,7 @@ struct CameraComponent : public EntityComponent
 		bool mIsActive = false; ///< If the camera is active, it will render based on priority
 	};
 
-	CameraComponent(const ConstructParameters& inConstructParameters = {})
-		: Base(inConstructParameters),
-		mCamera(inConstructParameters.mCamera),
-		mPriority(inConstructParameters.mPriority),
-		mIsActive(inConstructParameters.mIsActive) {}
+	CameraComponent(const ConstructParameters& inConstructParameters = {});
 
 	SharedPtr<Camera> mCamera = nullptr;
 	int32 mPriority = 0; ///< Higher priority cameras will render on top of lower priority cameras

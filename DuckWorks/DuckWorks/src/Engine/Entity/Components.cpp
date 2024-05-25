@@ -132,3 +132,10 @@ void CameraComponent::Deserialize(const Json& inJson)
 		mCamera->Deserialize(inJson["mCamera"]);
 	}
 }
+
+CameraComponent::CameraComponent(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters), mCamera(inConstructParameters.mCamera), mPriority(inConstructParameters.mPriority), mIsActive(inConstructParameters.mIsActive)
+{
+	if (mCamera == nullptr)
+		mCamera = std::make_shared<Camera>();
+}

@@ -14,6 +14,7 @@ void BVH::Init(const InitParams& inParams)
 
 BVH::~BVH()
 {
+	ScopedMutexWriteLock lock(mIndicesMutex);
 	if (mIndices)
 		_aligned_free(mIndices);
 }
@@ -21,10 +22,10 @@ BVH::~BVH()
 void BVH::AddObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::AddObject)
-
 	bool resized = false;
 	{
-		ScopedMutexWriteLock lock(mBVHMutex);
+		ScopedMutexWriteLock lock(mObjectsMutex);
+
 		if (mObjects.size() <= inObject.mIndex)
 		{
 			mObjects.reserve(inObject.mIndex + 32); ///< Reserve some extra space to avoid reallocations
@@ -68,7 +69,7 @@ void BVH::AddObjects(const Array<CollisionObjectHandle>& inObjects)
 void BVH::RemoveObject(const CollisionObjectHandle& inObject)
 {
 	gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle == inObject, "Trying to remove an object that was never added!");
-	ScopedMutexReadLock lock(mBVHMutex);
+	ScopedMutexWriteLock lock(mObjectsMutex);
 	mObjects[inObject.mIndex] = {};
 }
 
@@ -76,7 +77,9 @@ void BVH::Generate()
 {
 	PROFILE_SCOPE(BVH::Generate)
 
-	ScopedMutexWriteLock lock(mBVHMutex);
+	ScopedMutexReadLock objects_lock(mObjectsMutex);
+	ScopedMutexWriteLock indices_lock(mIndicesMutex);
+	ScopedMutexWriteLock nodes_lock(mNodesMutex);
 
 	if (mIndices)
 		_aligned_free(mIndices);
@@ -109,7 +112,13 @@ void BVH::Draw()
 	sDrawDatas.clear();
 
 	uint64 max_depth = 0;
-	GetDrawDataRecursively(sDrawDatas, 0, 0, max_depth);
+
+	{
+		ScopedMutexReadLock nodes_lock(mNodesMutex);
+		ScopedMutexReadLock objects_lock(mObjectsMutex);
+		ScopedMutexReadLock indices_lock(mIndicesMutex);
+		GetDrawDataRecursively(sDrawDatas, 0, 0, max_depth);
+	}
 
 	uint32 seed = 1;
 	for (DrawData& draw_data : sDrawDatas)
@@ -131,44 +140,48 @@ bool BVH::RefreshObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::RefreshObject)
 
-	ScopedMutexWriteLock lock(mBVHMutex);
-
 	CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
 	AABB aabb = object.GetAABB();
-	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
-	if (gFullyInsideOf(aabb, mObjects[inObject.mIndex].mAABB))
-		return true;
 
-	if (object.GetType() == CollisionObject::EType::Dynamic)
-		AdjustAABBForDynamicObject(aabb);
-
-	// If this BVH has not been generated yet there are no nodes to resize, so we can early out.
-	if (!IsGenerated())
+	const Array<uint64>* node_hierarchy;
 	{
+		ScopedMutexReadLock lock(mObjectsMutex);
+
+		// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
+		if (gFullyInsideOf(aabb, mObjects[inObject.mIndex].mAABB))
+			return true;
+
+		if (object.GetType() == CollisionObject::EType::Dynamic)
+			AdjustAABBForDynamicObject(aabb);
+
+		// If this BVH has not been generated yet there are no nodes to resize, so we can early out.
+		if (!IsGenerated())
+		{
+			mObjects[inObject.mIndex].mAABB = aabb;
+			return true;
+		}
+
+		AABB old_aabb = mObjects[inObject.mIndex].mAABB;
+
+		node_hierarchy = &FindNodeHierarchyContainingObject(inObject, old_aabb);
+
+		gAssert(node_hierarchy->size() > 1, "Object not found in BVH!");
+		gAssert(mObjects[mIndices[node_hierarchy->at(0)]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
+
 		mObjects[inObject.mIndex].mAABB = aabb;
-		return true;
 	}
 
-	AABB old_aabb = mObjects[inObject.mIndex].mAABB;
-
-	//mBVHMutex.ReadLock();
-	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject, old_aabb);
-
-	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
-	gAssert(mObjects[mIndices[node_hierarchy[0]]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
-
-	mObjects[inObject.mIndex].mAABB = aabb;
-
+	ScopedMutexWriteLock lock(mNodesMutex);
 	// Here we resize the nodes to tighly fit around their objects
 	// Index 1 is the leaf node
-	BVHNode* leaf_node = &mNodes[node_hierarchy[1]];
+	BVHNode* leaf_node = &mNodes[node_hierarchy->at(1)];
 	leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
 
 	// Here we don't need to calculate the node to encompass all objects, only the other node's AABBs
 	// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
-	for (uint64 i = 2; i < node_hierarchy.size(); i++)
+	for (uint64 i = 2; i < node_hierarchy->size(); i++)
 	{
-		BVHNode* node = &mNodes[node_hierarchy[i]];
+		BVHNode* node = &mNodes[node_hierarchy->at(i)];
 		node->mAABB = gComputeEncompassingAABB(mNodes[node->mLeftFirst].mAABB, mNodes[node->mLeftFirst + 1].mAABB);
 	}
 
@@ -182,7 +195,7 @@ const Array<CollisionObjectHandle>& BVH::GetBroadphaseCollisions(const AABB& inA
 	static THREADLOCAL Array<CollisionObjectHandle> sReturnArray;
 	sReturnArray.clear();
 
-	ScopedMutexReadLock lock(mBVHMutex);
+	ScopedMutexReadLock lock(mNodesMutex);
 	CollisionInternal(sReturnArray, inAABB, 0);
 
 	return sReturnArray;
@@ -304,6 +317,8 @@ void BVH::CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const A
 
 	if (node->mCount != 0) //Leaf node
 	{
+		ScopedMutexReadLock indices_lock(mIndicesMutex);
+		ScopedMutexReadLock objects_lock(mObjectsMutex);
 		// This leaf node collides, add all objects inside of it to the return array.
 		for (uint64 i = 0; i < node->mCount; i++)
 		{
@@ -337,6 +352,7 @@ const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjec
 	static THREADLOCAL Array<uint64> sReturnArray;
 	sReturnArray.clear();
 
+	ScopedMutexReadLock lock(mNodesMutex);
 	FindNodeHierarchyContainingObjectRecursive(sReturnArray, inObject, inAABB, 0);
 
 	if (sReturnArray.empty())
@@ -358,6 +374,7 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(
 
 	if (node->mCount != 0) //Leaf node
 	{
+		ScopedMutexReadLock lock(mIndicesMutex);
 		// This leaf node collides, add all objects inside of it to the return array.
 		for (uint64 i = 0; i < node->mCount; i++)
 		{
@@ -392,8 +409,6 @@ const Array<uint64>& BVH::FindFirstNodeHierarchyAtLocation(const fm::vec2& inloc
 {
 	static THREADLOCAL Array<uint64> sReturnArray;
 	sReturnArray.clear();
-
-	ScopedMutexReadLock lock(mBVHMutex);
 
 	FindFirstNodeHierarchyAtLocationRecursive(sReturnArray, inlocation, 0);
 	sReturnArray.emplace_back(0);
