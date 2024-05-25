@@ -7,5 +7,9 @@ class Actor : public Entity
 	RTTI_CLASS(Actor, Entity)
 
 public:
-	Actor() = default;
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	Actor(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 };

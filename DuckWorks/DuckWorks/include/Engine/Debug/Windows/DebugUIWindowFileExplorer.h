@@ -9,7 +9,11 @@ class DebugUIWindowFileExplorer : public DebugUIWindow
 	RTTI_CLASS(DebugUIWindowFileExplorer, DebugUIWindow)
 
 public:
-	DebugUIWindowFileExplorer();
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowFileExplorer(const ConstructParameters& inConstructParameters = {});
 
 	virtual void UpdateMultiThreaded(float inDeltaTime) override;
 	virtual void Update(float inDeltaTime) override;

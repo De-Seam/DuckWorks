@@ -16,14 +16,12 @@ RTTI_CLASS_DEFINITION(DebugUIWindowEntitySpawner)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntitySpawner)
 
-DebugUIWindowEntitySpawner::DebugUIWindowEntitySpawner() {}
-
 void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 {
 	(void)inDeltaTime;
 	PROFILE_SCOPE(DebugUIWindowEntitySpawner::Update)
 
-	if(!ImGui::Begin("Entity Spawner", &mOpen))
+	if (!ImGui::Begin("Entity Spawner", &mOpen))
 	{
 		ImGui::End();
 		return;
@@ -35,9 +33,12 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 	{
 		if (ImGui::Button(entity_name.c_str()))
 		{
-			Ref<Entity> entity = gEntityFactory.CreateClass(entity_name);
+			Entity::ConstructParameters params;
+			params.mWorld = gApp.GetWorld();
+			params.mName = entity_name;
+			Ref<Entity> entity = gEntityFactory.CreateClass(entity_name, params);
 			entity->SetGUID(GUID::sCreate());
-			gApp.GetWorld()->AddEntity(entity, entity_name);
+			gApp.GetWorld()->AddEntity(entity);
 			fm::vec2 position = gRenderer.GetCamera()->GetPosition();
 			entity->SetPosition(position);
 		}

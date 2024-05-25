@@ -4,12 +4,16 @@
 
 class DebugUIWindow : public RefObject
 {
-	RTTI_CLASS(DebugUIWindow, RefObject)
+	RTTI_VIRTUAL_CLASS(DebugUIWindow, RefObject)
 
 public:
-	DebugUIWindow() = default;
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindow(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 	virtual ~DebugUIWindow() override = default;
-	
+
 	// Multi threaded update for performance heavy task
 	virtual void UpdateMultiThreaded(float inDeltaTime) { (void)inDeltaTime; }
 	// Single threaded update for the actual ImGui drawing

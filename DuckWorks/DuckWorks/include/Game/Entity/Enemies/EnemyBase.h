@@ -7,11 +7,16 @@
 class EnemyBase : public Actor
 {
 	RTTI_CLASS(EnemyBase, Actor)
-public:
-	EnemyBase() = default;
-	virtual void Init(const Entity::InitParams& inInitParams) override;
 
-	void Update(float inDeltaTime);
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	EnemyBase() = default;
+	virtual void Init(const InitParams& inInitParams) override;
+
+	virtual void Update(float inDeltaTime) override;
 
 private:
 	EntityWeakPtr mPlayer;

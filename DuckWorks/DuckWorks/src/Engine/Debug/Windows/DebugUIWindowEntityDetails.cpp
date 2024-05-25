@@ -73,14 +73,20 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 			String component_name = inComponent.GetClassName();
 			Json json_component = inComponent.Serialize();
 
-			if (ImGui::TreeNodeEx((component_name + "TreeNode").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{0.f, 3.f});
+			if (ImGui::TreeNodeEx((component_name + "##TreeNode" + inComponent.GetGUID().ToString()).c_str(), ImGuiTreeNodeFlags_SpanFullWidth))
 			{
+				ImGui::PopStyleVar(2);
+
 				bool changed = gDebugDrawJson(json_component, component_name);
 				if (changed)
 					inComponent.Deserialize(json_component);
 
 				ImGui::TreePop();
 			}
+			else
+				ImGui::PopStyleVar(2);
 		});
 		ImGui::TreePop();
 	}

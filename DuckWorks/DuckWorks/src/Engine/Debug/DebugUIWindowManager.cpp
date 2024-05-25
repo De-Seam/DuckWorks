@@ -178,6 +178,9 @@ void DebugUIWindowManager::Shutdown()
 
 	gLog(ELogType::Info, "Shutting down DebugUIWindowManager");
 
+	mWindowsToAdd.clear();
+	mWindows.clear();
+
 	ImGui_ImplSDLRenderer2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();

@@ -14,8 +14,8 @@ void SolidObstacle::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
 
-	TextureRenderComponent texture_render_component;
+	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	String texture_path = "Assets/DefaultTexture.png";
-	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
-	AddComponent<TextureRenderComponent>(texture_render_component);
+	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
+	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 }

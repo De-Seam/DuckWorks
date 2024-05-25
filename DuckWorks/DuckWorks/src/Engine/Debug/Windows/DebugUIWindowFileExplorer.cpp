@@ -2,18 +2,18 @@
 #include "Engine/Debug/Windows/DebugUIWindowFileExplorer.h"
 
 // Engine includes
+#include "Engine/Debug/DebugUIWindowManager.h"
+#include "Engine/Debug/Windows/DebugUIWindowNewFilePopup.h"
+#include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
-#include "Engine/Debug/DebugUIWindowManager.h"
-#include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
-#include "Engine/Debug/Windows/DebugUIWindowNewFilePopup.h"
 
 // External includes
 #include <External/imgui/imgui.h>
 
 // Std includes
-#include <filesystem>
 #include <algorithm>
+#include <filesystem>
 
 RTTI_CLASS_DEFINITION(DebugUIWindowFileExplorer)
 
@@ -35,8 +35,8 @@ void DebugUIWindowFileExplorer::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mIconSize);
 }
 
-
-DebugUIWindowFileExplorer::DebugUIWindowFileExplorer()
+DebugUIWindowFileExplorer::DebugUIWindowFileExplorer(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
 	mFolderTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_Folder.png");
 	mFileTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_File.png");
@@ -44,7 +44,7 @@ DebugUIWindowFileExplorer::DebugUIWindowFileExplorer()
 
 namespace fs = std::filesystem;
 
-void DebugUIWindowFileExplorer::UpdateMultiThreaded(float) 
+void DebugUIWindowFileExplorer::UpdateMultiThreaded(float)
 {
 	PROFILE_SCOPE(DebugUIWindowFileExplorer::UpdateMultiThreaded)
 
@@ -52,7 +52,7 @@ void DebugUIWindowFileExplorer::UpdateMultiThreaded(float)
 
 	mDirectoryEntries.clear();
 	mFileEntries.clear();
-	for (const auto &entry : fs::directory_iterator(mCurrentPath))
+	for (const auto& entry : fs::directory_iterator(mCurrentPath))
 	{
 		if (entry.is_directory())
 			mDirectoryEntries.push_back(entry);
@@ -150,11 +150,11 @@ void DebugUIWindowFileExplorer::Update(float)
 		ImGui::OpenPopupOnItemClick("Context", ImGuiPopupFlags_MouseButtonRight);
 	if (ImGui::BeginPopup("Context"))
 	{
-		if (ImGui::MenuItem("New Folder", NULL, false, true))
+		if (ImGui::MenuItem("New Folder", nullptr, false, true))
 		{
-			fs::create_directory(directory_path / "NewFolder");
+			create_directory(directory_path / "NewFolder");
 		}
-		if (ImGui::MenuItem("New File", NULL, false, true))
+		if (ImGui::MenuItem("New File", nullptr, false, true))
 		{
 			gDebugUIWindowManager.CreateWindow<DebugUIWindowNewFilePopup>();
 		}

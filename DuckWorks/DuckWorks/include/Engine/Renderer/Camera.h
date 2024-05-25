@@ -11,7 +11,15 @@ class Camera : public RTTIBaseClass
 {
 	RTTI_CLASS(Camera, RTTIBaseClass)
 
-	Camera(fm::vec2 inPosition = {200, 0}, fm::vec2 inSize = {1920.f, 1080.f}, float inZoom = 1.f);
+public:
+	struct ConstructParameters : public Base::ConstructParameters
+	{
+		fm::vec2 mPosition = {200, 0};
+		fm::vec2 mSize = {1920.f, 1080.f};
+		float mZoom = 1.f;
+	};
+
+	Camera(const ConstructParameters& inParameters = {});
 
 	virtual void Update(float inDeltaTime);
 	void SetPosition(fm::vec2 inPosition);

@@ -1,7 +1,7 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
 
-RTTI_CLASS_DEFINITION(DebugUIWindow)
+RTTI_VIRTUAL_CLASS_DEFINITION(DebugUIWindow)
 
 Json DebugUIWindow::Serialize()
 {
@@ -12,7 +12,7 @@ Json DebugUIWindow::Serialize()
 	return json;
 }
 
-void DebugUIWindow::Deserialize(const Json &inJson)
+void DebugUIWindow::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 

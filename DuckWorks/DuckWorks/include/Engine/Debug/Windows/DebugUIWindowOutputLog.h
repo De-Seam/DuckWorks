@@ -9,6 +9,12 @@ class DebugUIWindowOutputLog : public DebugUIWindow
 	RTTI_CLASS(DebugUIWindowOutputLog, DebugUIWindow)
 
 public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowOutputLog(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+
 	virtual void Update(float inDeltaTime) override;
 
 private:

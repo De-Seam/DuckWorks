@@ -23,15 +23,18 @@ void Projectile::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mVelocity);
 }
 
-Projectile::Projectile() 
-{ }
+Projectile::Projectile(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters),
+	mVelocity(inConstructParameters.mVelocity)
+{
+	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
+	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/Projectiles/Projectile.png");
+	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
+}
 
 void Projectile::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
-
-	SharedPtr<TextureResource> texture = gResourceManager.GetResource<TextureResource>("Assets/Projectiles/Projectile.png");
-	AddComponent<TextureRenderComponent>();
 }
 
 void Projectile::Update(float inDeltaTime)

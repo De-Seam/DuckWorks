@@ -8,12 +8,13 @@ RTTI_CLASS_DEFINITION(DebugUIWindowPerformanceMonitor)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowPerformanceMonitor)
 
-DebugUIWindowPerformanceMonitor::DebugUIWindowPerformanceMonitor()
+DebugUIWindowPerformanceMonitor::DebugUIWindowPerformanceMonitor(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
 	mTimings.resize(128);
 }
 
-void DebugUIWindowPerformanceMonitor::UpdateMultiThreaded(float inDeltaTime) 
+void DebugUIWindowPerformanceMonitor::UpdateMultiThreaded(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowPerformanceMonitor::UpdateMultiThreaded)
 
@@ -59,7 +60,7 @@ void DebugUIWindowPerformanceMonitor::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowPerformanceMonitor::Update)
 
-	if(!ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize))
+	if (!ImGui::Begin("Performance Monitor", &mOpen, ImGuiWindowFlags_NoResize))
 	{
 		mVisible = false;
 		ImGui::End();

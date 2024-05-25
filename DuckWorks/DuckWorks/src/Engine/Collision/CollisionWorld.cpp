@@ -10,7 +10,8 @@ RTTI_CLASS_DEFINITION(CollisionWorld)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)
 
-CollisionWorld::CollisionWorld()
+CollisionWorld::CollisionWorld(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
 	BVH::InitParams params;
 	params.mCollisionWorld = this;
@@ -41,11 +42,11 @@ void CollisionWorld::DrawBVH()
 	mBVH.Draw();
 }
 
-CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObject::InitParams& inInitParams)
+CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObject::ConstructParameters& inConstructParameters)
 {
 	PROFILE_SCOPE(CollisionWorld::CreateCollisionObject)
 
-	CollisionObjectHandle handle = FindOrCreateCollisionObjectIndex(inInitParams);
+	CollisionObjectHandle handle = FindOrCreateCollisionObjectIndex(inConstructParameters);
 	mBVH.AddObject(handle);
 	if (!mBVH.IsGenerated())
 		mBVH.Generate();
@@ -58,7 +59,8 @@ void CollisionWorld::DestroyCollisionObject(const CollisionObjectHandle& inObjec
 
 	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 	gAssert(mCollisionObjects[inObjectHandle.mIndex].mHandle == inObjectHandle, "Invalid Handle!");
-	mCollisionObjects[inObjectHandle.mIndex] = {};
+	mCollisionObjects[inObjectHandle.mIndex] = {CollisionObject::ConstructParameters()};
+	mCollisionObjects[inObjectHandle.mIndex].mAABB = {FLT_MAX, -FLT_MAX};
 	mFreeCollisionObjectIndices.emplace_back(inObjectHandle.mIndex);
 
 	mBVH.RemoveObject(inObjectHandle);
@@ -205,7 +207,8 @@ void CollisionWorld::LoopCollisionObjects(const std::function<void(const Collisi
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	for (const CollisionObject& object : mCollisionObjects)
 	{
-		inFunction(object);
+		if (object.mHandle.IsValid())
+			inFunction(object);
 	}
 }
 
@@ -217,24 +220,28 @@ void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectH
 	mBVH.RefreshObject(inObjectHandle);
 }
 
-CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const CollisionObject::InitParams& inInitParams)
+CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const CollisionObject::ConstructParameters& inConstructParameters)
 {
 	CollisionObjectHandle handle;
+
+	CollisionObject::ConstructParameters construct_parameters = inConstructParameters;
+
 	if (mFreeCollisionObjectIndices.empty())
 	{
 		ScopedMutexWriteLock lock(mCollisionObjectsMutex);
-		mCollisionObjects.emplace_back();
-		handle.mIndex = mCollisionObjects.size() - 1;
-		mCollisionObjects.back() = {inInitParams};
-		mCollisionObjects.back().mHandle = handle;
+
+		handle.mIndex = mCollisionObjects.size();
+		construct_parameters.mHandle = handle;
+
+		mCollisionObjects.emplace_back(construct_parameters);
 		return handle;
 	}
 
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	uint64 index = mFreeCollisionObjectIndices.back();
 	handle.mIndex = index;
+	construct_parameters.mHandle = handle;
 	mFreeCollisionObjectIndices.pop_back();
-	mCollisionObjects[index] = {inInitParams};
-	mCollisionObjects[index].mHandle = handle;
+	mCollisionObjects[index] = {construct_parameters};
 	return handle;
 }

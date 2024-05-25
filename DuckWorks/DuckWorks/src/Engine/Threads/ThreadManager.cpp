@@ -7,9 +7,9 @@
 RTTI_CLASS_DEFINITION(ThreadManager)
 RTTI_EMPTY_SERIALIZE_DEFINITION(ThreadManager)
 
-ThreadManager gThreadManager;
+ThreadManager gThreadManager = {ThreadManager::ConstructParameters()};
 
-void ThreadTask::WaitUntilCompleted() 
+void ThreadTask::WaitUntilCompleted()
 {
 	std::unique_lock<std::mutex> lock(mCompletedMutex);
 	if (mCompleted)
@@ -17,7 +17,7 @@ void ThreadTask::WaitUntilCompleted()
 	mCompletedConditionVariable.wait(lock, [this] { return mCompleted; });
 }
 
-ThreadManager::ThreadManager() {}
+ThreadManager::ThreadManager(const ConstructParameters& inConstructParameters) : Base(inConstructParameters) {}
 
 void ThreadManager::Init()
 {
@@ -29,7 +29,7 @@ void ThreadManager::Init()
 		mThreads.emplace_back(std::thread([&](int32 inIndex)
 		{
 			WorkerThread(inIndex);
-		}, i+1));
+		}, i + 1));
 	}
 }
 
@@ -80,7 +80,7 @@ void ThreadManager::WorkerThread(int32 inIndex)
 			PROFILE_SCOPE(ThreadManager::WaitForTask)
 			std::unique_lock<std::mutex> lock(mTaskMutex);
 
-			mThreadConditionVariable.wait(lock,[this]
+			mThreadConditionVariable.wait(lock, [this]
 			{
 				for (int32 i = SCast<int32>(ThreadPriority::VeryHigh); i >= 0; i--)
 				{
@@ -108,7 +108,7 @@ void ThreadManager::WorkerThread(int32 inIndex)
 	}
 }
 
-void ThreadManager::OnTaskCompleted(SharedPtr<ThreadTask> &inTask)
+void ThreadManager::OnTaskCompleted(SharedPtr<ThreadTask>& inTask)
 {
 	PROFILE_SCOPE(ThreadManager::OnTaskCompleted)
 	{
@@ -124,7 +124,7 @@ void ThreadManager::OnTaskCompleted(SharedPtr<ThreadTask> &inTask)
 	}
 }
 
-int32 gGetCurrentThreadIndex() 
+int32 gGetCurrentThreadIndex()
 {
 	return sThreadIndex;
 }

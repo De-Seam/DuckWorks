@@ -1,7 +1,7 @@
 #pragma once
 // Engine includes
-#include "Engine/Entity/CollisionActor.h"
 #include <Engine/Events/SDLEventManager.h>
+#include "Engine/Entity/CollisionActor.h"
 
 #include "Engine/Events/EventManager.h"
 
@@ -13,8 +13,12 @@ class Player : public CollisionActor
 	RTTI_CLASS(Player, CollisionActor)
 
 public:
-	Player() = default;
-	virtual void Init(const Entity::InitParams& inInitParams) override;
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	Player(const ConstructParameters& inConstructParameters);
+	virtual void Init(const InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;
 	virtual void Update(float inDeltaTime) override;

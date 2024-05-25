@@ -57,16 +57,13 @@ void World::Deserialize(const Json& inJson)
 				continue;
 
 			String class_name = json_entity["ClassName"];
-			const Json& components = json_entity["Components"];
-
-			String name = "Empty";
-			if (components.contains("NameComponent"))
-				name = components["NameComponent"]["mName"];
-
-			Ref<Entity> entity = gEntityFactory.CreateClass(class_name);
+			Entity::ConstructParameters params;
+			params.mWorld = this;
+			params.mName = "Empty";
+			Ref<Entity> entity = gEntityFactory.CreateClass(class_name, params);
 			entity->Deserialize(json_entity);
 
-			AddEntity(entity, name);
+			AddEntity(entity);
 		}
 	}
 }
@@ -83,7 +80,8 @@ Json World::SerializeIgnoreEntities() const
 	return json;
 }
 
-World::World()
+World::World(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
 	mCollisionWorld = std::make_unique<CollisionWorld>();
 }
@@ -176,12 +174,11 @@ public:
 	float mDeltaTime;
 };
 
-void World::AddEntity(const Ref<Entity>& inEntity, const String& inName)
+void World::AddEntity(const Ref<Entity>& inEntity)
 {
 	PROFILE_SCOPE(World::AddEntity)
 	Entity::InitParams params;
 	params.mWorld = this;
-	params.mName = inName;
 	inEntity->Init(params);
 
 	if (mBegunPlay)

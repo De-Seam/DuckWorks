@@ -19,7 +19,8 @@ RTTI_CLASS_DEFINITION(DebugUIWindowEditorToolbar)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEditorToolbar)
 
-DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar()
+DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
 	mSaveButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_SaveButton.png");
 	mPlayButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_PlayButton.png");
@@ -60,7 +61,6 @@ void DebugUIWindowEditorToolbar::Update(float)
 		if (paused && mGameState == ToolbarGameState::Stopped)
 			Save();
 
-
 		mGameState = paused ? ToolbarGameState::Playing : ToolbarGameState::Paused;
 		gApp.SetPaused(!paused);
 
@@ -80,14 +80,15 @@ void DebugUIWindowEditorToolbar::Update(float)
 	ImGui::End();
 }
 
-void DebugUIWindowEditorToolbar::StopPlay() 
+void DebugUIWindowEditorToolbar::StopPlay()
 {
 	mGameState = ToolbarGameState::Stopped;
 	gApp.CreateNewWorld(mWorldJson);
 	gApp.SetPaused(true);
 }
 
-void DebugUIWindowEditorToolbar::Save() {
+void DebugUIWindowEditorToolbar::Save()
+{
 	mWorldJson = gApp.GetWorld()->Serialize();
 }
 

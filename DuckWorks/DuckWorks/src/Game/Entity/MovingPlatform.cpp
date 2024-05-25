@@ -32,9 +32,12 @@ void MovingPlatform::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-MovingPlatform::MovingPlatform()
+MovingPlatform::MovingPlatform(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
-	AddComponent<TextureRenderComponent>()->mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
+	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
+	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 }
 
 void MovingPlatform::Init(const InitParams& inInitParams)

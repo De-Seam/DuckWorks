@@ -46,7 +46,11 @@ class ThreadManager : public RTTIBaseClass
 {
 	RTTI_CLASS(ThreadManager, RTTIBaseClass)
 public:
-	ThreadManager();
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	ThreadManager(const ConstructParameters& inConstructParameters);
 
 	void Init();
 	void Shutdown();
@@ -71,7 +75,7 @@ private:
 
 private:
 	void WorkerThread(int32 inIndex);
-	void OnTaskCompleted(SharedPtr<ThreadTask> &inTask);
+	void OnTaskCompleted(SharedPtr<ThreadTask>& inTask);
 };
 
 // Gets the current Thread Index. 0 is the main thread.

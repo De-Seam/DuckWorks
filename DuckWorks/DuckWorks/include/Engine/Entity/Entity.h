@@ -29,7 +29,19 @@ class Entity : public RefObject
 	RTTI_CLASS(Entity, RefObject)
 
 public:
-	Entity() = default;
+	struct ConstructParameters : public Base::ConstructParameters
+	{
+		World* mWorld = nullptr;
+		String mName;
+	};
+
+	Entity(const ConstructParameters& inConstructParameters)
+		: Base(inConstructParameters)
+	{
+		mWorld = inConstructParameters.mWorld;
+		mName = inConstructParameters.mName;
+	}
+
 	virtual ~Entity() override;
 
 	struct InitParams
@@ -50,8 +62,8 @@ public:
 
 	void Destroy();
 
-	template<typename taType, typename... taArgs>
-	taType* AddComponent(taArgs&&... inArgs);
+	template<typename taType>
+	taType* AddComponent(const typename taType::ConstructParameters& inConstructParameters = {});
 	template<typename taType>
 	Array<taType*> GetComponentsOfType(); ///< Warning: Slow!
 	Array<EntityComponent*> GetComponentsOfType(UID inComponentUID);
@@ -95,13 +107,15 @@ private:
 	int32 mEntityComponentSalt = 0;
 };
 
-template<typename taType, typename... taArgs>
-taType* Entity::AddComponent(taArgs&&... inArgs)
+template<typename taType>
+taType* Entity::AddComponent(const typename taType::ConstructParameters& inConstructParameters)
 {
 	ScopedMutexWriteLock lock(mEntityComponentsMutex);
 
-	taType* component = taType::sNewInstance(std::forward<taArgs>(inArgs)...);
-	component->mEntity = this;
+	typename taType::ConstructParameters parameters = inConstructParameters;
+
+	parameters.mEntity = this;
+	taType* component = taType::sNewInstance(parameters);
 	static GUID sBaseComponentGUID = GUID("52af-b8bb-1b48-d338");
 	component->SetGUID(GUID::sCombine(GetGUID(), sBaseComponentGUID, mEntityComponentSalt++));
 	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component);
@@ -126,7 +140,7 @@ bool Entity::HasComponent()
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 
-	HashMap<UID, Array<Handle<EntityComponent>>>::iterator iterator = mEntityComponents.find(taType::sGetRTTIUID());
+	auto iterator = mEntityComponents.find(taType::sGetRTTIUID());
 	return iterator != mEntityComponents.end() && !iterator->second.empty();
 }
 

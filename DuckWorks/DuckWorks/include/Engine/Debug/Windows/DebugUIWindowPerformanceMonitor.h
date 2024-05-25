@@ -6,6 +6,12 @@ class DebugUIWindowPerformanceMonitor : public DebugUIWindow
 	RTTI_CLASS(DebugUIWindowPerformanceMonitor, DebugUIWindow)
 
 public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowPerformanceMonitor(const ConstructParameters& inConstructParameters = {});
+
 	DebugUIWindowPerformanceMonitor();
 
 	virtual void UpdateMultiThreaded(float inDeltaTime) override;

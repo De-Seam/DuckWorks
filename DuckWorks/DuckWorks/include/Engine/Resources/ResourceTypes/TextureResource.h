@@ -7,6 +7,13 @@ struct TextureResource : public BaseResource
 {
 	RTTI_CLASS(TextureResource, BaseResource)
 
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	TextureResource(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+
 	virtual ~TextureResource() override;
 	virtual void LoadFromFile(const String& inFile) override;
 	void ReloadTexture();

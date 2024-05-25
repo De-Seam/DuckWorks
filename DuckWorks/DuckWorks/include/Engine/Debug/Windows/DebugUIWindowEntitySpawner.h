@@ -6,7 +6,11 @@ class DebugUIWindowEntitySpawner : public DebugUIWindow
 	RTTI_CLASS(DebugUIWindowEntitySpawner, DebugUIWindow)
 
 public:
-	DebugUIWindowEntitySpawner();
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowEntitySpawner(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	virtual void Update(float inDeltaTime) override;
 

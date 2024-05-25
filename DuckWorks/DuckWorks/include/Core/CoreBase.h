@@ -1,19 +1,20 @@
 #pragma once
 // CoreBase includes the core utilities and math
+#include "Core/Utilities/UID.h"
+#include "Utilities/RefObject.h"
 #include "Utilities/Types.h"
 #include "Utilities/Utilities.h"
-#include "Utilities/RefObject.h"
-#include "Core/Utilities/UID.h"
 
 // General Handle pointing to an index. The default constructor makes an invalid handle.
 template<typename taType>
 struct Handle
 {
 	Handle() = default;
+
 	Handle(uint64 inIndex, UID inUID)
 		: mIndex(inIndex)
-		, mUID(inUID)
-	{}
+		, mUID(inUID) {}
+
 	Handle(uint64 inIndex)
 		: mIndex(inIndex) {}
 

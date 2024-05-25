@@ -13,7 +13,11 @@ class DebugUIWindowEditorToolbar : public DebugUIWindow
 	RTTI_CLASS(DebugUIWindowEditorToolbar, DebugUIWindow)
 
 public:
-	DebugUIWindowEditorToolbar();
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowEditorToolbar(const ConstructParameters& inConstructParameters = {});
 
 	virtual void UpdateMultiThreaded(float inDeltaTime) override;
 	virtual void Update(float inDeltaTime) override;

@@ -18,7 +18,12 @@ class World : public RTTIBaseClass
 public:
 	virtual Json SerializeIgnoreEntities() const;
 
-	World();
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	World(const ConstructParameters& inConstructParameters = {});
+
 	virtual ~World() override;
 
 	void Update(float inDeltaTime);
@@ -28,8 +33,8 @@ public:
 	void EndPlay();
 
 	template<typename taType>
-	Ref<taType> CreateEntity(const String& inName);
-	void AddEntity(const Ref<Entity>& inEntity, const String& inName);
+	Ref<taType> CreateEntity(const String& inName = taType::sGetClassName());
+	void AddEntity(const Ref<Entity>& inEntity);
 	void DestroyEntity(const Ref<Entity>& inEntity);
 
 	[[nodiscard]] Array<Ref<Entity>>& GetEntities() { return mEntities; }
@@ -77,6 +82,9 @@ template<typename taType>
 Ref<taType> World::CreateEntity(const String& inName)
 {
 	static_assert(std::is_base_of_v<Entity, taType>);
+	typename taType::ConstructParameters params;
+	params.mWorld = this;
+	params.mName = inName;
 	Ref<taType> entity = {};
 	AddEntity(entity, inName);
 	return entity;

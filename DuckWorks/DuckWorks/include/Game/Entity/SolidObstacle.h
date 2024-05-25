@@ -7,6 +7,10 @@ class SolidObstacle : public CollisionActor
 	RTTI_CLASS(SolidObstacle, CollisionActor)
 
 public:
-	SolidObstacle() = default;
-	virtual void Init(const Entity::InitParams& inInitParams) override;
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	SolidObstacle(const ConstructParameters& inConstructParameters) : Base(inConstructParameters) {}
+	virtual void Init(const InitParams& inInitParams) override;
 };

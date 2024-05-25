@@ -18,8 +18,10 @@ public:
 		Dynamic
 	};
 
-	struct InitParams
+	struct ConstructParameters : public Base::ConstructParameters
 	{
+		CollisionObjectHandle mHandle;
+
 		fm::Transform2D mTransform;
 		EType mType = EType::Static;
 		bool mBlocking = true;
@@ -29,8 +31,7 @@ public:
 		OnCollisionFunc mOnCollisionFunction = nullptr;
 	};
 
-	CollisionObject() = default;
-	CollisionObject(const InitParams& inInitParams);
+	CollisionObject(const ConstructParameters& inConstructParameters);
 
 	bool Collides(const CollisionObject* inOther) const;
 

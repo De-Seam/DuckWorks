@@ -21,9 +21,19 @@ void CollisionActor::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-CollisionActor::CollisionActor()
+CollisionActor::CollisionActor(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
-	
+	CollisionObject::ConstructParameters params;
+	params.mBlocking = true;
+	params.mTransform = GetTransform();
+	params.mType = CollisionObject::EType::Static;
+	params.mEntity = this;
+
+	CollisionComponent::ConstructParameters collision_component_params;
+	collision_component_params.mCollisionObjectHandle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
+
+	AddComponent<CollisionComponent>(collision_component_params);
 }
 
 CollisionActor::~CollisionActor()
@@ -41,14 +51,6 @@ CollisionActor::~CollisionActor()
 void CollisionActor::Init(const InitParams& inInitParams)
 {
 	Base::Init(inInitParams);
-	
-	CollisionObject::InitParams params;
-	params.mBlocking = true;
-	params.mTransform = GetTransform();
-	params.mType = CollisionObject::EType::Static;
-	params.mEntity = this;
-	CollisionObjectHandle handle = GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
-	AddComponent<CollisionComponent>(handle);
 }
 
 void CollisionActor::BeginPlay()

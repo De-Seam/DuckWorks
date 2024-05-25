@@ -32,7 +32,7 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 			resized = true;
 		}
 		else
-			gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle.mIndex == inObject.mIndex, "Previously added object somehow has the wrong index!");
+			gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle.mIndex == inObject.mIndex || mObjects[inObject.mIndex].mCollisionObjectHandle.mIndex == UINT64_MAX, "Previously added object somehow has the wrong index!");
 
 		CollisionObjectData data;
 		data.mCollisionObjectHandle = inObject;
@@ -48,9 +48,14 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 	if (IsGenerated())
 	{
 		if (!resized)
-			RefreshObject(inObject);
+		{
+			if (!RefreshObject(inObject))
+				Generate();
+		}
 		else
+		{
 			Generate();
+		}
 	}
 }
 
@@ -63,6 +68,7 @@ void BVH::AddObjects(const Array<CollisionObjectHandle>& inObjects)
 void BVH::RemoveObject(const CollisionObjectHandle& inObject)
 {
 	gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle == inObject, "Trying to remove an object that was never added!");
+	ScopedMutexReadLock lock(mBVHMutex);
 	mObjects[inObject.mIndex] = {};
 }
 
@@ -121,7 +127,7 @@ void BVH::Draw()
 	}
 }
 
-void BVH::RefreshObject(const CollisionObjectHandle& inObject)
+bool BVH::RefreshObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::RefreshObject)
 
@@ -131,7 +137,7 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 	AABB aabb = object.GetAABB();
 	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
 	if (gFullyInsideOf(aabb, mObjects[inObject.mIndex].mAABB))
-		return;
+		return true;
 
 	if (object.GetType() == CollisionObject::EType::Dynamic)
 		AdjustAABBForDynamicObject(aabb);
@@ -140,7 +146,7 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 	if (!IsGenerated())
 	{
 		mObjects[inObject.mIndex].mAABB = aabb;
-		return;
+		return true;
 	}
 
 	AABB old_aabb = mObjects[inObject.mIndex].mAABB;
@@ -148,8 +154,8 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 	//mBVHMutex.ReadLock();
 	const Array<uint64>& node_hierarchy = FindNodeHierarchyContainingObject(inObject, old_aabb);
 
-	gAssert(mObjects[mIndices[node_hierarchy[0]]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
 	gAssert(node_hierarchy.size() > 1, "Object not found in BVH!");
+	gAssert(mObjects[mIndices[node_hierarchy[0]]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
 
 	mObjects[inObject.mIndex].mAABB = aabb;
 
@@ -165,6 +171,8 @@ void BVH::RefreshObject(const CollisionObjectHandle& inObject)
 		BVHNode* node = &mNodes[node_hierarchy[i]];
 		node->mAABB = gComputeEncompassingAABB(mNodes[node->mLeftFirst].mAABB, mNodes[node->mLeftFirst + 1].mAABB);
 	}
+
+	return true;
 }
 
 const Array<CollisionObjectHandle>& BVH::GetBroadphaseCollisions(const AABB& inAABB)
@@ -330,6 +338,10 @@ const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjec
 	sReturnArray.clear();
 
 	FindNodeHierarchyContainingObjectRecursive(sReturnArray, inObject, inAABB, 0);
+
+	if (sReturnArray.empty())
+		FindNodeHierarchyContainingObjectRecursive(sReturnArray, inObject, {-FLT_MAX, FLT_MAX}, 0);
+
 	sReturnArray.emplace_back(0);
 
 	return sReturnArray;

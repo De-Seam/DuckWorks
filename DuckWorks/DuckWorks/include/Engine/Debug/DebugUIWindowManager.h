@@ -12,6 +12,13 @@ class DebugUIWindowManager : public RTTIBaseClass
 	RTTI_CLASS(DebugUIWindowManager, RTTIBaseClass)
 
 public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowManager(const ConstructParameters& inConstructParameters = {})
+		: Base(inConstructParameters) {}
+
 	void Init();
 	void BeginFrame();
 	void EndFrame();
@@ -29,7 +36,7 @@ public:
 	void UpdateWindows(float inDeltaTime);
 
 	template<typename taType>
-	WeakRef<DebugUIWindow> CreateWindow();
+	WeakRef<DebugUIWindow> CreateWindow(const typename taType::ConstructParameters& inConstructParameters = {});
 	WeakRef<DebugUIWindow> AddWindow(Ref<DebugUIWindow> inWindow);
 
 	template<typename taType>
@@ -71,9 +78,9 @@ private:
 extern DebugUIWindowManager gDebugUIWindowManager;
 
 template<typename taType>
-WeakRef<DebugUIWindow> DebugUIWindowManager::CreateWindow()
+WeakRef<DebugUIWindow> DebugUIWindowManager::CreateWindow(const typename taType::ConstructParameters& inConstructParameters)
 {
-	Ref<taType> new_window = {};
+	Ref<taType> new_window = Ref<taType>{inConstructParameters};
 	return AddWindow(new_window);
 }
 

@@ -7,33 +7,8 @@
 
 #include "Game/App/App.h"
 
-// ComponentBase
-RTTI_CLASS_DEFINITION(ComponentBase)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(ComponentBase)
-
-// NameComponent
-RTTI_CLASS_DEFINITION(NameComponent)
-COMPONENT_DEFINITION(NameComponent)
-
-Json NameComponent::Serialize()
-{
-	Json json = Base::Serialize();
-
-	JSON_SAVE(json, mName);
-	return json;
-}
-
-void NameComponent::Deserialize(const Json& inJson)
-{
-	Base::Deserialize(inJson);
-
-	JSON_TRY_LOAD(inJson, mName);
-}
-
 // TextureRenderComponent
 RTTI_CLASS_DEFINITION(TextureRenderComponent)
-COMPONENT_DEFINITION(TextureRenderComponent)
 
 Json TextureRenderComponent::Serialize()
 {
@@ -59,14 +34,19 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mFlip);
 }
 
-TextureRenderComponent::TextureRenderComponent()
+TextureRenderComponent::TextureRenderComponent(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters),
+	mTexture(inConstructParameters.mTexture),
+	mSrcRect(inConstructParameters.mSrcRect),
+	mUseSrcRect(inConstructParameters.mUseSrcRect),
+	mFlip(inConstructParameters.mFlip)
 {
-	mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
+	if (mTexture == nullptr)
+		mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
 }
 
 // AnimationComponent
 RTTI_CLASS_DEFINITION(AnimationComponent)
-COMPONENT_DEFINITION(AnimationComponent)
 
 Json AnimationComponent::Serialize()
 {
@@ -80,7 +60,6 @@ void AnimationComponent::Deserialize(const Json& inJson)
 
 // CollisionComponent
 RTTI_CLASS_DEFINITION(CollisionComponent)
-COMPONENT_DEFINITION(CollisionComponent)
 
 Json CollisionComponent::Serialize()
 {
@@ -99,30 +78,14 @@ void CollisionComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	CollisionObject::InitParams params;
+	CollisionObject::ConstructParameters construct_params;
 	if (!mCollisionObjectHandle.IsValid())
-		mCollisionObjectHandle = gApp.GetWorld()->GetCollisionWorld()->CreateCollisionObject(params);
+		mCollisionObjectHandle = gApp.GetWorld()->GetCollisionWorld()->CreateCollisionObject(construct_params);
 	gApp.GetWorld()->GetCollisionWorld()->DeserializeCollisionObject(mCollisionObjectHandle, inJson["CollisionObject"]);
 }
 
-CollisionComponent::CollisionComponent()
-{}
-
-CollisionComponent::~CollisionComponent()
-{
-}
-
-// Entity Component
-RTTI_CLASS_DEFINITION(EntityRefComponent)
-
-COMPONENT_DEFINITION(EntityRefComponent)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(EntityRefComponent)
-
 // HealthComponent
 RTTI_CLASS_DEFINITION(HealthComponent)
-
-COMPONENT_DEFINITION(HealthComponent)
 
 Json HealthComponent::Serialize()
 {
@@ -142,8 +105,6 @@ void HealthComponent::Deserialize(const Json& inJson)
 
 // CameraComponent
 RTTI_CLASS_DEFINITION(CameraComponent)
-
-COMPONENT_DEFINITION(CameraComponent)
 
 Json CameraComponent::Serialize()
 {
@@ -171,13 +132,3 @@ void CameraComponent::Deserialize(const Json& inJson)
 		mCamera->Deserialize(inJson["mCamera"]);
 	}
 }
-
-CameraComponent::CameraComponent()
-{}
-
-// DestroyedTag
-RTTI_CLASS_DEFINITION(DestroyedTag)
-
-COMPONENT_DEFINITION(DestroyedTag)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(DestroyedTag)

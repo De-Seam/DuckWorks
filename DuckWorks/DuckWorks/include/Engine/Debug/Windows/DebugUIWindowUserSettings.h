@@ -6,6 +6,12 @@ class DebugUIWindowUserSettings : public DebugUIWindow
 	RTTI_CLASS(DebugUIWindowUserSettings, DebugUIWindow)
 
 public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowUserSettings(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+
 	virtual void Update(float inDeltaTime) override;
 
 private:

@@ -8,10 +8,16 @@
 class CollisionActor : public Actor
 {
 	RTTI_CLASS(CollisionActor, Actor)
+
 public:
-	CollisionActor();
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	CollisionActor(const ConstructParameters& inConstructParameters);
+
 	virtual ~CollisionActor() override;
-	virtual void Init(const Entity::InitParams& inInitParams) override;
+	virtual void Init(const InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;
 

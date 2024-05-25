@@ -9,6 +9,12 @@ class DebugUIWindowTextureViewer : public DebugUIWindow
 	RTTI_CLASS(DebugUIWindowTextureViewer, DebugUIWindow)
 
 public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	DebugUIWindowTextureViewer(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+
 	void SetTexture(const SharedPtr<TextureResource>& inTexture) { mTexture = inTexture; }
 
 	virtual void Update(float inDeltaTime) override;

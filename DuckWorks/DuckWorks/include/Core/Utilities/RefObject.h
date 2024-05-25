@@ -6,10 +6,15 @@ class RefObject : public RTTIBaseClass
 	RTTI_CLASS(RefObject, RTTIBaseClass)
 
 public:
-	RefObject()
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	RefObject(const ConstructParameters& inConstructParameters) : Base(inConstructParameters)
 	{
-		mWeakRefCounter = new RefObject::WeakRefCounter();
+		mWeakRefCounter = new WeakRefCounter();
 	}
+
 	virtual ~RefObject() override
 	{
 		mWeakRefCounter->mIsAlive = false;
@@ -30,7 +35,7 @@ private:
 
 	WeakRefCounter* mWeakRefCounter = nullptr;
 
-	template<typename taRefClassType, typename... taRefClassArgs>
+	template<typename taRefClassType>
 	friend class Ref;
 
 	template<typename taRefClassType>
@@ -40,14 +45,14 @@ private:
 template<typename taType>
 class WeakRef;
 
-template<typename taType, typename... taArgs>
+template<typename taType>
 class Ref
 {
 public:
-	Ref(taArgs&&... inArgs)
+	Ref(const typename taType::ConstructParameters& inConstructParameters = {})
 	{
 		static_assert(std::is_base_of_v<RefObject, taType>);
-		mPtr = new taType(std::forward<taArgs>(inArgs)...);
+		mPtr = taType::sNewInstance(inConstructParameters);
 		mPtr->mRefCount++;
 	}
 
@@ -70,7 +75,7 @@ public:
 		{
 			mPtr->mRefCount--;
 			if (mPtr->mRefCount <= 0)
-				delete mPtr;
+				mPtr->Delete();
 		}
 
 		mPtr = inOther.mPtr;
@@ -105,7 +110,7 @@ public:
 		mPtr->mRefCount--;
 
 		if (mPtr->mRefCount <= 0)
-			delete mPtr;
+			mPtr->Delete();
 	}
 
 	taType* Get() const { return mPtr; }
@@ -134,7 +139,7 @@ private:
 		mPtr->mRefCount++;
 	}
 
-	template<typename taRefClassType, typename... taRefClassArgs>
+	template<typename taRefClassType>
 	friend class Ref;
 
 	template<typename taRefClassType>
@@ -223,6 +228,6 @@ private:
 	taType* mPtr = nullptr;
 	RefObject::WeakRefCounter* mWeakRefCounter = nullptr;
 
-	template<typename taRefClassType, typename... taRefClassArgs>
+	template<typename taRefClassType>
 	friend class Ref;
 };

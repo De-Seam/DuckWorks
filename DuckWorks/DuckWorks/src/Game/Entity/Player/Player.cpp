@@ -35,57 +35,50 @@ void Player::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-void Player::Init(const InitParams& inInitParams)
+Player::Player(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
-	Base::Init(inInitParams);
-
-	AddComponent<HealthComponent>();
-	AddComponent<CameraComponent>();
-	LoopOverComponents<CameraComponent>([this](CameraComponent& inCameraComponent)
-	{
-		inCameraComponent.mIsActive = false;
-	});
+	AddComponent<HealthComponent>(HealthComponent::ConstructParameters());
+	AddComponent<CameraComponent>(CameraComponent::ConstructParameters());
+	LoopOverComponents<CameraComponent>([this](CameraComponent& inCameraComponent) { inCameraComponent.mIsActive = false; });
 
 	SetHalfSize(fm::vec2(64.f, 64.f));
 
-	TextureRenderComponent texture_render_component;
+	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
-	texture_render_component.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
-	texture_render_component.mSrcRect = {0, 0, 192, 192};
-	texture_render_component.mUseSrcRect = true;
-	AddComponent<TextureRenderComponent>(texture_render_component);
+	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
+	texture_render_component_parameters.mSrcRect = {0, 0, 192, 192};
+	texture_render_component_parameters.mUseSrcRect = true;
+	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 
 	SetupAnimations();
 
 	{
 		EventManager::EventFunction event_function;
 		event_function.mEventType = EventType::MouseButtonDown;
-		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
-		{
-			OnMouseDown(inData);
-		};
+		event_function.mFunctionPtr = [this](const EventManager::EventData& inData) { OnMouseDown(inData); };
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 	{
 		EventManager::EventFunction event_function;
 		event_function.mEventType = EventType::MouseButtonUp;
-		event_function.mFunctionPtr = [this](const EventManager::EventData& inData)
-		{
-			OnMouseUp(inData);
-		};
+		event_function.mFunctionPtr = [this](const EventManager::EventData& inData) { OnMouseUp(inData); };
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
 
-	LoopOverComponents<CollisionComponent>([this](CollisionComponent& inCollisionComponent)
-	{
-		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
-
-		collision_object->SetType(CollisionObject::EType::Dynamic);
-		collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams)
+	LoopOverComponents<CollisionComponent>(
+		[this](CollisionComponent& inCollisionComponent)
 		{
-			OnCollision(inParams);
+			CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
+
+			collision_object->SetType(CollisionObject::EType::Dynamic);
+			collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams) { OnCollision(inParams); });
 		});
-	});
+}
+
+void Player::Init(const InitParams& inInitParams)
+{
+	Base::Init(inInitParams);
 }
 
 void Player::BeginPlay()
@@ -154,8 +147,9 @@ enum class EPlayerAnimationState : uint16
 
 void Player::SetupAnimations()
 {
-	AnimationComponent* animation_component = AddComponent<AnimationComponent>();
-	animation_component->mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
+	AnimationComponent::ConstructParameters animation_component_parameters;
+	animation_component_parameters.mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
+	AddComponent<AnimationComponent>(animation_component_parameters);
 }
 
 void Player::OnMouseDown(const EventManager::EventData& inData)

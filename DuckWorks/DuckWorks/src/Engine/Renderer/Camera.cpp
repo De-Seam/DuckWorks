@@ -31,14 +31,15 @@ void Camera::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mZoom);
 }
 
-Camera::Camera(fm::vec2 inPosition, fm::vec2 inSize, float inZoom) :
-	mPosition(inPosition),
-	mSize(inSize),
-	mZoom(inZoom)
+Camera::Camera(const ConstructParameters& inParameters)
+	: Base(inParameters),
+	mPosition(inParameters.mPosition),
+	mSize(inParameters.mSize),
+	mZoom(inParameters.mZoom)
 {
 	mSizeInverse = fm::vec2{1.f} / mSize;
 
-	fm::ivec2 size = {inSize.to_ivec2()};
+	fm::ivec2 size = {mSize.to_ivec2()};
 	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
 	if (!mRenderTexture)
 	{

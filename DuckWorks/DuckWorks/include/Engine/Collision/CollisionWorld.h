@@ -13,14 +13,21 @@ using CollisionObjectWrapper = MutexReadProtectedPtr<CollisionObject>;
 class CollisionWorld : public RTTIBaseClass
 {
 	RTTI_CLASS(CollisionWorld, RTTIBaseClass)
-	CollisionWorld();
+
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	using Base::Base;
+
+	CollisionWorld(const ConstructParameters& inConstructParameters = {});
+
 	void BeginPlay();
 
 	void Draw();
 	void DrawCollision();
 	void DrawBVH();
 
-	CollisionObjectHandle CreateCollisionObject(const CollisionObject::InitParams& inInitParams);
+	CollisionObjectHandle CreateCollisionObject(const CollisionObject::ConstructParameters& inConstructParameters);
 	void DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle);
 
 	// This function immediately checks for collision so don't call it multiple times on the same object if you can do it once!
@@ -51,5 +58,5 @@ private:
 private:
 	// Sets the transform. Does NOT lock the mCollisionObjects mutex. That needs to be locked already.
 	void SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
-	CollisionObjectHandle FindOrCreateCollisionObjectIndex(const CollisionObject::InitParams& inInitParams);
+	CollisionObjectHandle FindOrCreateCollisionObjectIndex(const CollisionObject::ConstructParameters& inConstructParameters);
 };

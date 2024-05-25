@@ -16,13 +16,13 @@ template<typename taFactoryType>
 class Factory
 {
 public:
-	using ConstructorFunction = std::function<taFactoryType*()>;
+	using ConstructorFunction = std::function<taFactoryType*(const typename taFactoryType::ConstructParameters&)>;
 
 	template<typename taType>
 	void RegisterClass(const String& inClassName);
 
-	[[nodiscard]] taFactoryType* CreateClassFromJsonAndDeserialize(const Json& inJson);
-	[[nodiscard]] taFactoryType* CreateClass(const String& inClassName);
+	[[nodiscard]] taFactoryType* CreateClassFromJsonAndDeserialize(const Json& inJson, const typename taFactoryType::ConstructParameters& inConstructParameters = {});
+	[[nodiscard]] taFactoryType* CreateClass(const String& inClassName, const typename taFactoryType::ConstructParameters& inConstructParameters = {});
 
 	[[nodiscard]] UID GetRTTIUID(const String& inClassName) const;
 
@@ -72,10 +72,11 @@ template<typename taType>
 void Factory<taFactoryType>::RegisterClass(const String& inClassName)
 {
 	gAssert(!mClassConstructors.contains(inClassName), "Class already registered!");
-	ConstructorFunction func = []()
+	ConstructorFunction func = [](const typename taFactoryType::ConstructParameters& inConstructParameters)
 	{
 		gLog("Factory created class %s", taType::sGetClassName());
-		return new taType;
+		typename taType::ConstructParameters construct_parameters = {inConstructParameters};
+		return taType::sNewInstance(construct_parameters);
 	};
 	mClassConstructors[inClassName] = func;
 	mClassUIDs[inClassName] = taType::sGetRTTIUID();
@@ -83,18 +84,18 @@ void Factory<taFactoryType>::RegisterClass(const String& inClassName)
 }
 
 template<typename taFactoryType>
-taFactoryType* Factory<taFactoryType>::CreateClassFromJsonAndDeserialize(const Json& inJson)
+taFactoryType* Factory<taFactoryType>::CreateClassFromJsonAndDeserialize(const Json& inJson, const typename taFactoryType::ConstructParameters& inConstructParameters)
 {
-	taFactoryType* return_ptr = CreateClass(inJson["ClassName"]);
+	taFactoryType* return_ptr = CreateClass(inJson["ClassName"], inConstructParameters);
 	return_ptr->Deserialize(inJson);
 	return return_ptr;
 }
 
 template<typename taFactoryType>
-taFactoryType* Factory<taFactoryType>::CreateClass(const String& inClassName)
+taFactoryType* Factory<taFactoryType>::CreateClass(const String& inClassName, const typename taFactoryType::ConstructParameters& inConstructParameters)
 {
 	gAssert(mClassConstructors.contains(inClassName), "Class not registered!");
-	return mClassConstructors[inClassName]();
+	return mClassConstructors[inClassName](inConstructParameters);
 }
 
 template<typename taFactoryType>

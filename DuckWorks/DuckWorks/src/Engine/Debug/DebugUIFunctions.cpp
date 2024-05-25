@@ -38,7 +38,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	if (inKey == "mGUID")
 	{
 		String value = ioValue.get<String>();
-		ImGui::Text(value.c_str());
+		ImGui::TextColored(ImVec4(0.3f, 0.5f, 1.f, 1.f), value.c_str());
 		return false;
 	}
 
@@ -57,7 +57,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{0.f, 3.f});
-		if (ImGui::TreeNodeEx((inKey + label + "TreeNode").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+		if (ImGui::TreeNodeEx((inKey + label + "##TreeNode").c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::PopStyleVar(2);
 
@@ -66,7 +66,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 			{
 				if (sIgnoreKeys.contains(key))
 					continue;
-				
+
 				if (gHandleKeyValuePair(ioJson, label, key, value, false, false))
 					changed = true;
 			}

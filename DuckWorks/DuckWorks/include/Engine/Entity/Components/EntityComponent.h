@@ -8,7 +8,17 @@ class EntityComponent : public RTTIBaseClass
 	RTTI_CLASS(EntityComponent, RTTIBaseClass)
 
 public:
-	EntityComponent() = default;
+	struct ConstructParameters : public Base::ConstructParameters
+	{
+		Entity* mEntity = nullptr;
+	};
+
+	EntityComponent(const ConstructParameters& inConstructParameters)
+		: Base(inConstructParameters), mEntity(inConstructParameters.mEntity)
+	{
+		gAssert(mEntity != nullptr, "Entity was not set!");
+	}
+
 	virtual ~EntityComponent() override {}
 
 	virtual void Init() {}
@@ -16,7 +26,11 @@ public:
 	virtual void EndPlay() {}
 	virtual void Update([[maybe_unused]] float inDeltaTime) {}
 
-	Entity* GetEntity() const { gAssert(mEntity != nullptr, "Entity was not set!"); return mEntity; }
+	Entity* GetEntity() const
+	{
+		gAssert(mEntity != nullptr, "Entity was not set!");
+		return mEntity;
+	}
 
 private:
 	Entity* mEntity = nullptr;

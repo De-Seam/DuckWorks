@@ -9,10 +9,16 @@ Projectile provides base functionality for all projectiles
 class Projectile : public CollisionActor
 {
 	RTTI_CLASS(Projectile, CollisionActor)
-public:
-	Projectile();
 
-	virtual void Init(const InitParams &inInitParams) override;
+public:
+	struct ConstructParameters : public Base::ConstructParameters
+	{
+		fm::vec2 mVelocity = fm::vec2(0.0f);
+	};
+
+	Projectile(const ConstructParameters& inConstructParameters);
+
+	virtual void Init(const InitParams& inInitParams) override;
 
 	virtual void Update(float inDeltaTime) override;
 
