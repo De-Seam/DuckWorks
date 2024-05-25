@@ -102,14 +102,28 @@ private:
 template<typename taType>
 taType* Entity::AddComponent(const typename taType::ConstructParameters& inConstructParameters)
 {
-	ScopedMutexWriteLock lock(mEntityComponentsMutex);
+	static GUID sBaseComponentGUID = GUID("52af-b8bb-1b48-d338");
+	const GUID guid = GUID::sCombine(GetGUID(), sBaseComponentGUID, mEntityComponentSalt++);
+
+#ifdef _DEBUG
+	// Check if the component is already added
+	LoopOverAllComponents([&guid](const EntityComponent& inExistingComponent)
+	{
+		if (inExistingComponent.GetGUID() == guid)
+		{
+			gLog(ELogType::Error, "Component with the same uuid already exists on entity");
+			gAssert(false, "Component with the same uuid already exists on entity");
+		}
+	});
+#endif // _DEBUG
 
 	typename taType::ConstructParameters parameters = inConstructParameters;
 
 	parameters.mEntity = this;
 	taType* component = taType::sNewInstance(parameters);
-	static GUID sBaseComponentGUID = GUID("52af-b8bb-1b48-d338");
-	component->SetGUID(GUID::sCombine(GetGUID(), sBaseComponentGUID, mEntityComponentSalt++));
+	component->SetGUID(guid);
+
+	ScopedMutexWriteLock lock(mEntityComponentsMutex);
 	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component);
 	return component;
 }
@@ -117,9 +131,9 @@ taType* Entity::AddComponent(const typename taType::ConstructParameters& inConst
 template<typename taType>
 Array<taType*> Entity::GetComponentsOfType()
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	Array<taType*> return_array;
 
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	Array<EntityComponent*>& components = mEntityComponents[taType::sGetRTTIUID()];
 	for (EntityComponent* component : components)
 		return_array.emplace_back(SCast<taType*>(component));
