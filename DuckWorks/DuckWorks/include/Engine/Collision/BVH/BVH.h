@@ -59,7 +59,7 @@ private:
 
 	uint32 mIndexCount = 0; ///< Count of mIndices. Saved because mObjects can change before the mIndices is reconstructed
 
-	fm::vec2 mDynamicAABBModifier = {0.2f, 0.2f}; ///< The AABB of dynamic objects is expanded by this amount
+	fm::vec2 mDynamicAABBModifier = {0.25f, 0.25f}; ///< The AABB of dynamic objects is expanded by this amount
 private:
 	void AdjustAABBForDynamicObject(AABB& ioAABB);
 
