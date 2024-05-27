@@ -6,7 +6,7 @@
 
 class DebugUIWindowTextureViewer : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowTextureViewer, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowTextureViewer, DebugUIWindow, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

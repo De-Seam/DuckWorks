@@ -15,7 +15,7 @@
 // External includes
 #include "External/imgui/imgui.h"
 
-RTTI_CLASS_DEFINITION(DebugUIWindowEntityList)
+RTTI_CLASS_DEFINITION(DebugUIWindowEntityList, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntityList)
 

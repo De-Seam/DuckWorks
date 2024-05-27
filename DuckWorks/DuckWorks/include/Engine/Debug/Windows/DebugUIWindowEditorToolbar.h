@@ -10,7 +10,7 @@ enum class ToolbarGameState
 
 class DebugUIWindowEditorToolbar : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowEditorToolbar, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowEditorToolbar, DebugUIWindow, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

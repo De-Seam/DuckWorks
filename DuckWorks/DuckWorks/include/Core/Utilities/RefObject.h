@@ -3,7 +3,7 @@
 
 class RefObject : public RTTIBaseClass
 {
-	RTTI_CLASS(RefObject, RTTIBaseClass)
+	RTTI_CLASS(RefObject, RTTIBaseClass, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

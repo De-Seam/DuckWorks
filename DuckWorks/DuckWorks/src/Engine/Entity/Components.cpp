@@ -8,7 +8,7 @@
 #include "Game/App/App.h"
 
 // TextureRenderComponent
-RTTI_CLASS_DEFINITION(TextureRenderComponent)
+RTTI_CLASS_DEFINITION(TextureRenderComponent, ClassAllocator)
 
 Json TextureRenderComponent::Serialize()
 {
@@ -46,7 +46,7 @@ TextureRenderComponent::TextureRenderComponent(const ConstructParameters& inCons
 }
 
 // AnimationComponent
-RTTI_CLASS_DEFINITION(AnimationComponent)
+RTTI_CLASS_DEFINITION(AnimationComponent, ClassAllocator)
 
 Json AnimationComponent::Serialize()
 {
@@ -59,7 +59,7 @@ void AnimationComponent::Deserialize(const Json& inJson)
 }
 
 // CollisionComponent
-RTTI_CLASS_DEFINITION(CollisionComponent)
+RTTI_CLASS_DEFINITION(CollisionComponent, ClassAllocator)
 
 Json CollisionComponent::Serialize()
 {
@@ -85,7 +85,7 @@ void CollisionComponent::Deserialize(const Json& inJson)
 }
 
 // HealthComponent
-RTTI_CLASS_DEFINITION(HealthComponent)
+RTTI_CLASS_DEFINITION(HealthComponent, ClassAllocator)
 
 Json HealthComponent::Serialize()
 {
@@ -104,7 +104,7 @@ void HealthComponent::Deserialize(const Json& inJson)
 }
 
 // CameraComponent
-RTTI_CLASS_DEFINITION(CameraComponent)
+RTTI_CLASS_DEFINITION(CameraComponent, ClassAllocator)
 
 Json CameraComponent::Serialize()
 {

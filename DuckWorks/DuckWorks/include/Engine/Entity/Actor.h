@@ -4,7 +4,7 @@
 // An actor is an entity that has a transform component. It can be moved and rotated
 class Actor : public Entity
 {
-	RTTI_CLASS(Actor, Entity)
+	RTTI_CLASS(Actor, Entity, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

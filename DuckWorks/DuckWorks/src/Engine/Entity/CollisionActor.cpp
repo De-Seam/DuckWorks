@@ -7,7 +7,7 @@
 #include "Engine/Entity/Components.h"
 #include "Engine/World/WOrld.h"
 
-RTTI_CLASS_DEFINITION(CollisionActor)
+RTTI_CLASS_DEFINITION(CollisionActor, StandardAllocator)
 
 Json CollisionActor::Serialize()
 {

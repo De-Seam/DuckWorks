@@ -26,7 +26,7 @@
 #include <fstream>
 #include <Engine/Entity/CollisionActor.h>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowManager)
+RTTI_CLASS_DEFINITION(DebugUIWindowManager, StandardAllocator)
 
 DebugUIWindowManager gDebugUIWindowManager = {};
 

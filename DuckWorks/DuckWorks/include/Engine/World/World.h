@@ -13,7 +13,7 @@ class b2World;
 
 class World : public RTTIBaseClass
 {
-	RTTI_CLASS(World, RTTIBaseClass)
+	RTTI_CLASS(World, RTTIBaseClass, StandardAllocator)
 
 public:
 	virtual Json SerializeIgnoreEntities() const;

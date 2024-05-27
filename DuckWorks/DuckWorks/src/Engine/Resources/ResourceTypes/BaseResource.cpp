@@ -1,7 +1,7 @@
 #include "Precomp.h"
 #include "Engine/Resources/ResourceTypes/BaseResource.h"
 
-RTTI_CLASS_DEFINITION(BaseResource)
+RTTI_CLASS_DEFINITION(BaseResource, StandardAllocator)
 
 Json BaseResource::Serialize()
 {

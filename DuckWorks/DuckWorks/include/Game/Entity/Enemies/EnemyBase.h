@@ -6,7 +6,7 @@
 
 class EnemyBase : public Actor
 {
-	RTTI_CLASS(EnemyBase, Actor)
+	RTTI_CLASS(EnemyBase, Actor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

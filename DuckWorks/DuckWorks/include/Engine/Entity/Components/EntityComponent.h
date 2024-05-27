@@ -5,7 +5,7 @@ class Entity;
 
 class EntityComponent : public RTTIBaseClass
 {
-	RTTI_CLASS(EntityComponent, RTTIBaseClass)
+	RTTI_CLASS(EntityComponent, RTTIBaseClass, ClassAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

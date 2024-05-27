@@ -6,7 +6,7 @@
 #include "Engine/Factory/Factory.h"
 #include "Engine/World/World.h"
 
-RTTI_CLASS_DEFINITION(Entity)
+RTTI_CLASS_DEFINITION(Entity, StandardAllocator)
 
 Json Entity::Serialize()
 {

@@ -14,7 +14,7 @@
 // Std includes
 #include <algorithm>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowNewFilePopup)
+RTTI_CLASS_DEFINITION(DebugUIWindowNewFilePopup, StandardAllocator)
 
 Json DebugUIWindowNewFilePopup::Serialize()
 {

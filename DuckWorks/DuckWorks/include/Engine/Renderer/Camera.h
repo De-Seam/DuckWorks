@@ -9,7 +9,7 @@ struct SDL_Texture;
 
 class Camera : public RTTIBaseClass
 {
-	RTTI_CLASS(Camera, RTTIBaseClass)
+	RTTI_CLASS(Camera, RTTIBaseClass, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

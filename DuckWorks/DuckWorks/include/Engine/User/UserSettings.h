@@ -7,7 +7,7 @@
 
 struct BaseUserSettings : public RTTIBaseClass
 {
-	RTTI_CLASS(BaseUserSettings, RTTIBaseClass)
+	RTTI_CLASS(BaseUserSettings, RTTIBaseClass, StandardAllocator)
 	struct ConstructParameters : public Base::ConstructParameters {};
 
 	using Base::Base;

@@ -3,7 +3,7 @@
 
 #include "Engine/Renderer/Renderer.h"
 
-RTTI_CLASS_DEFINITION(Camera)
+RTTI_CLASS_DEFINITION(Camera, StandardAllocator)
 
 Json Camera::Serialize()
 {

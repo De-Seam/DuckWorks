@@ -5,7 +5,7 @@
 #include "Engine/Entity/Components.h"
 #include "Engine/Resources/ResourceManager.h"
 
-RTTI_CLASS_DEFINITION(Projectile)
+RTTI_CLASS_DEFINITION(Projectile, StandardAllocator)
 
 Json Projectile::Serialize()
 {

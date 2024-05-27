@@ -10,7 +10,7 @@
 // Game includes
 #include "Game/Entity/Player/Player.h"
 
-RTTI_CLASS_DEFINITION(MovingPlatform)
+RTTI_CLASS_DEFINITION(MovingPlatform, StandardAllocator)
 
 Json MovingPlatform::Serialize()
 {

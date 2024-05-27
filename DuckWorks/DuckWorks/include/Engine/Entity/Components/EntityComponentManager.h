@@ -26,7 +26,7 @@ extern EntityComponentManager gEntityComponentManager;
 template<typename taType>
 void EntityComponentManager::LoopOverComponents(Function<void(taType& inComponent)> inFunction)
 {
-	ClassAllocator<taType>& allocator = taType::sGetClassAllocator();
+	ClassAllocator<taType>& allocator = taType::sGetAllocator();
 	const Array<void*>& pages = allocator.GetPages();
 	uint64 page_size = allocator.GetPageSize();
 

@@ -15,7 +15,7 @@
 #include "Game/App/App.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 
-RTTI_CLASS_DEFINITION(Player)
+RTTI_CLASS_DEFINITION(Player, StandardAllocator)
 
 Json Player::Serialize()
 {

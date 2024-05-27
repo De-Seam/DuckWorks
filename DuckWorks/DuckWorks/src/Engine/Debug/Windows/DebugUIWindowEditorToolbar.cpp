@@ -15,7 +15,7 @@
 // Std includes
 #include <fstream>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowEditorToolbar)
+RTTI_CLASS_DEFINITION(DebugUIWindowEditorToolbar, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEditorToolbar)
 

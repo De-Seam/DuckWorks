@@ -6,7 +6,7 @@
 
 class DebugUIWindowFileExplorer : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowFileExplorer, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowFileExplorer, DebugUIWindow, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

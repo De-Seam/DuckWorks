@@ -1,6 +1,7 @@
 #pragma once
 // Core includes
 #include <Core/Allocators/ClassAllocator.h>
+#include <Core/Allocators/StandardAllocator.h>
 #include <Core/Utilities/GUID.h>
 #include "UID.h"
 #include "Utilities.h"
@@ -55,13 +56,13 @@ private:                                                                        
                                                                                                                                                                \
 public:
 
-#define RTTI_CLASS(inClassName, inParentClassName)                                                                                                             \
+#define RTTI_CLASS(inClassName, inParentClassName, inAllocatorClass)                                                                                                             \
 	RTTI_VIRTUAL_CLASS(inClassName, inParentClassName)																										   \
                                                                                                                                                                \
 	template<typename... taArgs>                                                                                                                               \
 	static inClassName* sNewInstance(taArgs&&... inArgs)                                                                                                       \
 	{                                                                                                                                                          \
-		##inClassName *instance = s##inClassName##ClassAllocator.Allocate(ALLOC_TRACK);                                                                        \
+		##inClassName* instance = s##inClassName##Allocator.Allocate(ALLOC_TRACK);                                                                        \
 		instance = new (instance) inClassName(std::forward<taArgs>(inArgs)...);                                                                                \
 		return instance;                                                                                                                                       \
 	}                                                                                                                                                          \
@@ -69,22 +70,22 @@ public:
 	virtual void Delete() override                                                                                                                             \
 	{                                                                                                                                                          \
 		this->~##inClassName##();                                                                                                                              \
-		s##inClassName##ClassAllocator.Free(this);                                                                                                             \
+		s##inClassName##Allocator.Free(this);                                                                                                             \
 	}                                                                                                                                                          \
                                                                                                                                                                \
-	static ClassAllocator<##inClassName##> &sGetClassAllocator() { return s##inClassName##ClassAllocator; }                                                    \
+	static inAllocatorClass<##inClassName##>& sGetAllocator() { return s##inClassName##Allocator; }                                                    \
                                                                                                                                                                \
 private:                                                                                                                                                       \
-	static ClassAllocator<##inClassName##> s##inClassName##ClassAllocator;                                                                                     \
+	static inAllocatorClass<##inClassName##> s##inClassName##Allocator;                                                                                     \
                                                                                                                                                                \
 public:
 
 #define RTTI_VIRTUAL_CLASS_DEFINITION(inClassName) \
 	UID inClassName::s##inClassName##RTTIUID;
 
-#define RTTI_CLASS_DEFINITION(inClassName) \
+#define RTTI_CLASS_DEFINITION(inClassName, inAllocatorClass) \
 	RTTI_VIRTUAL_CLASS_DEFINITION(inClassName) \
-	ClassAllocator<inClassName> inClassName::s##inClassName##ClassAllocator;
+	inAllocatorClass<##inClassName##> inClassName::s##inClassName##Allocator;
 
 #define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
 	Json inClassName::Serialize() { return Base::Serialize(); } \

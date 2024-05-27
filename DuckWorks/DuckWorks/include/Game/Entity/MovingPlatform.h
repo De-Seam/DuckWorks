@@ -4,7 +4,7 @@
 
 class MovingPlatform : public CollisionActor
 {
-	RTTI_CLASS(MovingPlatform, CollisionActor)
+	RTTI_CLASS(MovingPlatform, CollisionActor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

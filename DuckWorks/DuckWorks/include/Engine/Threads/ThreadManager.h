@@ -44,7 +44,7 @@ private:
 
 class ThreadManager : public RTTIBaseClass
 {
-	RTTI_CLASS(ThreadManager, RTTIBaseClass)
+	RTTI_CLASS(ThreadManager, RTTIBaseClass, StandardAllocator)
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 

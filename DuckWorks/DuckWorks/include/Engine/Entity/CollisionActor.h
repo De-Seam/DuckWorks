@@ -7,7 +7,7 @@
 // It's transform setters are overwritten with collision in mind
 class CollisionActor : public Actor
 {
-	RTTI_CLASS(CollisionActor, Actor)
+	RTTI_CLASS(CollisionActor, Actor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

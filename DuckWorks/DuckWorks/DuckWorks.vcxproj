@@ -108,6 +108,7 @@
   <ItemGroup>
     <ClInclude Include="include\Core\Allocators\AllocatorBase.h" />
     <ClInclude Include="include\Core\Allocators\ClassAllocator.h" />
+    <ClInclude Include="include\Core\Allocators\StandardAllocator.h" />
     <ClInclude Include="include\Core\CoreBase.h" />
     <ClInclude Include="include\Core\Log\Log.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />

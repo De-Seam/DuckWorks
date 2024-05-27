@@ -3,7 +3,7 @@
 
 struct BaseResource : public RTTIBaseClass
 {
-	RTTI_CLASS(BaseResource, RTTIBaseClass)
+	RTTI_CLASS(BaseResource, RTTIBaseClass, StandardAllocator)
 	struct ConstructParameters : public Base::ConstructParameters {};
 
 	using Base::Base;

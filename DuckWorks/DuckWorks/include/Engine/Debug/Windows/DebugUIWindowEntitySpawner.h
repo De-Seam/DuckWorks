@@ -3,7 +3,7 @@
 
 class DebugUIWindowEntitySpawner : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowEntitySpawner, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowEntitySpawner, DebugUIWindow, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

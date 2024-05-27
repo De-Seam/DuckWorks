@@ -11,7 +11,7 @@
 // External includes
 #include <External/imgui/imgui.h>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowWorldSettings)
+RTTI_CLASS_DEFINITION(DebugUIWindowWorldSettings, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowWorldSettings)
 

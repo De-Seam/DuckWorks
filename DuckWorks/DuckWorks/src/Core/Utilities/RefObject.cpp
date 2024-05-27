@@ -1,12 +1,13 @@
 #include "Precomp.h"
 #include "Core/Utilities/RefObject.h"
 
-RTTI_CLASS_DEFINITION(RefObject)
+RTTI_CLASS_DEFINITION(RefObject, StandardAllocator)
 
 Json RefObject::Serialize() 
 { 
 	return Base::Serialize();
 } 
+
 
 void RefObject::Deserialize(const Json& inJson) 
 { 

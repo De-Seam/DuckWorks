@@ -12,7 +12,7 @@ using CollisionObjectWrapper = MutexReadProtectedPtr<CollisionObject>;
 
 class CollisionWorld : public RTTIBaseClass
 {
-	RTTI_CLASS(CollisionWorld, RTTIBaseClass)
+	RTTI_CLASS(CollisionWorld, RTTIBaseClass, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

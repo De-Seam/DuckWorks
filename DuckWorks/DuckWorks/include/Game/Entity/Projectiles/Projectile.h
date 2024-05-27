@@ -8,7 +8,7 @@ Projectile provides base functionality for all projectiles
 */
 class Projectile : public CollisionActor
 {
-	RTTI_CLASS(Projectile, CollisionActor)
+	RTTI_CLASS(Projectile, CollisionActor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

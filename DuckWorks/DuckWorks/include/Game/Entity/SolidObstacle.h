@@ -4,7 +4,7 @@
 
 class SolidObstacle : public CollisionActor
 {
-	RTTI_CLASS(SolidObstacle, CollisionActor)
+	RTTI_CLASS(SolidObstacle, CollisionActor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

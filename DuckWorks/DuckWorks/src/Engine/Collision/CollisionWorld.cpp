@@ -6,7 +6,7 @@
 #include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Debug/DebugUIFunctions.h"
 
-RTTI_CLASS_DEFINITION(CollisionWorld)
+RTTI_CLASS_DEFINITION(CollisionWorld, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)
 

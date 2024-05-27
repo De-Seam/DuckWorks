@@ -20,7 +20,7 @@ class Entity;
 // Texture render component uses TransformComponent for its transform
 struct TextureRenderComponent : public EntityComponent
 {
-	RTTI_CLASS(TextureRenderComponent, EntityComponent)
+	RTTI_CLASS(TextureRenderComponent, EntityComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		SharedPtr<TextureResource> mTexture = nullptr;
@@ -42,7 +42,7 @@ struct TextureRenderComponent : public EntityComponent
 // Animation component pairs with TextureRenderComponent
 struct AnimationComponent : public EntityComponent
 {
-	RTTI_CLASS(AnimationComponent, EntityComponent)
+	RTTI_CLASS(AnimationComponent, EntityComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		SharedPtr<AnimationBase> mAnimation = nullptr;
@@ -65,7 +65,7 @@ struct AnimationComponent : public EntityComponent
 
 struct CollisionComponent : public EntityComponent
 {
-	RTTI_CLASS(CollisionComponent, EntityComponent)
+	RTTI_CLASS(CollisionComponent, EntityComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		CollisionObjectHandle mCollisionObjectHandle = {};
@@ -80,7 +80,7 @@ struct CollisionComponent : public EntityComponent
 
 struct HealthComponent : public EntityComponent
 {
-	RTTI_CLASS(HealthComponent, EntityComponent)
+	RTTI_CLASS(HealthComponent, EntityComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		float mHealth = 100.f;
@@ -95,7 +95,7 @@ struct HealthComponent : public EntityComponent
 
 struct CameraComponent : public EntityComponent
 {
-	RTTI_CLASS(CameraComponent, EntityComponent)
+	RTTI_CLASS(CameraComponent, EntityComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		SharedPtr<Camera> mCamera = nullptr;

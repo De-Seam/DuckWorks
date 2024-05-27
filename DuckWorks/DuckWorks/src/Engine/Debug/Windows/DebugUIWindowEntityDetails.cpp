@@ -14,7 +14,7 @@
 #include <Engine/Entity/CollisionActor.h>
 #include <External/imgui/imgui.h>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowEntityDetails)
+RTTI_CLASS_DEFINITION(DebugUIWindowEntityDetails, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntityDetails)
 

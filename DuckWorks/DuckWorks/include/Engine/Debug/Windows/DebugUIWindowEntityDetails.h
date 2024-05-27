@@ -6,7 +6,7 @@ class ComponentBase;
 
 class DebugUIWindowEntityDetails : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowEntityDetails, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowEntityDetails, DebugUIWindow, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

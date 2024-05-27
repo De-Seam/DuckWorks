@@ -6,7 +6,7 @@
 
 class DebugUIWindowOutputLog : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowOutputLog, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowOutputLog, DebugUIWindow, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

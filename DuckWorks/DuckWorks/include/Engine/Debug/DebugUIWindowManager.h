@@ -9,7 +9,7 @@ class Entity;
 
 class DebugUIWindowManager : public RTTIBaseClass
 {
-	RTTI_CLASS(DebugUIWindowManager, RTTIBaseClass)
+	RTTI_CLASS(DebugUIWindowManager, RTTIBaseClass, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

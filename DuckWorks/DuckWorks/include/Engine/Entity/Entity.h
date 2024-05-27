@@ -26,7 +26,7 @@ class World;
 
 class Entity : public RefObject
 {
-	RTTI_CLASS(Entity, RefObject)
+	RTTI_CLASS(Entity, RefObject, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

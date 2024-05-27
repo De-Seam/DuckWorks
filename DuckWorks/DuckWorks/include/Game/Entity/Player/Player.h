@@ -10,7 +10,7 @@ struct CollisionFuncParams;
 
 class Player : public CollisionActor
 {
-	RTTI_CLASS(Player, CollisionActor)
+	RTTI_CLASS(Player, CollisionActor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

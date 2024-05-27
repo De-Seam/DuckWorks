@@ -3,7 +3,7 @@
 
 class DebugUIWindowNewFilePopup : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowNewFilePopup, DebugUIWindow)
+	RTTI_CLASS(DebugUIWindowNewFilePopup, DebugUIWindow, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

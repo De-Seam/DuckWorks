@@ -12,9 +12,7 @@
 #else
 #define IF_TRACK_ALLOCATIONS(x) 
 #define ALLOC_TRACK 
-#endif // TRACK_ALLOCATIONS
-
-#define gNew
+#endif // TRACK_ALLOCATIONSS
 
 class AllocatorBase
 {

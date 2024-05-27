@@ -1,7 +1,7 @@
 #include "Precomp.h"
 #include "Game/Entity/Enemies/EnemyBase.h"
 
-RTTI_CLASS_DEFINITION(EnemyBase)
+RTTI_CLASS_DEFINITION(EnemyBase, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(EnemyBase)
 
