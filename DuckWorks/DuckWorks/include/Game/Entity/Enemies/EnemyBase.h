@@ -14,10 +14,10 @@ public:
 	using Base::Base;
 
 	EnemyBase() = default;
-	virtual void Init(const InitParams& inInitParams) override;
+	virtual void Init() override;
 
 	virtual void Update(float inDeltaTime) override;
 
 private:
-	EntityWeakPtr mPlayer;
+	WeakRef<Entity> mPlayer;
 };

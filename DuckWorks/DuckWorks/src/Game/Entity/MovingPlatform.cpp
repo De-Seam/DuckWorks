@@ -38,11 +38,6 @@ MovingPlatform::MovingPlatform(const ConstructParameters& inConstructParameters)
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
-}
-
-void MovingPlatform::Init(const InitParams& inInitParams)
-{
-	Base::Init(inInitParams);
 
 	LoopOverComponents<CollisionComponent>([this](CollisionComponent& inCollisionComponent)
 	{

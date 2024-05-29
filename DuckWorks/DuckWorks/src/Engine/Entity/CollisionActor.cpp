@@ -48,11 +48,6 @@ CollisionActor::~CollisionActor()
 	});
 }
 
-void CollisionActor::Init(const InitParams& inInitParams)
-{
-	Base::Init(inInitParams);
-}
-
 void CollisionActor::BeginPlay()
 {
 	Base::BeginPlay();

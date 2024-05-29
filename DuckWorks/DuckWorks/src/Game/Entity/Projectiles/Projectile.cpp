@@ -32,11 +32,6 @@ Projectile::Projectile(const ConstructParameters& inConstructParameters)
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 }
 
-void Projectile::Init(const InitParams& inInitParams)
-{
-	Base::Init(inInitParams);
-}
-
 void Projectile::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(Projectile::Update)

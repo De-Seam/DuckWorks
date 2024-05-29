@@ -483,7 +483,7 @@
     <ClInclude Include="include\External\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Utilities\RTTI.h">
+    <ClInclude Include="include\Core\RTTI\RTTI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Engine\Renderer\AnimationBase.h">
@@ -594,7 +594,7 @@
     <ClInclude Include="include\Game\Entity\Enemies\Zombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Utilities\RefObject.h">
+    <ClInclude Include="include\Core\RTTI\RefObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Engine\World\Globals.h">
@@ -628,6 +628,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Core\Allocators\StandardAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\RTTI\Messages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -797,10 +800,10 @@
     <ClCompile Include="src\Game\Entity\Enemies\EnemyBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Utilities\RTTI.cpp">
+    <ClCompile Include="src\Core\RTTI\RTTI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Utilities\RefObject.cpp">
+    <ClCompile Include="src\Core\RTTI\RefObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\CoreBase.cpp">

@@ -18,7 +18,6 @@ public:
 	using Base::Base;
 
 	Player(const ConstructParameters& inConstructParameters);
-	virtual void Init(const InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;
 	virtual void Update(float inDeltaTime) override;

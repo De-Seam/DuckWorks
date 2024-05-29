@@ -1,7 +1,7 @@
 #pragma once
 // Core includes
 #include "Core/CoreBase.h"
-#include "Core/Utilities/RTTI.h"
+#include "Core/RTTI/RTTI.h"
 #include "Core/Utilities/UID.h"
 
 // Engine includes

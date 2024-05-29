@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Math/FMath.h"
-#include "Core/Utilities/RTTI.h"
+#include "Core/RTTI/RTTI.h"
 
 #define MIN_ZOOM 0.05f
 

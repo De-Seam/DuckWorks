@@ -18,8 +18,6 @@ public:
 
 	Projectile(const ConstructParameters& inConstructParameters);
 
-	virtual void Init(const InitParams& inInitParams) override;
-
 	virtual void Update(float inDeltaTime) override;
 
 	void SetVelocity(fm::vec2 inVelocity) { mVelocity = inVelocity; }

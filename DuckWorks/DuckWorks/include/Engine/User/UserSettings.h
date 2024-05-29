@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/CoreBase.h"
-#include "Core/Utilities/RTTI.h"
+#include "Core/RTTI/RTTI.h"
 
 // External includes
 #include "External/SDL/SDL_video.h"

@@ -2,7 +2,7 @@
 #include "Game/Entity/Player/Player.h"
 
 // Core includes
-#include "Core/Utilities/RefObject.h"
+#include "Core/RTTI/RefObject.h"
 
 // Engine includes
 #include "Engine/Entity/Components.h"
@@ -76,11 +76,6 @@ Player::Player(const ConstructParameters& inConstructParameters)
 			collision_object->SetType(CollisionObject::EType::Dynamic);
 			collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams) { OnCollision(inParams); });
 		});
-}
-
-void Player::Init(const InitParams& inInitParams)
-{
-	Base::Init(inInitParams);
 }
 
 void Player::BeginPlay()

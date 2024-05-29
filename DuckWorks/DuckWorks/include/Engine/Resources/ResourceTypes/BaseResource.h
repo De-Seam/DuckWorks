@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Utilities/RTTI.h"
+#include "Core/RTTI/RTTI.h"
 
 struct BaseResource : public RTTIBaseClass
 {

@@ -5,9 +5,9 @@ RTTI_CLASS_DEFINITION(EnemyBase, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(EnemyBase)
 
-void EnemyBase::Init(const Entity::InitParams& inInitParams)
+void EnemyBase::Init()
 {
-	Base::Init(inInitParams);
+	Base::Init();
 }
 
 void EnemyBase::Update(float inDeltaTime)

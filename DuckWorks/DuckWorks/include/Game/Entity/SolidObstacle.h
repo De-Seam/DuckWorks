@@ -11,6 +11,6 @@ public:
 
 	using Base::Base;
 
-	SolidObstacle(const ConstructParameters& inConstructParameters) : Base(inConstructParameters) {}
-	virtual void Init(const InitParams& inInitParams) override;
+	SolidObstacle(const ConstructParameters& inConstructParameters);
+	virtual void Init() override;
 };

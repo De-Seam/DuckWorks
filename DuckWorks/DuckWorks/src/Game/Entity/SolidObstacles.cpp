@@ -10,12 +10,16 @@ RTTI_CLASS_DEFINITION(SolidObstacle, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(SolidObstacle)
 
-void SolidObstacle::Init(const InitParams& inInitParams)
+SolidObstacle::SolidObstacle(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters) 
 {
-	Base::Init(inInitParams);
-
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	String texture_path = "Assets/DefaultTexture.png";
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
+}
+
+void SolidObstacle::Init()
+{
+	Base::Init();
 }

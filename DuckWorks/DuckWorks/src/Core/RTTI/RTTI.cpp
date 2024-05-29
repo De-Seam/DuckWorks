@@ -1,5 +1,5 @@
 #include "Precomp.h"
-#include "Core/Utilities/RTTI.h"
+#include "Core/RTTI/RTTI.h"
 
 UID RTTIBaseClass::sRTTIBaseClassRTTIUID;
 

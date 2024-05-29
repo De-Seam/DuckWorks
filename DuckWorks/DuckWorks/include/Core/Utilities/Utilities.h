@@ -57,10 +57,6 @@ using Atomic = std::atomic<taType>;
 template<typename taType>
 using Function = std::function<taType>;
 
-class Entity;
-using EntityPtr = SharedPtr<Entity>;
-using EntityWeakPtr = WeakPtr<Entity>;
-
 // Casts
 #define SCast static_cast
 #define RCast reinterpret_cast

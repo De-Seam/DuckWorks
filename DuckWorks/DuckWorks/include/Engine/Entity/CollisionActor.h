@@ -17,7 +17,6 @@ public:
 	CollisionActor(const ConstructParameters& inConstructParameters);
 
 	virtual ~CollisionActor() override;
-	virtual void Init(const InitParams& inInitParams) override;
 
 	virtual void BeginPlay() override;
 

@@ -1,7 +1,7 @@
 #pragma once
 // Core includes
 #include "Core/CoreBase.h"
-#include "Core/Utilities/RefObject.h"
+#include "Core/RTTI/RefObject.h"
 #include "Core/Utilities/UID.h"
 #include "Core/Utilities/Utilities.h"
 
@@ -17,8 +17,9 @@
  */
 /*
 Order of initialization:
-1. Constructor. World and entity handle are not yet set. It's not possible to add components.
-2. Init. This sets the world and the handle. Here you can initialize components. It's called in the construction phase.
+1. Constructor. Here you should create Components
+2. Deserialize. This is called before Init and after the Constructor
+2. Init. It's called in the construction phase.
 3. BeginPlay. This is called on BeginPlay of the world.
 */
 
@@ -44,9 +45,7 @@ public:
 
 	virtual ~Entity() override;
 
-	struct InitParams {};
-
-	virtual void Init(const InitParams& inInitParams) { (void)inInitParams; }
+	virtual void Init() {}
 
 	virtual void BeginPlay() {}
 	virtual void EndPlay() {}
@@ -83,7 +82,7 @@ public:
 
 	[[nodiscard]] World* GetWorld() { return mWorld; }
 	[[nodiscard]] const World* GetWorld() const { return mWorld; }
-	[[nodiscard]] String GetName() { return mName; }
+	[[nodiscard]] const String& GetName() { return mName; }
 
 private:
 	fm::Transform2D mTransform = {};

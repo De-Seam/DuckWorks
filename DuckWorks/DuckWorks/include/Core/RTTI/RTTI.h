@@ -3,8 +3,8 @@
 #include <Core/Allocators/ClassAllocator.h>
 #include <Core/Allocators/StandardAllocator.h>
 #include <Core/Utilities/GUID.h>
-#include "UID.h"
-#include "Utilities.h"
+#include "Core/Utilities/UID.h"
+#include "Core/Utilities/Utilities.h"
 
 #pragma warning( push )
 #pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
@@ -91,6 +91,8 @@ public:
 	Json inClassName::Serialize() { return Base::Serialize(); } \
 	void inClassName::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
 
+class MsgBase;
+
 /****
 Order of initialization with RTTI:
 1. Constructor
@@ -151,11 +153,27 @@ public:
 	void SetGUID(const GUID& inGUID) { mGUID = inGUID; }
 	const GUID& GetGUID() const { return mGUID; }
 
+	template<typename taRecipientClass, typename taMsgType>
+	void AddMessage(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
+	{
+		static_assert(std::is_base_of(MsgBase, taMsgType), "taMsgType must be a subclass of MsgBase");
+		static_assert(std::is_base_of(RTTIBaseClass, taRecipientClass), "taRecipientClass must be a subclass of RTTIBaseClass");
+
+		Function<void(MsgBase&)> function = [&](MsgBase& ioMsg)
+		{
+			(*inRecipient.*(inFunction))(*SCast<taMsgType*>(&ioMsg));
+		};
+		
+		mMessages[inRecipient->GetRTTIUID()].emplace_back(function);
+	}
+
 private:
 	GUID mGUID = {};
 
 	static UID sRTTIBaseClassRTTIUID;
 	UID mUID = {};
+
+	HashMap<UID, Array<Function<void(MsgBase&)>>> mMessages;
 };
 
 // Dynamic casting

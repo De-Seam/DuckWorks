@@ -2,7 +2,7 @@
 #include "Game/App/FactoryRegistry.h"
 
 // Core includes
-#include "Core/Utilities/RTTI.h"
+#include "Core/RTTI/RTTI.h"
 
 // Engine includes
 #include "Engine/Entity/Components/EntityComponentManager.h"
