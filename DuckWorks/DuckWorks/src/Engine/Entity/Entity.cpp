@@ -35,8 +35,7 @@ void Entity::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	if (inJson.contains("mName"))
-		mName = inJson["mName"];
+	JSON_TRY_LOAD(inJson, mName);
 	JSON_TRY_LOAD(inJson, mTransform);
 
 	if (inJson.contains("Components"))
@@ -48,10 +47,11 @@ void Entity::Deserialize(const Json& inJson)
 			const String& class_name = json_component["ClassName"];
 			UID rtti_uid = gEntityComponentFactory.GetRTTIUID(class_name);
 			EntityComponent* component = nullptr;
+			GUID guid = GUID(json_component["mGUID"]);
 
 			for (EntityComponent* current_component : mEntityComponents[rtti_uid])
 			{
-				if (GUID(json_component["mGUID"]) == current_component->GetGUID())
+				if (guid == current_component->GetGUID())
 				{
 					component = current_component;
 					break;

@@ -178,7 +178,7 @@ bool BVH::RefreshObject(const CollisionObjectHandle& inObject)
 	leaf_node->mAABB = CreateAABBFromObjects(leaf_node->mLeftFirst, leaf_node->mCount);
 
 	// Here we don't need to calculate the node to encompass all objects, only the other node's AABBs
-	// Starting at 1 since we don't want to handle the index of the object itself, only the nodes for resizing
+	// Starting at 2 since we don't want to handle the index of the object itself, only the nodes for resizing
 	for (uint64 i = 2; i < node_hierarchy->size(); i++)
 	{
 		BVHNode* node = &mNodes[node_hierarchy->at(i)];

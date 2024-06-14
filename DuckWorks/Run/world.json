@@ -12,8 +12,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    669.1990966796875,
-                    -110.30253601074219
+                    778.3958740234375,
+                    -373.2060546875
                 ],
                 "HalfSize": [
                     64.0,
@@ -50,8 +50,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                669.1990966796875,
-                                -110.30253601074219
+                                778.3958740234375,
+                                -373.2060546875
                             ],
                             "HalfSize": [
                                 32.0,
@@ -79,8 +79,8 @@
                         "ClassName": "Camera",
                         "mGUID": "0000-0000-0000-0000",
                         "mPosition": [
-                            669.1990356445313,
-                            -110.3025131225586
+                            778.3963012695313,
+                            -373.2061767578125
                         ],
                         "mSize": [
                             1920.0,
@@ -108,8 +108,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    346.9436340332031,
-                    -16.615110397338867
+                    353.04876708984375,
+                    -90.11295318603516
                 ],
                 "HalfSize": [
                     64.0,
@@ -146,8 +146,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                346.9436340332031,
-                                -16.615110397338867
+                                353.04876708984375,
+                                -90.11295318603516
                             ],
                             "HalfSize": [
                                 32.0,
@@ -204,8 +204,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    1161.17626953125,
-                    -295.00421142578125
+                    1167.281494140625,
+                    -368.5018310546875
                 ],
                 "HalfSize": [
                     64.0,
@@ -242,8 +242,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                1161.17626953125,
-                                -295.00421142578125
+                                1167.281494140625,
+                                -368.5018310546875
                             ],
                             "HalfSize": [
                                 32.0,
@@ -317,8 +317,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    1070.92626953125,
-                    -491.6449279785156
+                    1077.031494140625,
+                    -565.1427612304688
                 ],
                 "HalfSize": [
                     64.0,
@@ -355,8 +355,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                1070.92626953125,
-                                -491.6449279785156
+                                1077.031494140625,
+                                -565.1427612304688
                             ],
                             "HalfSize": [
                                 32.0,
@@ -413,8 +413,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    913.92919921875,
-                    -317.1031188964844
+                    920.0345458984375,
+                    -299.96844482421875
                 ],
                 "HalfSize": [
                     64.0,
@@ -451,8 +451,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                913.92919921875,
-                                -317.1031188964844
+                                920.0345458984375,
+                                -299.96844482421875
                             ],
                             "HalfSize": [
                                 32.0,
@@ -509,8 +509,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    936.9740600585938,
-                    -181.3739013671875
+                    943.079345703125,
+                    -234.59982299804688
                 ],
                 "HalfSize": [
                     64.0,
@@ -547,8 +547,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                936.9740600585938,
-                                -181.3739013671875
+                                943.079345703125,
+                                -234.59982299804688
                             ],
                             "HalfSize": [
                                 32.0,
@@ -605,8 +605,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    785.9262084960938,
-                    -446.6766662597656
+                    792.031494140625,
+                    -520.1744995117188
                 ],
                 "HalfSize": [
                     64.0,
@@ -643,8 +643,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                785.9262084960938,
-                                -446.6766662597656
+                                792.031494140625,
+                                -520.1744995117188
                             ],
                             "HalfSize": [
                                 32.0,
@@ -701,8 +701,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    577.4130249023438,
-                    -401.8937072753906
+                    583.518310546875,
+                    -475.3914489746094
                 ],
                 "HalfSize": [
                     64.0,
@@ -739,8 +739,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                577.4130249023438,
-                                -401.8937072753906
+                                583.518310546875,
+                                -475.3914489746094
                             ],
                             "HalfSize": [
                                 32.0,
@@ -797,8 +797,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    409.2530517578125,
-                    -310.2395935058594
+                    415.3581848144531,
+                    -383.7372131347656
                 ],
                 "HalfSize": [
                     64.0,
@@ -835,8 +835,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                409.2530517578125,
-                                -310.2395935058594
+                                415.3581848144531,
+                                -383.7372131347656
                             ],
                             "HalfSize": [
                                 32.0,
@@ -886,6 +886,132 @@
                 2000.0
             ],
             "mMaxVelocity": 200.0
+        },
+        {
+            "ClassName": "MovingPlatform",
+            "mGUID": "a469-0d84-1f28-c6b1",
+            "mName": "MovingPlatform",
+            "mTransform": {
+                "Position": [
+                    770.81298828125,
+                    -211.13494873046875
+                ],
+                "HalfSize": [
+                    32.0,
+                    32.0
+                ],
+                "Rotation": 0.0
+            },
+            "Components": [
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 1,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                770.81298828125,
+                                -211.13494873046875
+                            ],
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            ],
+            "mMoveExtents": [
+                0.0,
+                0.0
+            ],
+            "mMoveSpeed": [
+                0.0,
+                0.0
+            ],
+            "mStartPosition": [
+                770.81298828125,
+                -211.13494873046875
+            ]
+        },
+        {
+            "ClassName": "SolidObstacle",
+            "mGUID": "0963-037f-41be-6e1d",
+            "mName": "SolidObstacle",
+            "mTransform": {
+                "Position": [
+                    1014.2552490234375,
+                    -409.87261962890625
+                ],
+                "HalfSize": [
+                    64.0,
+                    32.0
+                ],
+                "Rotation": 0.0
+            },
+            "Components": [
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/DefaultTexture.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 0,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                1014.2552490234375,
+                                -409.87261962890625
+                            ],
+                            "HalfSize": [
+                                64.0,
+                                32.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                }
+            ]
         }
     ]
 }
