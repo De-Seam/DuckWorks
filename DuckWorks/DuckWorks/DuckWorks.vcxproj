@@ -164,7 +164,6 @@
     <ClInclude Include="include\Engine\World\Globals.h" />
     <ClInclude Include="include\Engine\World\World.h" />
     <ClInclude Include="include\External\BitBool\BitBool.h" />
-    <ClInclude Include="include\External\entt\entt.hpp" />
     <ClInclude Include="include\External\imgui\imconfig.h" />
     <ClInclude Include="include\External\imgui\imgui.h" />
     <ClInclude Include="include\External\imgui\imgui_impl_sdl2.h" />

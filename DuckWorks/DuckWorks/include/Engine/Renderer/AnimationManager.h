@@ -10,7 +10,7 @@ public:
 	template<typename taType, typename... taArgs>
 	[[nodiscard]] std::shared_ptr<taType> CreateAnimation(taArgs&&... inArgs);
 
-	void Update(World* inWorld, float inDeltaTime);
+	void Update(float inDeltaTime);
 
 private:
 	std::vector<std::weak_ptr<AnimationBase>> mAnimations;

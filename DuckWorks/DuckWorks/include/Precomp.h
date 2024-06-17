@@ -6,7 +6,6 @@
 
 // External header
 #include "External/optick/optick.h"
-#include <External/entt/entt.hpp>
 
 // STD headers
 #include <chrono>

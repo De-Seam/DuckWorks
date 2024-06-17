@@ -7,7 +7,7 @@
 
 AnimationManager gAnimationManager;
 
-void AnimationManager::Update(World* inWorld, float inDeltaTime)
+void AnimationManager::Update(float inDeltaTime)
 {
 	for (auto it = mAnimations.begin(); it != mAnimations.end();)
 	{

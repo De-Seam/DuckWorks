@@ -124,7 +124,7 @@ void World::Render(float inDeltaTime)
 
 	if (!gApp.IsPaused())
 	{
-		gAnimationManager.Update(this, inDeltaTime);
+		gAnimationManager.Update(inDeltaTime);
 	}
 
 	gEntityComponentManager.LoopOverComponents<TextureRenderComponent>([](const TextureRenderComponent& inTextureRenderComponent)

@@ -6,9 +6,6 @@
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Entity/Entity.h"
 
-// External includes
-#include <External/entt/entt.hpp>
-
 class b2World;
 
 class World : public RTTIBaseClass
@@ -39,7 +36,6 @@ public:
 
 	[[nodiscard]] Array<Ref<Entity>>& GetEntities() { return mEntities; }
 	[[nodiscard]] const Array<Ref<Entity>>& GetEntities() const { return mEntities; }
-	[[nodiscard]] entt::registry& GetRegistry() { return mRegistry; }
 
 	Optional<Ref<Entity>> GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
 
@@ -52,9 +48,6 @@ private:
 	void DestroyEntities();
 
 private:
-	entt::registry mRegistry = {};
-	Mutex mRegistryMutex = {}; ///< Used for creating new entities in the registry
-
 	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
 	Array<Ref<Entity>> mEntities = {};
