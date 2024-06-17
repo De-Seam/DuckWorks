@@ -20,7 +20,7 @@ bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 	return changed;
 }
 
-bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine, bool inShowKey)
+bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine)
 {
 	PROFILE_SCOPE(gHandleKeyValuePair)
 
@@ -42,12 +42,6 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 		return false;
 	}
 
-	if (inShowKey)
-	{
-		ImGui::Text(inKey.c_str());
-		if (inSameLine)
-			ImGui::SameLine();
-	}
 	switch (value_type)
 	{
 	case nlohmann::detail::value_t::null:
@@ -67,7 +61,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 				if (sIgnoreKeys.contains(key))
 					continue;
 
-				if (gHandleKeyValuePair(ioJson, label, key, value, false, false))
+				if (gHandleKeyValuePair(ioJson, label, key, value, false))
 					changed = true;
 			}
 			ImGui::TreePop();
@@ -80,6 +74,10 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	break;
 	case nlohmann::detail::value_t::array:
 	{
+		ImGui::Text(inKey.c_str());
+		if (inSameLine)
+			ImGui::SameLine();
+
 		bool changed = false;
 		for (const auto& [key, value] : ioValue.items())
 		{
@@ -91,6 +89,10 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	break;
 	case nlohmann::detail::value_t::string:
 	{
+		ImGui::Text(inKey.c_str());
+		if (inSameLine)
+			ImGui::SameLine();
+
 		String value = ioValue.get<String>();
 		char buffer[STRING_BUFFER_SIZE] = {'\0'};
 		//std::memset(buffer, 0, STRING_BUFFER_SIZE); ///< Initialize buffer to 0
@@ -109,6 +111,10 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	break;
 	case nlohmann::detail::value_t::boolean:
 	{
+		ImGui::Text(inKey.c_str());
+		if (inSameLine)
+			ImGui::SameLine();
+
 		bool value_bool = ioValue.get<bool>();
 		if (ImGui::Checkbox(label.c_str(), &value_bool))
 		{
@@ -119,6 +125,10 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	break;
 	case nlohmann::detail::value_t::number_integer:
 	{
+		ImGui::Text(inKey.c_str());
+		if (inSameLine)
+			ImGui::SameLine();
+
 		int value_int = ioValue.get<int>();
 		if (ImGui::DragInt(label.c_str(), &value_int))
 		{
@@ -129,6 +139,10 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	break;
 	case nlohmann::detail::value_t::number_unsigned:
 	{
+		ImGui::Text(inKey.c_str());
+		if (inSameLine)
+			ImGui::SameLine();
+
 		int32 value_int = ioValue.get<uint32>();
 		if (ImGui::DragInt(label.c_str(), &value_int))
 		{
@@ -139,6 +153,10 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	break;
 	case nlohmann::detail::value_t::number_float:
 	{
+		ImGui::Text(inKey.c_str());
+		if (inSameLine)
+			ImGui::SameLine();
+
 		float value_float = ioValue.get<float>();
 		if (ImGui::DragFloat(label.c_str(), &value_float))
 		{
