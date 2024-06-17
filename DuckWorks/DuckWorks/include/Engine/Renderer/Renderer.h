@@ -4,6 +4,7 @@
 
 // Engine includes
 #include "Engine/Renderer/Camera.h"
+#include "Engine/Threads/ThreadManager.h"
 
 //External includes
 #include "External/SDL/SDL_rect.h"
@@ -59,16 +60,7 @@ public:
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
 	const fm::ivec2& GetWindowSize() const { return mWindowSize; }
-	SharedPtr<Camera> GetCamera() const { return mCamera; }
-
-private:
-	SDL_Window* mWindow = nullptr;
-	SDL_Renderer* mRenderer = nullptr;
-
-	// It's entirely possible for the camera not to have an entity. In that case, it's just a stationary camera
-	SharedPtr<Camera> mCamera = nullptr;
-
-	fm::ivec2 mWindowSize;
+	const SharedPtr<Camera>& GetCamera() const { return mCamera; }
 
 	struct RenderTextureData
 	{
@@ -80,17 +72,39 @@ private:
 		SDL_RendererFlip mFlip;
 	};
 
-	Array<RenderTextureData> mRenderTextureDatas;
-	UniqueMutex mRenderTextureDatasMutex;
-
 	struct RenderRectangleData
 	{
 		SDL_FRect mRectangle;
 		fm::vec4 mColor;
 	};
 
+	class RenderThreadTask : public ThreadTask
+	{
+	public:
+		virtual void Execute();
+
+		Array<Renderer::RenderTextureData> mCurrentRenderTextureDatas;
+		Array<Renderer::RenderRectangleData> mCurrentRenderRectangleDatas;
+	};
+
+	const SharedPtr<RenderThreadTask>& GetRenderThreadTask() const { return mRenderThreadTask; }
+
+private:
+	SDL_Window* mWindow = nullptr;
+	SDL_Renderer* mRenderer = nullptr;
+
+	// It's entirely possible for the camera not to have an entity. In that case, it's just a stationary camera
+	SharedPtr<Camera> mCamera = nullptr;
+
+	fm::ivec2 mWindowSize;
+
+	Array<RenderTextureData> mRenderTextureDatas;
+	UniqueMutex mRenderTextureDatasMutex;
+
 	Array<RenderRectangleData> mRenderRectangleDatas;
 	UniqueMutex mRenderRectangleDatasMutex;
+
+	SharedPtr<RenderThreadTask> mRenderThreadTask;
 
 private:
 	void UpdateCamera(float inDeltaTime);

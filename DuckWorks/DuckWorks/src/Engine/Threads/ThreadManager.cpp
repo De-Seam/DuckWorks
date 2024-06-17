@@ -50,6 +50,11 @@ void ThreadManager::Shutdown()
 
 void ThreadManager::AddTask(const SharedPtr<ThreadTask>& inTask, ThreadPriority inPriority)
 {
+	{
+		std::unique_lock<std::mutex> lock(inTask->mCompletedMutex);
+		inTask->mCompleted = false;
+	}
+
 	inTask->mPriority = inPriority;
 	{
 		std::unique_lock<std::mutex> lock(mTaskMutex);

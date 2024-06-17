@@ -170,6 +170,8 @@ void DebugUIWindowManager::EndFrame()
 
 	ImGui::Render();
 	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+
+	SDL_SetRenderTarget(gRenderer.GetRenderer(), nullptr);
 }
 
 void DebugUIWindowManager::Shutdown()

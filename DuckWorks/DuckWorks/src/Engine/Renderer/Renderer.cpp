@@ -4,14 +4,13 @@
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Events/SDLEventManager.h"
+#include "Engine/Entity/Components.h"
+#include "Engine/World/World.h"
 
 // Game includes
 #include "Game/App/App.h"
 
 // External includes
-#include "Engine/Entity/Components.h"
-#include "Engine/World/World.h"
-
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
@@ -76,9 +75,6 @@ void Renderer::BeginFrame()
 {
 	PROFILE_SCOPE(Renderer::BeginFrame)
 
-	// We handle ImGui new frame first so that it doesn't use the camera's render target
-	gDebugUIWindowManager.BeginFrame();
-
 	SDL_SetRenderTarget(mRenderer, mCamera->GetRenderTexture());
 
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
@@ -88,6 +84,12 @@ void Renderer::BeginFrame()
 void Renderer::EndFrame()
 {
 	PROFILE_SCOPE(Renderer::EndFrame);
+
+	// If the render thread task is still nullptr this is the first frame, so there is no frame to end.
+	if (mRenderThreadTask == nullptr)
+		return;
+
+	//mRenderThreadTask->WaitUntilCompleted();
 
 	SDL_SetRenderTarget(mRenderer, nullptr);
 	SDL_RenderClear(mRenderer);
@@ -107,35 +109,24 @@ void Renderer::Update(float inDeltaTime)
 
 	UpdateCamera(inDeltaTime);
 
-	// We're using these local Arrays to allow us to call DrawTexture one separate threads
-	static Array<RenderTextureData> sCurrentRenderTextureDatas;
-	static Array<RenderRectangleData> sCurrentRenderRectangleDatas;
+	if (mRenderThreadTask == nullptr)
+		mRenderThreadTask = std::make_unique<RenderThreadTask>();
+	else
+		gAssert(mRenderThreadTask->IsCompleted(), "Render Thread Task was not yet completed!");
+
+	mRenderThreadTask->mCurrentRenderRectangleDatas.clear();
+	mRenderThreadTask->mCurrentRenderTextureDatas.clear();
 
 	{
 		ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
-		fm::swap(mRenderTextureDatas, sCurrentRenderTextureDatas);
+		fm::swap(mRenderTextureDatas, mRenderThreadTask->mCurrentRenderTextureDatas);
 	}
 	{
 		ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
-		fm::swap(mRenderRectangleDatas, sCurrentRenderRectangleDatas);
+		fm::swap(mRenderRectangleDatas, mRenderThreadTask->mCurrentRenderRectangleDatas);
 	}
 
-	for (const RenderTextureData& data : sCurrentRenderTextureDatas)
-		SDL_RenderCopyExF(mRenderer, data.mTexture, data.mUseSourceRectangle ? &data.mSourceRectangle : nullptr, &data.mDestinationRectangle, data.mRotation, nullptr, data.mFlip);
-
-	for (const RenderRectangleData& data : sCurrentRenderRectangleDatas)
-	{
-		uint32 rgba = data.mColor.get_rgba();
-		uint8 r = (rgba >> 24) & 0xFF;
-		uint8 g = (rgba >> 16) & 0xFF;
-		uint8 b = (rgba >> 8) & 0xFF;
-		uint8 a = (rgba >> 0) & 0xFF;
-		SDL_SetRenderDrawColor(mRenderer, r, g, b, a);
-		SDL_RenderDrawRectF(mRenderer, &data.mRectangle);
-	}
-
-	sCurrentRenderTextureDatas.clear();
-	sCurrentRenderRectangleDatas.clear();
+	gThreadManager.AddTask(mRenderThreadTask, ThreadPriority::VeryHigh);
 }
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)
@@ -262,4 +253,25 @@ void Renderer::UpdateCamera(float inDeltaTime)
 	}
 
 	mCamera->Update(inDeltaTime);
+}
+
+void Renderer::RenderThreadTask::Execute()
+{
+	SDL_Renderer* renderer = gRenderer.GetRenderer();
+
+	for (const RenderTextureData& data : mCurrentRenderTextureDatas)
+		SDL_RenderCopyExF(renderer, data.mTexture, data.mUseSourceRectangle ? &data.mSourceRectangle : nullptr, &data.mDestinationRectangle, data.mRotation, nullptr, data.mFlip);
+
+	for (const RenderRectangleData& data : mCurrentRenderRectangleDatas)
+	{
+		uint32 rgba = data.mColor.get_rgba();
+		uint8 r = (rgba >> 24) & 0xFF;
+		uint8 g = (rgba >> 16) & 0xFF;
+		uint8 b = (rgba >> 8) & 0xFF;
+		uint8 a = (rgba >> 0) & 0xFF;
+		SDL_SetRenderDrawColor(renderer, r, g, b, a);
+		SDL_RenderDrawRectF(renderer, &data.mRectangle);
+	}
+
+	gRenderer.EndFrame();
 }

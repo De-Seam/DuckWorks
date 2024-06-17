@@ -187,9 +187,7 @@ void App::MainLoop()
 		{
 			OPTICK_FRAME("MainThread")
 
-			gRenderer.BeginFrame();
 			Update(mDeltaTime);
-			gRenderer.EndFrame();
 
 			last_time = current_time;
 		}
@@ -208,6 +206,15 @@ void App::Update(float inDeltaTime)
 		mWorld->Update(inDeltaTime);
 	}
 	mWorld->Render(inDeltaTime);
+
+	const SharedPtr<Renderer::RenderThreadTask>& render_thread_task = gRenderer.GetRenderThreadTask();
+	if (render_thread_task != nullptr)
+		render_thread_task->WaitUntilCompleted();
+		//gRenderer.EndFrame();
+
+	gDebugUIWindowManager.BeginFrame();
+	gRenderer.BeginFrame();
+
 	gDebugUIWindowManager.Update(inDeltaTime);
 	gRenderer.Update(inDeltaTime);
 }
