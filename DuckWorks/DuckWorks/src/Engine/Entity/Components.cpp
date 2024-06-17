@@ -139,3 +139,25 @@ CameraComponent::CameraComponent(const ConstructParameters& inConstructParameter
 	if (mCamera == nullptr)
 		mCamera = std::make_shared<Camera>();
 }
+
+void AnimationComponent::Update(float inDeltaTime)
+{
+	gDebugIf(mAnimation == nullptr, return)
+
+	TextureRenderComponent* render_component = GetEntity()->GetFirstComponentOfType<TextureRenderComponent>();
+	gDebugIf(render_component == nullptr, return)
+
+	render_component->mUseSrcRect = true;
+	mTimeSinceUpdate += inDeltaTime;
+
+	AnimationBase::Frame& current_frame = mCurrentFrame;
+	render_component->mFlip = mAnimation->GetFlip();
+	gAssert(current_frame.mDuration > 0.f, "Duration should be higher then 0!");
+
+	while (mTimeSinceUpdate >= current_frame.mDuration)
+	{
+		mTimeSinceUpdate -= current_frame.mDuration;
+		current_frame = mAnimation->IncrementFrame();
+		render_component->mSrcRect = {current_frame.mPosition, current_frame.mSize};
+	}
+}

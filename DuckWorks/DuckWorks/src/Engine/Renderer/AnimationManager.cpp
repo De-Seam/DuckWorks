@@ -22,24 +22,8 @@ void AnimationManager::Update(World* inWorld, float inDeltaTime)
 		}
 	}
 
-	auto animation_view = inWorld->GetRegistry().view<AnimationComponent, TextureRenderComponent>();
-	animation_view.each([=](AnimationComponent& inAnimationComponent, TextureRenderComponent& inRenderComponent)
+	gEntityComponentManager.LoopOverComponents<AnimationComponent>([inDeltaTime](AnimationComponent& inAnimationComponent)
 	{
-		inRenderComponent.mUseSrcRect = true;
-		inAnimationComponent.mTimeSinceUpdate += inDeltaTime;
-
-		gDebugIf(inAnimationComponent.mAnimation == nullptr, return)
-		gAssert(inAnimationComponent.mAnimation != nullptr, "Animation Component has no Animation set!");
-
-		AnimationBase::Frame& current_frame = inAnimationComponent.mCurrentFrame;
-		inRenderComponent.mFlip = inAnimationComponent.mAnimation->GetFlip();
-		gAssert(current_frame.mDuration > 0.f, "Duration should be higher then 0!");
-
-		while (inAnimationComponent.mTimeSinceUpdate >= current_frame.mDuration)
-		{
-			inAnimationComponent.mTimeSinceUpdate -= current_frame.mDuration;
-			current_frame = inAnimationComponent.mAnimation->IncrementFrame();
-			inRenderComponent.mSrcRect = {current_frame.mPosition, current_frame.mSize};
-		}
+		inAnimationComponent.Update(inDeltaTime);	
 	});
 }

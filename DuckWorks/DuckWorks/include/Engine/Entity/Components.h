@@ -58,6 +58,8 @@ struct AnimationComponent : public EntityComponent
 
 	SharedPtr<AnimationBase> mAnimation = nullptr;
 
+	virtual void Update(float inDeltaTime);
+
 	// Private variables
 	AnimationBase::Frame mCurrentFrame = {};
 	float mTimeSinceUpdate = 0.f;

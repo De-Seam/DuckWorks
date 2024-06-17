@@ -60,6 +60,8 @@ public:
 	Array<EntityComponent*> GetComponentsOfType(UID inComponentUID);
 	int32 GetComponentCountOfType(UID inComponentUID);
 	template<typename taType>
+	taType* GetFirstComponentOfType();
+	template<typename taType>
 	bool HasComponent();
 	bool HasComponent(UID inComponentUID);
 	void RemoveComponent(EntityComponent* inEntityComponent);
@@ -138,6 +140,15 @@ Array<taType*> Entity::GetComponentsOfType()
 		return_array.emplace_back(SCast<taType*>(component));
 
 	return return_array;
+}
+
+template<typename taType>
+inline taType * Entity::GetFirstComponentOfType()
+{
+	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	if (mEntityComponents.empty())
+		return nullptr;
+	return SCast<taType*>(mEntityComponents[taType::sGetRTTIUID()].front());
 }
 
 template<typename taType>

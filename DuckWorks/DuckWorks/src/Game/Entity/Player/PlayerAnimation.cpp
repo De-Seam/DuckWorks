@@ -39,7 +39,7 @@ static uint32 gSeed = 0;
 
 void PlayerAnimation::Update(float)
 {
-	fm::vec2 velocity = {};
+	fm::vec2 velocity = mPlayer->GetVelocity();
 	if (velocity.x > 0)
 		mFlip = SDL_FLIP_NONE;
 	else if (velocity.x < 0)

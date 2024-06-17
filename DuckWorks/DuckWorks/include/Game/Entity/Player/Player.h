@@ -23,6 +23,7 @@ public:
 	virtual void Update(float inDeltaTime) override;
 
 	bool IsAttacking() const { return mAttacking; }
+	fm::vec2 GetVelocity() const { return mVelocity; }
 
 private:
 	Array<SharedPtr<SDLEventFunction>> mSDLEventFunctions;
