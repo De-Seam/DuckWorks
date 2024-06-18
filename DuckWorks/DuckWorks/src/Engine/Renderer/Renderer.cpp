@@ -125,30 +125,15 @@ void Renderer::Update(float inDeltaTime)
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)
 {
-	const SDL_FRect dst_rect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
-	const SDL_Rect* src_rect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
-
-	RenderTextureData data;
-	data.mTexture = inParams.mTexture;
-	data.mUseSourceRectangle = src_rect != nullptr;
-	if (data.mUseSourceRectangle)
-		data.mSourceRectangle = *src_rect;
-	data.mDestinationRectangle = dst_rect;
-	data.mRotation = inParams.mRotation;
-	data.mFlip = inParams.mFlip;
-
 	ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
-	mRenderTextureDatas.emplace_back(data);
+	DrawTextureInternal(inParams);
 }
 
-void Renderer::DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor)
+void Renderer::DrawTextures(const Array<DrawTextureParams>& inParams)
 {
-	RenderRectangleData data;
-	data.mRectangle = inRect;
-	data.mColor = inColor;
-
-	ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
-	mRenderRectangleDatas.emplace_back(data);
+	ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
+	for (const DrawTextureParams& params : inParams)
+		DrawTextureInternal(params);
 }
 
 void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor)
@@ -171,6 +156,16 @@ void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::ve
 	// Reset SDL render color
 	SDL_SetTextureColorMod(inParams.mTexture, 255, 255, 255);
 	SDL_SetTextureAlphaMod(inParams.mTexture, 255);
+}
+
+void Renderer::DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor)
+{
+	RenderRectangleData data;
+	data.mRectangle = inRect;
+	data.mColor = inColor;
+
+	ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
+	mRenderRectangleDatas.emplace_back(data);
 }
 
 fm::vec2 Renderer::GetWorldLocationAtWindowLocation(const fm::vec2& inWindowLocation) const
@@ -247,6 +242,24 @@ void Renderer::UpdateCamera(float inDeltaTime)
 	}
 
 	mCamera->Update(inDeltaTime);
+}
+
+void Renderer::DrawTextureInternal(const DrawTextureParams& inParams)
+{
+	const SDL_FRect dst_rect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
+	const SDL_Rect* src_rect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
+
+	RenderTextureData data;
+	data.mTexture = inParams.mTexture;
+	data.mUseSourceRectangle = src_rect != nullptr;
+	if (data.mUseSourceRectangle)
+		data.mSourceRectangle = *src_rect;
+	data.mDestinationRectangle = dst_rect;
+	data.mRotation = inParams.mRotation;
+	data.mFlip = inParams.mFlip;
+
+	gAssert(!mRenderTextureDatasMutex.TryLock(), "Mutex was not locked!");
+	mRenderTextureDatas.emplace_back(data);
 }
 
 void Renderer::RenderThreadTask::Execute()

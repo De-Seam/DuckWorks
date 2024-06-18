@@ -127,6 +127,8 @@ void World::Render(float inDeltaTime)
 		gAnimationManager.Update(inDeltaTime);
 	}
 
+	static Array<Renderer::DrawTextureParams> sDrawTextureParams;
+	sDrawTextureParams.clear();
 	gEntityComponentManager.LoopOverComponents<TextureRenderComponent>([](const TextureRenderComponent& inTextureRenderComponent)
 	{
 		fm::Transform2D transform = inTextureRenderComponent.GetEntity()->GetTransform();
@@ -137,9 +139,9 @@ void World::Render(float inDeltaTime)
 		params.mRotation = transform.rotation;
 		params.mFlip = inTextureRenderComponent.mFlip;
 		params.mSrcRect = inTextureRenderComponent.mUseSrcRect ? &inTextureRenderComponent.mSrcRect : nullptr;
-
-		gRenderer.DrawTexture(params);
+		sDrawTextureParams.emplace_back(params);
 	});
+	gRenderer.DrawTextures(sDrawTextureParams);
 }
 
 void World::BeginPlay()

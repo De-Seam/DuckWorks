@@ -49,7 +49,8 @@ public:
 	};
 
 	void DrawTexture(const DrawTextureParams& inParams);
-	void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
+	void DrawTextures(const Array<DrawTextureParams>& inParams);
+	[[deprecated]] void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
 	void DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor);
 
 	void SetCamera(const SharedPtr<Camera>& inCamera) { mCamera = inCamera; }
@@ -108,6 +109,8 @@ private:
 
 private:
 	void UpdateCamera(float inDeltaTime);
+
+	void DrawTextureInternal(const DrawTextureParams& inParams); ///< Doesn't lock the mutex
 };
 
 extern Renderer gRenderer;

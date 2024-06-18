@@ -161,6 +161,21 @@ void UniqueMutex::Unlock()
 	mMutex.unlock();
 }
 
+bool UniqueMutex::TryLock()
+{
+#ifdef PROFILE_MUTEXES
+	PROFILE_SCOPE(Mutex::TryReadLock)
+#endif
+	bool locked = mMutex.try_lock();
+#ifdef _DEBUG
+	if (locked)
+	{
+		gMutexTracker.AddMutex(this);
+	}
+#endif
+	return locked;
+}
+
 ScopedMutexReadLock::ScopedMutexReadLock(Mutex& inMutex)
 {
 	mMutex = &inMutex;

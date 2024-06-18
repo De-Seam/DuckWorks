@@ -33,6 +33,7 @@ public:
 
 	void Lock(); ///< Locks the mutex
 	void Unlock(); ///< Unlocks the mutex
+	bool TryLock(); ///< Tries to lock the mutex. Returns true if successfull
 
 	const std::mutex& GetRawMutex() const { return mMutex; }
 
