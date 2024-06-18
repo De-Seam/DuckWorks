@@ -207,10 +207,10 @@ void App::Update(float inDeltaTime)
 	}
 	mWorld->Render(inDeltaTime);
 
+	// We wait until the render thread task is completed before beginning the next frame
 	const SharedPtr<Renderer::RenderThreadTask>& render_thread_task = gRenderer.GetRenderThreadTask();
 	if (render_thread_task != nullptr)
 		render_thread_task->WaitUntilCompleted();
-		//gRenderer.EndFrame();
 
 	gDebugUIWindowManager.BeginFrame();
 	gRenderer.BeginFrame();

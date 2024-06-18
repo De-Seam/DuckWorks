@@ -85,12 +85,6 @@ void Renderer::EndFrame()
 {
 	PROFILE_SCOPE(Renderer::EndFrame);
 
-	// If the render thread task is still nullptr this is the first frame, so there is no frame to end.
-	if (mRenderThreadTask == nullptr)
-		return;
-
-	//mRenderThreadTask->WaitUntilCompleted();
-
 	SDL_SetRenderTarget(mRenderer, nullptr);
 	SDL_RenderClear(mRenderer);
 

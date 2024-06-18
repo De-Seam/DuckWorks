@@ -11,10 +11,10 @@ ThreadManager gThreadManager = {ThreadManager::ConstructParameters()};
 
 void ThreadTask::WaitUntilCompleted()
 {
-	std::unique_lock<std::mutex> lock(mCompletedMutex);
 	if (mCompleted)
 		return;
-	mCompletedConditionVariable.wait(lock, [this] { return mCompleted; });
+	std::unique_lock<std::mutex> lock(mCompletedMutex);
+	mCompletedConditionVariable.wait(lock, [this] { return this->IsCompleted(); });
 }
 
 ThreadManager::ThreadManager(const ConstructParameters& inConstructParameters) : Base(inConstructParameters) {}
@@ -50,10 +50,7 @@ void ThreadManager::Shutdown()
 
 void ThreadManager::AddTask(const SharedPtr<ThreadTask>& inTask, ThreadPriority inPriority)
 {
-	{
-		std::unique_lock<std::mutex> lock(inTask->mCompletedMutex);
-		inTask->mCompleted = false;
-	}
+	inTask->mCompleted = false;
 
 	inTask->mPriority = inPriority;
 	{

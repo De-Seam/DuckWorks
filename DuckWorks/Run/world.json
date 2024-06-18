@@ -12,8 +12,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    649.26806640625,
-                    -644.6019897460938
+                    1025.7669677734375,
+                    -491.8053283691406
                 ],
                 "HalfSize": [
                     64.0,
@@ -31,13 +31,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        768,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -50,8 +50,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                649.26806640625,
-                                -644.6019897460938
+                                1025.7669677734375,
+                                -491.8053283691406
                             ],
                             "HalfSize": [
                                 32.0,
@@ -79,8 +79,8 @@
                         "ClassName": "Camera",
                         "mGUID": "0000-0000-0000-0000",
                         "mPosition": [
-                            649.2681274414063,
-                            -644.6019287109375
+                            1025.7694091796875,
+                            -491.80487060546875
                         ],
                         "mSize": [
                             1920.0,
@@ -108,8 +108,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    353.04876708984375,
-                    -90.11295318603516
+                    729.845458984375,
+                    -147.13494873046875
                 ],
                 "HalfSize": [
                     64.0,
@@ -127,13 +127,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        384,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -146,8 +146,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                353.04876708984375,
-                                -90.11295318603516
+                                729.845458984375,
+                                -147.13494873046875
                             ],
                             "HalfSize": [
                                 32.0,
@@ -204,8 +204,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    1167.281494140625,
-                    -368.5018310546875
+                    1542.9776611328125,
+                    -490.57421875
                 ],
                 "HalfSize": [
                     64.0,
@@ -223,13 +223,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        768,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -242,8 +242,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                1167.281494140625,
-                                -368.5018310546875
+                                1542.9776611328125,
+                                -490.57421875
                             ],
                             "HalfSize": [
                                 32.0,
@@ -317,8 +317,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    1077.031494140625,
-                    -565.1427612304688
+                    1452.7276611328125,
+                    -687.21533203125
                 ],
                 "HalfSize": [
                     64.0,
@@ -336,13 +336,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        768,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -355,8 +355,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                1077.031494140625,
-                                -565.1427612304688
+                                1452.7276611328125,
+                                -687.21533203125
                             ],
                             "HalfSize": [
                                 32.0,
@@ -413,8 +413,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    920.0345458984375,
-                    -299.96844482421875
+                    1295.7303466796875,
+                    -422.4637756347656
                 ],
                 "HalfSize": [
                     64.0,
@@ -432,13 +432,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        384,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -451,8 +451,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                920.0345458984375,
-                                -299.96844482421875
+                                1295.7303466796875,
+                                -422.4637756347656
                             ],
                             "HalfSize": [
                                 32.0,
@@ -509,8 +509,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    943.079345703125,
-                    -234.59982299804688
+                    1318.7750244140625,
+                    -356.672119140625
                 ],
                 "HalfSize": [
                     64.0,
@@ -528,13 +528,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        384,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -547,8 +547,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                943.079345703125,
-                                -234.59982299804688
+                                1318.7750244140625,
+                                -356.672119140625
                             ],
                             "HalfSize": [
                                 32.0,
@@ -605,8 +605,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    792.031494140625,
-                    -520.1744995117188
+                    1119.728271484375,
+                    -642.2472534179688
                 ],
                 "HalfSize": [
                     64.0,
@@ -624,13 +624,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        960,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -643,8 +643,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                792.031494140625,
-                                -520.1744995117188
+                                1119.728271484375,
+                                -642.2472534179688
                             ],
                             "HalfSize": [
                                 32.0,
@@ -701,8 +701,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    583.518310546875,
-                    -475.3914489746094
+                    926.8823852539063,
+                    -741.1704711914063
                 ],
                 "HalfSize": [
                     64.0,
@@ -720,13 +720,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        384,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -739,8 +739,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                583.518310546875,
-                                -475.3914489746094
+                                926.8823852539063,
+                                -741.1704711914063
                             ],
                             "HalfSize": [
                                 32.0,
@@ -797,8 +797,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    415.3581848144531,
-                    -383.7372131347656
+                    780.5965576171875,
+                    -332.7352294921875
                 ],
                 "HalfSize": [
                     64.0,
@@ -816,13 +816,13 @@
                         "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
                     },
                     "mSrcRect": [
-                        0,
-                        0,
+                        384,
+                        768,
                         192,
                         192
                     ],
                     "mUseSrcRect": true,
-                    "mFlip": 0
+                    "mFlip": 1
                 },
                 {
                     "ClassName": "CollisionComponent",
@@ -835,8 +835,8 @@
                         "mShapeType": 0,
                         "mTransform": {
                             "Position": [
-                                415.3581848144531,
-                                -383.7372131347656
+                                780.5965576171875,
+                                -332.7352294921875
                             ],
                             "HalfSize": [
                                 32.0,

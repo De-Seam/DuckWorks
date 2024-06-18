@@ -33,7 +33,7 @@ public:
 	void WaitUntilCompleted();
 
 private:
-	bool mCompleted = false;
+	std::atomic<bool> mCompleted = false;
 	ThreadPriority mPriority = ThreadPriority::Normal;
 
 	std::condition_variable mCompletedConditionVariable;
