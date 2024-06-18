@@ -138,7 +138,8 @@ void World::Render(float inDeltaTime)
 		params.mHalfSize = transform.halfSize;
 		params.mRotation = transform.rotation;
 		params.mFlip = inTextureRenderComponent.mFlip;
-		params.mSrcRect = inTextureRenderComponent.mUseSrcRect ? &inTextureRenderComponent.mSrcRect : nullptr;
+		if (inTextureRenderComponent.mUseSrcRect)
+			params.mSrcRect = inTextureRenderComponent.mSrcRect;
 		sDrawTextureParams.emplace_back(params);
 	});
 	gRenderer.DrawTextures(sDrawTextureParams);

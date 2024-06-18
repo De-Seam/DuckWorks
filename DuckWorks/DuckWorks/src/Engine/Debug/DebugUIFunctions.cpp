@@ -196,8 +196,9 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 
 void gDrawAABB(const AABB& inAABB, const fm::vec4& inColor)
 {
-	fm::vec2 half_size = (inAABB.mMax - inAABB.mMin) * 0.5f;
-	fm::vec2 position = inAABB.mMin + half_size;
-	SDL_FRect rect = gRenderer.GetSDLFRect(position, half_size);
-	gRenderer.DrawRectangle(rect, inColor);
+	Renderer::DrawRectangleParams params;
+	params.mHalfSize = (inAABB.mMax - inAABB.mMin) * 0.5f;
+	params.mPosition = inAABB.mMin + params.mHalfSize;
+	params.mColor = inColor;
+	gRenderer.DrawRectangle(params);
 }

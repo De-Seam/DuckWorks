@@ -95,10 +95,12 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 	if (gDebugUIWindowManager.mDrawEntityOutline)
 	{
-		SDL_FRect rect;
 		fm::Transform2D transform = selected_entity->GetTransform();
-		rect = gRenderer.GetSDLFRect(transform.position, transform.halfSize);
-		gRenderer.DrawRectangle(rect, {0.5f, 1.f, 0.5f, 0.75f});
+		Renderer::DrawRectangleParams params;
+		params.mPosition = transform.position;
+		params.mHalfSize = transform.halfSize;
+		params.mColor = {0.5f, 1.f, 0.5f, 0.75f};
+		gRenderer.DrawRectangle(params);
 	}
 
 	ImGui::End();

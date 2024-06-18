@@ -101,24 +101,24 @@ void Renderer::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(Renderer::Update)
 
-	UpdateCamera(inDeltaTime);
-
 	if (mRenderThreadTask == nullptr)
 		mRenderThreadTask = std::make_unique<RenderThreadTask>();
 	else
 		gAssert(mRenderThreadTask->IsCompleted(), "Render Thread Task was not yet completed!");
 
-	mRenderThreadTask->mCurrentRenderRectangleDatas.clear();
-	mRenderThreadTask->mCurrentRenderTextureDatas.clear();
+	mRenderThreadTask->mCurrentDrawTextures.clear();
+	mRenderThreadTask->mCurrentDrawRectangles.clear();
 
 	{
 		ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
-		fm::swap(mRenderTextureDatas, mRenderThreadTask->mCurrentRenderTextureDatas);
+		fm::swap(mDrawTextures, mRenderThreadTask->mCurrentDrawTextures);
 	}
 	{
 		ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
-		fm::swap(mRenderRectangleDatas, mRenderThreadTask->mCurrentRenderRectangleDatas);
+		fm::swap(mDrawRectangles, mRenderThreadTask->mCurrentDrawRectangles);
 	}
+	
+	UpdateCamera(inDeltaTime);
 
 	gThreadManager.AddTask(mRenderThreadTask, ThreadPriority::VeryHigh);
 }
@@ -150,7 +150,7 @@ void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::ve
 	SDL_SetTextureAlphaMod(inParams.mTexture, a);
 
 	const SDL_FRect dstRect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
-	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
+	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(&inParams.mSrcRect.value());
 	SDL_RenderCopyExF(mRenderer, inParams.mTexture, srcRect, &dstRect, inParams.mRotation, nullptr, inParams.mFlip);
 
 	// Reset SDL render color
@@ -158,14 +158,10 @@ void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::ve
 	SDL_SetTextureAlphaMod(inParams.mTexture, 255);
 }
 
-void Renderer::DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor)
+void Renderer::DrawRectangle(const DrawRectangleParams& inParams)
 {
-	RenderRectangleData data;
-	data.mRectangle = inRect;
-	data.mColor = inColor;
-
 	ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
-	mRenderRectangleDatas.emplace_back(data);
+	mDrawRectangles.emplace_back(inParams);
 }
 
 fm::vec2 Renderer::GetWorldLocationAtWindowLocation(const fm::vec2& inWindowLocation) const
@@ -246,30 +242,22 @@ void Renderer::UpdateCamera(float inDeltaTime)
 
 void Renderer::DrawTextureInternal(const DrawTextureParams& inParams)
 {
-	const SDL_FRect dst_rect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
-	const SDL_Rect* src_rect = reinterpret_cast<const SDL_Rect*>(inParams.mSrcRect);
-
-	RenderTextureData data;
-	data.mTexture = inParams.mTexture;
-	data.mUseSourceRectangle = src_rect != nullptr;
-	if (data.mUseSourceRectangle)
-		data.mSourceRectangle = *src_rect;
-	data.mDestinationRectangle = dst_rect;
-	data.mRotation = inParams.mRotation;
-	data.mFlip = inParams.mFlip;
-
 	gAssert(!mRenderTextureDatasMutex.TryLock(), "Mutex was not locked!");
-	mRenderTextureDatas.emplace_back(data);
+	mDrawTextures.emplace_back(inParams);
 }
 
 void Renderer::RenderThreadTask::Execute()
 {
 	SDL_Renderer* renderer = gRenderer.GetRenderer();
 
-	for (const RenderTextureData& data : mCurrentRenderTextureDatas)
-		SDL_RenderCopyExF(renderer, data.mTexture, data.mUseSourceRectangle ? &data.mSourceRectangle : nullptr, &data.mDestinationRectangle, data.mRotation, nullptr, data.mFlip);
+	for (const DrawTextureParams& data : mCurrentDrawTextures)
+	{
+		const SDL_FRect dst_rect = gRenderer.GetSDLFRect(data.mPosition, data.mHalfSize);
+		const SDL_Rect* src_rect = data.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&data.mSrcRect.value()) : nullptr;
+		SDL_RenderCopyExF(renderer, data.mTexture, src_rect, &dst_rect, data.mRotation, nullptr, data.mFlip);
+	}
 
-	for (const RenderRectangleData& data : mCurrentRenderRectangleDatas)
+	for (const DrawRectangleParams& data : mCurrentDrawRectangles)
 	{
 		uint32 rgba = data.mColor.get_rgba();
 		uint8 r = (rgba >> 24) & 0xFF;
@@ -277,7 +265,8 @@ void Renderer::RenderThreadTask::Execute()
 		uint8 b = (rgba >> 8) & 0xFF;
 		uint8 a = (rgba >> 0) & 0xFF;
 		SDL_SetRenderDrawColor(renderer, r, g, b, a);
-		SDL_RenderDrawRectF(renderer, &data.mRectangle);
+		SDL_FRect rectangle = gRenderer.GetSDLFRect(data.mPosition, data.mHalfSize);
+		SDL_RenderDrawRectF(renderer, &rectangle);
 	}
 
 	gRenderer.EndFrame();

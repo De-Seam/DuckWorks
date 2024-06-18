@@ -45,13 +45,19 @@ public:
 		fm::vec2 mHalfSize = {10000, 10000};
 		float mRotation = 0.f;
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
-		const fm::ivec4* mSrcRect = nullptr;
+		Optional<fm::ivec4> mSrcRect = NullOpt;
 	};
-
 	void DrawTexture(const DrawTextureParams& inParams);
 	void DrawTextures(const Array<DrawTextureParams>& inParams);
 	[[deprecated]] void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
-	void DrawRectangle(const SDL_FRect& inRect, const fm::vec4& inColor);
+
+	struct DrawRectangleParams
+	{
+		fm::vec2 mPosition;
+		fm::vec2 mHalfSize;
+		fm::vec4 mColor;
+	};
+	void DrawRectangle(const DrawRectangleParams& inParams);
 
 	void SetCamera(const SharedPtr<Camera>& inCamera) { mCamera = inCamera; }
 
@@ -63,29 +69,13 @@ public:
 	const fm::ivec2& GetWindowSize() const { return mWindowSize; }
 	const SharedPtr<Camera>& GetCamera() const { return mCamera; }
 
-	struct RenderTextureData
-	{
-		SDL_Texture* mTexture = nullptr;
-		SDL_Rect mSourceRectangle;
-		bool mUseSourceRectangle = false;
-		SDL_FRect mDestinationRectangle;
-		float mRotation;
-		SDL_RendererFlip mFlip;
-	};
-
-	struct RenderRectangleData
-	{
-		SDL_FRect mRectangle;
-		fm::vec4 mColor;
-	};
-
 	class RenderThreadTask : public ThreadTask
 	{
 	public:
 		virtual void Execute();
 
-		Array<Renderer::RenderTextureData> mCurrentRenderTextureDatas;
-		Array<Renderer::RenderRectangleData> mCurrentRenderRectangleDatas;
+		Array<Renderer::DrawTextureParams> mCurrentDrawTextures;
+		Array<Renderer::DrawRectangleParams> mCurrentDrawRectangles;
 	};
 
 	const SharedPtr<RenderThreadTask>& GetRenderThreadTask() const { return mRenderThreadTask; }
@@ -99,10 +89,10 @@ private:
 
 	fm::ivec2 mWindowSize;
 
-	Array<RenderTextureData> mRenderTextureDatas;
+	Array<DrawTextureParams> mDrawTextures;
 	UniqueMutex mRenderTextureDatasMutex;
 
-	Array<RenderRectangleData> mRenderRectangleDatas;
+	Array<DrawRectangleParams> mDrawRectangles;
 	UniqueMutex mRenderRectangleDatasMutex;
 
 	SharedPtr<RenderThreadTask> mRenderThreadTask;
