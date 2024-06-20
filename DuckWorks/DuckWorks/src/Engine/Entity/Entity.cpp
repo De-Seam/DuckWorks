@@ -15,18 +15,13 @@ Json Entity::Serialize()
 	JSON_SAVE(json, mName);
 	JSON_SAVE(json, mTransform);
 
-	const Array<String>& component_names = gEntityComponentFactory.GetClassNames();
 	Json& json_components = json["Components"];
-	for (const String& component_name : component_names)
+	LoopOverAllComponents([&](EntityComponent& inComponent)
 	{
-		UID rtti_uuid = gEntityComponentFactory.GetRTTIUID(component_name);
-		LoopOverComponents(rtti_uuid, [&](EntityComponent& inComponent)
-		{
-			Json json_component;
-			json_component = inComponent.Serialize();
-			json_components.emplace_back(json_component);
-		});
-	}
+		Json json_component;
+		json_component = inComponent.Serialize();
+		json_components.emplace_back(json_component);
+	});
 
 	return json;
 }
@@ -45,7 +40,7 @@ void Entity::Deserialize(const Json& inJson)
 		for (const Json& json_component : json_components)
 		{
 			const String& class_name = json_component["ClassName"];
-			UID rtti_uid = gEntityComponentFactory.GetRTTIUID(class_name);
+			UID rtti_uid = gRTTIFactory.GetRTTIUID(class_name);
 			EntityComponent* component = nullptr;
 			GUID guid = GUID(json_component["mGUID"]);
 
@@ -59,7 +54,13 @@ void Entity::Deserialize(const Json& inJson)
 			}
 
 			if (component == nullptr)
-				component = gEntityComponentFactory.AddComponent(this, class_name);
+			{
+				EntityComponent::ConstructParameters parameters = {};
+				parameters.mEntity = this;
+				component = gCast<EntityComponent>(gRTTIFactory.CreateClass(class_name, parameters));
+				gAssert(component != nullptr, "Invalid component class!");
+				AddComponent(component);
+			}
 
 			component->Deserialize(json_component);
 		}
@@ -79,6 +80,29 @@ Entity::~Entity()
 void Entity::Destroy()
 {
 	GetWorld()->DestroyEntity(this);
+}
+
+void Entity::AddComponent(EntityComponent* inComponent)
+{
+	static GUID sBaseComponentGUID = GUID("52af-b8bb-1b48-d338");
+	const GUID guid = GUID::sCombine(GetGUID(), sBaseComponentGUID, mEntityComponentSalt++);
+
+#ifdef _DEBUG
+	// Check if the component is already added
+	LoopOverAllComponents([&guid](const EntityComponent& inExistingComponent)
+		{
+			if (inExistingComponent.GetGUID() == guid)
+			{
+				gLog(ELogType::Error, "Component with the same uuid already exists on entity");
+				gAssert(false, "Component with the same uuid already exists on entity");
+			}
+		});
+#endif // _DEBUG
+
+	inComponent->SetGUID(guid);
+
+	ScopedMutexWriteLock lock(mEntityComponentsMutex);
+	mEntityComponents[inComponent->GetRTTIUID()].emplace_back(inComponent);
 }
 
 Array<EntityComponent*> Entity::GetComponentsOfType(UID inComponentUID)

@@ -55,6 +55,7 @@ public:
 
 	template<typename taType>
 	taType* AddComponent(const typename taType::ConstructParameters& inConstructParameters = {});
+	void AddComponent(EntityComponent* inComponent);
 	template<typename taType>
 	Array<taType*> GetComponentsOfType(); ///< Warning: Slow!
 	Array<EntityComponent*> GetComponentsOfType(UID inComponentUID);
@@ -103,29 +104,13 @@ private:
 template<typename taType>
 taType* Entity::AddComponent(const typename taType::ConstructParameters& inConstructParameters)
 {
-	static GUID sBaseComponentGUID = GUID("52af-b8bb-1b48-d338");
-	const GUID guid = GUID::sCombine(GetGUID(), sBaseComponentGUID, mEntityComponentSalt++);
-
-#ifdef _DEBUG
-	// Check if the component is already added
-	LoopOverAllComponents([&guid](const EntityComponent& inExistingComponent)
-	{
-		if (inExistingComponent.GetGUID() == guid)
-		{
-			gLog(ELogType::Error, "Component with the same uuid already exists on entity");
-			gAssert(false, "Component with the same uuid already exists on entity");
-		}
-	});
-#endif // _DEBUG
-
 	typename taType::ConstructParameters parameters = inConstructParameters;
 
 	parameters.mEntity = this;
 	taType* component = taType::sNewInstance(parameters);
-	component->SetGUID(guid);
 
-	ScopedMutexWriteLock lock(mEntityComponentsMutex);
-	mEntityComponents[taType::sGetRTTIUID()].emplace_back(component);
+	AddComponent(component);
+
 	return component;
 }
 

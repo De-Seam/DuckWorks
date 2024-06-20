@@ -34,38 +34,9 @@ private:
 	Array<String> mKeyList;
 };
 
+extern Factory<RTTIBaseClass> gRTTIFactory;
 extern Factory<Entity> gEntityFactory;
 extern Factory<DebugUIWindow> gDebugUIWindowFactory;
-
-class EntityComponentFactory : public Factory<EntityComponent>
-{
-public:
-	using ComponentAddFunction = std::function<EntityComponent*(const Ref<Entity>&)>;
-
-	template<typename taType>
-	void RegisterClass(const String& inClassName)
-	{
-		Factory<EntityComponent>::RegisterClass<taType>(inClassName);
-
-		ComponentAddFunction func = ComponentAddFunction([](const Ref<Entity>& inEntity)
-		{
-			return inEntity->AddComponent<taType>();
-		});
-
-		mComponentAddFunctions[inClassName] = func;
-	}
-
-	EntityComponent* AddComponent(const Ref<Entity>& inEntity, const String& inClassName)
-	{
-		gAssert(mComponentAddFunctions.contains(inClassName), "Class Name not found! Was it registered?");
-		return mComponentAddFunctions[inClassName](inEntity);
-	}
-
-private:
-	HashMap<String, ComponentAddFunction> mComponentAddFunctions;
-};
-
-extern EntityComponentFactory gEntityComponentFactory;
 
 template<typename taFactoryType>
 template<typename taType>

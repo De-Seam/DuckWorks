@@ -188,8 +188,8 @@ taCastType* gCast(RTTIBaseClass* inObject)
 #define REGISTER_ENTITY(inEntity) \
 	gEntityFactory.RegisterClass<inEntity>(#inEntity)
 
-#define REGISTER_COMPONENT(inComponent) \
-	gEntityComponentFactory.RegisterClass<inComponent>(#inComponent);
-
 #define REGISTER_DEBUG_UI_WINDOW(inWindow) \
 	gDebugUIWindowFactory.RegisterClass<inWindow>(#inWindow)
+
+#define REGISTER_RTTI_CLASS(inRTTIClass) \
+	gRTTIFactory.RegisterClass<inRTTIClass>(#inRTTIClass)

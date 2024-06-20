@@ -3,6 +3,6 @@
 
 #include "Engine/Debug/Windows/DebugUIWindow.h"
 
+Factory<RTTIBaseClass> gRTTIFactory = {};
 Factory<Entity> gEntityFactory = {};
-EntityComponentFactory gEntityComponentFactory = {};
 Factory<DebugUIWindow> gDebugUIWindowFactory = {};

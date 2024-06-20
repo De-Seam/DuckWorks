@@ -39,11 +39,11 @@ void gRegisterFactoryClasses()
 	REGISTER_ENTITY(Projectile);
 
 	// Components
-	REGISTER_COMPONENT(TextureRenderComponent);
-	REGISTER_COMPONENT(CollisionComponent);
-	REGISTER_COMPONENT(AnimationComponent);
-	REGISTER_COMPONENT(HealthComponent);
-	REGISTER_COMPONENT(CameraComponent);
+	REGISTER_RTTI_CLASS(TextureRenderComponent);
+	REGISTER_RTTI_CLASS(CollisionComponent);
+	REGISTER_RTTI_CLASS(AnimationComponent);
+	REGISTER_RTTI_CLASS(HealthComponent);
+	REGISTER_RTTI_CLASS(CameraComponent);
 
 	// Debug UI Windows
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);
