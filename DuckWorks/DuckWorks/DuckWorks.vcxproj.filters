@@ -24,9 +24,6 @@
     <ClInclude Include="include\Precomp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\External\entt\entt.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\External\nlohmann\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -633,6 +630,9 @@
     <ClInclude Include="include\Core\RTTI\Messages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Entity\Components\CollisionComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -834,6 +834,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Utilities\GUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Entity\Components\CollisionComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

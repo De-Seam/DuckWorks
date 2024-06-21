@@ -58,32 +58,6 @@ void AnimationComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-// CollisionComponent
-RTTI_CLASS_DEFINITION(CollisionComponent, ClassAllocator)
-
-Json CollisionComponent::Serialize()
-{
-	Json json = Base::Serialize();
-
-	if (!mCollisionObjectHandle.IsValid())
-		return json;
-
-	CollisionObjectWrapper collision_object = gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
-	json["CollisionObject"] = collision_object->Serialize();
-
-	return json;
-}
-
-void CollisionComponent::Deserialize(const Json& inJson)
-{
-	Base::Deserialize(inJson);
-
-	CollisionObject::ConstructParameters construct_params;
-	if (!mCollisionObjectHandle.IsValid())
-		mCollisionObjectHandle = gApp.GetWorld()->GetCollisionWorld()->CreateCollisionObject(construct_params);
-	gApp.GetWorld()->GetCollisionWorld()->DeserializeCollisionObject(mCollisionObjectHandle, inJson["CollisionObject"]);
-}
-
 // HealthComponent
 RTTI_CLASS_DEFINITION(HealthComponent, ClassAllocator)
 

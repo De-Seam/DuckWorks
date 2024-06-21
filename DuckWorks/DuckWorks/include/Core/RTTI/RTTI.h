@@ -154,7 +154,7 @@ public:
 	const GUID& GetGUID() const { return mGUID; }
 
 	template<typename taRecipientClass, typename taMsgType>
-	void AddMessage(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
+	void RegisterMessageListener(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
 	{
 		static_assert(std::is_base_of(MsgBase, taMsgType), "taMsgType must be a subclass of MsgBase");
 		static_assert(std::is_base_of(RTTIBaseClass, taRecipientClass), "taRecipientClass must be a subclass of RTTIBaseClass");
@@ -164,7 +164,27 @@ public:
 			(*inRecipient.*(inFunction))(*SCast<taMsgType*>(&ioMsg));
 		};
 		
-		mMessages[inRecipient->GetRTTIUID()].emplace_back(function);
+		mMessages[taMsgType::sGetRTTIUID()].emplace_back(Pair(inRecipient, function));
+	}
+
+	template<typename taMsgType>
+	void UnregisterMessageListener(RTTIBaseClass* inRecipient)
+	{
+		Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>& messages = mMessages[taMsgType::sGetRTTIUID()];
+		for (int32 i = messages.size() - 1; i >= 0; i--)
+		{
+			if (messages[i].first == inRecipient)
+				messages.erase(i);
+		}
+	}
+
+	template<typename taMsgType>
+	void SendMessage(taMsgType& ioMsg)
+	{
+		for (Pair<RTTIBaseClass*, Function<void(MsgBase&)>>& message : mMessages[taMsgType::sGetRTTIUID()])
+		{
+			message.second(ioMsg);
+		}
 	}
 
 private:
@@ -173,7 +193,8 @@ private:
 	static UID sRTTIBaseClassRTTIUID;
 	UID mUID = {};
 
-	HashMap<UID, Array<Function<void(MsgBase&)>>> mMessages;
+	// Map [Msg UID : Array< Pair<recipient of callbacks, function> >]
+	HashMap<UID, Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>> mMessages;
 };
 
 // Dynamic casting

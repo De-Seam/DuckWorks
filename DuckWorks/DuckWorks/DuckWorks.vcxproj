@@ -116,6 +116,7 @@
     <ClInclude Include="include\Core\Utilities\GUID.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEditorToolbar.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowNewFilePopup.h" />
+    <ClInclude Include="include\Engine\Entity\Components\CollisionComponent.h" />
     <ClInclude Include="include\Engine\Entity\Components\EntityComponent.h" />
     <ClInclude Include="include\Engine\Entity\Components\EntityComponentManager.h" />
     <ClInclude Include="include\Engine\Threads\ThreadManager.h" />
@@ -316,6 +317,7 @@
     <ClCompile Include="src\Core\Allocators\AllocatorBase.cpp" />
     <ClCompile Include="src\Core\Allocators\ClassAllocator.cpp" />
     <ClCompile Include="src\Core\Utilities\GUID.cpp" />
+    <ClCompile Include="src\Engine\Entity\Components\CollisionComponent.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\EntityComponent.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\EntityComponentManager.cpp" />
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowNewFilePopup.cpp" />

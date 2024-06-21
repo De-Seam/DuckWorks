@@ -34,6 +34,7 @@ public:
 	fm::Transform2D MoveTo(
 		const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation = NullOpt,
 		Optional<fm::vec2> inHalfSize = NullOpt);
+	void MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Transform2D& ioTransform);
 	// Teleports object to the given position, does not check for collision.
 	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
 	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);

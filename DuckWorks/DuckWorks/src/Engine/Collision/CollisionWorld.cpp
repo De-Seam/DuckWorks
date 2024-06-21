@@ -70,27 +70,39 @@ fm::Transform2D CollisionWorld::MoveTo(
 	const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation,
 	Optional<fm::vec2> inHalfSize)
 {
+	PROFILE_SCOPE(CollisionWorld::MoveToOptionals)
+
+	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+
+	gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
+
+	fm::Transform2D new_transform = object.GetTransform();
+	if (inPosition.has_value())
+		new_transform.position = inPosition.value();
+	if (inRotation.has_value())
+		new_transform.rotation = inRotation.value();
+	if (inHalfSize.has_value())
+		new_transform.halfSize = inHalfSize.value();
+
+	MoveTo(inObjectHandle, new_transform);
+	return new_transform;
+}
+
+void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Transform2D& ioTransform)
+{
 	PROFILE_SCOPE(CollisionWorld::MoveTo)
 
 	static THREADLOCAL Array<Pair<OnCollisionFunc, CollisionFuncParams>> collision_callback_functions;
 	collision_callback_functions.clear();
 
-	fm::Transform2D new_transform;
 	{
 		ScopedMutexReadLock lock(mCollisionObjectsMutex);
 		CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
 
 		gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
 
-		new_transform = object.GetTransform();
-		if (inPosition.has_value())
-			new_transform.position = inPosition.value();
-		if (inRotation.has_value())
-			new_transform.rotation = inRotation.value();
-		if (inHalfSize.has_value())
-			new_transform.halfSize = inHalfSize.value();
-
-		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, new_transform);
+		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
 		AABB swept_shape_aabb = gComputeAABB(swept_shape);
 		const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(swept_shape_aabb);
 
@@ -110,15 +122,15 @@ fm::Transform2D CollisionWorld::MoveTo(
 
 				if (object.IsBlocking() && other_object.IsBlocking())
 				{
-					new_transform.position += collision_info.mDirection * collision_info.mDepth;
-					swept_shape = gComputeSweptShape(object.mTransform, new_transform);
+					ioTransform.position += collision_info.mDirection * collision_info.mDepth;
+					swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
 				}
 
 				collision_callback_functions.emplace_back(other_object.mOnCollisionFunction, collision_func_params);
 			}
 		}
 	}
-	SetTransformInternal(inObjectHandle, new_transform);
+	SetTransformInternal(inObjectHandle, ioTransform);
 
 	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
@@ -137,8 +149,6 @@ fm::Transform2D CollisionWorld::MoveTo(
 		fm::swap(function.second.mSelf, function.second.mOther);
 		object.mOnCollisionFunction(function.second);
 	}
-
-	return new_transform;
 }
 
 void CollisionWorld::TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)

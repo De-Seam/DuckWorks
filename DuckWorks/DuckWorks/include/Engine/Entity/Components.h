@@ -65,21 +65,6 @@ struct AnimationComponent : public EntityComponent
 	float mTimeSinceUpdate = 0.f;
 };
 
-struct CollisionComponent : public EntityComponent
-{
-	RTTI_CLASS(CollisionComponent, EntityComponent, ClassAllocator)
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		CollisionObjectHandle mCollisionObjectHandle = {};
-	};
-
-	CollisionComponent(const ConstructParameters& inConstructParameters = {})
-		: Base(inConstructParameters),
-		mCollisionObjectHandle(inConstructParameters.mCollisionObjectHandle) {}
-
-	CollisionObjectHandle mCollisionObjectHandle;
-};
-
 struct HealthComponent : public EntityComponent
 {
 	RTTI_CLASS(HealthComponent, EntityComponent, ClassAllocator)
