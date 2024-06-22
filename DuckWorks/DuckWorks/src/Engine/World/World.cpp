@@ -124,7 +124,7 @@ void World::Render(float inDeltaTime)
 
 	if (!gApp.IsPaused())
 	{
-		gAnimationManager.Update(inDeltaTime);
+		gEntityComponentManager.UpdateComponents<AnimationComponent>(inDeltaTime);
 	}
 
 	static Array<Renderer::DrawTextureParams> sDrawTextureParams;

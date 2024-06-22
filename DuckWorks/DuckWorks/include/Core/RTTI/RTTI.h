@@ -178,7 +178,7 @@ public:
 	{
 		(void)inFunction;
 		Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>& messages = mMessages[taMsgType::sGetRTTIUID()];
-		for (int32 i = messages.size() - 1; i >= 0; i--)
+		for (int32 i = SCast<int32>(messages.size()) - 1; i >= 0; i--)
 		{
 			if (messages[i].first == inRecipient)
 				messages.erase(messages.begin() + i);

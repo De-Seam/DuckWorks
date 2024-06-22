@@ -121,6 +121,8 @@ void AnimationComponent::Update(float inDeltaTime)
 	TextureRenderComponent* render_component = GetEntity()->GetFirstComponentOfType<TextureRenderComponent>();
 	gDebugIf(render_component == nullptr, return)
 
+	mAnimation->Update(inDeltaTime);
+
 	render_component->mUseSrcRect = true;
 	mTimeSinceUpdate += inDeltaTime;
 

@@ -1,24 +1,16 @@
 #pragma once
 // Core includes
 #include "Core/CoreBase.h"
-#include "Core/Utilities/Mutex.h"
 #include "Core/Allocators/ClassAllocator.h"
-
-// Engine includes
-#include "Engine/Threads/ThreadManager.h"
-
-class Entity;
-class EntityComponent;
 
 class EntityComponentManager
 {
 public:
-
 	template<typename taType>
 	void LoopOverComponents(Function<void(taType& inComponent)> inFunction);
 
-private:
-
+	template<typename taType>
+	void UpdateComponents(float inDeltaTime);
 };
 
 extern EntityComponentManager gEntityComponentManager;
@@ -43,4 +35,13 @@ void EntityComponentManager::LoopOverComponents(Function<void(taType& inComponen
 			inFunction(*class_ptr);
 		}
 	}
+}
+
+template<typename taType>
+void EntityComponentManager::UpdateComponents(float inDeltaTime)
+{
+	LoopOverComponents<taType>([inDeltaTime](taType& inComponent)
+	{
+		inComponent.Update(inDeltaTime);
+	});
 }

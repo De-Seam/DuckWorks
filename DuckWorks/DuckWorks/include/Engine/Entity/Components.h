@@ -46,21 +46,18 @@ struct AnimationComponent : public EntityComponent
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		SharedPtr<AnimationBase> mAnimation = nullptr;
-		AnimationBase::Frame mCurrentFrame = {};
-		float mTimeSinceUpdate = 0.f;
 	};
 
 	AnimationComponent(const ConstructParameters& inConstructParameters = {})
 		: Base(inConstructParameters),
-		mAnimation(inConstructParameters.mAnimation),
-		mCurrentFrame(inConstructParameters.mCurrentFrame),
-		mTimeSinceUpdate(inConstructParameters.mTimeSinceUpdate) {}
+		mAnimation(inConstructParameters.mAnimation) {}
 
+	virtual void Update(float inDeltaTime) override;
+
+private:
+	// RTTI variables
 	SharedPtr<AnimationBase> mAnimation = nullptr;
 
-	virtual void Update(float inDeltaTime);
-
-	// Private variables
 	AnimationBase::Frame mCurrentFrame = {};
 	float mTimeSinceUpdate = 0.f;
 };

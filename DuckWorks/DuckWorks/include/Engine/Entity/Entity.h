@@ -57,7 +57,7 @@ public:
 	taType* AddComponent(const typename taType::ConstructParameters& inConstructParameters = {});
 	void AddComponent(EntityComponent* inComponent);
 	template<typename taType>
-	Array<taType*> GetComponentsOfType(); ///< Warning: Slow!
+	void GetComponentsOfType(Array<taType*>& outComponents);
 	Array<EntityComponent*> GetComponentsOfType(UID inComponentUID);
 	int32 GetComponentCountOfType(UID inComponentUID);
 	template<typename taType>
@@ -115,20 +115,16 @@ taType* Entity::AddComponent(const typename taType::ConstructParameters& inConst
 }
 
 template<typename taType>
-Array<taType*> Entity::GetComponentsOfType()
+void Entity::GetComponentsOfType(Array<taType*>& outComponents)
 {
-	Array<taType*> return_array;
-
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	Array<EntityComponent*>& components = mEntityComponents[taType::sGetRTTIUID()];
 	for (EntityComponent* component : components)
-		return_array.emplace_back(SCast<taType*>(component));
-
-	return return_array;
+		outComponents.emplace_back(SCast<taType*>(component));
 }
 
 template<typename taType>
-inline taType * Entity::GetFirstComponentOfType()
+taType* Entity::GetFirstComponentOfType()
 {
 	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	if (mEntityComponents.empty())

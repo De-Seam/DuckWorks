@@ -21,9 +21,4 @@ void AnimationManager::Update(float inDeltaTime)
 			it = mAnimations.erase(it);
 		}
 	}
-
-	gEntityComponentManager.LoopOverComponents<AnimationComponent>([inDeltaTime](AnimationComponent& inAnimationComponent)
-	{
-		inAnimationComponent.Update(inDeltaTime);	
-	});
 }
