@@ -5,27 +5,27 @@
 #include "Core/RTTI/RTTI.h"
 
 // Engine includes
-#include "Engine/Entity/Components/EntityComponentManager.h"
-#include "Engine/Entity/Components.h"
-#include "Engine/Factory/Factory.h"
-#include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
-#include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
+#include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityList.h"
+#include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 #include "Engine/Debug/Windows/DebugUIWindowFileExplorer.h"
-#include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 #include "Engine/Debug/Windows/DebugUIWindowImGuiExample.h"
 #include "Engine/Debug/Windows/DebugUIWindowOutputLog.h"
+#include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
+#include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 #include "Engine/Debug/Windows/DebugUIWindowUserSettings.h"
 #include "Engine/Debug/Windows/DebugUIWindowWorldSettings.h"
-#include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
+#include "Engine/Entity/Components.h"
+#include "Engine/Entity/Components/CollisionComponent.h"
+#include "Engine/Entity/Components/EntityComponentManager.h"
+#include "Engine/Factory/Factory.h"
 
 // Game includes
+#include "Game/Entity/MovingPlatform.h"
 #include "Game/Entity/SolidObstacle.h"
 #include "Game/Entity/Player/Player.h"
-#include "Game/Entity/MovingPlatform.h"
 #include "Game/Entity/Projectiles/Projectile.h"
-
 
 void gRegisterFactoryClasses()
 {

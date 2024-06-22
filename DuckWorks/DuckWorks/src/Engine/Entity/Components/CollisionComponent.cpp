@@ -30,21 +30,28 @@ void CollisionComponent::Deserialize(const Json& inJson)
 	GetEntity()->GetWorld()->GetCollisionWorld()->DeserializeCollisionObject(mCollisionObjectHandle, inJson["CollisionObject"]);
 }
 
-CollisionComponent::CollisionComponent(const ConstructParameters& inConstructParameters = {})
-	: Base(inConstructParameters),
+CollisionComponent::CollisionComponent(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
 {
 	CollisionObject::ConstructParameters construct_params = inConstructParameters.mCollisionObjectConstructParameters;
+	construct_params.mEntity = GetEntity();
 	construct_params.mTransform = GetEntity()->GetTransform();
-	GetEntity()->GetWorld()->GetCollisionWorld()->CreateCollisionObject(construct_params);
-	GetEntity()->RegisterMessageListener(this, CollisionComponent::OnPreEntityTransformUpdated);
+	mCollisionObjectHandle = GetEntity()->GetWorld()->GetCollisionWorld()->CreateCollisionObject(construct_params);
+	GetEntity()->RegisterMessageListener(this, &CollisionComponent::OnPreEntityTransformUpdated);
 }
 
 CollisionComponent::~CollisionComponent()
 {
-
+	GetEntity()->GetWorld()->GetCollisionWorld()->DestroyCollisionObject(mCollisionObjectHandle);
+	GetEntity()->UnregisterMessageListener(this, &CollisionComponent::OnPreEntityTransformUpdated);
 }
 
 void CollisionComponent::OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg)
 {
 	gApp.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, ioMsg.mNewTransform);
+}
+
+CollisionObjectWrapper CollisionComponent::GetCollisionObject() const
+{
+	return GetEntity()->GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
 }

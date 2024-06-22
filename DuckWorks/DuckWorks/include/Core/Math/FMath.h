@@ -1,11 +1,10 @@
 #pragma once
 #include "Core/Utilities/Types.h"
 
-#include <cmath>
 #include <cassert>
+#include <cmath>
 #include <cstdint>
 #include <string>
-
 
 #pragma warning (push)
 #pragma warning (disable : 4201) //to avoid nameless struct / union warning.
@@ -304,7 +303,7 @@ struct alignas(4 * sizeof(float)) vec4
 	}
 };
 
-struct alignas(4 * sizeof(float)) ivec4
+struct alignas(sizeof(int32)) ivec4
 {
 	int32 x, y, z, w;
 
@@ -359,14 +358,12 @@ struct Transform2D
 	Transform2D() :
 		position(0.f),
 		halfSize(32.f),
-		rotation(0.f)
-	{}
+		rotation(0.f) {}
 
 	Transform2D(const vec2& position, const vec2& size, float rotation) :
 		position(position),
 		halfSize(size),
-		rotation(rotation)
-	{}
+		rotation(rotation) {}
 
 	Transform2D(const Transform2D& i) = default;
 	Transform2D& operator=(const Transform2D& i) = default;
@@ -403,8 +400,7 @@ struct mat3
 	mat3(float i) :
 		x(i, 0, 0),
 		y(0, i, 0),
-		z(0, 0, i)
-	{}
+		z(0, 0, i) {}
 
 	mat3(vec3 x, vec3 y, vec3 z)
 		: x(x), y(y), z(z) {}
@@ -633,7 +629,6 @@ inline vec2 normalize(const vec2& i)
 	float inv = 1.f / mag;
 	return {i.x * inv, i.y * inv};
 }
-
 
 inline vec2 normalize_safe(const vec2& i)
 {

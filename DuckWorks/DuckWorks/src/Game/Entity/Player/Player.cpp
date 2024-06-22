@@ -10,6 +10,7 @@
 #include "Engine/Renderer/AnimationManager.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
+#include "Engine/Entity/Components/CollisionComponent.h"
 
 // Game includes
 #include "Game/App/App.h"
@@ -69,9 +70,9 @@ Player::Player(const ConstructParameters& inConstructParameters)
 	}
 
 	LoopOverComponents<CollisionComponent>(
-		[this](CollisionComponent& inCollisionComponent)
+		[this](const CollisionComponent& inCollisionComponent)
 		{
-			CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
+			CollisionObjectWrapper collision_object = inCollisionComponent.GetCollisionObject();
 
 			collision_object->SetType(CollisionObject::EType::Dynamic);
 			collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams) { OnCollision(inParams); });

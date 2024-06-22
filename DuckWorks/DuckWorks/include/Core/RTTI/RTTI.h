@@ -73,10 +73,10 @@ public:
 		s##inClassName##Allocator.Free(this);                                                                                                             \
 	}                                                                                                                                                          \
                                                                                                                                                                \
-	static inAllocatorClass<##inClassName##>& sGetAllocator() { return s##inClassName##Allocator; }                                                    \
+	static inAllocatorClass<inClassName>& sGetAllocator() { return s##inClassName##Allocator; }                                                    \
                                                                                                                                                                \
 private:                                                                                                                                                       \
-	static inAllocatorClass<##inClassName##> s##inClassName##Allocator;                                                                                     \
+	static inAllocatorClass<inClassName> s##inClassName##Allocator;                                                                                     \
                                                                                                                                                                \
 public:
 
@@ -85,7 +85,7 @@ public:
 
 #define RTTI_CLASS_DEFINITION(inClassName, inAllocatorClass) \
 	RTTI_VIRTUAL_CLASS_DEFINITION(inClassName) \
-	inAllocatorClass<##inClassName##> inClassName::s##inClassName##Allocator;
+	inAllocatorClass<inClassName> inClassName::s##inClassName##Allocator;
 
 #define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
 	Json inClassName::Serialize() { return Base::Serialize(); } \
@@ -156,25 +156,32 @@ public:
 	template<typename taRecipientClass, typename taMsgType>
 	void RegisterMessageListener(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
 	{
-		static_assert(std::is_base_of(MsgBase, taMsgType), "taMsgType must be a subclass of MsgBase");
-		static_assert(std::is_base_of(RTTIBaseClass, taRecipientClass), "taRecipientClass must be a subclass of RTTIBaseClass");
-
-		Function<void(MsgBase&)> function = [&](MsgBase& ioMsg)
+		Function<void(MsgBase&)> function = [=](MsgBase& ioMsg)
 		{
-			(*inRecipient.*(inFunction))(*SCast<taMsgType*>(&ioMsg));
+			taMsgType* msg = RCast<taMsgType*>(&ioMsg);
+			(*inRecipient.*(inFunction))(*msg);
 		};
-		
-		mMessages[taMsgType::sGetRTTIUID()].emplace_back(Pair(inRecipient, function));
+
+		Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>& messages = mMessages[taMsgType::sGetRTTIUID()];
+#ifdef _DEBUG
+		for (Pair<RTTIBaseClass*, Function<void(MsgBase&)>>& message : messages)
+		{
+			if (message.first == inRecipient)
+				gAssert(false, "Recipient already registered for message!");
+		}
+#endif
+		messages.emplace_back(Pair(inRecipient, function));
 	}
 
-	template<typename taMsgType>
-	void UnregisterMessageListener(RTTIBaseClass* inRecipient)
+	template<typename taRecipientClass, typename taMsgType>
+	void UnregisterMessageListener(RTTIBaseClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
 	{
+		(void)inFunction;
 		Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>& messages = mMessages[taMsgType::sGetRTTIUID()];
 		for (int32 i = messages.size() - 1; i >= 0; i--)
 		{
 			if (messages[i].first == inRecipient)
-				messages.erase(i);
+				messages.erase(messages.begin() + i);
 		}
 	}
 
@@ -182,9 +189,7 @@ public:
 	void SendMessage(taMsgType& ioMsg)
 	{
 		for (Pair<RTTIBaseClass*, Function<void(MsgBase&)>>& message : mMessages[taMsgType::sGetRTTIUID()])
-		{
 			message.second(ioMsg);
-		}
 	}
 
 private:

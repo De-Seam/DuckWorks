@@ -8,6 +8,8 @@
 #include "Engine/World/World.h"
 
 // Game includes
+#include "Engine/Entity/Components/CollisionComponent.h"
+
 #include "Game/Entity/Player/Player.h"
 
 RTTI_CLASS_DEFINITION(MovingPlatform, StandardAllocator)
@@ -41,7 +43,7 @@ MovingPlatform::MovingPlatform(const ConstructParameters& inConstructParameters)
 
 	LoopOverComponents<CollisionComponent>([this](CollisionComponent& inCollisionComponent)
 	{
-		CollisionObjectWrapper collision_object = GetWorld()->GetCollisionWorld()->GetCollisionObject(inCollisionComponent.mCollisionObjectHandle);
+		CollisionObjectWrapper collision_object = inCollisionComponent.GetCollisionObject();
 		collision_object->SetType(CollisionObject::EType::Dynamic);
 	});
 }
@@ -95,7 +97,7 @@ void MovingPlatform::Update(float inDeltaTime)
 		bool self = false;
 		LoopOverComponents<CollisionComponent>([data, &self](CollisionComponent& inCollisionComponent)
 		{
-			if (data.mHandle == inCollisionComponent.mCollisionObjectHandle)
+				if (data.mHandle == inCollisionComponent.GetCollisionObject()->GetHandle())
 				self = true;
 		});
 		if (self)

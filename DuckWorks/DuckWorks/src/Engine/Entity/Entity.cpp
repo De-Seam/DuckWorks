@@ -2,6 +2,8 @@
 #include "Engine/Entity/Entity.h"
 
 // Engine includes
+#include "Core/RTTI/Messages.h"
+
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/World/World.h"
@@ -90,13 +92,13 @@ void Entity::AddComponent(EntityComponent* inComponent)
 #ifdef _DEBUG
 	// Check if the component is already added
 	LoopOverAllComponents([&guid](const EntityComponent& inExistingComponent)
+	{
+		if (inExistingComponent.GetGUID() == guid)
 		{
-			if (inExistingComponent.GetGUID() == guid)
-			{
-				gLog(ELogType::Error, "Component with the same uuid already exists on entity");
-				gAssert(false, "Component with the same uuid already exists on entity");
-			}
-		});
+			gLog(ELogType::Error, "Component with the same uuid already exists on entity");
+			gAssert(false, "Component with the same uuid already exists on entity");
+		}
+	});
 #endif // _DEBUG
 
 	inComponent->SetGUID(guid);
@@ -174,8 +176,22 @@ void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inCompon
 
 void Entity::SetTransform(const fm::Transform2D& inTransform)
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
-	mTransform = inTransform;
+	MsgPostEntityTransformUpdated post_update_msg;
+	post_update_msg.mEntity = this;
+	post_update_msg.mOldTransform = GetTransform();
+
+	MsgPreEntityTransformUpdated pre_update_msg;
+	pre_update_msg.mEntity = this;
+	pre_update_msg.mNewTransform = inTransform;
+	SendMessage(pre_update_msg);
+
+	{
+		ScopedMutexWriteLock lock(mTransformMutex);
+		mTransform = pre_update_msg.mNewTransform;
+		post_update_msg.mNewTransform = mTransform;
+	}
+
+	SendMessage(post_update_msg);
 }
 
 void Entity::SetPosition(const fm::vec2& inPosition)

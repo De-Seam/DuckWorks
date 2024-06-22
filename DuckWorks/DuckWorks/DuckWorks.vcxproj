@@ -316,6 +316,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Allocators\AllocatorBase.cpp" />
     <ClCompile Include="src\Core\Allocators\ClassAllocator.cpp" />
+    <ClCompile Include="src\Core\RTTI\Messages.cpp" />
     <ClCompile Include="src\Core\Utilities\GUID.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\CollisionComponent.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\EntityComponent.cpp" />

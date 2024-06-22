@@ -294,4 +294,5 @@ void World::DestroyEntities()
 		entity->EndPlay();
 		std::erase(mEntities, entity);
 	}
+	mEntitiesToRemove.clear();
 }

@@ -4,6 +4,10 @@
 // Core includes
 #include "Core/RTTI/Messages.h"
 
+// Engine includes
+#include "Engine/Collision/CollisionObject.h"
+#include "Engine/Collision/CollisionWorld.h"
+
 struct CollisionComponent : public EntityComponent
 {
 	RTTI_CLASS(CollisionComponent, EntityComponent, ClassAllocator)
@@ -17,6 +21,8 @@ struct CollisionComponent : public EntityComponent
 	virtual ~CollisionComponent();
 
 	void OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg);
+
+	CollisionObjectWrapper GetCollisionObject() const;
 
 private:
 	CollisionObjectHandle mCollisionObjectHandle;

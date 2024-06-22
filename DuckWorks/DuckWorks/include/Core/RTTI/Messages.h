@@ -1,27 +1,53 @@
 #pragma once
+#include "Core/Allocators/StandardAllocator.h"
 #include "Core/RTTI/RTTI.h"
 #include "Core/Utilities/Types.h"
 
 class Entity;
 
-struct MsgBase : public RTTIBaseClass
+class MsgBase : public RTTIBaseClass
 {
 	RTTI_VIRTUAL_CLASS(MsgBase, RTTIBaseClass)
 
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	MsgBase(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 };
 
-struct MsgPreEntityTransformUpdated : public MsgBase
+class MsgEntityBase : public MsgBase
 {
-	RTTI_CLASS(MsgPreEntityTransformUpdated, MsgBase, StandardAllocator)
+	RTTI_VIRTUAL_CLASS(MsgEntityBase, MsgBase)
+
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	MsgEntityBase(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	Entity* mEntity = nullptr;
-	fm::Transform2D mOldTransform;
+};
+
+class MsgPreEntityTransformUpdated : public MsgEntityBase
+{
+	RTTI_CLASS(MsgPreEntityTransformUpdated, MsgEntityBase, StandardAllocator)
+
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	MsgPreEntityTransformUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+
+	Entity* mEntity = nullptr;
 	fm::Transform2D mNewTransform;
 };
 
-struct MsgPostEntityTransformUpdated : public MsgBase
+class MsgPostEntityTransformUpdated : public MsgEntityBase
 {
-	RTTI_CLASS(MsgPostEntityTransformUpdated, MsgBase, StandardAllocator)
+	RTTI_CLASS(MsgPostEntityTransformUpdated, MsgEntityBase, StandardAllocator)
+
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	MsgPostEntityTransformUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	Entity* mEntity = nullptr;
 	fm::Transform2D mOldTransform;
