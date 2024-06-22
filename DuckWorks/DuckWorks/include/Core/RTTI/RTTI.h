@@ -176,6 +176,7 @@ public:
 	template<typename taRecipientClass, typename taMsgType>
 	void UnregisterMessageListener(RTTIBaseClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
 	{
+		// inFunction is passed to keep the function signature same as RegisterMessageListener, but it is not used
 		(void)inFunction;
 		Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>& messages = mMessages[taMsgType::sGetRTTIUID()];
 		for (int32 i = SCast<int32>(messages.size()) - 1; i >= 0; i--)
