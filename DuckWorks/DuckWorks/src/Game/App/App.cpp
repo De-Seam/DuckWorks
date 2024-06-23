@@ -114,9 +114,9 @@ int App::Run()
 	MainLoop();
 
 	Ref<DebugUIWindowEditorToolbar> toolbar = gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>();
-	if (toolbar->GetGameState() != ToolbarGameState::Stopped)
-		toolbar->StopPlay();
-	toolbar->Save();
+	// If the state was not stopped, we can skip re-saving the world
+	if (toolbar->GetGameState() == ToolbarGameState::Stopped)
+		toolbar->Save();
 	toolbar->SaveStateToFile();
 
 	ShutdownInternal();
