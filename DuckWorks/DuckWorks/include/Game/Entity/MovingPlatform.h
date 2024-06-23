@@ -1,10 +1,10 @@
 #pragma once
 // Engine includes
-#include <Engine/Entity/CollisionActor.h>
+#include <Engine/Entity/Actor.h>
 
-class MovingPlatform : public CollisionActor
+class MovingPlatform : public Actor
 {
-	RTTI_CLASS(MovingPlatform, CollisionActor, StandardAllocator)
+	RTTI_CLASS(MovingPlatform, Actor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

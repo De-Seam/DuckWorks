@@ -3,6 +3,7 @@
 
 // Engine includes
 #include "Engine/Entity/Components.h"
+#include "Engine/Entity/Components/CollisionComponent.h"
 #include "Engine/Resources/ResourceManager.h"
 
 RTTI_CLASS_DEFINITION(Projectile, StandardAllocator)
@@ -30,11 +31,15 @@ Projectile::Projectile(const ConstructParameters& inConstructParameters)
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/Projectiles/Projectile.png");
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
+
+	CollisionComponent::ConstructParameters collision_component_params;
+	collision_component_params.mType = CollisionObject::EType::Dynamic;
+	AddComponent<CollisionComponent>(collision_component_params);
 }
 
 void Projectile::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(Projectile::Update)
 
-	MoveTo(GetPosition() + mVelocity * inDeltaTime);
+	SetPosition(GetPosition() + mVelocity * inDeltaTime);
 }

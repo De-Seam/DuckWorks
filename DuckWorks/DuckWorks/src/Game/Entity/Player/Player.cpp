@@ -53,6 +53,11 @@ Player::Player(const ConstructParameters& inConstructParameters)
 	texture_render_component_parameters.mUseSrcRect = true;
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 
+	CollisionComponent::ConstructParameters collision_component_params;
+	collision_component_params.mOnCollisionFunction = [this](const CollisionFuncParams& inParams) { OnCollision(inParams); };
+	collision_component_params.mType = CollisionObject::EType::Dynamic;
+	AddComponent<CollisionComponent>(collision_component_params);
+
 	SetupAnimations();
 
 	{
@@ -67,15 +72,6 @@ Player::Player(const ConstructParameters& inConstructParameters)
 		event_function.mFunctionPtr = [this](const EventManager::EventData& inData) { OnMouseUp(inData); };
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
-
-	LoopOverComponents<CollisionComponent>(
-		[this](const CollisionComponent& inCollisionComponent)
-		{
-			CollisionObjectWrapper collision_object = inCollisionComponent.GetCollisionObject();
-
-			collision_object->SetType(CollisionObject::EType::Dynamic);
-			collision_object->SetOnCollisionFunc([this](const CollisionFuncParams& inParams) { OnCollision(inParams); });
-		});
 }
 
 void Player::BeginPlay()
@@ -125,15 +121,7 @@ void Player::Update(float inDeltaTime)
 
 	fm::vec2 position = GetPosition();
 	position += mVelocity * inDeltaTime;
-	MoveTo(position);
-	//transform = GetWorld()->GetCollisionWorld()->MoveTo(GetComponent<CollisionComponent>().mCollisionObjectHandle, position);
-	//transform.position = GetWorld()->GetCollisionWorld()->GetCollisionObject(GetComponent<CollisionComponent>().mCollisionObjectHandle).GetTransform().position;
-
-	//fm::vec2 velocity = GetVelocity();
-	//fm::vec2 velocity_increment = moving_direction * fm::vec2(mVelocityIncrement * inDeltaTime);
-	//fm::vec2 new_velocity = velocity + velocity_increment;
-	//new_velocity = clamp2(new_velocity, -mMaxVelocity, mMaxVelocity);
-	//SetVelocity(new_velocity);
+	SetPosition(position);
 }
 
 enum class EPlayerAnimationState : uint16

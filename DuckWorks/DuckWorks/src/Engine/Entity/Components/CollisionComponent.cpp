@@ -33,9 +33,13 @@ void CollisionComponent::Deserialize(const Json& inJson)
 CollisionComponent::CollisionComponent(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {
-	CollisionObject::ConstructParameters construct_params = inConstructParameters.mCollisionObjectConstructParameters;
+	CollisionObject::ConstructParameters construct_params;
+	construct_params.mType = inConstructParameters.mType;
+	construct_params.mBlocking = inConstructParameters.mBlocking;
+	construct_params.mOnCollisionFunction = inConstructParameters.mOnCollisionFunction;
 	construct_params.mEntity = GetEntity();
 	construct_params.mTransform = GetEntity()->GetTransform();
+
 	mCollisionObjectHandle = GetEntity()->GetWorld()->GetCollisionWorld()->CreateCollisionObject(construct_params);
 	GetEntity()->RegisterMessageListener(this, &CollisionComponent::OnPreEntityTransformUpdated);
 }

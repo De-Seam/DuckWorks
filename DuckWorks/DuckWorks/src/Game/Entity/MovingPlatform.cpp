@@ -41,11 +41,9 @@ MovingPlatform::MovingPlatform(const ConstructParameters& inConstructParameters)
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 
-	LoopOverComponents<CollisionComponent>([this](CollisionComponent& inCollisionComponent)
-	{
-		CollisionObjectWrapper collision_object = inCollisionComponent.GetCollisionObject();
-		collision_object->SetType(CollisionObject::EType::Dynamic);
-	});
+	CollisionComponent::ConstructParameters collision_component_params;
+	collision_component_params.mType = CollisionObject::EType::Dynamic;
+	AddComponent<CollisionComponent>(collision_component_params);
 }
 
 void MovingPlatform::BeginPlay()
@@ -97,7 +95,7 @@ void MovingPlatform::Update(float inDeltaTime)
 		bool self = false;
 		LoopOverComponents<CollisionComponent>([data, &self](CollisionComponent& inCollisionComponent)
 		{
-				if (data.mHandle == inCollisionComponent.GetCollisionObject()->GetHandle())
+			if (data.mHandle == inCollisionComponent.GetCollisionObject()->GetHandle())
 				self = true;
 		});
 		if (self)
@@ -112,15 +110,21 @@ void MovingPlatform::Update(float inDeltaTime)
 
 			Ref<Entity> entity = entity_weakref.Get();
 
-			CollisionActor* actor = entity.Cast<CollisionActor>();
-			if (actor != nullptr)
+			bool is_dynamic = false;
+			entity->LoopOverComponents<CollisionComponent>([&is_dynamic](CollisionComponent& inCollisionComponent)
 			{
-				fm::vec2 actor_position = actor->GetPosition();
-				actor_position += (position - old_position);
-				actor->MoveTo(actor_position);
+				if (inCollisionComponent.GetCollisionObject()->GetType() == CollisionObject::EType::Dynamic)
+					is_dynamic = true;
+			});
+
+			if (is_dynamic)
+			{
+				fm::vec2 entity_position = entity->GetPosition();
+				entity_position += (position - old_position);
+				entity->SetPosition(entity_position);
 			}
 		}
 	}
 
-	MoveTo(transform.position);
+	SetPosition(transform.position);
 }

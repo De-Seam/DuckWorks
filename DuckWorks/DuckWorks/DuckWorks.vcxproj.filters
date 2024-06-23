@@ -579,9 +579,6 @@
     <ClInclude Include="include\Game\Entity\MovingPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Engine\Entity\CollisionActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Game\Entity\Enemies\EnemyBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -786,9 +783,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Entity\MovingPlatform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine\Entity\CollisionActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Entity\Enemies\EnemyBase.cpp">

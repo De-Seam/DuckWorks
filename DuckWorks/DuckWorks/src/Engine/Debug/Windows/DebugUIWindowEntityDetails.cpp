@@ -2,6 +2,7 @@
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 
 // Engine includes
+#include <Engine/Entity/Actor.h>
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Entity/Components.h"
@@ -11,7 +12,6 @@
 #include "Engine/World/World.h"
 
 // External includes
-#include <Engine/Entity/CollisionActor.h>
 #include <External/imgui/imgui.h>
 
 RTTI_CLASS_DEFINITION(DebugUIWindowEntityDetails, StandardAllocator)

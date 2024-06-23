@@ -1,21 +1,19 @@
 #pragma once
 // Engine includes
 #include <Engine/Events/SDLEventManager.h>
-#include "Engine/Entity/CollisionActor.h"
+#include "Engine/Entity/Actor.h"
 
 #include "Engine/Events/EventManager.h"
 
 struct EventManager::EventFunction;
 struct CollisionFuncParams;
 
-class Player : public CollisionActor
+class Player : public Actor
 {
-	RTTI_CLASS(Player, CollisionActor, StandardAllocator)
+	RTTI_CLASS(Player, Actor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
-
-	using Base::Base;
 
 	Player(const ConstructParameters& inConstructParameters);
 

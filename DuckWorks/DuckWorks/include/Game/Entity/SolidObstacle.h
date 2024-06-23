@@ -1,15 +1,13 @@
 #pragma once
 // Engine includes
-#include "Engine/Entity/CollisionActor.h"
+#include "Engine/Entity/Actor.h"
 
-class SolidObstacle : public CollisionActor
+class SolidObstacle : public Actor
 {
-	RTTI_CLASS(SolidObstacle, CollisionActor, StandardAllocator)
+	RTTI_CLASS(SolidObstacle, Actor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
-
-	using Base::Base;
 
 	SolidObstacle(const ConstructParameters& inConstructParameters);
 	virtual void Init() override;

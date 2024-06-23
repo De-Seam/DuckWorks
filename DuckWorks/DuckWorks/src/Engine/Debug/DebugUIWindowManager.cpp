@@ -2,6 +2,7 @@
 #include "Engine/Debug/DebugUIWindowManager.h"
 
 // Engine includes
+#include <Engine/Entity/Actor.h>
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
@@ -24,7 +25,6 @@
 
 // Std includes
 #include <fstream>
-#include <Engine/Entity/CollisionActor.h>
 
 RTTI_CLASS_DEFINITION(DebugUIWindowManager, StandardAllocator)
 
@@ -394,14 +394,7 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 
 	fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
 
-	if (CollisionActor* collision_actor = selected_entity.Cast<CollisionActor>(); collision_actor != nullptr)
-	{
-		fm::vec2 new_position = new_world_location + mSelectedEntityRelativeLocation;
-
-		collision_actor->MoveTo(new_position);
-	}
-	else
-		selected_entity->SetPosition(new_world_location + mSelectedEntityRelativeLocation);
+	selected_entity->SetPosition(new_world_location + mSelectedEntityRelativeLocation);
 }
 
 WeakRef<DebugUIWindow> DebugUIWindowManager::AddWindow(Ref<DebugUIWindow> inWindow)

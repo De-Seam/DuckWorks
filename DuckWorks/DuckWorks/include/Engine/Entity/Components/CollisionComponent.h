@@ -11,14 +11,16 @@
 struct CollisionComponent : public EntityComponent
 {
 	RTTI_CLASS(CollisionComponent, EntityComponent, ClassAllocator)
-
 	struct ConstructParameters : public Base::ConstructParameters
 	{
-		CollisionObject::ConstructParameters mCollisionObjectConstructParameters = {};
+		CollisionObject::EType mType = CollisionObject::EType::Static;
+		bool mBlocking = true;
+
+		OnCollisionFunc mOnCollisionFunction = nullptr;
 	};
 
 	CollisionComponent(const ConstructParameters& inConstructParameters = {});
-	virtual ~CollisionComponent();
+	virtual ~CollisionComponent() override;
 
 	void OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg);
 

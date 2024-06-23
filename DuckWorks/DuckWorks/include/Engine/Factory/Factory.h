@@ -34,7 +34,7 @@ private:
 	Array<String> mKeyList;
 };
 
-extern Factory<RTTIBaseClass> gRTTIFactory;
+extern Factory<EntityComponent> gEntityComponentFactory;
 extern Factory<Entity> gEntityFactory;
 extern Factory<DebugUIWindow> gDebugUIWindowFactory;
 

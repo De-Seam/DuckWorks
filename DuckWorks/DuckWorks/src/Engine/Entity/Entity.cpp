@@ -42,7 +42,7 @@ void Entity::Deserialize(const Json& inJson)
 		for (const Json& json_component : json_components)
 		{
 			const String& class_name = json_component["ClassName"];
-			UID rtti_uid = gRTTIFactory.GetRTTIUID(class_name);
+			UID rtti_uid = gEntityComponentFactory.GetRTTIUID(class_name);
 			EntityComponent* component = nullptr;
 			GUID guid = GUID(json_component["mGUID"]);
 
@@ -59,7 +59,7 @@ void Entity::Deserialize(const Json& inJson)
 			{
 				EntityComponent::ConstructParameters parameters = {};
 				parameters.mEntity = this;
-				component = gCast<EntityComponent>(gRTTIFactory.CreateClass(class_name, parameters));
+				component = gCast<EntityComponent>(gEntityComponentFactory.CreateClass(class_name, parameters));
 				gAssert(component != nullptr, "Invalid component class!");
 				AddComponent(component);
 			}
@@ -178,7 +178,6 @@ void Entity::SetTransform(const fm::Transform2D& inTransform)
 {
 	MsgPostEntityTransformUpdated post_update_msg;
 	post_update_msg.mEntity = this;
-	post_update_msg.mOldTransform = GetTransform();
 
 	MsgPreEntityTransformUpdated pre_update_msg;
 	pre_update_msg.mEntity = this;
@@ -187,6 +186,8 @@ void Entity::SetTransform(const fm::Transform2D& inTransform)
 
 	{
 		ScopedMutexWriteLock lock(mTransformMutex);
+		post_update_msg.mOldTransform = mTransform;
+
 		mTransform = pre_update_msg.mNewTransform;
 		post_update_msg.mNewTransform = mTransform;
 	}
@@ -196,20 +197,23 @@ void Entity::SetTransform(const fm::Transform2D& inTransform)
 
 void Entity::SetPosition(const fm::vec2& inPosition)
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
-	mTransform.position = inPosition;
+	fm::Transform2D new_transform = GetTransform();
+	new_transform.position = inPosition;
+	SetTransform(new_transform);
 }
 
 void Entity::SetHalfSize(const fm::vec2& inHalfSize)
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
-	mTransform.halfSize = inHalfSize;
+	fm::Transform2D new_transform = GetTransform();
+	new_transform.halfSize = inHalfSize;
+	SetTransform(new_transform);
 }
 
 void Entity::SetRotation(float inRotation)
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
-	mTransform.rotation = inRotation;
+	fm::Transform2D new_transform = GetTransform();
+	new_transform.rotation = inRotation;
+	SetTransform(new_transform);
 }
 
 fm::Transform2D Entity::GetTransform()

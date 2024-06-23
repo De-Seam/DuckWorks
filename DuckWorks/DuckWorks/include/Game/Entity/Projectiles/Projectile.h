@@ -1,14 +1,14 @@
 #pragma once
 #include "Core/CoreBase.h"
 
-#include "Engine/Entity/CollisionActor.h"
+#include "Engine/Entity/Actor.h"
 
 /*
 Projectile provides base functionality for all projectiles
 */
-class Projectile : public CollisionActor
+class Projectile : public Actor
 {
-	RTTI_CLASS(Projectile, CollisionActor, StandardAllocator)
+	RTTI_CLASS(Projectile, Actor, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

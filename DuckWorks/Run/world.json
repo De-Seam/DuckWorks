@@ -7,996 +7,24 @@
     "mPhysicsTimeStep": 0.01666666753590107,
     "Entities": [
         {
-            "ClassName": "Player",
-            "mGUID": "2064-e2df-8d2c-cc85",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    1025.7669677734375,
-                    -491.8053283691406
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                1025.7669677734375,
-                                -491.8053283691406
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": true,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            1025.7684326171875,
-                            -491.8049621582031
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        768,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "c058-70a2-4b81-5e8f",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    729.845458984375,
-                    -147.13494873046875
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                729.845458984375,
-                                -147.13494873046875
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        384,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "4f2f-ed7f-19a2-105d",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    1542.9776611328125,
-                    -490.57421875
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                1542.9776611328125,
-                                -490.57421875
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        768,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Actor",
-            "mGUID": "3cbf-2efd-b99f-30ce",
-            "mName": "Actor",
-            "mTransform": {
-                "Position": [
-                    669.7861938476563,
-                    -282.5710144042969
-                ],
-                "HalfSize": [
-                    32.0,
-                    32.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": null
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "63f5-6fc4-1860-082e",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    1452.7276611328125,
-                    -687.21533203125
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                1452.7276611328125,
-                                -687.21533203125
-                            ],
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        768,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "9009-b627-5794-cc45",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    1295.7303466796875,
-                    -422.4637756347656
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                1295.7303466796875,
-                                -422.4637756347656
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        384,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "687a-56e5-c320-eca3",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    1318.7750244140625,
-                    -356.672119140625
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                1318.7750244140625,
-                                -356.672119140625
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        384,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "f009-66a6-6190-5923",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    1119.728271484375,
-                    -642.2472534179688
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                1119.728271484375,
-                                -642.2472534179688
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        960,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "d5f7-e375-536b-ae53",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    926.8823852539063,
-                    -741.1704711914063
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                926.8823852539063,
-                                -741.1704711914063
-                            ],
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        384,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "Player",
-            "mGUID": "5fcc-ae3e-35ce-7069",
-            "mName": "Player",
-            "mTransform": {
-                "Position": [
-                    780.5965576171875,
-                    -332.7352294921875
-                ],
-                "HalfSize": [
-                    64.0,
-                    64.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                780.5965576171875,
-                                -332.7352294921875
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        384,
-                        768,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 1
-                }
-            ],
-            "mVelocityIncrement": [
-                2000.0,
-                2000.0
-            ],
-            "mMaxVelocity": 200.0
-        },
-        {
-            "ClassName": "MovingPlatform",
-            "mGUID": "a469-0d84-1f28-c6b1",
-            "mName": "MovingPlatform",
-            "mTransform": {
-                "Position": [
-                    770.81298828125,
-                    -211.13494873046875
-                ],
-                "HalfSize": [
-                    32.0,
-                    32.0
-                ],
-                "Rotation": 0.0
-            },
-            "Components": [
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                770.81298828125,
-                                -211.13494873046875
-                            ],
-                            "HalfSize": [
-                                32.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
-                }
-            ],
-            "mMoveExtents": [
-                0.0,
-                0.0
-            ],
-            "mMoveSpeed": [
-                0.0,
-                0.0
-            ],
-            "mStartPosition": [
-                770.81298828125,
-                -211.13494873046875
-            ]
-        },
-        {
             "ClassName": "SolidObstacle",
-            "mGUID": "0963-037f-41be-6e1d",
+            "mGUID": "6337-d29f-ed7c-d508",
             "mName": "SolidObstacle",
             "mTransform": {
                 "Position": [
-                    1014.2552490234375,
-                    -409.87261962890625
+                    1042.2681884765625,
+                    -492.5671691894531
                 ],
                 "HalfSize": [
-                    64.0,
+                    32.0,
                     32.0
                 ],
                 "Rotation": 0.0
             },
             "Components": [
                 {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 0,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                1014.2552490234375,
-                                -409.87261962890625
-                            ],
-                            "HalfSize": [
-                                64.0,
-                                32.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
                     "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mGUID": "52af-b8bb-1b48-d338",
                     "mTexture": {
                         "ClassName": "TextureResource",
                         "mGUID": "0000-0000-0000-0000",
@@ -1010,8 +38,126 @@
                     ],
                     "mUseSrcRect": false,
                     "mFlip": 0
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 0,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                1042.2681884765625,
+                                -492.5671691894531
+                            ],
+                            "HalfSize": [
+                                32.0,
+                                32.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
                 }
             ]
+        },
+        {
+            "ClassName": "Player",
+            "mGUID": "15ab-4771-efce-f3b9",
+            "mName": "Player",
+            "mTransform": {
+                "Position": [
+                    880.0181884765625,
+                    -554.30322265625
+                ],
+                "HalfSize": [
+                    64.0,
+                    64.0
+                ],
+                "Rotation": 0.0
+            },
+            "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "52af-b8bb-1b48-d33b",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 1,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                880.0181884765625,
+                                -554.30322265625
+                            ],
+                            "HalfSize": [
+                                64.0,
+                                64.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                },
+                {
+                    "ClassName": "CameraComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mIsActive": false,
+                    "mPriority": 0,
+                    "mCamera": {
+                        "ClassName": "Camera",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mPosition": [
+                            200.0,
+                            0.0
+                        ],
+                        "mSize": [
+                            1920.0,
+                            1080.0
+                        ],
+                        "mSizeInverse": [
+                            0.0005208333604969084,
+                            0.0009259259095415473
+                        ],
+                        "mZoomSpeed": 40.0,
+                        "mTargetZoom": 1.0,
+                        "mZoom": 1.0
+                    }
+                },
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d33a",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
+                    "ClassName": "AnimationComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c"
+                }
+            ],
+            "mVelocityIncrement": [
+                2000.0,
+                2000.0
+            ],
+            "mMaxVelocity": 200.0
         }
     ]
 }
