@@ -171,8 +171,12 @@ void World::EndPlay()
 	PROFILE_SCOPE(World::EndPlay)
 	gAssert(gIsMainThread());
 
+	mState = EWorldState::EndingPlay;
+
 	for (Ref<Entity>& entity : mEntities)
 		entity->EndPlay();
+
+	mState = EWorldState::EndedPlay;
 }
 
 void World::AddEntity(const Ref<Entity>& inEntity)
@@ -180,7 +184,7 @@ void World::AddEntity(const Ref<Entity>& inEntity)
 	PROFILE_SCOPE(World::AddEntity)
 	inEntity->Init();
 
-	if (mUpdateState == EUpdateState::PreUpdate)
+	if (mUpdateState == EUpdateState::Updating)
 	{
 		ScopedUniqueMutexLock lock(mEntitiesToAddMutex);
 		mEntitiesToAdd.push_back(inEntity);
@@ -194,7 +198,7 @@ void World::AddEntity(const Ref<Entity>& inEntity)
 void World::DestroyEntity(const Ref<Entity>& inEntity)
 {
 	PROFILE_SCOPE(World::DestroyEntity)
-	if (mUpdateState == EUpdateState::PreUpdate)
+	if (mUpdateState == EUpdateState::Updating)
 	{
 		ScopedUniqueMutexLock lock(mEntitiesToRemoveMutex);
 		mEntitiesToRemove.push_back(inEntity);

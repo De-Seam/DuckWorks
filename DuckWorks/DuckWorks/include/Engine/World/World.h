@@ -13,7 +13,8 @@ enum class EWorldState : uint8
 	Uninitialized,
 	BeginningPlay,
 	Playing,
-	ShuttingDown
+	EndingPlay,
+	EndedPlay
 };
 
 class World : public RTTIBaseClass
