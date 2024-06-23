@@ -6,11 +6,10 @@
 
 // Engine includes
 #include "Engine/Entity/Components.h"
+#include "Engine/Entity/Components/CollisionComponent.h"
 #include "Engine/Events/EventManager.h"
-#include "Engine/Renderer/AnimationManager.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
-#include "Engine/Entity/Components/CollisionComponent.h"
 
 // Game includes
 #include "Game/App/App.h"
@@ -146,7 +145,7 @@ enum class EPlayerAnimationState : uint16
 void Player::SetupAnimations()
 {
 	AnimationComponent::ConstructParameters animation_component_parameters;
-	animation_component_parameters.mAnimation = gAnimationManager.CreateAnimation<PlayerAnimation>(this);
+	animation_component_parameters.mAnimation = std::make_shared<PlayerAnimation>(this);
 	AddComponent<AnimationComponent>(animation_component_parameters);
 }
 

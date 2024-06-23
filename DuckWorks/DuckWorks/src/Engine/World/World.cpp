@@ -12,7 +12,6 @@
 // Game includes (ILLEGAL!)
 #include "Engine/Entity/Components.h"
 #include "Engine/Factory/Factory.h"
-#include "Engine/Renderer/AnimationManager.h"
 #include "Engine/Threads/ThreadManager.h"
 
 #include "Game/App/App.h"
