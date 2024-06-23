@@ -162,7 +162,7 @@ void LogManager::SetLogFileName(const String& inFileName)
 	mLogFileName = inFileName;
 }
 
-std::string GetCurrentDateTime()
+String gGetCurrentDateTime()
 {
 	// Get current time as time_point
 	auto now = std::chrono::system_clock::now();
@@ -186,7 +186,7 @@ void LogManager::WriteLogToFile()
 	PROFILE_SCOPE(LogManager::WriteLogToFile)
 	// Construct the full path
 	std::filesystem::path dir(mLogFilePath);
-	std::filesystem::path file = dir / (mLogFileName + GetCurrentDateTime() + mLogFileExtension);
+	std::filesystem::path file = dir / (mLogFileName + gGetCurrentDateTime() + mLogFileExtension);
 	// Check if folder exists, if not create it
 	if (!exists(dir))
 	{

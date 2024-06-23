@@ -8,6 +8,14 @@
 
 class b2World;
 
+enum class EWorldState : uint8
+{
+	Uninitialized,
+	BeginningPlay,
+	Playing,
+	ShuttingDown
+};
+
 class World : public RTTIBaseClass
 {
 	RTTI_CLASS(World, RTTIBaseClass, StandardAllocator)
@@ -40,14 +48,24 @@ public:
 	Optional<Ref<Entity>> GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
 
 	CollisionWorld* GetCollisionWorld() const { return mCollisionWorld.get(); }
-	bool HasBegunPlay() const { return mBegunPlay; }
+	EWorldState GetState() const { return mState; }
+	bool HasBegunPlay() const { return mState == EWorldState::Playing || mState == EWorldState::BeginningPlay; }
 
 private:
 	void UpdateEntities(float inDeltaTime);
 	void AddEntities();
 	void DestroyEntities();
 
-private:
+	EWorldState mState = EWorldState::Uninitialized;
+
+	enum class EUpdateState : uint8
+	{
+		PreUpdate,
+		Updating
+	};
+
+	EUpdateState mUpdateState = EUpdateState::PreUpdate;
+
 	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
 	Array<Ref<Entity>> mEntities = {};
@@ -63,8 +81,6 @@ private:
 	int32 mPhysicsUpdateFrequency = 60; //60 hz
 	float mPhysicsTimeStep = 1.0f / SCast<float>(mPhysicsUpdateFrequency);
 	float mPhysicsTimeAccumulator = 0.0f;
-
-	bool mBegunPlay = false;
 
 private:
 	friend class BaseEntity;
