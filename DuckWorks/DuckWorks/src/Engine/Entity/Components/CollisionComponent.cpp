@@ -17,8 +17,8 @@ Json CollisionComponent::Serialize()
 	if (!mCollisionObjectHandle.IsValid())
 		return json;
 
-	CollisionObjectWrapper collision_object = gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
-	json["CollisionObject"] = collision_object->Serialize();
+	CollisionObject& collision_object = gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
+	json["CollisionObject"] = collision_object.Serialize();
 
 	return json;
 }
@@ -55,7 +55,7 @@ void CollisionComponent::OnPreEntityTransformUpdated(MsgPreEntityTransformUpdate
 	gApp.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, ioMsg.mNewTransform);
 }
 
-CollisionObjectWrapper CollisionComponent::GetCollisionObject() const
+CollisionObject& CollisionComponent::GetCollisionObject() const
 {
 	return GetEntity()->GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
 }

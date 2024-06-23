@@ -22,6 +22,7 @@ RTTI_CLASS_DEFINITION(World, StandardAllocator)
 Json World::Serialize()
 {
 	PROFILE_SCOPE(World::Serialize)
+	gAssert(gIsMainThread());
 
 	Json json = Base::Serialize();
 
@@ -39,8 +40,8 @@ Json World::Serialize()
 void World::Deserialize(const Json& inJson)
 {
 	PROFILE_SCOPE(World::Deserialize)
+	gAssert(gIsMainThread());
 
-	ScopedMutexWriteLock lock(mEntitiesMutex);
 	mEntities.clear();
 
 	JSON_TRY_LOAD(inJson, mVelocityIterations);
@@ -69,6 +70,8 @@ void World::Deserialize(const Json& inJson)
 
 Json World::SerializeIgnoreEntities() const
 {
+	gAssert(gIsMainThread());
+
 	Json json;
 
 	JSON_SAVE(json, mVelocityIterations);
@@ -111,6 +114,7 @@ World::~World()
 void World::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::Update)
+	gAssert(gIsMainThread());
 
 	UpdateEntities(inDeltaTime);
 
@@ -120,6 +124,7 @@ void World::Update(float inDeltaTime)
 void World::Render(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::Render)
+	gAssert(gIsMainThread());
 
 	if (!gApp.IsPaused())
 	{
@@ -147,6 +152,8 @@ void World::Render(float inDeltaTime)
 void World::BeginPlay()
 {
 	PROFILE_SCOPE(World::BeginPlay)
+	gAssert(gIsMainThread());
+
 	mBegunPlay = true;
 	mCollisionWorld->BeginPlay();
 
@@ -157,24 +164,11 @@ void World::BeginPlay()
 void World::EndPlay()
 {
 	PROFILE_SCOPE(World::EndPlay)
+	gAssert(gIsMainThread());
+
 	for (Ref<Entity>& entity : mEntities)
 		entity->EndPlay();
 }
-
-class UpdateEntityThreadTask : public ThreadTask
-{
-public:
-	virtual void Execute() override
-	{
-		if (!mEntity.IsAlive())
-			return;
-		Ref<Entity> entity = mEntity.Get();
-		entity->Update(mDeltaTime);
-	}
-
-	WeakRef<Entity> mEntity;
-	float mDeltaTime;
-};
 
 void World::AddEntity(const Ref<Entity>& inEntity)
 {
@@ -188,9 +182,8 @@ void World::AddEntity(const Ref<Entity>& inEntity)
 		return;
 	}
 
+	gAssert(gIsMainThread());
 	mEntities.push_back(inEntity);
-	if (mBegunPlay)
-		inEntity->BeginPlay();
 }
 
 void World::DestroyEntity(const Ref<Entity>& inEntity)
@@ -203,14 +196,14 @@ void World::DestroyEntity(const Ref<Entity>& inEntity)
 		return;
 	}
 
+	gAssert(gIsMainThread());
 	inEntity->EndPlay();
-	ScopedMutexWriteLock lock2(mEntitiesMutex);
 	std::erase(mEntities, inEntity);
 }
 
 Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 {
-	ScopedMutexReadLock lock(mEntitiesMutex);
+	gAssert(gIsMainThread());
 	for (const Ref<Entity> entity : mEntities)
 	{
 		fm::Transform2D transform = entity->GetTransform();
@@ -241,36 +234,21 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
 void World::UpdateEntities(float inDeltaTime)
 {
 	PROFILE_SCOPE(World::UpdateEntities)
-	ScopedMutexReadLock lock{mEntitiesMutex};
+	gAssert(gIsMainThread());
 
-	static Array<SharedPtr<UpdateEntityThreadTask>> entity_update_tasks;
-	for (uint64 i = entity_update_tasks.size(); i < mEntities.size(); i++)
-		entity_update_tasks.push_back(std::make_shared<UpdateEntityThreadTask>());
-
-	for (uint64 i = 0; i < mEntities.size(); i++)
-	{
-		Ref<Entity>& entity = mEntities[i];
-		SharedPtr<UpdateEntityThreadTask> task = entity_update_tasks[i];
-		task->Reset();
-		task->mEntity = entity;
-		task->mDeltaTime = inDeltaTime;
-
-		gThreadManager.AddTask(task, ThreadPriority::High);
-	}
-
-	for (SharedPtr<UpdateEntityThreadTask>& task : entity_update_tasks)
-		task->WaitUntilCompleted();
+	for (Ref<Entity>& entity : mEntities)
+		entity->Update(inDeltaTime);
 }
 
 void World::AddEntities()
 {
 	PROFILE_SCOPE(World::AddEntities)
+	gAssert(gIsMainThread());
 
 	if (mEntitiesToAdd.empty())
 		return;
 
 	ScopedUniqueMutexLock lock(mEntitiesToAddMutex);
-	ScopedMutexWriteLock lock2(mEntitiesMutex);
 	for (Ref<Entity>& entity : mEntitiesToAdd)
 	{
 		mEntities.push_back(entity);
@@ -282,12 +260,12 @@ void World::AddEntities()
 void World::DestroyEntities()
 {
 	PROFILE_SCOPE(World::DestroyEntities)
+	gAssert(gIsMainThread());
 
 	if (mEntitiesToRemove.empty())
 		return;
 
 	ScopedUniqueMutexLock lock(mEntitiesToRemoveMutex);
-	ScopedMutexWriteLock lock2(mEntitiesMutex);
 	for (Ref<Entity>& entity : mEntitiesToRemove)
 	{
 		entity->EndPlay();

@@ -6,6 +6,7 @@
 
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Factory/Factory.h"
+#include "Engine/Threads/ThreadManager.h"
 #include "Engine/World/World.h"
 
 RTTI_CLASS_DEFINITION(Entity, StandardAllocator)
@@ -86,6 +87,8 @@ void Entity::Destroy()
 
 void Entity::AddComponent(EntityComponent* inComponent)
 {
+	gAssert(gIsMainThread());
+
 	static GUID sBaseComponentGUID = GUID("52af-b8bb-1b48-d338");
 	const GUID guid = GUID::sCombine(GetGUID(), sBaseComponentGUID, mEntityComponentSalt++);
 
@@ -103,13 +106,12 @@ void Entity::AddComponent(EntityComponent* inComponent)
 
 	inComponent->SetGUID(guid);
 
-	ScopedMutexWriteLock lock(mEntityComponentsMutex);
 	mEntityComponents[inComponent->GetRTTIUID()].emplace_back(inComponent);
 }
 
 Array<EntityComponent*> Entity::GetComponentsOfType(UID inComponentUID)
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	gAssert(gIsMainThread());
 	Array<EntityComponent*> return_array;
 
 	Array<EntityComponent*>& components = mEntityComponents[inComponentUID];
@@ -121,13 +123,13 @@ Array<EntityComponent*> Entity::GetComponentsOfType(UID inComponentUID)
 
 int32 Entity::GetComponentCountOfType(UID inComponentUID)
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	gAssert(gIsMainThread());
 	return SCast<int32>(mEntityComponents[inComponentUID].size());
 }
 
 bool Entity::HasComponent(UID inComponentUID)
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	gAssert(gIsMainThread());
 
 	auto it = mEntityComponents.find(inComponentUID);
 	if (it == mEntityComponents.end())
@@ -138,7 +140,7 @@ bool Entity::HasComponent(UID inComponentUID)
 
 void Entity::RemoveComponent(EntityComponent* inEntityComponent)
 {
-	ScopedMutexWriteLock lock(mEntityComponentsMutex);
+	gAssert(gIsMainThread());
 
 	Array<EntityComponent*>& components = mEntityComponents[inEntityComponent->GetRTTIUID()];
 	for (auto it = components.rbegin(); it != components.rend(); it++)
@@ -155,7 +157,7 @@ void Entity::RemoveComponent(EntityComponent* inEntityComponent)
 
 void Entity::LoopOverComponents(UID inComponentUID, const Function<void(EntityComponent& inComponent)>& inFunction)
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	gAssert(gIsMainThread());
 
 	Array<EntityComponent*>& components = mEntityComponents[inComponentUID];
 	for (EntityComponent* component : components)
@@ -164,7 +166,7 @@ void Entity::LoopOverComponents(UID inComponentUID, const Function<void(EntityCo
 
 void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inComponent)>& inFunction)
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
+	gAssert(gIsMainThread());
 
 	for (auto& pair : mEntityComponents)
 	{
@@ -176,21 +178,20 @@ void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inCompon
 
 void Entity::SetTransform(const fm::Transform2D& inTransform)
 {
+	gAssert(gIsMainThread());
+
 	MsgPostEntityTransformUpdated post_update_msg;
 	post_update_msg.mEntity = this;
+	post_update_msg.mOldTransform = mTransform;
 
 	MsgPreEntityTransformUpdated pre_update_msg;
 	pre_update_msg.mEntity = this;
 	pre_update_msg.mNewTransform = inTransform;
 	SendMessage(pre_update_msg);
 
-	{
-		ScopedMutexWriteLock lock(mTransformMutex);
-		post_update_msg.mOldTransform = mTransform;
+	mTransform = pre_update_msg.mNewTransform;
 
-		mTransform = pre_update_msg.mNewTransform;
-		post_update_msg.mNewTransform = mTransform;
-	}
+	post_update_msg.mNewTransform = mTransform;
 
 	SendMessage(post_update_msg);
 }
@@ -216,26 +217,23 @@ void Entity::SetRotation(float inRotation)
 	SetTransform(new_transform);
 }
 
-fm::Transform2D Entity::GetTransform()
+const fm::Transform2D& Entity::GetTransform() const
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
+	gAssert(gIsMainThread());
 	return mTransform;
 }
 
-fm::vec2 Entity::GetPosition()
+fm::vec2 Entity::GetPosition() const
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
-	return mTransform.position;
+	return GetTransform().position;
 }
 
-fm::vec2 Entity::GetHalfSize()
+fm::vec2 Entity::GetHalfSize() const
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
-	return mTransform.halfSize;
+	return GetTransform().halfSize;
 }
 
-float Entity::GetRotation()
+float Entity::GetRotation() const
 {
-	ScopedMutexWriteLock lock(mTransformMutex);
-	return mTransform.rotation;
+	return GetTransform().rotation;
 }

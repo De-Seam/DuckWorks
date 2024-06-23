@@ -3,8 +3,8 @@
 
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
-#include "Engine/Events/SDLEventManager.h"
 #include "Engine/Entity/Components.h"
+#include "Engine/Events/SDLEventManager.h"
 #include "Engine/World/World.h"
 
 // Game includes
@@ -100,6 +100,7 @@ void Renderer::EndFrame()
 void Renderer::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(Renderer::Update)
+	gAssert(gIsMainThread());
 
 	if (mRenderThreadTask == nullptr)
 		mRenderThreadTask = std::make_unique<RenderThreadTask>();
@@ -109,15 +110,9 @@ void Renderer::Update(float inDeltaTime)
 	mRenderThreadTask->mCurrentDrawTextures.clear();
 	mRenderThreadTask->mCurrentDrawRectangles.clear();
 
-	{
-		ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
-		fm::swap(mDrawTextures, mRenderThreadTask->mCurrentDrawTextures);
-	}
-	{
-		ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
-		fm::swap(mDrawRectangles, mRenderThreadTask->mCurrentDrawRectangles);
-	}
-	
+	fm::swap(mDrawTextures, mRenderThreadTask->mCurrentDrawTextures);
+	fm::swap(mDrawRectangles, mRenderThreadTask->mCurrentDrawRectangles);
+
 	UpdateCamera(inDeltaTime);
 
 	gThreadManager.AddTask(mRenderThreadTask, ThreadPriority::VeryHigh);
@@ -125,19 +120,19 @@ void Renderer::Update(float inDeltaTime)
 
 void Renderer::DrawTexture(const DrawTextureParams& inParams)
 {
-	ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
 	DrawTextureInternal(inParams);
 }
 
 void Renderer::DrawTextures(const Array<DrawTextureParams>& inParams)
 {
-	ScopedUniqueMutexLock lock(mRenderTextureDatasMutex);
 	for (const DrawTextureParams& params : inParams)
 		DrawTextureInternal(params);
 }
 
 void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor)
 {
+	gAssert(gIsMainThread());
+
 	// Calculate color components
 	const uint32 argb = inColor.get_argb();
 	const uint8 a = (argb >> 24) & 0xFF;
@@ -160,7 +155,7 @@ void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const fm::ve
 
 void Renderer::DrawRectangle(const DrawRectangleParams& inParams)
 {
-	ScopedUniqueMutexLock lock(mRenderRectangleDatasMutex);
+	gAssert(gIsMainThread());
 	mDrawRectangles.emplace_back(inParams);
 }
 
@@ -242,7 +237,7 @@ void Renderer::UpdateCamera(float inDeltaTime)
 
 void Renderer::DrawTextureInternal(const DrawTextureParams& inParams)
 {
-	gAssert(!mRenderTextureDatasMutex.TryLock(), "Mutex was not locked!");
+	gAssert(gIsMainThread());
 	mDrawTextures.emplace_back(inParams);
 }
 

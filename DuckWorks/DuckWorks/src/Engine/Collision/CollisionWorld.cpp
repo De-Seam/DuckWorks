@@ -5,6 +5,7 @@
 #include "Engine/Collision/CollisionHelperFunctions.h"
 #include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Threads/ThreadManager.h"
 
 RTTI_CLASS_DEFINITION(CollisionWorld, StandardAllocator)
 
@@ -56,8 +57,8 @@ CollisionObjectHandle CollisionWorld::CreateCollisionObject(const CollisionObjec
 void CollisionWorld::DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle)
 {
 	PROFILE_SCOPE(CollisionWorld::DestroyCollisionObject)
+	gAssert(gIsMainThread());
 
-	ScopedMutexWriteLock lock(mCollisionObjectsMutex);
 	gAssert(mCollisionObjects[inObjectHandle.mIndex].mHandle == inObjectHandle, "Invalid Handle!");
 	mCollisionObjects[inObjectHandle.mIndex] = {CollisionObject::ConstructParameters()};
 	mCollisionObjects[inObjectHandle.mIndex].mAABB = {FLT_MAX, -FLT_MAX};
@@ -71,8 +72,8 @@ fm::Transform2D CollisionWorld::MoveTo(
 	Optional<fm::vec2> inHalfSize)
 {
 	PROFILE_SCOPE(CollisionWorld::MoveToOptionals)
+	gAssert(gIsMainThread());
 
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
 
 	gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
@@ -96,44 +97,39 @@ void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Tra
 	static THREADLOCAL Array<Pair<OnCollisionFunc, CollisionFuncParams>> collision_callback_functions;
 	collision_callback_functions.clear();
 
+	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+
+	gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
+
+	fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
+	AABB swept_shape_aabb = gComputeAABB(swept_shape);
+	const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(swept_shape_aabb);
+
+	for (const CollisionObjectHandle& collision : broadphase_collisions)
 	{
-		ScopedMutexReadLock lock(mCollisionObjectsMutex);
-		CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
+		if (collision == inObjectHandle)
+			continue;
 
-		gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
-
-		fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
-		AABB swept_shape_aabb = gComputeAABB(swept_shape);
-		const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(swept_shape_aabb);
-
-		for (const CollisionObjectHandle& collision : broadphase_collisions)
+		CollisionObject& other_object = GetCollisionObject(collision);
+		CollisionInfo collision_info = gCollides(swept_shape, other_object.GetTransform());
+		if (collision_info.mCollides)
 		{
-			if (collision == inObjectHandle)
-				continue;
+			CollisionFuncParams collision_func_params;
+			collision_func_params.mOther = inObjectHandle;
+			collision_func_params.mSelf = collision;
+			collision_func_params.mCollisionInfo = collision_info;
 
-			CollisionObject& other_object = GetCollisionObjectNoMutex(collision);
-			CollisionInfo collision_info = gCollides(swept_shape, other_object.GetTransform());
-			if (collision_info.mCollides)
+			if (object.IsBlocking() && other_object.IsBlocking())
 			{
-				CollisionFuncParams collision_func_params;
-				collision_func_params.mOther = inObjectHandle;
-				collision_func_params.mSelf = collision;
-				collision_func_params.mCollisionInfo = collision_info;
-
-				if (object.IsBlocking() && other_object.IsBlocking())
-				{
-					ioTransform.position += collision_info.mDirection * collision_info.mDepth;
-					swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
-				}
-
-				collision_callback_functions.emplace_back(other_object.mOnCollisionFunction, collision_func_params);
+				ioTransform.position += collision_info.mDirection * collision_info.mDepth;
+				swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
 			}
+
+			collision_callback_functions.emplace_back(other_object.mOnCollisionFunction, collision_func_params);
 		}
 	}
 	SetTransformInternal(inObjectHandle, ioTransform);
 
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
-	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
 	for (auto& function : collision_callback_functions)
 	{
 		if (function.first == nullptr)
@@ -153,7 +149,7 @@ void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Tra
 
 void CollisionWorld::TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)
 {
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	gAssert(gIsMainThread());
 	fm::Transform2D transform = mCollisionObjects[inObjectHandle.mIndex].GetTransform();
 	transform.position = inPosition;
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(transform);
@@ -162,7 +158,7 @@ void CollisionWorld::TeleportPosition(const CollisionObjectHandle& inObjectHandl
 
 void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	gAssert(gIsMainThread());
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(inTransform);
 	mBVH.RefreshObject(inObjectHandle);
 }
@@ -170,6 +166,7 @@ void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHand
 const Array<CollisionData>& CollisionWorld::CheckCollisions(const fm::Transform2D mTransform)
 {
 	PROFILE_SCOPE(CollisionWorld::CheckCollision)
+	gAssert(gIsMainThread());
 
 	static THREADLOCAL Array<CollisionData> collision_data;
 	collision_data.clear();
@@ -177,10 +174,9 @@ const Array<CollisionData>& CollisionWorld::CheckCollisions(const fm::Transform2
 	AABB aabb = gComputeAABB(mTransform);
 	const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(aabb);
 
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	for (const CollisionObjectHandle& collision : broadphase_collisions)
 	{
-		CollisionObject& other_object = GetCollisionObjectNoMutex(collision);
+		CollisionObject& other_object = GetCollisionObject(collision);
 		CollisionInfo collision_info = gCollides(mTransform, other_object.GetTransform());
 		if (collision_info.mCollides)
 		{
@@ -196,25 +192,26 @@ const Array<CollisionData>& CollisionWorld::CheckCollisions(const fm::Transform2
 
 void CollisionWorld::DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson)
 {
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	gAssert(gIsMainThread());
 	mCollisionObjects[inObjectHandle.mIndex].Deserialize(inJson);
 	mBVH.RefreshObject(inObjectHandle);
 }
 
-CollisionObjectWrapper CollisionWorld::GetCollisionObject(const CollisionObjectHandle& inObjectHandle)
+CollisionObject& CollisionWorld::GetCollisionObject(const CollisionObjectHandle& inObjectHandle)
 {
-	mCollisionObjectsMutex.ReadLock();
-	return {mCollisionObjectsMutex, &GetCollisionObjectNoMutex(inObjectHandle), true};
+	gAssert(gIsMainThread());
+	return mCollisionObjects[inObjectHandle.mIndex];
 }
 
-CollisionObject& CollisionWorld::GetCollisionObjectNoMutex(const CollisionObjectHandle& inObjectHandle)
+const CollisionObject& CollisionWorld::GetCollisionObject(const CollisionObjectHandle& inObjectHandle) const
 {
+	gAssert(gIsMainThread());
 	return mCollisionObjects[inObjectHandle.mIndex];
 }
 
 void CollisionWorld::LoopCollisionObjects(const std::function<void(const CollisionObject&)>& inFunction)
 {
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	gAssert(gIsMainThread());
 	for (const CollisionObject& object : mCollisionObjects)
 	{
 		if (object.mHandle.IsValid())
@@ -224,7 +221,7 @@ void CollisionWorld::LoopCollisionObjects(const std::function<void(const Collisi
 
 void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
 {
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
+	gAssert(gIsMainThread());
 	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];
 	object.SetTransform(inTransform);
 	mBVH.RefreshObject(inObjectHandle);
@@ -232,14 +229,14 @@ void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectH
 
 CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const CollisionObject::ConstructParameters& inConstructParameters)
 {
+	gAssert(gIsMainThread());
+
 	CollisionObjectHandle handle;
 
 	CollisionObject::ConstructParameters construct_parameters = inConstructParameters;
 
 	if (mFreeCollisionObjectIndices.empty())
 	{
-		ScopedMutexWriteLock lock(mCollisionObjectsMutex);
-
 		handle.mIndex = mCollisionObjects.size();
 		construct_parameters.mHandle = handle;
 
@@ -247,7 +244,6 @@ CollisionObjectHandle CollisionWorld::FindOrCreateCollisionObjectIndex(const Col
 		return handle;
 	}
 
-	ScopedMutexReadLock lock(mCollisionObjectsMutex);
 	uint64 index = mFreeCollisionObjectIndices.back();
 	handle.mIndex = index;
 	construct_parameters.mHandle = handle;

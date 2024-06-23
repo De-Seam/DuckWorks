@@ -115,6 +115,7 @@ public:
 
 	taType* Get() const { return mPtr; }
 	taType* operator->() const { return mPtr; }
+	taType* operator*() const { return mPtr; }
 
 	bool operator==(const Ref<taType>& inOther) const { return mPtr == inOther.mPtr; }
 

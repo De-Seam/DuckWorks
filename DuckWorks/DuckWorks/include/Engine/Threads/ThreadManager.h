@@ -80,4 +80,5 @@ private:
 
 // Gets the current Thread Index. 0 is the main thread.
 int32 gGetCurrentThreadIndex();
+bool gIsMainThread();
 extern ThreadManager gThreadManager;

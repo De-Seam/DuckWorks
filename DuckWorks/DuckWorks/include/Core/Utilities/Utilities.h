@@ -66,7 +66,8 @@ using Function = std::function<taType>;
 
 #define THREADLOCAL __declspec(thread)
 
-#define gAssert(inCondition, inMessage) assert((inCondition) && (inMessage))
+#define gAssertImpl(inCondition, inMessage, ...) assert((inCondition) && (inMessage))
+#define gAssert(...) gAssertImpl(__VA_ARGS__, "Assertion failed: " #__VA_ARGS__)
 
 #define gDebugIf(inCondition, inStatement) if(inCondition) {inStatement;}
 

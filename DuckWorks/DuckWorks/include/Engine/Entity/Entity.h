@@ -78,22 +78,20 @@ public:
 	virtual void SetHalfSize(const fm::vec2& inHalfSize);
 	virtual void SetRotation(float inRotation);
 
-	[[nodiscard]] fm::Transform2D GetTransform();
-	[[nodiscard]] fm::vec2 GetPosition();
-	[[nodiscard]] fm::vec2 GetHalfSize();
-	[[nodiscard]] float GetRotation();
+	[[nodiscard]] const fm::Transform2D& GetTransform() const;
+	[[nodiscard]] fm::vec2 GetPosition() const;
+	[[nodiscard]] fm::vec2 GetHalfSize() const;
+	[[nodiscard]] float GetRotation() const;
 
 	[[nodiscard]] World* GetWorld() { return mWorld; }
 	[[nodiscard]] const World* GetWorld() const { return mWorld; }
-	[[nodiscard]] const String& GetName() { return mName; }
+	[[nodiscard]] const String& GetName() const { return mName; }
 
 private:
 	fm::Transform2D mTransform = {};
-	Mutex mTransformMutex;
 
 	// HashMap of [Component UID] to Array of Entity Components
 	HashMap<UID, Array<EntityComponent*>> mEntityComponents;
-	Mutex mEntityComponentsMutex;
 
 	String mName;
 	World* mWorld = nullptr;
@@ -117,7 +115,6 @@ taType* Entity::AddComponent(const typename taType::ConstructParameters& inConst
 template<typename taType>
 void Entity::GetComponentsOfType(Array<taType*>& outComponents)
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	Array<EntityComponent*>& components = mEntityComponents[taType::sGetRTTIUID()];
 	for (EntityComponent* component : components)
 		outComponents.emplace_back(SCast<taType*>(component));
@@ -126,7 +123,6 @@ void Entity::GetComponentsOfType(Array<taType*>& outComponents)
 template<typename taType>
 taType* Entity::GetFirstComponentOfType()
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	if (mEntityComponents.empty())
 		return nullptr;
 	return SCast<taType*>(mEntityComponents[taType::sGetRTTIUID()].front());
@@ -135,8 +131,6 @@ taType* Entity::GetFirstComponentOfType()
 template<typename taType>
 bool Entity::HasComponent()
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
-
 	auto iterator = mEntityComponents.find(taType::sGetRTTIUID());
 	return iterator != mEntityComponents.end() && !iterator->second.empty();
 }
@@ -144,7 +138,6 @@ bool Entity::HasComponent()
 template<typename taType>
 void Entity::LoopOverComponents(const Function<void(taType& inComponent)>& inFunction)
 {
-	ScopedMutexReadLock lock(mEntityComponentsMutex);
 	Array<EntityComponent*>& components = mEntityComponents[taType::sGetRTTIUID()];
 	for (EntityComponent* component : components)
 		inFunction(*SCast<taType*>(component));

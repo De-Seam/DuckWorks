@@ -47,6 +47,7 @@ public:
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 		Optional<fm::ivec4> mSrcRect = NullOpt;
 	};
+
 	void DrawTexture(const DrawTextureParams& inParams);
 	void DrawTextures(const Array<DrawTextureParams>& inParams);
 	[[deprecated]] void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
@@ -57,6 +58,7 @@ public:
 		fm::vec2 mHalfSize;
 		fm::vec4 mColor;
 	};
+
 	void DrawRectangle(const DrawRectangleParams& inParams);
 
 	void SetCamera(const SharedPtr<Camera>& inCamera) { mCamera = inCamera; }
@@ -72,10 +74,10 @@ public:
 	class RenderThreadTask : public ThreadTask
 	{
 	public:
-		virtual void Execute();
+		virtual void Execute() override;
 
-		Array<Renderer::DrawTextureParams> mCurrentDrawTextures;
-		Array<Renderer::DrawRectangleParams> mCurrentDrawRectangles;
+		Array<DrawTextureParams> mCurrentDrawTextures;
+		Array<DrawRectangleParams> mCurrentDrawRectangles;
 	};
 
 	const SharedPtr<RenderThreadTask>& GetRenderThreadTask() const { return mRenderThreadTask; }
@@ -90,10 +92,7 @@ private:
 	fm::ivec2 mWindowSize;
 
 	Array<DrawTextureParams> mDrawTextures;
-	UniqueMutex mRenderTextureDatasMutex;
-
 	Array<DrawRectangleParams> mDrawRectangles;
-	UniqueMutex mRenderRectangleDatasMutex;
 
 	SharedPtr<RenderThreadTask> mRenderThreadTask;
 

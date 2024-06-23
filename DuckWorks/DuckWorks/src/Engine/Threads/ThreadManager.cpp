@@ -130,3 +130,8 @@ int32 gGetCurrentThreadIndex()
 {
 	return sThreadIndex;
 }
+
+bool gIsMainThread()
+{
+	return gGetCurrentThreadIndex() == 0;
+}

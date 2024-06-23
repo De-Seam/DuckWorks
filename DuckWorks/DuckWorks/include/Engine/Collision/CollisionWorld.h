@@ -8,8 +8,6 @@
 #include "Engine/Collision/CollisionObject.h"
 #include "Engine/Collision/BVH/BVH.h"
 
-using CollisionObjectWrapper = MutexReadProtectedPtr<CollisionObject>;
-
 class CollisionWorld : public RTTIBaseClass
 {
 	RTTI_CLASS(CollisionWorld, RTTIBaseClass, StandardAllocator)
@@ -42,17 +40,14 @@ public:
 	const Array<CollisionData>& CheckCollisions(fm::Transform2D mTransform);
 
 	void DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson);
-	Mutex& GetCollisionObjectsMutex() { return mCollisionObjectsMutex; }
-	CollisionObjectWrapper GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
-	CollisionObject& GetCollisionObjectNoMutex(const CollisionObjectHandle& inObjectHandle);
+	CollisionObject& GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
+	const CollisionObject& GetCollisionObject(const CollisionObjectHandle& inObjectHandle) const;
 	///< Returns a locked mutex and a reference to the object. The mutex should be unlocked when done with it.
 	void LoopCollisionObjects(const std::function<void(const CollisionObject&)>& inFunction);
 
 private:
 	Array<CollisionObject> mCollisionObjects = {};
 	Array<uint64> mFreeCollisionObjectIndices = {};
-
-	Mutex mCollisionObjectsMutex;
 
 	BVH mBVH;
 

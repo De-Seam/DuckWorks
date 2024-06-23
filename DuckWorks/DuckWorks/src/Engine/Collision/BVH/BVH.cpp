@@ -9,12 +9,12 @@
 
 void BVH::Init(const InitParams& inParams)
 {
+	gAssert(gIsMainThread());
 	mCollisionWorld = inParams.mCollisionWorld;
 }
 
 BVH::~BVH()
 {
-	ScopedMutexWriteLock lock(mIndicesMutex);
 	if (mIndices)
 		_aligned_free(mIndices);
 }
@@ -22,10 +22,9 @@ BVH::~BVH()
 void BVH::AddObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::AddObject)
+	gAssert(gIsMainThread());
 	bool resized = false;
 	{
-		ScopedMutexWriteLock lock(mObjectsMutex);
-
 		if (mObjects.size() <= inObject.mIndex)
 		{
 			mObjects.reserve(inObject.mIndex + 32); ///< Reserve some extra space to avoid reallocations
@@ -37,7 +36,7 @@ void BVH::AddObject(const CollisionObjectHandle& inObject)
 
 		CollisionObjectData data;
 		data.mCollisionObjectHandle = inObject;
-		CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
+		CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
 		data.mAABB = object.GetAABB();
 		if (object.GetType() == CollisionObject::EType::Dynamic)
 		{
@@ -69,17 +68,14 @@ void BVH::AddObjects(const Array<CollisionObjectHandle>& inObjects)
 void BVH::RemoveObject(const CollisionObjectHandle& inObject)
 {
 	gAssert(mObjects[inObject.mIndex].mCollisionObjectHandle == inObject, "Trying to remove an object that was never added!");
-	ScopedMutexWriteLock lock(mObjectsMutex);
+	gAssert(gIsMainThread());
 	mObjects[inObject.mIndex] = {};
 }
 
 void BVH::Generate()
 {
 	PROFILE_SCOPE(BVH::Generate)
-
-	ScopedMutexReadLock objects_lock(mObjectsMutex);
-	ScopedMutexWriteLock indices_lock(mIndicesMutex);
-	ScopedMutexWriteLock nodes_lock(mNodesMutex);
+	gAssert(gIsMainThread());
 
 	if (mIndices)
 		_aligned_free(mIndices);
@@ -104,6 +100,7 @@ void BVH::Generate()
 void BVH::Draw()
 {
 	PROFILE_SCOPE(BVH::Draw)
+	gAssert(gIsMainThread());
 
 	if (!IsGenerated())
 		return;
@@ -113,12 +110,7 @@ void BVH::Draw()
 
 	uint64 max_depth = 0;
 
-	{
-		ScopedMutexReadLock nodes_lock(mNodesMutex);
-		ScopedMutexReadLock objects_lock(mObjectsMutex);
-		ScopedMutexReadLock indices_lock(mIndicesMutex);
-		GetDrawDataRecursively(sDrawDatas, 0, 0, max_depth);
-	}
+	GetDrawDataRecursively(sDrawDatas, 0, 0, max_depth);
 
 	uint32 seed = 1;
 	for (DrawData& draw_data : sDrawDatas)
@@ -139,39 +131,36 @@ void BVH::Draw()
 bool BVH::RefreshObject(const CollisionObjectHandle& inObject)
 {
 	PROFILE_SCOPE(BVH::RefreshObject)
+	gAssert(gIsMainThread());
 
-	CollisionObject& object = mCollisionWorld->GetCollisionObjectNoMutex(inObject);
+	CollisionObject& object = mCollisionWorld->GetCollisionObject(inObject);
 	AABB aabb = object.GetAABB();
 
 	const Array<uint64>* node_hierarchy;
+
+	// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
+	if (gFullyInsideOf(aabb, mObjects[inObject.mIndex].mAABB))
+		return true;
+
+	if (object.GetType() == CollisionObject::EType::Dynamic)
+		AdjustAABBForDynamicObject(aabb);
+
+	// If this BVH has not been generated yet there are no nodes to resize, so we can early out.
+	if (!IsGenerated())
 	{
-		ScopedMutexReadLock lock(mObjectsMutex);
-
-		// Early out if the AABB is still fully inside of the encapsulating aabb, which is larger on purpose.
-		if (gFullyInsideOf(aabb, mObjects[inObject.mIndex].mAABB))
-			return true;
-
-		if (object.GetType() == CollisionObject::EType::Dynamic)
-			AdjustAABBForDynamicObject(aabb);
-
-		// If this BVH has not been generated yet there are no nodes to resize, so we can early out.
-		if (!IsGenerated())
-		{
-			mObjects[inObject.mIndex].mAABB = aabb;
-			return true;
-		}
-
-		AABB old_aabb = mObjects[inObject.mIndex].mAABB;
-
-		node_hierarchy = &FindNodeHierarchyContainingObject(inObject, old_aabb);
-
-		gAssert(node_hierarchy->size() > 1, "Object not found in BVH!");
-		gAssert(mObjects[mIndices[node_hierarchy->at(0)]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
-
 		mObjects[inObject.mIndex].mAABB = aabb;
+		return true;
 	}
 
-	ScopedMutexWriteLock lock(mNodesMutex);
+	AABB old_aabb = mObjects[inObject.mIndex].mAABB;
+
+	node_hierarchy = &FindNodeHierarchyContainingObject(inObject, old_aabb);
+
+	gAssert(node_hierarchy->size() > 1, "Object not found in BVH!");
+	gAssert(mObjects[mIndices[node_hierarchy->at(0)]].mCollisionObjectHandle == inObject, "Object not found in BVH!");
+
+	mObjects[inObject.mIndex].mAABB = aabb;
+
 	// Here we resize the nodes to tighly fit around their objects
 	// Index 1 is the leaf node
 	BVHNode* leaf_node = &mNodes[node_hierarchy->at(1)];
@@ -195,7 +184,6 @@ const Array<CollisionObjectHandle>& BVH::GetBroadphaseCollisions(const AABB& inA
 	static THREADLOCAL Array<CollisionObjectHandle> sReturnArray;
 	sReturnArray.clear();
 
-	ScopedMutexReadLock lock(mNodesMutex);
 	CollisionInternal(sReturnArray, inAABB, 0);
 
 	return sReturnArray;
@@ -317,8 +305,6 @@ void BVH::CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const A
 
 	if (node->mCount != 0) //Leaf node
 	{
-		ScopedMutexReadLock indices_lock(mIndicesMutex);
-		ScopedMutexReadLock objects_lock(mObjectsMutex);
 		// This leaf node collides, add all objects inside of it to the return array.
 		for (uint64 i = 0; i < node->mCount; i++)
 		{
@@ -352,7 +338,6 @@ const Array<uint64>& BVH::FindNodeHierarchyContainingObject(const CollisionObjec
 	static THREADLOCAL Array<uint64> sReturnArray;
 	sReturnArray.clear();
 
-	ScopedMutexReadLock lock(mNodesMutex);
 	FindNodeHierarchyContainingObjectRecursive(sReturnArray, inObject, inAABB, 0);
 
 	if (sReturnArray.empty())
@@ -374,7 +359,6 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(
 
 	if (node->mCount != 0) //Leaf node
 	{
-		ScopedMutexReadLock lock(mIndicesMutex);
 		// This leaf node collides, add all objects inside of it to the return array.
 		for (uint64 i = 0; i < node->mCount; i++)
 		{

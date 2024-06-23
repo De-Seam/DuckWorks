@@ -95,7 +95,7 @@ void MovingPlatform::Update(float inDeltaTime)
 		bool self = false;
 		LoopOverComponents<CollisionComponent>([data, &self](CollisionComponent& inCollisionComponent)
 		{
-			if (data.mHandle == inCollisionComponent.GetCollisionObject()->GetHandle())
+			if (data.mHandle == inCollisionComponent.GetCollisionObject().GetHandle())
 				self = true;
 		});
 		if (self)
@@ -103,7 +103,7 @@ void MovingPlatform::Update(float inDeltaTime)
 
 		if (data.mHandle.IsValid())
 		{
-			WeakRef<Entity> entity_weakref = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle)->GetEntity();
+			WeakRef<Entity> entity_weakref = GetWorld()->GetCollisionWorld()->GetCollisionObject(data.mHandle).GetEntity();
 
 			if (!entity_weakref.IsAlive())
 				continue;
@@ -113,7 +113,7 @@ void MovingPlatform::Update(float inDeltaTime)
 			bool is_dynamic = false;
 			entity->LoopOverComponents<CollisionComponent>([&is_dynamic](CollisionComponent& inCollisionComponent)
 			{
-				if (inCollisionComponent.GetCollisionObject()->GetType() == CollisionObject::EType::Dynamic)
+				if (inCollisionComponent.GetCollisionObject().GetType() == CollisionObject::EType::Dynamic)
 					is_dynamic = true;
 			});
 

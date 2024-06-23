@@ -49,14 +49,10 @@ private:
 	};
 
 	Array<CollisionObjectData> mObjects;
-	Mutex mObjectsMutex;
 
 	Array<BVHNode> mNodes;
-	Mutex mNodesMutex;
 
 	uint32* mIndices = nullptr; ///< Indices of the objects in the mObjects array, uses int32 for space efficiency
-	Mutex mIndicesMutex;
-
 	uint32 mIndexCount = 0; ///< Count of mIndices. Saved because mObjects can change before the mIndices is reconstructed
 
 	fm::vec2 mDynamicAABBModifier = {0.25f, 0.25f}; ///< The AABB of dynamic objects is expanded by this amount

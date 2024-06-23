@@ -24,7 +24,7 @@ struct CollisionComponent : public EntityComponent
 
 	void OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg);
 
-	CollisionObjectWrapper GetCollisionObject() const;
+	CollisionObject& GetCollisionObject() const;
 
 private:
 	CollisionObjectHandle mCollisionObjectHandle;

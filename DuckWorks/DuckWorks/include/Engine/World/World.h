@@ -51,7 +51,6 @@ private:
 	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
 	Array<Ref<Entity>> mEntities = {};
-	Mutex mEntitiesMutex = {}; ///< Used to protect the mEntities array
 
 	Array<Ref<Entity>> mEntitiesToAdd = {};
 	UniqueMutex mEntitiesToAddMutex = {};
