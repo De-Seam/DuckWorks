@@ -1,11 +1,10 @@
 #include "Precomp.h"
 #include "Engine/Entity/Components.h"
 
+// Engine includes
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
-
-#include "Game/App/App.h"
 
 // TextureRenderComponent
 RTTI_CLASS_DEFINITION(TextureRenderComponent, ClassAllocator)
@@ -56,6 +55,30 @@ Json AnimationComponent::Serialize()
 void AnimationComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
+}
+
+void AnimationComponent::Update(float inDeltaTime)
+{
+	gDebugIf(mAnimation == nullptr, return)
+
+	TextureRenderComponent* render_component = GetEntity()->GetFirstComponentOfType<TextureRenderComponent>();
+	gDebugIf(render_component == nullptr, return)
+
+	mAnimation->Update(inDeltaTime);
+
+	render_component->mUseSrcRect = true;
+	mTimeSinceUpdate += inDeltaTime;
+
+	AnimationBase::Frame& current_frame = mCurrentFrame;
+	render_component->mFlip = mAnimation->GetFlip();
+	gAssert(current_frame.mDuration > 0.f, "Duration should be higher then 0!");
+
+	while (mTimeSinceUpdate >= current_frame.mDuration)
+	{
+		mTimeSinceUpdate -= current_frame.mDuration;
+		current_frame = mAnimation->IncrementFrame();
+		render_component->mSrcRect = {current_frame.mPosition, current_frame.mSize};
+	}
 }
 
 // HealthComponent
@@ -112,28 +135,4 @@ CameraComponent::CameraComponent(const ConstructParameters& inConstructParameter
 {
 	if (mCamera == nullptr)
 		mCamera = std::make_shared<Camera>();
-}
-
-void AnimationComponent::Update(float inDeltaTime)
-{
-	gDebugIf(mAnimation == nullptr, return)
-
-	TextureRenderComponent* render_component = GetEntity()->GetFirstComponentOfType<TextureRenderComponent>();
-	gDebugIf(render_component == nullptr, return)
-
-	mAnimation->Update(inDeltaTime);
-
-	render_component->mUseSrcRect = true;
-	mTimeSinceUpdate += inDeltaTime;
-
-	AnimationBase::Frame& current_frame = mCurrentFrame;
-	render_component->mFlip = mAnimation->GetFlip();
-	gAssert(current_frame.mDuration > 0.f, "Duration should be higher then 0!");
-
-	while (mTimeSinceUpdate >= current_frame.mDuration)
-	{
-		mTimeSinceUpdate -= current_frame.mDuration;
-		current_frame = mAnimation->IncrementFrame();
-		render_component->mSrcRect = {current_frame.mPosition, current_frame.mSize};
-	}
 }

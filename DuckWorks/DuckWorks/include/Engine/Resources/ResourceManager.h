@@ -3,17 +3,21 @@
 #include "ResourceTypes/BaseResource.h"
 
 // Core includes
-#include "Core/Utilities/Utilities.h"
 #include "Core/Log/Log.h"
+#include "Core/Utilities/Utilities.h"
 
 // Std includes
 #include <filesystem>
+
+struct TextureResource;
 
 class ResourceManager
 {
 public:
 	ResourceManager();
 	~ResourceManager() = default;
+
+	void Init();
 
 	//Delete copy constructor
 	ResourceManager(const ResourceManager&) = delete;
@@ -25,7 +29,7 @@ public:
 private:
 	phmap::flat_hash_map<std::string, SharedPtr<BaseResource>> mResources;
 
-private:
+	SharedPtr<TextureResource> mDefaultTexture = nullptr; ///< Cache the default texture so it doesn't have to be loaded multiple times
 };
 
 extern ResourceManager gResourceManager;

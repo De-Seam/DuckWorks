@@ -7,8 +7,12 @@
 
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
+#include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
+#include "Engine/Events/EventManager.h"
 #include "Engine/Events/SDLEventManager.h"
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Resources/ResourceManager.h"
+#include "Engine/Threads/ThreadManager.h"
 #include "Engine/Timer/TimerManager.h"
 #include "Engine/World/World.h"
 
@@ -17,14 +21,10 @@
 #include "Game/Entity/Player/Player.h"
 
 // External includes
-#include "Engine/Events/EventManager.h"
 #include "External/SDL/SDL.h"
 
 // Std includes
 #include <fstream>
-
-#include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
-#include "Engine/Threads/ThreadManager.h"
 
 App gApp;
 
@@ -95,9 +95,9 @@ int App::Run()
 		gSDLEventManager.AddPersistentEventFunction(event_function);
 	}
 
-	{
-		gEventManager.Init();
-	}
+	gEventManager.Init();
+
+	gResourceManager.Init();
 
 	// Create World
 	mWorld = std::make_unique<World>();

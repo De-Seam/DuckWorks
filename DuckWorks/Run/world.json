@@ -109,14 +109,14 @@
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
-                    "mIsActive": false,
+                    "mIsActive": true,
                     "mPriority": 0,
                     "mCamera": {
                         "ClassName": "Camera",
                         "mGUID": "0000-0000-0000-0000",
                         "mPosition": [
-                            200.0,
-                            0.0
+                            880.0173950195313,
+                            -554.3024291992188
                         ],
                         "mSize": [
                             1920.0,
