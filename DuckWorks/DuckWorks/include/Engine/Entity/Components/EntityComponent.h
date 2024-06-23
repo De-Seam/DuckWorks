@@ -19,7 +19,7 @@ public:
 		gAssert(mEntity != nullptr, "Entity was not set!");
 	}
 
-	virtual ~EntityComponent() override {}
+	virtual ~EntityComponent() override = default;
 
 	virtual void Init() {}
 	virtual void BeginPlay() {}
