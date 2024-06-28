@@ -55,6 +55,8 @@ void EnemyBase::Init()
 
 void EnemyBase::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(EnemyBase::Update)
+
 	Base::Update(inDeltaTime);
 
 	if (!mPlayer.IsAlive())

@@ -52,6 +52,7 @@ CollisionComponent::~CollisionComponent()
 
 void CollisionComponent::OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg)
 {
+	PROFILE_SCOPE(CollisionComponent::OnPreEntityTransformUpdated)
 	gApp.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, ioMsg.mNewTransform);
 }
 
