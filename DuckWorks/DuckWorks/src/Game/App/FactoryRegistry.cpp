@@ -22,6 +22,7 @@
 #include "Engine/Factory/Factory.h"
 
 // Game includes
+#include "Game/Entity/ENemies/Zombie.h"
 #include "Game/Entity/MovingPlatform.h"
 #include "Game/Entity/SolidObstacle.h"
 #include "Game/Entity/Player/Player.h"
@@ -37,6 +38,7 @@ void gRegisterFactoryClasses()
 	REGISTER_ENTITY(SolidObstacle);
 	REGISTER_ENTITY(MovingPlatform);
 	REGISTER_ENTITY(Projectile);
+	REGISTER_ENTITY(Zombie);
 
 	// Components
 	REGISTER_ENTITY_COMPONENT(TextureRenderComponent);

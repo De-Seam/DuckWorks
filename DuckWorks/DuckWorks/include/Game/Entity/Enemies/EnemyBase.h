@@ -11,13 +11,14 @@ class EnemyBase : public Actor
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	using Base::Base;
-
-	EnemyBase() = default;
+	EnemyBase(const ConstructParameters& inConstructParameters);
 	virtual void Init() override;
 
 	virtual void Update(float inDeltaTime) override;
 
 private:
-	WeakRef<Entity> mPlayer;
+	WeakRef<Entity> mPlayer = nullptr;
+	float mMaxVelocity = 100.0f;
+	float mAcceleration = 100.f; ///< Velocity increment per second
+	float mVelocity = 0.0f;
 };

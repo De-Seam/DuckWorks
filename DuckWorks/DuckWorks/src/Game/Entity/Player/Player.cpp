@@ -29,10 +29,10 @@ Json Player::Serialize()
 
 void Player::Deserialize(const Json& inJson)
 {
+	Base::Deserialize(inJson);
+
 	JSON_TRY_LOAD(inJson, mVelocityIncrement);
 	JSON_TRY_LOAD(inJson, mMaxVelocity);
-
-	Base::Deserialize(inJson);
 }
 
 Player::Player(const ConstructParameters& inConstructParameters)
