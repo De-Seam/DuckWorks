@@ -32,7 +32,7 @@ void TimerManager::Update(float inDeltaTime)
 
 TimerManager::TimerHandle TimerManager::AddTimer(const TimerParams& inParams)
 {
-	gAssert(inParams.mFunctionPtr != nullptr, "Function pointer is null!");
+	gAssert(inParams.mFunctionPtr != nullptr);
 	gAssert(inParams.mDelay >= 0.0f, "Delay is negative!");
 
 	// Make timer pointer on heap
