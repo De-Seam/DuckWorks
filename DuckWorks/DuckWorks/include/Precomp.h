@@ -1,7 +1,7 @@
 #pragma once
 // Core headers
-#include "Core/Math/FMath.h"
 #include "Core/Log/Log.h"
+#include "Core/Math/FMath.h"
 #include "Core/Utilities/Utilities.h"
 
 // External header

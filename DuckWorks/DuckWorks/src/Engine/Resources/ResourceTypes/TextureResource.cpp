@@ -35,6 +35,7 @@ void TextureResource::LoadFromFile(const String& inFile)
 {
 	Base::LoadFromFile(inFile);
 
+	gAssert(mTexture == nullptr);
 	mTexture = IMG_LoadTexture(gRenderer.GetRenderer(), inFile.c_str());
 	if (mTexture == nullptr)
 	{
@@ -45,10 +46,10 @@ void TextureResource::LoadFromFile(const String& inFile)
 	SDL_QueryTexture(mTexture, nullptr, nullptr, &mSize.x, &mSize.y);
 }
 
-void TextureResource::ReloadTexture()
+void TextureResource::Reload()
 {
 	DestroyTexture();
-	LoadFromFile(GetFileName());
+	Base::Reload();
 }
 
 void TextureResource::DestroyTexture()

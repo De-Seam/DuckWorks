@@ -1,11 +1,14 @@
 #include "Precomp.h"
 #include "Engine/Entity/Entity.h"
 
-// Engine includes
+// Core includes
 #include "Core/RTTI/Messages.h"
 
+// Engine includes
 #include "Engine/Collision/CollisionWorld.h"
+#include "Engine/Engine/Engine.h"
 #include "Engine/Factory/Factory.h"
+#include "Engine/Resources/ResourceManager.h"
 #include "Engine/Threads/ThreadManager.h"
 #include "Engine/World/World.h"
 
@@ -17,6 +20,7 @@ Json Entity::Serialize()
 
 	JSON_SAVE(json, mName);
 	JSON_SAVE(json, mTransform);
+	JSON_SAVE(json, mLuaUpdateFile);
 
 	Json& json_components = json["Components"];
 	LoopOverAllComponents([&](EntityComponent& inComponent)
@@ -35,6 +39,21 @@ void Entity::Deserialize(const Json& inJson)
 
 	JSON_TRY_LOAD(inJson, mName);
 	JSON_TRY_LOAD(inJson, mTransform);
+
+	if (inJson.contains("mLuaUpdateFile"))
+	{
+		const String& lua_update_file = inJson["mLuaUpdateFile"];
+		if (lua_update_file.empty())
+		{
+			mLuaUpdateFile = "";
+			mLuaUpdateResource = nullptr;
+		}
+		else if (gEngine.FileExists(lua_update_file.c_str()) && gIsValidLuaExtension(lua_update_file))
+		{
+			mLuaUpdateFile = lua_update_file;
+			mLuaUpdateResource = gResourceManager.GetResource<LuaResource>(mLuaUpdateFile);
+		}
+	}
 
 	if (inJson.contains("Components"))
 	{
@@ -78,6 +97,19 @@ Entity::~Entity()
 		inComponent.Delete();
 	});
 	mEntityComponents.clear();
+}
+
+void Entity::Update(float inDeltaTime)
+{
+	if (mLuaUpdateResource == nullptr)
+		return;
+
+	sol::state& lua = gEngine.GetLua();
+
+	lua["Entity"] = this;
+	lua["deltaTime"] = inDeltaTime;
+
+	mLuaUpdateResource->RunScript(lua);
 }
 
 void Entity::Destroy()

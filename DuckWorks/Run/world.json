@@ -12,8 +12,8 @@
             "mName": "Player",
             "mTransform": {
                 "Position": [
-                    -8.138325691223145,
-                    -349.9911804199219
+                    -22.138336181640625,
+                    -473.37945556640625
                 ],
                 "HalfSize": [
                     64.0,
@@ -21,63 +21,8 @@
                 ],
                 "Rotation": 0.0
             },
+            "mLuaUpdateFile": "Assets/Scripts/MoveEntity.lua",
             "Components": [
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c"
-                },
-                {
-                    "ClassName": "CollisionComponent",
-                    "mGUID": "52af-b8bb-1b48-d33b",
-                    "CollisionObject": {
-                        "ClassName": "CollisionObject",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mType": 1,
-                        "mBlocking": true,
-                        "mShapeType": 0,
-                        "mTransform": {
-                            "Position": [
-                                -8.138325691223145,
-                                -349.9911804199219
-                            ],
-                            "HalfSize": [
-                                64.0,
-                                64.0
-                            ],
-                            "Rotation": 0.0
-                        }
-                    }
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mIsActive": true,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            -8.138322830200195,
-                            -349.9910888671875
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
                 {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
@@ -94,6 +39,62 @@
                     ],
                     "mUseSrcRect": true,
                     "mFlip": 1
+                },
+                {
+                    "ClassName": "CollisionComponent",
+                    "mGUID": "52af-b8bb-1b48-d33b",
+                    "CollisionObject": {
+                        "ClassName": "CollisionObject",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mType": 1,
+                        "mBlocking": true,
+                        "mShapeType": 0,
+                        "mTransform": {
+                            "Position": [
+                                -22.138336181640625,
+                                -473.37945556640625
+                            ],
+                            "HalfSize": [
+                                64.0,
+                                64.0
+                            ],
+                            "Rotation": 0.0
+                        }
+                    }
+                },
+                {
+                    "ClassName": "AnimationComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c"
+                },
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
+                {
+                    "ClassName": "CameraComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mIsActive": true,
+                    "mPriority": 0,
+                    "mCamera": {
+                        "ClassName": "Camera",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mPosition": [
+                            -22.138296127319336,
+                            -473.3788146972656
+                        ],
+                        "mSize": [
+                            1920.0,
+                            1080.0
+                        ],
+                        "mSizeInverse": [
+                            0.0005208333604969084,
+                            0.0009259259095415473
+                        ],
+                        "mZoomSpeed": 40.0,
+                        "mTargetZoom": 1.0,
+                        "mZoom": 1.0
+                    }
                 }
             ],
             "mVelocityIncrement": [
@@ -117,7 +118,25 @@
                 ],
                 "Rotation": 0.0
             },
+            "mLuaUpdateFile": "",
             "Components": [
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
                 {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
@@ -139,23 +158,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,

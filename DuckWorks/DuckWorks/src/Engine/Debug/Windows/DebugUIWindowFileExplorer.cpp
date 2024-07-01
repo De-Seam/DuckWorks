@@ -10,6 +10,8 @@
 
 // External includes
 #include <External/imgui/imgui.h>
+#include "External/SDL/SDL_clipboard.h"
+#include "External/SDL/SDL_error.h"
 
 // Std includes
 #include <algorithm>
@@ -183,15 +185,17 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 	}
 	else if (inEntry.is_regular_file())
 	{
-		SharedPtr<TextureResource> texture;
+		SharedPtr<TextureResource> texture = mFileTexture;
 		FileType file_type = FileType::Other;
 		if (gIsValidTextureExtension(file_path))
 		{
 			texture = gResourceManager.GetResource<TextureResource>(file_path);
 			file_type = FileType::Texture;
 		}
-		else
-			texture = mFileTexture;
+		else if (gIsValidLuaExtension(file_path))
+		{
+			file_type = FileType::Lua;
+		}
 
 		mTextures[file_path] = texture;
 		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(texture->mTexture), ImVec2(mIconSize.x, mIconSize.y)))
@@ -210,6 +214,12 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 				texture_viewer->SetTexture(texture);
 			}
 			break;
+			case FileType::Lua:
+			{
+				if (SDL_SetClipboardText(file_path.c_str()) != 0)
+					gLog(ELogType::Error, "Unable to set clipboard text! SDL_Error: %s", SDL_GetError());
+				break;
+			}
 			case FileType::Other:
 			{
 				gLog(ELogType::Warning, "Tried to open file which extension was not recognized: %s", file_path.c_str());

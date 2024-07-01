@@ -17,9 +17,9 @@ bool gIsValidTextureExtension(const std::string& inFilePath)
 							[](unsigned char c) { return SCast<unsigned char>(std::tolower(c)); });
 
 	// List of supported image extensions
-	const std::string extensions[] = {".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tga", ".webp"};
+	const static std::string sExtensions[] = {".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tga", ".webp"};
 
-	for (const std::string& ext : extensions)
+	for (const std::string& ext : sExtensions)
 	{
 		if (lower_case_path.size() >= ext.size() &&
 			lower_case_path.compare(lower_case_path.size() - ext.size(), ext.size(), ext) == 0)
@@ -29,6 +29,19 @@ bool gIsValidTextureExtension(const std::string& inFilePath)
 	}
 
 	return false;
+}
+
+bool gIsValidLuaExtension(const std::string& inFilePath)
+{
+	String lower_case_path;
+	// Convert file path to lower case for case-insensitive comparison
+	std::ranges::transform(inFilePath.begin(), inFilePath.end(), std::back_inserter(lower_case_path),
+							[](unsigned char c) { return SCast<unsigned char>(std::tolower(c)); });
+
+	const static String sExtension = ".lua";
+
+	return lower_case_path.size() >= sExtension.size() &&
+		lower_case_path.compare(lower_case_path.size() - sExtension.size(), sExtension.size(), sExtension) == 0;
 }
 
 // TextureResource

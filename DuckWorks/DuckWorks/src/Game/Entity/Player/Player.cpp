@@ -12,6 +12,8 @@
 #include "Engine/World/World.h"
 
 // Game includes
+#include "Engine/Engine/Engine.h"
+
 #include "Game/App/App.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 

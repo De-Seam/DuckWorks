@@ -15,14 +15,16 @@ public:
 	TextureResource(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	virtual ~TextureResource() override;
-	virtual void LoadFromFile(const String& inFile) override;
-	void ReloadTexture();
+	virtual void Reload() override;
 
 	SDL_Texture* mTexture = nullptr;
 
 	fm::ivec2 GetSize() const { return mSize; }
 	int32 GetWidth() const { return mSize.x; }
 	int32 GetHeight() const { return mSize.y; }
+
+protected:
+	virtual void LoadFromFile(const String& inFile) override;
 
 private:
 	fm::ivec2 mSize = {};

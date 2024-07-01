@@ -18,6 +18,7 @@ public:
 	~ResourceManager() = default;
 
 	void Init();
+	void Update();
 
 	//Delete copy constructor
 	ResourceManager(const ResourceManager&) = delete;
@@ -27,6 +28,8 @@ public:
 	std::shared_ptr<taType> GetResource(const String& inFile);
 
 private:
+	int64 GetTimeSinceFileModified(const String& inFile) const;
+
 	phmap::flat_hash_map<std::string, SharedPtr<BaseResource>> mResources;
 
 	SharedPtr<TextureResource> mDefaultTexture = nullptr; ///< Cache the default texture so it doesn't have to be loaded multiple times
@@ -51,6 +54,7 @@ std::shared_ptr<taType> ResourceManager::GetResource(const String& inFile)
 		gLog("Loading resource of type %s: %s", taType::sGetClassName(), inFile.c_str());
 		mResources[inFile] = std::make_shared<taType>();
 		mResources[inFile]->LoadFromFile(inFile);
+		mResources[inFile]->mFileLastModifiedTime = GetTimeSinceFileModified(inFile);
 	}
 
 	return std::static_pointer_cast<taType>(mResources[inFile]);

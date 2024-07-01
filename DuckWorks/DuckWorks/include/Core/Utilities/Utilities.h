@@ -18,6 +18,7 @@
 #define PROFILE_MUTEXES 1
 
 using String = std::string;
+using StringView = std::string_view;
 using Json = nlohmann::ordered_json;
 
 // Smart Pointers
@@ -80,6 +81,7 @@ using Function = std::function<taType>;
 
 // Utility functions
 bool gIsValidTextureExtension(const std::string& inFilePath);
+bool gIsValidLuaExtension(const std::string& inFilePath);
 
 // JSON Serialization helper functions
 namespace fm

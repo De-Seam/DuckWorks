@@ -26,6 +26,8 @@
 // Std includes
 #include <fstream>
 
+#include "Engine/Engine/Engine.h"
+
 App gApp;
 
 App::App()
@@ -45,6 +47,9 @@ int App::Run()
 	PROFILE_SCOPE(App::Run)
 
 	gLog(ELogType::Info, "Initializing App");
+
+	gEngine.Init();
+
 	gLogManager.Init();
 
 	gThreadManager.Init();
@@ -200,6 +205,8 @@ void App::Update(float inDeltaTime)
 
 	gSDLEventManager.Update();
 
+	gResourceManager.Update();
+
 	if (!mPaused)
 	{
 		gTimerManager.Update(inDeltaTime);
@@ -230,4 +237,6 @@ void App::ShutdownInternal()
 
 	gThreadManager.Shutdown();
 	gLogManager.Shutdown();
+
+	gEngine.Shutdown();
 }

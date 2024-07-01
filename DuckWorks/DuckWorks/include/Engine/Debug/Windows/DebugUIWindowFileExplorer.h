@@ -21,6 +21,7 @@ public:
 	enum class FileType
 	{
 		Texture,
+		Lua,
 		Other
 	};
 

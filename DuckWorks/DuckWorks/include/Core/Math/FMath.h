@@ -360,9 +360,9 @@ struct Transform2D
 		halfSize(32.f),
 		rotation(0.f) {}
 
-	Transform2D(const vec2& position, const vec2& size, float rotation) :
+	Transform2D(const vec2& position, const vec2& inHalfSize, float rotation) :
 		position(position),
-		halfSize(size),
+		halfSize(inHalfSize),
 		rotation(rotation) {}
 
 	Transform2D(const Transform2D& i) = default;
