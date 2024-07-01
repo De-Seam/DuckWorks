@@ -54,6 +54,7 @@ public:
 
 private:
 	void UpdateEntities(float inDeltaTime);
+	void UpdateComponents(float inDeltaTime);
 	void AddEntities();
 	void DestroyEntities();
 

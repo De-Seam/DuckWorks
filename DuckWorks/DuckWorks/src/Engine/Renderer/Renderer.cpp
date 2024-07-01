@@ -83,7 +83,7 @@ void Renderer::BeginFrame()
 
 void Renderer::EndFrame()
 {
-	PROFILE_SCOPE(Renderer::EndFrame);
+	PROFILE_SCOPE(Renderer::EndFrame)
 
 	SDL_SetRenderTarget(mRenderer, nullptr);
 	SDL_RenderClear(mRenderer);
@@ -243,6 +243,8 @@ void Renderer::DrawTextureInternal(const DrawTextureParams& inParams)
 
 void Renderer::RenderThreadTask::Execute()
 {
+	PROFILE_SCOPE(Renderer::RenderThreadTask::Execute)
+
 	SDL_Renderer* renderer = gRenderer.GetRenderer();
 
 	for (const DrawTextureParams& data : mCurrentDrawTextures)

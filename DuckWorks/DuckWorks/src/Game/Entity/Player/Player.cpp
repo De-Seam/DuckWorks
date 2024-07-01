@@ -5,15 +5,16 @@
 #include "Core/RTTI/RefObject.h"
 
 // Engine includes
+#include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Components/CollisionComponent.h"
+#include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Events/EventManager.h"
 #include "Engine/Resources/ResourceManager.h"
+#include "Engine/Resources/ResourceTypes/LuaResource.h"
 #include "Engine/World/World.h"
 
 // Game includes
-#include "Engine/Engine/Engine.h"
-
 #include "Game/App/App.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 
@@ -59,6 +60,10 @@ Player::Player(const ConstructParameters& inConstructParameters)
 	collision_component_params.mOnCollisionFunction = [this](const CollisionFuncParams& inParams) { OnCollision(inParams); };
 	collision_component_params.mType = CollisionObject::EType::Dynamic;
 	AddComponent<CollisionComponent>(collision_component_params);
+
+	ScriptComponent::ConstructParameters script_component_parameters;
+	script_component_parameters.mUpdateScript = gResourceManager.GetResource<LuaResource>("Assets/Scripts/Player.lua");
+	AddComponent<ScriptComponent>(script_component_parameters);
 
 	SetupAnimations();
 

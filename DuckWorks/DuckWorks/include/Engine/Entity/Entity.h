@@ -8,7 +8,6 @@
 // Engine includes
 #include "Engine/Entity/Components/EntityComponent.h"
 #include "Engine/Entity/Components/EntityComponentManager.h"
-#include "Engine/Resources/ResourceTypes/LuaResource.h"
 
 /*
  * Entity rules:
@@ -50,7 +49,7 @@ public:
 
 	virtual void BeginPlay() {}
 	virtual void EndPlay() {}
-	virtual void Update(float inDeltaTime);
+	virtual void Update([[maybe_unused]] float inDeltaTime) {}
 
 	void Destroy();
 
@@ -90,10 +89,6 @@ public:
 
 private:
 	fm::Transform2D mTransform = {};
-
-	String mLuaUpdateFile;
-
-	SharedPtr<LuaResource> mLuaUpdateResource = nullptr;
 
 	// HashMap of [Component UID] to Array of Entity Components
 	HashMap<UID, Array<EntityComponent*>> mEntityComponents;

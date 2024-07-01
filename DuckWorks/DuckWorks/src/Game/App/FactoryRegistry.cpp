@@ -19,12 +19,13 @@
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Components/CollisionComponent.h"
 #include "Engine/Entity/Components/EntityComponentManager.h"
+#include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Factory/Factory.h"
 
 // Game includes
-#include "Game/Entity/ENemies/Zombie.h"
 #include "Game/Entity/MovingPlatform.h"
 #include "Game/Entity/SolidObstacle.h"
+#include "Game/Entity/ENemies/Zombie.h"
 #include "Game/Entity/Player/Player.h"
 #include "Game/Entity/Projectiles/Projectile.h"
 
@@ -46,6 +47,7 @@ void gRegisterFactoryClasses()
 	REGISTER_ENTITY_COMPONENT(AnimationComponent);
 	REGISTER_ENTITY_COMPONENT(HealthComponent);
 	REGISTER_ENTITY_COMPONENT(CameraComponent);
+	REGISTER_ENTITY_COMPONENT(ScriptComponent);
 
 	// Debug UI Windows
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);

@@ -20,6 +20,8 @@ void ResourceManager::Init()
 
 void ResourceManager::Update()
 {
+	PROFILE_SCOPE(ResourceManager::Update)
+
 #ifdef _DEBUG
 
 	for (auto it = mResources.begin(); it != mResources.end(); ++it)

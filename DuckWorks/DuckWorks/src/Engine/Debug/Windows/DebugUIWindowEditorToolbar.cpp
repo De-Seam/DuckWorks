@@ -50,7 +50,10 @@ void DebugUIWindowEditorToolbar::Update(float)
 	ImGui::SetWindowSize({38 * 3, 32});
 
 	if (ImGui::ImageButton("##SaveButton", (ImTextureID)mSaveButtonTexture->mTexture, {32, 32}))
+	{
 		Save();
+		SaveStateToFile();
+	}
 
 	ImGui::SameLine();
 

@@ -11,6 +11,7 @@
 
 // Game includes (ILLEGAL!)
 #include "Engine/Entity/Components.h"
+#include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Threads/ThreadManager.h"
 
@@ -119,6 +120,8 @@ void World::Update(float inDeltaTime)
 	AddEntities();
 
 	UpdateEntities(inDeltaTime);
+
+	UpdateComponents(inDeltaTime);
 
 	DestroyEntities();
 }
@@ -249,6 +252,21 @@ void World::UpdateEntities(float inDeltaTime)
 	for (Ref<Entity>& entity : mEntities)
 		entity->Update(inDeltaTime);
 	mUpdateState = EUpdateState::PreUpdate;
+}
+
+void World::UpdateComponents(float inDeltaTime)
+{
+	PROFILE_SCOPE(World::UpdateComponents)
+	gAssert(gIsMainThread());
+
+	{
+		PROFILE_SCOPE(World::UpdateComponents::ScriptComponent)
+
+		gEntityComponentManager.LoopOverComponents<ScriptComponent>([inDeltaTime](ScriptComponent& inScriptComponent)
+		{
+			inScriptComponent.Update(inDeltaTime);
+		});
+	}
 }
 
 void World::AddEntities()
