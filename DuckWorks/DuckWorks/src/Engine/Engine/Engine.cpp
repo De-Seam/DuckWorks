@@ -24,6 +24,11 @@ void Engine::Init()
 	mLua.new_usertype<Entity>("Entity",
 							"GetTransform", &Entity::GetTransform,
 							"SetTransform", &Entity::SetTransform);
+
+	mLua["print"] = [](const String& inMessage)
+	{
+		gLog(ELogType::Info, inMessage.c_str());
+	};
 }
 
 void Engine::Shutdown()
