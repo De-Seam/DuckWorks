@@ -37,10 +37,14 @@ void LogManager::Init()
 
 void LogManager::Shutdown()
 {
-	// We have to log something here so the thread which is waiting for a log message can exit.
+	PROFILE_SCOPE(LogManager::Shutdown)
+
 	mThreadRunning = false;
-	Log(ELogType::Info, "LogManager shutting down.");
-	// We join the thread first so we can have lock free access to the log string
+
+	// We have to log something here so the thread which is waiting for a log message can exit.
+	gLog(ELogType::Info, "Shutting Down LogManager");
+
+	// We join the thread first, so we can have lock free access to the log string
 	mLogThread.join();
 	WriteLogToFile();
 }

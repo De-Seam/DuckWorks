@@ -86,11 +86,17 @@ Json World::SerializeIgnoreEntities() const
 World::World(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {
+	PROFILE_SCOPE(World::World)
+	gLog(ELogType::Info, "Constructing World");
+
 	mCollisionWorld = std::make_unique<CollisionWorld>();
 }
 
 World::~World()
 {
+	PROFILE_SCOPE(World::~World)
+	gLog(ELogType::Info, "Destroying World");
+
 	for (Ref<Entity>& entity : mEntities)
 	{
 		entity->EndPlay();
@@ -157,6 +163,8 @@ void World::Render(float inDeltaTime)
 void World::BeginPlay()
 {
 	PROFILE_SCOPE(World::BeginPlay)
+	gLog(ELogType::Info, "World Beginning Play");
+
 	gAssert(gIsMainThread());
 
 	mState = EWorldState::BeginningPlay;
@@ -172,6 +180,8 @@ void World::BeginPlay()
 void World::EndPlay()
 {
 	PROFILE_SCOPE(World::EndPlay)
+	gLog(ELogType::Info, "World Ending Play");
+
 	gAssert(gIsMainThread());
 
 	mState = EWorldState::EndingPlay;

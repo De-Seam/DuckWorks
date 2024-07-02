@@ -22,6 +22,7 @@
 void gRegisterFactoryClassesEngine()
 {
 	PROFILE_SCOPE(gRegisterFactoryClassesEngine)
+	gLog(ELogType::Info, "Registering Factory Classes Engine");
 
 	// Entities
 	REGISTER_ENTITY(Actor);

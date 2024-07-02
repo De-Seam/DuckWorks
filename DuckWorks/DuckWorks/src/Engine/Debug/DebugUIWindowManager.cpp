@@ -177,7 +177,6 @@ void DebugUIWindowManager::EndFrame()
 void DebugUIWindowManager::Shutdown()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::Shutdown)
-
 	gLog(ELogType::Info, "Shutting down DebugUIWindowManager");
 
 	mWindowsToAdd.clear();

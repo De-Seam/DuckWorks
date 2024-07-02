@@ -132,6 +132,7 @@ void App::Stop()
 void App::LoadUserSettingsFromFile(const String& inFile)
 {
 	PROFILE_SCOPE(App::LoadUserSettingsFromFile)
+	gLog(ELogType::Info, "Loading User Settings From File");
 
 	mUserSettingsFile = inFile;
 
@@ -146,6 +147,7 @@ void App::LoadUserSettingsFromFile(const String& inFile)
 void App::SaveUserSettingsToFile(const String& inFile)
 {
 	PROFILE_SCOPE(App::SaveUserSettingsToFile)
+	gLog(ELogType::Info, "Saving User Settings To File");
 
 	mUserSettingsFile = inFile;
 
@@ -156,6 +158,9 @@ void App::SaveUserSettingsToFile(const String& inFile)
 
 void App::CreateNewWorld(const Json& inJson)
 {
+	PROFILE_SCOPE(App::CreateNewWorld)
+	gLog(ELogType::Info, "Creating New World");
+
 	if (mWorld != nullptr && mWorld->HasBegunPlay())
 		mWorld->EndPlay();
 
@@ -227,6 +232,9 @@ void App::Update(float inDeltaTime)
 
 void App::ShutdownInternal()
 {
+	PROFILE_SCOPE(App::ShutdownInternal)
+	gLog(ELogType::Info, "App Shutting Down");
+
 	mWorld->EndPlay();
 	mWorld = nullptr;
 

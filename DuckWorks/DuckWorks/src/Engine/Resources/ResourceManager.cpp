@@ -14,6 +14,8 @@ ResourceManager::ResourceManager()
 
 void ResourceManager::Init()
 {
+	gLog(ELogType::Info, "Initializing Resource Manager");
+
 	// We save this for caching
 	mDefaultTexture = GetResource<TextureResource>("Assets/DefaultTexture.png");
 }

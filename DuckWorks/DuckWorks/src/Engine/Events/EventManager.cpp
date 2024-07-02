@@ -9,6 +9,7 @@ EventManager gEventManager;
 void EventManager::Init()
 {
 	PROFILE_SCOPE(EventManager::Init)
+	gLog(ELogType::Info, "Initializing Event Manager");
 
 	SetupSDLConversions();
 

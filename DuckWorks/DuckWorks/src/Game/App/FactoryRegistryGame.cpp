@@ -14,6 +14,7 @@
 void gRegisterFactoryClassesGame()
 {
 	PROFILE_SCOPE(gRegisterFactoryClassesGame)
+	gLog(ELogType::Info, "Registering Factory Classes Game");
 
 	// Entities
 	REGISTER_ENTITY(Player);

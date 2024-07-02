@@ -10,6 +10,8 @@ Engine gEngine;
 
 void Engine::Init()
 {
+	gLog(ELogType::Info, "Initializing Engine");
+
 	gLogManager.Init();
 
 	gRegisterFactoryClassesEngine();
@@ -41,6 +43,8 @@ void Engine::Init()
 
 void Engine::Shutdown()
 {
+	gLog(ELogType::Info, "Shutting Down Engine");
+
 	mLua.collect_garbage();
 }
 

@@ -21,6 +21,8 @@ ThreadManager::ThreadManager(const ConstructParameters& inConstructParameters) :
 
 void ThreadManager::Init()
 {
+	gLog(ELogType::Info, "Initializing ThreadManager");
+
 	// We want to keep 1 thread free for system resources. Not doing this will cause wild variety in performance due to competing programs
 	uint32 threadCount = std::thread::hardware_concurrency() - 1;
 	mRunning = true;
@@ -35,6 +37,8 @@ void ThreadManager::Init()
 
 void ThreadManager::Shutdown()
 {
+	gLog(ELogType::Info, "Shutting Down ThreadManager");
+
 	mRunning = false;
 	mThreadConditionVariable.notify_all();
 	// Join all threads
