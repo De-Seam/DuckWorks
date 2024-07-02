@@ -1,8 +1,5 @@
 #include "Precomp.h"
-#include "Game/App/FactoryRegistry.h"
-
-// Core includes
-#include "Core/RTTI/RTTI.h"
+#include "Engine/Engine/FactoryRegistryEngine.h"
 
 // Engine includes
 #include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
@@ -16,30 +13,18 @@
 #include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 #include "Engine/Debug/Windows/DebugUIWindowUserSettings.h"
 #include "Engine/Debug/Windows/DebugUIWindowWorldSettings.h"
+#include "Engine/Entity/Actor.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Components/CollisionComponent.h"
-#include "Engine/Entity/Components/EntityComponentManager.h"
 #include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Factory/Factory.h"
 
-// Game includes
-#include "Game/Entity/MovingPlatform.h"
-#include "Game/Entity/SolidObstacle.h"
-#include "Game/Entity/ENemies/Zombie.h"
-#include "Game/Entity/Player/Player.h"
-#include "Game/Entity/Projectiles/Projectile.h"
-
-void gRegisterFactoryClasses()
+void gRegisterFactoryClassesEngine()
 {
-	PROFILE_SCOPE(gRegisterFactoryClasses)
+	PROFILE_SCOPE(gRegisterFactoryClassesEngine)
 
 	// Entities
 	REGISTER_ENTITY(Actor);
-	REGISTER_ENTITY(Player);
-	REGISTER_ENTITY(SolidObstacle);
-	REGISTER_ENTITY(MovingPlatform);
-	REGISTER_ENTITY(Projectile);
-	REGISTER_ENTITY(Zombie);
 
 	// Components
 	REGISTER_ENTITY_COMPONENT(TextureRenderComponent);

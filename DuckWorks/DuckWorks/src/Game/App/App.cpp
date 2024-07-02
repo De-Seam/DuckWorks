@@ -17,7 +17,7 @@
 #include "Engine/World/World.h"
 
 // Game includes
-#include "Game/App/FactoryRegistry.h"
+#include "Game/App/FactoryRegistryGame.h"
 #include "Game/Entity/Player/Player.h"
 
 // External includes
@@ -50,11 +50,7 @@ int App::Run()
 
 	gEngine.Init();
 
-	gLogManager.Init();
-
-	gThreadManager.Init();
-
-	gRegisterFactoryClasses();
+	gRegisterFactoryClassesGame();
 
 	if (mUserSettings == nullptr)
 		mUserSettings = std::make_unique<BaseUserSettings>();

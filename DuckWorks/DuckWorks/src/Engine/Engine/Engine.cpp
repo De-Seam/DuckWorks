@@ -2,12 +2,20 @@
 #include "Engine/Engine/Engine.h"
 
 // Engine includes
+#include "Engine/Engine/FactoryRegistryEngine.h"
 #include "Engine/Entity/Entity.h"
+#include "Engine/Threads/ThreadManager.h"
 
 Engine gEngine;
 
 void Engine::Init()
 {
+	gLogManager.Init();
+
+	gRegisterFactoryClassesEngine();
+
+	gThreadManager.Init();
+
 	mLua.open_libraries(sol::lib::base);
 
 	mLua.new_usertype<fm::vec2>("vec2",

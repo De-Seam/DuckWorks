@@ -510,7 +510,7 @@
     <ClInclude Include="include\Engine\Factory\Factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\App\FactoryRegistry.h">
+    <ClInclude Include="include\Game\App\FactoryRegistryGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEntitySpawner.h">
@@ -726,6 +726,9 @@
     <ClInclude Include="include\Engine\Entity\Components\ScriptComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Engine\FactoryRegistryEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -815,7 +818,7 @@
     <ClCompile Include="src\Engine\Factory\Factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\App\FactoryRegistry.cpp">
+    <ClCompile Include="src\Game\App\FactoryRegistryGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Debug\Windows\DebugUIWindowEntitySpawner.cpp">
@@ -939,6 +942,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Entity\Components\ScriptComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Engine\FactoryRegistryEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
