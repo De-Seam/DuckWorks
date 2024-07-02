@@ -10,6 +10,7 @@ Engine gEngine;
 
 void Engine::Init()
 {
+	PROFILE_SCOPE(Engine::Init)
 	gLog(ELogType::Info, "Initializing Engine");
 
 	gLogManager.Init();
@@ -43,6 +44,7 @@ void Engine::Init()
 
 void Engine::Shutdown()
 {
+	PROFILE_SCOPE(Engine::Shutdown)
 	gLog(ELogType::Info, "Shutting Down Engine");
 
 	mLua.collect_garbage();
