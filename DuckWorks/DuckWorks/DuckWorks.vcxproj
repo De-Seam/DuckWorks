@@ -335,12 +335,13 @@
     <ClInclude Include="include\External\sol\sol.hpp" />
     <ClInclude Include="include\Game\App\App.h" />
     <ClInclude Include="include\Game\App\FactoryRegistryGame.h" />
+    <ClInclude Include="include\Game\App\UserSettingsGame.h" />
     <ClInclude Include="include\Game\Entity\Enemies\EnemyBase.h" />
     <ClInclude Include="include\Game\Entity\Enemies\Zombie.h" />
     <ClInclude Include="include\Game\Entity\MovingPlatform.h" />
     <ClInclude Include="include\Game\Entity\Player\Player.h" />
     <ClInclude Include="include\Game\Entity\Player\PlayerAnimation.h" />
-    <ClInclude Include="include\Engine\User\UserSettings.h" />
+    <ClInclude Include="include\Engine\Engine\BaseUserSettings.h" />
     <ClInclude Include="include\Game\Entity\Projectiles\Projectile.h" />
     <ClInclude Include="include\Game\Entity\SolidObstacle.h" />
     <ClInclude Include="include\Precomp.h" />
@@ -363,6 +364,7 @@
     <ClCompile Include="src\Engine\Threads\ThreadManager.cpp" />
     <ClCompile Include="src\Core\RTTI\RefObject.cpp" />
     <ClCompile Include="src\Core\RTTI\RTTI.cpp" />
+    <ClCompile Include="src\Game\App\UserSettingsGame.cpp" />
     <ClCompile Include="src\Game\Entity\Enemies\EnemyBase.cpp" />
     <ClCompile Include="src\Game\Entity\Enemies\Zombie.cpp" />
     <ClCompile Include="src\Game\Entity\MovingPlatform.cpp" />
@@ -437,7 +439,7 @@
     <ClCompile Include="src\Game\App\FactoryRegistryGame.cpp" />
     <ClCompile Include="src\Game\Entity\Player\Player.cpp" />
     <ClCompile Include="src\Game\Entity\Player\PlayerAnimation.cpp" />
-    <ClCompile Include="src\Engine\User\UserSettings.cpp" />
+    <ClCompile Include="src\Engine\Engine\BaseUserSettings.cpp" />
     <ClCompile Include="src\Game\Entity\Projectiles\Projectile.cpp" />
     <ClCompile Include="src\Game\Entity\SolidObstacles.cpp" />
     <ClCompile Include="src\Precomp.cpp">

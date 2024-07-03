@@ -10,13 +10,11 @@
 #include <External/SDL/SDL.h>
 
 // Game includes (ILLEGAL!)
+#include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Threads/ThreadManager.h"
-
-#include "Game/App/App.h"
-#include "Game/Entity/Player/Player.h"
 
 RTTI_CLASS_DEFINITION(World, StandardAllocator)
 
@@ -137,7 +135,7 @@ void World::Render(float inDeltaTime)
 	PROFILE_SCOPE(World::Render)
 	gAssert(gIsMainThread());
 
-	if (!gApp.IsPaused())
+	if (!gEngine.IsPaused())
 	{
 		gEntityComponentManager.UpdateComponents<AnimationComponent>(inDeltaTime);
 	}

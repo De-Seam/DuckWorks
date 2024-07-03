@@ -2,12 +2,10 @@
 #include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 
 // Engine includes
+#include "Engine/Engine/Engine.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/World/World.h"
-
-// Game includes
-#include "Game/App/App.h"
 
 // External includes
 #include "External/imgui/imgui.h"
@@ -34,11 +32,11 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 		if (ImGui::Button(entity_name.c_str()))
 		{
 			Entity::ConstructParameters params;
-			params.mWorld = gApp.GetWorld();
+			params.mWorld = gEngine.GetWorld();
 			params.mName = entity_name;
 			Ref<Entity> entity = gEntityFactory.CreateClass(entity_name, params);
 			entity->SetGUID(GUID::sCreate());
-			gApp.GetWorld()->AddEntity(entity);
+			gEngine.GetWorld()->AddEntity(entity);
 			fm::vec2 position = gRenderer.GetCamera()->GetPosition();
 			entity->SetPosition(position);
 		}

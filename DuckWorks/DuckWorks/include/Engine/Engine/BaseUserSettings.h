@@ -10,8 +10,6 @@ struct BaseUserSettings : public RTTIBaseClass
 	RTTI_CLASS(BaseUserSettings, RTTIBaseClass, StandardAllocator)
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	using Base::Base;
-
 	BaseUserSettings(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	fm::ivec2 mWindowSize = {1280, 720};

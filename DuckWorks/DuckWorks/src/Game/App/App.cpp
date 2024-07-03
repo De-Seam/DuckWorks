@@ -8,9 +8,7 @@
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
-#include "Engine/Events/EventManager.h"
-#include "Engine/Events/SDLEventManager.h"
-#include "Engine/Renderer/Renderer.h"
+#include "Engine/Engine/Engine.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Threads/ThreadManager.h"
 #include "Engine/Timer/TimerManager.h"
@@ -18,15 +16,12 @@
 
 // Game includes
 #include "Game/App/FactoryRegistryGame.h"
-#include "Game/Entity/Player/Player.h"
 
 // External includes
 #include "External/SDL/SDL.h"
 
 // Std includes
 #include <fstream>
-
-#include "Engine/Engine/Engine.h"
 
 App gApp;
 
@@ -48,88 +43,26 @@ int App::Run()
 
 	gLog(ELogType::Info, "Initializing App");
 
-	gEngine.Init();
+	UniquePtr<BaseUserSettings> user_settings = std::make_unique<UserSettingsGame>();
+	LoadUserSettingsFromFile(mUserSettingsFile, *gCast<UserSettingsGame>(user_settings.get()));
 
-	gRegisterFactoryClassesGame();
+	gEngine.Init(std::move(user_settings));
 
-	if (mUserSettings == nullptr)
-		mUserSettings = std::make_unique<BaseUserSettings>();
-
-	LoadUserSettingsFromFile(mUserSettingsFile);
-
-	{
-		// Initialize Renderer
-		Renderer::InitParams params;
-		params.mWindowTitle = "DuckWorks";
-		params.mWindowSize = GetUserSettings()->mWindowSize;
-		params.mWindowFlags = GetUserSettings()->mWindowFlags;
-		params.mRendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
-		gRenderer.Init(params);
-	}
-
-	{
-		SDLEventFunction event_function;
-		event_function.mEventType = SDL_QUIT;
-		event_function.mFunctionPtr = [this](const SDL_Event&) { mRunning = false; };
-		gSDLEventManager.AddPersistentEventFunction(event_function);
-	}
-
-	{
-		SDLEventFunction event_function;
-		event_function.mEventType = SDL_WINDOWEVENT;
-		event_function.mFunctionPtr = [this](const SDL_Event& inEvent)
-		{
-			if (inEvent.window.event == SDL_WINDOWEVENT_RESIZED)
-			{
-				mUserSettings->mWindowSize.x = inEvent.window.data1;
-				mUserSettings->mWindowSize.y = inEvent.window.data2;
-			}
-			else if (inEvent.window.event == SDL_WINDOWEVENT_MAXIMIZED)
-			{
-				mUserSettings->mWindowFlags |= SDL_WINDOW_MAXIMIZED;
-			}
-			else if (inEvent.window.event == SDL_WINDOWEVENT_RESTORED)
-			{
-				mUserSettings->mWindowFlags &= ~SDL_WINDOW_MAXIMIZED;
-			}
-		};
-		gSDLEventManager.AddPersistentEventFunction(event_function);
-	}
-
-	gEventManager.Init();
-
-	gResourceManager.Init();
-
-	// Create World
-	mWorld = std::make_unique<World>();
+	gRegisterFactoryClassesGame(); {} {}
 
 	std::ifstream in_file("world.json");
+	Json world_json = {};
 	if (in_file.is_open())
-	{
-		Json json;
-		in_file >> json;
-
-		CreateNewWorld(json);
-	}
+		in_file >> world_json;
+	gEngine.CreateNewWorld(world_json);
 
 	MainLoop();
-
-	Ref<DebugUIWindowEditorToolbar> toolbar = gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>();
-	// If the state was not stopped, we can skip re-saving the world
-	if (toolbar->GetGameState() == ToolbarGameState::Stopped)
-		toolbar->Save();
-	toolbar->SaveStateToFile();
 
 	ShutdownInternal();
 	return 0;
 }
 
-void App::Stop()
-{
-	mRunning = false;
-}
-
-void App::LoadUserSettingsFromFile(const String& inFile)
+void App::LoadUserSettingsFromFile(const String& inFile, UserSettingsGame& inUserSettings)
 {
 	PROFILE_SCOPE(App::LoadUserSettingsFromFile)
 	gLog(ELogType::Info, "Loading User Settings From File");
@@ -141,10 +74,10 @@ void App::LoadUserSettingsFromFile(const String& inFile)
 		return gLog(ELogType::Warning, "Failed to open user settings file: %s. A default one will be created when the program shuts down", inFile.c_str());
 
 	Json json = Json::parse(file);
-	mUserSettings->Deserialize(json);
+	inUserSettings.Deserialize(json);
 }
 
-void App::SaveUserSettingsToFile(const String& inFile)
+void App::SaveUserSettingsToFile(const String& inFile, UserSettingsGame& inUserSettings)
 {
 	PROFILE_SCOPE(App::SaveUserSettingsToFile)
 	gLog(ELogType::Info, "Saving User Settings To File");
@@ -152,48 +85,24 @@ void App::SaveUserSettingsToFile(const String& inFile)
 	mUserSettingsFile = inFile;
 
 	std::ofstream file(inFile);
-	Json json = mUserSettings->Serialize();
+	Json json = inUserSettings.Serialize();
 	file << json.dump(4);
-}
-
-void App::CreateNewWorld(const Json& inJson)
-{
-	PROFILE_SCOPE(App::CreateNewWorld)
-	gLog(ELogType::Info, "Creating New World");
-
-	if (mWorld != nullptr && mWorld->HasBegunPlay())
-		mWorld->EndPlay();
-
-	mWorld = nullptr;
-	mWorld = std::make_unique<World>();
-	mWorld->Deserialize(inJson);
-}
-
-void App::CreateNewEmptyWorld()
-{
-	if (mWorld != nullptr && mWorld->HasBegunPlay())
-		mWorld->EndPlay();
-
-	mWorld = nullptr;
-	mWorld = std::make_unique<World>();
-	mWorld->BeginPlay();
 }
 
 void App::MainLoop()
 {
-	mRunning = true;
 	auto last_time = std::chrono::steady_clock::now();
-	while (mRunning)
+	while (!gEngine.ShouldShutdown())
 	{
 		auto current_time = std::chrono::steady_clock::now();
-		mDeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(current_time - last_time).count();
+		float delta_time = std::chrono::duration_cast<std::chrono::duration<float>>(current_time - last_time).count();
 
-		double min_delta_time = 1.0 / SCast<float>(GetUserSettings()->mMaxFPS);
-		if (mDeltaTime >= min_delta_time)
+		double min_delta_time = 1.0 / SCast<float>(gEngine.GetUserSettings()->mMaxFPS);
+		if (delta_time >= min_delta_time)
 		{
 			OPTICK_FRAME("MainThread")
 
-			Update(mDeltaTime);
+			Update(delta_time);
 
 			last_time = current_time;
 		}
@@ -204,30 +113,7 @@ void App::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(App::Update)
 
-	gSDLEventManager.Update();
-
-	gResourceManager.Update();
-
-	if (!mPaused)
-	{
-		gTimerManager.Update(inDeltaTime);
-		mWorld->Update(inDeltaTime);
-	}
-	mWorld->Render(inDeltaTime);
-
-	{
-		PROFILE_SCOPE(App::Update::WaitForRenderTask)
-		// We wait until the render thread task is completed before beginning the next frame
-		const SharedPtr<Renderer::RenderThreadTask>& render_thread_task = gRenderer.GetRenderThreadTask();
-		if (render_thread_task != nullptr)
-			render_thread_task->WaitUntilCompleted();
-	}
-
-	gDebugUIWindowManager.BeginFrame();
-	gRenderer.BeginFrame();
-
-	gDebugUIWindowManager.Update(inDeltaTime);
-	gRenderer.Update(inDeltaTime);
+	gEngine.Update(inDeltaTime);
 }
 
 void App::ShutdownInternal()
@@ -235,15 +121,13 @@ void App::ShutdownInternal()
 	PROFILE_SCOPE(App::ShutdownInternal)
 	gLog(ELogType::Info, "App Shutting Down");
 
-	mWorld->EndPlay();
-	mWorld = nullptr;
+	Ref<DebugUIWindowEditorToolbar> toolbar = gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>();
+	// If the state was not stopped, we can skip re-saving the world
+	if (toolbar->GetGameState() == ToolbarGameState::Stopped)
+		toolbar->Save();
+	toolbar->SaveStateToFile();
 
-	gRenderer.Shutdown();
+	gEngine.Deinitialize();
 
-	SaveUserSettingsToFile(mUserSettingsFile);
-
-	gThreadManager.Shutdown();
-	gLogManager.Shutdown();
-
-	gEngine.Shutdown();
+	SaveUserSettingsToFile(mUserSettingsFile, *gCast<UserSettingsGame>(gEngine.GetUserSettings()));
 }

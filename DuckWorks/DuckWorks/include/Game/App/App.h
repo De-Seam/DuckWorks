@@ -1,6 +1,6 @@
 #pragma once
 // Engine includes
-#include "Engine/User/UserSettings.h"
+#include "Game/App/UserSettingsGame.h"
 
 // Std includes
 #include <memory>
@@ -14,24 +14,9 @@ public:
 	~App();
 
 	int Run(); ///< Run app. Returns exit code.
-	void Stop(); ///< Stop app.
 
-	void LoadUserSettingsFromFile(const String& inFile);
-	void SaveUserSettingsToFile(const String& inFile);
-
-	float GetDeltaTime() const { return mDeltaTime; }
-
-	void SetPaused(bool inPaused) { mPaused = inPaused; }
-	bool IsPaused() const { return mPaused; }
-
-	void CreateNewWorld(const Json& inJson);
-	void CreateNewEmptyWorld();
-	World* GetWorld() const { return mWorld.get(); }
-
-	template<typename taType>
-	void SetUserSettingsStruct() { mUserSettings = std::unique_ptr<taType>(); }
-
-	BaseUserSettings* GetUserSettings() const { return mUserSettings.get(); }
+	void LoadUserSettingsFromFile(const String& inFile, UserSettingsGame& inUserSettings);
+	void SaveUserSettingsToFile(const String& inFile, UserSettingsGame& inUserSettings);
 
 private:
 	void MainLoop();
@@ -39,15 +24,6 @@ private:
 
 	void ShutdownInternal(); ///< Internal shutdown app.
 
-private:
-	UniquePtr<World> mWorld = nullptr;
-
-	float mDeltaTime = FLT_EPSILON;
-
-	bool mRunning = false;
-	bool mPaused = false;
-
-	UniquePtr<BaseUserSettings> mUserSettings;
 	String mUserSettingsFile = "UserSettings.json";
 };
 

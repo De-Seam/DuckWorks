@@ -1,5 +1,5 @@
 #include "Precomp.h"
-#include "Engine/User/UserSettings.h"
+#include "Engine/Engine/BaseUserSettings.h"
 
 RTTI_CLASS_DEFINITION(BaseUserSettings, StandardAllocator)
 

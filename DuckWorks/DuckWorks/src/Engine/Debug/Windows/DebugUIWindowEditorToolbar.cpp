@@ -2,15 +2,13 @@
 #include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
 
 // Engine includes
+#include "Engine/Engine/Engine.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/World/World.h"
 
 // External includes
 #include <External/imgui/imgui.h>
-
-// Game includes
-#include "Game/App/App.h"
 
 // Std includes
 #include <fstream>
@@ -27,7 +25,7 @@ DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar(const ConstructParameters
 	mPauseButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_PauseButton.png");
 	mStopButtonTexture = gResourceManager.GetResource<TextureResource>("Assets/Debug/Icon_StopButton.png");
 
-	gApp.SetPaused(true);
+	gEngine.SetPaused(true);
 }
 
 void DebugUIWindowEditorToolbar::UpdateMultiThreaded(float) {}
@@ -57,7 +55,7 @@ void DebugUIWindowEditorToolbar::Update(float)
 
 	ImGui::SameLine();
 
-	bool paused = gApp.IsPaused();
+	bool paused = gEngine.IsPaused();
 	SharedPtr<TextureResource> texture = paused ? mPauseButtonTexture : mPlayButtonTexture;
 	if (ImGui::ImageButton("##PausePlayButton", (ImTextureID)texture->mTexture, {32, 32}, {1, 0}, {0, 1}))
 	{
@@ -65,10 +63,10 @@ void DebugUIWindowEditorToolbar::Update(float)
 			Save();
 
 		mGameState = paused ? ToolbarGameState::Playing : ToolbarGameState::Paused;
-		gApp.SetPaused(!paused);
+		gEngine.SetPaused(!paused);
 
-		if (!gApp.GetWorld()->HasBegunPlay())
-			gApp.GetWorld()->BeginPlay();
+		if (!gEngine.GetWorld()->HasBegunPlay())
+			gEngine.GetWorld()->BeginPlay();
 	}
 	ImGui::SameLine();
 	bool stop_button_enabled = mGameState != ToolbarGameState::Stopped;
@@ -86,13 +84,13 @@ void DebugUIWindowEditorToolbar::Update(float)
 void DebugUIWindowEditorToolbar::StopPlay()
 {
 	mGameState = ToolbarGameState::Stopped;
-	gApp.CreateNewWorld(mWorldJson);
-	gApp.SetPaused(true);
+	gEngine.CreateNewWorld(mWorldJson);
+	gEngine.SetPaused(true);
 }
 
 void DebugUIWindowEditorToolbar::Save()
 {
-	mWorldJson = gApp.GetWorld()->Serialize();
+	mWorldJson = gEngine.GetWorld()->Serialize();
 }
 
 void DebugUIWindowEditorToolbar::SaveStateToFile()

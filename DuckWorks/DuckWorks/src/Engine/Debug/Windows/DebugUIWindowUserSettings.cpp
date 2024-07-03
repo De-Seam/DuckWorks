@@ -1,9 +1,10 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowUserSettings.h"
-#include "Engine/Debug/DebugUIFunctions.h"
 
-// Game includes
-#include "Game/App/App.h"
+// Engine includes
+#include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Engine/BaseUserSettings.h"
+#include "Engine/Engine/Engine.h"
 
 // External includes
 #include <External/imgui/imgui.h>
@@ -16,15 +17,15 @@ void DebugUIWindowUserSettings::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowUserSettings::Update)
 
-	if(!ImGui::Begin("User Settings", &mOpen))
+	if (!ImGui::Begin("User Settings", &mOpen))
 	{
 		ImGui::End();
 		return;
 	}
 
-	Json json = gApp.GetUserSettings()->Serialize();
+	Json json = gEngine.GetUserSettings()->Serialize();
 	if (gDebugDrawJson(json, "UserSettings"))
-		gApp.GetUserSettings()->Deserialize(json);
+		gEngine.GetUserSettings()->Deserialize(json);
 
 	ImGui::End();
 }

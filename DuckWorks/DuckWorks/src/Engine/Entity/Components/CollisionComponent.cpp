@@ -2,10 +2,8 @@
 #include "Engine/Entity/Components/CollisionComponent.h"
 
 // Engine includes
+#include "Engine/Engine/Engine.h"
 #include "Engine/World/World.h"
-
-// Game includes
-#include "Game/App/App.h"
 
 // CollisionComponent
 RTTI_CLASS_DEFINITION(CollisionComponent, ClassAllocator)
@@ -17,7 +15,7 @@ Json CollisionComponent::Serialize()
 	if (!mCollisionObjectHandle.IsValid())
 		return json;
 
-	CollisionObject& collision_object = gApp.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
+	CollisionObject& collision_object = gEngine.GetWorld()->GetCollisionWorld()->GetCollisionObject(mCollisionObjectHandle);
 	json["CollisionObject"] = collision_object.Serialize();
 
 	return json;
@@ -53,7 +51,7 @@ CollisionComponent::~CollisionComponent()
 void CollisionComponent::OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg)
 {
 	PROFILE_SCOPE(CollisionComponent::OnPreEntityTransformUpdated)
-	gApp.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, ioMsg.mNewTransform);
+	gEngine.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, ioMsg.mNewTransform);
 }
 
 CollisionObject& CollisionComponent::GetCollisionObject() const

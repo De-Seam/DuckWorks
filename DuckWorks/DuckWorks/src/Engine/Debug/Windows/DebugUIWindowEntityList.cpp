@@ -5,12 +5,10 @@
 #include "Core/Utilities/Types.h"
 
 // Engine includes
+#include "Engine/Debug/DebugUIWindowManager.h"
+#include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Entity.h"
 #include "Engine/World/World.h"
-#include "Engine/Debug/DebugUIWindowManager.h"
-
-// Game includes
-#include "Game/App/App.h"
 
 // External includes
 #include "External/imgui/imgui.h"
@@ -23,13 +21,13 @@ void DebugUIWindowEntityList::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowEntityList::Update)
 
-	if(!ImGui::Begin("Entity List"))
+	if (!ImGui::Begin("Entity List"))
 	{
 		ImGui::End();
 		return;
 	}
 
-	World* world = gApp.GetWorld();
+	World* world = gEngine.GetWorld();
 	Array<Ref<Entity>>& entities = world->GetEntities();
 	Optional<WeakRef<Entity>> selected_entity = gDebugUIWindowManager.GetSelectedEntity();
 

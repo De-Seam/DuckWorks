@@ -6,6 +6,7 @@
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
+#include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Entity.h"
 #include "Engine/Events/EventManager.h"
@@ -14,9 +15,6 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Threads/ThreadManager.h"
 #include "Engine/World/World.h"
-
-// Game includes
-#include "Game/App/App.h"
 
 // External includes
 #include "External/imgui/imgui.h"
@@ -135,7 +133,7 @@ void DebugUIWindowManager::Init()
 					return;
 
 				fm::vec2 world_location = gRenderer.GetWorldLocationAtWindowLocation(inEventData.mMouseDown.mMousePosition);
-				Optional<Ref<Entity>> entity = gApp.GetWorld()->GetEntityAtLocationSlow(world_location);
+				Optional<Ref<Entity>> entity = gEngine.GetWorld()->GetEntityAtLocationSlow(world_location);
 				SetSelectedEntity(entity);
 
 				if (entity.has_value())
@@ -312,12 +310,12 @@ void DebugUIWindowManager::UpdateViewport()
 
 	if (mDrawBVH)
 	{
-		gApp.GetWorld()->GetCollisionWorld()->DrawBVH();
+		gEngine.GetWorld()->GetCollisionWorld()->DrawBVH();
 	}
 
 	if (mDrawCollision)
 	{
-		gApp.GetWorld()->GetCollisionWorld()->DrawCollision();
+		gEngine.GetWorld()->GetCollisionWorld()->DrawCollision();
 	}
 }
 
@@ -386,7 +384,7 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 		return;
 
 	fm::vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
-	Optional<Ref<Entity>> old_entity = gApp.GetWorld()->GetEntityAtLocationSlow(old_world_location);
+	Optional<Ref<Entity>> old_entity = gEngine.GetWorld()->GetEntityAtLocationSlow(old_world_location);
 
 	if (!old_entity.has_value() || old_entity.value() != selected_entity)
 		return;

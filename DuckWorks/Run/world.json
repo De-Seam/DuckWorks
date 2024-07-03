@@ -23,6 +23,11 @@
             },
             "Components": [
                 {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
+                {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "mIsActive": true,
@@ -31,8 +36,8 @@
                         "ClassName": "Camera",
                         "mGUID": "0000-0000-0000-0000",
                         "mPosition": [
-                            369.753173828125,
-                            -708.4725952148438
+                            369.7535705566406,
+                            -708.4718017578125
                         ],
                         "mSize": [
                             1920.0,
@@ -70,6 +75,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -87,18 +97,8 @@
                     "mFlip": 1
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -124,6 +124,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -144,23 +161,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -183,6 +183,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -203,23 +220,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -242,6 +242,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -262,23 +279,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -301,6 +301,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -321,23 +338,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -360,6 +360,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -380,23 +397,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -419,6 +419,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -439,23 +456,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -478,6 +478,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -498,23 +515,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -537,6 +537,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -557,23 +574,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -596,6 +596,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -616,23 +633,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -655,6 +655,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -675,23 +692,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -714,6 +714,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -734,23 +751,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -773,6 +773,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -793,23 +810,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -832,6 +832,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -852,23 +869,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -891,6 +891,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -911,23 +928,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -950,6 +950,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -970,23 +987,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1009,6 +1009,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1029,23 +1046,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1068,6 +1068,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1088,23 +1105,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1127,6 +1127,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1147,23 +1164,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1186,6 +1186,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1206,23 +1223,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1245,6 +1245,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1265,23 +1282,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1304,6 +1304,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1324,23 +1341,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1363,6 +1363,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1383,23 +1400,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1422,6 +1422,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1442,23 +1459,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1481,6 +1481,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1501,23 +1518,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1540,6 +1540,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1560,23 +1577,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1599,6 +1599,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1619,23 +1636,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1658,6 +1658,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1678,23 +1695,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1717,6 +1717,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1737,23 +1754,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1776,6 +1776,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1796,23 +1813,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1835,6 +1835,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1855,23 +1872,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1894,6 +1894,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1914,23 +1931,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -1953,6 +1953,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "CollisionObject": {
@@ -1973,23 +1990,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,
@@ -2011,6 +2011,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2059,6 +2064,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2076,18 +2086,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2112,6 +2112,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2160,6 +2165,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2177,18 +2187,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2213,6 +2213,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2261,6 +2266,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2278,18 +2288,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2314,6 +2314,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2362,6 +2367,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2379,18 +2389,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2415,6 +2415,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2463,6 +2468,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2480,18 +2490,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2516,6 +2516,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2564,6 +2569,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2581,18 +2591,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2617,6 +2617,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2665,6 +2670,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2682,18 +2692,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2718,6 +2718,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2766,6 +2771,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2783,18 +2793,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2819,6 +2819,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2867,6 +2872,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2884,18 +2894,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -2920,6 +2920,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -2968,6 +2973,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -2985,18 +2995,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3021,6 +3021,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3069,6 +3074,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3086,18 +3096,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3122,6 +3122,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3170,6 +3175,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3187,18 +3197,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3223,6 +3223,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3271,6 +3276,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3288,18 +3298,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3324,6 +3324,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3372,6 +3377,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3389,18 +3399,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3425,6 +3425,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3473,6 +3478,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3490,18 +3500,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3526,6 +3526,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3574,6 +3579,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3591,18 +3601,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3627,6 +3627,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3675,6 +3680,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3692,18 +3702,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3728,6 +3728,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3776,6 +3781,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3793,18 +3803,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3829,6 +3829,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3877,6 +3882,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3894,18 +3904,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -3930,6 +3930,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -3978,6 +3983,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -3995,18 +4005,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4031,6 +4031,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4079,6 +4084,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4096,18 +4106,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4132,6 +4132,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4180,6 +4185,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4197,18 +4207,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4233,6 +4233,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4281,6 +4286,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4298,18 +4308,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4334,6 +4334,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4382,6 +4387,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4399,18 +4409,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4435,6 +4435,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4483,6 +4488,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4500,18 +4510,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4536,6 +4536,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4584,6 +4589,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4601,18 +4611,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4637,6 +4637,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4685,6 +4690,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4702,18 +4712,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4738,6 +4738,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4786,6 +4791,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4803,18 +4813,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4839,6 +4839,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4887,6 +4892,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -4904,18 +4914,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -4940,6 +4940,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -4988,6 +4993,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5005,18 +5015,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5041,6 +5041,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -5089,6 +5094,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5106,18 +5116,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5142,6 +5142,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -5190,6 +5195,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5207,18 +5217,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5243,6 +5243,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -5291,6 +5296,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5308,18 +5318,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5344,6 +5344,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -5392,6 +5397,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5409,18 +5419,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5445,6 +5445,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -5493,6 +5498,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5510,18 +5520,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5546,6 +5546,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -5594,6 +5599,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5611,18 +5621,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5647,6 +5647,11 @@
                 "Rotation": 0.0
             },
             "Components": [
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
                 {
                     "ClassName": "CameraComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -5695,6 +5700,11 @@
                     }
                 },
                 {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d33a",
                     "mTexture": {
@@ -5712,18 +5722,8 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
                     "ClassName": "AnimationComponent",
                     "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
                 }
             ],
             "mVelocityIncrement": [
@@ -5749,6 +5749,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -5769,23 +5786,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -5818,6 +5818,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -5838,23 +5855,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -5887,6 +5887,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -5907,23 +5924,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -5956,6 +5956,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -5976,23 +5993,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -6025,6 +6025,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -6045,23 +6062,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -6094,6 +6094,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -6114,23 +6131,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -6163,6 +6163,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -6183,23 +6200,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -6232,6 +6232,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -6252,23 +6269,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -6301,6 +6301,23 @@
             },
             "Components": [
                 {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
+                },
+                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
                     "CollisionObject": {
@@ -6321,23 +6338,6 @@
                             "Rotation": 0.0
                         }
                     }
-                },
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [

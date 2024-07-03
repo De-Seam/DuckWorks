@@ -4,15 +4,10 @@
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
-
-// Game includes
-#include "Game/App/App.h"
+#include "Engine/Engine/Engine.h"
 
 // External includes
 #include <External/imgui/imgui.h>
-
-// Std includes
-#include <algorithm>
 
 RTTI_CLASS_DEFINITION(DebugUIWindowNewFilePopup, StandardAllocator)
 
@@ -26,7 +21,7 @@ Json DebugUIWindowNewFilePopup::Serialize()
 	return json;
 }
 
-void DebugUIWindowNewFilePopup::Deserialize(const Json &inJson)
+void DebugUIWindowNewFilePopup::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
@@ -35,15 +30,16 @@ void DebugUIWindowNewFilePopup::Deserialize(const Json &inJson)
 
 void DebugUIWindowNewFilePopup::UpdateMultiThreaded(float) {}
 
-void DebugUIWindowNewFilePopup::Update(float) 
+void DebugUIWindowNewFilePopup::Update(float)
 {
 	if (ImGui::Button("World##NewFileWorldButton"))
 	{
 		gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>()->StopPlay();
-		gApp.CreateNewEmptyWorld();
+		gEngine.CreateNewWorld();
 	}
 }
 
-void DebugUIWindowNewFilePopup::SetPath(const String &inPath) {
+void DebugUIWindowNewFilePopup::SetPath(const String& inPath)
+{
 	mPath = inPath;
 }
