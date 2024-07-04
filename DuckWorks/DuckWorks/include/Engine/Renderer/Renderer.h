@@ -40,13 +40,23 @@ public:
 	void EndFrame();
 	virtual void Update(float inDeltaTime) override;
 
+	enum class EDrawLayer : uint8
+	{
+		Background,
+		Foreground,
+		Effects,
+
+		Count
+	};
+
 	struct DrawTextureParams
 	{
-		SDL_Texture* mTexture = nullptr;;
+		SDL_Texture* mTexture = nullptr;
 		fm::vec2 mPosition = {0, 0};
 		fm::vec2 mHalfSize = {10000, 10000};
 		float mRotation = 0.f;
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
+		EDrawLayer mLayer = EDrawLayer::Foreground;
 		Optional<fm::ivec4> mSrcRect = NullOpt;
 	};
 
@@ -59,6 +69,7 @@ public:
 		fm::vec2 mPosition;
 		fm::vec2 mHalfSize;
 		fm::vec4 mColor;
+		EDrawLayer mLayer = EDrawLayer::Foreground;
 	};
 
 	void DrawRectangle(const DrawRectangleParams& inParams);
@@ -78,8 +89,8 @@ public:
 	public:
 		virtual void Execute() override;
 
-		Array<DrawTextureParams> mCurrentDrawTextures;
-		Array<DrawRectangleParams> mCurrentDrawRectangles;
+		StaticArray<Array<DrawTextureParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawTextures;
+		StaticArray<Array<DrawRectangleParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawRectangles;
 	};
 
 	const SharedPtr<RenderThreadTask>& GetRenderThreadTask() const { return mRenderThreadTask; }
@@ -93,8 +104,8 @@ private:
 
 	fm::ivec2 mWindowSize;
 
-	Array<DrawTextureParams> mDrawTextures;
-	Array<DrawRectangleParams> mDrawRectangles;
+	StaticArray<Array<DrawTextureParams>, SCast<uint8>(EDrawLayer::Count)> mDrawTextures;
+	StaticArray<Array<DrawRectangleParams>, SCast<uint8>(EDrawLayer::Count)> mDrawRectangles;
 
 	SharedPtr<RenderThreadTask> mRenderThreadTask;
 
