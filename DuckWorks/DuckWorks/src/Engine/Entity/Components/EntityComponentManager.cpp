@@ -6,3 +6,6 @@
 
 EntityComponentManager gEntityComponentManager;
 
+RTTI_CLASS_DEFINITION(EntityComponentManager, StandardAllocator)
+
+RTTI_EMPTY_SERIALIZE_DEFINITION(EntityComponentManager)

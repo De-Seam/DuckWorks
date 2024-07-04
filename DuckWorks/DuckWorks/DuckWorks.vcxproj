@@ -111,6 +111,7 @@
     <ClInclude Include="include\Core\Allocators\StandardAllocator.h" />
     <ClInclude Include="include\Core\CoreBase.h" />
     <ClInclude Include="include\Core\Log\Log.h" />
+    <ClInclude Include="include\Core\Manager\Manager.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
     <ClInclude Include="include\Core\RTTI\Messages.h" />
     <ClInclude Include="include\Core\Utilities\GUID.h" />
@@ -349,6 +350,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Allocators\AllocatorBase.cpp" />
     <ClCompile Include="src\Core\Allocators\ClassAllocator.cpp" />
+    <ClCompile Include="src\Core\Manager\Manager.cpp" />
     <ClCompile Include="src\Core\RTTI\Messages.cpp" />
     <ClCompile Include="src\Core\Utilities\GUID.cpp" />
     <ClCompile Include="src\Engine\Engine\Engine.cpp" />

@@ -1,5 +1,6 @@
 #pragma once
 // Core headers
+#include "Core/Manager/Manager.h"
 #include "Core/Utilities/SafeQueue.h"
 #include "Core/Utilities/Utilities.h"
 
@@ -23,13 +24,17 @@ struct LogQueueItem
 	std::string msg;
 };
 
-class LogManager
+class LogManager : public Manager
 {
-public:
-	LogManager();
+	RTTI_CLASS(LogManager, Manager, StandardAllocator)
 
-	void Init();
-	void Shutdown();
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	LogManager(const ConstructParameters& inParameters = {}) : Base(inParameters) {}
+
+	virtual void Init() override;
+	virtual void Shutdown() override;
 
 	void Log(ELogType inLogType, const char* fmt...);
 	void Log(ELogType inLogType, const char* fmt, va_list args);

@@ -3,9 +3,15 @@
 #include "Core/CoreBase.h"
 #include "Core/Allocators/ClassAllocator.h"
 
-class EntityComponentManager
+class EntityComponentManager : public Manager
 {
+	RTTI_CLASS(EntityComponentManager, Manager, StandardAllocator)
+
 public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	EntityComponentManager(const ConstructParameters& inParameters = {}) : Base(inParameters) {}
+
 	template<typename taType>
 	void LoopOverComponents(Function<void(taType& inComponent)> inFunction);
 

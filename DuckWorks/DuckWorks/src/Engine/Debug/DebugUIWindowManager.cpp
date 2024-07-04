@@ -151,6 +151,45 @@ void DebugUIWindowManager::Init()
 	}
 }
 
+void DebugUIWindowManager::Shutdown()
+{
+	PROFILE_SCOPE(DebugUIWindowManager::Shutdown)
+	gLog(ELogType::Info, "Shutting down DebugUIWindowManager");
+
+	mWindowsToAdd.clear();
+	mWindows.clear();
+
+	ImGui_ImplSDLRenderer2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
+	Json json_debug_file = Serialize();
+	std::ofstream file(mDebugFileName);
+	if (!file.is_open())
+		return gLog(ELogType::Error, "Failed to open debug file for writing");
+
+	file << json_debug_file.dump(4);
+}
+
+void DebugUIWindowManager::Update(float inDeltaTime)
+{
+	PROFILE_SCOPE(DebugUIWindowManager::Update)
+
+	for (Ref<DebugUIWindow>& window : mWindowsToAdd)
+	{
+		mWindows.push_back(window);
+	}
+	mWindowsToAdd.clear();
+
+	UpdateViewport();
+
+	UpdateSelectedEntity();
+
+	UpdateMainMenuBar();
+
+	UpdateWindows(inDeltaTime);
+}
+
 void DebugUIWindowManager::BeginFrame()
 {
 	PROFILE_SCOPE(DebugUIWindowManager::BeginFrame)
@@ -172,26 +211,6 @@ void DebugUIWindowManager::EndFrame()
 	SDL_SetRenderTarget(gRenderer.GetRenderer(), nullptr);
 }
 
-void DebugUIWindowManager::Shutdown()
-{
-	PROFILE_SCOPE(DebugUIWindowManager::Shutdown)
-	gLog(ELogType::Info, "Shutting down DebugUIWindowManager");
-
-	mWindowsToAdd.clear();
-	mWindows.clear();
-
-	ImGui_ImplSDLRenderer2_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-
-	Json json_debug_file = Serialize();
-	std::ofstream file(mDebugFileName);
-	if (!file.is_open())
-		return gLog(ELogType::Error, "Failed to open debug file for writing");
-
-	file << json_debug_file.dump(4);
-}
-
 bool replace(std::string& str, const std::string& from, const std::string& to)
 {
 	size_t start_pos = str.find(from);
@@ -199,25 +218,6 @@ bool replace(std::string& str, const std::string& from, const std::string& to)
 		return false;
 	str.replace(start_pos, from.length(), to);
 	return true;
-}
-
-void DebugUIWindowManager::Update(float inDeltaTime)
-{
-	PROFILE_SCOPE(DebugUIWindowManager::Update)
-
-	for (Ref<DebugUIWindow>& window : mWindowsToAdd)
-	{
-		mWindows.push_back(window);
-	}
-	mWindowsToAdd.clear();
-
-	UpdateViewport();
-
-	UpdateSelectedEntity();
-
-	UpdateMainMenuBar();
-
-	UpdateWindows(inDeltaTime);
 }
 
 void DebugUIWindowManager::UpdateMainMenuBar()

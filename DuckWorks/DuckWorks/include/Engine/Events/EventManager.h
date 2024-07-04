@@ -2,9 +2,9 @@
 #include "Core/CoreBase.h"
 
 // External includes
-#include <External/SDL/SDL_keycode.h>
-#include <External/SDL/SDL_events.h>
 #include <External/BitBool/BitBool.h>
+#include <External/SDL/SDL_events.h>
+#include <External/SDL/SDL_keycode.h>
 
 // Std includes
 #include <functional>
@@ -76,16 +76,19 @@ enum class EventType : uint8
 	COUNT
 };
 
-class EventManager
+class EventManager : public Manager
 {
-public:
-	EventManager() = default;
-	~EventManager() = default;
+	RTTI_CLASS(EventManager, Manager, StandardAllocator)
 
-	void Init();
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	EventManager(const ConstructParameters& inParameters = {}) : Base(inParameters) { mRequiresUpdate = true; }
+
+	virtual void Init() override;
 	void SetupSDLConversions();
 
-	void Update(float inDeltaTime);
+	virtual void Update(float inDeltaTime) override;
 
 	struct EventData
 	{

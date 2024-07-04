@@ -11,16 +11,18 @@
 #include "Game/App/App.h"
 
 // External includes
+#include "Engine/Engine/Engine.h"
+
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
+RTTI_CLASS_DEFINITION(Renderer, StandardAllocator)
+
+RTTI_EMPTY_SERIALIZE_DEFINITION(Renderer)
+
 Renderer gRenderer;
 
-Renderer::Renderer() {}
-
-Renderer::~Renderer() {}
-
-void Renderer::Init(const InitParams& inInitParams)
+void Renderer::Init()
 {
 	PROFILE_SCOPE(Renderer::Init)
 	gLog(ELogType::Info, "Initializing Renderer");
@@ -37,10 +39,11 @@ void Renderer::Init(const InitParams& inInitParams)
 		gLog(ELogType::Error, "Error assigning SDL_Quit to atexit.");
 	}
 
-	mWindow = SDL_CreateWindow(inInitParams.mWindowTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, inInitParams.mWindowSize.x,
-								inInitParams.mWindowSize.y, inInitParams.mWindowFlags);
-	mRenderer = SDL_CreateRenderer(mWindow, -1, inInitParams.mRendererFlags);
-	mWindowSize = inInitParams.mWindowSize;
+	BaseUserSettings* user_settings = gEngine.GetUserSettings();
+	mWindow = SDL_CreateWindow("DuckWorks", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, user_settings->mWindowSize.x,
+								user_settings->mWindowSize.y, user_settings->mWindowFlags);
+	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+	mWindowSize = user_settings->mWindowSize;
 
 	mCamera = std::make_shared<Camera>();
 
@@ -56,16 +59,12 @@ void Renderer::Init(const InitParams& inInitParams)
 		}
 	};
 	gSDLEventManager.AddPersistentEventFunction(event_function);
-
-	gDebugUIWindowManager.Init();
 }
 
 void Renderer::Shutdown()
 {
 	PROFILE_SCOPE(Renderer::Shutdown)
 	gLog(ELogType::Info, "Shutting down Renderer");
-
-	gDebugUIWindowManager.Shutdown();
 
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);

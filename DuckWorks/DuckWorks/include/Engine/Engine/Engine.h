@@ -34,7 +34,18 @@ public:
 
 	void Deinitialize();
 
+	void RegisterManager(Manager& inManager);
+	void InitManagerBefore(Manager& inManager, Manager& inOtherManager);
+	void InitManagerAfter(Manager& inManager, Manager& inOtherManager);
+	void UpdateManagerBefore(Manager& inManager, Manager& inOtherManager);
+	void UpdateManagerAfter(Manager& inManager, Manager& inOtherManager);
+
 private:
+	static void sOrganizeArray(Array<Manager*>& ioArray, const HashMap<Manager*, Array<Manager*>>& inMapBefore, const HashMap<Manager*, Array<Manager*>>& inMapAfter);
+
+	void InitManagers();
+	void ShutdownManagers();
+
 	sol::state mLua;
 
 	UniquePtr<World> mWorld = nullptr;
@@ -45,6 +56,13 @@ private:
 
 	bool mShouldShutdown = false;
 	bool mIsPaused = false;
+
+	Array<Manager*> mManagers;
+	HashMap<Manager*, Array<Manager*>> mManagersToInitBeforeMap;
+	HashMap<Manager*, Array<Manager*>> mManagersToInitAfterMap;
+	Array<Manager*> mManagersToUpdate;
+	HashMap<Manager*, Array<Manager*>> mManagersToUpdateBeforeMap;
+	HashMap<Manager*, Array<Manager*>> mManagersToUpdateAfterMap;
 };
 
 extern Engine gEngine;

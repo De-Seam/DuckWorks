@@ -23,21 +23,37 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 
 	mUserSettings = std::move(inUserSettings);
 
-	gLogManager.Init();
+	REGISTER_MANAGER(gLogManager);
+	REGISTER_MANAGER(gThreadManager);
+	REGISTER_MANAGER(gRenderer);
+	REGISTER_MANAGER(gSDLEventManager);
+	REGISTER_MANAGER(gEventManager);
+	REGISTER_MANAGER(gResourceManager);
+	REGISTER_MANAGER(gDebugUIWindowManager);
+
+	INIT_MANAGER_AFTER(gThreadManager, gLogManager);
+
+	INIT_MANAGER_AFTER(gRenderer, gLogManager);
+	INIT_MANAGER_AFTER(gRenderer, gThreadManager);
+
+	INIT_MANAGER_AFTER(gSDLEventManager, gLogManager);
+	INIT_MANAGER_AFTER(gSDLEventManager, gRenderer);
+
+	INIT_MANAGER_AFTER(gEventManager, gSDLEventManager);
+	INIT_MANAGER_AFTER(gEventManager, gRenderer);
+
+	INIT_MANAGER_AFTER(gResourceManager, gLogManager);
+	INIT_MANAGER_AFTER(gResourceManager, gRenderer);
+
+	INIT_MANAGER_AFTER(gDebugUIWindowManager, gLogManager);
+	INIT_MANAGER_AFTER(gDebugUIWindowManager, gSDLEventManager);
+	INIT_MANAGER_AFTER(gDebugUIWindowManager, gEventManager);
+	INIT_MANAGER_AFTER(gDebugUIWindowManager, gResourceManager);
+	INIT_MANAGER_AFTER(gDebugUIWindowManager, gRenderer);
 
 	gRegisterFactoryClassesEngine();
 
-	gThreadManager.Init();
-
-	{
-		// Initialize Renderer
-		Renderer::InitParams params;
-		params.mWindowTitle = "DuckWorks";
-		params.mWindowSize = GetUserSettings()->mWindowSize;
-		params.mWindowFlags = GetUserSettings()->mWindowFlags;
-		params.mRendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
-		gRenderer.Init(params);
-	}
+	InitManagers();
 
 	{
 		SDLEventFunction event_function;
@@ -68,10 +84,6 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 		gSDLEventManager.AddPersistentEventFunction(event_function);
 	}
 
-	gEventManager.Init();
-
-	gResourceManager.Init();
-
 	mLua.open_libraries(sol::lib::base);
 
 	mLua.new_usertype<fm::vec2>("vec2",
@@ -99,15 +111,16 @@ void Engine::Update(float inDeltaTime)
 {
 	mDeltaTime = inDeltaTime;
 
-	gSDLEventManager.Update();
-
-	gResourceManager.Update();
+	for (Manager* manager : mManagersToUpdate)
+	{
+		gAssert(manager->RequiresUpdate());
+		if (manager->ShouldUpdateWhilePaused())
+			manager->Update(inDeltaTime);
+	}
 
 	if (!mIsPaused)
-	{
-		gTimerManager.Update(inDeltaTime);
 		mWorld->Update(inDeltaTime);
-	}
+
 	mWorld->Render(inDeltaTime);
 
 	{
@@ -151,15 +164,108 @@ void Engine::Deinitialize()
 	PROFILE_SCOPE(Engine::Deinitialize)
 	gLog(ELogType::Info, "Deinitializing Engine");
 
+	gEngine.Shutdown();
+
 	mLua.collect_garbage();
 
 	mWorld->EndPlay();
 	mWorld = nullptr;
 
-	gRenderer.Shutdown();
+	ShutdownManagers();
+}
 
-	gThreadManager.Shutdown();
-	gLogManager.Shutdown();
+void Engine::RegisterManager(Manager& inManager)
+{
+	gLog(ELogType::Info, "Registering Manager: %s", inManager.GetClassName());
+	mManagers.push_back(&inManager);
+	if (inManager.RequiresUpdate())
+	{
+		gLog(ELogType::Info, "Enabling Updates for Manager: %s", inManager.GetClassName());
+		mManagersToUpdate.push_back(&inManager);
+	}
+}
 
-	gEngine.Shutdown();
+void Engine::InitManagerBefore(Manager& inManager, Manager& inOtherManager)
+{
+	mManagersToInitBeforeMap[&inManager].push_back(&inOtherManager);
+}
+
+void Engine::InitManagerAfter(Manager& inManager, Manager& inOtherManager)
+{
+	mManagersToInitAfterMap[&inManager].push_back(&inOtherManager);
+}
+
+void Engine::UpdateManagerBefore(Manager& inManager, Manager& inOtherManager)
+{
+	mManagersToUpdateBeforeMap[&inManager].push_back(&inOtherManager);
+}
+
+void Engine::UpdateManagerAfter(Manager& inManager, Manager& inOtherManager)
+{
+	mManagersToUpdateAfterMap[&inManager].push_back(&inOtherManager);
+}
+
+void Engine::sOrganizeArray(Array<Manager*>& ioArray, const HashMap<Manager*, Array<Manager*>>& inMapBefore, const HashMap<Manager*, Array<Manager*>>& inMapAfter)
+{
+	Array<Manager*> organized_array;
+	organized_array.reserve(ioArray.size());
+
+	for (Manager* manager : ioArray)
+	{
+		if (inMapBefore.contains(manager))
+		{
+			for (Manager* other_manager : inMapBefore.at(manager))
+			{
+				auto iter = std::ranges::find(organized_array, other_manager);
+				if (iter == organized_array.end())
+				{
+					organized_array.push_back(other_manager);
+				}
+				else
+				{
+					if (iter < std::ranges::find(organized_array, manager))
+						gAssert(false, "Manager is in the wrong order");
+				}
+			}
+		}
+
+		if (std::ranges::find(organized_array, manager) == organized_array.end())
+		{
+			organized_array.push_back(manager);
+		}
+
+		if (inMapAfter.contains(manager))
+		{
+			for (Manager* other_manager : inMapAfter.at(manager))
+			{
+				auto iter = std::ranges::find(organized_array, other_manager);
+				if (iter == organized_array.end())
+				{
+					organized_array.push_back(other_manager);
+				}
+				else
+				{
+					if (iter > std::ranges::find(organized_array, manager))
+						gAssert(false, "Manager is in the wrong order");
+				}
+			}
+		}
+	}
+
+	ioArray = organized_array;
+}
+
+void Engine::InitManagers()
+{
+	sOrganizeArray(mManagers, mManagersToInitBeforeMap, mManagersToInitAfterMap);
+	sOrganizeArray(mManagersToUpdate, mManagersToUpdateBeforeMap, mManagersToUpdateAfterMap);
+
+	for (Manager* manager : mManagers)
+		manager->Init();
+}
+
+void Engine::ShutdownManagers()
+{
+	for (auto iter = mManagers.rbegin(); iter != mManagers.rend(); ++iter)
+		(*iter)->Shutdown();
 }

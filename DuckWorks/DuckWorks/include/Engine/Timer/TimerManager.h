@@ -2,10 +2,16 @@
 #include "Core/CoreBase.h"
 #include "Core/Utilities/UID.h"
 
-class TimerManager
+class TimerManager : public Manager
 {
+	RTTI_CLASS(TimerManager, Manager, StandardAllocator)
+
 public:
-	void Update(float inDeltaTime); ///< Increments world time
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	TimerManager(const ConstructParameters& inParameters = {}) : Base(inParameters) { mRequiresUpdate = true; }
+
+	virtual void Update(float inDeltaTime) override; ///< Increments world time
 
 	// Handle to a timer
 	struct TimerHandle

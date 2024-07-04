@@ -11,14 +11,17 @@
 
 struct TextureResource;
 
-class ResourceManager
+class ResourceManager : public Manager
 {
-public:
-	ResourceManager();
-	~ResourceManager() = default;
+	RTTI_CLASS(ResourceManager, Manager, StandardAllocator)
 
-	void Init();
-	void Update();
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	ResourceManager(const ConstructParameters& inParameters = {}) : Base(inParameters) { mRequiresUpdate = true; }
+
+	virtual void Init() override;
+	virtual void Update(float inDeltaTime) override;
 
 	//Delete copy constructor
 	ResourceManager(const ResourceManager&) = delete;

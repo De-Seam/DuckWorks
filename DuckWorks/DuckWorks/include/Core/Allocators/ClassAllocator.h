@@ -1,5 +1,6 @@
 #pragma once
 #include "AllocatorBase.h"
+#include "Core/Utilities/Mutex.h"
 
 // Allocator to allocate instances of a specific class
 template<typename taType>

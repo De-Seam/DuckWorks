@@ -4,6 +4,10 @@
 // Engine includes
 #include "Engine/Events/SDLEventManager.h"
 
+RTTI_CLASS_DEFINITION(EventManager, StandardAllocator)
+
+RTTI_EMPTY_SERIALIZE_DEFINITION(EventManager)
+
 EventManager gEventManager;
 
 void EventManager::Init()

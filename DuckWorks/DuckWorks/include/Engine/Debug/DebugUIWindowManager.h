@@ -7,24 +7,26 @@
 
 class Entity;
 
-class DebugUIWindowManager : public RTTIBaseClass
+class DebugUIWindowManager : public Manager
 {
-	RTTI_CLASS(DebugUIWindowManager, RTTIBaseClass, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowManager, Manager, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	using Base::Base;
-
 	DebugUIWindowManager(const ConstructParameters& inConstructParameters = {})
-		: Base(inConstructParameters) {}
+		: Base(inConstructParameters)
+	{
+		// The DebugUIWindowManager needs to be updated manually at a specific point, so we disable the automatic updates
+		mRequiresUpdate = false;
+	}
 
-	void Init();
+	virtual void Init() override;
+	virtual void Shutdown() override;
+	virtual void Update(float inDeltaTime) override;
+
 	void BeginFrame();
 	void EndFrame();
-	void Shutdown();
-
-	void Update(float inDeltaTime);
 
 	void UpdateViewport();
 	void UpdateSelectedEntity();

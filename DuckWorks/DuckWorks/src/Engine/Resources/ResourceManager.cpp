@@ -5,12 +5,11 @@
 #include "Engine/Engine/Engine.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 
-ResourceManager gResourceManager;
+RTTI_CLASS_DEFINITION(ResourceManager, StandardAllocator)
 
-ResourceManager::ResourceManager()
-{
-	assert(this == &gResourceManager);
-}
+RTTI_EMPTY_SERIALIZE_DEFINITION(ResourceManager)
+
+ResourceManager gResourceManager;
 
 void ResourceManager::Init()
 {
@@ -20,7 +19,7 @@ void ResourceManager::Init()
 	mDefaultTexture = GetResource<TextureResource>("Assets/DefaultTexture.png");
 }
 
-void ResourceManager::Update()
+void ResourceManager::Update([[maybe_unused]] float inDeltaTime)
 {
 	PROFILE_SCOPE(ResourceManager::Update)
 

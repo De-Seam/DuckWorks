@@ -14,11 +14,13 @@ struct SDL_Window;
 struct SDL_Renderer;
 struct SDL_Texture;
 
-class Renderer
+class Renderer : public Manager
 {
+	RTTI_CLASS(Renderer, Manager, StandardAllocator)
 public:
-	Renderer();
-	~Renderer();
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	Renderer(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	// Delete copy constructor
 	Renderer(const Renderer&) = delete;
@@ -32,11 +34,11 @@ public:
 		uint32 mRendererFlags;
 	};
 
-	void Init(const InitParams& inInitParams);
-	void Shutdown();
+	virtual void Init() override;
+	virtual void Shutdown() override;
 	void BeginFrame();
 	void EndFrame();
-	void Update(float inDeltaTime);
+	virtual void Update(float inDeltaTime) override;
 
 	struct DrawTextureParams
 	{

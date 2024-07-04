@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/CoreBase.h"
+#include "Core/Manager/Manager.h"
 #include "Core/Utilities/Mutex.h"
 #include "Core/Utilities/SafeQueue.h"
 
@@ -42,18 +43,16 @@ private:
 	friend class ThreadManager;
 };
 
-class ThreadManager : public RTTIBaseClass
+class ThreadManager : public Manager
 {
-	RTTI_CLASS(ThreadManager, RTTIBaseClass, StandardAllocator)
+	RTTI_CLASS(ThreadManager, Manager, StandardAllocator)
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	using Base::Base;
+	ThreadManager(const ConstructParameters& inConstructParameters = {});
 
-	ThreadManager(const ConstructParameters& inConstructParameters);
-
-	void Init();
-	void Shutdown();
+	virtual void Init() override;
+	virtual void Shutdown() override;
 	void AddTask(const SharedPtr<ThreadTask>& inTask, ThreadPriority inPriority);
 
 	bool IsPriorityEmpty(ThreadPriority inPriority) const { return mTasks[SCast<uint64>(inPriority)].IsEmpty(); }

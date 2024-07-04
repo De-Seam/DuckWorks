@@ -1,6 +1,10 @@
 #include "Precomp.h"
 #include "Engine/Timer/TimerManager.h"
 
+RTTI_CLASS_DEFINITION(TimerManager, StandardAllocator)
+
+RTTI_EMPTY_SERIALIZE_DEFINITION(TimerManager)
+
 TimerManager gTimerManager;
 
 void TimerManager::Update(float inDeltaTime)
