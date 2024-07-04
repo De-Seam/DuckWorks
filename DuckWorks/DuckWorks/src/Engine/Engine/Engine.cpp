@@ -24,12 +24,15 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 	mUserSettings = std::move(inUserSettings);
 
 	REGISTER_MANAGER(gLogManager);
+	REGISTER_MANAGER(gTimerManager);
 	REGISTER_MANAGER(gThreadManager);
 	REGISTER_MANAGER(gRenderer);
 	REGISTER_MANAGER(gSDLEventManager);
 	REGISTER_MANAGER(gEventManager);
 	REGISTER_MANAGER(gResourceManager);
 	REGISTER_MANAGER(gDebugUIWindowManager);
+
+	INIT_MANAGER_AFTER(gTimerManager, gLogManager);
 
 	INIT_MANAGER_AFTER(gThreadManager, gLogManager);
 
