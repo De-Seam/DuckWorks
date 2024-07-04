@@ -2,7 +2,7 @@
 #include "Engine/World/World.h"
 
 // Engine includes
-#include "Engine/Entity/Actor.h"
+#include "Engine/Entity/Components/EntityComponentManager.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Resources/ResourceManager.h"
 

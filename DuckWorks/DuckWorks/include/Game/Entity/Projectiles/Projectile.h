@@ -1,6 +1,4 @@
 #pragma once
-#include "Core/CoreBase.h"
-
 #include "Engine/Entity/Actor.h"
 
 /*

@@ -1,9 +1,6 @@
 #include "Precomp.h"
 #include "Game/Entity/Player/Player.h"
 
-// Core includes
-#include "Core/RTTI/RefObject.h"
-
 // Engine includes
 #include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
@@ -12,7 +9,6 @@
 #include "Engine/Events/EventManager.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Resources/ResourceTypes/LuaResource.h"
-#include "Engine/World/World.h"
 
 // Game includes
 #include "Game/App/App.h"

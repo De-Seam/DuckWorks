@@ -3,17 +3,13 @@
 
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
+#include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
+#include "Engine/Entity/Components/EntityComponentManager.h"
 #include "Engine/Events/SDLEventManager.h"
 #include "Engine/World/World.h"
 
-// Game includes
-#include "Game/App/App.h"
-
 // External includes
-#include "Engine/Engine/Engine.h"
-
-#include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
 RTTI_CLASS_DEFINITION(Renderer, StandardAllocator)

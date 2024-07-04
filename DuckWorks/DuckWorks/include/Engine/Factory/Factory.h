@@ -1,7 +1,4 @@
 #pragma once
-// Core includes
-#include "Core/CoreBase.h"
-
 // Engine includes
 #include "Engine/Entity/Entity.h"
 #include "Engine/Entity/Components/EntityComponent.h"

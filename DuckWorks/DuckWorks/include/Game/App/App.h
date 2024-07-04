@@ -2,11 +2,6 @@
 // Engine includes
 #include "Game/App/UserSettingsGame.h"
 
-// Std includes
-#include <memory>
-
-class World;
-
 class App
 {
 public:

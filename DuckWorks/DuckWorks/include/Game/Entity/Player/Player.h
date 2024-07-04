@@ -1,9 +1,8 @@
 #pragma once
 // Engine includes
-#include <Engine/Events/SDLEventManager.h>
 #include "Engine/Entity/Actor.h"
-
 #include "Engine/Events/EventManager.h"
+#include "Engine/Events/SDLEventManager.h"
 
 struct EventManager::EventFunction;
 struct CollisionFuncParams;

@@ -2,23 +2,13 @@
 // Own include
 #include "Game/App/App.h"
 
-// Core includes
-#include "Core/Utilities/GUID.h"
-
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
 #include "Engine/Engine/Engine.h"
-#include "Engine/Resources/ResourceManager.h"
-#include "Engine/Threads/ThreadManager.h"
-#include "Engine/Timer/TimerManager.h"
-#include "Engine/World/World.h"
 
 // Game includes
 #include "Game/App/FactoryRegistryGame.h"
-
-// External includes
-#include "External/SDL/SDL.h"
 
 // Std includes
 #include <fstream>
