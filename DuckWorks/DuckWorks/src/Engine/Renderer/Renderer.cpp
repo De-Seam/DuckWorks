@@ -255,52 +255,49 @@ void Renderer::RenderThreadTask::Execute()
 
 	SDL_Renderer* renderer = gRenderer.GetRenderer();
 
-	for (const Array<DrawTextureTintedParams>& draw_texture_tinted_params : mCurrentDrawTexturesTinted)
+	for (uint64 i = 0; i < SCast<uint64>(EDrawLayer::Count); i++)
 	{
-		for (const DrawTextureTintedParams& data : draw_texture_tinted_params)
+		// Tinted textures
+		for (const DrawTextureTintedParams& draw_texture_tinted_params : mCurrentDrawTexturesTinted[i])
 		{
 			// Calculate color components
-			const uint32 argb = data.mColor.GetARGB();
+			const uint32 argb = draw_texture_tinted_params.mColor.GetARGB();
 			const uint8 a = (argb >> 24) & 0xFF;
 			const uint8 r = (argb >> 16) & 0xFF;
 			const uint8 g = (argb >> 8) & 0xFF;
 			const uint8 b = (argb >> 0) & 0xFF;
 
 			// Set SDL render color
-			SDL_SetTextureColorMod(data.mDrawTextureParams.mTexture, r, g, b);
-			SDL_SetTextureAlphaMod(data.mDrawTextureParams.mTexture, a);
+			SDL_SetTextureColorMod(draw_texture_tinted_params.mDrawTextureParams.mTexture, r, g, b);
+			SDL_SetTextureAlphaMod(draw_texture_tinted_params.mDrawTextureParams.mTexture, a);
 
-			const SDL_FRect dstRect = gRenderer.GetSDLFRect(data.mDrawTextureParams.mPosition, data.mDrawTextureParams.mHalfSize);
-			const SDL_Rect* src_rect = data.mDrawTextureParams.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&data.mDrawTextureParams.mSrcRect.value()) : nullptr;
-			SDL_RenderCopyExF(renderer, data.mDrawTextureParams.mTexture, src_rect, &dstRect, data.mDrawTextureParams.mRotation, nullptr, data.mDrawTextureParams.mFlip);
+			const SDL_FRect dstRect = gRenderer.GetSDLFRect(draw_texture_tinted_params.mDrawTextureParams.mPosition, draw_texture_tinted_params.mDrawTextureParams.mHalfSize);
+			const SDL_Rect* src_rect = draw_texture_tinted_params.mDrawTextureParams.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&draw_texture_tinted_params.mDrawTextureParams.mSrcRect.value()) : nullptr;
+			SDL_RenderCopyExF(renderer, draw_texture_tinted_params.mDrawTextureParams.mTexture, src_rect, &dstRect, draw_texture_tinted_params.mDrawTextureParams.mRotation, nullptr, draw_texture_tinted_params.mDrawTextureParams.mFlip);
 
 			// Reset SDL render color
-			SDL_SetTextureColorMod(data.mDrawTextureParams.mTexture, 255, 255, 255);
-			SDL_SetTextureAlphaMod(data.mDrawTextureParams.mTexture, 255);
+			SDL_SetTextureColorMod(draw_texture_tinted_params.mDrawTextureParams.mTexture, 255, 255, 255);
+			SDL_SetTextureAlphaMod(draw_texture_tinted_params.mDrawTextureParams.mTexture, 255);
 		}
-	}
 
-	for (const Array<DrawTextureParams>& draw_texture_params : mCurrentDrawTextures)
-	{
-		for (const DrawTextureParams& data : draw_texture_params)
+		// Textures
+		for (const DrawTextureParams& draw_texture_params : mCurrentDrawTextures[i])
 		{
-			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(data.mPosition, data.mHalfSize);
-			const SDL_Rect* src_rect = data.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&data.mSrcRect.value()) : nullptr;
-			SDL_RenderCopyExF(renderer, data.mTexture, src_rect, &dst_rect, data.mRotation, nullptr, data.mFlip);
+			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_texture_params.mPosition, draw_texture_params.mHalfSize);
+			const SDL_Rect* src_rect = draw_texture_params.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&draw_texture_params.mSrcRect.value()) : nullptr;
+			SDL_RenderCopyExF(renderer, draw_texture_params.mTexture, src_rect, &dst_rect, draw_texture_params.mRotation, nullptr, draw_texture_params.mFlip);
 		}
-	}
 
-	for (const Array<DrawRectangleParams>& draw_rectangle_params : mCurrentDrawRectangles)
-	{
-		for (const DrawRectangleParams& data : draw_rectangle_params)
+		// Rectangles
+		for (const DrawRectangleParams& draw_rectangle_params : mCurrentDrawRectangles[i])
 		{
-			uint32 rgba = data.mColor.GetRGBA();
+			uint32 rgba = draw_rectangle_params.mColor.GetRGBA();
 			uint8 r = (rgba >> 24) & 0xFF;
 			uint8 g = (rgba >> 16) & 0xFF;
 			uint8 b = (rgba >> 8) & 0xFF;
 			uint8 a = (rgba >> 0) & 0xFF;
 			SDL_SetRenderDrawColor(renderer, r, g, b, a);
-			SDL_FRect rectangle = gRenderer.GetSDLFRect(data.mPosition, data.mHalfSize);
+			SDL_FRect rectangle = gRenderer.GetSDLFRect(draw_rectangle_params.mPosition, draw_rectangle_params.mHalfSize);
 			SDL_RenderDrawRectF(renderer, &rectangle);
 		}
 	}

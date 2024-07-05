@@ -37,8 +37,8 @@ void CollisionWorld::DrawCollision()
 	{
 		Renderer::DrawFilledRectangleParams params;
 		params.mTransform = inObject.GetTransform();
-		params.mColor = {0.f, 1.f, 0.f, 0.5f};
-		params.mLayer = Renderer::EDrawLayer::Effects;
+		params.mColor = {0.f, 1.f, 0.f, 0.3f};
+		params.mLayer = Renderer::EDrawLayer::Foreground;
 		gRenderer.DrawFilledRectangle(params);
 	});
 }
