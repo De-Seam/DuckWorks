@@ -24,6 +24,8 @@
 // Std includes
 #include <fstream>
 
+#include "Engine/Collision/CollisionHelperFunctions.h"
+
 RTTI_CLASS_DEFINITION(DebugUIWindowManager, StandardAllocator)
 
 DebugUIWindowManager gDebugUIWindowManager = {};
@@ -385,22 +387,20 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) ||
 		!gEventManager.IsMouseButtonDown(MouseButton::Left) ||
 		!mSelectedEntity.has_value() ||
-		!mSelectedEntity.value().IsAlive())
+		!mSelectedEntity.value().IsAlive() ||
+		mSelectedTextureRenderComponent == nullptr)
 		return;
 
 	Ref<Entity> selected_entity = mSelectedEntity.value().Get();
-	if (!selected_entity.IsValid() || mSelectedTextureRenderComponent == nullptr)
+	if (!selected_entity.IsValid())
 		return;
 
 	Vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
 
-	TextureRenderComponent* texture_render_component = gEngine.GetWorld()->GetTextureRenderComponentAtLocationSlow(old_world_location);
-	if (texture_render_component == nullptr || texture_render_component != mSelectedTextureRenderComponent)
+	if (!gCollides(old_world_location, mSelectedTextureRenderComponent->GetWorldTransform()))
 		return;
 
 	Vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
-
-	Vec2 texture_render_component_new_world_location = new_world_location + mSelectedTextureRenderComponent->GetLocalOffset().mPosition + mSelectedTextureRenderComponentRelativeLocation;
 
 	selected_entity->SetPosition(new_world_location - mSelectedTextureRenderComponent->GetLocalOffset().mPosition + mSelectedTextureRenderComponentRelativeLocation);
 }

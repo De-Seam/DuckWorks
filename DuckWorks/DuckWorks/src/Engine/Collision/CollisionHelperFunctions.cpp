@@ -28,6 +28,23 @@ bool gCollides(const Vec2& inPoint, const AABB& inAABB)
 		inPoint.mY <= inAABB.mMax.mY;
 }
 
+bool gCollides(const Vec2& inPoint, const Transform2D& inTransform)
+{
+	float rad = gToRadians(inTransform.mRotation);
+	float cos = std::cos(rad);
+	float sin = std::sin(rad);
+
+	// Translate point to the origin of the rectangle
+	Vec2 local_point = inPoint - inTransform.mPosition;
+
+	// Rotate the point by the negative rotation angle of the rectangle
+	float local_x = local_point.mX * cos + local_point.mY * sin;
+	float local_y = -local_point.mX * sin + local_point.mY * cos;
+
+	// Check if the point is within the bounds of the rectangle
+	return std::abs(local_x) <= inTransform.mHalfSize.mX && std::abs(local_y) <= inTransform.mHalfSize.mY;
+}
+
 // Projects a rectangle's corner points onto an axis and returns the scalar projection's min and max
 std::pair<float, float> gProjectRectangle(const Transform2D& rect, const Vec2& axis)
 {
