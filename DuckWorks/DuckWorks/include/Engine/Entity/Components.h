@@ -1,6 +1,7 @@
 #pragma once
 // Core includes
 #include "Core/Math/Math.h"
+#include "Core/RTTI/Messages.h"
 #include "Core/Utilities/UID.h"
 #include "Core/Utilities/Utilities.h"
 
@@ -24,13 +25,19 @@ struct TextureRenderComponent : public EntityComponent
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		SharedPtr<TextureResource> mTexture = nullptr;
+		Vec2 mHalfSize;
 		IVec4 mSrcRect = {};
 		bool mUseSrcRect = false;
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 	};
 
 	TextureRenderComponent(const ConstructParameters& inConstructParameters = {});
+	virtual ~TextureRenderComponent() override;
 
+	void OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg);
+	void OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg);
+
+	Transform2D mTransform;
 	SharedPtr<TextureResource> mTexture;
 	IVec4 mSrcRect = {};
 	bool mUseSrcRect = false;

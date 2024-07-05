@@ -19,7 +19,8 @@ Json Entity::Serialize()
 	Json json = Base::Serialize();
 
 	JSON_SAVE(json, mName);
-	JSON_SAVE(json, mTransform);
+	JSON_SAVE(json, mPosition);
+	JSON_SAVE(json, mRotation);
 
 	Json& json_components = json["Components"];
 	LoopOverAllComponents([&](EntityComponent& inComponent)
@@ -37,7 +38,8 @@ void Entity::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mName);
-	JSON_TRY_LOAD(inJson, mTransform);
+	JSON_TRY_LOAD(inJson, mPosition);
+	JSON_TRY_LOAD(inJson, mRotation);
 
 	if (inJson.contains("Components"))
 	{
@@ -179,64 +181,52 @@ void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inCompon
 	}
 }
 
-void Entity::SetTransform(const Transform2D& inTransform)
+void Entity::SetPosition(const Vec2& inPosition)
 {
 	gAssert(gIsMainThread());
 
-	MsgPostEntityTransformUpdated post_update_msg;
+	MsgPostEntityPositionUpdated post_update_msg;
 	post_update_msg.mEntity = this;
-	post_update_msg.mOldTransform = mTransform;
+	post_update_msg.mOldPosition = mPosition;
 
-	MsgPreEntityTransformUpdated pre_update_msg;
+	MsgPreEntityPositionUpdated pre_update_msg;
 	pre_update_msg.mEntity = this;
-	pre_update_msg.mNewTransform = inTransform;
+	pre_update_msg.mNewPosition = inPosition;
 	SendMessage(pre_update_msg);
 
-	mTransform = pre_update_msg.mNewTransform;
+	mPosition = pre_update_msg.mNewPosition;
 
-	post_update_msg.mNewTransform = mTransform;
+	post_update_msg.mNewPosition = mPosition;
 
 	SendMessage(post_update_msg);
 }
 
-void Entity::SetPosition(const Vec2& inPosition)
-{
-	Transform2D new_transform = GetTransform();
-	new_transform.mPosition = inPosition;
-	SetTransform(new_transform);
-}
-
-void Entity::SetHalfSize(const Vec2& inHalfSize)
-{
-	Transform2D new_transform = GetTransform();
-	new_transform.mHalfSize = inHalfSize;
-	SetTransform(new_transform);
-}
-
 void Entity::SetRotation(float inRotation)
 {
-	Transform2D new_transform = GetTransform();
-	new_transform.mRotation = inRotation;
-	SetTransform(new_transform);
-}
-
-const Transform2D& Entity::GetTransform() const
-{
 	gAssert(gIsMainThread());
-	return mTransform;
+
+	MsgPostEntityRotationUpdated post_update_msg;
+	post_update_msg.mEntity = this;
+	post_update_msg.mOldRotation = mRotation;
+
+	MsgPreEntityRotationUpdated pre_update_msg;
+	pre_update_msg.mEntity = this;
+	pre_update_msg.mNewRotation = inRotation;
+	SendMessage(pre_update_msg);
+
+	mRotation = pre_update_msg.mNewRotation;
+
+	post_update_msg.mNewRotation = mRotation;
+
+	SendMessage(post_update_msg);
 }
 
 Vec2 Entity::GetPosition() const
 {
-	return GetTransform().mPosition;
-}
-
-Vec2 Entity::GetHalfSize() const
-{
-	return GetTransform().mHalfSize;
+	return mPosition;
 }
 
 float Entity::GetRotation() const
 {
-	return GetTransform().mRotation;
+	return mRotation;
 }

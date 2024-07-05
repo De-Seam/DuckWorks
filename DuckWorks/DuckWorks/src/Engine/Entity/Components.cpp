@@ -14,6 +14,7 @@ Json TextureRenderComponent::Serialize()
 	Json json = Base::Serialize();
 
 	JSON_SAVE(json, mTexture);
+	JSON_SAVE(json, mTransform);
 	json["mSrcRect"] = {mSrcRect.mX, mSrcRect.mY, mSrcRect.mZ, mSrcRect.mW};
 	JSON_SAVE(json, mUseSrcRect);
 	JSON_SAVE(json, mFlip);
@@ -26,6 +27,7 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mTexture);
+	JSON_TRY_LOAD(inJson, mTransform);
 
 	if (inJson.contains("mSrcRect"))
 		mSrcRect = {inJson["mSrcRect"][0], inJson["mSrcRect"][1], inJson["mSrcRect"][2], inJson["mSrcRect"][3]};
@@ -40,8 +42,29 @@ TextureRenderComponent::TextureRenderComponent(const ConstructParameters& inCons
 	mUseSrcRect(inConstructParameters.mUseSrcRect),
 	mFlip(inConstructParameters.mFlip)
 {
+	mTransform = {GetEntity()->GetPosition(), inConstructParameters.mHalfSize, GetEntity()->GetRotation()};
+
 	if (mTexture == nullptr)
 		mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
+
+	GetEntity()->RegisterMessageListener(this, &TextureRenderComponent::OnPostEntityPositionUpdated);
+	GetEntity()->RegisterMessageListener(this, &TextureRenderComponent::OnPostEntityRotationUpdated);
+}
+
+TextureRenderComponent::~TextureRenderComponent()
+{
+	GetEntity()->UnregisterMessageListener(this, &TextureRenderComponent::OnPostEntityPositionUpdated);
+	GetEntity()->UnregisterMessageListener(this, &TextureRenderComponent::OnPostEntityRotationUpdated);
+}
+
+void TextureRenderComponent::OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg)
+{
+	mTransform.mPosition = inMsg.mNewPosition;
+}
+
+void TextureRenderComponent::OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg)
+{
+	mTransform.mRotation = inMsg.mNewRotation;
 }
 
 // AnimationComponent

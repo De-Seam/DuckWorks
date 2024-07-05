@@ -15,6 +15,7 @@ struct CollisionComponent : public EntityComponent
 	{
 		CollisionObject::EType mType = CollisionObject::EType::Static;
 		bool mBlocking = true;
+		Vec2 mHalfSize = {};
 
 		OnCollisionFunc mOnCollisionFunction = nullptr;
 	};
@@ -22,7 +23,8 @@ struct CollisionComponent : public EntityComponent
 	CollisionComponent(const ConstructParameters& inConstructParameters = {});
 	virtual ~CollisionComponent() override;
 
-	void OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg);
+	void OnPreEntityPositionUpdated(MsgPreEntityPositionUpdated& ioMsg);
+	void OnPreEntityRotationUpdated(MsgPreEntityRotationUpdated& ioMsg);
 
 	CollisionObject& GetCollisionObject() const;
 

@@ -40,10 +40,9 @@ EnemyBase::EnemyBase(const ConstructParameters& inConstructParameters)
 		}
 	}
 
-	SetHalfSize(Vec2(64.f, 64.f));
-
 	CollisionComponent::ConstructParameters collision_component_params;
 	collision_component_params.mType = CollisionObject::EType::Dynamic;
+	collision_component_params.mHalfSize = Vec2{32.f, 32.f};
 	AddComponent<CollisionComponent>(collision_component_params);
 }
 

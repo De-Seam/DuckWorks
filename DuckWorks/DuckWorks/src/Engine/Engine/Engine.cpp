@@ -101,8 +101,8 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 									"mRotation", &Transform2D::mRotation);
 
 	mLua.new_usertype<Entity>("Entity",
-							"GetTransform", &Entity::GetTransform,
-							"SetTransform", &Entity::SetTransform);
+							"GetPosition", &Entity::GetPosition,
+							"SetPosition", &Entity::SetPosition);
 
 	mLua["print"] = [](const String& inMessage)
 	{

@@ -1,6 +1,4 @@
-local transform = Entity:GetTransform()
+local position = Entity:GetPosition()
 
-transform.mPosition.mX = transform.mPosition.mX + deltaTime * 110
-Entity:SetTransform(transform)
-
-print(tostring(transform.mPosition.mX))
+position.mX = position.mX + deltaTime * 110
+Entity:SetPosition(position)

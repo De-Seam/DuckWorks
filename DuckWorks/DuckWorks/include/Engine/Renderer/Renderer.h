@@ -55,9 +55,9 @@ public:
 		Vec2 mPosition = {0, 0};
 		Vec2 mHalfSize = {10000, 10000};
 		float mRotation = 0.f;
+		Optional<IVec4> mSrcRect = NullOpt;
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 		EDrawLayer mLayer = EDrawLayer::Foreground;
-		Optional<IVec4> mSrcRect = NullOpt;
 	};
 
 	void DrawTexture(const DrawTextureParams& inParams);

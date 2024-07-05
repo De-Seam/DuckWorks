@@ -13,7 +13,7 @@ public:
 
 	virtual void Init() {}
 	virtual void Shutdown() {}
-	virtual void Update(float inDeltaTime) {}
+	virtual void Update([[maybe_unused]] float inDeltaTime) {}
 
 	bool RequiresUpdate() const { return mRequiresUpdate; }
 	bool ShouldUpdateWhilePaused() const { return mUpdateWhilePaused; }

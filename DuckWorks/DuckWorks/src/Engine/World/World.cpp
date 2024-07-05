@@ -144,7 +144,7 @@ void World::Render(float inDeltaTime)
 	sDrawTextureParams.clear();
 	gEntityComponentManager.LoopOverComponents<TextureRenderComponent>([](const TextureRenderComponent& inTextureRenderComponent)
 	{
-		Transform2D transform = inTextureRenderComponent.GetEntity()->GetTransform();
+		Transform2D transform = inTextureRenderComponent.mTransform;
 		Renderer::DrawTextureParams params;
 		params.mTexture = inTextureRenderComponent.mTexture->mTexture;
 		params.mPosition = transform.mPosition;
@@ -226,10 +226,19 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(Vec2 inWorldLocation)
 	gAssert(gIsMainThread());
 	for (const Ref<Entity> entity : mEntities)
 	{
-		Transform2D transform = entity->GetTransform();
-		Vec2& position = transform.mPosition;
-		Vec2& half_size = transform.mHalfSize;
-		float& rotation = transform.mRotation;
+		Transform2D render_outline_transform;
+		render_outline_transform.mPosition = entity->GetPosition();
+		render_outline_transform.mRotation = entity->GetRotation();
+		entity->LoopOverComponents<TextureRenderComponent>([&render_outline_transform](const TextureRenderComponent& inTextureRenderComponent)
+		{
+			Vec2 diff = inTextureRenderComponent.mTransform.mPosition - render_outline_transform.mPosition;
+			Vec2 world_half_size = diff + inTextureRenderComponent.mTransform.mHalfSize;
+			render_outline_transform.mHalfSize = gMax2(render_outline_transform.mHalfSize, world_half_size);
+		});
+
+		Vec2& position = render_outline_transform.mPosition;
+		Vec2& half_size = render_outline_transform.mHalfSize;
+		float& rotation = render_outline_transform.mRotation;
 
 		// Convert the rotation to a normalized direction vector
 		Vec2 rotation_dir(cos(rotation), sin(rotation));

@@ -72,14 +72,10 @@ public:
 
 	void LoopOverAllComponents(const Function<void(EntityComponent& inComponent)>& inFunction);
 
-	virtual void SetTransform(const Transform2D& inTransform);
 	virtual void SetPosition(const Vec2& inPosition);
-	virtual void SetHalfSize(const Vec2& inHalfSize);
 	virtual void SetRotation(float inRotation);
 
-	[[nodiscard]] const Transform2D& GetTransform() const;
 	[[nodiscard]] Vec2 GetPosition() const;
-	[[nodiscard]] Vec2 GetHalfSize() const;
 	[[nodiscard]] float GetRotation() const;
 
 	[[nodiscard]] World* GetWorld() { return mWorld; }
@@ -87,7 +83,8 @@ public:
 	[[nodiscard]] const String& GetName() const { return mName; }
 
 private:
-	Transform2D mTransform = {};
+	Vec2 mPosition = {};
+	float mRotation = 0.0f;
 
 	// HashMap of [Component UID] to Array of Entity Components
 	HashMap<UID, Array<EntityComponent*>> mEntityComponents;

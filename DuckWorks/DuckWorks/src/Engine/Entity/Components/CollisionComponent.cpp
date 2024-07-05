@@ -36,22 +36,30 @@ CollisionComponent::CollisionComponent(const ConstructParameters& inConstructPar
 	construct_params.mBlocking = inConstructParameters.mBlocking;
 	construct_params.mOnCollisionFunction = inConstructParameters.mOnCollisionFunction;
 	construct_params.mEntity = GetEntity();
-	construct_params.mTransform = GetEntity()->GetTransform();
+	construct_params.mTransform = Transform2D(GetEntity()->GetPosition(), inConstructParameters.mHalfSize, GetEntity()->GetRotation());
 
 	mCollisionObjectHandle = GetEntity()->GetWorld()->GetCollisionWorld()->CreateCollisionObject(construct_params);
-	GetEntity()->RegisterMessageListener(this, &CollisionComponent::OnPreEntityTransformUpdated);
+	GetEntity()->RegisterMessageListener(this, &CollisionComponent::OnPreEntityPositionUpdated);
+	GetEntity()->RegisterMessageListener(this, &CollisionComponent::OnPreEntityRotationUpdated);
 }
 
 CollisionComponent::~CollisionComponent()
 {
 	GetEntity()->GetWorld()->GetCollisionWorld()->DestroyCollisionObject(mCollisionObjectHandle);
-	GetEntity()->UnregisterMessageListener(this, &CollisionComponent::OnPreEntityTransformUpdated);
+	GetEntity()->UnregisterMessageListener(this, &CollisionComponent::OnPreEntityPositionUpdated);
+	GetEntity()->UnregisterMessageListener(this, &CollisionComponent::OnPreEntityRotationUpdated);
 }
 
-void CollisionComponent::OnPreEntityTransformUpdated(MsgPreEntityTransformUpdated& ioMsg)
+void CollisionComponent::OnPreEntityPositionUpdated(MsgPreEntityPositionUpdated& ioMsg)
 {
-	PROFILE_SCOPE(CollisionComponent::OnPreEntityTransformUpdated)
-	gEngine.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, ioMsg.mNewTransform);
+	PROFILE_SCOPE(CollisionComponent::OnPreEntityPositionUpdated)
+	ioMsg.mNewPosition = gEngine.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, ioMsg.mNewPosition).mPosition;
+}
+
+void CollisionComponent::OnPreEntityRotationUpdated(MsgPreEntityRotationUpdated& ioMsg)
+{
+	PROFILE_SCOPE(CollisionComponent::OnPreEntityRotationUpdated)
+	ioMsg.mNewRotation = gEngine.GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, NullOpt, ioMsg.mNewRotation).mRotation;
 }
 
 CollisionObject& CollisionComponent::GetCollisionObject() const

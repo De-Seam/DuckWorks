@@ -10,7 +10,7 @@ struct Transform2D
 
 	Transform2D() :
 		mPosition(0.f),
-		mHalfSize(32.f),
+		mHalfSize(16.f),
 		mRotation(0.f) {}
 
 	Transform2D(const Vec2& inPosition, const Vec2& inSize, float inRotation) :

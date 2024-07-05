@@ -27,29 +27,54 @@ public:
 	Entity* mEntity = nullptr;
 };
 
-class MsgPreEntityTransformUpdated : public MsgEntityBase
+// Entity Position
+class MsgPreEntityPositionUpdated : public MsgEntityBase
 {
-	RTTI_CLASS(MsgPreEntityTransformUpdated, MsgEntityBase, StandardAllocator)
+	RTTI_CLASS(MsgPreEntityPositionUpdated, MsgEntityBase, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	MsgPreEntityTransformUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+	MsgPreEntityPositionUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
-	Entity* mEntity = nullptr;
-	Transform2D mNewTransform;
+	Vec2 mNewPosition;
 };
 
-class MsgPostEntityTransformUpdated : public MsgEntityBase
+class MsgPostEntityPositionUpdated : public MsgEntityBase
 {
-	RTTI_CLASS(MsgPostEntityTransformUpdated, MsgEntityBase, StandardAllocator)
+	RTTI_CLASS(MsgPostEntityPositionUpdated, MsgEntityBase, StandardAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	MsgPostEntityTransformUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+	MsgPostEntityPositionUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
-	Entity* mEntity = nullptr;
-	Transform2D mOldTransform;
-	Transform2D mNewTransform;
+	Vec2 mOldPosition;
+	Vec2 mNewPosition;
+};
+
+// Entity Rotation
+class MsgPreEntityRotationUpdated : public MsgEntityBase
+{
+	RTTI_CLASS(MsgPreEntityRotationUpdated, MsgEntityBase, StandardAllocator)
+
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	MsgPreEntityRotationUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+
+	float mNewRotation = 0.0f;
+};
+
+class MsgPostEntityRotationUpdated : public MsgEntityBase
+{
+	RTTI_CLASS(MsgPostEntityRotationUpdated, MsgEntityBase, StandardAllocator)
+
+public:
+	struct ConstructParameters : public Base::ConstructParameters {};
+
+	MsgPostEntityRotationUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+
+	float mOldRotation = 0.0f;
+	float mNewRotation = 0.0f;
 };
