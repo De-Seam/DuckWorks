@@ -6,6 +6,7 @@
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Entity/Entity.h"
 
+class TextureRenderComponent;
 class b2World;
 
 enum class EWorldState : uint8
@@ -46,7 +47,7 @@ public:
 	[[nodiscard]] Array<Ref<Entity>>& GetEntities() { return mEntities; }
 	[[nodiscard]] const Array<Ref<Entity>>& GetEntities() const { return mEntities; }
 
-	Optional<Ref<Entity>> GetEntityAtLocationSlow(Vec2 inWorldLocation);
+	TextureRenderComponent* GetTextureRenderComponentAtLocationSlow(Vec2 inWorldLocation) const;
 
 	CollisionWorld* GetCollisionWorld() const { return mCollisionWorld.get(); }
 	EWorldState GetState() const { return mState; }

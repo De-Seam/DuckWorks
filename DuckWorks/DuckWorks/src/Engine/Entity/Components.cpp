@@ -13,7 +13,7 @@ Json WorldComponent::Serialize()
 {
 	Json json = Base::Serialize();
 
-	JSON_SAVE(json, mTransform);
+	JSON_SAVE(json, mLocalOffset);
 
 	return json;
 }
@@ -22,21 +22,18 @@ void WorldComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mTransform);
+	JSON_TRY_LOAD(inJson, mLocalOffset);
+
+	CalculateWorldTransform();
 }
 
 // TextureRenderComponent
 RTTI_CLASS_DEFINITION(TextureRenderComponent, ClassAllocator)
 
 WorldComponent::WorldComponent(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters)
+	: Base(inConstructParameters), mLocalOffset(inConstructParameters.mLocalOffset)
 {
-	if (inConstructParameters.mTransform.mPosition != Vec2(0.f, 0.f))
-		mTransform.mPosition = inConstructParameters.mTransform.mPosition;
-	if (inConstructParameters.mTransform.mRotation != 0.f)
-		mTransform.mRotation = inConstructParameters.mTransform.mRotation;
-
-	mTransform.mHalfSize = inConstructParameters.mTransform.mHalfSize;
+	CalculateWorldTransform();
 
 	GetEntity()->RegisterMessageListener(this, &WorldComponent::OnPostEntityPositionUpdated);
 	GetEntity()->RegisterMessageListener(this, &WorldComponent::OnPostEntityRotationUpdated);
@@ -48,14 +45,27 @@ WorldComponent::~WorldComponent()
 	GetEntity()->UnregisterMessageListener(this, &WorldComponent::OnPostEntityRotationUpdated);
 }
 
+void WorldComponent::SetLocalOffset(const Transform2D& inLocalOffset)
+{
+	mLocalOffset = inLocalOffset;
+	CalculateWorldTransform();
+}
+
 void WorldComponent::OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg)
 {
-	mTransform.mPosition = inMsg.mNewPosition;
+	mWorldTransform.mPosition = inMsg.mNewPosition + mLocalOffset.mPosition;
 }
 
 void WorldComponent::OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg)
 {
-	mTransform.mRotation = inMsg.mNewRotation;
+	mWorldTransform.mRotation = inMsg.mNewRotation + mLocalOffset.mRotation;
+}
+
+void WorldComponent::CalculateWorldTransform()
+{
+	mWorldTransform = mLocalOffset;
+	mWorldTransform.mPosition += GetEntity()->GetPosition();
+	mWorldTransform.mRotation += GetEntity()->GetRotation();
 }
 
 Json TextureRenderComponent::Serialize()

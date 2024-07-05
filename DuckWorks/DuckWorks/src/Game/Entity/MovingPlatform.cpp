@@ -39,12 +39,12 @@ MovingPlatform::MovingPlatform(const ConstructParameters& inConstructParameters)
 {
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");
-	texture_render_component_parameters.mTransform.mHalfSize = Vec2{32.f, 32.f};
+	texture_render_component_parameters.mLocalOffset.mHalfSize = Vec2{32.f, 32.f};
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 
 	CollisionComponent::ConstructParameters collision_component_params;
 	collision_component_params.mType = CollisionObject::EType::Dynamic;
-	collision_component_params.mTransform.mHalfSize = Vec2{32.f, 32.f};
+	collision_component_params.mLocalOffset.mHalfSize = Vec2{32.f, 32.f};
 	AddComponent<CollisionComponent>(collision_component_params);
 }
 

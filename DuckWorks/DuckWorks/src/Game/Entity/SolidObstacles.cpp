@@ -17,11 +17,11 @@ SolidObstacle::SolidObstacle(const ConstructParameters& inConstructParameters)
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	String texture_path = "Assets/DefaultTexture.png";
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
-	texture_render_component_parameters.mTransform.mHalfSize = Vec2{32.f, 32.f};
+	texture_render_component_parameters.mLocalOffset.mHalfSize = Vec2{32.f, 32.f};
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 
 	CollisionComponent::ConstructParameters collision_component_params;
-	collision_component_params.mTransform.mHalfSize = Vec2{32.f, 32.f};
+	collision_component_params.mLocalOffset.mHalfSize = Vec2{32.f, 32.f};
 	AddComponent<CollisionComponent>(collision_component_params);
 }
 

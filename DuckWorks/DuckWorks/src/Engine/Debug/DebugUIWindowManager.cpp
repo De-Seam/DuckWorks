@@ -133,11 +133,20 @@ void DebugUIWindowManager::Init()
 					return;
 
 				Vec2 world_location = gRenderer.GetWorldLocationAtWindowLocation(inEventData.mMouseDown.mMousePosition);
-				Optional<Ref<Entity>> entity = gEngine.GetWorld()->GetEntityAtLocationSlow(world_location);
-				SetSelectedEntity(entity);
+				TextureRenderComponent* texture_render_component = gEngine.GetWorld()->GetTextureRenderComponentAtLocationSlow(world_location);
+				if (texture_render_component != nullptr)
+				{
+					mSelectedTextureRenderComponent = texture_render_component;
+					SetSelectedEntity(texture_render_component->GetEntity());
+				}
+				else
+				{
+					mSelectedTextureRenderComponent = nullptr;
+					SetSelectedEntity(NullOpt);
+				}
 
-				if (entity.has_value())
-					mSelectedEntityRelativeLocation = entity.value()->GetPosition() - world_location;
+				if (texture_render_component != nullptr)
+					mSelectedTextureRenderComponentRelativeLocation = texture_render_component->GetWorldTransform().mPosition - world_location;
 			}
 		};
 		gEventManager.AddPersistentEventFunction(event_function);
@@ -380,18 +389,20 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 		return;
 
 	Ref<Entity> selected_entity = mSelectedEntity.value().Get();
-	if (!selected_entity.IsValid())
+	if (!selected_entity.IsValid() || mSelectedTextureRenderComponent == nullptr)
 		return;
 
 	Vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
-	Optional<Ref<Entity>> old_entity = gEngine.GetWorld()->GetEntityAtLocationSlow(old_world_location);
 
-	if (!old_entity.has_value() || old_entity.value() != selected_entity)
+	TextureRenderComponent* texture_render_component = gEngine.GetWorld()->GetTextureRenderComponentAtLocationSlow(old_world_location);
+	if (texture_render_component == nullptr || texture_render_component != mSelectedTextureRenderComponent)
 		return;
 
 	Vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
 
-	selected_entity->SetPosition(new_world_location + mSelectedEntityRelativeLocation);
+	Vec2 texture_render_component_new_world_location = new_world_location + mSelectedTextureRenderComponent->GetLocalOffset().mPosition + mSelectedTextureRenderComponentRelativeLocation;
+
+	selected_entity->SetPosition(new_world_location - mSelectedTextureRenderComponent->GetLocalOffset().mPosition + mSelectedTextureRenderComponentRelativeLocation);
 }
 
 WeakRef<DebugUIWindow> DebugUIWindowManager::AddWindow(Ref<DebugUIWindow> inWindow)

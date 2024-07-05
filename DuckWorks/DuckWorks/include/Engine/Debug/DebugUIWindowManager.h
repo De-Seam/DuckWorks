@@ -5,6 +5,7 @@
 // Engine includes
 #include "Windows/DebugUIWindow.h"
 
+class TextureRenderComponent;
 class Entity;
 
 class DebugUIWindowManager : public Manager
@@ -72,7 +73,8 @@ private:
 	String mDebugFileName = "Debug.json";
 
 	Optional<WeakRef<Entity>> mSelectedEntity;
-	Vec2 mSelectedEntityRelativeLocation = {}; ///< 0,0 would be the center of the entity
+	TextureRenderComponent* mSelectedTextureRenderComponent;
+	Vec2 mSelectedTextureRenderComponentRelativeLocation = {}; ///< 0,0 would be the center of the texture render component
 
 	HashMap<UID, Json> mSavedWindowSettings; ///< The saved settings for each Window.
 };

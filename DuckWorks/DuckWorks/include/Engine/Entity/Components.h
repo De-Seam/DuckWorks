@@ -26,23 +26,30 @@ class WorldComponent : public EntityComponent
 public:
 	struct ConstructParameters : public Base::ConstructParameters
 	{
-		Transform2D mTransform = {};
+		Transform2D mLocalOffset = {};
 	};
 
 	WorldComponent(const ConstructParameters& inConstructParameters = {});
 	virtual ~WorldComponent() override;
 
+	void SetLocalOffset(const Transform2D& inLocalOffset);
+
+	const Transform2D& GetWorldTransform() const { return mWorldTransform; }
+	const Transform2D& GetLocalOffset() const { return mLocalOffset; }
+
 	void OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg);
 	void OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg);
 
-	const Transform2D& GetTransform() const { return mTransform; }
-
 protected:
-	Transform2D mTransform;
+	virtual void CalculateWorldTransform();
+
+private:
+	Transform2D mLocalOffset;
+	Transform2D mWorldTransform;
 };
 
 // Texture render component uses TransformComponent for its transform
-struct TextureRenderComponent : public WorldComponent
+class TextureRenderComponent : public WorldComponent
 {
 	RTTI_CLASS(TextureRenderComponent, WorldComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters

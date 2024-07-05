@@ -144,7 +144,7 @@ void World::Render(float inDeltaTime)
 	sDrawTextureParams.clear();
 	gEntityComponentManager.LoopOverComponents<TextureRenderComponent>([](const TextureRenderComponent& inTextureRenderComponent)
 	{
-		Transform2D transform = inTextureRenderComponent.GetTransform();
+		Transform2D transform = inTextureRenderComponent.GetWorldTransform();
 		Renderer::DrawTextureParams params;
 		params.mTexture = inTextureRenderComponent.mTexture->mTexture;
 		params.mPosition = transform.mPosition;
@@ -221,43 +221,40 @@ void World::DestroyEntity(const Ref<Entity>& inEntity)
 	std::erase(mEntities, inEntity);
 }
 
-Optional<Ref<Entity>> World::GetEntityAtLocationSlow(Vec2 inWorldLocation)
+TextureRenderComponent* World::GetTextureRenderComponentAtLocationSlow(Vec2 inWorldLocation) const
 {
 	gAssert(gIsMainThread());
 	for (const Ref<Entity> entity : mEntities)
 	{
-		Transform2D render_outline_transform;
-		render_outline_transform.mPosition = entity->GetPosition();
-		render_outline_transform.mRotation = entity->GetRotation();
-		entity->LoopOverComponents<TextureRenderComponent>([&render_outline_transform](const TextureRenderComponent& inTextureRenderComponent)
+		TextureRenderComponent* texture_render_component = nullptr;
+		entity->LoopOverComponents<TextureRenderComponent>([&entity, &inWorldLocation, &texture_render_component](TextureRenderComponent& inTextureRenderComponent)
 		{
-			Vec2 diff = inTextureRenderComponent.GetTransform().mPosition - render_outline_transform.mPosition;
-			Vec2 world_half_size = diff + inTextureRenderComponent.GetTransform().mHalfSize;
-			render_outline_transform.mHalfSize = gMax2(render_outline_transform.mHalfSize, world_half_size);
+			const Transform2D& transform = inTextureRenderComponent.GetWorldTransform();
+
+			const Vec2& position = transform.mPosition;
+			const Vec2& half_size = transform.mHalfSize;
+			const float& rotation = transform.mRotation;
+
+			// Convert the rotation to a normalized direction vector
+			Vec2 rotation_dir(cos(rotation), sin(rotation));
+
+			// Translate the world location to the rectangle's local space
+			Vec2 local_point = inWorldLocation - position;
+
+			// Rotate the point in the opposite direction of the rectangle's rotation
+			// to align it with the rectangle's local axes
+			Vec2 rotatedPoint(local_point.mX * rotation_dir.mX + local_point.mY * rotation_dir.mY,
+							-local_point.mX * rotation_dir.mY + local_point.mY * rotation_dir.mX);
+
+			// Check if the rotated point lies within the rectangle's bounds
+			if (std::abs(rotatedPoint.mX) <= half_size.mX && std::abs(rotatedPoint.mY) <= half_size.mY)
+				texture_render_component = &inTextureRenderComponent;
 		});
 
-		Vec2& position = render_outline_transform.mPosition;
-		Vec2& half_size = render_outline_transform.mHalfSize;
-		float& rotation = render_outline_transform.mRotation;
-
-		// Convert the rotation to a normalized direction vector
-		Vec2 rotation_dir(cos(rotation), sin(rotation));
-
-		// Translate the world location to the rectangle's local space
-		Vec2 local_point = inWorldLocation - position;
-
-		// Rotate the point in the opposite direction of the rectangle's rotation
-		// to align it with the rectangle's local axes
-		Vec2 rotatedPoint(local_point.mX * rotation_dir.mX + local_point.mY * rotation_dir.mY,
-						-local_point.mX * rotation_dir.mY + local_point.mY * rotation_dir.mX);
-
-		// Check if the rotated point lies within the rectangle's bounds
-		if (std::abs(rotatedPoint.mX) <= half_size.mX && std::abs(rotatedPoint.mY) <= half_size.mY)
-		{
-			return entity;
-		}
+		if (texture_render_component != nullptr)
+			return texture_render_component;
 	}
-	return NullOpt;
+	return nullptr;
 }
 
 void World::UpdateEntities(float inDeltaTime)

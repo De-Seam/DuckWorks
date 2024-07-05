@@ -23,7 +23,6 @@ void CollisionObject::Deserialize(const Json& inJson)
 	JSON_TRY_LOAD(inJson, mType);
 	JSON_TRY_LOAD(inJson, mBlocking);
 	JSON_TRY_LOAD(inJson, mShapeType);
-	JSON_TRY_LOAD(inJson, mTransform);
 
 	SetTransform(mTransform);
 }
@@ -31,7 +30,6 @@ void CollisionObject::Deserialize(const Json& inJson)
 CollisionObject::CollisionObject(const ConstructParameters& inConstructParameters) :
 	Base(inConstructParameters),
 	mHandle(inConstructParameters.mHandle),
-	mTransform(inConstructParameters.mTransform),
 	mType(inConstructParameters.mType),
 	mBlocking(inConstructParameters.mBlocking),
 	mEntity(inConstructParameters.mEntity)

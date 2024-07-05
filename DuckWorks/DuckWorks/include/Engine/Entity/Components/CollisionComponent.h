@@ -28,6 +28,9 @@ struct CollisionComponent : public WorldComponent
 
 	CollisionObject& GetCollisionObject() const;
 
+protected:
+	virtual void CalculateWorldTransform() override;
+
 private:
 	CollisionObjectHandle mCollisionObjectHandle;
 };
