@@ -55,6 +55,19 @@ void Renderer::Init()
 		}
 	};
 	gSDLEventManager.AddPersistentEventFunction(event_function);
+
+	// Create white texture
+	{
+		SDL_Surface* surface = SDL_CreateRGBSurface(0, 1, 1, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+
+		// Fill the surface with white color
+		Uint32 green = SDL_MapRGB(surface->format, 255, 255, 255);
+		SDL_FillRect(surface, nullptr, green);
+
+		// Create a texture from the surface
+		mWhiteTexture = SDL_CreateTextureFromSurface(mRenderer, surface);
+		SDL_FreeSurface(surface); // We can free the surface after creating the texture
+	}
 }
 
 void Renderer::Shutdown()
@@ -102,11 +115,14 @@ void Renderer::Update(float inDeltaTime)
 	else
 		gAssert(mRenderThreadTask->IsCompleted(), "Render Thread Task was not yet completed!");
 
+	for (Array<DrawTextureTintedParams>& draw_texture_tinted_params : mRenderThreadTask->mCurrentDrawTexturesTinted)
+		draw_texture_tinted_params.clear();
 	for (Array<DrawTextureParams>& draw_texture_params : mRenderThreadTask->mCurrentDrawTextures)
 		draw_texture_params.clear();
 	for (Array<DrawRectangleParams>& draw_rectangle_params : mRenderThreadTask->mCurrentDrawRectangles)
 		draw_rectangle_params.clear();
 
+	swap(mDrawTexturesTinted, mRenderThreadTask->mCurrentDrawTexturesTinted);
 	swap(mDrawTextures, mRenderThreadTask->mCurrentDrawTextures);
 	swap(mDrawRectangles, mRenderThreadTask->mCurrentDrawRectangles);
 
@@ -126,28 +142,23 @@ void Renderer::DrawTextures(const Array<DrawTextureParams>& inParams)
 		DrawTextureInternal(params);
 }
 
-void Renderer::DrawTextureTinted(const DrawTextureParams& inParams, const Vec4& inColor)
+void Renderer::DrawTextureTinted(const DrawTextureTintedParams& inParams)
 {
 	gAssert(gIsMainThread());
 
-	// Calculate color components
-	const uint32 argb = inColor.GetARGB();
-	const uint8 a = (argb >> 24) & 0xFF;
-	const uint8 r = (argb >> 16) & 0xFF;
-	const uint8 g = (argb >> 8) & 0xFF;
-	const uint8 b = (argb >> 0) & 0xFF;
+	mDrawTexturesTinted[SCast<uint8>(inParams.mDrawTextureParams.mLayer)].emplace_back(inParams);
+}
 
-	// Set SDL render color
-	SDL_SetTextureColorMod(inParams.mTexture, r, g, b);
-	SDL_SetTextureAlphaMod(inParams.mTexture, a);
-
-	const SDL_FRect dstRect = GetSDLFRect(inParams.mPosition, inParams.mHalfSize);
-	const SDL_Rect* srcRect = reinterpret_cast<const SDL_Rect*>(&inParams.mSrcRect.value());
-	SDL_RenderCopyExF(mRenderer, inParams.mTexture, srcRect, &dstRect, inParams.mRotation, nullptr, inParams.mFlip);
-
-	// Reset SDL render color
-	SDL_SetTextureColorMod(inParams.mTexture, 255, 255, 255);
-	SDL_SetTextureAlphaMod(inParams.mTexture, 255);
+void Renderer::DrawFilledRectangle(const DrawFilledRectangleParams& inParams)
+{
+	DrawTextureTintedParams params;
+	params.mDrawTextureParams.mTexture = mWhiteTexture;
+	params.mDrawTextureParams.mPosition = inParams.mTransform.mPosition;
+	params.mDrawTextureParams.mHalfSize = inParams.mTransform.mHalfSize;
+	params.mDrawTextureParams.mRotation = inParams.mTransform.mRotation;
+	params.mDrawTextureParams.mLayer = inParams.mLayer;
+	params.mColor = inParams.mColor;
+	DrawTextureTinted(params);
 }
 
 void Renderer::DrawRectangle(const DrawRectangleParams& inParams)
@@ -243,6 +254,31 @@ void Renderer::RenderThreadTask::Execute()
 	PROFILE_SCOPE(Renderer::RenderThreadTask::Execute)
 
 	SDL_Renderer* renderer = gRenderer.GetRenderer();
+
+	for (const Array<DrawTextureTintedParams>& draw_texture_tinted_params : mCurrentDrawTexturesTinted)
+	{
+		for (const DrawTextureTintedParams& data : draw_texture_tinted_params)
+		{
+			// Calculate color components
+			const uint32 argb = data.mColor.GetARGB();
+			const uint8 a = (argb >> 24) & 0xFF;
+			const uint8 r = (argb >> 16) & 0xFF;
+			const uint8 g = (argb >> 8) & 0xFF;
+			const uint8 b = (argb >> 0) & 0xFF;
+
+			// Set SDL render color
+			SDL_SetTextureColorMod(data.mDrawTextureParams.mTexture, r, g, b);
+			SDL_SetTextureAlphaMod(data.mDrawTextureParams.mTexture, a);
+
+			const SDL_FRect dstRect = gRenderer.GetSDLFRect(data.mDrawTextureParams.mPosition, data.mDrawTextureParams.mHalfSize);
+			const SDL_Rect* src_rect = data.mDrawTextureParams.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&data.mDrawTextureParams.mSrcRect.value()) : nullptr;
+			SDL_RenderCopyExF(renderer, data.mDrawTextureParams.mTexture, src_rect, &dstRect, data.mDrawTextureParams.mRotation, nullptr, data.mDrawTextureParams.mFlip);
+
+			// Reset SDL render color
+			SDL_SetTextureColorMod(data.mDrawTextureParams.mTexture, 255, 255, 255);
+			SDL_SetTextureAlphaMod(data.mDrawTextureParams.mTexture, 255);
+		}
+	}
 
 	for (const Array<DrawTextureParams>& draw_texture_params : mCurrentDrawTextures)
 	{

@@ -5,6 +5,7 @@
 #include "Engine/Collision/CollisionHelperFunctions.h"
 #include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Renderer/Renderer.h"
 #include "Engine/Threads/ThreadManager.h"
 
 RTTI_CLASS_DEFINITION(CollisionWorld, StandardAllocator)
@@ -34,7 +35,11 @@ void CollisionWorld::DrawCollision()
 {
 	LoopCollisionObjects([](const CollisionObject& inObject)
 	{
-		gDrawAABB(inObject.GetAABB(), {1.f, 1.f, 1.f, 1.f});
+		Renderer::DrawFilledRectangleParams params;
+		params.mTransform = inObject.GetTransform();
+		params.mColor = {0.f, 1.f, 0.f, 0.5f};
+		params.mLayer = Renderer::EDrawLayer::Foreground;
+		gRenderer.DrawFilledRectangle(params);
 	});
 }
 

@@ -62,7 +62,23 @@ public:
 
 	void DrawTexture(const DrawTextureParams& inParams);
 	void DrawTextures(const Array<DrawTextureParams>& inParams);
-	[[deprecated]] void DrawTextureTinted(const DrawTextureParams& inParams, const Vec4& inColor);
+
+	struct DrawTextureTintedParams
+	{
+		DrawTextureParams mDrawTextureParams;
+		Vec4 mColor;
+	};
+
+	void DrawTextureTinted(const DrawTextureTintedParams& inParams);
+
+	struct DrawFilledRectangleParams
+	{
+		Transform2D mTransform;
+		Vec4 mColor;
+		EDrawLayer mLayer = EDrawLayer::Foreground;
+	};
+
+	void DrawFilledRectangle(const DrawFilledRectangleParams& inParams);
 
 	struct DrawRectangleParams
 	{
@@ -89,6 +105,7 @@ public:
 	public:
 		virtual void Execute() override;
 
+		StaticArray<Array<DrawTextureTintedParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawTexturesTinted;
 		StaticArray<Array<DrawTextureParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawTextures;
 		StaticArray<Array<DrawRectangleParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawRectangles;
 	};
@@ -99,11 +116,14 @@ private:
 	SDL_Window* mWindow = nullptr;
 	SDL_Renderer* mRenderer = nullptr;
 
+	SDL_Texture* mWhiteTexture = nullptr;
+
 	// It's entirely possible for the camera not to have an entity. In that case, it's just a stationary camera
 	SharedPtr<Camera> mCamera = nullptr;
 
 	IVec2 mWindowSize;
 
+	StaticArray<Array<DrawTextureTintedParams>, SCast<uint8>(EDrawLayer::Count)> mDrawTexturesTinted;
 	StaticArray<Array<DrawTextureParams>, SCast<uint8>(EDrawLayer::Count)> mDrawTextures;
 	StaticArray<Array<DrawRectangleParams>, SCast<uint8>(EDrawLayer::Count)> mDrawRectangles;
 
