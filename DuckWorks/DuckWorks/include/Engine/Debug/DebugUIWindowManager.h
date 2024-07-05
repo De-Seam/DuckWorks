@@ -72,7 +72,7 @@ private:
 	String mDebugFileName = "Debug.json";
 
 	Optional<WeakRef<Entity>> mSelectedEntity;
-	fm::vec2 mSelectedEntityRelativeLocation = {}; ///< 0,0 would be the center of the entity
+	Vec2 mSelectedEntityRelativeLocation = {}; ///< 0,0 would be the center of the entity
 
 	HashMap<UID, Json> mSavedWindowSettings; ///< The saved settings for each Window.
 };

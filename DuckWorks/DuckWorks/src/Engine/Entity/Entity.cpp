@@ -179,7 +179,7 @@ void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inCompon
 	}
 }
 
-void Entity::SetTransform(const fm::Transform2D& inTransform)
+void Entity::SetTransform(const Transform2D& inTransform)
 {
 	gAssert(gIsMainThread());
 
@@ -199,44 +199,44 @@ void Entity::SetTransform(const fm::Transform2D& inTransform)
 	SendMessage(post_update_msg);
 }
 
-void Entity::SetPosition(const fm::vec2& inPosition)
+void Entity::SetPosition(const Vec2& inPosition)
 {
-	fm::Transform2D new_transform = GetTransform();
-	new_transform.position = inPosition;
+	Transform2D new_transform = GetTransform();
+	new_transform.mPosition = inPosition;
 	SetTransform(new_transform);
 }
 
-void Entity::SetHalfSize(const fm::vec2& inHalfSize)
+void Entity::SetHalfSize(const Vec2& inHalfSize)
 {
-	fm::Transform2D new_transform = GetTransform();
-	new_transform.halfSize = inHalfSize;
+	Transform2D new_transform = GetTransform();
+	new_transform.mHalfSize = inHalfSize;
 	SetTransform(new_transform);
 }
 
 void Entity::SetRotation(float inRotation)
 {
-	fm::Transform2D new_transform = GetTransform();
-	new_transform.rotation = inRotation;
+	Transform2D new_transform = GetTransform();
+	new_transform.mRotation = inRotation;
 	SetTransform(new_transform);
 }
 
-const fm::Transform2D& Entity::GetTransform() const
+const Transform2D& Entity::GetTransform() const
 {
 	gAssert(gIsMainThread());
 	return mTransform;
 }
 
-fm::vec2 Entity::GetPosition() const
+Vec2 Entity::GetPosition() const
 {
-	return GetTransform().position;
+	return GetTransform().mPosition;
 }
 
-fm::vec2 Entity::GetHalfSize() const
+Vec2 Entity::GetHalfSize() const
 {
-	return GetTransform().halfSize;
+	return GetTransform().mHalfSize;
 }
 
 float Entity::GetRotation() const
 {
-	return GetTransform().rotation;
+	return GetTransform().mRotation;
 }

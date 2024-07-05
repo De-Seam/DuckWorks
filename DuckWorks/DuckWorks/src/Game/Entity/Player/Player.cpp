@@ -43,7 +43,7 @@ Player::Player(const ConstructParameters& inConstructParameters)
 	AddComponent<CameraComponent>(camera_component_construct_parameters);
 	LoopOverComponents<CameraComponent>([this](CameraComponent& inCameraComponent) { inCameraComponent.mIsActive = false; });
 
-	SetHalfSize(fm::vec2(64.f, 64.f));
+	SetHalfSize(Vec2(64.f, 64.f));
 
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	String texture_path = "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png";
@@ -88,41 +88,41 @@ void Player::Update(float inDeltaTime)
 
 	Base::Update(inDeltaTime);
 
-	fm::vec2 moving_direction = {0.f, 0.f};
+	Vec2 moving_direction = {0.f, 0.f};
 	const Uint8* key_states = SDL_GetKeyboardState(nullptr);
 
-	moving_direction.y -= SCast<float>(key_states[SDL_SCANCODE_W]);
-	moving_direction.y += SCast<float>(key_states[SDL_SCANCODE_S]);
-	moving_direction.x += SCast<float>(key_states[SDL_SCANCODE_D]);
-	moving_direction.x -= SCast<float>(key_states[SDL_SCANCODE_A]);
+	moving_direction.mY -= SCast<float>(key_states[SDL_SCANCODE_W]);
+	moving_direction.mY += SCast<float>(key_states[SDL_SCANCODE_S]);
+	moving_direction.mX += SCast<float>(key_states[SDL_SCANCODE_D]);
+	moving_direction.mX -= SCast<float>(key_states[SDL_SCANCODE_A]);
 
-	if (mVelocity.x > 0.f)
+	if (mVelocity.mX > 0.f)
 	{
-		mVelocity.x -= mVelocityDecrement.x * inDeltaTime;
-		mVelocity.x = std::max(mVelocity.x, 0.f);
+		mVelocity.mX -= mVelocityDecrement.mX * inDeltaTime;
+		mVelocity.mX = std::max(mVelocity.mX, 0.f);
 	}
-	else if (mVelocity.x < 0.f)
+	else if (mVelocity.mX < 0.f)
 	{
-		mVelocity.x += mVelocityDecrement.x * inDeltaTime;
-		mVelocity.x = std::min(mVelocity.x, 0.f);
+		mVelocity.mX += mVelocityDecrement.mX * inDeltaTime;
+		mVelocity.mX = std::min(mVelocity.mX, 0.f);
 	}
 
-	if (mVelocity.y > 0.f)
+	if (mVelocity.mY > 0.f)
 	{
-		mVelocity.y -= mVelocityDecrement.y * inDeltaTime;
-		mVelocity.y = std::max(mVelocity.y, 0.f);
+		mVelocity.mY -= mVelocityDecrement.mY * inDeltaTime;
+		mVelocity.mY = std::max(mVelocity.mY, 0.f);
 	}
-	else if (mVelocity.y < 0.f)
+	else if (mVelocity.mY < 0.f)
 	{
-		mVelocity.y += mVelocityDecrement.y * inDeltaTime;
-		mVelocity.y = std::min(mVelocity.y, 0.f);
+		mVelocity.mY += mVelocityDecrement.mY * inDeltaTime;
+		mVelocity.mY = std::min(mVelocity.mY, 0.f);
 	}
 
 	mVelocity += moving_direction * mVelocityIncrement * inDeltaTime;
 
-	mVelocity = clamp2(mVelocity, -mMaxVelocity, mMaxVelocity);
+	mVelocity = gClamp2(mVelocity, -mMaxVelocity, mMaxVelocity);
 
-	fm::vec2 position = GetPosition();
+	Vec2 position = GetPosition();
 	position += mVelocity * inDeltaTime;
 	SetPosition(position);
 }

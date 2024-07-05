@@ -108,13 +108,13 @@ void LogManager::Log(ELogType inLogType, const char* fmt, va_list args)
 				++fmt;
 				if (*fmt == '2')
 				{
-					fm::vec2 v2 = va_arg(args, fm::vec2);
-					msg += std::to_string(v2.x) + ", " + std::to_string(v2.y);
+					Vec2 v2 = va_arg(args, Vec2);
+					msg += std::to_string(v2.mX) + ", " + std::to_string(v2.mY);
 				}
 				else if (*fmt == '3')
 				{
-					fm::vec3 v3 = va_arg(args, fm::vec3);
-					msg += std::to_string(v3.x) + ", " + std::to_string(v3.y) + ", " + std::to_string(v3.z);
+					Vec3 v3 = va_arg(args, Vec3);
+					msg += std::to_string(v3.mX) + ", " + std::to_string(v3.mY) + ", " + std::to_string(v3.mZ);
 				}
 			}
 		}

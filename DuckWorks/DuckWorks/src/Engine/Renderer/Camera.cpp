@@ -37,10 +37,10 @@ Camera::Camera(const ConstructParameters& inParameters)
 	mSize(inParameters.mSize),
 	mZoom(inParameters.mZoom)
 {
-	mSizeInverse = fm::vec2{1.f} / mSize;
+	mSizeInverse = Vec2{1.f} / mSize;
 
-	fm::ivec2 size = {mSize.to_ivec2()};
-	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.x, size.y);
+	IVec2 size = {mSize.ToIVec2()};
+	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.mX, size.mY);
 	if (!mRenderTexture)
 	{
 		gLog(ELogType::Error, "Error creating render target texture: %s\n", SDL_GetError());
@@ -49,33 +49,33 @@ Camera::Camera(const ConstructParameters& inParameters)
 
 void Camera::Update(float inDeltaTime)
 {
-	mPosition = lerp2(mPosition, mTargetPosition, inDeltaTime * mPositionSpeed);
-	mZoom = fm::lerp(mZoom, mTargetZoom, inDeltaTime * mZoomSpeed);
+	mPosition = gLerp2(mPosition, mTargetPosition, inDeltaTime * mPositionSpeed);
+	mZoom = gLerp(mZoom, mTargetZoom, inDeltaTime * mZoomSpeed);
 }
 
-void Camera::SetPosition(fm::vec2 inPosition)
+void Camera::SetPosition(Vec2 inPosition)
 {
 	mTargetPosition = inPosition;
 }
 
-void Camera::SnapPosition(fm::vec2 inPosition)
+void Camera::SnapPosition(Vec2 inPosition)
 {
 	mPosition = inPosition;
 }
 
-void Camera::SetSize(fm::vec2 inSize)
+void Camera::SetSize(Vec2 inSize)
 {
 	mSize = inSize;
-	mSizeInverse = fm::vec2{1.f} / mSize;
+	mSizeInverse = Vec2{1.f} / mSize;
 
 	SDL_DestroyTexture(mRenderTexture);
-	const fm::ivec2& window_size = gRenderer.GetWindowSize();
-	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, window_size.x, window_size.y);
+	const IVec2& window_size = gRenderer.GetWindowSize();
+	mRenderTexture = SDL_CreateTexture(gRenderer.GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, window_size.mX, window_size.mY);
 }
 
 void Camera::SetZoom(float inZoom)
 {
-	mTargetZoom = fm::max(inZoom, MIN_ZOOM);
+	mTargetZoom = gMax(inZoom, MIN_ZOOM);
 }
 
 void Camera::SetZoomSpeed(float inZoomSpeed)
@@ -85,7 +85,7 @@ void Camera::SetZoomSpeed(float inZoomSpeed)
 
 void Camera::SnapZoom(float inZoom)
 {
-	mTargetZoom = fm::max(inZoom, MIN_ZOOM);
+	mTargetZoom = gMax(inZoom, MIN_ZOOM);
 	mZoom = mTargetZoom;
 }
 

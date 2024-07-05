@@ -55,7 +55,7 @@ private:
 	uint32* mIndices = nullptr; ///< Indices of the objects in the mObjects array, uses int32 for space efficiency
 	uint32 mIndexCount = 0; ///< Count of mIndices. Saved because mObjects can change before the mIndices is reconstructed
 
-	fm::vec2 mDynamicAABBModifier = {0.25f, 0.25f}; ///< The AABB of dynamic objects is expanded by this amount
+	Vec2 mDynamicAABBModifier = {0.25f, 0.25f}; ///< The AABB of dynamic objects is expanded by this amount
 private:
 	void AdjustAABBForDynamicObject(AABB& ioAABB);
 
@@ -71,8 +71,8 @@ private:
 	const Array<uint64>& FindNodeHierarchyContainingObject(const CollisionObjectHandle& inObject, const AABB& inAABB);
 	bool FindNodeHierarchyContainingObjectRecursive(Array<uint64>& ioIndices, const CollisionObjectHandle& inObject, const AABB& inAABB, uint64 inNodeIndex);
 
-	const Array<uint64>& FindFirstNodeHierarchyAtLocation(const fm::vec2& inlocation);
-	bool FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, fm::vec2 inLocation, uint64 inNodeIndex);
+	const Array<uint64>& FindFirstNodeHierarchyAtLocation(const Vec2& inlocation);
+	bool FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, Vec2 inLocation, uint64 inNodeIndex);
 
 	void ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB);
 

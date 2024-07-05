@@ -31,7 +31,7 @@ void DebugUIWindowOutputLog::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowOutputLog::Update)
 
-	if(!ImGui::Begin("Output Log", &mOpen))
+	if (!ImGui::Begin("Output Log", &mOpen))
 	{
 		ImGui::End();
 		return;
@@ -45,7 +45,7 @@ void DebugUIWindowOutputLog::Update(float)
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(64.f);
 	ImGui::InputInt("Max Entries", &mMaxEntryCount, 0, 0);
-	fm::clamp(mMaxEntryCount, 10, INT32_MAX);
+	gClamp(mMaxEntryCount, 10, INT32_MAX);
 
 	if (ImGui::BeginChild("LogContent", ImVec2(0, 0)))
 	{
@@ -56,7 +56,7 @@ void DebugUIWindowOutputLog::Update(float)
 			mAutoScroll = false;
 
 		int32 start_index = SCast<int32>(log_array->size()) - mMaxEntryCount;
-		start_index = fm::max(start_index, 0);
+		start_index = gMax(start_index, 0);
 		for (uint64 i = SCast<uint64>(start_index); i < log_array->size(); i++)
 		{
 			const LogManager::LogEntry& log_entry = (*log_array.Get())[i];

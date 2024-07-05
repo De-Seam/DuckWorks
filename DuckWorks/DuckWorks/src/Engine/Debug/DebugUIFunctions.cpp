@@ -194,7 +194,7 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	return false;
 }
 
-void gDrawAABB(const AABB& inAABB, const fm::vec4& inColor)
+void gDrawAABB(const AABB& inAABB, const Vec4& inColor)
 {
 	Renderer::DrawRectangleParams params;
 	params.mHalfSize = (inAABB.mMax - inAABB.mMin) * 0.5f;

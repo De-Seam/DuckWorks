@@ -116,21 +116,21 @@ public:
 
 			struct MouseMove // MouseMove
 			{
-				fm::vec2 mOldPosition;
-				fm::vec2 mNewPosition;
-				fm::vec2 mDelta;
+				Vec2 mOldPosition;
+				Vec2 mNewPosition;
+				Vec2 mDelta;
 			} mMouseMove;
 
 			struct MouseDown // MouseDown
 			{
 				MouseButton mMouseButton;
-				fm::vec2 mMousePosition;
+				Vec2 mMousePosition;
 			} mMouseDown;
 
 			struct MouseUp // MouseUp
 			{
 				MouseButton mMouseButton;
-				fm::vec2 mMousePosition;
+				Vec2 mMousePosition;
 			} mMouseUp;
 
 			struct MouseWheel //MouseWheel
@@ -158,8 +158,8 @@ public:
 
 	[[nodiscard]] bool IsKeyDown(KeyCode inKeyCode);
 	[[nodiscard]] bool IsMouseButtonDown(MouseButton inMouseButton);
-	[[nodiscard]] fm::vec2 GetOldMousePosition();
-	[[nodiscard]] fm::vec2 GetMousePosition();
+	[[nodiscard]] Vec2 GetOldMousePosition();
+	[[nodiscard]] Vec2 GetMousePosition();
 
 private:
 	HashMap<EventType, Array<WeakPtr<EventFunction>>> mEventFunctions = {};
@@ -171,8 +171,8 @@ private:
 	HashMap<SDL_Keycode, KeyCode> mSDLKeycodeToKeyCode;
 	HashMap<uint32, MouseButton> mSDLButtonToMouseButton;
 
-	fm::vec2 mOldMousePosition = {0.f, 0.f};
-	fm::vec2 mMousePosition = {0.f, 0.f};
+	Vec2 mOldMousePosition = {0.f, 0.f};
+	Vec2 mMousePosition = {0.f, 0.f};
 
 private:
 	void OnKeyDown(const SDL_Event& inEvent);

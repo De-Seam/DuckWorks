@@ -6,10 +6,10 @@
 
 bool gFullyInsideOf(const AABB& inA, const AABB& inB);
 bool gCollides(const AABB& inA, const AABB& inB);
-bool gCollides(const fm::vec2& inPoint, const AABB& inAABB);
-CollisionInfo gCollides(const fm::Transform2D& inTransformA, const fm::Transform2D& inTransformB);
+bool gCollides(const Vec2& inPoint, const AABB& inAABB);
+CollisionInfo gCollides(const Transform2D& inTransformA, const Transform2D& inTransformB);
 
-AABB gComputeAABB(const fm::Transform2D& inTransform);
+AABB gComputeAABB(const Transform2D& inTransform);
 AABB gComputeEncompassingAABB(const AABB& inA, const AABB& inB);
-fm::Transform2D gComputeSweptShape(const fm::Transform2D& inOriginalTransform, const fm::vec2& inNewPosition, float inNewRotation);
-fm::Transform2D gComputeSweptShape(const fm::Transform2D& inOriginalTransform, const fm::Transform2D& inNewTransform);
+Transform2D gComputeSweptShape(const Transform2D& inOriginalTransform, const Vec2& inNewPosition, float inNewRotation);
+Transform2D gComputeSweptShape(const Transform2D& inOriginalTransform, const Transform2D& inNewTransform);

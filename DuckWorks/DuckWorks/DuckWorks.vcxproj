@@ -113,6 +113,13 @@
     <ClInclude Include="include\Core\Log\Log.h" />
     <ClInclude Include="include\Core\Manager\Manager.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
+    <ClInclude Include="include\Core\Math\HelperFunctions.h" />
+    <ClInclude Include="include\Core\Math\Math.h" />
+    <ClInclude Include="include\Core\Math\Matrix.h" />
+    <ClInclude Include="include\Core\Math\Quaternion.h" />
+    <ClInclude Include="include\Core\Math\Random.h" />
+    <ClInclude Include="include\Core\Math\Transform.h" />
+    <ClInclude Include="include\Core\Math\Vector.h" />
     <ClInclude Include="include\Core\RTTI\Messages.h" />
     <ClInclude Include="include\Core\Utilities\GUID.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEditorToolbar.h" />
@@ -351,6 +358,9 @@
     <ClCompile Include="src\Core\Allocators\AllocatorBase.cpp" />
     <ClCompile Include="src\Core\Allocators\ClassAllocator.cpp" />
     <ClCompile Include="src\Core\Manager\Manager.cpp" />
+    <ClCompile Include="src\Core\Math\Math.cpp" />
+    <ClCompile Include="src\Core\Math\Matrix.cpp" />
+    <ClCompile Include="src\Core\Math\Quaternion.cpp" />
     <ClCompile Include="src\Core\RTTI\Messages.cpp" />
     <ClCompile Include="src\Core\Utilities\GUID.cpp" />
     <ClCompile Include="src\Engine\Engine\Engine.cpp" />

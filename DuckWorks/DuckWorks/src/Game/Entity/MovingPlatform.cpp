@@ -50,7 +50,7 @@ void MovingPlatform::BeginPlay()
 {
 	Base::BeginPlay();
 
-	if (mStartPosition.x == 0.f && mStartPosition.y == 0.f)
+	if (mStartPosition.mX == 0.f && mStartPosition.mY == 0.f)
 		mStartPosition = GetPosition();
 }
 
@@ -60,35 +60,35 @@ void MovingPlatform::Update(float inDeltaTime)
 
 	Base::Update(inDeltaTime);
 
-	fm::vec2 old_position = GetPosition();
-	fm::vec2 position = old_position;
+	Vec2 old_position = GetPosition();
+	Vec2 position = old_position;
 
 	position += mMoveSpeed * inDeltaTime;
 
-	if (position.x > mStartPosition.x + mMoveExtents.x)
+	if (position.mX > mStartPosition.mX + mMoveExtents.mX)
 	{
-		position.x = mStartPosition.x + mMoveExtents.x;
-		mMoveSpeed.x *= -1.f;
+		position.mX = mStartPosition.mX + mMoveExtents.mX;
+		mMoveSpeed.mX *= -1.f;
 	}
-	else if (position.x < mStartPosition.x - mMoveExtents.x)
+	else if (position.mX < mStartPosition.mX - mMoveExtents.mX)
 	{
-		position.x = mStartPosition.x - mMoveExtents.x;
-		mMoveSpeed.x *= -1.f;
-	}
-
-	if (position.y > mStartPosition.y + mMoveExtents.y)
-	{
-		position.y = mStartPosition.y + mMoveExtents.y;
-		mMoveSpeed.y *= -1.f;
-	}
-	else if (position.y < mStartPosition.y - mMoveExtents.y)
-	{
-		position.y = mStartPosition.y - mMoveExtents.y;
-		mMoveSpeed.y *= -1.f;
+		position.mX = mStartPosition.mX - mMoveExtents.mX;
+		mMoveSpeed.mX *= -1.f;
 	}
 
-	fm::Transform2D transform = GetTransform();
-	transform.position = position;
+	if (position.mY > mStartPosition.mY + mMoveExtents.mY)
+	{
+		position.mY = mStartPosition.mY + mMoveExtents.mY;
+		mMoveSpeed.mY *= -1.f;
+	}
+	else if (position.mY < mStartPosition.mY - mMoveExtents.mY)
+	{
+		position.mY = mStartPosition.mY - mMoveExtents.mY;
+		mMoveSpeed.mY *= -1.f;
+	}
+
+	Transform2D transform = GetTransform();
+	transform.mPosition = position;
 	const Array<CollisionData>& collision_data = GetWorld()->GetCollisionWorld()->CheckCollisions(transform);
 	for (const CollisionData& data : collision_data)
 	{
@@ -119,12 +119,12 @@ void MovingPlatform::Update(float inDeltaTime)
 
 			if (is_dynamic)
 			{
-				fm::vec2 entity_position = entity->GetPosition();
+				Vec2 entity_position = entity->GetPosition();
 				entity_position += (position - old_position);
 				entity->SetPosition(entity_position);
 			}
 		}
 	}
 
-	SetPosition(transform.position);
+	SetPosition(transform.mPosition);
 }

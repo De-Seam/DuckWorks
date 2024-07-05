@@ -46,7 +46,7 @@ public:
 	[[nodiscard]] Array<Ref<Entity>>& GetEntities() { return mEntities; }
 	[[nodiscard]] const Array<Ref<Entity>>& GetEntities() const { return mEntities; }
 
-	Optional<Ref<Entity>> GetEntityAtLocationSlow(fm::vec2 inWorldLocation);
+	Optional<Ref<Entity>> GetEntityAtLocationSlow(Vec2 inWorldLocation);
 
 	CollisionWorld* GetCollisionWorld() const { return mCollisionWorld.get(); }
 	EWorldState GetState() const { return mState; }

@@ -57,7 +57,7 @@ void CollisionObject::SetShapeType(ShapeType inShapeType)
 	CalculateAABB();
 }
 
-void CollisionObject::SetTransform(const fm::Transform2D& inTransform)
+void CollisionObject::SetTransform(const Transform2D& inTransform)
 {
 	mTransform = inTransform;
 	CalculateAABB();

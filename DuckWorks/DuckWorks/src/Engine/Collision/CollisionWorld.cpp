@@ -67,9 +67,9 @@ void CollisionWorld::DestroyCollisionObject(const CollisionObjectHandle& inObjec
 	mBVH.RemoveObject(inObjectHandle);
 }
 
-fm::Transform2D CollisionWorld::MoveTo(
-	const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation,
-	Optional<fm::vec2> inHalfSize)
+Transform2D CollisionWorld::MoveTo(
+	const CollisionObjectHandle& inObjectHandle, Optional<Vec2> inPosition, Optional<float> inRotation,
+	Optional<Vec2> inHalfSize)
 {
 	PROFILE_SCOPE(CollisionWorld::MoveToOptionals)
 	gAssert(gIsMainThread());
@@ -78,19 +78,19 @@ fm::Transform2D CollisionWorld::MoveTo(
 
 	gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
 
-	fm::Transform2D new_transform = object.GetTransform();
+	Transform2D new_transform = object.GetTransform();
 	if (inPosition.has_value())
-		new_transform.position = inPosition.value();
+		new_transform.mPosition = inPosition.value();
 	if (inRotation.has_value())
-		new_transform.rotation = inRotation.value();
+		new_transform.mRotation = inRotation.value();
 	if (inHalfSize.has_value())
-		new_transform.halfSize = inHalfSize.value();
+		new_transform.mHalfSize = inHalfSize.value();
 
 	MoveTo(inObjectHandle, new_transform);
 	return new_transform;
 }
 
-void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Transform2D& ioTransform)
+void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, Transform2D& ioTransform)
 {
 	PROFILE_SCOPE(CollisionWorld::MoveTo)
 
@@ -101,7 +101,7 @@ void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Tra
 
 	gDebugIf(object.GetType() == CollisionObject::EType::Static, gLog(ELogType::Warning, "Trying to move a static object!"));
 
-	fm::Transform2D swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
+	Transform2D swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
 	AABB swept_shape_aabb = gComputeAABB(swept_shape);
 	const Array<CollisionObjectHandle>& broadphase_collisions = mBVH.GetBroadphaseCollisions(swept_shape_aabb);
 
@@ -121,7 +121,7 @@ void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Tra
 
 			if (object.IsBlocking() && other_object.IsBlocking())
 			{
-				ioTransform.position += collision_info.mDirection * collision_info.mDepth;
+				ioTransform.mPosition += collision_info.mDirection * collision_info.mDepth;
 				swept_shape = gComputeSweptShape(object.mTransform, ioTransform);
 			}
 
@@ -142,28 +142,28 @@ void CollisionWorld::MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Tra
 		if (object.mOnCollisionFunction == nullptr)
 			continue;
 
-		fm::swap(function.second.mSelf, function.second.mOther);
+		gSwap(function.second.mSelf, function.second.mOther);
 		object.mOnCollisionFunction(function.second);
 	}
 }
 
-void CollisionWorld::TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition)
+void CollisionWorld::TeleportPosition(const CollisionObjectHandle& inObjectHandle, const Vec2& inPosition)
 {
 	gAssert(gIsMainThread());
-	fm::Transform2D transform = mCollisionObjects[inObjectHandle.mIndex].GetTransform();
-	transform.position = inPosition;
+	Transform2D transform = mCollisionObjects[inObjectHandle.mIndex].GetTransform();
+	transform.mPosition = inPosition;
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(transform);
 	mBVH.RefreshObject(inObjectHandle);
 }
 
-void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
+void CollisionWorld::TeleportTransform(const CollisionObjectHandle& inObjectHandle, const Transform2D& inTransform)
 {
 	gAssert(gIsMainThread());
 	mCollisionObjects[inObjectHandle.mIndex].SetTransform(inTransform);
 	mBVH.RefreshObject(inObjectHandle);
 }
 
-const Array<CollisionData>& CollisionWorld::CheckCollisions(const fm::Transform2D mTransform)
+const Array<CollisionData>& CollisionWorld::CheckCollisions(const Transform2D mTransform)
 {
 	PROFILE_SCOPE(CollisionWorld::CheckCollision)
 	gAssert(gIsMainThread());
@@ -219,7 +219,7 @@ void CollisionWorld::LoopCollisionObjects(const std::function<void(const Collisi
 	}
 }
 
-void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform)
+void CollisionWorld::SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const Transform2D& inTransform)
 {
 	gAssert(gIsMainThread());
 	CollisionObject& object = mCollisionObjects[inObjectHandle.mIndex];

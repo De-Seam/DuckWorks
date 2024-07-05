@@ -1,6 +1,6 @@
 #pragma once
 // Core includes
-#include "Core/Math/FMath.h"
+#include "Core/Math/Math.h"
 #include "Core/Utilities/UID.h"
 #include "Core/Utilities/Utilities.h"
 
@@ -24,7 +24,7 @@ struct TextureRenderComponent : public EntityComponent
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		SharedPtr<TextureResource> mTexture = nullptr;
-		fm::ivec4 mSrcRect = {};
+		IVec4 mSrcRect = {};
 		bool mUseSrcRect = false;
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 	};
@@ -32,7 +32,7 @@ struct TextureRenderComponent : public EntityComponent
 	TextureRenderComponent(const ConstructParameters& inConstructParameters = {});
 
 	SharedPtr<TextureResource> mTexture;
-	fm::ivec4 mSrcRect = {};
+	IVec4 mSrcRect = {};
 	bool mUseSrcRect = false;
 
 	// Set by the animation component if it has one

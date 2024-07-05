@@ -30,7 +30,7 @@ private:
 	SharedPtr<TextureResource> mFileTexture = nullptr;
 	String mCurrentPath = "Assets";
 
-	fm::vec2 mIconSize = {64.f, 64.f};
+	Vec2 mIconSize = {64.f, 64.f};
 
 	HashMap<String, SharedPtr<TextureResource>> mTextures;
 

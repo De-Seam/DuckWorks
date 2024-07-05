@@ -43,7 +43,7 @@ void TextureResource::LoadFromFile(const String& inFile)
 		return;
 	}
 
-	SDL_QueryTexture(mTexture, nullptr, nullptr, &mSize.x, &mSize.y);
+	SDL_QueryTexture(mTexture, nullptr, nullptr, &mSize.mX, &mSize.mY);
 }
 
 void TextureResource::Reload()

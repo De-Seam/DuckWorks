@@ -132,7 +132,7 @@ void DebugUIWindowManager::Init()
 				if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
 					return;
 
-				fm::vec2 world_location = gRenderer.GetWorldLocationAtWindowLocation(inEventData.mMouseDown.mMousePosition);
+				Vec2 world_location = gRenderer.GetWorldLocationAtWindowLocation(inEventData.mMouseDown.mMousePosition);
 				Optional<Ref<Entity>> entity = gEngine.GetWorld()->GetEntityAtLocationSlow(world_location);
 				SetSelectedEntity(entity);
 
@@ -383,13 +383,13 @@ void DebugUIWindowManager::UpdateSelectedEntity()
 	if (!selected_entity.IsValid())
 		return;
 
-	fm::vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
+	Vec2 old_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetOldMousePosition());
 	Optional<Ref<Entity>> old_entity = gEngine.GetWorld()->GetEntityAtLocationSlow(old_world_location);
 
 	if (!old_entity.has_value() || old_entity.value() != selected_entity)
 		return;
 
-	fm::vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
+	Vec2 new_world_location = gRenderer.GetWorldLocationAtWindowLocation(gEventManager.GetMousePosition());
 
 	selected_entity->SetPosition(new_world_location + mSelectedEntityRelativeLocation);
 }

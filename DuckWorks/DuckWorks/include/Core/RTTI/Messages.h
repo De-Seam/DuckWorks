@@ -37,7 +37,7 @@ public:
 	MsgPreEntityTransformUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	Entity* mEntity = nullptr;
-	fm::Transform2D mNewTransform;
+	Transform2D mNewTransform;
 };
 
 class MsgPostEntityTransformUpdated : public MsgEntityBase
@@ -50,6 +50,6 @@ public:
 	MsgPostEntityTransformUpdated(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	Entity* mEntity = nullptr;
-	fm::Transform2D mOldTransform;
-	fm::Transform2D mNewTransform;
+	Transform2D mOldTransform;
+	Transform2D mNewTransform;
 };

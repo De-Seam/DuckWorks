@@ -37,7 +37,7 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 			Ref<Entity> entity = gEntityFactory.CreateClass(entity_name, params);
 			entity->SetGUID(GUID::sCreate());
 			gEngine.GetWorld()->AddEntity(entity);
-			fm::vec2 position = gRenderer.GetCamera()->GetPosition();
+			Vec2 position = gRenderer.GetCamera()->GetPosition();
 			entity->SetPosition(position);
 		}
 	}

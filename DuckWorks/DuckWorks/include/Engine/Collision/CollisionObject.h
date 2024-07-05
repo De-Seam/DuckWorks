@@ -22,7 +22,7 @@ public:
 	{
 		CollisionObjectHandle mHandle;
 
-		fm::Transform2D mTransform;
+		Transform2D mTransform;
 		EType mType = EType::Static;
 		bool mBlocking = true;
 
@@ -48,10 +48,10 @@ public:
 	void SetOnCollisionFunc(const OnCollisionFunc& inOnCollisionFunc) { mOnCollisionFunction = inOnCollisionFunc; }
 
 	const CollisionObjectHandle& GetHandle() const { return mHandle; }
-	const fm::vec2& GetPosition() const { return mTransform.position; }
-	const fm::vec2& GetHalfSize() const { return mTransform.halfSize; }
-	float GetRotation() const { return mTransform.rotation; }
-	const fm::Transform2D& GetTransform() const { return mTransform; }
+	const Vec2& GetPosition() const { return mTransform.mPosition; }
+	const Vec2& GetHalfSize() const { return mTransform.mHalfSize; }
+	float GetRotation() const { return mTransform.mRotation; }
+	const Transform2D& GetTransform() const { return mTransform; }
 	const AABB& GetAABB() const { return mAABB; }
 	WeakRef<Entity> GetEntity() const { return mEntity; }
 
@@ -61,7 +61,7 @@ public:
 private:
 	CollisionObjectHandle mHandle;
 
-	fm::Transform2D mTransform;
+	Transform2D mTransform;
 	AABB mAABB;
 
 	EType mType = EType::Static;
@@ -74,7 +74,7 @@ private:
 	WeakRef<Entity> mEntity = nullptr;
 
 private:
-	void SetTransform(const fm::Transform2D& inTransform);
+	void SetTransform(const Transform2D& inTransform);
 	void CalculateAABB();
 
 	friend class CollisionWorld;

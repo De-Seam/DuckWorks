@@ -72,8 +72,8 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 		{
 			if (inEvent.window.event == SDL_WINDOWEVENT_RESIZED)
 			{
-				mUserSettings->mWindowSize.x = inEvent.window.data1;
-				mUserSettings->mWindowSize.y = inEvent.window.data2;
+				mUserSettings->mWindowSize.mX = inEvent.window.data1;
+				mUserSettings->mWindowSize.mY = inEvent.window.data2;
 			}
 			else if (inEvent.window.event == SDL_WINDOWEVENT_MAXIMIZED)
 			{
@@ -89,16 +89,16 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 
 	mLua.open_libraries(sol::lib::base);
 
-	mLua.new_usertype<fm::vec2>("vec2",
-								sol::constructors<fm::vec2(), fm::vec2(float, float)>(),
-								"x", &fm::vec2::x,
-								"y", &fm::vec2::y);
+	mLua.new_usertype<Vec2>("Vec2",
+							sol::constructors<Vec2(), Vec2(float, float)>(),
+							"mX", &Vec2::mX,
+							"mY", &Vec2::mY);
 
-	mLua.new_usertype<fm::Transform>("Transform",
-									sol::constructors<fm::Transform(), fm::Transform(fm::vec2, fm::vec2, float)>(),
-									"position", &fm::Transform::position,
-									"halfSize", &fm::Transform::halfSize,
-									"rotation", &fm::Transform::rotation);
+	mLua.new_usertype<Transform2D>("Transform",
+									sol::constructors<Transform2D(), Transform2D(Vec2, Vec2, float)>(),
+									"mPosition", &Transform2D::mPosition,
+									"mHalfSize", &Transform2D::mHalfSize,
+									"mRotation", &Transform2D::mRotation);
 
 	mLua.new_usertype<Entity>("Entity",
 							"GetTransform", &Entity::GetTransform,

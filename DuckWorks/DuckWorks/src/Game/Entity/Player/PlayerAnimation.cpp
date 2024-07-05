@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Game/Entity/Player/PlayerAnimation.h"
 
+#include "Core/Math/Random.h"
+
 #include "Game/Entity/Player/Player.h"
 
 PlayerAnimation::PlayerAnimation(Player* inPlayer)
@@ -15,23 +17,23 @@ PlayerAnimation::PlayerAnimation(Player* inPlayer)
 	CreateHorizontalFrames(params);
 
 	params.mState = SCast<uint16>(State::Walk);
-	params.mStart.y = 192 * 1;
+	params.mStart.mY = 192 * 1;
 	CreateHorizontalFrames(params);
 
 	params.mState = SCast<uint16>(State::Attack1);
-	params.mStart.y = 192 * 2;
+	params.mStart.mY = 192 * 2;
 	CreateHorizontalFrames(params);
 
 	params.mState = SCast<uint16>(State::Attack2);
-	params.mStart.y = 192 * 3;
+	params.mStart.mY = 192 * 3;
 	CreateHorizontalFrames(params);
 
 	params.mState = SCast<uint16>(State::Attack3);
-	params.mStart.y = 192 * 4;
+	params.mStart.mY = 192 * 4;
 	CreateHorizontalFrames(params);
 
 	params.mState = SCast<uint16>(State::Attack4);
-	params.mStart.y = 192 * 5;
+	params.mStart.mY = 192 * 5;
 	CreateHorizontalFrames(params);
 }
 
@@ -39,10 +41,10 @@ static uint32 gSeed = 0;
 
 void PlayerAnimation::Update(float)
 {
-	fm::vec2 velocity = mPlayer->GetVelocity();
-	if (velocity.x > 0)
+	Vec2 velocity = mPlayer->GetVelocity();
+	if (velocity.mX > 0)
 		mFlip = SDL_FLIP_NONE;
-	else if (velocity.x < 0)
+	else if (velocity.mX < 0)
 		mFlip = SDL_FLIP_HORIZONTAL;
 
 	if (
@@ -58,7 +60,7 @@ void PlayerAnimation::Update(float)
 
 	if (mPlayer->IsAttacking())
 	{
-		gSeed = fm::wang_hash(gSeed);
+		gSeed = gWangHash(gSeed);
 		switch (gSeed % 4)
 		{
 		case 0:
@@ -81,7 +83,7 @@ void PlayerAnimation::Update(float)
 		return;
 	}
 
-	if (velocity.length2() > 10.f)
+	if (velocity.Length2() > 10.f)
 	{
 		SetState(static_cast<uint16>(State::Walk));
 	}

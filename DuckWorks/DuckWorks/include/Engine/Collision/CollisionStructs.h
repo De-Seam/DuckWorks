@@ -14,22 +14,22 @@ using CollisionObjectHandle = Handle<struct CollisionObjectHandleEmptyStruct>;
 
 struct AABB
 {
-	fm::vec2 mMin, mMax;
+	Vec2 mMin, mMax;
 
-	fm::vec2 GetSidesLength() const
+	Vec2 GetSidesLength() const
 	{
 		return mMax - mMin;
 	}
 
 	float Area() const
 	{
-		fm::vec2 length = GetSidesLength();
-		return length.x * length.y;
+		Vec2 length = GetSidesLength();
+		return length.mX * length.mY;
 	}
 
-	fm::vec2 GetCenter() const
+	Vec2 GetCenter() const
 	{
-		fm::vec2 length = GetSidesLength();
+		Vec2 length = GetSidesLength();
 		return mMax - (length * 0.5f);
 	}
 };
@@ -37,10 +37,10 @@ struct AABB
 struct CollisionInfo
 {
 	bool mCollides;
-	fm::vec2 mDirection;
+	Vec2 mDirection;
 	float mDepth;
 
-	CollisionInfo(bool c, fm::vec2 dir, float d) : mCollides(c), mDirection(dir), mDepth(d) {}
+	CollisionInfo(bool c, Vec2 dir, float d) : mCollides(c), mDirection(dir), mDepth(d) {}
 	CollisionInfo() = default;
 };
 

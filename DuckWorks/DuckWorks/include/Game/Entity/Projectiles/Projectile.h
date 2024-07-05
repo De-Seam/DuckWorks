@@ -11,15 +11,15 @@ class Projectile : public Actor
 public:
 	struct ConstructParameters : public Base::ConstructParameters
 	{
-		fm::vec2 mVelocity = fm::vec2(0.0f);
+		Vec2 mVelocity = Vec2(0.0f);
 	};
 
 	Projectile(const ConstructParameters& inConstructParameters);
 
 	virtual void Update(float inDeltaTime) override;
 
-	void SetVelocity(fm::vec2 inVelocity) { mVelocity = inVelocity; }
+	void SetVelocity(Vec2 inVelocity) { mVelocity = inVelocity; }
 
 private:
-	fm::vec2 mVelocity;
+	Vec2 mVelocity;
 };

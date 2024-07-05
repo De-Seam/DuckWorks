@@ -144,12 +144,12 @@ void World::Render(float inDeltaTime)
 	sDrawTextureParams.clear();
 	gEntityComponentManager.LoopOverComponents<TextureRenderComponent>([](const TextureRenderComponent& inTextureRenderComponent)
 	{
-		fm::Transform2D transform = inTextureRenderComponent.GetEntity()->GetTransform();
+		Transform2D transform = inTextureRenderComponent.GetEntity()->GetTransform();
 		Renderer::DrawTextureParams params;
 		params.mTexture = inTextureRenderComponent.mTexture->mTexture;
-		params.mPosition = transform.position;
-		params.mHalfSize = transform.halfSize;
-		params.mRotation = transform.rotation;
+		params.mPosition = transform.mPosition;
+		params.mHalfSize = transform.mHalfSize;
+		params.mRotation = transform.mRotation;
 		params.mFlip = inTextureRenderComponent.mFlip;
 		if (inTextureRenderComponent.mUseSrcRect)
 			params.mSrcRect = inTextureRenderComponent.mSrcRect;
@@ -221,29 +221,29 @@ void World::DestroyEntity(const Ref<Entity>& inEntity)
 	std::erase(mEntities, inEntity);
 }
 
-Optional<Ref<Entity>> World::GetEntityAtLocationSlow(fm::vec2 inWorldLocation)
+Optional<Ref<Entity>> World::GetEntityAtLocationSlow(Vec2 inWorldLocation)
 {
 	gAssert(gIsMainThread());
 	for (const Ref<Entity> entity : mEntities)
 	{
-		fm::Transform2D transform = entity->GetTransform();
-		fm::vec2& position = transform.position;
-		fm::vec2& half_size = transform.halfSize;
-		float& rotation = transform.rotation;
+		Transform2D transform = entity->GetTransform();
+		Vec2& position = transform.mPosition;
+		Vec2& half_size = transform.mHalfSize;
+		float& rotation = transform.mRotation;
 
 		// Convert the rotation to a normalized direction vector
-		fm::vec2 rotation_dir(cos(rotation), sin(rotation));
+		Vec2 rotation_dir(cos(rotation), sin(rotation));
 
 		// Translate the world location to the rectangle's local space
-		fm::vec2 local_point = inWorldLocation - position;
+		Vec2 local_point = inWorldLocation - position;
 
 		// Rotate the point in the opposite direction of the rectangle's rotation
 		// to align it with the rectangle's local axes
-		fm::vec2 rotatedPoint(local_point.x * rotation_dir.x + local_point.y * rotation_dir.y,
-							-local_point.x * rotation_dir.y + local_point.y * rotation_dir.x);
+		Vec2 rotatedPoint(local_point.mX * rotation_dir.mX + local_point.mY * rotation_dir.mY,
+						-local_point.mX * rotation_dir.mY + local_point.mY * rotation_dir.mX);
 
 		// Check if the rotated point lies within the rectangle's bounds
-		if (std::abs(rotatedPoint.x) <= half_size.x && std::abs(rotatedPoint.y) <= half_size.y)
+		if (std::abs(rotatedPoint.mX) <= half_size.mX && std::abs(rotatedPoint.mY) <= half_size.mY)
 		{
 			return entity;
 		}

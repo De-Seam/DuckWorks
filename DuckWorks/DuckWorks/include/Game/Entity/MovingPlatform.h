@@ -9,9 +9,9 @@ class MovingPlatform : public Actor
 public:
 	struct ConstructParameters : public Base::ConstructParameters
 	{
-		fm::vec2 mMoveExtents = fm::vec2(0.0f);
-		fm::vec2 mMoveSpeed = fm::vec2(0.0f);
-		fm::vec2 mStartPosition = fm::vec2(0.0f);
+		Vec2 mMoveExtents = Vec2(0.0f);
+		Vec2 mMoveSpeed = Vec2(0.0f);
+		Vec2 mStartPosition = Vec2(0.0f);
 	};
 
 	MovingPlatform(const ConstructParameters& inConstructParameters);
@@ -20,9 +20,9 @@ public:
 	virtual void Update(float inDeltaTime) override;
 
 private:
-	fm::vec2 mMoveExtents;
-	fm::vec2 mMoveSpeed;
-	fm::vec2 mStartPosition;
+	Vec2 mMoveExtents;
+	Vec2 mMoveSpeed;
+	Vec2 mStartPosition;
 
 private:
 };

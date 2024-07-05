@@ -18,8 +18,8 @@ void AnimationBase::CreateHorizontalFrames(const CreateFramesParams& inParams)
 		Frame frame;
 		frame.mDuration = inParams.mDuration;
 		frame.mSize = inParams.mSize;
-		frame.mPosition.x = inParams.mStart.x + i * inParams.mSize.x;
-		frame.mPosition.y = inParams.mStart.y;
+		frame.mPosition.mX = inParams.mStart.mX + i * inParams.mSize.mX;
+		frame.mPosition.mY = inParams.mStart.mY;
 		AddFrame(inParams.mState, frame);
 	}
 }
@@ -31,8 +31,8 @@ void AnimationBase::CreateVerticalFrames(const CreateFramesParams& inParams)
 		Frame frame;
 		frame.mDuration = inParams.mDuration;
 		frame.mSize = inParams.mSize;
-		frame.mPosition.x = inParams.mStart.x;
-		frame.mPosition.y = inParams.mStart.y + i * inParams.mSize.y;
+		frame.mPosition.mX = inParams.mStart.mX;
+		frame.mPosition.mY = inParams.mStart.mY + i * inParams.mSize.mY;
 		AddFrame(inParams.mState, frame);
 	}
 }

@@ -2,6 +2,8 @@
 #include "Engine/Collision/BVH/BVH.h"
 
 // Engine includes
+#include "Core/Math/Random.h"
+
 #include "Engine/Collision/CollisionHelperFunctions.h"
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Debug/DebugUIFunctions.h"
@@ -116,10 +118,10 @@ void BVH::Draw()
 	for (DrawData& draw_data : sDrawDatas)
 	{
 		AABB& aabb = draw_data.mAABB;
-		fm::vec4 color = {0.f, 0.f, 1.f, 1.f};
-		float rand = fm::xorshift32f(&seed) * 0.5f + 0.5f;
-		color.x = SCast<float>(draw_data.mDepth) / SCast<float>(max_depth);
-		color.y = rand;
+		Vec4 color = {0.f, 0.f, 1.f, 1.f};
+		float rand = gXorShift32F(&seed) * 0.5f + 0.5f;
+		color.mX = SCast<float>(draw_data.mDepth) / SCast<float>(max_depth);
+		color.mY = rand;
 
 		if (draw_data.mLeaf)
 			color = {0.f, 1.f, 0.f, 1.f};
@@ -191,17 +193,17 @@ const Array<CollisionObjectHandle>& BVH::GetBroadphaseCollisions(const AABB& inA
 
 AABB BVH::CreateAABBFromObjects(uint64 inFirst, uint64 inCount)
 {
-	fm::vec2 min = {INFINITY};
-	fm::vec2 max = {-INFINITY};
+	Vec2 min = {INFINITY};
+	Vec2 max = {-INFINITY};
 
 	for (uint32 i = 0; i < inCount; i++)
 	{
 		const AABB& mObjectAABB = mObjects[mIndices[inFirst + i]].mAABB;
-		min.x = fm::min(mObjectAABB.mMin.x, min.x);
-		min.y = fm::min(mObjectAABB.mMin.y, min.y);
+		min.mX = gMin(mObjectAABB.mMin.mX, min.mX);
+		min.mY = gMin(mObjectAABB.mMin.mY, min.mY);
 
-		max.x = fm::max(mObjectAABB.mMax.x, max.x);
-		max.y = fm::max(mObjectAABB.mMax.y, max.y);
+		max.mX = gMax(mObjectAABB.mMax.mX, max.mX);
+		max.mY = gMax(mObjectAABB.mMax.mY, max.mY);
 	}
 
 	return {min, max};
@@ -217,7 +219,7 @@ void BVH::Subdivide(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDe
 
 void BVH::Partition(BVHNode* inNode, uint64 inFirst, uint64 inCount, uint64 inDepth)
 {
-	fm::vec2 sides_length = inNode->mAABB.mMax - inNode->mAABB.mMin;
+	Vec2 sides_length = inNode->mAABB.mMax - inNode->mAABB.mMin;
 	float best_split_location = 0;
 	float best_split_cost = INFINITY;
 	size_t best_split_axis = 0;
@@ -283,7 +285,7 @@ uint64 BVH::SplitIndices(uint64 inFirst, uint64 inCount, float inSplitLocation, 
 	uint64 index = inFirst;
 	for (uint64 i = inFirst; i < inFirst + inCount; i++)
 	{
-		const fm::vec2& position = mObjects[mIndices[i]].mAABB.GetCenter();
+		const Vec2& position = mObjects[mIndices[i]].mAABB.GetCenter();
 		if (position[inSplitAxis] <= inSplitLocation)
 		{
 			//std::swap(m_indices[index], m_indices[i]);
@@ -324,7 +326,7 @@ void BVH::CollisionInternal(Array<CollisionObjectHandle>& ioReturnArray, const A
 
 void BVH::AdjustAABBForDynamicObject(AABB& ioAABB)
 {
-	fm::vec2 size = ioAABB.mMax - ioAABB.mMin;
+	Vec2 size = ioAABB.mMax - ioAABB.mMin;
 	ioAABB.mMin -= size * mDynamicAABBModifier;
 	ioAABB.mMax += size * mDynamicAABBModifier;
 }
@@ -389,7 +391,7 @@ bool BVH::FindNodeHierarchyContainingObjectRecursive(
 // This will find the node hierarchy containing inObject.
 // It will be reserved, so index[0] will be the mNodes index of the leaf node
 // And index.back() will be the root node, 0.
-const Array<uint64>& BVH::FindFirstNodeHierarchyAtLocation(const fm::vec2& inlocation)
+const Array<uint64>& BVH::FindFirstNodeHierarchyAtLocation(const Vec2& inlocation)
 {
 	static THREADLOCAL Array<uint64> sReturnArray;
 	sReturnArray.clear();
@@ -400,7 +402,7 @@ const Array<uint64>& BVH::FindFirstNodeHierarchyAtLocation(const fm::vec2& inloc
 	return sReturnArray;
 }
 
-bool BVH::FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, const fm::vec2 inLocation, uint64 inNodeIndex)
+bool BVH::FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, const Vec2 inLocation, uint64 inNodeIndex)
 {
 	BVHNode* node = &mNodes[inNodeIndex];
 	// Early out if this node does not collide with the aabbb
@@ -428,13 +430,13 @@ bool BVH::FindFirstNodeHierarchyAtLocationRecursive(Array<uint64>& ioIndices, co
 
 void BVH::ExpandNodeToFitAABB(BVHNode* ioNode, const AABB& inAABB)
 {
-	ioNode->mAABB.mMin = min2(ioNode->mAABB.mMin, inAABB.mMin);
-	ioNode->mAABB.mMax = max2(ioNode->mAABB.mMax, inAABB.mMax);
+	ioNode->mAABB.mMin = gMin2(ioNode->mAABB.mMin, inAABB.mMin);
+	ioNode->mAABB.mMax = gMax2(ioNode->mAABB.mMax, inAABB.mMax);
 }
 
 void BVH::GetDrawDataRecursively(Array<DrawData>& ioDrawData, uint64 inNodeIndex, uint64 inDepth, uint64& ioMaxDepth)
 {
-	ioMaxDepth = fm::max(inDepth, ioMaxDepth);
+	ioMaxDepth = gMax(inDepth, ioMaxDepth);
 	BVHNode* node = &mNodes[inNodeIndex];
 
 	{

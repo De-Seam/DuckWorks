@@ -3,7 +3,7 @@
 #include "Types.h"
 
 // Core includes
-#include "Core/Math/FMath.h"
+#include "Core/Math/Math.h"
 
 // External libraries
 #include <External/nlohmann/json.hpp>
@@ -84,72 +84,69 @@ bool gIsValidTextureExtension(const std::string& inFilePath);
 bool gIsValidLuaExtension(const std::string& inFilePath);
 
 // JSON Serialization helper functions
-namespace fm
-{
 // vec2
-inline void to_json(Json& outJson, const vec2& inVariable)
+inline void to_json(Json& outJson, const Vec2& inVariable)
 {
-	outJson = Json{inVariable.x, inVariable.y};
+	outJson = Json{inVariable.mX, inVariable.mY};
 }
 
-inline void from_json(const Json& inJson, vec2& outVariable)
+inline void from_json(const Json& inJson, Vec2& outVariable)
 {
-	inJson.at(0).get_to(outVariable.x);
-	inJson.at(1).get_to(outVariable.y);
+	inJson.at(0).get_to(outVariable.mX);
+	inJson.at(1).get_to(outVariable.mY);
 }
 
 // vec3
-inline void to_json(Json& outJson, const vec3& inVariable)
+inline void to_json(Json& outJson, const Vec3& inVariable)
 {
-	outJson = Json{inVariable.x, inVariable.y, inVariable.z};
+	outJson = Json{inVariable.mX, inVariable.mY, inVariable.mZ};
 }
 
-inline void from_json(const Json& inJson, vec3& outVariable)
+inline void from_json(const Json& inJson, Vec3& outVariable)
 {
-	inJson.at(0).get_to(outVariable.x);
-	inJson.at(1).get_to(outVariable.y);
-	inJson.at(2).get_to(outVariable.z);
+	inJson.at(0).get_to(outVariable.mX);
+	inJson.at(1).get_to(outVariable.mY);
+	inJson.at(2).get_to(outVariable.mZ);
 }
 
 // vec4
-inline void to_json(Json& outJson, const vec4& inVariable)
+inline void to_json(Json& outJson, const Vec4& inVariable)
 {
-	outJson = Json{inVariable.x, inVariable.y, inVariable.z, inVariable.w};
+	outJson = Json{inVariable.mX, inVariable.mY, inVariable.mZ, inVariable.mW};
 }
 
-inline void from_json(const Json& inJson, vec4& outVariable)
+inline void from_json(const Json& inJson, Vec4& outVariable)
 {
-	inJson.at(0).get_to(outVariable.x);
-	inJson.at(1).get_to(outVariable.y);
-	inJson.at(2).get_to(outVariable.z);
-	inJson.at(3).get_to(outVariable.w);
+	inJson.at(0).get_to(outVariable.mX);
+	inJson.at(1).get_to(outVariable.mY);
+	inJson.at(2).get_to(outVariable.mZ);
+	inJson.at(3).get_to(outVariable.mW);
 };
 
 // ivec2
-inline void to_json(Json& outJson, const ivec2& inVariable)
+inline void to_json(Json& outJson, const IVec2& inVariable)
 {
-	outJson = Json{inVariable.x, inVariable.y};
+	outJson = Json{inVariable.mX, inVariable.mY};
 }
 
-inline void from_json(const Json& inJson, ivec2& outVariable)
+inline void from_json(const Json& inJson, IVec2& outVariable)
 {
-	inJson.at(0).get_to(outVariable.x);
-	inJson.at(1).get_to(outVariable.y);
+	inJson.at(0).get_to(outVariable.mX);
+	inJson.at(1).get_to(outVariable.mY);
 }
 
 // Transform2D
 inline void to_json(Json& outJson, const Transform2D& inVariable)
 {
-	outJson = Json{{"Position", inVariable.position}, {"HalfSize", inVariable.halfSize}, {"Rotation", inVariable.rotation}};
+	outJson = Json{{"mPosition", inVariable.mPosition}, {"mHalfSize", inVariable.mHalfSize}, {"mRotation", inVariable.mRotation}};
 }
 
 inline void from_json(const Json& inJson, Transform2D& outVariable)
 {
-	inJson.at("Position").get_to(outVariable.position);
-	inJson.at("HalfSize").get_to(outVariable.halfSize);
-	inJson.at("Rotation").get_to(outVariable.rotation);
+	inJson.at("mPosition").get_to(outVariable.mPosition);
+	inJson.at("mHalfSize").get_to(outVariable.mHalfSize);
+	inJson.at("mRotation").get_to(outVariable.mRotation);
 }
-} // Namespace fm
 
 // TextureResource
 class TextureResource;

@@ -72,14 +72,14 @@ public:
 
 	void LoopOverAllComponents(const Function<void(EntityComponent& inComponent)>& inFunction);
 
-	virtual void SetTransform(const fm::Transform2D& inTransform);
-	virtual void SetPosition(const fm::vec2& inPosition);
-	virtual void SetHalfSize(const fm::vec2& inHalfSize);
+	virtual void SetTransform(const Transform2D& inTransform);
+	virtual void SetPosition(const Vec2& inPosition);
+	virtual void SetHalfSize(const Vec2& inHalfSize);
 	virtual void SetRotation(float inRotation);
 
-	[[nodiscard]] const fm::Transform2D& GetTransform() const;
-	[[nodiscard]] fm::vec2 GetPosition() const;
-	[[nodiscard]] fm::vec2 GetHalfSize() const;
+	[[nodiscard]] const Transform2D& GetTransform() const;
+	[[nodiscard]] Vec2 GetPosition() const;
+	[[nodiscard]] Vec2 GetHalfSize() const;
 	[[nodiscard]] float GetRotation() const;
 
 	[[nodiscard]] World* GetWorld() { return mWorld; }
@@ -87,7 +87,7 @@ public:
 	[[nodiscard]] const String& GetName() const { return mName; }
 
 private:
-	fm::Transform2D mTransform = {};
+	Transform2D mTransform = {};
 
 	// HashMap of [Component UID] to Array of Entity Components
 	HashMap<UID, Array<EntityComponent*>> mEntityComponents;

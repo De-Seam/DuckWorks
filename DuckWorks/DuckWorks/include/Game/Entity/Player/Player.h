@@ -20,15 +20,15 @@ public:
 	virtual void Update(float inDeltaTime) override;
 
 	bool IsAttacking() const { return mAttacking; }
-	fm::vec2 GetVelocity() const { return mVelocity; }
+	Vec2 GetVelocity() const { return mVelocity; }
 
 private:
 	Array<SharedPtr<SDLEventFunction>> mSDLEventFunctions;
 	Array<SharedPtr<EventManager::EventFunction>> mEventFunctions;
-	fm::vec2 mVelocityIncrement = {2000.f, 2000.f}; ///< Velocity increment per second
-	fm::vec2 mVelocity = {0.f};
+	Vec2 mVelocityIncrement = {2000.f, 2000.f}; ///< Velocity increment per second
+	Vec2 mVelocity = {0.f};
 	float mMaxVelocity = 200.f; ///< Maximum velocity
-	fm::vec2 mVelocityDecrement = {1000.f, 1000.f}; ///< Velocity decrement per second
+	Vec2 mVelocityDecrement = {1000.f, 1000.f}; ///< Velocity decrement per second
 	bool mAttacking = false; ///< Is the player attacking?
 
 private:

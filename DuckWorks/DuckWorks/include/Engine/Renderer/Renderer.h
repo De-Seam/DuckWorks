@@ -29,7 +29,7 @@ public:
 	struct InitParams
 	{
 		String mWindowTitle;
-		fm::ivec2 mWindowSize;
+		IVec2 mWindowSize;
 		uint32 mWindowFlags;
 		uint32 mRendererFlags;
 	};
@@ -52,23 +52,23 @@ public:
 	struct DrawTextureParams
 	{
 		SDL_Texture* mTexture = nullptr;
-		fm::vec2 mPosition = {0, 0};
-		fm::vec2 mHalfSize = {10000, 10000};
+		Vec2 mPosition = {0, 0};
+		Vec2 mHalfSize = {10000, 10000};
 		float mRotation = 0.f;
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 		EDrawLayer mLayer = EDrawLayer::Foreground;
-		Optional<fm::ivec4> mSrcRect = NullOpt;
+		Optional<IVec4> mSrcRect = NullOpt;
 	};
 
 	void DrawTexture(const DrawTextureParams& inParams);
 	void DrawTextures(const Array<DrawTextureParams>& inParams);
-	[[deprecated]] void DrawTextureTinted(const DrawTextureParams& inParams, const fm::vec4& inColor);
+	[[deprecated]] void DrawTextureTinted(const DrawTextureParams& inParams, const Vec4& inColor);
 
 	struct DrawRectangleParams
 	{
-		fm::vec2 mPosition;
-		fm::vec2 mHalfSize;
-		fm::vec4 mColor;
+		Vec2 mPosition;
+		Vec2 mHalfSize;
+		Vec4 mColor;
 		EDrawLayer mLayer = EDrawLayer::Foreground;
 	};
 
@@ -76,12 +76,12 @@ public:
 
 	void SetCamera(const SharedPtr<Camera>& inCamera) { mCamera = inCamera; }
 
-	fm::vec2 GetWorldLocationAtWindowLocation(const fm::vec2& inWindowLocation) const;
-	SDL_FRect GetSDLFRect(const fm::vec2& inPosition, const fm::vec2& inHalfSize);
+	Vec2 GetWorldLocationAtWindowLocation(const Vec2& inWindowLocation) const;
+	SDL_FRect GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize);
 
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
-	const fm::ivec2& GetWindowSize() const { return mWindowSize; }
+	const IVec2& GetWindowSize() const { return mWindowSize; }
 	const SharedPtr<Camera>& GetCamera() const { return mCamera; }
 
 	class RenderThreadTask : public ThreadTask
@@ -102,7 +102,7 @@ private:
 	// It's entirely possible for the camera not to have an entity. In that case, it's just a stationary camera
 	SharedPtr<Camera> mCamera = nullptr;
 
-	fm::ivec2 mWindowSize;
+	IVec2 mWindowSize;
 
 	StaticArray<Array<DrawTextureParams>, SCast<uint8>(EDrawLayer::Count)> mDrawTextures;
 	StaticArray<Array<DrawRectangleParams>, SCast<uint8>(EDrawLayer::Count)> mDrawRectangles;

@@ -10,4 +10,4 @@ bool gDebugDrawJson(Json& ioJson, const String& inLabel);
 // Return true if the value was modified
 bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine = false, bool inShowKey = true);
 
-void gDrawAABB(const AABB& inAABB, const fm::vec4& inColor);
+void gDrawAABB(const AABB& inAABB, const Vec4& inColor);

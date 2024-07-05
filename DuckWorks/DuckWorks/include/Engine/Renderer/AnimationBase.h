@@ -9,8 +9,8 @@ class AnimationBase
 public:
 	struct Frame
 	{
-		fm::ivec2 mPosition = {};
-		fm::ivec2 mSize = {};
+		IVec2 mPosition = {};
+		IVec2 mSize = {};
 		float mDuration = 0.1f; ///< Time until next frame
 		std::function<void()> mFunctionPtr = nullptr; ///< Function to call when this frame is reached
 	};
@@ -25,8 +25,8 @@ public:
 	struct CreateFramesParams
 	{
 		uint16 mState = {};
-		fm::ivec2 mStart = {};
-		fm::ivec2 mSize = {};
+		IVec2 mStart = {};
+		IVec2 mSize = {};
 		float mDuration = 0.1f;
 		int32 mCount = 0;
 	};

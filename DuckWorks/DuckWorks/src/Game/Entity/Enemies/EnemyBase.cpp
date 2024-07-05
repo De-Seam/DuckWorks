@@ -28,7 +28,6 @@ void EnemyBase::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-
 EnemyBase::EnemyBase(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {
@@ -41,7 +40,7 @@ EnemyBase::EnemyBase(const ConstructParameters& inConstructParameters)
 		}
 	}
 
-	SetHalfSize(fm::vec2(64.f, 64.f));
+	SetHalfSize(Vec2(64.f, 64.f));
 
 	CollisionComponent::ConstructParameters collision_component_params;
 	collision_component_params.mType = CollisionObject::EType::Dynamic;
@@ -63,11 +62,11 @@ void EnemyBase::Update(float inDeltaTime)
 		return;
 
 	Ref<Player> player = mPlayer.Get();
-	fm::vec2 direction = player->GetPosition() - GetPosition();
-	direction = direction.normalize();
+	Vec2 direction = player->GetPosition() - GetPosition();
+	direction = direction.Normalize();
 
 	mVelocity = mVelocity + inDeltaTime * mAcceleration;
-	mVelocity = fm::min(mVelocity, mMaxVelocity);
+	mVelocity = gMin(mVelocity, mMaxVelocity);
 
 	SetPosition(GetPosition() + direction * mVelocity * inDeltaTime);
 }

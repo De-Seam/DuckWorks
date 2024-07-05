@@ -29,15 +29,15 @@ public:
 	void DestroyCollisionObject(const CollisionObjectHandle& inObjectHandle);
 
 	// This function immediately checks for collision so don't call it multiple times on the same object if you can do it once!
-	fm::Transform2D MoveTo(
-		const CollisionObjectHandle& inObjectHandle, Optional<fm::vec2> inPosition, Optional<float> inRotation = NullOpt,
-		Optional<fm::vec2> inHalfSize = NullOpt);
-	void MoveTo(const CollisionObjectHandle& inObjectHandle, fm::Transform2D& ioTransform);
+	Transform2D MoveTo(
+		const CollisionObjectHandle& inObjectHandle, Optional<Vec2> inPosition, Optional<float> inRotation = NullOpt,
+		Optional<Vec2> inHalfSize = NullOpt);
+	void MoveTo(const CollisionObjectHandle& inObjectHandle, Transform2D& ioTransform);
 	// Teleports object to the given position, does not check for collision.
-	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const fm::vec2& inPosition);
-	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
+	void TeleportPosition(const CollisionObjectHandle& inObjectHandle, const Vec2& inPosition);
+	void TeleportTransform(const CollisionObjectHandle& inObjectHandle, const Transform2D& inTransform);
 
-	const Array<CollisionData>& CheckCollisions(fm::Transform2D mTransform);
+	const Array<CollisionData>& CheckCollisions(Transform2D mTransform);
 
 	void DeserializeCollisionObject(const CollisionObjectHandle& inObjectHandle, const Json& inJson);
 	CollisionObject& GetCollisionObject(const CollisionObjectHandle& inObjectHandle);
@@ -53,6 +53,6 @@ private:
 
 private:
 	// Sets the transform. Does NOT lock the mCollisionObjects mutex. That needs to be locked already.
-	void SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const fm::Transform2D& inTransform);
+	void SetTransformInternal(const CollisionObjectHandle& inObjectHandle, const Transform2D& inTransform);
 	CollisionObjectHandle FindOrCreateCollisionObjectIndex(const CollisionObject::ConstructParameters& inConstructParameters);
 };

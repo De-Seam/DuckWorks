@@ -19,15 +19,15 @@ public:
 
 	SDL_Texture* mTexture = nullptr;
 
-	fm::ivec2 GetSize() const { return mSize; }
-	int32 GetWidth() const { return mSize.x; }
-	int32 GetHeight() const { return mSize.y; }
+	IVec2 GetSize() const { return mSize; }
+	int32 GetWidth() const { return mSize.mX; }
+	int32 GetHeight() const { return mSize.mY; }
 
 protected:
 	virtual void LoadFromFile(const String& inFile) override;
 
 private:
-	fm::ivec2 mSize = {};
+	IVec2 mSize = {};
 
 	void DestroyTexture();
 };

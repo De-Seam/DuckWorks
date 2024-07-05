@@ -106,7 +106,7 @@ void DebugUIWindowFileExplorer::Update(float)
 
 	// Calculate how many buttons fit in one row based on window width
 	float window_width = ImGui::GetContentRegionAvail().x;
-	int buttons_per_row = std::max(1, static_cast<int>(window_width / (mIconSize.x + ImGui::GetStyle().ItemSpacing.x)));
+	int buttons_per_row = std::max(1, static_cast<int>(window_width / (mIconSize.mX + ImGui::GetStyle().ItemSpacing.x)));
 	int button_count = 0;
 
 	try
@@ -117,7 +117,7 @@ void DebugUIWindowFileExplorer::Update(float)
 			if (mCurrentPath != "Assets")
 			{
 				ImGui::BeginGroup();
-				if (ImGui::ImageButton((ImTextureID)mFolderTexture->mTexture, ImVec2(mIconSize.x, mIconSize.y)))
+				if (ImGui::ImageButton((ImTextureID)mFolderTexture->mTexture, ImVec2(mIconSize.mX, mIconSize.mY)))
 				{
 					mCurrentPath = directory_path.parent_path().string();
 					std::ranges::replace(mCurrentPath.begin(), mCurrentPath.end(), '\\', '/');
@@ -177,7 +177,7 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 
 	if (inEntry.is_directory())
 	{
-		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(mFolderTexture->mTexture), ImVec2(mIconSize.x, mIconSize.y)))
+		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(mFolderTexture->mTexture), ImVec2(mIconSize.mX, mIconSize.mY)))
 		{
 			mCurrentPath = file_path;
 			gLog("Clicked on folder: %s", mCurrentPath.c_str());
@@ -198,7 +198,7 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 		}
 
 		mTextures[file_path] = texture;
-		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(texture->mTexture), ImVec2(mIconSize.x, mIconSize.y)))
+		if (ImGui::ImageButton(file_path.c_str(), static_cast<ImTextureID>(texture->mTexture), ImVec2(mIconSize.mX, mIconSize.mY)))
 		{
 			gLog("Clicked on file: %s", file_path.c_str());
 
@@ -229,7 +229,7 @@ void DebugUIWindowFileExplorer::UpdateEntry(const std::filesystem::directory_ent
 		}
 	}
 
-	String file_name_truncated = TruncateTextToFitWidth(filename, mIconSize.x);
+	String file_name_truncated = TruncateTextToFitWidth(filename, mIconSize.mX);
 	ImGui::Text("%s", file_name_truncated.c_str()); // Label for the directory
 
 	ImGui::EndGroup(); // End grouping
