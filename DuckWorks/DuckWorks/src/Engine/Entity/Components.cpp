@@ -23,8 +23,6 @@ void WorldComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mTransform);
-	mTransform.mPosition = GetEntity()->GetPosition();
-	mTransform.mRotation = GetEntity()->GetRotation();
 }
 
 // TextureRenderComponent

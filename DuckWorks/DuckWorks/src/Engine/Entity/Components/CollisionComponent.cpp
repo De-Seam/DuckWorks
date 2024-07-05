@@ -26,7 +26,6 @@ void CollisionComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	GetEntity()->GetWorld()->GetCollisionWorld()->DeserializeCollisionObject(mCollisionObjectHandle, inJson["CollisionObject"]);
-	GetEntity()->GetWorld()->GetCollisionWorld()->MoveTo(mCollisionObjectHandle, mTransform);
 }
 
 CollisionComponent::CollisionComponent(const ConstructParameters& inConstructParameters)

@@ -73,6 +73,9 @@ void Entity::Deserialize(const Json& inJson)
 			component->Deserialize(json_component);
 		}
 	}
+
+	SetPosition(mPosition);
+	SetRotation(mRotation);
 }
 
 Entity::~Entity()
