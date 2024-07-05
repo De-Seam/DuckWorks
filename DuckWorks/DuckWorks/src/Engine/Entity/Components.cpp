@@ -23,6 +23,8 @@ void WorldComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mTransform);
+	mTransform.mPosition = GetEntity()->GetPosition();
+	mTransform.mRotation = GetEntity()->GetRotation();
 }
 
 // TextureRenderComponent
@@ -63,7 +65,6 @@ Json TextureRenderComponent::Serialize()
 	Json json = Base::Serialize();
 
 	JSON_SAVE(json, mTexture);
-	JSON_SAVE(json, mTransform);
 	json["mSrcRect"] = {mSrcRect.mX, mSrcRect.mY, mSrcRect.mZ, mSrcRect.mW};
 	JSON_SAVE(json, mUseSrcRect);
 	JSON_SAVE(json, mFlip);
@@ -76,7 +77,6 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mTexture);
-	JSON_TRY_LOAD(inJson, mTransform);
 
 	if (inJson.contains("mSrcRect"))
 		mSrcRect = {inJson["mSrcRect"][0], inJson["mSrcRect"][1], inJson["mSrcRect"][2], inJson["mSrcRect"][3]};
