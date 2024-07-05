@@ -18,26 +18,43 @@ class Entity;
 #pragma warning( push )
 #pragma warning( disable : 4324) // Structure was padded due to alignment specifier
 
-// Texture render component uses TransformComponent for its transform
-struct TextureRenderComponent : public EntityComponent
+// A component in the World, with a Transform
+class WorldComponent : public EntityComponent
 {
-	RTTI_CLASS(TextureRenderComponent, EntityComponent, ClassAllocator)
+	RTTI_VIRTUAL_CLASS(WorldComponent, EntityComponent)
+
+public:
+	struct ConstructParameters : public Base::ConstructParameters
+	{
+		Transform2D mTransform = {};
+	};
+
+	WorldComponent(const ConstructParameters& inConstructParameters = {});
+	virtual ~WorldComponent() override;
+
+	void OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg);
+	void OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg);
+
+	const Transform2D& GetTransform() const { return mTransform; }
+
+protected:
+	Transform2D mTransform;
+};
+
+// Texture render component uses TransformComponent for its transform
+struct TextureRenderComponent : public WorldComponent
+{
+	RTTI_CLASS(TextureRenderComponent, WorldComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		SharedPtr<TextureResource> mTexture = nullptr;
-		Vec2 mHalfSize;
 		IVec4 mSrcRect = {};
 		bool mUseSrcRect = false;
 		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
 	};
 
 	TextureRenderComponent(const ConstructParameters& inConstructParameters = {});
-	virtual ~TextureRenderComponent() override;
 
-	void OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg);
-	void OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg);
-
-	Transform2D mTransform;
 	SharedPtr<TextureResource> mTexture;
 	IVec4 mSrcRect = {};
 	bool mUseSrcRect = false;

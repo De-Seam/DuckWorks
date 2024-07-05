@@ -15,8 +15,6 @@ class CollisionWorld : public RTTIBaseClass
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	using Base::Base;
-
 	CollisionWorld(const ConstructParameters& inConstructParameters = {});
 
 	void BeginPlay();

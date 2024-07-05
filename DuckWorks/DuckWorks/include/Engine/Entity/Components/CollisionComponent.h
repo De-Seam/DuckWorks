@@ -7,15 +7,15 @@
 // Engine includes
 #include "Engine/Collision/CollisionObject.h"
 #include "Engine/Collision/CollisionWorld.h"
+#include "Engine/Entity/Components.h"
 
-struct CollisionComponent : public EntityComponent
+struct CollisionComponent : public WorldComponent
 {
-	RTTI_CLASS(CollisionComponent, EntityComponent, ClassAllocator)
+	RTTI_CLASS(CollisionComponent, WorldComponent, ClassAllocator)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		CollisionObject::EType mType = CollisionObject::EType::Static;
 		bool mBlocking = true;
-		Vec2 mHalfSize = {};
 
 		OnCollisionFunc mOnCollisionFunction = nullptr;
 	};

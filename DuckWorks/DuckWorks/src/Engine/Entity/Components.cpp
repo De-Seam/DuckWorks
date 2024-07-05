@@ -6,8 +6,57 @@
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
+// WorldComponent
+RTTI_VIRTUAL_CLASS_DEFINITION(WorldComponent)
+
+Json WorldComponent::Serialize()
+{
+	Json json = Base::Serialize();
+
+	JSON_SAVE(json, mTransform);
+
+	return json;
+}
+
+void WorldComponent::Deserialize(const Json& inJson)
+{
+	Base::Deserialize(inJson);
+
+	JSON_TRY_LOAD(inJson, mTransform);
+}
+
 // TextureRenderComponent
 RTTI_CLASS_DEFINITION(TextureRenderComponent, ClassAllocator)
+
+WorldComponent::WorldComponent(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
+{
+	if (inConstructParameters.mTransform.mPosition != Vec2(0.f, 0.f))
+		mTransform.mPosition = inConstructParameters.mTransform.mPosition;
+	if (inConstructParameters.mTransform.mRotation != 0.f)
+		mTransform.mRotation = inConstructParameters.mTransform.mRotation;
+
+	mTransform.mHalfSize = inConstructParameters.mTransform.mHalfSize;
+
+	GetEntity()->RegisterMessageListener(this, &WorldComponent::OnPostEntityPositionUpdated);
+	GetEntity()->RegisterMessageListener(this, &WorldComponent::OnPostEntityRotationUpdated);
+}
+
+WorldComponent::~WorldComponent()
+{
+	GetEntity()->UnregisterMessageListener(this, &WorldComponent::OnPostEntityPositionUpdated);
+	GetEntity()->UnregisterMessageListener(this, &WorldComponent::OnPostEntityRotationUpdated);
+}
+
+void WorldComponent::OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg)
+{
+	mTransform.mPosition = inMsg.mNewPosition;
+}
+
+void WorldComponent::OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg)
+{
+	mTransform.mRotation = inMsg.mNewRotation;
+}
 
 Json TextureRenderComponent::Serialize()
 {
@@ -42,29 +91,8 @@ TextureRenderComponent::TextureRenderComponent(const ConstructParameters& inCons
 	mUseSrcRect(inConstructParameters.mUseSrcRect),
 	mFlip(inConstructParameters.mFlip)
 {
-	mTransform = {GetEntity()->GetPosition(), inConstructParameters.mHalfSize, GetEntity()->GetRotation()};
-
 	if (mTexture == nullptr)
 		mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
-
-	GetEntity()->RegisterMessageListener(this, &TextureRenderComponent::OnPostEntityPositionUpdated);
-	GetEntity()->RegisterMessageListener(this, &TextureRenderComponent::OnPostEntityRotationUpdated);
-}
-
-TextureRenderComponent::~TextureRenderComponent()
-{
-	GetEntity()->UnregisterMessageListener(this, &TextureRenderComponent::OnPostEntityPositionUpdated);
-	GetEntity()->UnregisterMessageListener(this, &TextureRenderComponent::OnPostEntityRotationUpdated);
-}
-
-void TextureRenderComponent::OnPostEntityPositionUpdated(const MsgPostEntityPositionUpdated& inMsg)
-{
-	mTransform.mPosition = inMsg.mNewPosition;
-}
-
-void TextureRenderComponent::OnPostEntityRotationUpdated(const MsgPostEntityRotationUpdated& inMsg)
-{
-	mTransform.mRotation = inMsg.mNewRotation;
 }
 
 // AnimationComponent

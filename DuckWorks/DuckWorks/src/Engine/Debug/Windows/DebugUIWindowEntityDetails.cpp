@@ -95,7 +95,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 	if (gDebugUIWindowManager.mDrawEntityOutline)
 	{
-		Transform2D transform = selected_entity->GetFirstComponentOfType<TextureRenderComponent>()->mTransform;
+		Transform2D transform = selected_entity->GetFirstComponentOfType<TextureRenderComponent>()->GetTransform();
 		Renderer::DrawRectangleParams params;
 		params.mPosition = transform.mPosition;
 		params.mHalfSize = transform.mHalfSize;

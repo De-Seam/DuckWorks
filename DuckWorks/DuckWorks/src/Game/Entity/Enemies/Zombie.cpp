@@ -14,7 +14,7 @@ Zombie::Zombie(const ConstructParameters& inConstructParameters)
 {
 	TextureRenderComponent::ConstructParameters params;
 	params.mTexture = gResourceManager.GetResource<TextureResource>("Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png");
-	params.mHalfSize = Vec2{64.f, 64.f};
+	params.mTransform.mHalfSize = Vec2{64.f, 64.f};
 	params.mUseSrcRect = true;
 	params.mSrcRect = {0, 0, 192, 192};
 	AddComponent<TextureRenderComponent>(params);

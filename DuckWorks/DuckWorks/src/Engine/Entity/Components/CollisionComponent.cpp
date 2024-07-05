@@ -36,7 +36,7 @@ CollisionComponent::CollisionComponent(const ConstructParameters& inConstructPar
 	construct_params.mBlocking = inConstructParameters.mBlocking;
 	construct_params.mOnCollisionFunction = inConstructParameters.mOnCollisionFunction;
 	construct_params.mEntity = GetEntity();
-	construct_params.mTransform = Transform2D(GetEntity()->GetPosition(), inConstructParameters.mHalfSize, GetEntity()->GetRotation());
+	construct_params.mTransform = mTransform;
 
 	mCollisionObjectHandle = GetEntity()->GetWorld()->GetCollisionWorld()->CreateCollisionObject(construct_params);
 	GetEntity()->RegisterMessageListener(this, &CollisionComponent::OnPreEntityPositionUpdated);

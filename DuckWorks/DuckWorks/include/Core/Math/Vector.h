@@ -142,6 +142,9 @@ struct Vec2
 	const Vec2& operator /=(const Vec2& inOther) { return *this = *this / inOther; }
 	const Vec2& operator /=(const float inDivider) { return *this = *this / inDivider; }
 
+	bool operator==(const Vec2& inOther) const { return mX == inOther.mX && mY == inOther.mY; }
+	bool operator!=(const Vec2& inOther) const { return !(*this == inOther); }
+
 	[[nodiscard]] float Dot(const Vec2& inOther) const
 	{
 		return (mX * inOther.mX + mY * inOther.mY);

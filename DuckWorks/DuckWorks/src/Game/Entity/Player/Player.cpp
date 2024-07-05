@@ -48,13 +48,13 @@ Player::Player(const ConstructParameters& inConstructParameters)
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>(texture_path);
 	texture_render_component_parameters.mSrcRect = {0, 0, 192, 192};
 	texture_render_component_parameters.mUseSrcRect = true;
-	texture_render_component_parameters.mHalfSize = Vec2(64.f, 64.f);
+	texture_render_component_parameters.mTransform.mHalfSize = Vec2(64.f, 64.f);
 	AddComponent<TextureRenderComponent>(texture_render_component_parameters);
 
 	CollisionComponent::ConstructParameters collision_component_params;
 	collision_component_params.mOnCollisionFunction = [this](const CollisionFuncParams& inParams) { OnCollision(inParams); };
 	collision_component_params.mType = CollisionObject::EType::Dynamic;
-	collision_component_params.mHalfSize = Vec2(32.f, 32.f);
+	collision_component_params.mTransform.mHalfSize = Vec2(32.f, 32.f);
 	AddComponent<CollisionComponent>(collision_component_params);
 
 	ScriptComponent::ConstructParameters script_component_parameters;

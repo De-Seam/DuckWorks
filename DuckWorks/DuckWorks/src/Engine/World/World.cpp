@@ -144,7 +144,7 @@ void World::Render(float inDeltaTime)
 	sDrawTextureParams.clear();
 	gEntityComponentManager.LoopOverComponents<TextureRenderComponent>([](const TextureRenderComponent& inTextureRenderComponent)
 	{
-		Transform2D transform = inTextureRenderComponent.mTransform;
+		Transform2D transform = inTextureRenderComponent.GetTransform();
 		Renderer::DrawTextureParams params;
 		params.mTexture = inTextureRenderComponent.mTexture->mTexture;
 		params.mPosition = transform.mPosition;
@@ -231,8 +231,8 @@ Optional<Ref<Entity>> World::GetEntityAtLocationSlow(Vec2 inWorldLocation)
 		render_outline_transform.mRotation = entity->GetRotation();
 		entity->LoopOverComponents<TextureRenderComponent>([&render_outline_transform](const TextureRenderComponent& inTextureRenderComponent)
 		{
-			Vec2 diff = inTextureRenderComponent.mTransform.mPosition - render_outline_transform.mPosition;
-			Vec2 world_half_size = diff + inTextureRenderComponent.mTransform.mHalfSize;
+			Vec2 diff = inTextureRenderComponent.GetTransform().mPosition - render_outline_transform.mPosition;
+			Vec2 world_half_size = diff + inTextureRenderComponent.GetTransform().mHalfSize;
 			render_outline_transform.mHalfSize = gMax2(render_outline_transform.mHalfSize, world_half_size);
 		});
 
