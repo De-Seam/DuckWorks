@@ -28,11 +28,7 @@ Json World::Serialize()
 	json.update(SerializeIgnoreEntities());
 
 	for (const Ref<Entity>& entity : mEntities)
-	{
-		Json entity_json;
-		entity_json = entity->Serialize();
-		json["Entities"].emplace_back(entity_json);
-	}
+		json["Entities"].emplace_back(entity);
 	return json;
 }
 
