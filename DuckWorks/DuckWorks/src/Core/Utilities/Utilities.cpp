@@ -67,3 +67,9 @@ void from_json(const Json& inJson, AABB& outVariable)
 	inJson.at(0).get_to(outVariable.mMin);
 	inJson.at(1).get_to(outVariable.mMax);
 }
+
+void to_json(Json& outJson, RTTIBaseClass* inVariable)
+{
+	gAssert(inVariable != nullptr);
+	outJson = inVariable->Serialize();
+}

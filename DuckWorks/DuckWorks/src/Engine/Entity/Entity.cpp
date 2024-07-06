@@ -25,9 +25,7 @@ Json Entity::Serialize()
 	Json& json_components = json["Components"];
 	LoopOverAllComponents([&](EntityComponent& inComponent)
 	{
-		Json json_component;
-		json_component = inComponent.Serialize();
-		json_components.emplace_back(json_component);
+		json_components.emplace_back(&inComponent);
 	});
 
 	return json;

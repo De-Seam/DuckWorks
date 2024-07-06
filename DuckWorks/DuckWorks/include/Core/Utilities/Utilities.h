@@ -161,3 +161,9 @@ void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable);
 struct AABB;
 void to_json(Json& outJson, const AABB& inVariable);
 void from_json(const Json& inJson, AABB& outVariable);
+
+// Ref Object
+// We only define to_json
+// Because from_json needs to use a specific Factory and Construct Variables
+class RTTIBaseClass;
+void to_json(Json& outJson, RTTIBaseClass* inVariable);
