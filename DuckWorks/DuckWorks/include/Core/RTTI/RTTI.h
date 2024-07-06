@@ -13,21 +13,21 @@
 public:                                                                                                                                                        \
 	using Base = inParentClassName;                                                                                                                            \
                                                                                                                                                                \
-	static const char *sGetClassName() { return #inClassName; }                                                                                                \
+	static const char* sGetClassName() { return #inClassName; }                                                                                                \
                                                                                                                                                                \
-	static const char *sGetParentClassName() { return #inParentClassName; }                                                                                    \
+	static const char* sGetParentClassName() { return #inParentClassName; }                                                                                    \
                                                                                                                                                                \
-	virtual const char *GetClassName() const override { return inClassName::sGetClassName(); }                                                                 \
+	virtual const char* GetClassName() const override { return inClassName::sGetClassName(); }                                                                 \
                                                                                                                                                                \
-	virtual const char *GetParentClassName() const override { return inClassName::sGetParentClassName(); }                                                     \
+	virtual const char* GetParentClassName() const override { return inClassName::sGetParentClassName(); }                                                     \
                                                                                                                                                                \
 	virtual Json Serialize() override;                                                                                                                         \
                                                                                                                                                                \
-	virtual void Deserialize(const Json &inJson) override;                                                                                                     \
+	virtual void Deserialize(const Json& inJson) override;                                                                                                     \
                                                                                                                                                                \
-	static const UID &sGetRTTIUID() { return s##inClassName##RTTIUID; }                                                                                        \
+	static const UID& sGetRTTIUID() { return s##inClassName##RTTIUID; }                                                                                        \
                                                                                                                                                                \
-	virtual const UID &GetRTTIUID() const override { return s##inClassName##RTTIUID; }                                                                         \
+	virtual const UID& GetRTTIUID() const override { return s##inClassName##RTTIUID; }                                                                         \
                                                                                                                                                                \
 	virtual bool IsAUID(const UID &inRTTIUID) const override                                                                                                   \
 	{                                                                                                                                                          \
@@ -43,7 +43,7 @@ public:                                                                         
 		return sIsAUID(taType::sGetRTTIUID());                                                                                                                 \
 	}                                                                                                                                                          \
                                                                                                                                                                \
-	static bool sIsAUID(const UID &inRTTIUID)                                                                                                                  \
+	static bool sIsAUID(const UID& inRTTIUID)                                                                                                                  \
 	{                                                                                                                                                          \
 		if (inRTTIUID == sGetRTTIUID())                                                                                                                        \
 			return true;                                                                                                                                       \
