@@ -22,8 +22,8 @@ Json EnemyBase::Serialize()
 
 void EnemyBase::Deserialize(const Json& inJson)
 {
-	JSON_TRY_LOAD(inJson, mMaxVelocity);
-	JSON_TRY_LOAD(inJson, mAcceleration);
+	JSON_LOAD(inJson, mMaxVelocity);
+	JSON_LOAD(inJson, mAcceleration);
 
 	Base::Deserialize(inJson);
 }

@@ -23,12 +23,12 @@ void Camera::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mPosition);
-	JSON_TRY_LOAD(inJson, mSize);
-	JSON_TRY_LOAD(inJson, mSizeInverse);
-	JSON_TRY_LOAD(inJson, mZoomSpeed);
-	JSON_TRY_LOAD(inJson, mTargetZoom);
-	JSON_TRY_LOAD(inJson, mZoom);
+	JSON_LOAD(inJson, mPosition);
+	JSON_LOAD(inJson, mSize);
+	JSON_LOAD(inJson, mSizeInverse);
+	JSON_LOAD(inJson, mZoomSpeed);
+	JSON_LOAD(inJson, mTargetZoom);
+	JSON_LOAD(inJson, mZoom);
 }
 
 Camera::Camera(const ConstructParameters& inParameters)

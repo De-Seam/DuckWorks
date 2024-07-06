@@ -21,7 +21,7 @@ void Projectile::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mVelocity);
+	JSON_LOAD(inJson, mVelocity);
 }
 
 Projectile::Projectile(const ConstructParameters& inConstructParameters)

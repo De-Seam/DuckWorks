@@ -54,11 +54,11 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mDrawEntityOutline);
-	JSON_TRY_LOAD(inJson, mDrawCollision);
-	JSON_TRY_LOAD(inJson, mDrawBVH);
+	JSON_LOAD(inJson, mDrawEntityOutline);
+	JSON_LOAD(inJson, mDrawCollision);
+	JSON_LOAD(inJson, mDrawBVH);
 
-	JSON_TRY_LOAD(inJson, mDebugFileName);
+	JSON_LOAD(inJson, mDebugFileName);
 
 	if (inJson.contains("Windows"))
 	{

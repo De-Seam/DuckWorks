@@ -21,7 +21,7 @@ void DebugUIWindowTextureViewer::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mTexture);
+	JSON_LOAD(inJson, mTexture);
 }
 
 void DebugUIWindowTextureViewer::Update(float inDeltaTime)

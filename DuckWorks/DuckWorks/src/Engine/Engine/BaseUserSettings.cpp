@@ -18,7 +18,7 @@ void BaseUserSettings::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mMaxFPS);
-	JSON_TRY_LOAD(inJson, mWindowSize);
-	JSON_TRY_LOAD(inJson, mWindowFlags);
+	JSON_LOAD(inJson, mMaxFPS);
+	JSON_LOAD(inJson, mWindowSize);
+	JSON_LOAD(inJson, mWindowFlags);
 }

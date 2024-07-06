@@ -20,9 +20,9 @@ void CollisionObject::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mType);
-	JSON_TRY_LOAD(inJson, mBlocking);
-	JSON_TRY_LOAD(inJson, mShapeType);
+	JSON_LOAD(inJson, mType);
+	JSON_LOAD(inJson, mBlocking);
+	JSON_LOAD(inJson, mShapeType);
 
 	SetTransform(mTransform);
 }

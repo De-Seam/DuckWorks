@@ -16,5 +16,5 @@ void DebugUIWindow::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mOpen);
+	JSON_LOAD(inJson, mOpen);
 }

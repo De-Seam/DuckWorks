@@ -22,7 +22,7 @@ void WorldComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mLocalOffset);
+	JSON_LOAD(inJson, mLocalOffset);
 
 	CalculateWorldTransform();
 }
@@ -84,12 +84,12 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mTexture);
+	JSON_LOAD(inJson, mTexture);
 
 	if (inJson.contains("mSrcRect"))
 		mSrcRect = {inJson["mSrcRect"][0], inJson["mSrcRect"][1], inJson["mSrcRect"][2], inJson["mSrcRect"][3]};
-	JSON_TRY_LOAD(inJson, mUseSrcRect);
-	JSON_TRY_LOAD(inJson, mFlip);
+	JSON_LOAD(inJson, mUseSrcRect);
+	JSON_LOAD(inJson, mFlip);
 }
 
 TextureRenderComponent::TextureRenderComponent(const ConstructParameters& inConstructParameters)
@@ -178,8 +178,8 @@ void CameraComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mIsActive);
-	JSON_TRY_LOAD(inJson, mPriority);
+	JSON_LOAD(inJson, mIsActive);
+	JSON_LOAD(inJson, mPriority);
 
 	if (inJson.contains("mCamera"))
 	{

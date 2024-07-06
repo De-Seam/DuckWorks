@@ -27,9 +27,9 @@ Json MovingPlatform::Serialize()
 
 void MovingPlatform::Deserialize(const Json& inJson)
 {
-	JSON_TRY_LOAD(inJson, mMoveExtents);
-	JSON_TRY_LOAD(inJson, mMoveSpeed);
-	JSON_TRY_LOAD(inJson, mStartPosition);
+	JSON_LOAD(inJson, mMoveExtents);
+	JSON_LOAD(inJson, mMoveSpeed);
+	JSON_LOAD(inJson, mStartPosition);
 
 	Base::Deserialize(inJson);
 }

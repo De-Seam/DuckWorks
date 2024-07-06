@@ -43,10 +43,10 @@ void World::Deserialize(const Json& inJson)
 
 	mEntities.clear();
 
-	JSON_TRY_LOAD(inJson, mVelocityIterations);
-	JSON_TRY_LOAD(inJson, mPositionIterations);
-	JSON_TRY_LOAD(inJson, mPhysicsUpdateFrequency);
-	JSON_TRY_LOAD(inJson, mPhysicsTimeStep);
+	JSON_LOAD(inJson, mVelocityIterations);
+	JSON_LOAD(inJson, mPositionIterations);
+	JSON_LOAD(inJson, mPhysicsUpdateFrequency);
+	JSON_LOAD(inJson, mPhysicsTimeStep);
 
 	if (inJson.contains("Entities"))
 	{

@@ -21,10 +21,10 @@ void DebugUIWindowOutputLog::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	JSON_TRY_LOAD(inJson, mShowInfo);
-	JSON_TRY_LOAD(inJson, mShowWarnings);
-	JSON_TRY_LOAD(inJson, mShowErrors);
-	JSON_TRY_LOAD(inJson, mMaxEntryCount);
+	JSON_LOAD(inJson, mShowInfo);
+	JSON_LOAD(inJson, mShowWarnings);
+	JSON_LOAD(inJson, mShowErrors);
+	JSON_LOAD(inJson, mMaxEntryCount);
 }
 
 void DebugUIWindowOutputLog::Update(float)
