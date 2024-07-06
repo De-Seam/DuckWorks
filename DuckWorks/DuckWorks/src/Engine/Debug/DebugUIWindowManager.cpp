@@ -34,7 +34,6 @@ Json DebugUIWindowManager::Serialize()
 {
 	Json json = Base::Serialize();
 	JSON_SAVE(json, mDrawEntityOutline);
-	JSON_SAVE(json, mDrawSelectedEntityPhysicsOutline);
 	JSON_SAVE(json, mDrawCollision);
 	JSON_SAVE(json, mDrawBVH);
 
@@ -56,7 +55,6 @@ void DebugUIWindowManager::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 
 	JSON_TRY_LOAD(inJson, mDrawEntityOutline);
-	JSON_TRY_LOAD(inJson, mDrawSelectedEntityPhysicsOutline);
 	JSON_TRY_LOAD(inJson, mDrawCollision);
 	JSON_TRY_LOAD(inJson, mDrawBVH);
 
@@ -307,7 +305,6 @@ void DebugUIWindowManager::UpdateMainMenuBarDrawModes()
 	if (ImGui::BeginMenu("Draw Modes##WindowsMenu"))
 	{
 		ImGui::MenuItem("Draw Entity Outline##mDrawSelectedEntityPhysicsOutlineMenuItem", nullptr, &mDrawEntityOutline);
-		ImGui::MenuItem("Draw Physics Outline##mDrawEntityOutlineMenuItem", nullptr, &mDrawSelectedEntityPhysicsOutline);
 		ImGui::MenuItem("Draw Collision##mDrawCollisionMenuItem", nullptr, &mDrawCollision);
 		ImGui::MenuItem("Draw BVH##mDrawCollisionMenuItem", nullptr, &mDrawBVH);
 

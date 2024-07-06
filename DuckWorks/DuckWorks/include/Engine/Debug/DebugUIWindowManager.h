@@ -61,7 +61,6 @@ public:
 
 public:
 	bool mDrawEntityOutline = true;
-	bool mDrawSelectedEntityPhysicsOutline = true;
 	bool mDrawCollision = false;
 	bool mDrawBVH = false;
 
