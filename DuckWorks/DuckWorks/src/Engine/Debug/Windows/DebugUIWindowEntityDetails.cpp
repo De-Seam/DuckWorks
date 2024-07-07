@@ -2,14 +2,11 @@
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 
 // Engine includes
-#include <Engine/Entity/Actor.h>
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Entity.h"
-#include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/Renderer.h"
-#include "Engine/World/World.h"
 
 // External includes
 #include <External/imgui/imgui.h>
