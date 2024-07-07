@@ -157,3 +157,4 @@ inline void from_json(const Json& inJson, Transform2D& outVariable)
 // Because from_json needs to use a specific Factory and Construct Variables
 class RTTIBaseClass;
 void to_json(Json& outJson, RTTIBaseClass* inVariable);
+void to_json(Json& outJson, const SharedPtr<RTTIBaseClass>& inVariable);

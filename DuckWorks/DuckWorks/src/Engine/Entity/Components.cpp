@@ -72,7 +72,7 @@ Json TextureRenderComponent::Serialize()
 {
 	Json json = Base::Serialize();
 
-	JSON_SAVE(json, mTexture.get());
+	JSON_SAVE(json, mTexture);
 	json["mSrcRect"] = {mSrcRect.mX, mSrcRect.mY, mSrcRect.mZ, mSrcRect.mW};
 	JSON_SAVE(json, mUseSrcRect);
 	JSON_SAVE(json, mFlip);

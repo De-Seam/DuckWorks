@@ -4,7 +4,6 @@
 #include <Core/Allocators/StandardAllocator.h>
 #include <Core/Utilities/GUID.h>
 #include "Core/Utilities/UID.h"
-#include "Core/Utilities/Utilities.h"
 
 #pragma warning( push )
 #pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
