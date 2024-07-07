@@ -205,12 +205,17 @@ SDL_FRect Renderer::GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize)
 	Vec2 screen_half_size = inHalfSize * camera_zoom;
 
 	SDL_FRect sdl_frect;
-	sdl_frect.x = screen_center.mX - screen_half_size.mX + SCast<float>(mCamera->GetSize().mX) * 0.5f;
-	sdl_frect.y = screen_center.mY - screen_half_size.mY + SCast<float>(mCamera->GetSize().mY) * 0.5f;
+	sdl_frect.x = screen_center.mX - screen_half_size.mX + mCamera->GetSize().mX * 0.5f;
+	sdl_frect.y = screen_center.mY - screen_half_size.mY + mCamera->GetSize().mY * 0.5f;
 	sdl_frect.w = screen_half_size.mX * 2;
 	sdl_frect.h = screen_half_size.mY * 2;
 
 	return sdl_frect;
+}
+
+bool Renderer::IsDestRectOnScreen(const SDL_FRect& inDestRect) const
+{
+	return inDestRect.x + inDestRect.w >= 0 && inDestRect.x <= mWindowSize.mX && inDestRect.y + inDestRect.h >= 0 && inDestRect.y <= mWindowSize.mY;
 }
 
 void Renderer::UpdateCamera(float inDeltaTime)
@@ -260,6 +265,10 @@ void Renderer::RenderThreadTask::Execute()
 		// Tinted textures
 		for (const DrawTextureTintedParams& draw_texture_tinted_params : mCurrentDrawTexturesTinted[i])
 		{
+			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_texture_tinted_params.mDrawTextureParams.mPosition, draw_texture_tinted_params.mDrawTextureParams.mHalfSize);
+			if (!gRenderer.IsDestRectOnScreen(dst_rect))
+				continue;
+
 			// Calculate color components
 			const uint32 argb = draw_texture_tinted_params.mColor.GetARGB();
 			const uint8 a = (argb >> 24) & 0xFF;
@@ -271,9 +280,8 @@ void Renderer::RenderThreadTask::Execute()
 			SDL_SetTextureColorMod(draw_texture_tinted_params.mDrawTextureParams.mTexture, r, g, b);
 			SDL_SetTextureAlphaMod(draw_texture_tinted_params.mDrawTextureParams.mTexture, a);
 
-			const SDL_FRect dstRect = gRenderer.GetSDLFRect(draw_texture_tinted_params.mDrawTextureParams.mPosition, draw_texture_tinted_params.mDrawTextureParams.mHalfSize);
 			const SDL_Rect* src_rect = draw_texture_tinted_params.mDrawTextureParams.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&draw_texture_tinted_params.mDrawTextureParams.mSrcRect.value()) : nullptr;
-			SDL_RenderCopyExF(renderer, draw_texture_tinted_params.mDrawTextureParams.mTexture, src_rect, &dstRect, draw_texture_tinted_params.mDrawTextureParams.mRotation, nullptr, draw_texture_tinted_params.mDrawTextureParams.mFlip);
+			SDL_RenderCopyExF(renderer, draw_texture_tinted_params.mDrawTextureParams.mTexture, src_rect, &dst_rect, draw_texture_tinted_params.mDrawTextureParams.mRotation, nullptr, draw_texture_tinted_params.mDrawTextureParams.mFlip);
 
 			// Reset SDL render color
 			SDL_SetTextureColorMod(draw_texture_tinted_params.mDrawTextureParams.mTexture, 255, 255, 255);
@@ -284,6 +292,9 @@ void Renderer::RenderThreadTask::Execute()
 		for (const DrawTextureParams& draw_texture_params : mCurrentDrawTextures[i])
 		{
 			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_texture_params.mPosition, draw_texture_params.mHalfSize);
+			if (!gRenderer.IsDestRectOnScreen(dst_rect))
+				continue;
+
 			const SDL_Rect* src_rect = draw_texture_params.mSrcRect.has_value() ? RCast<const SDL_Rect*>(&draw_texture_params.mSrcRect.value()) : nullptr;
 			SDL_RenderCopyExF(renderer, draw_texture_params.mTexture, src_rect, &dst_rect, draw_texture_params.mRotation, nullptr, draw_texture_params.mFlip);
 		}
@@ -291,15 +302,20 @@ void Renderer::RenderThreadTask::Execute()
 		// Rectangles
 		for (const DrawRectangleParams& draw_rectangle_params : mCurrentDrawRectangles[i])
 		{
+			SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_rectangle_params.mPosition, draw_rectangle_params.mHalfSize);
+			if (!gRenderer.IsDestRectOnScreen(dst_rect))
+				continue;
+
 			uint32 rgba = draw_rectangle_params.mColor.GetRGBA();
 			uint8 r = (rgba >> 24) & 0xFF;
 			uint8 g = (rgba >> 16) & 0xFF;
 			uint8 b = (rgba >> 8) & 0xFF;
 			uint8 a = (rgba >> 0) & 0xFF;
 			SDL_SetRenderDrawColor(renderer, r, g, b, a);
-			SDL_FRect rectangle = gRenderer.GetSDLFRect(draw_rectangle_params.mPosition, draw_rectangle_params.mHalfSize);
-			SDL_RenderDrawRectF(renderer, &rectangle);
+			SDL_RenderDrawRectF(renderer, &dst_rect);
 		}
+		// Reset draw color
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	}
 
 	gRenderer.EndFrame();

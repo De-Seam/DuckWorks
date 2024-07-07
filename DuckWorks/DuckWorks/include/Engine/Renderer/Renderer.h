@@ -112,7 +112,13 @@ public:
 
 	const SharedPtr<RenderThreadTask>& GetRenderThreadTask() const { return mRenderThreadTask; }
 
+	bool IsDestRectOnScreen(const SDL_FRect& inDestRect) const;
+
 private:
+	void UpdateCamera(float inDeltaTime);
+
+	void DrawTextureInternal(const DrawTextureParams& inParams); ///< Doesn't lock the mutex
+
 	SDL_Window* mWindow = nullptr;
 	SDL_Renderer* mRenderer = nullptr;
 
@@ -128,11 +134,6 @@ private:
 	StaticArray<Array<DrawRectangleParams>, SCast<uint8>(EDrawLayer::Count)> mDrawRectangles;
 
 	SharedPtr<RenderThreadTask> mRenderThreadTask;
-
-private:
-	void UpdateCamera(float inDeltaTime);
-
-	void DrawTextureInternal(const DrawTextureParams& inParams); ///< Doesn't lock the mutex
 };
 
 extern Renderer gRenderer;
