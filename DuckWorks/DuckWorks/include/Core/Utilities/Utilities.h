@@ -78,7 +78,7 @@ using Function = std::function<taType>;
 #define JSON_TRY_LOAD(inJson, inVariable) if((inJson).contains((#inVariable))) (inVariable) = (inJson)[#inVariable].get<decltype(inVariable)>()
 
 #ifdef _DEBUG
-#define JSON_LOAD(inJson, inVariable) JSON_TRY_LOAD(inJson, inVariable);
+#define JSON_LOAD(inJson, inVariable) JSON_TRY_LOAD(inJson, inVariable)
 #else // _DEBUG
 #define JSON_LOAD(inJson, inVariable) inVariable = (inJson)[(#inVariable)].get<decltype(inVariable)>()
 #endif // _DEBUG

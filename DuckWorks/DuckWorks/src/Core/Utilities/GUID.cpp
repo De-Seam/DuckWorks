@@ -49,3 +49,13 @@ String GUID::ToString() const
 				(unsigned)(mGUID & 0xFFFF));
 	return {buffer};
 }
+
+void to_json(Json& outJson, const GUID& inVariable)
+{
+	outJson = inVariable.ToString();
+}
+
+void from_json(const Json& inJson, GUID& outVariable)
+{
+	outVariable = GUID(inJson.get<String>());
+}

@@ -21,7 +21,8 @@ private:
 	uint64 mGUID = 0;
 };
 
-#include <vcruntime.h>
+void to_json(Json& outJson, const GUID& inVariable);
+void from_json(const Json& inJson, GUID& outVariable);
 
 namespace std
 {
