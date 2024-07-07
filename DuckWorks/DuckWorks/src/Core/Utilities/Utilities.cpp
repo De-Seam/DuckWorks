@@ -1,14 +1,6 @@
 #include "Precomp.h"
 #include "Core/Utilities/Utilities.h"
 
-// Engine includes. TODO: Remove these includes
-#include "Engine/Resources/ResourceManager.h"
-#include "Engine/Resources/ResourceTypes/TextureResource.h"
-#include "Engine/World/World.h"
-
-// Game includes. TODO: Remove these includes
-#include "Game/App/App.h"
-
 bool gIsValidTextureExtension(const std::string& inFilePath)
 {
 	String lower_case_path;
@@ -42,30 +34,6 @@ bool gIsValidLuaExtension(const std::string& inFilePath)
 
 	return lower_case_path.size() >= sExtension.size() &&
 		lower_case_path.compare(lower_case_path.size() - sExtension.size(), sExtension.size(), sExtension) == 0;
-}
-
-// TextureResource
-void to_json(Json& outJson, const SharedPtr<TextureResource>& inVariable)
-{
-	outJson = inVariable->Serialize();
-}
-
-void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable)
-{
-	outVariable = gResourceManager.GetResource<TextureResource>(inJson["mFile"]);
-	outVariable->Deserialize(inJson);
-}
-
-// AABB
-void to_json(Json& outJson, const AABB& inVariable)
-{
-	outJson = Json{inVariable.mMin, inVariable.mMax};
-}
-
-void from_json(const Json& inJson, AABB& outVariable)
-{
-	inJson.at(0).get_to(outVariable.mMin);
-	inJson.at(1).get_to(outVariable.mMax);
 }
 
 void to_json(Json& outJson, RTTIBaseClass* inVariable)

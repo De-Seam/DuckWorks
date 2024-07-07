@@ -1,6 +1,8 @@
 #pragma once
 #include "DebugUIWindow.h"
 
+class TextureResource;
+
 enum class ToolbarGameState
 {
 	Playing,

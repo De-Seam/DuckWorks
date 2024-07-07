@@ -3,28 +3,14 @@
 
 // Engine includes
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Resources/ResourceManager.h"
 
 // External includes
 #include "External/SDL/SDL_image.h"
 
 RTTI_CLASS_DEFINITION(TextureResource, ClassAllocator)
 
-Json TextureResource::Serialize()
-{
-	// We don't want to serialize the texture or its size, since that might change if the texture changes
-	return Base::Serialize();
-}
-
-void TextureResource::Deserialize(const Json& inJson)
-{
-	if (inJson["mFile"] != GetFileName())
-	{
-		gLog(ELogType::Error, "TextureResource::Deserialize should not be called with a different file than the current file!");
-		return;
-	}
-
-	Base::Deserialize(inJson);
-}
+RTTI_EMPTY_SERIALIZE_DEFINITION(TextureResource)
 
 TextureResource::~TextureResource()
 {
@@ -59,4 +45,10 @@ void TextureResource::DestroyTexture()
 		SDL_DestroyTexture(mTexture);
 		mTexture = nullptr;
 	}
+}
+
+void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable)
+{
+	outVariable = gResourceManager.GetResource<TextureResource>(inJson["mFile"]);
+	outVariable->Deserialize(inJson);
 }

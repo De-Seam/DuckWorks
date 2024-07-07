@@ -19,6 +19,12 @@ void BaseResource::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
+	if (inJson["mFile"] != GetFileName())
+	{
+		gLog(ELogType::Error, "Resource::Deserialize should not be called with a different file than the current file!");
+		return;
+	}
+
 	JSON_LOAD(inJson, mFile);
 }
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "Core/CoreBase.h"
 
+struct AABB;
+
 #define STRING_BUFFER_SIZE 256
 
 // Assumes a imgui window is created.

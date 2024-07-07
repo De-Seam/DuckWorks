@@ -152,15 +152,6 @@ inline void from_json(const Json& inJson, Transform2D& outVariable)
 	inJson.at("mRotation").get_to(outVariable.mRotation);
 }
 
-// TextureResource
-class TextureResource;
-void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable);
-
-// AABB
-struct AABB;
-void to_json(Json& outJson, const AABB& inVariable);
-void from_json(const Json& inJson, AABB& outVariable);
-
 // Ref Object
 // We only define to_json
 // Because from_json needs to use a specific Factory and Construct Variables

@@ -1,6 +1,9 @@
 #include "Precomp.h"
 #include "Engine/Resources/ResourceTypes/LuaResource.h"
 
+// Engine includes
+#include "Engine/Resources/ResourceManager.h"
+
 // External includes
 #include "External/sol/sol.hpp"
 
@@ -21,4 +24,10 @@ void LuaResource::LoadFromFile(const String& inFile)
 void LuaResource::RunScript(sol::state& inLua) const
 {
 	inLua.script(mScript);
+}
+
+void from_json(const Json& inJson, SharedPtr<LuaResource>& outVariable)
+{
+	outVariable = gResourceManager.GetResource<LuaResource>(inJson["mFile"]);
+	outVariable->Deserialize(inJson);
 }

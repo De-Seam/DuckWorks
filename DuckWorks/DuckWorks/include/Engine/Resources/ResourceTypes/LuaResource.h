@@ -25,3 +25,5 @@ protected:
 private:
 	String mScript;
 };
+
+void from_json(const Json& inJson, SharedPtr<LuaResource>& outVariable);
