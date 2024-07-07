@@ -12,7 +12,7 @@ Json DebugUIWindowTextureViewer::Serialize()
 	Json json = Base::Serialize();
 
 	if (mTexture != nullptr)
-		JSON_SAVE(json, mTexture);
+		JSON_SAVE(json, mTexture.get());
 
 	return json;
 }
@@ -28,7 +28,7 @@ void DebugUIWindowTextureViewer::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(DebugUIWindowTextureViewer::Update)
 
-	if(!ImGui::Begin("Texture Viewer", &mOpen))
+	if (!ImGui::Begin("Texture Viewer", &mOpen))
 	{
 		ImGui::End();
 		return;

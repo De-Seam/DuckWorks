@@ -154,7 +154,6 @@ inline void from_json(const Json& inJson, Transform2D& outVariable)
 
 // TextureResource
 class TextureResource;
-void to_json(Json& outJson, const SharedPtr<TextureResource>& inVariable);
 void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable);
 
 // AABB
