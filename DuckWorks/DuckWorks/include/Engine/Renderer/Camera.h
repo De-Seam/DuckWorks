@@ -32,6 +32,7 @@ public:
 	void SetRenderTexture(SDL_Texture* inRenderTexture);
 
 	[[nodiscard]] Vec2 GetPosition() const { return mPosition; }
+	[[nodiscard]] Vec2 GetTargetPosition() const { return mTargetPosition; }
 	[[nodiscard]] float GetZoom() const { return mZoom; }
 	[[nodiscard]] Vec2 GetSize() const { return mSize; }
 	[[nodiscard]] Vec2 GetSizeInverse() const { return mSizeInverse; }

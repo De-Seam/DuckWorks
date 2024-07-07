@@ -160,6 +160,7 @@ public:
 	[[nodiscard]] bool IsMouseButtonDown(MouseButton inMouseButton);
 	[[nodiscard]] Vec2 GetOldMousePosition();
 	[[nodiscard]] Vec2 GetMousePosition();
+	[[nodiscard]] Vec2 GetMouseDelta();
 
 private:
 	HashMap<EventType, Array<WeakPtr<EventFunction>>> mEventFunctions = {};
@@ -182,6 +183,7 @@ private:
 	void OnMouseUp(const SDL_Event& inEvent);
 
 	void OnMouseMove(const SDL_Event& inEvent);
+	void OnMouseWheel(const SDL_Event& inEvent);
 
 	void LoopOverEventFunctions(EventType inEventType, const EventData& inEventData);
 };

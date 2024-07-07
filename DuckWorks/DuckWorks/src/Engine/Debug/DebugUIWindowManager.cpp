@@ -2,13 +2,15 @@
 #include "Engine/Debug/DebugUIWindowManager.h"
 
 // Engine includes
-#include <Engine/Entity/Actor.h>
-#include "Engine/Debug/DebugUIFunctions.h"
+#include "Engine/Collision/CollisionHelperFunctions.h"
+#include "Engine/Debug/DebugCamera.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
+#include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 #include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Entity.h"
+#include "Engine/Entity/Components/EntityComponentManager.h"
 #include "Engine/Events/EventManager.h"
 #include "Engine/Events/SDLEventManager.h"
 #include "Engine/Factory/Factory.h"
@@ -23,8 +25,6 @@
 
 // Std includes
 #include <fstream>
-
-#include "Engine/Collision/CollisionHelperFunctions.h"
 
 RTTI_CLASS_DEFINITION(DebugUIWindowManager, StandardAllocator)
 
@@ -158,6 +158,8 @@ void DebugUIWindowManager::Init()
 		Json json_debug_file = Json::parse(file);
 		Deserialize(json_debug_file);
 	}
+
+	mDebugCamera = std::make_shared<DebugCamera>();
 }
 
 void DebugUIWindowManager::Shutdown()
@@ -189,6 +191,9 @@ void DebugUIWindowManager::Update(float inDeltaTime)
 		mWindows.push_back(window);
 	}
 	mWindowsToAdd.clear();
+
+	if (GetWindow<DebugUIWindowEditorToolbar>()->GetGameState() == ToolbarGameState::Stopped)
+		gRenderer.OverrideCameraThisFrame(mDebugCamera);
 
 	UpdateViewport();
 

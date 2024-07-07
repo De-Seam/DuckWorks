@@ -91,9 +91,10 @@ public:
 	void DrawRectangle(const DrawRectangleParams& inParams);
 
 	void SetCamera(const SharedPtr<Camera>& inCamera) { mCamera = inCamera; }
+	void OverrideCameraThisFrame(const SharedPtr<Camera>& inCamera) { mOverrideCameraThisFrame = inCamera; }
 
 	Vec2 GetWorldLocationAtWindowLocation(const Vec2& inWindowLocation) const;
-	SDL_FRect GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize);
+	SDL_FRect GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize, const SharedPtr<Camera>& inCamera);
 
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
@@ -108,6 +109,8 @@ public:
 		StaticArray<Array<DrawTextureTintedParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawTexturesTinted;
 		StaticArray<Array<DrawTextureParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawTextures;
 		StaticArray<Array<DrawRectangleParams>, SCast<uint8>(EDrawLayer::Count)> mCurrentDrawRectangles;
+
+		SharedPtr<Camera> mCamera = nullptr;
 	};
 
 	const SharedPtr<RenderThreadTask>& GetRenderThreadTask() const { return mRenderThreadTask; }
@@ -126,6 +129,7 @@ private:
 
 	// It's entirely possible for the camera not to have an entity. In that case, it's just a stationary camera
 	SharedPtr<Camera> mCamera = nullptr;
+	SharedPtr<Camera> mOverrideCameraThisFrame = nullptr;
 
 	IVec2 mWindowSize;
 

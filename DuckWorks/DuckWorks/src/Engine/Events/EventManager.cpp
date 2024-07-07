@@ -37,6 +37,10 @@ void EventManager::Init()
 	event_function.mEventType = SDL_MOUSEMOTION;
 	event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { this->OnMouseMove(inEvent); };
 	gSDLEventManager.AddPersistentEventFunction(event_function);
+
+	event_function.mEventType = SDL_MOUSEWHEEL;
+	event_function.mFunctionPtr = [this](const SDL_Event& inEvent) { this->OnMouseWheel(inEvent); };
+	gSDLEventManager.AddPersistentEventFunction(event_function);
 }
 
 void EventManager::SetupSDLConversions()
@@ -94,6 +98,7 @@ void EventManager::SetupSDLConversions()
 
 void EventManager::Update(float inDeltaTime)
 {
+	mOldMousePosition = mMousePosition;
 	(void)inDeltaTime;
 }
 
@@ -128,6 +133,11 @@ Vec2 EventManager::GetOldMousePosition()
 Vec2 EventManager::GetMousePosition()
 {
 	return mMousePosition;
+}
+
+Vec2 EventManager::GetMouseDelta()
+{
+	return mMousePosition - mOldMousePosition;
 }
 
 void EventManager::OnKeyDown(const SDL_Event& inEvent)
@@ -203,6 +213,14 @@ void EventManager::OnMouseMove(const SDL_Event& inEvent)
 	event_data.mMouseMove.mDelta = event_data.mMouseMove.mNewPosition - event_data.mMouseMove.mOldPosition;
 
 	LoopOverEventFunctions(EventType::MouseMove, event_data);
+}
+
+void EventManager::OnMouseWheel(const SDL_Event& inEvent)
+{
+	EventData event_data;
+	event_data.mMouseWheel.mDelta = SCast<float>(inEvent.wheel.y);
+
+	LoopOverEventFunctions(EventType::MouseWheel, event_data);
 }
 
 void EventManager::LoopOverEventFunctions(EventType inEventType, const EventData& inEventData)

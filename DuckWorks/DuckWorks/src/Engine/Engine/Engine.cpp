@@ -43,6 +43,8 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 	INIT_MANAGER_AFTER(gSDLEventManager, gRenderer);
 
 	INIT_MANAGER_AFTER(gEventManager, gSDLEventManager);
+	// Update EventManager before SDLEventManager to reset old mouse position before getting callbacks
+	UPDATE_MANAGER_AFTER(gSDLEventManager, gEventManager);
 	INIT_MANAGER_AFTER(gEventManager, gRenderer);
 
 	INIT_MANAGER_AFTER(gResourceManager, gLogManager);
@@ -215,9 +217,9 @@ void Engine::sOrganizeArray(Array<Manager*>& ioArray, const HashMap<Manager*, Ar
 
 	for (Manager* manager : ioArray)
 	{
-		if (inMapBefore.contains(manager))
+		if (inMapAfter.contains(manager))
 		{
-			for (Manager* other_manager : inMapBefore.at(manager))
+			for (Manager* other_manager : inMapAfter.at(manager))
 			{
 				auto iter = std::ranges::find(organized_array, other_manager);
 				if (iter == organized_array.end())
@@ -237,9 +239,9 @@ void Engine::sOrganizeArray(Array<Manager*>& ioArray, const HashMap<Manager*, Ar
 			organized_array.push_back(manager);
 		}
 
-		if (inMapAfter.contains(manager))
+		if (inMapBefore.contains(manager))
 		{
-			for (Manager* other_manager : inMapAfter.at(manager))
+			for (Manager* other_manager : inMapBefore.at(manager))
 			{
 				auto iter = std::ranges::find(organized_array, other_manager);
 				if (iter == organized_array.end())

@@ -3,10 +3,13 @@
 #include "Core/CoreBase.h"
 
 // Engine includes
+#include "Engine/Entity/Entity.h"
+
 #include "Windows/DebugUIWindow.h"
 
 class TextureRenderComponent;
 class Entity;
+class Camera;
 
 class DebugUIWindowManager : public Manager
 {
@@ -76,6 +79,8 @@ private:
 	Vec2 mSelectedTextureRenderComponentRelativeLocation = {}; ///< 0,0 would be the center of the texture render component
 
 	HashMap<UID, Json> mSavedWindowSettings; ///< The saved settings for each Window.
+
+	SharedPtr<Camera> mDebugCamera = nullptr;;
 };
 
 extern DebugUIWindowManager gDebugUIWindowManager;

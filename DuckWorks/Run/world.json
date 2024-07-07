@@ -17,73 +17,6 @@
             "mRotation": 0.0,
             "Components": [
                 {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d33a",
-                    "mLocalOffset": {
-                        "mPosition": [
-                            0.0,
-                            0.0
-                        ],
-                        "mHalfSize": [
-                            64.0,
-                            64.0
-                        ],
-                        "mRotation": 0.0
-                    },
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
-                },
-                {
-                    "ClassName": "ScriptComponent",
-                    "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
-                },
-                {
-                    "ClassName": "HealthComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mHealth": 100.0
-                },
-                {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mIsActive": false,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
-                },
-                {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d33b",
                     "mLocalOffset": {
@@ -115,6 +48,73 @@
                             "mRotation": 0.0
                         }
                     }
+                },
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d33a",
+                    "mLocalOffset": {
+                        "mPosition": [
+                            0.0,
+                            0.0
+                        ],
+                        "mHalfSize": [
+                            64.0,
+                            64.0
+                        ],
+                        "mRotation": 0.0
+                    },
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
+                },
+                {
+                    "ClassName": "AnimationComponent",
+                    "mGUID": "52af-b8bb-1b48-d33d"
+                },
+                {
+                    "ClassName": "ScriptComponent",
+                    "mGUID": "52af-b8bb-1b48-d33c",
+                    "mFileName": "Assets/Scripts/Player.lua"
+                },
+                {
+                    "ClassName": "HealthComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mHealth": 100.0
+                },
+                {
+                    "ClassName": "CameraComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mIsActive": true,
+                    "mPriority": 0,
+                    "mCamera": {
+                        "ClassName": "Camera",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mPosition": [
+                            200.0,
+                            0.0
+                        ],
+                        "mSize": [
+                            1920.0,
+                            1080.0
+                        ],
+                        "mSizeInverse": [
+                            0.0005208333604969084,
+                            0.0009259259095415473
+                        ],
+                        "mZoomSpeed": 40.0,
+                        "mTargetZoom": 1.0,
+                        "mZoom": 1.0
+                    }
                 }
             ],
             "mVelocityIncrement": [
@@ -133,34 +133,6 @@
             ],
             "mRotation": 0.0,
             "Components": [
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mLocalOffset": {
-                        "mPosition": [
-                            0.0,
-                            0.0
-                        ],
-                        "mHalfSize": [
-                            32.0,
-                            32.0
-                        ],
-                        "mRotation": 0.0
-                    },
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/DefaultTexture.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
-                },
                 {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -193,19 +165,7 @@
                             "mRotation": 0.0
                         }
                     }
-                }
-            ]
-        },
-        {
-            "ClassName": "MovingPlatform",
-            "mGUID": "a567-243f-71e9-7769",
-            "mName": "MovingPlatform",
-            "mPosition": [
-                -253.0,
-                48.0169677734375
-            ],
-            "mRotation": 0.0,
-            "Components": [
+                },
                 {
                     "ClassName": "TextureRenderComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
@@ -223,7 +183,7 @@
                     "mTexture": {
                         "ClassName": "TextureResource",
                         "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/top.jpg"
+                        "mFile": "Assets/DefaultTexture.png"
                     },
                     "mSrcRect": [
                         0,
@@ -233,7 +193,19 @@
                     ],
                     "mUseSrcRect": false,
                     "mFlip": 0
-                },
+                }
+            ]
+        },
+        {
+            "ClassName": "MovingPlatform",
+            "mGUID": "a567-243f-71e9-7769",
+            "mName": "MovingPlatform",
+            "mPosition": [
+                -253.0,
+                48.0169677734375
+            ],
+            "mRotation": 0.0,
+            "Components": [
                 {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -266,6 +238,34 @@
                             "mRotation": 0.0
                         }
                     }
+                },
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mLocalOffset": {
+                        "mPosition": [
+                            0.0,
+                            0.0
+                        ],
+                        "mHalfSize": [
+                            32.0,
+                            32.0
+                        ],
+                        "mRotation": 0.0
+                    },
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/top.jpg"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
                 }
             ],
             "mMoveExtents": [
@@ -291,34 +291,6 @@
             ],
             "mRotation": 0.0,
             "Components": [
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d338",
-                    "mLocalOffset": {
-                        "mPosition": [
-                            0.0,
-                            0.0
-                        ],
-                        "mHalfSize": [
-                            16.0,
-                            16.0
-                        ],
-                        "mRotation": 0.0
-                    },
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/DefaultTexture.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "mUseSrcRect": false,
-                    "mFlip": 0
-                },
                 {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d339",
@@ -351,6 +323,34 @@
                             "mRotation": 0.0
                         }
                     }
+                },
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d338",
+                    "mLocalOffset": {
+                        "mPosition": [
+                            0.0,
+                            0.0
+                        ],
+                        "mHalfSize": [
+                            16.0,
+                            16.0
+                        ],
+                        "mRotation": 0.0
+                    },
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/DefaultTexture.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mUseSrcRect": false,
+                    "mFlip": 0
                 }
             ],
             "mVelocity": [
@@ -368,34 +368,6 @@
             ],
             "mRotation": 0.0,
             "Components": [
-                {
-                    "ClassName": "TextureRenderComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mLocalOffset": {
-                        "mPosition": [
-                            0.0,
-                            0.0
-                        ],
-                        "mHalfSize": [
-                            64.0,
-                            64.0
-                        ],
-                        "mRotation": 0.0
-                    },
-                    "mTexture": {
-                        "ClassName": "TextureResource",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
-                    },
-                    "mSrcRect": [
-                        0,
-                        0,
-                        192,
-                        192
-                    ],
-                    "mUseSrcRect": true,
-                    "mFlip": 0
-                },
                 {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
@@ -428,6 +400,34 @@
                             "mRotation": 0.0
                         }
                     }
+                },
+                {
+                    "ClassName": "TextureRenderComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mLocalOffset": {
+                        "mPosition": [
+                            0.0,
+                            0.0
+                        ],
+                        "mHalfSize": [
+                            64.0,
+                            64.0
+                        ],
+                        "mRotation": 0.0
+                    },
+                    "mTexture": {
+                        "ClassName": "TextureResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/TinySwords/Factions/Goblins/Troops/Torch/Red/Torch_Red.png"
+                    },
+                    "mSrcRect": [
+                        0,
+                        0,
+                        192,
+                        192
+                    ],
+                    "mUseSrcRect": true,
+                    "mFlip": 0
                 }
             ],
             "mAcceleration": 100.0,

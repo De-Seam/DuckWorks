@@ -124,6 +124,7 @@
     <ClInclude Include="include\Core\Math\Vector.h" />
     <ClInclude Include="include\Core\RTTI\Messages.h" />
     <ClInclude Include="include\Core\Utilities\GUID.h" />
+    <ClInclude Include="include\Engine\Debug\DebugCamera.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEditorToolbar.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowNewFilePopup.h" />
     <ClInclude Include="include\Engine\Engine\Engine.h" />
@@ -366,6 +367,7 @@
     <ClCompile Include="src\Core\RTTI\Messages.cpp" />
     <ClCompile Include="src\Core\Utilities\GUID.cpp" />
     <ClCompile Include="src\Engine\Collision\CollisionStructs.cpp" />
+    <ClCompile Include="src\Engine\Debug\DebugCamera.cpp" />
     <ClCompile Include="src\Engine\Engine\Engine.cpp" />
     <ClCompile Include="src\Engine\Engine\FactoryRegistryEngine.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\CollisionComponent.cpp" />

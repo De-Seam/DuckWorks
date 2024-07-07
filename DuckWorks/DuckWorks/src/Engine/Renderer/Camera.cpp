@@ -60,6 +60,7 @@ void Camera::SetPosition(Vec2 inPosition)
 
 void Camera::SnapPosition(Vec2 inPosition)
 {
+	mTargetPosition = inPosition;
 	mPosition = inPosition;
 }
 

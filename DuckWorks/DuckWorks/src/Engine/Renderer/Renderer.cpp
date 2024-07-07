@@ -128,6 +128,8 @@ void Renderer::Update(float inDeltaTime)
 
 	UpdateCamera(inDeltaTime);
 
+	mRenderThreadTask->mCamera = mCamera;
+
 	gThreadManager.AddTask(mRenderThreadTask, ThreadPriority::VeryHigh);
 }
 
@@ -193,10 +195,10 @@ Vec2 Renderer::GetWorldLocationAtWindowLocation(const Vec2& inWindowLocation) co
 	return world_location;
 }
 
-SDL_FRect Renderer::GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize)
+SDL_FRect Renderer::GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize, const SharedPtr<Camera>& inCamera)
 {
-	const Vec2 camera_position = mCamera->GetPosition();
-	const float camera_zoom = mCamera->GetZoom();
+	const Vec2 camera_position = inCamera->GetPosition();
+	const float camera_zoom = inCamera->GetZoom();
 
 	// Calculate the screen mPosition of the center of the object
 	Vec2 screen_center = (inPosition - camera_position) * camera_zoom;
@@ -224,25 +226,41 @@ void Renderer::UpdateCamera(float inDeltaTime)
 	SharedPtr<Camera> highest_priority_camera = {};
 	CameraComponent* highest_component_camera = nullptr;
 
-	gEntityComponentManager.LoopOverComponents<CameraComponent>([&](CameraComponent& inCameraComponent)
+	if (mOverrideCameraThisFrame != nullptr)
 	{
-		if (inCameraComponent.mIsActive)
+		highest_priority_camera = mOverrideCameraThisFrame;
+		mOverrideCameraThisFrame = nullptr;
+	}
+	else
+	{
+		gEntityComponentManager.LoopOverComponents<CameraComponent>([&](CameraComponent& inCameraComponent)
 		{
-			if (inCameraComponent.mPriority > highest_priority)
+			if (inCameraComponent.mIsActive)
 			{
-				highest_priority = inCameraComponent.mPriority;
-				highest_priority_camera = inCameraComponent.mCamera;
-				highest_component_camera = &inCameraComponent;
+				if (inCameraComponent.mPriority > highest_priority)
+				{
+					highest_priority = inCameraComponent.mPriority;
+					highest_priority_camera = inCameraComponent.mCamera;
+					highest_component_camera = &inCameraComponent;
+				}
 			}
-		}
-	});
+		});
+	}
 
 	if (highest_priority_camera != nullptr)
 	{
+		if (highest_priority_camera != mCamera)
+		{
+			highest_priority_camera->SnapZoom(mCamera->GetZoom());
+			highest_priority_camera->SnapPosition(mCamera->GetPosition());
+		}
 		mCamera = highest_priority_camera;
 
-		Entity* entity = highest_component_camera->GetEntity();
-		mCamera->SetPosition(entity->GetPosition());
+		if (highest_component_camera != nullptr)
+		{
+			Entity* entity = highest_component_camera->GetEntity();
+			mCamera->SetPosition(entity->GetPosition());
+		}
 	}
 
 	mCamera->Update(inDeltaTime);
@@ -265,7 +283,7 @@ void Renderer::RenderThreadTask::Execute()
 		// Tinted textures
 		for (const DrawTextureTintedParams& draw_texture_tinted_params : mCurrentDrawTexturesTinted[i])
 		{
-			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_texture_tinted_params.mDrawTextureParams.mPosition, draw_texture_tinted_params.mDrawTextureParams.mHalfSize);
+			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_texture_tinted_params.mDrawTextureParams.mPosition, draw_texture_tinted_params.mDrawTextureParams.mHalfSize, mCamera);
 			if (!gRenderer.IsDestRectOnScreen(dst_rect))
 				continue;
 
@@ -291,7 +309,7 @@ void Renderer::RenderThreadTask::Execute()
 		// Textures
 		for (const DrawTextureParams& draw_texture_params : mCurrentDrawTextures[i])
 		{
-			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_texture_params.mPosition, draw_texture_params.mHalfSize);
+			const SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_texture_params.mPosition, draw_texture_params.mHalfSize, mCamera);
 			if (!gRenderer.IsDestRectOnScreen(dst_rect))
 				continue;
 
@@ -302,7 +320,7 @@ void Renderer::RenderThreadTask::Execute()
 		// Rectangles
 		for (const DrawRectangleParams& draw_rectangle_params : mCurrentDrawRectangles[i])
 		{
-			SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_rectangle_params.mPosition, draw_rectangle_params.mHalfSize);
+			SDL_FRect dst_rect = gRenderer.GetSDLFRect(draw_rectangle_params.mPosition, draw_rectangle_params.mHalfSize, mCamera);
 			if (!gRenderer.IsDestRectOnScreen(dst_rect))
 				continue;
 
