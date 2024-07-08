@@ -249,11 +249,6 @@ void Renderer::UpdateCamera(float inDeltaTime)
 
 	if (highest_priority_camera != nullptr)
 	{
-		if (highest_priority_camera != mCamera)
-		{
-			highest_priority_camera->SnapZoom(mCamera->GetZoom());
-			highest_priority_camera->SnapPosition(mCamera->GetPosition());
-		}
 		mCamera = highest_priority_camera;
 
 		if (highest_component_camera != nullptr)
