@@ -475,3 +475,8 @@ void DebugUIWindowManager::SetSelectedEntity(const Optional<WeakRef<Entity>>& in
 	if (!WindowExists(DebugUIWindowEntityDetails::sGetClassName()))
 		CreateWindow<DebugUIWindowEntityDetails>();
 }
+
+bool DebugUIWindowManager::WantsMouseCapture() const
+{
+	return ImGui::GetIO().WantCaptureMouse;
+}

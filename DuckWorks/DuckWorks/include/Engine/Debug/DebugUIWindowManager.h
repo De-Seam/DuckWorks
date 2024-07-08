@@ -62,6 +62,8 @@ public:
 	void SetSelectedEntity(const Optional<WeakRef<Entity>>& inEntity);
 	Optional<WeakRef<Entity>> GetSelectedEntity() const { return mSelectedEntity; }
 
+	bool WantsMouseCapture() const;
+
 public:
 	bool mDrawEntityOutline = true;
 	bool mDrawCollision = false;

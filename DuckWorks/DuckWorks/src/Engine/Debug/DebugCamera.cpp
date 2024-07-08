@@ -2,12 +2,9 @@
 #include "Engine/Debug/DebugCamera.h"
 
 // Engine includes
+#include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Events/EventManager.h"
-
-// External includes
 #include "Engine/Renderer/Renderer.h"
-
-#include "External/imgui/imgui.h"
 
 RTTI_CLASS_DEFINITION(DebugCamera, StandardAllocator)
 
@@ -16,6 +13,8 @@ RTTI_EMPTY_SERIALIZE_DEFINITION(DebugCamera)
 DebugCamera::DebugCamera(const ConstructParameters& inParameters)
 	: Base(inParameters)
 {
+	SetZoomSpeed(30.0f);
+
 	{
 		EventManager::EventFunction event_function;
 		event_function.mEventType = EventType::MouseMove;
@@ -38,8 +37,7 @@ void DebugCamera::Update(float inDeltaTime)
 
 void DebugCamera::OnMouseMove(const EventManager::EventData& inData)
 {
-	ImGuiIO& io = ImGui::GetIO();
-	if (io.WantCaptureMouse)
+	if (gDebugUIWindowManager.WantsMouseCapture())
 		return;
 
 	if (gEventManager.IsMouseButtonDown(MouseButton::Middle))
@@ -55,5 +53,8 @@ void DebugCamera::OnMouseMove(const EventManager::EventData& inData)
 
 void DebugCamera::OnMouseWheel(const EventManager::EventData& inData)
 {
+	if (gDebugUIWindowManager.WantsMouseCapture())
+		return;
+
 	SetZoom(GetZoom() + inData.mMouseWheel.mDelta * 0.1f);
 }
