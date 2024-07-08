@@ -49,24 +49,23 @@ template<typename taType>
 class Ref
 {
 public:
-	Ref(const typename taType::ConstructParameters& inConstructParameters = {})
-	{
-		static_assert(std::is_base_of_v<RefObject, taType>);
-		mPtr = taType::sNewInstance(inConstructParameters);
-		mPtr->mRefCount++;
-	}
+	Ref() = default;
 
 	Ref(const Ref<taType>& inOther)
 	{
-		gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
-		mPtr = inOther.mPtr;
-		mPtr->mRefCount++;
+		if (inOther.mPtr != nullptr)
+		{
+			gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			mPtr = inOther.mPtr;
+			mPtr->mRefCount++;
+		}
 	}
 
 	Ref(Ref<taType>&& inOther)
 	{
 		mPtr = inOther.mPtr;
-		inOther.mPtr->mRefCount++; ///< Increment ref count because it will be decremented later.
+		if (mPtr != nullptr)
+			mPtr->mRefCount++; ///< Increment ref count because it will be decremented later.
 	}
 
 	Ref<taType>& operator=(const Ref<taType>& inOther)
@@ -79,9 +78,12 @@ public:
 		}
 
 		mPtr = inOther.mPtr;
-		gAssert(mPtr->mRefCount > 0, "Ref object is already destroyed!");
-		mPtr->mRefCount++;
-		return *this;
+		if (mPtr != nullptr)
+		{
+			gAssert(mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			mPtr->mRefCount++;
+			return *this;
+		}
 	}
 
 	//TODO: Move operator
@@ -91,26 +93,31 @@ public:
 	{
 		static_assert(std::is_base_of_v<RefObject, taType>);
 		mPtr = inSelf;
-		mPtr->mRefCount++;
+		if (mPtr != nullptr)
+			mPtr->mRefCount++;
 	}
 
 	template<typename taParentClass>
 	Ref(const Ref<taParentClass>& inOther)
 	{
 		static_assert(std::is_base_of_v<taParentClass, taType> || std::is_base_of_v<taType, taParentClass>);
-		gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
-		mPtr = SCast<taType*>(inOther.mPtr);
-		mPtr->mRefCount++;
+		if (inOther.mPtr != nullptr)
+		{
+			gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			mPtr = SCast<taType*>(inOther.mPtr);
+			mPtr->mRefCount++;
+		}
 	}
 
 	~Ref()
 	{
-		gAssert(mPtr != nullptr, "The object was destroyed but a Ref was still held!");
+		if (mPtr != nullptr)
+		{
+			mPtr->mRefCount--;
 
-		mPtr->mRefCount--;
-
-		if (mPtr->mRefCount <= 0)
-			mPtr->Delete();
+			if (mPtr->mRefCount <= 0)
+				mPtr->Delete();
+		}
 	}
 
 	taType* Get() const { return mPtr; }
@@ -123,6 +130,8 @@ public:
 	template<typename taCastType>
 	taCastType* Cast() const
 	{
+		if (mPtr == nullptr)
+			return nullptr;
 		return gCast<taCastType>(mPtr);
 	}
 

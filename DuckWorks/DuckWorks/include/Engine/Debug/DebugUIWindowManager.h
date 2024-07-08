@@ -90,7 +90,7 @@ extern DebugUIWindowManager gDebugUIWindowManager;
 template<typename taType>
 WeakRef<DebugUIWindow> DebugUIWindowManager::CreateWindow(const typename taType::ConstructParameters& inConstructParameters)
 {
-	Ref<taType> new_window = Ref<taType>{inConstructParameters};
+	Ref<taType> new_window = taType::sNewInstance(inConstructParameters);
 	return AddWindow(new_window);
 }
 
