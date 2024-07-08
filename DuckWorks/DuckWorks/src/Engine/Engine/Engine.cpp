@@ -114,6 +114,8 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 
 void Engine::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(Engine::Update)
+
 	mDeltaTime = inDeltaTime;
 
 	for (Manager* manager : mManagersToUpdate)
@@ -129,7 +131,7 @@ void Engine::Update(float inDeltaTime)
 	mWorld->Render(inDeltaTime);
 
 	{
-		PROFILE_SCOPE(App::Update::WaitForRenderTask)
+		PROFILE_SCOPE(Engine::Update::WaitForRenderTask)
 		// We wait until the render thread task is completed before beginning the next frame
 		const SharedPtr<Renderer::RenderThreadTask>& render_thread_task = gRenderer.GetRenderThreadTask();
 		if (render_thread_task != nullptr)
