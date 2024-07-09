@@ -116,6 +116,11 @@ void LogManager::Log(ELogType inLogType, const char* fmt, va_list args)
 					Vec3 v3 = va_arg(args, Vec3);
 					msg += std::to_string(v3.mX) + ", " + std::to_string(v3.mY) + ", " + std::to_string(v3.mZ);
 				}
+				else if (*fmt == '4')
+				{
+					Vec4 v4 = va_arg(args, Vec4);
+					msg += std::to_string(v4.mX) + ", " + std::to_string(v4.mY) + ", " + std::to_string(v4.mZ) + ", " + std::to_string(v4.mW);
+				}
 			}
 		}
 		else
