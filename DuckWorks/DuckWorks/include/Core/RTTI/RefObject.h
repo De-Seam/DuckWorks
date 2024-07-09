@@ -82,8 +82,8 @@ public:
 		{
 			gAssert(mPtr->mRefCount > 0, "Ref object is already destroyed!");
 			mPtr->mRefCount++;
-			return *this;
 		}
+		return *this;
 	}
 
 	//TODO: Move operator

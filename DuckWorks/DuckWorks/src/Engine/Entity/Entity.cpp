@@ -78,11 +78,6 @@ void Entity::Deserialize(const Json& inJson)
 
 Entity::~Entity()
 {
-	// Delete and Clear all components
-	LoopOverAllComponents([&](EntityComponent& inComponent)
-	{
-		inComponent.Delete();
-	});
 	mEntityComponents.clear();
 }
 
@@ -120,7 +115,7 @@ Array<EntityComponent*> Entity::GetComponentsOfType(UID inComponentUID)
 	gAssert(gIsMainThread());
 	Array<EntityComponent*> return_array;
 
-	Array<EntityComponent*>& components = mEntityComponents[inComponentUID];
+	Array<Ref<EntityComponent>>& components = mEntityComponents[inComponentUID];
 	for (EntityComponent* component : components)
 		return_array.emplace_back(component);
 
@@ -148,10 +143,11 @@ void Entity::RemoveComponent(EntityComponent* inEntityComponent)
 {
 	gAssert(gIsMainThread());
 
-	Array<EntityComponent*>& components = mEntityComponents[inEntityComponent->GetRTTIUID()];
+	Array<Ref<EntityComponent>>& components = mEntityComponents[inEntityComponent->GetRTTIUID()];
 	for (auto it = components.rbegin(); it != components.rend(); it++)
 	{
-		if (*it == inEntityComponent)
+		EntityComponent* component = *it;
+		if (component == inEntityComponent)
 		{
 			components.erase(it.base());
 			delete inEntityComponent;
@@ -165,7 +161,7 @@ void Entity::LoopOverComponents(UID inComponentUID, const Function<void(EntityCo
 {
 	gAssert(gIsMainThread());
 
-	Array<EntityComponent*>& components = mEntityComponents[inComponentUID];
+	Array<Ref<EntityComponent>>& components = mEntityComponents[inComponentUID];
 	for (EntityComponent* component : components)
 		inFunction(*component);
 }
@@ -176,7 +172,7 @@ void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inCompon
 
 	for (auto& pair : mEntityComponents)
 	{
-		Array<EntityComponent*>& components = pair.second;
+		Array<Ref<EntityComponent>>& components = pair.second;
 		for (EntityComponent* component : components)
 			inFunction(*component);
 	}

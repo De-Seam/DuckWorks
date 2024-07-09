@@ -87,7 +87,7 @@ private:
 	float mRotation = 0.0f;
 
 	// HashMap of [Component UID] to Array of Entity Components
-	HashMap<UID, Array<EntityComponent*>> mEntityComponents;
+	HashMap<UID, Array<Ref<EntityComponent>>> mEntityComponents;
 
 	String mName;
 	World* mWorld = nullptr;
@@ -121,7 +121,7 @@ taType* Entity::GetFirstComponentOfType()
 {
 	if (mEntityComponents.empty())
 		return nullptr;
-	return SCast<taType*>(mEntityComponents[taType::sGetRTTIUID()].front());
+	return SCast<taType*>(mEntityComponents[taType::sGetRTTIUID()].front().Get());
 }
 
 template<typename taType>
@@ -134,7 +134,7 @@ bool Entity::HasComponent()
 template<typename taType>
 void Entity::LoopOverComponents(const Function<void(taType& inComponent)>& inFunction)
 {
-	Array<EntityComponent*>& components = mEntityComponents[taType::sGetRTTIUID()];
+	Array<Ref<EntityComponent>>& components = mEntityComponents[taType::sGetRTTIUID()];
 	for (EntityComponent* component : components)
 		inFunction(*SCast<taType*>(component));
 }

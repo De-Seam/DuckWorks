@@ -3,9 +3,9 @@
 
 class Entity;
 
-class EntityComponent : public RTTIBaseClass
+class EntityComponent : public RefObject
 {
-	RTTI_CLASS(EntityComponent, RTTIBaseClass, ClassAllocator)
+	RTTI_CLASS(EntityComponent, RefObject, ClassAllocator)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters
