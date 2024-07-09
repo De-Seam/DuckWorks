@@ -47,7 +47,6 @@ void DebugCamera::OnMouseMove(const EventManager::EventData& inData)
 		Vec2 modifier = Vec2(1.0f) / (GetSizeInverse() * Vec2(gRenderer.GetWindowSize())) / GetZoom();
 
 		SnapPosition(GetTargetPosition() - mouse_delta * modifier);
-		gLog("%v2", mouse_delta);
 	}
 }
 
