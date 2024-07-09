@@ -6,6 +6,7 @@
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Entity/Entity.h"
 
+class MsgEntityUpdateFrequencyChanged;
 class TextureRenderComponent;
 class b2World;
 
@@ -53,8 +54,18 @@ public:
 	EWorldState GetState() const { return mState; }
 	bool HasBegunPlay() const { return mState == EWorldState::Playing || mState == EWorldState::BeginningPlay; }
 
+	void OnEntityUpdateFrequencyChanged(const MsgEntityUpdateFrequencyChanged& inMsg);
+
 private:
-	void UpdateEntities(float inDeltaTime);
+	void UnregisterEntityForUpdates(Entity& inEntity, Entity::EUpdateFrequency inOldUpdateFrequency);
+	void RegisterEntityForUpdates(Entity& inEntity, Entity::EUpdateFrequency inUpdateFrequency);
+
+	void UpdateObjects(float inDeltaTime);
+
+	void UpdateFrameEntities(float inDeltaTime);
+	void UpdateTickEntities();
+	void UpdateSecondEntities();
+
 	void UpdateComponents(float inDeltaTime);
 	void AddEntities();
 	void DestroyEntities();
@@ -72,6 +83,7 @@ private:
 	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
 	Array<Ref<Entity>> mEntities = {};
+	StaticArray<Array<Entity*>, SCast<uint8>(Entity::EUpdateFrequency::None)> mEntitiesToUpdate;
 
 	Array<Ref<Entity>> mEntitiesToAdd = {};
 	UniqueMutex mEntitiesToAddMutex = {};
@@ -79,11 +91,9 @@ private:
 	Array<Ref<Entity>> mEntitiesToRemove = {};
 	UniqueMutex mEntitiesToRemoveMutex = {};
 
-	int32 mVelocityIterations = 6;
-	int32 mPositionIterations = 2;
-	int32 mPhysicsUpdateFrequency = 60; //60 hz
-	float mPhysicsTimeStep = 1.0f / SCast<float>(mPhysicsUpdateFrequency);
-	float mPhysicsTimeAccumulator = 0.0f;
+	float mTickRate = 1.0f / 60.0f; ///< 60 hz
+	float mTimeSinceTick = 0.0f;
+	float mTimeSinceFullSecond = 0.0f;
 
 private:
 	friend class BaseEntity;

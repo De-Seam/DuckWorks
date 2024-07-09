@@ -2,19 +2,18 @@
 #include "Engine/World/World.h"
 
 // Engine includes
+#include "Engine/Engine/Engine.h"
+#include "Engine/Entity/Components.h"
+#include "Engine/Entity/EntityMessages.h"
 #include "Engine/Entity/Components/EntityComponentManager.h"
+#include "Engine/Entity/Components/ScriptComponent.h"
+#include "Engine/Factory/Factory.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Resources/ResourceManager.h"
+#include "Engine/Threads/ThreadManager.h"
 
 // External includes
 #include <External/SDL/SDL.h>
-
-// Game includes (ILLEGAL!)
-#include "Engine/Engine/Engine.h"
-#include "Engine/Entity/Components.h"
-#include "Engine/Entity/Components/ScriptComponent.h"
-#include "Engine/Factory/Factory.h"
-#include "Engine/Threads/ThreadManager.h"
 
 RTTI_CLASS_DEFINITION(World, StandardAllocator)
 
@@ -38,11 +37,6 @@ void World::Deserialize(const Json& inJson)
 	gAssert(gIsMainThread());
 
 	mEntities.clear();
-
-	JSON_LOAD(inJson, mVelocityIterations);
-	JSON_LOAD(inJson, mPositionIterations);
-	JSON_LOAD(inJson, mPhysicsUpdateFrequency);
-	JSON_LOAD(inJson, mPhysicsTimeStep);
 
 	if (inJson.contains("Entities"))
 	{
@@ -69,10 +63,7 @@ Json World::SerializeIgnoreEntities() const
 
 	Json json;
 
-	JSON_SAVE(json, mVelocityIterations);
-	JSON_SAVE(json, mPositionIterations);
-	JSON_SAVE(json, mPhysicsUpdateFrequency);
-	JSON_SAVE(json, mPhysicsTimeStep);
+	JSON_SAVE(json, mTickRate);
 
 	return json;
 }
@@ -92,9 +83,7 @@ World::~World()
 	gLog(ELogType::Info, "Destroying World");
 
 	for (Ref<Entity>& entity : mEntities)
-	{
 		entity->EndPlay();
-	}
 
 #ifdef _DEBUG
 	Array<WeakRef<Entity>> entities;
@@ -119,9 +108,7 @@ void World::Update(float inDeltaTime)
 
 	AddEntities();
 
-	UpdateEntities(inDeltaTime);
-
-	UpdateComponents(inDeltaTime);
+	UpdateObjects(inDeltaTime);
 
 	DestroyEntities();
 }
@@ -253,15 +240,87 @@ TextureRenderComponent* World::GetTextureRenderComponentAtLocationSlow(Vec2 inWo
 	return nullptr;
 }
 
-void World::UpdateEntities(float inDeltaTime)
+void World::OnEntityUpdateFrequencyChanged(const MsgEntityUpdateFrequencyChanged& inMsg)
 {
-	PROFILE_SCOPE(World::UpdateEntities)
+	UnregisterEntityForUpdates(*inMsg.GetEntity(), inMsg.GetOldUpdateFrequency());
+	RegisterEntityForUpdates(*inMsg.GetEntity(), inMsg.GetNewUpdateFrequency());
+}
+
+void World::UnregisterEntityForUpdates(Entity& inEntity, Entity::EUpdateFrequency inOldUpdateFrequency)
+{
+	PROFILE_SCOPE(World::UnregisterEntityForUpdates)
+	gAssert(gIsMainThread());
+
+	if (inOldUpdateFrequency == Entity::EUpdateFrequency::None)
+		return;
+
+	auto it = std::ranges::find(mEntitiesToUpdate[SCast<uint64>(inOldUpdateFrequency)], &inEntity);
+	if (it != mEntitiesToUpdate[SCast<uint64>(inOldUpdateFrequency)].end())
+		mEntitiesToUpdate[SCast<uint64>(inOldUpdateFrequency)].erase(it);
+}
+
+void World::RegisterEntityForUpdates(Entity& inEntity, Entity::EUpdateFrequency inUpdateFrequency)
+{
+	PROFILE_SCOPE(World::RegisterEntityForUpdates)
+	gAssert(gIsMainThread());
+
+	if (inUpdateFrequency == Entity::EUpdateFrequency::None)
+		return;
+
+	mEntitiesToUpdate[SCast<uint64>(inUpdateFrequency)].emplace_back(&inEntity);
+}
+
+void World::UpdateObjects(float inDeltaTime)
+{
+	PROFILE_SCOPE(World::UpdateObjects)
 	gAssert(gIsMainThread());
 
 	mUpdateState = EUpdateState::Updating;
-	for (Ref<Entity>& entity : mEntities)
-		entity->Update(inDeltaTime);
+
+	mTimeSinceFullSecond += inDeltaTime;
+	mTimeSinceTick += inDeltaTime;
+
+	UpdateFrameEntities(inDeltaTime);
+
+	if (mTimeSinceTick > mTickRate)
+	{
+		UpdateTickEntities();
+		mTimeSinceTick -= mTickRate;
+	}
+
+	if (mTimeSinceFullSecond > 1.0f)
+	{
+		UpdateSecondEntities();
+		mTimeSinceFullSecond -= 1.0f;
+	}
+
+	UpdateComponents(inDeltaTime);
+
 	mUpdateState = EUpdateState::PreUpdate;
+}
+
+void World::UpdateFrameEntities(float inDeltaTime)
+{
+	PROFILE_SCOPE(World::UpdateFrameEntities)
+
+	for (Entity* entity : mEntitiesToUpdate[SCast<uint64>(Entity::EUpdateFrequency::Frame)])
+		entity->Update(inDeltaTime);
+}
+
+void World::UpdateTickEntities()
+{
+	PROFILE_SCOPE(World::UpdateTickEntities)
+
+	for (Entity* entity : mEntitiesToUpdate[SCast<uint64>(Entity::EUpdateFrequency::Tick)])
+		entity->Update(mTickRate);
+}
+
+void World::UpdateSecondEntities()
+{
+	PROFILE_SCOPE(World::UpdateSecondEntities)
+
+	for (Entity* entity : mEntitiesToUpdate[SCast<uint64>(Entity::EUpdateFrequency::Second)])
+		entity->Update(1.0f);
 }
 
 void World::UpdateComponents(float inDeltaTime)

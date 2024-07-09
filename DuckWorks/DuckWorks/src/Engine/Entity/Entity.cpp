@@ -1,12 +1,10 @@
 #include "Precomp.h"
 #include "Engine/Entity/Entity.h"
 
-// Core includes
-#include "Core/RTTI/Messages.h"
-
 // Engine includes
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Engine/Engine.h"
+#include "Engine/Entity/EntityMessages.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Threads/ThreadManager.h"
@@ -21,6 +19,7 @@ Json Entity::Serialize()
 	JSON_SAVE(json, mName);
 	JSON_SAVE(json, mPosition);
 	JSON_SAVE(json, mRotation);
+	JSON_SAVE(json, mUpdateFrequency);
 
 	Json& json_components = json["Components"];
 	LoopOverAllComponents([&](EntityComponent& inComponent)
@@ -38,6 +37,12 @@ void Entity::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mName);
 	JSON_LOAD(inJson, mPosition);
 	JSON_LOAD(inJson, mRotation);
+	if (inJson.contains("mUpdateFrequency"))
+	{
+		int update_frequency = inJson["mUpdateFrequency"];
+		if (update_frequency >= 0 && update_frequency <= SCast<int>(EUpdateFrequency::None))
+			SetUpdateFrequency(SCast<EUpdateFrequency>(update_frequency));
+	}
 
 	if (inJson.contains("Components"))
 	{
@@ -76,9 +81,21 @@ void Entity::Deserialize(const Json& inJson)
 	SetRotation(mRotation);
 }
 
+Entity::Entity(const ConstructParameters& inConstructParameters)
+	: Base(inConstructParameters)
+{
+	mWorld = inConstructParameters.mWorld;
+	mName = inConstructParameters.mName;
+
+	gAssert(mWorld != nullptr, "World is nullptr!");
+	RegisterMessageListener(mWorld, &World::OnEntityUpdateFrequencyChanged);
+}
+
 Entity::~Entity()
 {
 	mEntityComponents.clear();
+
+	UnregisterMessageListener(mWorld, &World::OnEntityUpdateFrequencyChanged);
 }
 
 void Entity::Destroy()
@@ -178,16 +195,31 @@ void Entity::LoopOverAllComponents(const Function<void(EntityComponent& inCompon
 	}
 }
 
+void Entity::SetUpdateFrequency(EUpdateFrequency inUpdateFrequency)
+{
+	MsgEntityUpdateFrequencyChanged::ConstructParameters construct_parameters;
+	construct_parameters.mEntity = this;
+	construct_parameters.mOldUpdateFrequency = mUpdateFrequency;
+	construct_parameters.mNewUpdateFrequency = inUpdateFrequency;
+	mUpdateFrequency = inUpdateFrequency;
+
+	MsgEntityUpdateFrequencyChanged message(construct_parameters);
+
+	SendMessage(message);
+}
+
 void Entity::SetPosition(const Vec2& inPosition)
 {
 	gAssert(gIsMainThread());
 
-	MsgPostEntityPositionUpdated post_update_msg;
-	post_update_msg.mEntity = this;
+	MsgPostEntityPositionUpdated::ConstructParameters post_construct_params;
+	post_construct_params.mEntity = this;
+	MsgPostEntityPositionUpdated post_update_msg(post_construct_params);
 	post_update_msg.mOldPosition = mPosition;
 
-	MsgPreEntityPositionUpdated pre_update_msg;
-	pre_update_msg.mEntity = this;
+	MsgPreEntityPositionUpdated::ConstructParameters pre_construct_params;
+	pre_construct_params.mEntity = this;
+	MsgPreEntityPositionUpdated pre_update_msg(pre_construct_params);
 	pre_update_msg.mNewPosition = inPosition;
 	SendMessage(pre_update_msg);
 
@@ -202,12 +234,14 @@ void Entity::SetRotation(float inRotation)
 {
 	gAssert(gIsMainThread());
 
-	MsgPostEntityRotationUpdated post_update_msg;
-	post_update_msg.mEntity = this;
+	MsgPostEntityRotationUpdated::ConstructParameters post_construct_params;
+	post_construct_params.mEntity = this;
+	MsgPostEntityRotationUpdated post_update_msg(post_construct_params);
 	post_update_msg.mOldRotation = mRotation;
 
-	MsgPreEntityRotationUpdated pre_update_msg;
-	pre_update_msg.mEntity = this;
+	MsgPreEntityRotationUpdated::ConstructParameters pre_construct_params;
+	pre_construct_params.mEntity = this;
+	MsgPreEntityRotationUpdated pre_update_msg(pre_construct_params);
 	pre_update_msg.mNewRotation = inRotation;
 	SendMessage(pre_update_msg);
 

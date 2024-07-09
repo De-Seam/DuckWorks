@@ -75,6 +75,8 @@ Player::Player(const ConstructParameters& inConstructParameters)
 		event_function.mFunctionPtr = [this](const EventManager::EventData& inData) { OnMouseUp(inData); };
 		mEventFunctions.emplace_back(gEventManager.AddEventFunction(event_function));
 	}
+
+	SetUpdateFrequency(EUpdateFrequency::Tick);
 }
 
 void Player::BeginPlay()

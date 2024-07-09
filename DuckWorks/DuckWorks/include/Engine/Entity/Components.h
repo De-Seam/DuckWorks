@@ -6,7 +6,7 @@
 #include "Core/Utilities/Utilities.h"
 
 // Engine includes
-#include "Engine/Collision/CollisionStructs.h"
+#include "Engine/Entity/EntityMessages.h"
 #include "Engine/Entity/Components/EntityComponent.h"
 #include "Engine/Renderer/AnimationBase.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"

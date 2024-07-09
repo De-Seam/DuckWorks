@@ -35,12 +35,7 @@ public:
 		String mName;
 	};
 
-	Entity(const ConstructParameters& inConstructParameters)
-		: Base(inConstructParameters)
-	{
-		mWorld = inConstructParameters.mWorld;
-		mName = inConstructParameters.mName;
-	}
+	Entity(const ConstructParameters& inConstructParameters);
 
 	virtual ~Entity() override;
 
@@ -72,6 +67,17 @@ public:
 
 	void LoopOverAllComponents(const Function<void(EntityComponent& inComponent)>& inFunction);
 
+	enum class EUpdateFrequency : uint8
+	{
+		Frame,
+		Tick,
+		Second,
+		None
+	};
+
+	EUpdateFrequency GetUpdatedFrequency() const { return mUpdateFrequency; }
+	void SetUpdateFrequency(EUpdateFrequency inUpdateFrequency);
+
 	virtual void SetPosition(const Vec2& inPosition);
 	virtual void SetRotation(float inRotation);
 
@@ -83,6 +89,8 @@ public:
 	[[nodiscard]] const String& GetName() const { return mName; }
 
 private:
+	EUpdateFrequency mUpdateFrequency = EUpdateFrequency::None;
+
 	Vec2 mPosition = {};
 	float mRotation = 0.0f;
 

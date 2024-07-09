@@ -1,5 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/DebugUIFunctions.h"
+
+// Engine includes
+#include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Renderer/Renderer.h"
 
