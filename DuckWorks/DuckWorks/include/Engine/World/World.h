@@ -25,6 +25,7 @@ class World : public RTTIBaseClass
 
 public:
 	virtual Json SerializeIgnoreEntities() const;
+	virtual void DeserializeIgnoreEntities(const Json& inJson);
 
 	struct ConstructParameters : public Base::ConstructParameters {};
 

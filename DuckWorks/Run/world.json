@@ -1,10 +1,7 @@
 {
     "ClassName": "World",
     "mGUID": "0000-0000-0000-0000",
-    "mVelocityIterations": 6,
-    "mPositionIterations": 2,
-    "mPhysicsUpdateFrequency": 60,
-    "mPhysicsTimeStep": 0.01666666753590107,
+    "mTickRate": 0.01666666753590107,
     "Entities": [
         {
             "ClassName": "Player",
@@ -15,7 +12,33 @@
                 -112.80169677734375
             ],
             "mRotation": 0.0,
+            "mUpdateFrequency": 1,
             "Components": [
+                {
+                    "ClassName": "CameraComponent",
+                    "mGUID": "52af-b8bb-1b48-d339",
+                    "mIsActive": true,
+                    "mPriority": 0,
+                    "mCamera": {
+                        "ClassName": "Camera",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mPosition": [
+                            200.0,
+                            0.0
+                        ],
+                        "mSize": [
+                            1920.0,
+                            1080.0
+                        ],
+                        "mSizeInverse": [
+                            0.0005208333604969084,
+                            0.0009259259095415473
+                        ],
+                        "mZoomSpeed": 40.0,
+                        "mTargetZoom": 1.0,
+                        "mZoom": 1.0
+                    }
+                },
                 {
                     "ClassName": "CollisionComponent",
                     "mGUID": "52af-b8bb-1b48-d33b",
@@ -78,43 +101,18 @@
                     "mFlip": 0
                 },
                 {
-                    "ClassName": "AnimationComponent",
-                    "mGUID": "52af-b8bb-1b48-d33d"
-                },
-                {
                     "ClassName": "ScriptComponent",
                     "mGUID": "52af-b8bb-1b48-d33c",
                     "mFileName": "Assets/Scripts/Player.lua"
                 },
                 {
+                    "ClassName": "AnimationComponent",
+                    "mGUID": "52af-b8bb-1b48-d33d"
+                },
+                {
                     "ClassName": "HealthComponent",
                     "mGUID": "52af-b8bb-1b48-d338",
                     "mHealth": 100.0
-                },
-                {
-                    "ClassName": "CameraComponent",
-                    "mGUID": "52af-b8bb-1b48-d339",
-                    "mIsActive": true,
-                    "mPriority": 0,
-                    "mCamera": {
-                        "ClassName": "Camera",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mPosition": [
-                            200.0,
-                            0.0
-                        ],
-                        "mSize": [
-                            1920.0,
-                            1080.0
-                        ],
-                        "mSizeInverse": [
-                            0.0005208333604969084,
-                            0.0009259259095415473
-                        ],
-                        "mZoomSpeed": 40.0,
-                        "mTargetZoom": 1.0,
-                        "mZoom": 1.0
-                    }
                 }
             ],
             "mVelocityIncrement": [
@@ -132,6 +130,7 @@
                 82.31475830078125
             ],
             "mRotation": 0.0,
+            "mUpdateFrequency": 3,
             "Components": [
                 {
                     "ClassName": "CollisionComponent",
@@ -205,6 +204,7 @@
                 48.0169677734375
             ],
             "mRotation": 0.0,
+            "mUpdateFrequency": 3,
             "Components": [
                 {
                     "ClassName": "CollisionComponent",
@@ -290,6 +290,7 @@
                 -141.00210571289063
             ],
             "mRotation": 0.0,
+            "mUpdateFrequency": 3,
             "Components": [
                 {
                     "ClassName": "CollisionComponent",
@@ -367,6 +368,7 @@
                 0.0
             ],
             "mRotation": 0.0,
+            "mUpdateFrequency": 3,
             "Components": [
                 {
                     "ClassName": "CollisionComponent",

@@ -24,7 +24,7 @@ void DebugUIWindowWorldSettings::Update(float)
 	World* world = gEngine.GetWorld();
 	Json json = world->SerializeIgnoreEntities();
 	if (gDebugDrawJson(json, "##WorldSettings"))
-		world->Deserialize(json);
+		world->DeserializeIgnoreEntities(json);
 
 	ImGui::End();
 }

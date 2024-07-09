@@ -36,6 +36,8 @@ void World::Deserialize(const Json& inJson)
 	PROFILE_SCOPE(World::Deserialize)
 	gAssert(gIsMainThread());
 
+	DeserializeIgnoreEntities(inJson);
+
 	mEntities.clear();
 
 	if (inJson.contains("Entities"))
@@ -66,6 +68,12 @@ Json World::SerializeIgnoreEntities() const
 	JSON_SAVE(json, mTickRate);
 
 	return json;
+}
+
+void World::DeserializeIgnoreEntities(const Json& inJson)
+{
+	JSON_LOAD(inJson, mTickRate);
+	mTickRate = gClamp(mTickRate, 0.005f, 1.0f);
 }
 
 World::World(const ConstructParameters& inConstructParameters)
@@ -282,13 +290,13 @@ void World::UpdateObjects(float inDeltaTime)
 
 	UpdateFrameEntities(inDeltaTime);
 
-	if (mTimeSinceTick > mTickRate)
+	while (mTimeSinceTick > mTickRate)
 	{
 		UpdateTickEntities();
 		mTimeSinceTick -= mTickRate;
 	}
 
-	if (mTimeSinceFullSecond > 1.0f)
+	while (mTimeSinceFullSecond > 1.0f)
 	{
 		UpdateSecondEntities();
 		mTimeSinceFullSecond -= 1.0f;
