@@ -90,11 +90,11 @@ void BVH::Generate()
 		mIndices[i] = SCast<uint32>(i);
 
 	mNodes.reserve(mObjects.size() * 2 + 1);
-	mNodes.emplace_back(BVHNode()); //Root Node
-	mNodes.emplace_back(BVHNode()); //Empty Node for cache alignment
+	mNodes.emplace_back(); //Root Node
+	mNodes.emplace_back(); //Empty Node for cache alignment
 
 	mNodes[0].mAABB = CreateAABBFromObjects(0, mObjects.size());
-	Subdivide(&mNodes[0], 0, mObjects.size(), 0);
+	Subdivide(mNodes.data(), 0, mObjects.size(), 0);
 
 	gLog("BVH Created with %i nodes\n", mNodes.size());
 }
