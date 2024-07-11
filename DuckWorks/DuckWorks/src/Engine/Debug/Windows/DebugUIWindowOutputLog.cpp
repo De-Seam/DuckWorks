@@ -1,6 +1,9 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowOutputLog.h"
 
+#ifdef _DEBUG
+
+// External includes
 #include "External/imgui/imgui.h"
 
 RTTI_CLASS_DEFINITION(DebugUIWindowOutputLog, StandardAllocator)
@@ -89,3 +92,5 @@ void DebugUIWindowOutputLog::Update(float)
 
 	ImGui::End();
 }
+
+#endif

@@ -1,6 +1,8 @@
 #pragma once
 #include "DebugUIWindow.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 
@@ -44,3 +46,5 @@ private:
 	const Array<String>& ListFoldersInDirectory(const std::filesystem::path& inDirectoryPath);
 	String TruncateTextToFitWidth(String& inText, float inMaxWidth);
 };
+
+#endif

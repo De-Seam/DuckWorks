@@ -35,6 +35,8 @@ void gRegisterFactoryClassesEngine()
 	REGISTER_ENTITY_COMPONENT(CameraComponent);
 	REGISTER_ENTITY_COMPONENT(ScriptComponent);
 
+#ifdef _DEBUG
+
 	// Debug UI Windows
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowPerformanceMonitor);
@@ -47,4 +49,6 @@ void gRegisterFactoryClassesEngine()
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowWorldSettings);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowImGuiExample);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEditorToolbar);
+
+#endif
 }

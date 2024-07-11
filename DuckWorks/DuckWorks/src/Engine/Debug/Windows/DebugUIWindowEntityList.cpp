@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityList.h"
 
+#ifdef _DEBUG
+
 // Core includes
 #include "Core/Utilities/Types.h"
 
@@ -54,3 +56,5 @@ void DebugUIWindowEntityList::Update(float)
 
 	ImGui::End();
 }
+
+#endif

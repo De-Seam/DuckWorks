@@ -1,8 +1,7 @@
 #pragma once
 #include "DebugUIWindow.h"
 
-// Engine includes
-#include "Engine/Resources/ResourceTypes/TextureResource.h"
+#ifdef _DEBUG
 
 class DebugUIWindowImGuiExample : public DebugUIWindow
 {
@@ -16,8 +15,6 @@ public:
 	DebugUIWindowImGuiExample(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	virtual void Update(float inDeltaTime) override;
-
-private:
-
-private:
 };
+
+#endif

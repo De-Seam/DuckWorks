@@ -111,11 +111,13 @@ void App::ShutdownInternal()
 	PROFILE_SCOPE(App::ShutdownInternal)
 	gLog(ELogType::Info, "App Shutting Down");
 
+#ifdef _DEBUG
 	Ref<DebugUIWindowEditorToolbar> toolbar = gDebugUIWindowManager.GetWindow<DebugUIWindowEditorToolbar>();
 	// If the state was not stopped, we can skip re-saving the world
 	if (toolbar->GetGameState() == ToolbarGameState::Stopped)
 		toolbar->Save();
 	toolbar->SaveStateToFile();
+#endif
 
 	gEngine.Deinitialize();
 

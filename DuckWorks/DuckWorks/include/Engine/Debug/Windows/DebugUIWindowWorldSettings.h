@@ -1,6 +1,8 @@
 #pragma once
 #include "DebugUIWindow.h"
 
+#ifdef _DEBUG
+
 class DebugUIWindowWorldSettings : public DebugUIWindow
 {
 	RTTI_CLASS(DebugUIWindowWorldSettings, DebugUIWindow, StandardAllocator)
@@ -18,3 +20,5 @@ private:
 
 private:
 };
+
+#endif

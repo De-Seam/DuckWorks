@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowUserSettings.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Engine/BaseUserSettings.h"
@@ -29,3 +31,5 @@ void DebugUIWindowUserSettings::Update(float)
 
 	ImGui::End();
 }
+
+#endif

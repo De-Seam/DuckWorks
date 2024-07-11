@@ -1,6 +1,8 @@
 #pragma once
 #include "DebugUIWindow.h"
 
+#ifdef _DEBUG
+
 class DebugUIWindowPerformanceMonitor : public DebugUIWindow
 {
 	RTTI_CLASS(DebugUIWindowPerformanceMonitor, DebugUIWindow, StandardAllocator)
@@ -11,8 +13,6 @@ public:
 	using Base::Base;
 
 	DebugUIWindowPerformanceMonitor(const ConstructParameters& inConstructParameters = {});
-
-	DebugUIWindowPerformanceMonitor();
 
 	virtual void UpdateMultiThreaded(float inDeltaTime) override;
 	virtual void Update(float inDeltaTime) override;
@@ -27,3 +27,5 @@ private:
 	float mAverageTiming = 0.f;
 	float mFPS = 0.f;
 };
+
+#endif

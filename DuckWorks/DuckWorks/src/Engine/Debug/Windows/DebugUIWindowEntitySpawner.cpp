@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Engine/Engine.h"
 #include "Engine/Factory/Factory.h"
@@ -44,3 +46,5 @@ void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 
 	ImGui::End();
 }
+
+#endif

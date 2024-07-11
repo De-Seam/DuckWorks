@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowNewFilePopup.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
@@ -43,3 +45,5 @@ void DebugUIWindowNewFilePopup::SetPath(const String& inPath)
 {
 	mPath = inPath;
 }
+
+#endif

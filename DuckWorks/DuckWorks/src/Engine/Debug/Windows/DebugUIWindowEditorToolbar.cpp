@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowEditorToolbar.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Engine/Engine.h"
 #include "Engine/Resources/ResourceManager.h"
@@ -98,3 +100,5 @@ void DebugUIWindowEditorToolbar::SaveStateToFile()
 	std::ofstream file("world.json");
 	file << mWorldJson.dump(4);
 }
+
+#endif

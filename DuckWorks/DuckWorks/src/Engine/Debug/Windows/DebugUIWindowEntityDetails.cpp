@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
@@ -102,3 +104,5 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 	ImGui::End();
 }
+
+#endif

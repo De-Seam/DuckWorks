@@ -1,6 +1,8 @@
 #pragma once
 #include "DebugUIWindow.h"
 
+#ifdef _DEBUG
+
 class TextureResource;
 
 enum class ToolbarGameState
@@ -41,3 +43,5 @@ private:
 	// Default to stopped. Switching to and from Stopped triggers saving or loading the world.
 	ToolbarGameState mGameState = ToolbarGameState::Stopped;
 };
+
+#endif

@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
 
+#ifdef _DEBUG
+
 // External includes
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
@@ -85,3 +87,5 @@ void DebugUIWindowTextureViewer::Update(float inDeltaTime)
 
 	ImGui::End();
 }
+
+#endif

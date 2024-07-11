@@ -100,7 +100,7 @@ void Renderer::EndFrame()
 	SDL_Rect dst_rect = {0, 0, mWindowSize.mX, mWindowSize.mY};
 	SDL_RenderCopyEx(mRenderer, mCamera->GetRenderTexture(), &src_rect, &dst_rect, 0.0, nullptr, SDL_FLIP_NONE);
 
-	gDebugUIWindowManager.EndFrame();
+	IF_DEBUG(gDebugUIWindowManager.EndFrame();)
 
 	SDL_RenderPresent(mRenderer);
 }
@@ -167,6 +167,15 @@ void Renderer::DrawRectangle(const DrawRectangleParams& inParams)
 {
 	gAssert(gIsMainThread());
 	mDrawRectangles[SCast<uint8>(inParams.mLayer)].emplace_back(inParams);
+}
+
+void Renderer::DrawAABB(const AABB& inAABB, const Vec4& inColor)
+{
+	DrawRectangleParams params;
+	params.mHalfSize = (inAABB.mMax - inAABB.mMin) * 0.5f;
+	params.mPosition = inAABB.mMin + params.mHalfSize;
+	params.mColor = inColor;
+	DrawRectangle(params);
 }
 
 Vec2 Renderer::GetWorldLocationAtWindowLocation(const Vec2& inWindowLocation) const

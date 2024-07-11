@@ -1,6 +1,8 @@
 #pragma once
 #include "DebugUIWindow.h"
 
+#ifdef _DEBUG
+
 class DebugUIWindowNewFilePopup : public DebugUIWindow
 {
 	RTTI_CLASS(DebugUIWindowNewFilePopup, DebugUIWindow, StandardAllocator)
@@ -20,3 +22,5 @@ public:
 private:
 	String mPath = "Assets/";
 };
+
+#endif

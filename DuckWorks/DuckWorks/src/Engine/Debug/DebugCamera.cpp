@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/DebugCamera.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Events/EventManager.h"
@@ -57,3 +59,5 @@ void DebugCamera::OnMouseWheel(const EventManager::EventData& inData)
 
 	SetZoom(GetZoom() + inData.mMouseWheel.mDelta * 0.1f);
 }
+
+#endif

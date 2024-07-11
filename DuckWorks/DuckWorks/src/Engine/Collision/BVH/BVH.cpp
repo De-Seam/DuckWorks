@@ -126,7 +126,7 @@ void BVH::Draw()
 		if (draw_data.mLeaf)
 			color = {0.f, 1.f, 0.f, 1.f};
 
-		gDrawAABB(aabb, color);
+		gRenderer.DrawAABB(aabb, color);
 	}
 }
 

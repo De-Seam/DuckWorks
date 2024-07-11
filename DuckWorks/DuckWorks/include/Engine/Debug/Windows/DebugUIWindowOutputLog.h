@@ -1,8 +1,7 @@
 #pragma once
 #include "DebugUIWindow.h"
 
-// Engine includes
-#include "Engine/Resources/ResourceTypes/TextureResource.h"
+#ifdef _DEBUG
 
 class DebugUIWindowOutputLog : public DebugUIWindow
 {
@@ -28,3 +27,5 @@ private:
 
 private:
 };
+
+#endif

@@ -1,6 +1,8 @@
 #pragma once
 #include "DebugUIWindow.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 
@@ -25,3 +27,5 @@ private:
 	float mTimeSinceClipboardCopied = 1000.f;
 	float mCopiedToClipboardTime = 1.f;
 };
+
+#endif

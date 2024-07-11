@@ -2,6 +2,8 @@
 // Core includes
 #include "Core/CoreBase.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Entity/Entity.h"
 
@@ -111,3 +113,5 @@ void DebugUIWindowManager::RemoveWindow()
 {
 	RemoveWindow(taType::sGetClassName());
 }
+
+#endif

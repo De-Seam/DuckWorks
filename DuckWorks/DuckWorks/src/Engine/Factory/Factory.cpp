@@ -5,4 +5,4 @@
 
 Factory<EntityComponent> gEntityComponentFactory = {};
 Factory<Entity> gEntityFactory = {};
-Factory<DebugUIWindow> gDebugUIWindowFactory = {};
+IF_DEBUG(Factory<DebugUIWindow> gDebugUIWindowFactory = {};)

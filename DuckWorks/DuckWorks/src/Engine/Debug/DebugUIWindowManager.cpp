@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/DebugUIWindowManager.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Collision/CollisionHelperFunctions.h"
 #include "Engine/Debug/DebugCamera.h"
@@ -10,7 +12,6 @@
 #include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Entity.h"
-#include "Engine/Entity/Components/EntityComponentManager.h"
 #include "Engine/Events/EventManager.h"
 #include "Engine/Events/SDLEventManager.h"
 #include "Engine/Factory/Factory.h"
@@ -480,3 +481,5 @@ bool DebugUIWindowManager::WantsMouseCapture() const
 {
 	return ImGui::GetIO().WantCaptureMouse;
 }
+
+#endif

@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowFileExplorer.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Debug/DebugUIWindowManager.h"
 #include "Engine/Debug/Windows/DebugUIWindowNewFilePopup.h"
@@ -283,3 +285,5 @@ String DebugUIWindowFileExplorer::TruncateTextToFitWidth(String& inText, float i
 
 	return truncatedText + "..";
 }
+
+#endif

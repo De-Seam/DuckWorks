@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 
+#ifdef _DEBUG
+
 // External includes
 #include <External/imgui/imgui.h>
 
@@ -79,3 +81,5 @@ void DebugUIWindowPerformanceMonitor::Update(float)
 
 	ImGui::End();
 }
+
+#endif

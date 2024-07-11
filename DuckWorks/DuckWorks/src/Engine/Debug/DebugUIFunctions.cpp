@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/DebugUIFunctions.h"
 
+#ifdef _DEBUG
+
 // Engine includes
 #include "Engine/Collision/CollisionStructs.h"
 #include "Engine/Entity/Components.h"
@@ -197,11 +199,4 @@ bool gHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKe
 	return false;
 }
 
-void gDrawAABB(const AABB& inAABB, const Vec4& inColor)
-{
-	Renderer::DrawRectangleParams params;
-	params.mHalfSize = (inAABB.mMax - inAABB.mMin) * 0.5f;
-	params.mPosition = inAABB.mMin + params.mHalfSize;
-	params.mColor = inColor;
-	gRenderer.DrawRectangle(params);
-}
+#endif

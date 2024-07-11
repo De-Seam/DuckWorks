@@ -33,7 +33,7 @@ private:
 
 extern Factory<EntityComponent> gEntityComponentFactory;
 extern Factory<Entity> gEntityFactory;
-extern Factory<DebugUIWindow> gDebugUIWindowFactory;
+IF_DEBUG(extern Factory<DebugUIWindow> gDebugUIWindowFactory;)
 
 template<typename taFactoryType>
 template<typename taType>

@@ -2,6 +2,8 @@
 #include "Core/CoreBase.h"
 #include "Core/RTTI/RTTI.h"
 
+#ifdef _DEBUG
+
 class DebugUIWindow : public RefObject
 {
 	RTTI_VIRTUAL_CLASS(DebugUIWindow, RefObject)
@@ -28,3 +30,5 @@ protected:
 
 	friend class DebugUIWindowManager;
 };
+
+#endif

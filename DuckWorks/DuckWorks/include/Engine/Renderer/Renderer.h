@@ -13,6 +13,7 @@
 struct SDL_Window;
 struct SDL_Renderer;
 struct SDL_Texture;
+struct AABB;
 
 class Renderer : public Manager
 {
@@ -89,6 +90,8 @@ public:
 	};
 
 	void DrawRectangle(const DrawRectangleParams& inParams);
+
+	void DrawAABB(const AABB& inAABB, const Vec4& inColor);
 
 	void SetCamera(const SharedPtr<Camera>& inCamera) { mCamera = inCamera; }
 	void OverrideCameraThisFrame(const SharedPtr<Camera>& inCamera) { mOverrideCameraThisFrame = inCamera; }

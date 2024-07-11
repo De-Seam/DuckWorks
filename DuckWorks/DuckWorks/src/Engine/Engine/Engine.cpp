@@ -30,7 +30,6 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 	REGISTER_MANAGER(gSDLEventManager);
 	REGISTER_MANAGER(gEventManager);
 	REGISTER_MANAGER(gResourceManager);
-	REGISTER_MANAGER(gDebugUIWindowManager);
 
 	INIT_MANAGER_AFTER(gTimerManager, gLogManager);
 
@@ -50,11 +49,17 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 	INIT_MANAGER_AFTER(gResourceManager, gLogManager);
 	INIT_MANAGER_AFTER(gResourceManager, gRenderer);
 
+#ifdef _DEBUG
+
+	REGISTER_MANAGER(gDebugUIWindowManager);
+
 	INIT_MANAGER_AFTER(gDebugUIWindowManager, gLogManager);
 	INIT_MANAGER_AFTER(gDebugUIWindowManager, gSDLEventManager);
 	INIT_MANAGER_AFTER(gDebugUIWindowManager, gEventManager);
 	INIT_MANAGER_AFTER(gDebugUIWindowManager, gResourceManager);
 	INIT_MANAGER_AFTER(gDebugUIWindowManager, gRenderer);
+
+#endif
 
 	gRegisterFactoryClassesEngine();
 
@@ -138,10 +143,10 @@ void Engine::Update(float inDeltaTime)
 			render_thread_task->WaitUntilCompleted();
 	}
 
-	gDebugUIWindowManager.BeginFrame();
+	IF_DEBUG(gDebugUIWindowManager.BeginFrame();)
 	gRenderer.BeginFrame();
 
-	gDebugUIWindowManager.Update(inDeltaTime);
+	IF_DEBUG(gDebugUIWindowManager.Update(inDeltaTime);)
 	gRenderer.Update(inDeltaTime);
 }
 
@@ -164,6 +169,8 @@ void Engine::CreateNewWorld(const Json& inJson)
 
 	if (!inJson.empty())
 		mWorld->Deserialize(inJson);
+
+	IF_NOT_DEBUG(mWorld->BeginPlay();)
 }
 
 void Engine::Deinitialize()
@@ -175,7 +182,8 @@ void Engine::Deinitialize()
 
 	mLua.collect_garbage();
 
-	mWorld->EndPlay();
+	if (mWorld->HasBegunPlay())
+		mWorld->EndPlay();
 	mWorld = nullptr;
 
 	ShutdownManagers();

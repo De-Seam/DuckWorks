@@ -155,6 +155,7 @@ void World::BeginPlay()
 	gLog(ELogType::Info, "World Beginning Play");
 
 	gAssert(gIsMainThread());
+	gAssert(!HasBegunPlay());
 
 	mState = EWorldState::BeginningPlay;
 
@@ -172,6 +173,7 @@ void World::EndPlay()
 	gLog(ELogType::Info, "World Ending Play");
 
 	gAssert(gIsMainThread());
+	gAssert(HasBegunPlay());
 
 	mState = EWorldState::EndingPlay;
 

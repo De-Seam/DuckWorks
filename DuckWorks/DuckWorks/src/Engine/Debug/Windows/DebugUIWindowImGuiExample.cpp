@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindowImGuiExample.h"
 
+#ifdef _DEBUG
+
 #include "External/imgui/imgui.h"
 
 RTTI_CLASS_DEFINITION(DebugUIWindowImGuiExample, StandardAllocator)
@@ -13,3 +15,5 @@ void DebugUIWindowImGuiExample::Update(float)
 
 	ImGui::ShowDemoWindow(&mOpen);
 }
+
+#endif

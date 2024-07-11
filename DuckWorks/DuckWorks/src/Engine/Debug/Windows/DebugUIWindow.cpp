@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
 
+#ifdef _DEBUG
+
 RTTI_VIRTUAL_CLASS_DEFINITION(DebugUIWindow)
 
 Json DebugUIWindow::Serialize()
@@ -18,3 +20,5 @@ void DebugUIWindow::Deserialize(const Json& inJson)
 
 	JSON_LOAD(inJson, mOpen);
 }
+
+#endif

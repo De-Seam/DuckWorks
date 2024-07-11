@@ -2,6 +2,8 @@
 #include "Engine/Events/EventManager.h"
 #include "Engine/Renderer/Camera.h"
 
+#ifdef _DEBUG
+
 class DebugCamera : public Camera
 {
 	RTTI_CLASS(DebugCamera, Camera, StandardAllocator)
@@ -19,3 +21,5 @@ public:
 private:
 	Array<SharedPtr<EventManager::EventFunction>> mEventFunctions;
 };
+
+#endif
