@@ -1,12 +1,12 @@
 #include "Precomp.h"
 #include "Engine/Collision/BVH/BVH.h"
 
-// Engine includes
+// Core includes
 #include "Core/Math/Random.h"
 
+// Engine includes
 #include "Engine/Collision/CollisionHelperFunctions.h"
 #include "Engine/Collision/CollisionWorld.h"
-#include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Renderer/Renderer.h"
 
 void BVH::Init(const InitParams& inParams)
