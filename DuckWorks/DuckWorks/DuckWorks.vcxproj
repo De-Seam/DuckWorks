@@ -68,6 +68,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
     <OutDir>$(SolutionDir)Build/Out/$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build/Int/$(Platform)_$(Configuration)\</IntDir>
+    <LinkIncremental />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
