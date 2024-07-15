@@ -26,8 +26,13 @@ public:
 	[[nodiscard]] const Array<String>& GetClassNames() const;
 
 private:
-	HashMap<String, ConstructorFunction> mClassConstructors;
-	HashMap<String, UID> mClassUIDs;
+	struct ClassData
+	{
+		ConstructorFunction mConstructor;
+		UID mUID;
+	};
+
+	HashMap<String, ClassData> mClassData;
 	Array<String> mKeyList;
 };
 
@@ -39,15 +44,15 @@ template<typename taFactoryType>
 template<typename taType>
 void Factory<taFactoryType>::RegisterClass(const String& inClassName)
 {
-	gAssert(!mClassConstructors.contains(inClassName), "Class already registered!");
+	gAssert(!mClassData.contains(inClassName), "Class already registered!");
 	ConstructorFunction func = [](const typename taFactoryType::ConstructParameters& inConstructParameters)
 	{
 		gLog("Factory created class %s", taType::sGetClassName());
 		typename taType::ConstructParameters construct_parameters = {inConstructParameters};
 		return taType::sNewInstance(construct_parameters);
 	};
-	mClassConstructors[inClassName] = func;
-	mClassUIDs[inClassName] = taType::sGetRTTIUID();
+	mClassData[inClassName].mConstructor = func;
+	mClassData[inClassName].mUID = taType::sGetRTTIUID();
 	mKeyList.emplace_back(inClassName);
 }
 
@@ -62,14 +67,14 @@ taFactoryType* Factory<taFactoryType>::CreateClassFromJsonAndDeserialize(const J
 template<typename taFactoryType>
 taFactoryType* Factory<taFactoryType>::CreateClass(const String& inClassName, const typename taFactoryType::ConstructParameters& inConstructParameters)
 {
-	gAssert(mClassConstructors.contains(inClassName), "Class not registered!");
-	return mClassConstructors[inClassName](inConstructParameters);
+	gAssert(mClassData.contains(inClassName), "Class not registered!");
+	return mClassData[inClassName].mConstructor(inConstructParameters);
 }
 
 template<typename taFactoryType>
 UID Factory<taFactoryType>::GetRTTIUID(const String& inClassName) const
 {
-	return mClassUIDs.at(inClassName);
+	return mClassData.at(inClassName).mUID;
 }
 
 template<typename taFactoryType>
