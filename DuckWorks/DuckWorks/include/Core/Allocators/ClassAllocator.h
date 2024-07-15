@@ -10,6 +10,8 @@ public:
 	ClassAllocator(uint64 inClassAmount = 64, uint64 inInitialPages = 1);
 	virtual ~ClassAllocator() override;
 
+	virtual String GetName() const override { return taType::sGetClassName(); }
+
 	taType* Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin));
 	void Free(taType* inPtr);
 

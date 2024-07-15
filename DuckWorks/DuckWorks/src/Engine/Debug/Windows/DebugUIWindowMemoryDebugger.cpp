@@ -40,15 +40,15 @@ void DebugUIWindowMemoryDebugger::Update(float)
 
 #ifdef TRACK_ALLOCATIONS
 
+	std::ranges::sort(*gAllocators, [](AllocatorBase* a, AllocatorBase* b) { return a->GetAllocations().size() > b->GetAllocations().size(); });
 	for (AllocatorBase* allocator : (*gAllocators))
 	{
 		HashMap<void*, AllocatorBase::AllocationData>& allocations = allocator->GetAllocations();
 		uint64 total_allocated_size = 0;
 		for (Pair<void* const, AllocatorBase::AllocationData>& pair : allocations)
-		{
 			total_allocated_size += pair.second.mSize;
-		}
-		DisplayMemory("Allocated Memory:", total_allocated_size);
+		String allocator_title = "Allocated Memory " + allocator->GetName();
+		DisplayMemory(allocator_title.c_str(), total_allocated_size);
 		ImGui::Separator();
 	}
 

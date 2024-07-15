@@ -20,6 +20,8 @@ public:
 	AllocatorBase();
 	virtual ~AllocatorBase();
 
+	virtual String GetName() const = 0;
+
 	template<typename taType, typename... taArgs>
 #ifdef TRACK_ALLOCATIONS
 	taType* Allocate(const String& inAllocationOrigin, taArgs&&... inArgs);
