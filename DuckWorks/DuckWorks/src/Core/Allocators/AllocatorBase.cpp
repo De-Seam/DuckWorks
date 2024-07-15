@@ -1,6 +1,24 @@
 #include "Precomp.h"
 #include "Core/Allocators/AllocatorBase.h"
 
+#ifdef TRACK_ALLOCATIONS
+
+Array<AllocatorBase*>* gAllocators = nullptr;
+
+#endif // TRACK_ALLOCATIONS
+
+AllocatorBase::AllocatorBase()
+{
+#ifdef TRACK_ALLOCATIONS
+
+	if (!gAllocators)
+		gAllocators = new Array<AllocatorBase*>();
+
+	gAllocators->push_back(this);
+
+#endif
+}
+
 AllocatorBase::~AllocatorBase()
 {
 #ifdef TRACK_ALLOCATIONS
@@ -16,9 +34,12 @@ AllocatorBase::~AllocatorBase()
 
 #ifdef TRACK_ALLOCATIONS
 
-void AllocatorBase::TrackAllocation(const String& inAllocationOrigin, void* inAllocatedPtr)
+void AllocatorBase::TrackAllocation(void* inAllocatedPtr, const String& inAllocationOrigin, uint64 inSize)
 {
-	mAllocations[inAllocatedPtr] = inAllocationOrigin;
+	AllocationData data;
+	data.mOrigin = inAllocationOrigin;
+	data.mSize = inSize;
+	mAllocations[inAllocatedPtr] = data;
 }
 
 void AllocatorBase::UntrackAllocation(void* inAllocatedPtr)

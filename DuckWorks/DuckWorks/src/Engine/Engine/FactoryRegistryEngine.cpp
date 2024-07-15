@@ -8,6 +8,7 @@
 #include "Engine/Debug/Windows/DebugUIWindowEntitySpawner.h"
 #include "Engine/Debug/Windows/DebugUIWindowFileExplorer.h"
 #include "Engine/Debug/Windows/DebugUIWindowImGuiExample.h"
+#include "Engine/Debug/Windows/DebugUIWindowMemoryDebugger.h"
 #include "Engine/Debug/Windows/DebugUIWindowOutputLog.h"
 #include "Engine/Debug/Windows/DebugUIWindowPerformanceMonitor.h"
 #include "Engine/Debug/Windows/DebugUIWindowTextureViewer.h"
@@ -39,7 +40,6 @@ void gRegisterFactoryClassesEngine()
 
 	// Debug UI Windows
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowOutputLog);
-	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowPerformanceMonitor);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntitySpawner);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityList);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEntityDetails);
@@ -47,6 +47,8 @@ void gRegisterFactoryClassesEngine()
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowTextureViewer);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowUserSettings);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowWorldSettings);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowPerformanceMonitor);
+	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowMemoryDebugger);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowImGuiExample);
 	REGISTER_DEBUG_UI_WINDOW(DebugUIWindowEditorToolbar);
 

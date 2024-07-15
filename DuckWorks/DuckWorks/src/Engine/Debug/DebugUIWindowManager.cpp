@@ -168,19 +168,19 @@ void DebugUIWindowManager::Shutdown()
 	PROFILE_SCOPE(DebugUIWindowManager::Shutdown)
 	gLog(ELogType::Info, "Shutting down DebugUIWindowManager");
 
-	mWindowsToAdd.clear();
-	mWindows.clear();
-
-	ImGui_ImplSDLRenderer2_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-
 	Json json_debug_file = Serialize();
 	std::ofstream file(mDebugFileName);
 	if (!file.is_open())
 		return gLog(ELogType::Error, "Failed to open debug file for writing");
 
 	file << json_debug_file.dump(4);
+
+	mWindowsToAdd.clear();
+	mWindows.clear();
+
+	ImGui_ImplSDLRenderer2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void DebugUIWindowManager::Update(float inDeltaTime)

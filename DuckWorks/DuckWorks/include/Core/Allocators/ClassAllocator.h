@@ -13,11 +13,11 @@ public:
 	taType* Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin));
 	void Free(taType* inPtr);
 
-	const Array<void*> GetPages() const { return mPages; }
+	const Array<void*>& GetPages() const { return mPages; }
 	uint64 GetPageSize() const { return mPageSize; }
 
 protected:
-	virtual void* CreateNewPage();
+	void* CreateNewPage();
 
 	// A Class Allocator can have an unlimited amount of "pages", which are simply bulks of data
 	// Each page is [bool : Is Available][taType]
@@ -53,7 +53,7 @@ taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAl
 			{
 				*SCast<bool*>(ptr) = false;
 				taType* return_ptr = RCast<taType*>((uint64)ptr + sizeof(bool));
-				IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, return_ptr));
+				IF_TRACK_ALLOCATIONS(TrackAllocation(return_ptr, inAllocationOrigin, sizeof(taType)));
 				return return_ptr;
 			}
 		}
@@ -63,7 +63,7 @@ taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAl
 	void* ptr = page;
 	*SCast<bool*>(ptr) = false;
 	taType* return_ptr = RCast<taType*>((uint64)ptr + sizeof(bool));
-	IF_TRACK_ALLOCATIONS(TrackAllocation(inAllocationOrigin, return_ptr));
+	IF_TRACK_ALLOCATIONS(TrackAllocation(return_ptr, inAllocationOrigin, sizeof(taType)));
 	return return_ptr;
 }
 

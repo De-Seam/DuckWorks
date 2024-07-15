@@ -17,29 +17,45 @@
 class AllocatorBase
 {
 public:
+	AllocatorBase();
 	virtual ~AllocatorBase();
 
 	template<typename taType, typename... taArgs>
 #ifdef TRACK_ALLOCATIONS
 	taType* Allocate(const String& inAllocationOrigin, taArgs&&... inArgs);
+
+	struct AllocationData
+	{
+		String mOrigin;
+		uint64 mSize;
+	};
+
+	HashMap<void*, AllocationData>& GetAllocations() { return mAllocations; }
 #else
 	taType *Allocate(taArgs &&...inArgs);
 #endif // TRACK_ALLOCATIONS
 
 protected:
 #ifdef TRACK_ALLOCATIONS
-	void TrackAllocation(const String& inAllocationOrigin, void* inAllocatedPtr);
+	void TrackAllocation(void* inAllocatedPtr, const String& inAllocationOrigin, uint64 inSize);
 	void UntrackAllocation(void* inAllocatedPtr);
 
-	HashMap<void*, String> mAllocations;
+	HashMap<void*, AllocationData> mAllocations;
 #endif // TRACK_ALLOCATIONS
 };
 
+#ifdef TRACK_ALLOCATIONS
+
+// Array with all allocator
+extern Array<AllocatorBase*>* gAllocators;
+
+#endif // TRACK_ALLOCATIONS
+
 template<typename taType, typename... taArgs>
 #ifdef TRACK_ALLOCATIONS
-taType* Allocate(const String& inAllocationOrigin, taArgs&&... inArgs)
+taType* AllocatorBase::Allocate(const String& inAllocationOrigin, taArgs&&... inArgs)
 #else
-taType* Allocate(taArgs &&...inArgs)
+taType* AllocatorBase::Allocate(taArgs &&...inArgs)
 #endif // TRACK_ALLOCATIONS
 {
 	IF_TRACK_ALLOCATIONS((void)inAllocationOrigin;)
