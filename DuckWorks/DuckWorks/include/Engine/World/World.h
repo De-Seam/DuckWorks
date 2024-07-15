@@ -36,7 +36,7 @@ public:
 	virtual ~World() override;
 
 	void Update(float inDeltaTime);
-	void Render(float inDeltaTime);
+	void Render();
 
 	void BeginPlay();
 	void EndPlay();

@@ -133,7 +133,7 @@ void Engine::Update(float inDeltaTime)
 	if (!mIsPaused)
 		mWorld->Update(inDeltaTime);
 
-	mWorld->Render(inDeltaTime);
+	mWorld->Render();
 
 	{
 		PROFILE_SCOPE(Engine::Update::WaitForRenderTask)

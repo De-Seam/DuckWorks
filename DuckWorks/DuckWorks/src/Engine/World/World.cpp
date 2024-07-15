@@ -121,15 +121,10 @@ void World::Update(float inDeltaTime)
 	DestroyEntities();
 }
 
-void World::Render(float inDeltaTime)
+void World::Render()
 {
 	PROFILE_SCOPE(World::Render)
 	gAssert(gIsMainThread());
-
-	if (!gEngine.IsPaused())
-	{
-		gEntityComponentManager.UpdateComponents<AnimationComponent>(inDeltaTime);
-	}
 
 	static Array<Renderer::DrawTextureParams> sDrawTextureParams;
 	sDrawTextureParams.clear();
@@ -340,11 +335,11 @@ void World::UpdateComponents(float inDeltaTime)
 
 	{
 		PROFILE_SCOPE(World::UpdateComponents::ScriptComponent)
-
-		gEntityComponentManager.LoopOverComponents<ScriptComponent>([inDeltaTime](ScriptComponent& inScriptComponent)
-		{
-			inScriptComponent.Update(inDeltaTime);
-		});
+		gEntityComponentManager.UpdateComponents<ScriptComponent>(inDeltaTime);
+	}
+	{
+		PROFILE_SCOPE(World::UpdateComponents::AnimationComponent)
+		gEntityComponentManager.UpdateComponents<AnimationComponent>(inDeltaTime);
 	}
 }
 
