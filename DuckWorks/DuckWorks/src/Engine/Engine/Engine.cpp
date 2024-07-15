@@ -133,7 +133,7 @@ void Engine::Update(float inDeltaTime)
 	if (!mIsPaused)
 		mWorld->Update(inDeltaTime);
 
-	mWorld->Render(inDeltaTime);
+	mWorld->Render();
 
 	{
 		PROFILE_SCOPE(Engine::Update::WaitForRenderTask)
@@ -158,7 +158,7 @@ bool Engine::FileExists(const char* inFilePath) const
 
 void Engine::CreateNewWorld(const Json& inJson)
 {
-	PROFILE_SCOPE(App::CreateNewWorld)
+	PROFILE_SCOPE(Engine::CreateNewWorld)
 	gLog(ELogType::Info, "Creating New World");
 
 	if (mWorld != nullptr && mWorld->HasBegunPlay())
@@ -222,6 +222,8 @@ void Engine::UpdateManagerAfter(Manager& inManager, Manager& inOtherManager)
 
 void Engine::sOrganizeArray(Array<Manager*>& ioArray, const HashMap<Manager*, Array<Manager*>>& inMapBefore, const HashMap<Manager*, Array<Manager*>>& inMapAfter)
 {
+	PROFILE_SCOPE(Engine::sOrganizeArray)
+
 	Array<Manager*> organized_array;
 	organized_array.reserve(ioArray.size());
 
@@ -272,6 +274,8 @@ void Engine::sOrganizeArray(Array<Manager*>& ioArray, const HashMap<Manager*, Ar
 
 void Engine::InitManagers()
 {
+	PROFILE_SCOPE(Engine::InitManagers)
+
 	sOrganizeArray(mManagers, mManagersToInitBeforeMap, mManagersToInitAfterMap);
 	sOrganizeArray(mManagersToUpdate, mManagersToUpdateBeforeMap, mManagersToUpdateAfterMap);
 
@@ -281,6 +285,8 @@ void Engine::InitManagers()
 
 void Engine::ShutdownManagers()
 {
+	PROFILE_SCOPE(Engine::ShutdownManagers)
+
 	for (auto iter = mManagers.rbegin(); iter != mManagers.rend(); ++iter)
 		(*iter)->Shutdown();
 }
