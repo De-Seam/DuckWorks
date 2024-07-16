@@ -119,7 +119,7 @@ void App::ShutdownInternal()
 	toolbar->SaveStateToFile();
 #endif
 
-	gEngine.Deinitialize();
+	gEngine.Shutdown();
 
 	SaveUserSettingsToFile(mUserSettingsFile, *gCast<UserSettingsGame>(gEngine.GetUserSettings()));
 }

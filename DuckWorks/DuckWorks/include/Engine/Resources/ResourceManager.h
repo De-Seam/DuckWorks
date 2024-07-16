@@ -30,10 +30,12 @@ public:
 	template<typename taType>
 	std::shared_ptr<taType> GetResource(const String& inFile);
 
+	const HashMap<String, SharedPtr<BaseResource>>& GetAllResources() const { return mResources; }
+
 private:
 	int64 GetTimeSinceFileModified(const String& inFile) const;
 
-	phmap::flat_hash_map<std::string, SharedPtr<BaseResource>> mResources;
+	HashMap<String, SharedPtr<BaseResource>> mResources;
 
 	SharedPtr<TextureResource> mDefaultTexture = nullptr; ///< Cache the default texture so it doesn't have to be loaded multiple times
 };

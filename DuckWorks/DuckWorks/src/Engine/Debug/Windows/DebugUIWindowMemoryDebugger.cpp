@@ -6,6 +6,11 @@
 // Core includes
 #include "Core/Utilities/PlatformFunctions.h"
 
+// Engine includes
+#include "Engine/Resources/ResourceManager.h"
+#include "Engine/Resources/ResourceTypes/TextureResource.h"
+#include "Engine/Resources/ResourceTypes/LuaResource.h"
+
 // External includes
 #include "External/imgui/imgui.h"
 
@@ -21,6 +26,24 @@ void DebugUIWindowMemoryDebugger::UpdateMultiThreaded(float)
 
 	mTotalMemoryUsage = gGetMemoryUsage();
 	mMaxMemoryUsage = gMax(mMaxMemoryUsage, mTotalMemoryUsage);
+
+	mAllocatorMemory.clear();
+	std::ranges::sort(*gAllocators, [](AllocatorBase* a, AllocatorBase* b) { return a->GetAllocations().size() > b->GetAllocations().size(); });
+	for (AllocatorBase* allocator : (*gAllocators))
+	{
+		HashMap<void*, AllocatorBase::AllocationData>& allocations = allocator->GetAllocations();
+		uint64 total_allocated_size = 0;
+		for (Pair<void* const, AllocatorBase::AllocationData>& pair : allocations)
+			total_allocated_size += pair.second.mSize;
+		mAllocatorMemory[allocator->GetName()] = total_allocated_size;
+	}
+
+	mResourceMemory.clear();
+	const HashMap<String, SharedPtr<BaseResource>>& resources = gResourceManager.GetAllResources();
+	for (const Pair<String, SharedPtr<BaseResource>>& pair : resources)
+	{
+		mResourceMemory[pair.second->GetClassName()] += pair.second->GetMemorySize();
+	}
 }
 
 void DebugUIWindowMemoryDebugger::Update(float)
@@ -40,17 +63,39 @@ void DebugUIWindowMemoryDebugger::Update(float)
 
 #ifdef TRACK_ALLOCATIONS
 
-	std::ranges::sort(*gAllocators, [](AllocatorBase* a, AllocatorBase* b) { return a->GetAllocations().size() > b->GetAllocations().size(); });
-	for (AllocatorBase* allocator : (*gAllocators))
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{0.f, 3.f});
+	if (ImGui::TreeNodeEx("Allocators##TreeNode"))
 	{
-		HashMap<void*, AllocatorBase::AllocationData>& allocations = allocator->GetAllocations();
-		uint64 total_allocated_size = 0;
-		for (Pair<void* const, AllocatorBase::AllocationData>& pair : allocations)
-			total_allocated_size += pair.second.mSize;
-		String allocator_title = "Allocated Memory " + allocator->GetName();
-		DisplayMemory(allocator_title.c_str(), total_allocated_size);
-		ImGui::Separator();
+		ImGui::PopStyleVar(2);
+
+		for (const Pair<String, uint64>& pair : mAllocatorMemory)
+		{
+			DisplayMemory(pair.first.c_str(), pair.second);
+			ImGui::Separator();
+		}
+
+		ImGui::TreePop();
 	}
+	else
+		ImGui::PopStyleVar(2);
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{0.f, 3.f});
+	if (ImGui::TreeNodeEx("Resources##TreeNode"))
+	{
+		ImGui::PopStyleVar(2);
+
+		for (const Pair<String, uint64>& pair : mResourceMemory)
+		{
+			DisplayMemory(pair.first.c_str(), pair.second);
+			ImGui::Separator();
+		}
+
+		ImGui::TreePop();
+	}
+	else
+		ImGui::PopStyleVar(2);
 
 #endif // TRACK_ALLOCATIONS
 
@@ -65,15 +110,15 @@ void DebugUIWindowMemoryDebugger::DisplayMemory(const char* inTitle, uint64 inMe
 	double memory_kb = memory / 1024;
 	if (memory_kb < 1)
 		return;
-	ImGui::Text("%.1f KiloBytes", memory_kb);
+	ImGui::Text("%.1f KB", memory_kb);
 	double memory_mb = memory_kb / 1024;
 	if (memory_mb < 1)
 		return;
-	ImGui::Text("%.1f MegaBytes", memory_mb);
+	ImGui::Text("%.1f MB", memory_mb);
 	double memory_gb = memory_mb / 1024;
 	if (memory_gb < 1)
 		return;
-	ImGui::Text("%.1f GigaBytes", memory_gb);
+	ImGui::Text("%.1f GB", memory_gb);
 }
 
 #endif // _Debug

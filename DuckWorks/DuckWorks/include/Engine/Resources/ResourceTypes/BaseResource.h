@@ -7,11 +7,12 @@ struct BaseResource : public RTTIBaseClass
 	struct ConstructParameters : public Base::ConstructParameters {};
 
 	BaseResource(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+	// Make sure to create a virtual destructor to avoid memory leaks
+	virtual ~BaseResource() override = default;
 
 	virtual void Reload();
 
-	// Make sure to create a virtual destructor to avoid memory leaks
-	virtual ~BaseResource() override = default;
+	virtual uint64 GetMemorySize() const = 0;
 
 	[[nodiscard]] const String& GetFileName() const { return mFile; }
 

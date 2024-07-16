@@ -7,6 +7,7 @@
 
 // External includes
 #include "External/SDL/SDL_image.h"
+#include "External/SDL/SDL_Render.h"
 
 RTTI_CLASS_DEFINITION(TextureResource, ClassAllocator)
 
@@ -36,6 +37,11 @@ void TextureResource::Reload()
 {
 	DestroyTexture();
 	Base::Reload();
+}
+
+uint64 TextureResource::GetMemorySize() const
+{
+	return sizeof(TextureResource) + SCast<uint64>(mSize.mX * mSize.mY * 4);
 }
 
 void TextureResource::DestroyTexture()

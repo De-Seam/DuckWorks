@@ -18,8 +18,13 @@ public:
 private:
 	void DisplayMemory(const char* inTitle, uint64 inMemory);
 
+	// Frame variables
 	uint64 mTotalMemoryUsage = 0;
 	uint64 mMaxMemoryUsage = 0;
+
+	HashMap<String, uint64> mAllocatorMemory;
+
+	HashMap<String, uint64> mResourceMemory;
 };
 
 #endif

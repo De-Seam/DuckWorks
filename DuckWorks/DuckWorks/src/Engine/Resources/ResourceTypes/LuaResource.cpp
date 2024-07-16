@@ -19,6 +19,12 @@ void LuaResource::LoadFromFile(const String& inFile)
 	BaseResource::LoadFromFile(inFile);
 
 	mScript = sReadFile(inFile);
+	mScript.shrink_to_fit();
+}
+
+uint64 LuaResource::GetMemorySize() const
+{
+	return sizeof(LuaResource) + sizeof(String) + mScript.size();
 }
 
 void LuaResource::RunScript(sol::state& inLua) const

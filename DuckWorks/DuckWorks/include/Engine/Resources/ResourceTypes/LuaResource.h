@@ -15,6 +15,8 @@ public:
 
 	LuaResource(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
+	virtual uint64 GetMemorySize() const override;
+
 	void RunScript(sol::state& inLua) const;
 
 	const String& GetScript() const { return mScript; }

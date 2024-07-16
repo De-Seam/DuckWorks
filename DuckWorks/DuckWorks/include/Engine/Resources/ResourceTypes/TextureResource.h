@@ -10,12 +10,12 @@ struct TextureResource : public BaseResource
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 
-	using Base::Base;
-
 	TextureResource(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 
 	virtual ~TextureResource() override;
 	virtual void Reload() override;
+
+	virtual uint64 GetMemorySize() const override;
 
 	SDL_Texture* mTexture = nullptr;
 
