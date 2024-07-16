@@ -14,6 +14,7 @@ class Engine
 {
 public:
 	void Init(UniquePtr<BaseUserSettings> inUserSettings);
+	void Shutdown();
 
 	void Update(float inDeltaTime);
 
@@ -26,13 +27,11 @@ public:
 
 	BaseUserSettings* GetUserSettings() const { return mUserSettings.get(); }
 
-	void Shutdown() { mShouldShutdown = true; }
+	void RequestShutdown() { mShouldShutdown = true; }
 	bool ShouldShutdown() const { return mShouldShutdown; }
 
 	void SetPaused(bool inPaused) { mIsPaused = inPaused; }
 	bool IsPaused() const { return mIsPaused; }
-
-	void Deinitialize();
 
 	void RegisterManager(Manager& inManager);
 	void InitManagerBefore(Manager& inManager, Manager& inOtherManager);

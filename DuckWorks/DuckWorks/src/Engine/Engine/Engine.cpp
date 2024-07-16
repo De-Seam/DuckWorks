@@ -68,7 +68,7 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 	{
 		SDLEventFunction event_function;
 		event_function.mEventType = SDL_QUIT;
-		event_function.mFunctionPtr = [this](const SDL_Event&) { gEngine.Shutdown(); };
+		event_function.mFunctionPtr = [this](const SDL_Event&) { gEngine.RequestShutdown(); };
 		gSDLEventManager.AddPersistentEventFunction(event_function);
 	}
 
@@ -115,6 +115,22 @@ void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 	{
 		gLog(ELogType::Info, inMessage.c_str());
 	};
+}
+
+void Engine::Shutdown()
+{
+	PROFILE_SCOPE(Engine::Deinitialize)
+	gLog(ELogType::Info, "Deinitializing Engine");
+
+	gAssert(ShouldShutdown());
+
+	mLua.collect_garbage();
+
+	if (mWorld->HasBegunPlay())
+		mWorld->EndPlay();
+	mWorld = nullptr;
+
+	ShutdownManagers();
 }
 
 void Engine::Update(float inDeltaTime)
@@ -171,22 +187,6 @@ void Engine::CreateNewWorld(const Json& inJson)
 		mWorld->Deserialize(inJson);
 
 	IF_NOT_DEBUG(mWorld->BeginPlay();)
-}
-
-void Engine::Deinitialize()
-{
-	PROFILE_SCOPE(Engine::Deinitialize)
-	gLog(ELogType::Info, "Deinitializing Engine");
-
-	gEngine.Shutdown();
-
-	mLua.collect_garbage();
-
-	if (mWorld->HasBegunPlay())
-		mWorld->EndPlay();
-	mWorld = nullptr;
-
-	ShutdownManagers();
 }
 
 void Engine::RegisterManager(Manager& inManager)
