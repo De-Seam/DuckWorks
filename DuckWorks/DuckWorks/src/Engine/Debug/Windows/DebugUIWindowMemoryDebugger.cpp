@@ -8,8 +8,8 @@
 
 // Engine includes
 #include "Engine/Resources/ResourceManager.h"
-#include "Engine/Resources/ResourceTypes/TextureResource.h"
 #include "Engine/Resources/ResourceTypes/LuaResource.h"
+#include "Engine/Resources/ResourceTypes/TextureResource.h"
 
 // External includes
 #include "External/imgui/imgui.h"
@@ -40,7 +40,7 @@ void DebugUIWindowMemoryDebugger::UpdateMultiThreaded(float)
 
 	mResourceMemory.clear();
 	const HashMap<String, SharedPtr<BaseResource>>& resources = gResourceManager.GetAllResources();
-	for (const Pair<String, SharedPtr<BaseResource>>& pair : resources)
+	for (const Pair<const String, SharedPtr<BaseResource>>& pair : resources)
 	{
 		mResourceMemory[pair.second->GetClassName()] += pair.second->GetMemorySize();
 	}
@@ -69,7 +69,7 @@ void DebugUIWindowMemoryDebugger::Update(float)
 	{
 		ImGui::PopStyleVar(2);
 
-		for (const Pair<String, uint64>& pair : mAllocatorMemory)
+		for (const Pair<const String, uint64>& pair : mAllocatorMemory)
 		{
 			DisplayMemory(pair.first.c_str(), pair.second);
 			ImGui::Separator();
@@ -86,7 +86,7 @@ void DebugUIWindowMemoryDebugger::Update(float)
 	{
 		ImGui::PopStyleVar(2);
 
-		for (const Pair<String, uint64>& pair : mResourceMemory)
+		for (const Pair<const String, uint64>& pair : mResourceMemory)
 		{
 			DisplayMemory(pair.first.c_str(), pair.second);
 			ImGui::Separator();
