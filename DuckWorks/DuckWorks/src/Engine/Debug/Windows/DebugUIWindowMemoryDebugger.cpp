@@ -25,7 +25,7 @@ void DebugUIWindowMemoryDebugger::UpdateMultiThreaded(float)
 	PROFILE_SCOPE(DebugUIWindowMemoryDebugger::UpdateMultiThreaded)
 
 	mTotalMemoryUsage = gGetMemoryUsage();
-	mMaxMemoryUsage = gMax(mMaxMemoryUsage, mTotalMemoryUsage);
+	mPeakMemoryUsage = gMax(mPeakMemoryUsage, mTotalMemoryUsage);
 
 	mAllocatorMemory.clear();
 	std::ranges::sort(*gAllocators, [](AllocatorBase* a, AllocatorBase* b) { return a->GetAllocations().size() > b->GetAllocations().size(); });
@@ -57,9 +57,7 @@ void DebugUIWindowMemoryDebugger::Update(float)
 	}
 
 	DisplayMemory("Total Memory Usage:", mTotalMemoryUsage);
-	ImGui::Separator();
-	DisplayMemory("Max Memory Usage:", mMaxMemoryUsage);
-	ImGui::Separator();
+	DisplayMemory("Peak Memory Usage:", mPeakMemoryUsage);
 
 #ifdef TRACK_ALLOCATIONS
 
@@ -72,7 +70,6 @@ void DebugUIWindowMemoryDebugger::Update(float)
 		for (const Pair<const String, uint64>& pair : mAllocatorMemory)
 		{
 			DisplayMemory(pair.first.c_str(), pair.second);
-			ImGui::Separator();
 		}
 
 		ImGui::TreePop();
@@ -89,7 +86,6 @@ void DebugUIWindowMemoryDebugger::Update(float)
 		for (const Pair<const String, uint64>& pair : mResourceMemory)
 		{
 			DisplayMemory(pair.first.c_str(), pair.second);
-			ImGui::Separator();
 		}
 
 		ImGui::TreePop();
@@ -104,21 +100,38 @@ void DebugUIWindowMemoryDebugger::Update(float)
 
 void DebugUIWindowMemoryDebugger::DisplayMemory(const char* inTitle, uint64 inMemory)
 {
+	if (inMemory == 0)
+		return;
+
 	ImGui::Text(inTitle);
-	ImGui::Text("%d Bytes", inMemory);
+
 	double memory = SCast<double>(inMemory);
 	double memory_kb = memory / 1024;
 	if (memory_kb < 1)
+	{
+		ImGui::Text("%d Bytes", inMemory);
+		ImGui::Separator();
 		return;
-	ImGui::Text("%.1f KB", memory_kb);
+	}
+
 	double memory_mb = memory_kb / 1024;
 	if (memory_mb < 1)
+	{
+		ImGui::Text("%.1f KB", memory_kb);
+		ImGui::Separator();
 		return;
-	ImGui::Text("%.1f MB", memory_mb);
+	}
+
 	double memory_gb = memory_mb / 1024;
 	if (memory_gb < 1)
+	{
+		ImGui::Text("%.1f MB", memory_mb);
+		ImGui::Separator();
 		return;
+	}
+
 	ImGui::Text("%.1f GB", memory_gb);
+	ImGui::Separator();
 }
 
 #endif // _Debug

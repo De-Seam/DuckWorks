@@ -20,7 +20,7 @@ private:
 
 	// Frame variables
 	uint64 mTotalMemoryUsage = 0;
-	uint64 mMaxMemoryUsage = 0;
+	uint64 mPeakMemoryUsage = 0;
 
 	HashMap<String, uint64> mAllocatorMemory;
 
