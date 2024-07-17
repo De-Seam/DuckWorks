@@ -41,9 +41,7 @@ void DebugUIWindowMemoryDebugger::UpdateMultiThreaded(float)
 	mResourceMemory.clear();
 	const HashMap<String, SharedPtr<BaseResource>>& resources = gResourceManager.GetAllResources();
 	for (const Pair<const String, SharedPtr<BaseResource>>& pair : resources)
-	{
 		mResourceMemory[pair.second->GetClassName()] += pair.second->GetMemorySize();
-	}
 }
 
 void DebugUIWindowMemoryDebugger::Update(float)
@@ -68,9 +66,7 @@ void DebugUIWindowMemoryDebugger::Update(float)
 		ImGui::PopStyleVar(2);
 
 		for (const Pair<const String, uint64>& pair : mAllocatorMemory)
-		{
 			DisplayMemory(pair.first.c_str(), pair.second);
-		}
 
 		ImGui::TreePop();
 	}
@@ -84,9 +80,7 @@ void DebugUIWindowMemoryDebugger::Update(float)
 		ImGui::PopStyleVar(2);
 
 		for (const Pair<const String, uint64>& pair : mResourceMemory)
-		{
 			DisplayMemory(pair.first.c_str(), pair.second);
-		}
 
 		ImGui::TreePop();
 	}
