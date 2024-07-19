@@ -18,8 +18,6 @@ public:
 
 	void Update(float inDeltaTime);
 
-	bool FileExists(const char* inFilePath) const;
-
 	sol::state& GetLua() { return mLua; }
 	void CreateNewWorld(const Json& inJson = {});
 	World* GetWorld() const { return mWorld.get(); }

@@ -30,7 +30,7 @@ void ScriptComponent::Deserialize(const Json& inJson)
 		{
 			mUpdateScript = nullptr;
 		}
-		else if (gEngine.FileExists(lua_update_file.c_str()) && gIsValidLuaExtension(lua_update_file))
+		else if (gResourceManager.FileExists(lua_update_file.c_str()) && gIsValidLuaExtension(lua_update_file))
 		{
 			mUpdateScript = gResourceManager.GetResource<LuaResource>(inJson["mFileName"]);
 		}

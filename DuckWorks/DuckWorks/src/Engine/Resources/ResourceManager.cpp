@@ -43,9 +43,15 @@ void ResourceManager::Update([[maybe_unused]] float inDeltaTime)
 #endif // _DEBUG
 }
 
+bool ResourceManager::FileExists(const char* inFilePath) const
+{
+	struct stat buffer;
+	return (stat(inFilePath, &buffer) == 0);
+}
+
 int64 ResourceManager::GetTimeSinceFileModified(const String& inFile) const
 {
-	if (!gEngine.FileExists(inFile.c_str()))
+	if (!FileExists(inFile.c_str()))
 		return -1;
 	std::filesystem::file_time_type time_stamp = std::filesystem::last_write_time(inFile);
 	return time_stamp.time_since_epoch().count();

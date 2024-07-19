@@ -166,12 +166,6 @@ void Engine::Update(float inDeltaTime)
 	gRenderer.Update(inDeltaTime);
 }
 
-bool Engine::FileExists(const char* inFilePath) const
-{
-	struct stat buffer;
-	return (stat(inFilePath, &buffer) == 0);
-}
-
 void Engine::CreateNewWorld(const Json& inJson)
 {
 	PROFILE_SCOPE(Engine::CreateNewWorld)

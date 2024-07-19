@@ -32,9 +32,10 @@ public:
 
 	const HashMap<String, SharedPtr<BaseResource>>& GetAllResources() const { return mResources; }
 
-private:
+	bool FileExists(const char* inFilePath) const;
 	int64 GetTimeSinceFileModified(const String& inFile) const;
 
+private:
 	HashMap<String, SharedPtr<BaseResource>> mResources;
 
 	SharedPtr<TextureResource> mDefaultTexture = nullptr; ///< Cache the default texture so it doesn't have to be loaded multiple times
