@@ -14,7 +14,8 @@ Json ScriptComponent::Serialize()
 {
 	Json json = Base::Serialize();
 
-	json["mFileName"] = mUpdateScript->GetFileName();
+	if (mUpdateScript != nullptr)
+		json["mFileName"] = mUpdateScript->GetFileName();
 
 	return json;
 }
@@ -42,6 +43,9 @@ ScriptComponent::ScriptComponent(const ConstructParameters& inConstructParameter
 
 void ScriptComponent::Update(float inDeltaTime)
 {
+	if (mUpdateScript == nullptr)
+		return;
+
 	sol::state& lua = gEngine.GetLua();
 	lua["Entity"] = GetEntity();
 	lua["deltaTime"] = inDeltaTime;
