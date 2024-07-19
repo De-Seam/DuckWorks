@@ -38,12 +38,12 @@ bool gIsValidLuaExtension(const std::string& inFilePath)
 
 void to_json(Json& outJson, RTTIBaseClass* inVariable)
 {
-	gAssert(inVariable != nullptr);
-	outJson = inVariable->Serialize();
+	if (inVariable != nullptr)
+		outJson = inVariable->Serialize();
 }
 
 void to_json(Json& outJson, const SharedPtr<RTTIBaseClass>& inVariable)
 {
-	gAssert(inVariable != nullptr);
-	outJson = inVariable->Serialize();
+	if (inVariable != nullptr)
+		outJson = inVariable->Serialize();
 }

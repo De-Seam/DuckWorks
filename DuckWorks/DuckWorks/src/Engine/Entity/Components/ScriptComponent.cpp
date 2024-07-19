@@ -14,8 +14,7 @@ Json ScriptComponent::Serialize()
 {
 	Json json = Base::Serialize();
 
-	if (mUpdateScript != nullptr)
-		json["mFileName"] = mUpdateScript->GetFileName();
+	JSON_SAVE(json, mUpdateScript);
 
 	return json;
 }
@@ -24,17 +23,25 @@ void ScriptComponent::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
-	if (inJson.contains("mFileName"))
+	if (inJson.contains("mUpdateScript"))
 	{
-		const String& lua_update_file = inJson["mFileName"];
+		const Json& update_script_json = inJson["mUpdateScript"];
+		if (update_script_json.empty())
+			mUpdateScript = nullptr;
+
+		const String& lua_update_file = update_script_json["mFile"];
 		if (lua_update_file.empty())
 		{
 			mUpdateScript = nullptr;
 		}
 		else if (gResourceManager.FileExists(lua_update_file.c_str()) && gIsValidLuaExtension(lua_update_file))
 		{
-			mUpdateScript = gResourceManager.GetResource<LuaResource>(inJson["mFileName"]);
+			mUpdateScript = gResourceManager.GetResource<LuaResource>(update_script_json["mFile"]);
 		}
+	}
+	else
+	{
+		mUpdateScript = nullptr;
 	}
 }
 

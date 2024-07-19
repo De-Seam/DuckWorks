@@ -34,6 +34,9 @@ void LuaResource::RunScript(sol::state& inLua) const
 
 void from_json(const Json& inJson, SharedPtr<LuaResource>& outVariable)
 {
+	if (inJson.empty())
+		return;
+
 	outVariable = gResourceManager.GetResource<LuaResource>(inJson["mFile"]);
 	outVariable->Deserialize(inJson);
 }

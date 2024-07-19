@@ -108,7 +108,11 @@
                 {
                     "ClassName": "ScriptComponent",
                     "mGUID": "52af-b8bb-1b48-d33c",
-                    "mFileName": "Assets/Scripts/Player.lua"
+                    "mUpdateScript": {
+                        "ClassName": "LuaResource",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mFile": "Assets/Scripts/Player.lua"
+                    }
                 },
                 {
                     "ClassName": "AnimationComponent",

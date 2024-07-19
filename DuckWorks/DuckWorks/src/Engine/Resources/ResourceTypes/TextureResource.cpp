@@ -55,6 +55,9 @@ void TextureResource::DestroyTexture()
 
 void from_json(const Json& inJson, SharedPtr<TextureResource>& outVariable)
 {
+	if (inJson.empty())
+		return;
+
 	outVariable = gResourceManager.GetResource<TextureResource>(inJson["mFile"]);
 	outVariable->Deserialize(inJson);
 }
