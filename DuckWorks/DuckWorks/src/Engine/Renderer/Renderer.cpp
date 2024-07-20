@@ -204,6 +204,21 @@ Vec2 Renderer::GetWorldLocationAtWindowLocation(const Vec2& inWindowLocation) co
 	return world_location;
 }
 
+Vec2 Renderer::GetRenderLocationAtWindowLocation(const Vec2& inWindowLocation) const
+{
+	const Vec2 camera_size = mCamera->GetSize(); // The render texture size (not used in this calculation)
+	const Vec2 window_size = mWindowSize; // The actual window size
+
+	Vec2 translated_position = inWindowLocation / (window_size / camera_size);
+
+	// Step 1: Convert window coordinates to center-based coordinates relative to the window size
+	Vec2 center_based_coords;
+	center_based_coords.mX = (translated_position.mX - camera_size.mX * 0.5f);
+	center_based_coords.mY = (translated_position.mY - camera_size.mY * 0.5f);
+
+	return center_based_coords;
+}
+
 SDL_FRect Renderer::GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize, const SharedPtr<Camera>& inCamera)
 {
 	const Vec2 camera_position = inCamera->GetPosition();

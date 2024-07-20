@@ -125,7 +125,8 @@ public:
 	taType* operator*() const { return mPtr; }
 	operator taType*() const { return mPtr; }
 
-	bool operator==(const Ref<taType>& inOther) const { return mPtr == inOther.mPtr; }
+	bool operator==(const Ref& inOther) const { return mPtr == inOther.mPtr; }
+	bool operator==(const RTTIBaseClass* inOther) const { return mPtr == inOther; }
 
 	template<typename taCastType>
 	taCastType* Cast() const

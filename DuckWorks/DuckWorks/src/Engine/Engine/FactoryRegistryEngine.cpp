@@ -19,6 +19,7 @@
 #include "Engine/Entity/Components/CollisionComponent.h"
 #include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Factory/Factory.h"
+#include "Engine/UI/UIWidget.h"
 
 void gRegisterFactoryClassesEngine()
 {
@@ -35,6 +36,8 @@ void gRegisterFactoryClassesEngine()
 	REGISTER_ENTITY_COMPONENT(HealthComponent);
 	REGISTER_ENTITY_COMPONENT(CameraComponent);
 	REGISTER_ENTITY_COMPONENT(ScriptComponent);
+
+	REGISTER_UI_WIDGET(UIWidget);
 
 #ifdef _DEBUG
 

@@ -230,6 +230,8 @@
     <ClInclude Include="include\Engine\Resources\ResourceTypes\BaseResource.h" />
     <ClInclude Include="include\Engine\Resources\ResourceTypes\TextureResource.h" />
     <ClInclude Include="include\Engine\Timer\TimerManager.h" />
+    <ClInclude Include="include\Engine\UI\UIManager.h" />
+    <ClInclude Include="include\Engine\UI\UIWidget.h" />
     <ClInclude Include="include\Engine\World\Chunk.h" />
     <ClInclude Include="include\Engine\World\Globals.h" />
     <ClInclude Include="include\Engine\World\World.h" />
@@ -444,6 +446,8 @@
     <ClCompile Include="src\Engine\Threads\ThreadManager.cpp" />
     <ClCompile Include="src\Core\RTTI\RefObject.cpp" />
     <ClCompile Include="src\Core\RTTI\RTTI.cpp" />
+    <ClCompile Include="src\Engine\UI\UIManager.cpp" />
+    <ClCompile Include="src\Engine\UI\UIWidget.cpp" />
     <ClCompile Include="src\Game\App\UserSettingsGame.cpp" />
     <ClCompile Include="src\Game\Entity\Enemies\EnemyBase.cpp" />
     <ClCompile Include="src\Game\Entity\Enemies\Zombie.cpp" />

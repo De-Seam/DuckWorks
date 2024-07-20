@@ -97,6 +97,7 @@ public:
 	void OverrideCameraThisFrame(const SharedPtr<Camera>& inCamera) { mOverrideCameraThisFrame = inCamera; }
 
 	Vec2 GetWorldLocationAtWindowLocation(const Vec2& inWindowLocation) const;
+	Vec2 GetRenderLocationAtWindowLocation(const Vec2& inWindowLocation) const;
 	SDL_FRect GetSDLFRect(const Vec2& inPosition, const Vec2& inHalfSize, const SharedPtr<Camera>& inCamera);
 
 	SDL_Window* GetWindow() const { return mWindow; }

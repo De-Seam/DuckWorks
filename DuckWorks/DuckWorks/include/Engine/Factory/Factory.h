@@ -2,9 +2,8 @@
 // Engine includes
 #include "Engine/Entity/Entity.h"
 #include "Engine/Entity/Components/EntityComponent.h"
+#include "Engine/UI/UIWidget.h"
 
-class Entity;
-class EntityComponent;
 class World;
 class DebugUIWindow;
 class ComponentBase;
@@ -38,6 +37,7 @@ private:
 
 extern Factory<EntityComponent> gEntityComponentFactory;
 extern Factory<Entity> gEntityFactory;
+extern Factory<UIWidget> gUIWidgetFactory;
 IF_DEBUG(extern Factory<DebugUIWindow> gDebugUIWindowFactory;)
 
 template<typename taFactoryType>

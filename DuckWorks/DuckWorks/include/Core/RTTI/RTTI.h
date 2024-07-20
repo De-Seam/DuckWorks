@@ -219,3 +219,6 @@ taCastType* gCast(RTTIBaseClass* inObject)
 
 #define REGISTER_ENTITY_COMPONENT(inEntityComponent) \
 	gEntityComponentFactory.RegisterClass<inEntityComponent>(#inEntityComponent)
+
+#define REGISTER_UI_WIDGET(inUIWindow) \
+	gUIWidgetFactory.RegisterClass<inUIWindow>(#inUIWindow)
