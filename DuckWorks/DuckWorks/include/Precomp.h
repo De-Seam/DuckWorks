@@ -1,15 +1,4 @@
 #pragma once
-// Core headers
-#include "Core/Log/Log.h"
-#include "Core/Math/Math.h"
-#include "Core/Utilities/Utilities.h"
-
-// External header
-#include "External/optick/optick.h"
-
-// STD headers
-#include <chrono>
-
 // Disable all development ifdefs in SHIP mode
 #ifdef _SHIP
 #else
