@@ -1,4 +1,5 @@
 #pragma once
+
 // Disable all development ifdefs in SHIP mode
 #ifdef _SHIP
 #else
@@ -20,4 +21,6 @@
 #define PROFILE_FUNCTION() PROFILE_SCOPE_STRING(__FUNCSIG__)
 #else
 #define PROFILE_SCOPE(inName)
+#define PROFILE_SCOPE_STRING(inName)
+#define PROFILE_FUNCTION()
 #endif
