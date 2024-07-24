@@ -3,6 +3,9 @@
 // Core includes
 #include <Core/Utilities/Assert.h>
 
+// Renderer includes
+#include <Renderer/Renderer.h>
+
 // External includes
 #include <External/SFML/Graphics.hpp>
 
@@ -23,24 +26,34 @@ int APIENTRY WinMain(
 
 int main(int, char**)
 {
-	sf::RenderWindow window(sf::VideoMode(350, 350), "SFML works!");
+	Renderer renderer;
+	Renderer renderer2;
+	Renderer renderer3;
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
-	while (window.isOpen())
+	while (renderer.GetRenderWindow().isOpen())
 	{
+		renderer.BeginFrame();
 		sf::Event event;
-		while (window.pollEvent(event))
+		while (renderer.GetRenderWindow().pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
-				window.close();
+				renderer.GetRenderWindow().close();
 			if (event.type == sf::Event::KeyPressed)
 				shape.setPosition(shape.getPosition().x + 1, shape.getPosition().y);
 		}
 
-		window.clear();
-		window.draw(shape);
-		window.display();
+		renderer.Draw(shape);
+		renderer2.BeginFrame();
+		renderer2.Draw(shape);
+		renderer3.BeginFrame();
+		renderer3.Draw(shape);
+		renderer.EndFrame();
+
+		renderer2.EndFrame();
+
+		renderer3.EndFrame();
 	}
 
 	return 0;

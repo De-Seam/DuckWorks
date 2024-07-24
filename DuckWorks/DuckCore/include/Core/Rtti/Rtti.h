@@ -58,6 +58,7 @@ public:
 			return static_cast<taType>(this);
 		return nullptr;
 	}
+
 private:
 	inline static RTTI sRTTI = RTTI(
 		"RTTIClass", // Class Name

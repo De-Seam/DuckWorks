@@ -10,13 +10,13 @@ class RTTIFactory
 {
 public:
 	template<typename taType>
-	taType* NewInstance() 
+	taType* NewInstance()
 	{
 		const RTTI* rtti = taType::sGetRTTI();
 		return rtti->NewInstance();
 	}
 
-	const RTTI* GetRTTI(String inClassName) const;
+	const RTTI* GetRTTI(const String& inClassName) const;
 
 	template<typename taType>
 	void RegisterClass()

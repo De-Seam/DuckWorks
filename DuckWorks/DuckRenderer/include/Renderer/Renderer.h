@@ -1,11 +1,15 @@
 #pragma once
 // Core includes
-#include <Core/RTTI/RTTI.h>
 #include <Core/Containers/Array.h>
+#include <Core/RTTI/RTTI.h>
+
+// Std includes
+#include <memory>
 
 namespace sf
 {
-	class Drawable;
+class Drawable;
+class RenderWindow;
 }
 
 class Renderer : public RTTIClass
@@ -14,8 +18,15 @@ class Renderer : public RTTIClass
 
 public:
 	Renderer();
-	~Renderer();
+	virtual ~Renderer();
 
-	void Draw(sf::Drawable& inDrawable);
-	void Draw(Array<sf::Drawable&>& inDrawables);
+	void BeginFrame();
+	void EndFrame();
+	void Draw(const sf::Drawable& inDrawable);
+	void Draw(const Array<sf::Drawable*>& inDrawables);
+
+	sf::RenderWindow& GetRenderWindow() const { return *mRenderWindow; }
+
+private:
+	std::unique_ptr<sf::RenderWindow> mRenderWindow = nullptr;
 };

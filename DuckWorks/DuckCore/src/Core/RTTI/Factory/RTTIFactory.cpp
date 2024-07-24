@@ -6,7 +6,7 @@
 
 RTTIFactory gRTTIFactory;
 
-const RTTI* RTTIFactory::GetRTTI(String inClassName) const
+const RTTI* RTTIFactory::GetRTTI(const String& inClassName) const
 {
 	const RTTI* const* rtti_ptr = mClassNameToRTTI.Find(inClassName);
 	gAssert(rtti_ptr != nullptr && "Class not registered!");

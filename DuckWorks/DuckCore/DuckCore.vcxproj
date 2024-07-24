@@ -200,9 +200,6 @@
     </ClCompile>
     <ClCompile Include="src\Core\RTTI\Factory\RTTIFactory.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="include\Core\Containers\Array.inl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
