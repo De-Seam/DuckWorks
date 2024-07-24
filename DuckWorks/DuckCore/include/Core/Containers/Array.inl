@@ -17,6 +17,6 @@ bool Array<taType>::IsValidIndex(int32 inIndex) const
 template<typename taType>
 taType& Array<taType>::operator[](int32 inIndex)
 {
-	gAssert(IsValidIndex(inIndex), "");
+	gAssert(IsValidIndex(inIndex));
 	return mArray[inIndex];
 }

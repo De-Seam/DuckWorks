@@ -27,10 +27,22 @@
     <ClInclude Include="include\Core\Utilities\Assert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Rtti\Rtti.h">
+    <ClInclude Include="include\Core\RTTI\RTTI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Utilities\TypeId.h">
+    <ClInclude Include="include\Core\Utilities\TypeID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Containers\Atomic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Utilities\UID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\RTTI\RTTIRefClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

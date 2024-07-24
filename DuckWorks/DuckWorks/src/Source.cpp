@@ -1,8 +1,9 @@
 #include "Precomp.h"
 
-// External includes
+// Core includes
 #include <Core/Utilities/Assert.h>
 
+// External includes
 #include <External/SFML/Graphics.hpp>
 
 int main(int argc, char** argv);
