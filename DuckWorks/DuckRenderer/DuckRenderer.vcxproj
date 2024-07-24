@@ -264,6 +264,7 @@
     <ClInclude Include="include\External\SFML\Window\WindowStyle.hpp" />
     <ClInclude Include="include\Renderer\Precomp.h" />
     <ClInclude Include="include\Renderer\Renderer.h" />
+    <ClInclude Include="include\Renderer\WindowEvents\WindowEventManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Renderer\Precomp.cpp">
@@ -272,6 +273,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Renderer\WindowEvents\WindowEventManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\External\SFML\Audio\SoundFileFactory.inl" />

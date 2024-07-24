@@ -167,6 +167,7 @@
     <ClInclude Include="include\Core\Containers\Atomic.h" />
     <ClInclude Include="include\Core\Containers\HashMap.h" />
     <ClInclude Include="include\Core\Containers\String.h" />
+    <ClInclude Include="include\Core\Manager\Manager.h" />
     <ClInclude Include="include\Core\Precomp.h" />
     <ClInclude Include="include\Core\RTTI\Factory\RTTIFactory.h" />
     <ClInclude Include="include\Core\RTTI\RTTI.h" />

@@ -321,12 +321,18 @@
     <ClInclude Include="include\External\SFML\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Renderer\WindowEvents\WindowEventManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Renderer\Precomp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\WindowEvents\WindowEventManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

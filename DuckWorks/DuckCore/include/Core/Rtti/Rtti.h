@@ -5,7 +5,7 @@
 // Std includes
 #include <functional>
 
-using RTTITypeID = TypeID<class RttiClass>;
+using RTTITypeID = TypeID<class RTTIClass>;
 
 class RTTIClass;
 
@@ -63,7 +63,7 @@ private:
 	inline static RTTI sRTTI = RTTI(
 		"RTTIClass", // Class Name
 		"NONE", // Base Class Name
-		[]() { return sNewInstance(); }
+		[]() { return reinterpret_cast<RTTIClass*>(sNewInstance()); }
 	);
 };
 
@@ -86,5 +86,5 @@ private: \
 	inline static RTTI sRTTI = RTTI( \
 		#inClassName, \
 		#inBaseClassName, \
-		[]() { return sNewInstance(); } \
-	); \
+		[]() { return reinterpret_cast<RTTIClass*>(sNewInstance()); } \
+	);

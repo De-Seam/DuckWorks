@@ -8,7 +8,8 @@ RTTIFactory gRTTIFactory;
 
 const RTTI* RTTIFactory::GetRTTI(const String& inClassName) const
 {
-	const RTTI* const* rtti_ptr = mClassNameToRTTI.Find(inClassName);
-	gAssert(rtti_ptr != nullptr && "Class not registered!");
-	return rtti_ptr != nullptr ? *rtti_ptr : nullptr;
+	HashMap<String, const RTTI*>::const_iterator iterator = mClassNameToRTTI.find(inClassName);
+	const bool found = iterator != mClassNameToRTTI.end();
+	gAssert(!found && "Class not registered!");
+	return found ? iterator->second : nullptr;
 }

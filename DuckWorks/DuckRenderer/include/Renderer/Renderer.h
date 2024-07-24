@@ -20,6 +20,8 @@ public:
 	Renderer();
 	virtual ~Renderer();
 
+	void Update(float inDeltaTime);
+
 	void BeginFrame();
 	void EndFrame();
 	void Draw(const sf::Drawable& inDrawable);

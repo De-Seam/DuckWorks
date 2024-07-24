@@ -17,6 +17,11 @@ Renderer::~Renderer()
 	mRenderWindow->close();
 }
 
+void Renderer::Update(float inDeltaTime)
+{
+	
+}
+
 void Renderer::BeginFrame()
 {
 	mRenderWindow->clear();
