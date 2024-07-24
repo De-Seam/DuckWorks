@@ -21,33 +21,6 @@
     <ClInclude Include="include\External\nlohmann\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\External\phmap\btree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\meminfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\phmap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\phmap_base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\phmap_bits.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\phmap_config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\phmap_dump.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\phmap_fwd_decl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\External\phmap\phmap_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\External\rapidjson\error\en.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -183,9 +156,6 @@
     <ClInclude Include="include\External\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\External\BitBool\BitBool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\External\sol\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -309,9 +279,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\External\imgui\imgui_widgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\External\BitBool\BitBool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

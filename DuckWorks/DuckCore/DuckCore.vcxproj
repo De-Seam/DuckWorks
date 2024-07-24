@@ -165,20 +165,40 @@
     <ClInclude Include="include\Core\Config.h" />
     <ClInclude Include="include\Core\Containers\Array.h" />
     <ClInclude Include="include\Core\Containers\Atomic.h" />
+    <ClInclude Include="include\Core\Containers\HashMap.h" />
+    <ClInclude Include="include\Core\Containers\String.h" />
     <ClInclude Include="include\Core\Precomp.h" />
+    <ClInclude Include="include\Core\RTTI\Factory\RTTIFactory.h" />
     <ClInclude Include="include\Core\RTTI\RTTI.h" />
     <ClInclude Include="include\Core\RTTI\RTTIRefClass.h" />
     <ClInclude Include="include\Core\Utilities\Assert.h" />
     <ClInclude Include="include\Core\Utilities\TypeID.h" />
     <ClInclude Include="include\Core\Utilities\Types.h" />
     <ClInclude Include="include\Core\Utilities\UID.h" />
+    <ClInclude Include="include\External\BitBool\BitBool.h" />
+    <ClInclude Include="include\External\phmap\btree.h" />
+    <ClInclude Include="include\External\phmap\meminfo.h" />
+    <ClInclude Include="include\External\phmap\phmap.h" />
+    <ClInclude Include="include\External\phmap\phmap_base.h" />
+    <ClInclude Include="include\External\phmap\phmap_bits.h" />
+    <ClInclude Include="include\External\phmap\phmap_config.h" />
+    <ClInclude Include="include\External\phmap\phmap_dump.h" />
+    <ClInclude Include="include\External\phmap\phmap_fwd_decl.h" />
+    <ClInclude Include="include\External\phmap\phmap_utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\External\BitBool\BitBool.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Core\Containers\String.cpp" />
     <ClCompile Include="src\Core\Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Core\RTTI\Factory\RTTIFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Core\Containers\Array.inl" />

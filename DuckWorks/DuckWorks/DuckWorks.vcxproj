@@ -163,7 +163,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Math\FMath.h" />
-    <ClInclude Include="include\External\BitBool\BitBool.h" />
     <ClInclude Include="include\External\imgui\imconfig.h" />
     <ClInclude Include="include\External\imgui\imgui.h" />
     <ClInclude Include="include\External\imgui\imgui_internal.h" />
@@ -199,15 +198,6 @@
     <ClInclude Include="include\External\lua\lvm.h" />
     <ClInclude Include="include\External\lua\lzio.h" />
     <ClInclude Include="include\External\nlohmann\json.hpp" />
-    <ClInclude Include="include\External\phmap\btree.h" />
-    <ClInclude Include="include\External\phmap\meminfo.h" />
-    <ClInclude Include="include\External\phmap\phmap.h" />
-    <ClInclude Include="include\External\phmap\phmap_base.h" />
-    <ClInclude Include="include\External\phmap\phmap_bits.h" />
-    <ClInclude Include="include\External\phmap\phmap_config.h" />
-    <ClInclude Include="include\External\phmap\phmap_dump.h" />
-    <ClInclude Include="include\External\phmap\phmap_fwd_decl.h" />
-    <ClInclude Include="include\External\phmap\phmap_utils.h" />
     <ClInclude Include="include\External\rapidjson\allocators.h" />
     <ClInclude Include="include\External\rapidjson\cursorstreamwrapper.h" />
     <ClInclude Include="include\External\rapidjson\document.h" />
@@ -255,11 +245,6 @@
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\External\BitBool\BitBool.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="include\External\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
