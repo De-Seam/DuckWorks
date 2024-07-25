@@ -23,8 +23,16 @@ void Engine::Update(float inDeltaTime)
 		manager->Update(inDeltaTime);
 }
 
+void Engine::RegisterManager(Manager* inManager) 
+{
+	int32 type_id = inManager->GetManagerTypeID();
+	if (type_id <= mManagers.size())
+		mManagers.resize(type_id + 1);
+	mManagers[type_id] = inManager;
+}
+
 void Engine::RegisterManagers()
 {
 	CreateManager<Renderer>();
-	CreateManager<WindowEventManager>();
+	RegisterManager(&GetManager<WindowEventManager>());
 }

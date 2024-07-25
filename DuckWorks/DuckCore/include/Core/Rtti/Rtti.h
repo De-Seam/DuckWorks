@@ -1,5 +1,6 @@
 #pragma once
 // Core includes
+#include <Core/Utilities/Assert.h>
 #include <Core/Utilities/TypeID.h>
 
 // Std includes
@@ -67,14 +68,13 @@ private:
 	);
 };
 
-#define RTTI_CLASS(inClassName, inBaseClassName) \
+#define RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) \
 private: \
 	using Base = inBaseClassName; \
 \
 public: \
 	virtual const RTTI& GetRTTI() const override { return sRTTI; } \
 	static const RTTI& sGetRTTI() { return sRTTI; } \
-	static inClassName* sNewInstance() { return new inClassName; } \
 	virtual bool IsA(const RTTI& inRTTI) \
 	{ \
 		if (sGetRTTI().GetTypeID() == inRTTI.GetTypeID()) \
@@ -88,3 +88,15 @@ private: \
 		#inBaseClassName, \
 		[]() { return reinterpret_cast<RTTIClass*>(sNewInstance()); } \
 	);
+
+#define RTTI_VIRTUAL_CLASS(inClassName, inBaseClassName) \
+RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) \
+public: \
+	static inClassName* sNewInstance() { gAssert(false); return nullptr; } \
+private: \
+
+#define RTTI_CLASS(inClassName, inBaseClassName) \
+RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) \
+public: \
+	static inClassName* sNewInstance() { return new inClassName; } \
+private: \

@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/RTTI/RTTI.h>
+#include <Core/Utilities/Assert.h>
 
 class RTTIRefObject : public RTTIClass
 {
@@ -54,7 +55,7 @@ public:
 	{
 		if (inOther.mPtr != nullptr)
 		{
-			gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			gAssert(inOther.mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 			mPtr = inOther.mPtr;
 			mPtr->mRefCount++;
 		}
@@ -73,13 +74,13 @@ public:
 		{
 			mPtr->mRefCount--;
 			if (mPtr->mRefCount <= 0)
-				mPtr->Delete();
+				delete mPtr;
 		}
 
 		mPtr = inOther.mPtr;
 		if (mPtr != nullptr)
 		{
-			gAssert(mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			gAssert(mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 			mPtr->mRefCount++;
 		}
 		return *this;
@@ -90,7 +91,7 @@ public:
 	// Construct a ref from self
 	Ref(taType* inSelf)
 	{
-		static_assert(std::is_base_of_v<RefObject, taType>);
+		static_assert(std::is_base_of_v<RTTIRefObject, taType>);
 		mPtr = inSelf;
 		if (mPtr != nullptr)
 			mPtr->mRefCount++;
@@ -102,7 +103,7 @@ public:
 		static_assert(std::is_base_of_v<taParentClass, taType> || std::is_base_of_v<taType, taParentClass>);
 		if (inOther.mPtr != nullptr)
 		{
-			gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			gAssert(inOther.mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 			mPtr = SCast<taType*>(inOther.mPtr);
 			mPtr->mRefCount++;
 		}
@@ -115,13 +116,12 @@ public:
 			mPtr->mRefCount--;
 
 			if (mPtr->mRefCount <= 0)
-				mPtr->Delete();
+				delete mPtr;
 		}
 	}
 
 	taType* Get() const { return mPtr; }
 	taType* operator->() const { return mPtr; }
-	taType* operator*() const { return mPtr; }
 	operator taType*() const { return mPtr; }
 
 	bool operator==(const Ref<taType>& inOther) const { return mPtr == inOther.mPtr; }
@@ -143,8 +143,8 @@ private:
 	// Private so only WeakRef can use it
 	Ref(const WeakRef<taType>& inOther)
 	{
-		gAssert(inOther.IsAlive(), "Invalid Weak Ref passed!");
-		gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+		gAssert(inOther.IsAlive() && "Invalid Weak Ref passed!");
+		gAssert(inOther.mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 		mPtr = inOther.mPtr;
 		mPtr->mRefCount++;
 	}
@@ -213,7 +213,7 @@ public:
 
 	Ref<taType> Get() const
 	{
-		gAssert(IsAlive(), "Can't make a reference if it isn't alive anymore! Check IsAlive() first");
+		gAssert(IsAlive() && "Can't make a reference if it isn't alive anymore! Check IsAlive() first");
 		return Ref<taType>(*this);
 	}
 
@@ -223,7 +223,7 @@ public:
 
 private:
 	taType* mPtr = nullptr;
-	RefObject::WeakRefCounter* mWeakRefCounter = nullptr;
+	RTTIRefObject::WeakRefCounter* mWeakRefCounter = nullptr;
 
 	template<typename taRefClassType>
 	friend class Ref;

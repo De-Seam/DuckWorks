@@ -3,10 +3,12 @@
 #include <Core/Containers/Array.h>
 #include <Core/Manager/Manager.h>
 #include <Core/RTTI/RTTI.h>
+#include <Core/RTTI/RTTIRefClass.h>
 
 // Std includes
 #include <memory>
 
+class WindowEventManager;
 
 namespace sf
 {
@@ -31,6 +33,10 @@ public:
 
 	sf::RenderWindow& GetRenderWindow() const { return *mRenderWindow; }
 
+	WindowEventManager& GetWindowEventManager() { return *mWindowEventManager; }
+
 private:
 	std::unique_ptr<sf::RenderWindow> mRenderWindow = nullptr;
+
+	Ref<WindowEventManager> mWindowEventManager = nullptr;
 };

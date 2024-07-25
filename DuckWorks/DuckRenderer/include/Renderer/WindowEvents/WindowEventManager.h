@@ -7,13 +7,16 @@ namespace sf
 	class RenderWindow;
 }
 
+class Renderer;
+
 class WindowEventManager : public Manager
 {
 	RTTI_MANAGER(WindowEventManager, Manager)
 
 public:
 	WindowEventManager();
+	
+	virtual void Update(Renderer& inRenderer, float inDeltaTime);
 
-	virtual void Update(sf::RenderWindow& inRenderWindow, float inDeltaTime);
 private:
 };

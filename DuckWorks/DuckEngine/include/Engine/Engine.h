@@ -19,6 +19,7 @@ public:
 
 	template<typename taType>
 	void CreateManager();
+	void RegisterManager(Manager* inManager); ///< Register a manager without owning it
 	template<typename taType>
 	taType& GetManager();
 	template<typename taType>
@@ -27,7 +28,7 @@ public:
 private:
 	void RegisterManagers();
 
-	Array<std::unique_ptr<Manager>> mManagers;
+	Array<Ref<Manager>> mManagers;
 	Array<Manager*> mManagersToUpdate;
 };
 

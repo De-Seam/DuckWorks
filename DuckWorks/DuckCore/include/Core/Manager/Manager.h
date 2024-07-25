@@ -1,7 +1,7 @@
 #pragma once
 // Core includes
 #include <Core/Containers/Array.h>
-#include <Core/RTTI/RTTI.h>
+#include <Core/RTTI/RTTIRefClass.h>
 
 using ManagerTypeID = TypeID<class Manager>;
 
@@ -9,13 +9,14 @@ using ManagerTypeID = TypeID<class Manager>;
 	RTTI_CLASS(inClassName, inBaseClassName) \
 public: \
 	static const ManagerTypeID& sGetManagerTypeID() { return sManagerTypeID; }; \
+	virtual const ManagerTypeID& GetManagerTypeID() const override { return sManagerTypeID; } \
 \
 private: \
 	inline static ManagerTypeID sManagerTypeID = {};
 
-class Manager : public RTTIClass
+class Manager : public RTTIRefObject
 {
-	RTTI_CLASS(Manager, RTTIClass)
+	RTTI_VIRTUAL_CLASS(Manager, RTTIClass)
 
 public:
 	struct ManagerSettings
@@ -38,6 +39,8 @@ public:
 		Array<const RTTI*> mShutdownDependencies;
 		Array<const RTTI*> mUpdateDependencies;
 	};
+
+	virtual const ManagerTypeID& GetManagerTypeID() const = 0;
 
 	const ManagerSettings& GetSettings() const { return mManagerSettings; }
 

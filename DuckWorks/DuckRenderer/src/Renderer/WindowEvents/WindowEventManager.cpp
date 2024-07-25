@@ -1,6 +1,9 @@
 #include <Renderer/Precomp.h>
 #include <Renderer/WindowEvents/WindowEventManager.h>
 
+// Core includes
+#include <Core/Utilities/Assert.h>
+
 // Renderer includes
 #include <Renderer/Renderer.h>
 
@@ -12,12 +15,13 @@ WindowEventManager::WindowEventManager()
 	mManagerSettings.AddInitDependency<Renderer>();
 }
 
-void WindowEventManager::Update(sf::RenderWindow& inRenderWindow, float)
+void WindowEventManager::Update(Renderer& inRenderer, float)
 {
+	sf::RenderWindow& render_window = inRenderer.GetRenderWindow();
 	sf::Event event;
-	while (inRenderWindow.pollEvent(event))
+	while (render_window.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
-			inRenderWindow.close();
+			render_window.close();
 	}
 }

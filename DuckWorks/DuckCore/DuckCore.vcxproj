@@ -168,6 +168,7 @@
     <ClInclude Include="include\Core\Containers\HashMap.h" />
     <ClInclude Include="include\Core\Containers\String.h" />
     <ClInclude Include="include\Core\Manager\Manager.h" />
+    <ClInclude Include="include\Core\Manager\Managers.h" />
     <ClInclude Include="include\Core\Math\HelperFunctions.h" />
     <ClInclude Include="include\Core\Math\Math.h" />
     <ClInclude Include="include\Core\Math\Matrix.h" />

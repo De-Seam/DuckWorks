@@ -1,11 +1,16 @@
 #include "Renderer/Precomp.h"
 #include <Renderer/Renderer.h>
 
+// Renderer includes
+#include <Renderer/WindowEvents/WindowEventManager.h>
+
 // External includes
 #include <External/SFML/Graphics.hpp>
 
 Renderer::Renderer()
 {
+	mWindowEventManager = WindowEventManager::sNewInstance();
+
 	sf::VideoMode video_mode;
 	video_mode.width = 1280;
 	video_mode.height = 720;
@@ -23,12 +28,16 @@ Renderer::~Renderer()
 
 void Renderer::Update(float inDeltaTime)
 {
+	
+
 	sf::View view;
-	view.setSize(192, 108);
-	view.zoom(10.0f);
+	view.setSize(1920, 1080);
+	view.zoom(1.0f);
 	view.setCenter({0.0f, 0.0f});
 
 	mRenderWindow->setView(view);
+
+
 }
 
 void Renderer::BeginFrame()
