@@ -21,5 +21,5 @@ taType* Engine::FindManager()
 	int32 type_id = taType::sGetManagerTypeID();
 	if (type_id < mManagers.size())
 		return nullptr;
-	return mManagers[type_id];
+	return reinterpret_cast<taType*>(mManagers[taType::sGetRTTI().GetTypeID()].Get());
 }
