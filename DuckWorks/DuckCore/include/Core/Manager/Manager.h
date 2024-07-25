@@ -1,5 +1,6 @@
 #pragma once
 // Core includes
+#include <Core/Containers/Array.h>
 #include <Core/RTTI/RTTI.h>
 
 using ManagerTypeID = TypeID<class Manager>;
@@ -17,28 +18,28 @@ class Manager : public RTTIClass
 	RTTI_CLASS(Manager, RTTIClass)
 
 public:
-	struct Settings
+	struct ManagerSettings
 	{
 		bool mWantsUpdate = false;
 
 		template<typename taType>
-		void AddInitDependency() { mInitDependencies.emplace_back(taType::sGetRTTI()); }
+		void AddInitDependency() { mInitDependencies.emplace_back(&taType::sGetRTTI()); }
 		template<typename taType>
-		void AddShutdownDependency() { mShutdownDependencies.emplace_back(taType::sGetRTTI()); }
+		void AddShutdownDependency() { mShutdownDependencies.emplace_back(&taType::sGetRTTI()); }
 		template<typename taType>
-		void AddUpdateDependency() { mUpdateDependencies.emplace_back(taType::sGetRTTI()); }
+		void AddUpdateDependency() { mUpdateDependencies.emplace_back(&taType::sGetRTTI()); }
 
-		const Array<RTTI*>& GetInitDependencies() const { return mInitDependencies; }
-		const Array<RTTI*>& GetShutdownDependencies() const { return mShutdownDependencies; }
-		const Array<RTTI*>& GetUpdateDependencies() const { return mUpdateDependencies; }
+		const Array<const RTTI*>& GetInitDependencies() const { return mInitDependencies; }
+		const Array<const RTTI*>& GetShutdownDependencies() const { return mShutdownDependencies; }
+		const Array<const RTTI*>& GetUpdateDependencies() const { return mUpdateDependencies; }
 
 	private:
-		Array<RTTI*> mInitDependencies;
-		Array<RTTI*> mShutdownDependencies;
-		Array<RTTI*> mUpdateDependencies;
+		Array<const RTTI*> mInitDependencies;
+		Array<const RTTI*> mShutdownDependencies;
+		Array<const RTTI*> mUpdateDependencies;
 	};
 
-	const Settings& GetSettings() const { return mSettings; }
+	const ManagerSettings& GetSettings() const { return mManagerSettings; }
 
 	virtual void Init() {}
 	virtual void Shutdown() {}
@@ -46,5 +47,5 @@ public:
 
 protected:
 	// Settings should be set in the constructor
-	Settings mSettings;
+	ManagerSettings mManagerSettings;
 };

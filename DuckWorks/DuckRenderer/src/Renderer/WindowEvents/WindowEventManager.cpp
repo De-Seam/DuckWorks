@@ -9,7 +9,7 @@
 
 WindowEventManager::WindowEventManager()
 {
-	mSettings.AddInitDependency<Renderer>();
+	mManagerSettings.AddInitDependency<Renderer>();
 }
 
 void WindowEventManager::Update(sf::RenderWindow& inRenderWindow, float)

@@ -73,7 +73,7 @@ private: \
 \
 public: \
 	virtual const RTTI& GetRTTI() const override { return sRTTI; } \
-	const RTTI& sGetRTTI() const { return sRTTI; } \
+	static const RTTI& sGetRTTI() { return sRTTI; } \
 	static inClassName* sNewInstance() { return new inClassName; } \
 	virtual bool IsA(const RTTI& inRTTI) \
 	{ \

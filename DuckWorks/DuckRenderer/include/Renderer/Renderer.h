@@ -1,10 +1,12 @@
 #pragma once
 // Core includes
 #include <Core/Containers/Array.h>
+#include <Core/Manager/Manager.h>
 #include <Core/RTTI/RTTI.h>
 
 // Std includes
 #include <memory>
+
 
 namespace sf
 {
@@ -12,15 +14,15 @@ class Drawable;
 class RenderWindow;
 }
 
-class Renderer : public RTTIClass
+class Renderer : public Manager
 {
-	RTTI_CLASS(Renderer, RTTIClass)
+	RTTI_MANAGER(Renderer, Manager)
 
 public:
 	Renderer();
 	virtual ~Renderer();
 
-	void Update(float inDeltaTime);
+	virtual void Update(float inDeltaTime);
 
 	void BeginFrame();
 	void EndFrame();

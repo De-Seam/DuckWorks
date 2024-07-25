@@ -27,9 +27,8 @@ int APIENTRY WinMain(
 int main(int, char**)
 {
 	Renderer renderer;
-	Renderer renderer2;
-	Renderer renderer3;
 	sf::CircleShape shape(100.f);
+	shape.setOrigin({100.f,100.f});
 	shape.setFillColor(sf::Color::Green);
 
 	while (renderer.GetRenderWindow().isOpen())
@@ -44,16 +43,9 @@ int main(int, char**)
 				shape.setPosition(shape.getPosition().x + 1, shape.getPosition().y);
 		}
 
+		renderer.Update(0.0f);
 		renderer.Draw(shape);
-		renderer2.BeginFrame();
-		renderer2.Draw(shape);
-		renderer3.BeginFrame();
-		renderer3.Draw(shape);
 		renderer.EndFrame();
-
-		renderer2.EndFrame();
-
-		renderer3.EndFrame();
 	}
 
 	return 0;

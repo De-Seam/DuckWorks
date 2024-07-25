@@ -23,3 +23,5 @@
 #define PROFILE_SCOPE_STRING(inName)
 #define PROFILE_FUNCTION()
 #endif
+
+#define ENABLE_SIMD

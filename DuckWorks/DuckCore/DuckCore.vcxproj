@@ -168,6 +168,13 @@
     <ClInclude Include="include\Core\Containers\HashMap.h" />
     <ClInclude Include="include\Core\Containers\String.h" />
     <ClInclude Include="include\Core\Manager\Manager.h" />
+    <ClInclude Include="include\Core\Math\HelperFunctions.h" />
+    <ClInclude Include="include\Core\Math\Math.h" />
+    <ClInclude Include="include\Core\Math\Matrix.h" />
+    <ClInclude Include="include\Core\Math\Quaternion.h" />
+    <ClInclude Include="include\Core\Math\Random.h" />
+    <ClInclude Include="include\Core\Math\Transform.h" />
+    <ClInclude Include="include\Core\Math\Vector.h" />
     <ClInclude Include="include\Core\Precomp.h" />
     <ClInclude Include="include\Core\RTTI\Factory\RTTIFactory.h" />
     <ClInclude Include="include\Core\RTTI\RTTI.h" />
@@ -194,6 +201,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Core\Containers\String.cpp" />
+    <ClCompile Include="src\Core\Math\Math.cpp" />
+    <ClCompile Include="src\Core\Math\Matrix.cpp" />
+    <ClCompile Include="src\Core\Math\Quaternion.cpp" />
     <ClCompile Include="src\Core\Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Create</PrecompiledHeader>

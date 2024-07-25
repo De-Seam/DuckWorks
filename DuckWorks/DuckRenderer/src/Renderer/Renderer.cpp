@@ -10,6 +10,10 @@ Renderer::Renderer()
 	video_mode.width = 1280;
 	video_mode.height = 720;
 	mRenderWindow = std::make_unique<sf::RenderWindow>(video_mode, "DuckRenderer");
+	//mRenderWindow->setVerticalSyncEnabled(true);
+	mRenderWindow->setFramerateLimit(60);
+
+	mManagerSettings.mWantsUpdate = true;
 }
 
 Renderer::~Renderer()
@@ -19,7 +23,12 @@ Renderer::~Renderer()
 
 void Renderer::Update(float inDeltaTime)
 {
-	
+	sf::View view;
+	view.setSize(192, 108);
+	view.zoom(10.0f);
+	view.setCenter({0.0f, 0.0f});
+
+	mRenderWindow->setView(view);
 }
 
 void Renderer::BeginFrame()
