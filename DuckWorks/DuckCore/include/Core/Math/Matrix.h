@@ -101,7 +101,7 @@ struct Mat4
 		__m128 row3 = _mm_loadu_ps(&z.mX);
 		__m128 row4 = _mm_loadu_ps(&w.mX);
 		
-		for (int j = 0; j < 4; ++j) 
+		for (int32 j = 0; j < 4; ++j) 
 		{
 		    __m128 col = _mm_set_ps(i.w[j], i.z[j], i.y[j], i.x[j]);
 		
