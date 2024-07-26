@@ -1,7 +1,7 @@
 #pragma once
 // Core includes
 #include <Core/Containers/Array.h>
-#include <Core/RTTI/RTTIRefClass.h>
+#include <Core/RTTI/RTTIRefObject.h>
 
 using ManagerTypeID = TypeID<class Manager>;
 

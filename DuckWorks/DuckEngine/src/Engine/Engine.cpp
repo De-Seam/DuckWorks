@@ -1,9 +1,11 @@
 #include "Engine/Precomp.h"
 #include <Engine/Engine.h>
 
-// Renderer includes
-#include <Renderer/Renderer.h>
-#include <Renderer/WindowEvents/WindowEventManager.h>
+// Engine includes
+#include <Engine/Renderer/Renderer.h>
+#include <Engine/Renderer/WindowEvents/WindowEventManager.h>
+
+// External includes
 #include <External/SFML/Graphics/CircleShape.hpp>
 
 THREADLOCAL UniquePtr<Engine> gEngine = nullptr;

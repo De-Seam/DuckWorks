@@ -34,7 +34,7 @@
     <ProjectGuid>{5f5db11b-2aa7-4235-8e8b-ec4c1476c407}</ProjectGuid>
     <RootNamespace>DuckApp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>04_DuckApp</ProjectName>
+    <ProjectName>03_DuckApp</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -107,8 +107,8 @@
       <AdditionalDependencies>OptickCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckEngine</AdditionalLibraryDirectories>
-      <AdditionalDependencies>03_DuckEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/02_DuckEngine</AdditionalLibraryDirectories>
+      <AdditionalDependencies>02_DuckEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,8 +137,8 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckEngine</AdditionalLibraryDirectories>
-      <AdditionalDependencies>03_DuckEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/02_DuckEngine</AdditionalLibraryDirectories>
+      <AdditionalDependencies>02_DuckEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
@@ -171,8 +171,8 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckEngine</AdditionalLibraryDirectories>
-      <AdditionalDependencies>03_DuckEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/02_DuckEngine</AdditionalLibraryDirectories>
+      <AdditionalDependencies>02_DuckEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

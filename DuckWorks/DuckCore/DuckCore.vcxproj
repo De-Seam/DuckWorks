@@ -168,6 +168,8 @@
     <ClInclude Include="include\Core\Containers\HashMap.h" />
     <ClInclude Include="include\Core\Containers\SmartPointers.h" />
     <ClInclude Include="include\Core\Containers\String.h" />
+    <ClInclude Include="include\Core\Core.h" />
+    <ClInclude Include="include\Core\CoreLight.h" />
     <ClInclude Include="include\Core\CoreModule.h" />
     <ClInclude Include="include\Core\Manager\Manager.h" />
     <ClInclude Include="include\Core\Manager\Managers.h" />
@@ -181,7 +183,7 @@
     <ClInclude Include="include\Core\Precomp.h" />
     <ClInclude Include="include\Core\RTTI\Factory\RTTIFactory.h" />
     <ClInclude Include="include\Core\RTTI\RTTI.h" />
-    <ClInclude Include="include\Core\RTTI\RTTIRefClass.h" />
+    <ClInclude Include="include\Core\RTTI\RTTIRefObject.h" />
     <ClInclude Include="include\Core\Threads\Thread.h" />
     <ClInclude Include="include\Core\Utilities\Assert.h" />
     <ClInclude Include="include\Core\Utilities\TypeID.h" />

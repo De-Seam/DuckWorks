@@ -7,8 +7,8 @@
 #include <Core/Threads/Thread.h>
 #include <Core/Containers/SmartPointers.h>
 
-// Renderer includes
-#include <Renderer/Renderer.h>
+// Engine includes
+#include <Engine/Renderer/Renderer.h>
 
 class Renderer;
 

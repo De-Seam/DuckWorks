@@ -1,8 +1,8 @@
 #include <App/Precomp.h>
 #include <App/App.h>
 
-// Renderer includes
-#include <Renderer/Renderer.h>
+// Engine includes
+#include <Engine/Renderer/Renderer.h>
 
 // App includes
 #include <App/AppModule.h>

@@ -1,7 +1,7 @@
 #pragma once
-#include <Renderer/RendererModule.h>
+#include <Core/CoreModule.h>
 
-class EngineModule : public RendererModule
+class EngineModule : public CoreModule
 {
 public:
 	EngineModule();

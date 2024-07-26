@@ -42,7 +42,7 @@
     <ClInclude Include="include\Core\Utilities\UID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\RTTI\RTTIRefClass.h">
+    <ClInclude Include="include\Core\RTTI\RTTIRefObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Core\RTTI\Factory\RTTIFactory.h">
@@ -118,6 +118,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Core\CoreModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\CoreLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

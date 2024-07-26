@@ -4,7 +4,7 @@
 #include <Core/Utilities/Assert.h>
 
 // Renderer includes
-#include <Renderer/Renderer.h>
+#include <Engine/Renderer/Renderer.h>
 
 // App includes
 #include <App/App.h>
@@ -12,21 +12,6 @@
 
 // External includes
 #include <External/SFML/Graphics.hpp>
-
-int main(int argc, char** argv);
-
-#ifdef _WIN32
-
-#include <Windows.h>
-
-int APIENTRY WinMain(
-	HINSTANCE,
-	HINSTANCE,
-	LPSTR, int)
-{
-	return main(__argc, __argv);
-}
-#endif
 
 int main(int, char**)
 {
@@ -60,3 +45,16 @@ int main(int, char**)
 
 	return 0;
 }
+
+#ifdef _WIN32
+
+#include <Windows.h>
+
+int APIENTRY WinMain(
+	HINSTANCE,
+	HINSTANCE,
+	LPSTR, int)
+{
+	return main(__argc, __argv);
+}
+#endif
