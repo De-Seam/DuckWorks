@@ -29,8 +29,6 @@ Renderer::Renderer()
 		0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 	};
 	mRenderWindow->setIcon(8, 8, reinterpret_cast<uint8*>(pixels));
-
-	mManagerSettings.mWantsUpdate = true;
 }
 
 Renderer::~Renderer()

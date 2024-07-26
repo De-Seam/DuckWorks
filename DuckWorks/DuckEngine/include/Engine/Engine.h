@@ -4,9 +4,13 @@
 #include <Core/Containers/HashMap.h>
 #include <Core/Manager/Manager.h>
 #include <Core/RTTI/RTTI.h>
+#include <Core/Threads/Thread.h>
+#include <Core/Containers/SmartPointers.h>
 
-// Std include
-#include <memory>
+// Renderer includes
+#include <Renderer/Renderer.h>
+
+class Renderer;
 
 class Engine : public RTTIClass
 {
@@ -30,8 +34,10 @@ private:
 
 	Array<Ref<Manager>> mManagers;
 	Array<Manager*> mManagersToUpdate;
+
+	Renderer mRenderer;
 };
 
-extern Engine gEngine;
+THREADLOCAL extern UniquePtr<Engine> gEngine;
 
 #include "Engine.inl"

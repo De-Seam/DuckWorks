@@ -21,6 +21,5 @@ private:
 	void MainLoop();
 	void Update(float inDeltaTime);
 
-	Engine mEngine;
 	bool mShutdownRequested = false;
 };

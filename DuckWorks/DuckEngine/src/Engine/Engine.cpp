@@ -4,8 +4,9 @@
 // Renderer includes
 #include <Renderer/Renderer.h>
 #include <Renderer/WindowEvents/WindowEventManager.h>
+#include <External/SFML/Graphics/CircleShape.hpp>
 
-Engine gEngine;
+THREADLOCAL UniquePtr<Engine> gEngine;
 
 void Engine::Init()
 {
@@ -23,13 +24,14 @@ void Engine::Shutdown()
 
 void Engine::Update(float inDeltaTime)
 {
-	Renderer& renderer = GetManager<Renderer>();
-	renderer.BeginFrame();
+	mRenderer.BeginFrame();
 
 	for (Manager* manager : mManagersToUpdate)
 		manager->Update(inDeltaTime);
 
-	renderer.EndFrame();
+	mRenderer.Update(inDeltaTime);
+
+	mRenderer.EndFrame();
 }
 
 void Engine::RegisterManager(Manager* inManager) 
@@ -43,7 +45,6 @@ void Engine::RegisterManager(Manager* inManager)
 }
 
 void Engine::RegisterManagers()
-{
-	CreateManager<Renderer>();
-	RegisterManager(&GetManager<Renderer>().GetWindowEventManager());
+{	
+	RegisterManager(&mRenderer.GetWindowEventManager());
 }

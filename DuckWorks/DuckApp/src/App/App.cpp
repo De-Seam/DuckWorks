@@ -9,12 +9,13 @@
 
 App::App()
 {
-	mEngine.Init();
+	gEngine = gMakeUnique<Engine>();
+	gEngine->Init();
 }
 
 App::~App()
 {
-	mEngine.Shutdown();
+	gEngine->Shutdown();
 }
 
 void App::Run()
@@ -39,5 +40,5 @@ void App::MainLoop()
 
 void App::Update(float inDeltaTime)
 {
-	mEngine.Update(inDeltaTime);
+	gEngine->Update(inDeltaTime);
 }

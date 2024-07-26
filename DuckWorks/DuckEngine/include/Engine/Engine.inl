@@ -3,6 +3,7 @@
 template<typename taType>
 void Engine::CreateManager()
 {
+	static_assert(std::is_base_of<taType, Manager>());
 	int32 type_id = taType::sGetManagerTypeID();
 	if (type_id <= mManagers.size())
 		mManagers.resize(type_id + 1);
@@ -12,6 +13,7 @@ void Engine::CreateManager()
 template<typename taType>
 taType& Engine::GetManager()
 {
+	static_assert(std::is_base_of<taType, Manager>());
 	return *reinterpret_cast<taType*>(mManagers[taType::sGetManagerTypeID()].Get());
 }
 

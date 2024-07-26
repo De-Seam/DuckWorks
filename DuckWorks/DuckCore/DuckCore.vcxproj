@@ -166,6 +166,7 @@
     <ClInclude Include="include\Core\Containers\Array.h" />
     <ClInclude Include="include\Core\Containers\Atomic.h" />
     <ClInclude Include="include\Core\Containers\HashMap.h" />
+    <ClInclude Include="include\Core\Containers\SmartPointers.h" />
     <ClInclude Include="include\Core\Containers\String.h" />
     <ClInclude Include="include\Core\Manager\Manager.h" />
     <ClInclude Include="include\Core\Manager\Managers.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="include\Core\RTTI\Factory\RTTIFactory.h" />
     <ClInclude Include="include\Core\RTTI\RTTI.h" />
     <ClInclude Include="include\Core\RTTI\RTTIRefClass.h" />
+    <ClInclude Include="include\Core\Threads\Thread.h" />
     <ClInclude Include="include\Core\Utilities\Assert.h" />
     <ClInclude Include="include\Core\Utilities\TypeID.h" />
     <ClInclude Include="include\Core\Utilities\Types.h" />

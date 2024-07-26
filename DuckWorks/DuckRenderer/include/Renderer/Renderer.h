@@ -16,9 +16,9 @@ class Drawable;
 class RenderWindow;
 }
 
-class Renderer : public Manager
+class Renderer : public RTTIClass
 {
-	RTTI_MANAGER(Renderer, Manager)
+	RTTI_CLASS(Renderer, RTTIClass)
 
 public:
 	Renderer();
