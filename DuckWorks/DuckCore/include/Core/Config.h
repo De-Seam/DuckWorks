@@ -24,4 +24,9 @@
 #define PROFILE_FUNCTION()
 #endif
 
+// Assert macro
+#ifdef _DEBUG
+#define _ASSERTS_ENABLED
+#endif
+
 #define ENABLE_SIMD

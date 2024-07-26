@@ -29,6 +29,8 @@ public:
 	template<typename taType>
 	taType* FindManager();
 
+	Renderer& GetRenderer() { return mRenderer; }
+
 private:
 	void RegisterManagers();
 

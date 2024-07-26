@@ -7,12 +7,8 @@ using ManagerTypeID = TypeID<class Manager>;
 
 #define RTTI_MANAGER(inClassName, inBaseClassName) \
 	RTTI_CLASS(inClassName, inBaseClassName) \
-public: \
-	static const ManagerTypeID& sGetManagerTypeID() { return sManagerTypeID; }; \
-	virtual const ManagerTypeID& GetManagerTypeID() const override { return sManagerTypeID; } \
-\
-private: \
-	inline static ManagerTypeID sManagerTypeID = {};
+	STATIC_TYPE_ID(Manager) \
+private:
 
 class Manager : public RTTIRefObject
 {
