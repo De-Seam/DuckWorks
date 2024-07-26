@@ -4,6 +4,9 @@
 // Renderer includes
 #include <Renderer/Renderer.h>
 
+// App includes
+#include <App/AppModule.h>
+
 // External includes
 #include <External/SFML/System/Clock.hpp>
 

@@ -4,8 +4,6 @@
 // Core includes
 #include <Core/Utilities/Assert.h>
 
-RTTIFactory gRTTIFactory;
-
 const RTTI* RTTIFactory::GetRTTI(const String& inClassName) const
 {
 	HashMap<String, const RTTI*>::const_iterator iterator = mClassNameToRTTI.find(inClassName);

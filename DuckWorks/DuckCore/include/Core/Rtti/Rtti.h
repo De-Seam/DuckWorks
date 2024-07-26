@@ -17,10 +17,7 @@ public:
 		const char* inClassName,
 		const char* inBaseClassName,
 		std::function<RTTIClass*()> inConstructorFunction
-	) :
-		mClassName(inClassName),
-		mBaseClassName(inBaseClassName),
-		mConstructorFunction(inConstructorFunction) {}
+	);
 
 	// We don't want people to copy this class. Just use a pointer or refernece to it
 	RTTI& operator=(const RTTI&) = delete;

@@ -6,7 +6,7 @@
 #include <Renderer/WindowEvents/WindowEventManager.h>
 #include <External/SFML/Graphics/CircleShape.hpp>
 
-THREADLOCAL UniquePtr<Engine> gEngine;
+THREADLOCAL UniquePtr<Engine> gEngine = nullptr;
 
 void Engine::Init()
 {

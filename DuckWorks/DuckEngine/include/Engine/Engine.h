@@ -38,6 +38,9 @@ private:
 	Renderer mRenderer;
 };
 
+// Only the main thread of the application has access to the engine
+// A new application with its own main thread might create a new engine
+// The engine is not accessible from worker threads
 THREADLOCAL extern UniquePtr<Engine> gEngine;
 
 #include "Engine.inl"

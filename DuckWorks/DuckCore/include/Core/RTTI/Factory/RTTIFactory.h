@@ -21,12 +21,10 @@ public:
 	template<typename taType>
 	void RegisterClass()
 	{
-		const RTTI* rtti = taType::sGetRTTI();
-		mClassNameToRTTI[rtti->GetClassName()] = rtti;
+		const RTTI& rtti = taType::sGetRTTI();
+		mClassNameToRTTI[rtti.GetClassName()] = &rtti;
 	}
 
 private:
 	HashMap<String, const RTTI*> mClassNameToRTTI;
 };
-
-extern RTTIFactory gRTTIFactory;

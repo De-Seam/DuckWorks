@@ -168,6 +168,7 @@
     <ClInclude Include="include\Core\Containers\HashMap.h" />
     <ClInclude Include="include\Core\Containers\SmartPointers.h" />
     <ClInclude Include="include\Core\Containers\String.h" />
+    <ClInclude Include="include\Core\CoreModule.h" />
     <ClInclude Include="include\Core\Manager\Manager.h" />
     <ClInclude Include="include\Core\Manager\Managers.h" />
     <ClInclude Include="include\Core\Math\HelperFunctions.h" />
@@ -212,7 +213,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Core\CoreModule.cpp" />
     <ClCompile Include="src\Core\RTTI\Factory\RTTIFactory.cpp" />
+    <ClCompile Include="src\Core\RTTI\RTTI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

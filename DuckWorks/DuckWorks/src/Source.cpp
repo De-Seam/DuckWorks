@@ -8,6 +8,7 @@
 
 // App includes
 #include <App/App.h>
+#include <App/AppModule.h>
 
 // External includes
 #include <External/SFML/Graphics.hpp>
@@ -29,6 +30,9 @@ int APIENTRY WinMain(
 
 int main(int, char**)
 {
+	AppModule app_module;
+	app_module.RegisterRTTI();
+
 	App app;
 	app.Run();
 
