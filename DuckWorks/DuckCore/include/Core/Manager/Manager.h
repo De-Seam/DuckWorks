@@ -42,7 +42,7 @@ public:
 
 	virtual const ManagerTypeID& GetManagerTypeID() const = 0;
 
-	const ManagerSettings& GetSettings() const { return mManagerSettings; }
+	const ManagerSettings& GetManagerSettings() const { return mManagerSettings; }
 
 	virtual void Init() {}
 	virtual void Shutdown() {}

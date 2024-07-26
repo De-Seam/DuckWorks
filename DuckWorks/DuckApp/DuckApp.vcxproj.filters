@@ -18,9 +18,15 @@
     <ClInclude Include="include\App\Precomp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\App\App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App\Precomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\App\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

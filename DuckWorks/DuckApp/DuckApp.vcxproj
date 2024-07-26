@@ -15,9 +15,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\App\App.h" />
     <ClInclude Include="include\App\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\App\App.cpp" />
     <ClCompile Include="src\App\Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Create</PrecompiledHeader>

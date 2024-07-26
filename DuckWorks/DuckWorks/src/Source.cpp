@@ -6,6 +6,9 @@
 // Renderer includes
 #include <Renderer/Renderer.h>
 
+// App includes
+#include <App/App.h>
+
 // External includes
 #include <External/SFML/Graphics.hpp>
 
@@ -26,9 +29,12 @@ int APIENTRY WinMain(
 
 int main(int, char**)
 {
+	App app;
+	app.Run();
+
 	Renderer renderer;
-	sf::CircleShape shape(100.f);
-	shape.setOrigin({100.f,100.f});
+	sf::CircleShape shape(800.f);
+	shape.setOrigin({300.f,300.f});
 	shape.setFillColor(sf::Color::Green);
 
 	while (renderer.GetRenderWindow().isOpen())
@@ -40,7 +46,7 @@ int main(int, char**)
 			if (event.type == sf::Event::Closed)
 				renderer.GetRenderWindow().close();
 			if (event.type == sf::Event::KeyPressed)
-				shape.setPosition(shape.getPosition().x + 1, shape.getPosition().y);
+				shape.setPosition(shape.getPosition().x, shape.getPosition().y + 5);
 		}
 
 		renderer.Update(0.0f);
