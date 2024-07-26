@@ -24,5 +24,4 @@ EngineModule::~EngineModule()
 void EngineModule::RegisterRTTI()
 {
 	mRTTIFactory.RegisterClass<Engine>();
-	mRTTIFactory.RegisterClass<WindowEventManager>();
 }
