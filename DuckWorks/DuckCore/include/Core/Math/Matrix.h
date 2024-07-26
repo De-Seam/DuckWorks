@@ -152,16 +152,16 @@ struct Mat4
 
 	const Mat4& operator *=(const Mat4& i) { return *this = *this * i; }
 
-	std::string to_string()
+	String to_string() const
 	{
-		return std::to_string(x.mX) + " : " + std::to_string(x.mY) + " : " + std::to_string(x.mZ) + " : " +
+		return String::sFromStdString(std::to_string(x.mX) + " : " + std::to_string(x.mY) + " : " + std::to_string(x.mZ) + " : " +
 			std::to_string(x.mW) + "\n" +
 			std::to_string(y.mX) + " : " + std::to_string(y.mY) + " : " + std::to_string(y.mZ) + " : " +
 			std::to_string(y.mW) + "\n" +
 			std::to_string(z.mX) + " : " + std::to_string(z.mY) + " : " + std::to_string(z.mZ) + " : " +
 			std::to_string(z.mW) + "\n" +
 			std::to_string(w.mX) + " : " + std::to_string(w.mY) + " : " + std::to_string(w.mZ) + " : " +
-			std::to_string(w.mW) + "\n";
+			std::to_string(w.mW) + "\n");
 	}
 };
 

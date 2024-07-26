@@ -192,6 +192,7 @@
     <ClInclude Include="include\Core\Utilities\TypeID.h" />
     <ClInclude Include="include\Core\Utilities\Types.h" />
     <ClInclude Include="include\Core\Utilities\UID.h" />
+    <ClInclude Include="include\Core\Utilities\Utilities.h" />
     <ClInclude Include="include\External\BitBool\BitBool.h" />
     <ClInclude Include="include\External\phmap\btree.h" />
     <ClInclude Include="include\External\phmap\meminfo.h" />

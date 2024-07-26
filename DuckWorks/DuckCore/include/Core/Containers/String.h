@@ -10,6 +10,8 @@ public:
 	String(const String& inOther);
 	~String();
 
+	static String sFromStdString(std::string inString);
+
 	void Clear();
 	uint32 Length() const { return mLength; }
 

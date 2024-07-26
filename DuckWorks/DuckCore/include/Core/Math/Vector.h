@@ -1,39 +1,13 @@
 #pragma once
 // Core includes
 #include <Core/Utilities/Types.h>
+#include <Core/Utilities/Utilities.h>
 
 #include <cassert>
 #include <cmath>
-#include <string>
 
 #pragma warning (push)
 #pragma warning (disable : 4201) //to avoid nameless struct / union warning.
-
-template<typename taType>
-taType gMin(taType inA, taType inB)
-{
-	return ((inA) < (inB) ? (inA) : (inB));
-}
-
-template<typename taType>
-taType gMax(taType inA, taType inB)
-{
-	return ((inA) > (inB) ? (inA) : (inB));
-}
-
-template<typename taType>
-taType gClamp(taType inX, taType inMin, taType inMax)
-{
-	return gMax(gMin(inX, inMax), inMin);
-}
-
-template<typename taType>
-void gSwap(taType& ioA, taType& ioB)
-{
-	taType temp = ioA;
-	ioA = ioB;
-	ioB = temp;
-}
 
 struct IVec2
 {

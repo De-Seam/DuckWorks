@@ -20,6 +20,11 @@ String::~String()
 	Clear();
 }
 
+String String::sFromStdString(std::string inString) 
+{
+	return String(inString.c_str());
+}
+
 void String::Clear()
 {
 	if (mCharacters != nullptr)

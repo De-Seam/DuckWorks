@@ -6,6 +6,7 @@
 #include <Core/RTTI/Message.h>
 #include <Core/Utilities/Assert.h>
 #include <Core/Utilities/TypeID.h>
+#include <Core/Utilities/Utilities.h>
 
 using RTTITypeID = TypeID<class RTTIClass>;
 
@@ -84,7 +85,7 @@ void RTTIClass::RegisterMessageListener(taRecipientClass* inRecipient, void(taRe
 {
 #ifdef _ASSERTS_ENABLED
 	Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>& listeners = mMessageListeners[taMsgType::sGetMsgTypeID()];
-	for (int32 i = listeners.size() - 1; i >= 0 ; i--) 
+	for (int32 i = static_cast<int32>(listeners.size()) - 1; i >= 0 ; i--) 
 		gAssert(listeners[i].first != inRecipient && "Message listener already registered!");
 #endif
 	Function<void(MsgBase&)> function = [inRecipient, inFunction] (MsgBase& inMsg) 
@@ -97,12 +98,14 @@ void RTTIClass::RegisterMessageListener(taRecipientClass* inRecipient, void(taRe
 template<typename taRecipientClass, typename taMsgType>
 void RTTIClass::UnregisterMessageListener(taRecipientClass* inRecipient, void(taRecipientClass::* inFunction)(taMsgType&)) 
 {
+	(void)inFunction;
 	Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>& listeners = mMessageListeners[taMsgType::sGetMsgTypeID()];
-	for (int32 i = listeners.size() - 1; i >= 0 ; i--) 
+	for (int32 i = static_cast<int32>(listeners.size()) - 1; i >= 0 ; i--) 
 	{
 		if (listeners[i].first == inRecipient)
 		{
-			listeners.erase(listeners.begin() + i);
+			gSwap(listeners[i], listeners.back());
+			listeners.pop_back();
 			return;
 		}
 	}
