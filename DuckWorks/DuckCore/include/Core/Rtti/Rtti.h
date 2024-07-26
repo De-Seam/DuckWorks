@@ -42,6 +42,8 @@ private:
 class RTTIClass
 {
 public:
+	virtual ~RTTIClass();
+
 	virtual const RTTI& GetRTTI() const { return sRTTI; }
 	static const RTTI& sGetRTTI() { return sRTTI; }
 	static RTTIClass* sNewInstance() { return new RTTIClass; }

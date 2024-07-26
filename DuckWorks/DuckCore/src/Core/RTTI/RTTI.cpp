@@ -11,6 +11,11 @@ RTTI::RTTI(
 	mConstructorFunction(inConstructorFunction) 
 {}
 
+RTTIClass::~RTTIClass() 
+{
+	gAssert(mMessageListeners.empty(), "Message listeners are not empty");
+}
+
 bool RTTIClass::IsA(const RTTI& inRTTI) 
 {
 	return sGetRTTI().GetTypeID() == inRTTI.GetTypeID();
