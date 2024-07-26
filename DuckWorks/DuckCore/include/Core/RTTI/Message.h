@@ -3,7 +3,9 @@
 
 using MsgTypeID = TypeID<struct MsgBase>;
 
+#define RTTI_MSG() STATIC_TYPE_ID(Msg)
+
 struct MsgBase
 {
-	STATIC_TYPE_ID(Msg)
+	RTTI_MSG()
 };

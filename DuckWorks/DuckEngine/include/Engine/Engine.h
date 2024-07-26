@@ -10,6 +10,7 @@
 // Engine includes
 #include <Engine/Renderer/Renderer.h>
 
+struct MsgWindowClosed;
 class Renderer;
 
 class Engine : public RTTIClass
@@ -21,6 +22,9 @@ public:
 	void Shutdown();
 	void Update(float inDeltaTime);
 
+	void RequestShutdown() { mShutdownRequested = true; }
+	bool IsShutdownRequested() const { return mShutdownRequested; }
+
 	template<typename taType>
 	void CreateManager();
 	void RegisterManager(Manager* inManager); ///< Register a manager without owning it
@@ -31,6 +35,9 @@ public:
 
 	Renderer& GetRenderer() { return mRenderer; }
 
+protected:
+	void OnWindowClosed(const MsgWindowClosed& inMsg);
+
 private:
 	void RegisterManagers();
 
@@ -38,6 +45,8 @@ private:
 	Array<Manager*> mManagersToUpdate;
 
 	Renderer mRenderer;
+
+	bool mShutdownRequested = false;
 };
 
 // Only the main thread of the application has access to the engine

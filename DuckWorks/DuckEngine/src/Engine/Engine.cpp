@@ -16,12 +16,16 @@ void Engine::Init()
 
 	for (Manager* manager : mManagers)
 		manager->Init();
+
+	GetManager<WindowEventManager>().RegisterMessageListener(this, &Engine::OnWindowClosed);
 }
 
 void Engine::Shutdown()
 {
 	for (Manager* manager : mManagers)
 		manager->Shutdown();
+
+	GetManager<WindowEventManager>().UnregisterMessageListener(this, &Engine::OnWindowClosed);
 }
 
 void Engine::Update(float inDeltaTime)
@@ -44,6 +48,11 @@ void Engine::RegisterManager(Manager* inManager)
 	mManagers[type_id] = inManager;
 	if (inManager->GetManagerSettings().mWantsUpdate)
 		mManagersToUpdate.push_back(inManager);
+}
+
+void Engine::OnWindowClosed(const MsgWindowClosed&) 
+{
+	RequestShutdown();
 }
 
 void Engine::RegisterManagers()

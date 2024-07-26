@@ -34,7 +34,7 @@ void App::RequestShutdown()
 void App::MainLoop()
 {
 	sf::Clock clock;
-	while(!mShutdownRequested)
+	while(!mShutdownRequested && !gEngine->IsShutdownRequested())
 	{
 		float delta_time = static_cast<float>(clock.restart().asMicroseconds()) / 1000.f;
 		Update(delta_time);

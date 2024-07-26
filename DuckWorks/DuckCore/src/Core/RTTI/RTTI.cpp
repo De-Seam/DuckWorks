@@ -13,7 +13,11 @@ RTTI::RTTI(
 
 RTTIClass::~RTTIClass() 
 {
-	gAssert(mMessageListeners.empty(), "Message listeners are not empty");
+#ifdef _ASSERTS_ENABLED
+	// view values for loop
+	for (const auto& [key, value] : mMessageListeners) 
+		gAssert(value.empty() && "Message listeners are not empty");
+#endif
 }
 
 bool RTTIClass::IsA(const RTTI& inRTTI) 

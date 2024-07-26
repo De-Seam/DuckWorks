@@ -1,4 +1,5 @@
 #pragma once
+#include <Core/Config.h>
 #include <Core/Containers/Array.h>
 #include <Core/Containers/Atomic.h>
 #include <Core/Containers/HashMap.h>

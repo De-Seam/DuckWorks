@@ -91,7 +91,7 @@ void RTTIClass::RegisterMessageListener(taRecipientClass* inRecipient, void(taRe
 	{
 		(inRecipient->*inFunction)(static_cast<taMsgType&>(inMsg));
 	};
-	mMessageListeners[taMsgType::sGetMsgTypeID()].push_back(function);
+	mMessageListeners[taMsgType::sGetMsgTypeID()].push_back(Pair(inRecipient, function));
 }
 
 template<typename taRecipientClass, typename taMsgType>

@@ -22,6 +22,9 @@ void WindowEventManager::Update(Renderer& inRenderer, float)
 	while (render_window.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
-			render_window.close();
+		{
+			MsgWindowClosed msg;
+			BroadcastMessage(msg);
+		}
 	}
 }

@@ -9,6 +9,11 @@ namespace sf
 
 class Renderer;
 
+struct MsgWindowClosed : public MsgBase
+{
+	RTTI_MSG()
+};
+
 class WindowEventManager : public Manager
 {
 	RTTI_MANAGER(WindowEventManager, Manager)
