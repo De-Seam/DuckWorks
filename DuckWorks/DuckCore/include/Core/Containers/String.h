@@ -1,6 +1,7 @@
 #pragma once
 // Core includes
 #include <Core/Containers/Pair.h>
+#include <Core/Utilities/Json.h>
 #include <Core/Utilities/Types.h>
 
 // Std includes
@@ -42,6 +43,9 @@ private:
 	uint32 mLength = 0;
 	uint64 mHash = 0;
 };
+
+void to_json(Json& outJson, const String& inVariable);
+void from_json(const Json& inJson, String& outVariable);
 
 uint64 gHash(const char* inCharacters, uint32 inLength, uint64 inSeed = 0);
 Pair<uint64, uint64> gHash_128(const char* inCharacters, uint32 inLength, uint64 inSeed = 0);

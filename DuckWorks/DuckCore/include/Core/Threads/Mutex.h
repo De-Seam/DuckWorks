@@ -124,19 +124,19 @@ struct MutexReadProtectedPtr
 
 	taType* Get()
 	{
-		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		gAssert(mMutex != nullptr && "The mutex was unlocked, access to the object denied!");
 		return mPtr;
 	}
 
 	const taType* Get() const
 	{
-		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		gAssert(mMutex != nullptr && "The mutex was unlocked, access to the object denied!");
 		return mPtr;
 	}
 
 	void Unlock()
 	{
-		gAssert(mMutex != nullptr, "The mutex was already unlocked!");
+		gAssert(mMutex != nullptr && "The mutex was already unlocked!");
 		mMutex->ReadUnlock();
 		mMutex = nullptr;
 	}
@@ -195,19 +195,19 @@ struct MutexWriteProtectedPtr
 
 	taType* Get()
 	{
-		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		gAssert(mMutex != nullptr && "The mutex was unlocked, access to the object denied!");
 		return mPtr;
 	}
 
 	const taType* Get() const
 	{
-		gAssert(mMutex != nullptr, "The mutex was unlocked, access to the object denied!");
+		gAssert(mMutex != nullptr && "The mutex was unlocked, access to the object denied!");
 		return mPtr;
 	}
 
 	void Unlock()
 	{
-		gAssert(mMutex != nullptr, "The mutex was already unlocked!");
+		gAssert(mMutex != nullptr && "The mutex was already unlocked!");
 		mMutex->WriteUnlock();
 		mMutex = nullptr;
 	}

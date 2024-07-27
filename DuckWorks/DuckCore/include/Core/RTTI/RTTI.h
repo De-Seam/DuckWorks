@@ -133,6 +133,22 @@ void RTTIClass::UnregisterMessageListener(taRecipientClass* inRecipient, void(ta
 	gAssert(false);
 }
 
+// Template function for to_json
+template<typename T>
+typename std::enable_if<has_serialize<T, void(Json&)>::value>::type
+to_json(Json& j, const T& obj) 
+{
+    obj.Serialize(j);
+}
+
+// Template function for from_json
+template<typename T>
+typename std::enable_if<has_deserialize<T, void(const Json&)>::value>::type
+from_json(const Json& j, T& obj) 
+{
+    obj.Deserialize(j);
+}
+
 #define RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) \
 private: \
 	using Base = inBaseClassName; \

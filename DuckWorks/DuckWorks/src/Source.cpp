@@ -63,12 +63,14 @@ int main(int, char**)
 
 #ifdef _WIN32
 
+namespace Win
+{
 #include <Windows.h>
-
+}
 int APIENTRY WinMain(
-	HINSTANCE,
-	HINSTANCE,
-	LPSTR, int)
+	Win::HINSTANCE,
+	Win::HINSTANCE,
+	Win::LPSTR, int)
 {
 	return main(__argc, __argv);
 }

@@ -141,6 +141,16 @@ uint64_t gFmix64(uint64 inVar)
 	return inVar;
 }
 
+void to_json(Json& outJson, const String& inVariable) 
+{
+	outJson = std::string(*inVariable);
+}
+
+void from_json(const Json& inJson, String& outVariable) 
+{
+	outVariable = inJson.get<std::string>();
+}
+
 // MurmurHash3 64-bit variant
 uint64 gHash(const char* inCharacters, uint32 inLength, uint64 inSeed)
 {

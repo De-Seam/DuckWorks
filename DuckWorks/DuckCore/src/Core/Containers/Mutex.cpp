@@ -10,13 +10,13 @@ struct MutexTracker
 
 	void AddMutex(Mutex* inMutex)
 	{
-		gAssert(!IsLocked(inMutex), "Mutex was already locked!");
+		gAssert(!IsLocked(inMutex) && "Mutex was already locked!");
 		mMutexes.push_back(inMutex);
 	}
 
 	void AddMutex(UniqueMutex* inMutex)
 	{
-		gAssert(!IsLocked(inMutex), "Mutex was already locked!");
+		gAssert(!IsLocked(inMutex) && "Mutex was already locked!");
 		mUniqueMutexes.push_back(inMutex);
 	}
 
@@ -63,7 +63,7 @@ void gDestroyMutexTracker() {}
 Mutex::~Mutex()
 {
 #ifdef _DEBUG
-	gAssert(!gMutexTracker.IsLocked(this), "Mutex was still locked!");
+	gAssert(!gMutexTracker.IsLocked(this) && "Mutex was still locked!");
 #endif
 }
 
@@ -134,7 +134,7 @@ void Mutex::WriteUnlock()
 UniqueMutex::~UniqueMutex()
 {
 #ifdef _DEBUG
-	gAssert(!gMutexTracker.IsLocked(this), "Mutex was still locked!");
+	gAssert(!gMutexTracker.IsLocked(this) && "Mutex was still locked!");
 #endif
 }
 
