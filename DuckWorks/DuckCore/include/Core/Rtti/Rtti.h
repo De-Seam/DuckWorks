@@ -57,6 +57,8 @@ public:
 	taType* As();
 
 	void BroadcastMessage(MsgBase& ioMsg);
+	template<typename taType>
+	void BroadcastMessage() { taType msg; BroadcastMessage(msg); }
 
 	template<typename taRecipientClass, typename taMsgType>
 	void RegisterMessageListener(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&));

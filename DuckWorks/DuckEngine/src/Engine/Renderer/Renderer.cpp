@@ -72,12 +72,20 @@ void Renderer::Update(float inDeltaTime)
 
 void Renderer::BeginFrame()
 {
+	BroadcastMessage<MsgPreBeginFrame>();
+
 	mRenderWindow->clear();
+
+	BroadcastMessage<MsgPostBeginFrame>();
 }
 
 void Renderer::EndFrame()
 {
+	BroadcastMessage<MsgPreEndFrame>();
+
 	mRenderWindow->display();
+
+	BroadcastMessage<MsgPostEndFrame>();
 }
 
 void Renderer::Draw(const sf::Drawable& inDrawable)

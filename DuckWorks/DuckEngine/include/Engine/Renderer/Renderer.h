@@ -15,6 +15,27 @@ class Drawable;
 class RenderWindow;
 }
 
+struct MsgPreBeginFrame : public MsgBase
+{
+	RTTI_MSG()
+};
+
+struct MsgPostBeginFrame : public MsgBase
+{
+	RTTI_MSG()
+};
+
+struct MsgPreEndFrame : public MsgBase
+{
+	RTTI_MSG()
+};
+
+struct MsgPostEndFrame : public MsgBase
+{
+	RTTI_MSG()
+};
+
+
 class Renderer : public RTTIClass
 {
 	RTTI_CLASS(Renderer, RTTIClass)

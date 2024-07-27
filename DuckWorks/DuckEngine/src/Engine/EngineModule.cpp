@@ -6,6 +6,7 @@
 
 // Engine includes
 #include <Engine/Engine.h>
+#include <Engine/Debug/DebugManager.h>
 #include <Engine/Renderer/WindowEvents/WindowEventManager.h>
 #include <Engine/Resources/ResourceManager.h>
 #include <Engine/Resources/TextureResource.h>
@@ -27,6 +28,7 @@ EngineModule::~EngineModule()
 void EngineModule::RegisterRTTI()
 {
 	mRTTIFactory.RegisterClass<Engine>();
+	mRTTIFactory.RegisterClass<DebugManager>();
 	mRTTIFactory.RegisterClass<Renderer>();
 	mRTTIFactory.RegisterClass<Manager>();
 	mRTTIFactory.RegisterClass<WindowEventManager>();

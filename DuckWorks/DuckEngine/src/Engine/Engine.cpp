@@ -2,6 +2,7 @@
 #include <Engine/Engine.h>
 
 // Engine includes
+#include <Engine/Debug/DebugManager.h>
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/Renderer/WindowEvents/WindowEventManager.h>
 
@@ -12,11 +13,13 @@ THREADLOCAL Engine* gEngine = nullptr;
 
 Engine::Engine() 
 {
+	gAssert(gEngine == nullptr && "Engine already exists");
 	gEngine = this;
 }
 
 Engine::~Engine() 
 {
+	gAssert(gEngine == this && "Engine does not exist");
 	gEngine = nullptr;
 }
 
@@ -68,4 +71,5 @@ void Engine::OnWindowClosed(const MsgWindowClosed&)
 void Engine::RegisterManagers()
 {	
 	RegisterManager(&mRenderer.GetWindowEventManager());
+	CreateManager<DebugManager>();
 }
