@@ -10,7 +10,6 @@
 #include <App/App.h>
 #include <App/AppModule.h>
 
-// External includes
 #include <External/SFML/Graphics.hpp>
 
 int main(int, char**)

@@ -156,6 +156,21 @@ private:
 	friend class WeakRef;
 };
 
+template<typename T>
+typename std::enable_if<has_serialize<T, Json()>::value>::type
+to_json(Json& j, const Ref<T>& obj) 
+{
+    j = obj->Serialize();
+}
+
+// Template function for from_json
+template<typename T>
+typename std::enable_if<has_deserialize<T, void(const Json&)>::value>::type
+from_json(const Json& j, Ref<T>& obj) 
+{
+    obj->Deserialize(j);
+}
+
 template<typename taType>
 class WeakRef
 {
