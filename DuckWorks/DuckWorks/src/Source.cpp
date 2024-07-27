@@ -18,8 +18,10 @@ int main(int, char**)
 	AppModule app_module;
 	app_module.RegisterRTTI();
 
-	App app;
-	app.Run();
+	{
+		App app;
+		app.Run();
+	}
 
 	Renderer renderer;
 	sf::CircleShape shape(800.f);

@@ -8,7 +8,17 @@
 // External includes
 #include <External/SFML/Graphics/CircleShape.hpp>
 
-THREADLOCAL UniquePtr<Engine> gEngine = nullptr;
+THREADLOCAL Engine* gEngine = nullptr;
+
+Engine::Engine() 
+{
+	gEngine = this;
+}
+
+Engine::~Engine() 
+{
+	gEngine = nullptr;
+}
 
 void Engine::Init()
 {

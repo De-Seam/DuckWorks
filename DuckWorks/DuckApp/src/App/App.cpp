@@ -12,13 +12,14 @@
 
 App::App()
 {
-	gEngine = gMakeUnique<Engine>();
+	gAssert(&mEngine == gEngine);
 	gEngine->Init();
 }
 
 App::~App()
 {
 	gEngine->Shutdown();
+	gAssert(&mEngine == gEngine);
 }
 
 void App::Run()

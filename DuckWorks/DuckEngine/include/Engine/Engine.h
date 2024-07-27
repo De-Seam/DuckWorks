@@ -18,6 +18,9 @@ class Engine : public RTTIClass
 	RTTI_CLASS(Engine, RTTIClass)
 
 public:
+	Engine();
+	virtual ~Engine() override;
+
 	void Init();
 	void Shutdown();
 	void Update(float inDeltaTime);
@@ -52,6 +55,6 @@ private:
 // Only the main thread of the application has access to the engine
 // A new application with its own main thread might create a new engine
 // The engine is not accessible from worker threads
-THREADLOCAL extern UniquePtr<Engine> gEngine;
+THREADLOCAL extern Engine* gEngine;
 
 #include "Engine.inl"

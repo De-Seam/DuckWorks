@@ -45,6 +45,9 @@
     <ClInclude Include="include\Engine\Resources\TextureResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Renderer\WindowEvents\EventMessages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Precomp.cpp">

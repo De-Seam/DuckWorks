@@ -1,18 +1,14 @@
 #pragma once
-// Core includes
+// Engine includes
 #include <Engine/Manager/Manager.h>
+#include <Engine/Renderer/WindowEvents/EventMessages.h>
 
 namespace sf
 {
 	class RenderWindow;
 }
 
-class Renderer;
-
-struct MsgWindowClosed : public MsgBase
-{
-	RTTI_MSG()
-};
+class Renderer;         
 
 class WindowEventManager : public Manager
 {

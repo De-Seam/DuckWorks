@@ -11,7 +11,7 @@ class App : public RTTIClass
 
 public:
 	App();
-	virtual ~App();
+	virtual ~App() override;
 
 	void Run(); ///< Run the app
 
@@ -22,4 +22,6 @@ private:
 	void Update(float inDeltaTime);
 
 	bool mShutdownRequested = false;
+
+	Engine mEngine;
 };
