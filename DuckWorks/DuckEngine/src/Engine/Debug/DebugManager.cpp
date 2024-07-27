@@ -8,19 +8,17 @@ DebugManager::DebugManager()
 
 void DebugManager::Init()
 {
-	Manager::Init();
 
 }
 
 void DebugManager::Shutdown()
 {
-	Manager::Shutdown();
 
 }
 
 void DebugManager::Update(float inDeltaTime)
 {
-	Manager::Update(inDeltaTime);
+	PROFILE_SCOPE(DebugManager::Update)
 
 }
 

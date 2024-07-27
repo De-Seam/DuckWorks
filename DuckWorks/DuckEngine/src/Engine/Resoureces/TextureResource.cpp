@@ -11,10 +11,14 @@ TextureResource::~TextureResource()
 
 void TextureResource::Load(const String& inFile) 
 {
+	PROFILE_SCOPE(TextureResource::Load)
+
 	mTexture.loadFromFile(*inFile);
 }
 
 void TextureResource::Unload() 
 {
+	PROFILE_SCOPE(TextureResource::Unload)
+
 	mTexture = sf::Texture();
 }

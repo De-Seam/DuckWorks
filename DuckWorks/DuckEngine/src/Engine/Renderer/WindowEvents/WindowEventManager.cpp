@@ -3,6 +3,7 @@
 
 // Core includes
 #include <Core/Utilities/Assert.h>
+#include <Core/Utilities/Profiler.h>
 
 // Engine includes
 #include <Engine/Renderer/Renderer.h>
@@ -16,6 +17,8 @@ WindowEventManager::WindowEventManager()
 
 void WindowEventManager::Update(Renderer& inRenderer, float)
 {
+	PROFILE_SCOPE(WindowEventManager::Update)
+
 	sf::RenderWindow& render_window = inRenderer.GetRenderWindow();
 	sf::Event event;
 	while (render_window.pollEvent(event))

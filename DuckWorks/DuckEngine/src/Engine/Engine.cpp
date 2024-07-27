@@ -23,6 +23,8 @@ Engine::~Engine()
 
 void Engine::Init()
 {
+	PROFILE_SCOPE(Engine::Init)
+
 	RegisterManagers();
 
 	for (Manager* manager : mManagers)
@@ -34,6 +36,8 @@ void Engine::Init()
 
 void Engine::Shutdown()
 {
+	PROFILE_SCOPE(Engine::Shutdown)
+
 	for (Manager* manager : mManagers)
 		if (manager != nullptr)
 			manager->Shutdown();
@@ -43,6 +47,8 @@ void Engine::Shutdown()
 
 void Engine::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(Engine::Update)
+
 	mRenderer.BeginFrame();
 
 	for (Manager* manager : mManagersToUpdate)
@@ -55,6 +61,8 @@ void Engine::Update(float inDeltaTime)
 
 void Engine::RegisterManager(Manager* inManager) 
 {
+	PROFILE_SCOPE(Engine::RegisterManager)
+
 	int32 type_id = inManager->GetManagerTypeID();
 	if (type_id >= mManagers.size())
 		mManagers.resize(type_id + 1);
@@ -70,6 +78,7 @@ void Engine::OnWindowClosed(const MsgWindowClosed&)
 
 void Engine::RegisterManagers()
 {	
+	PROFILE_SCOPE(Engine::RegisterManagers)
 	RegisterManager(&mRenderer.GetWindowEventManager());
 	CreateManager<DebugManager>();
 	CreateManager<ThreadManager>();

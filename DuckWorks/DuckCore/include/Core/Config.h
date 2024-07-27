@@ -13,17 +13,6 @@
 #define IMGUI(x)
 #endif
 
-// Profiling Macro
-#ifdef _PROFILING_ENABLED
-#define PROFILE_SCOPE(inName) OPTICK_EVENT(#inName)
-#define PROFILE_SCOPE_STRING(inName) OPTICK_EVENT(inName)
-#define PROFILE_FUNCTION() PROFILE_SCOPE_STRING(__FUNCSIG__)
-#else
-#define PROFILE_SCOPE(inName)
-#define PROFILE_SCOPE_STRING(inName)
-#define PROFILE_FUNCTION()
-#endif
-
 // Assert macro
 #ifdef _DEBUG
 #define _ASSERTS_ENABLED

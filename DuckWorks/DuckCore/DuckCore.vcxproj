@@ -192,6 +192,9 @@
     <ClInclude Include="include\Core\Threads\SafeQueue.h" />
     <ClInclude Include="include\Core\Threads\Thread.h" />
     <ClInclude Include="include\Core\Utilities\Assert.h" />
+    <ClInclude Include="include\Core\Utilities\GUID.h" />
+    <ClInclude Include="include\Core\Utilities\Json.h" />
+    <ClInclude Include="include\Core\Utilities\Profiler.h" />
     <ClInclude Include="include\Core\Utilities\TypeID.h" />
     <ClInclude Include="include\Core\Utilities\Types.h" />
     <ClInclude Include="include\Core\Utilities\UID.h" />
@@ -211,6 +214,7 @@
     <ClCompile Include="src\Core\CoreModule.cpp" />
     <ClCompile Include="src\Core\RTTI\Factory\RTTIFactory.cpp" />
     <ClCompile Include="src\Core\RTTI\RTTI.cpp" />
+    <ClCompile Include="src\Core\Utilities\GUID.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

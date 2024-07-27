@@ -25,6 +25,20 @@ bool RTTIClass::IsA(const RTTI& inRTTI) const
 	return sGetRTTI().GetTypeID() == inRTTI.GetTypeID();
 }
 
+Json RTTIClass::Serialize() const 
+{
+	Json json;
+	json["ClassName"] = GetRTTI().GetClassName();
+	json["mGUID"] = mGUID.ToString();
+	return json;
+}
+
+void RTTIClass::Deserialize(const Json& inJson)
+{
+	gAssert(inJson["ClassName"] == GetRTTI().GetClassName());
+	mGUID = inJson["mGUID"];
+}
+
 void RTTIClass::BroadcastMessage(MsgBase& ioMsg) 
 {
 	auto it = mMessageListeners.find(ioMsg.GetMsgTypeID());

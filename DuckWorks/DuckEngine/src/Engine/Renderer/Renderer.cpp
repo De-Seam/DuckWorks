@@ -9,6 +9,8 @@
 
 Renderer::Renderer()
 {
+	PROFILE_SCOPE(Renderer::Renderer)
+
 	mWindowEventManager = WindowEventManager::sNewInstance();
 
 	sf::VideoMode video_mode;
@@ -16,7 +18,7 @@ Renderer::Renderer()
 	video_mode.height = 720;
 	mRenderWindow = std::make_unique<sf::RenderWindow>(video_mode, "DuckRenderer");
 	//mRenderWindow->setVerticalSyncEnabled(true);
-	mRenderWindow->setFramerateLimit(60);
+	//mRenderWindow->setFramerateLimit(60);
 	uint32 pixels[8 * 8] =
 	{
 		0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
@@ -38,6 +40,8 @@ Renderer::~Renderer()
 
 void Renderer::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(Renderer::Update)
+
 	sf::View view;
 	view.setSize(1920, 1080);
 	view.zoom(1.0f);
@@ -72,6 +76,8 @@ void Renderer::Update(float inDeltaTime)
 
 void Renderer::BeginFrame()
 {
+	PROFILE_SCOPE(Renderer::BeginFrame)
+
 	BroadcastMessage<MsgPreBeginFrame>();
 
 	mRenderWindow->clear();
@@ -81,6 +87,8 @@ void Renderer::BeginFrame()
 
 void Renderer::EndFrame()
 {
+	PROFILE_SCOPE(Renderer::EndFrame)
+
 	BroadcastMessage<MsgPreEndFrame>();
 
 	mRenderWindow->display();
@@ -90,11 +98,15 @@ void Renderer::EndFrame()
 
 void Renderer::Draw(const sf::Drawable& inDrawable)
 {
+	PROFILE_SCOPE(Renderer::Draw)
+
 	mRenderWindow->draw(inDrawable);
 }
 
 void Renderer::Draw(const Array<sf::Drawable*>& inDrawables)
 {
+	PROFILE_SCOPE(Renderer::Draw::Array)
+
 	for (const sf::Drawable* drawable : inDrawables)
 		mRenderWindow->draw(*drawable);
 }

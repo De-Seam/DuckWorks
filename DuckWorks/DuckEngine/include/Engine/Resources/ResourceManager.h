@@ -17,6 +17,8 @@ private:
 template<typename taType>
 Ref<taType> ResourceManager::Get(String inFile) 
 {
+	PROFILE_SCOPE(ResourceManager::Get)
+
 	Resource* resource = mResources[inFile];
 	if (resource != nullptr)
 	{

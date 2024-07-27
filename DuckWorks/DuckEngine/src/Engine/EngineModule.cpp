@@ -27,6 +27,8 @@ EngineModule::~EngineModule()
 
 void EngineModule::RegisterRTTI()
 {
+	PROFILE_SCOPE(EngineModule::RegisterRTTI)
+
 	mRTTIFactory.RegisterClass<Engine>();
 	mRTTIFactory.RegisterClass<DebugManager>();
 	mRTTIFactory.RegisterClass<Renderer>();

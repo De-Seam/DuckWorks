@@ -12,7 +12,6 @@
 #include <condition_variable>
 #include <vector>
 
-
 void ThreadTask::WaitUntilCompleted()
 {
 	if (mCompleted)
@@ -23,7 +22,7 @@ void ThreadTask::WaitUntilCompleted()
 
 void ThreadManager::Init()
 {
-	//gLog(ELogType::Info, "Initializing ThreadManager");
+	PROFILE_SCOPE(ThreadManager::Init)
 
 	// We want to keep 1 thread free for system resources. Not doing this will cause wild variety in performance due to competing programs
 	uint32 threadCount = std::thread::hardware_concurrency() - 1;
@@ -39,7 +38,7 @@ void ThreadManager::Init()
 
 void ThreadManager::Shutdown()
 {
-	//gLog(ELogType::Info, "Shutting Down ThreadManager");
+	PROFILE_SCOPE(ThreadManager::Shutdown)
 
 	mRunning = false;
 	mThreadConditionVariable.notify_all();
@@ -68,6 +67,8 @@ void ThreadManager::AddTask(const SharedPtr<ThreadTask>& inTask, ThreadPriority 
 
 void ThreadManager::WaitUntilPriorityEmpty(ThreadPriority inPriority)
 {
+	PROFILE_SCOPE(ThreadManager::WaitUntilPriorityEmpty)
+
 	std::unique_lock<std::mutex> lock(mPriorityEmptyMutex[static_cast<uint64>(inPriority)]);
 	mPriorityEmptyCV[static_cast<uint64>(inPriority)].wait(lock, [this, inPriority]
 	{
@@ -79,7 +80,7 @@ THREADLOCAL static int32 sThreadIndex = 0;
 
 void ThreadManager::WorkerThread(int32 inIndex)
 {
-	OPTICK_THREAD("ThreadManager::WorkerThread")
+	PROFILE_THREAD(ThreadManager::WorkerThread)
 
 	sThreadIndex = inIndex;
 	while (mRunning)

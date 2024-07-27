@@ -3,6 +3,9 @@
 #include <Core/Containers/Pair.h>
 #include <Core/Utilities/Types.h>
 
+// Std includes
+#include <string>
+
 class String
 {
 public:
