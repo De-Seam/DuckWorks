@@ -1,7 +1,6 @@
 #pragma once
 // Core includes
-#include <Core/Containers/Array.h>
-#include <Core/Manager/Manager.h>
+#include <Engine/Manager/Manager.h>
 #include <Core/RTTI/RTTI.h>
 #include <Core/RTTI/RTTIRefObject.h>
 

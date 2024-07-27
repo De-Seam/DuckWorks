@@ -49,6 +49,8 @@ public:
 	static const RTTI& sGetRTTI() { return sRTTI; }
 	static RTTIClass* sNewInstance() { return new RTTIClass; }
 
+	template<typename taType>
+	bool IsA();
 	virtual bool IsA(const RTTI& inRTTI);
 
 	template<typename taType>
@@ -71,6 +73,12 @@ private:
 
 	HashMap<MsgTypeID, Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>> mMessageListeners;
 };
+
+template<typename taType>
+bool RTTIClass::IsA() 
+{
+	return IsA(taType::sGetRTTI());
+}
 
 template<typename taType>
 taType* RTTIClass::As() 

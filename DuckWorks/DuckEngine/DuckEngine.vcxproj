@@ -167,9 +167,13 @@
   <ItemGroup>
     <ClInclude Include="include\Engine\Engine.h" />
     <ClInclude Include="include\Engine\EngineModule.h" />
+    <ClInclude Include="include\Engine\Manager\Manager.h" />
+    <ClInclude Include="include\Engine\Manager\Managers.h" />
     <ClInclude Include="include\Engine\Precomp.h" />
     <ClInclude Include="include\Engine\Renderer\Renderer.h" />
     <ClInclude Include="include\Engine\Renderer\WindowEvents\WindowEventManager.h" />
+    <ClInclude Include="include\Engine\Resources\Resource.h" />
+    <ClInclude Include="include\Engine\Resources\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp" />
@@ -181,6 +185,7 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Engine\Renderer\WindowEvents\WindowEventManager.cpp" />
+    <ClCompile Include="src\Engine\Resoureces\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Engine\Engine.inl" />

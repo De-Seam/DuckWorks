@@ -2,7 +2,7 @@
 // Core includes
 #include <Core/Containers/Array.h>
 #include <Core/Containers/HashMap.h>
-#include <Core/Manager/Manager.h>
+#include <Engine/Manager/Manager.h>
 #include <Core/RTTI/RTTI.h>
 #include <Core/Threads/Thread.h>
 #include <Core/Containers/SmartPointers.h>

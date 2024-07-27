@@ -1,5 +1,6 @@
 #pragma once
 // Core includes
+#include <Core/Containers/Pair.h>
 #include <Core/Utilities/Types.h>
 
 class String
@@ -39,8 +40,7 @@ private:
 };
 
 uint64 gHash(const char* inCharacters, uint32 inLength, uint64 inSeed = 0);
-
-#include <vcruntime.h>
+Pair<uint64, uint64> gHash_128(const char* inCharacters, uint32 inLength, uint64 inSeed = 0);
 
 namespace std
 {

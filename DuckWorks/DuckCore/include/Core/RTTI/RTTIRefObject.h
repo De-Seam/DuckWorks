@@ -12,7 +12,7 @@ public:
 		mWeakRefCounter = new WeakRefCounter();
 	}
 
-	virtual ~RTTIRefObject()
+	virtual ~RTTIRefObject() override
 	{
 		mWeakRefCounter->mIsAlive = false;
 		if (mWeakRefCounter->mRefCount <= 0)

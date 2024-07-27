@@ -1,6 +1,6 @@
 #pragma once
 // Core includes
-#include <Core/Manager/Manager.h>
+#include <Engine/Manager/Manager.h>
 
 namespace sf
 {

@@ -176,8 +176,6 @@
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Core\CoreLight.h" />
     <ClInclude Include="include\Core\CoreModule.h" />
-    <ClInclude Include="include\Core\Manager\Manager.h" />
-    <ClInclude Include="include\Core\Manager\Managers.h" />
     <ClInclude Include="include\Core\Math\HelperFunctions.h" />
     <ClInclude Include="include\Core\Math\Math.h" />
     <ClInclude Include="include\Core\Math\Matrix.h" />
