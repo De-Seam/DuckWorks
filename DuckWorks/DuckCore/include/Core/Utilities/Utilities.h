@@ -1,9 +1,5 @@
 #pragma once
-// Core includes
-#include <Core/Utilities/TypeID.h>
-
-// Std includes
-#include <cstring>
+#include <utility>
 
 template<typename taType>
 taType gMin(taType inA, taType inB)
@@ -26,8 +22,7 @@ taType gClamp(taType inX, taType inMin, taType inMax)
 template<typename taType>
 void gSwap(taType& ioA, taType& ioB)
 {
-	uint8 temp[sizeof(taType)];
-	memcpy(temp, &ioA, sizeof(taType));
-	memcpy(&ioA, &ioB, sizeof(taType));
-	memcpy(&ioB, &temp, sizeof(taType));
+	taType temp = std::move(ioA);
+	ioA = std::move(ioB);
+	ioB = std::move(temp);
 }
