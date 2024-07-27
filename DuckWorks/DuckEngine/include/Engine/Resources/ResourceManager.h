@@ -3,8 +3,6 @@
 #include <Engine/Manager/Manager.h>
 #include <Engine/Resources/Resource.h>
 
-class Resource;
-
 class ResourceManager : public Manager
 {
 	RTTI_MANAGER(ResourceManager, Manager)
@@ -22,7 +20,7 @@ Ref<taType> ResourceManager::Get(String inFile)
 	Resource* resource = mResources[inFile];
 	if (resource != nullptr)
 	{
-		gAssert(resource->IsA<taType>(), "Resource was already loaded, but as a different type!");
+		gAssert(resource->IsA(taType::sGetRTTI()) && "Resource was already loaded, but as a different type!");
 		return resource;
 	}
 

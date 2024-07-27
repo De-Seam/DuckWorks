@@ -50,8 +50,8 @@ public:
 	static RTTIClass* sNewInstance() { return new RTTIClass; }
 
 	template<typename taType>
-	bool IsA();
-	virtual bool IsA(const RTTI& inRTTI);
+	bool IsA() const;
+	virtual bool IsA(const RTTI& inRTTI) const;
 
 	template<typename taType>
 	taType* As();
@@ -75,7 +75,7 @@ private:
 };
 
 template<typename taType>
-bool RTTIClass::IsA() 
+bool RTTIClass::IsA() const 
 {
 	return IsA(taType::sGetRTTI());
 }

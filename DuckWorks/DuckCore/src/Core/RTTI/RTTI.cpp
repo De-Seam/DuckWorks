@@ -20,7 +20,7 @@ RTTIClass::~RTTIClass()
 #endif
 }
 
-bool RTTIClass::IsA(const RTTI& inRTTI) 
+bool RTTIClass::IsA(const RTTI& inRTTI) const
 {
 	return sGetRTTI().GetTypeID() == inRTTI.GetTypeID();
 }

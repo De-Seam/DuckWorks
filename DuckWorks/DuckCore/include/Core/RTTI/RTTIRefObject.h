@@ -20,7 +20,7 @@ public:
 	}
 
 	int32 GetRefCount() const { return mRefCount; }
-	int32 GetWeakRefCount() const { return mWeakRefCounter != nullptr ? (int32)mWeakRefCounter->mRefCount : 0; }
+	int32 GetWeakRefCount() const { return mWeakRefCounter != nullptr ? static_cast<int32>(mWeakRefCounter->mRefCount) : 0; }
 
 private:
 	struct WeakRefCounter

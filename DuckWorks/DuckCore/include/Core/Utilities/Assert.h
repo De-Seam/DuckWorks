@@ -3,6 +3,9 @@
 // Core includes
 #include <Core/Config.h>
 
+// Std includes
+#include <cassert>
+
 // Platform-specific includes and definitions
 #if defined(_MSC_VER) // Microsoft Visual C++
 #define DEBUG_BREAK() __debugbreak()
@@ -14,12 +17,7 @@
 
 #ifdef _ASSERTS_ENABLED
 // Define the macros for 1 and 2 arguments
-#define gAssert(inCondition) \
-    do { \
-        if (!(inCondition)) { \
-            DEBUG_BREAK(); \
-        } \
-    } while (0)
+#define gAssert(inCondition) assert(inCondition)
 #else
 #define gAssert(inCondition)
 #endif

@@ -6,7 +6,7 @@
 
 TextureResource::~TextureResource() 
 {
-	gAssert(mTexture.getSize() == sf::Vector2u(0, 0), "Texture was not unloaded!");
+	gAssert(mTexture.getSize() == sf::Vector2u(0, 0) && "Texture was not unloaded!");
 }
 
 void TextureResource::Load(const String& inFile) 
