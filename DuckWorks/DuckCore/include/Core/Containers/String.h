@@ -11,6 +11,7 @@ class String
 public:
 	String() = default;
 	String(const char* inCharacters);
+	String(const std::string& inString);
 	String(const String& inOther);
 	~String();
 

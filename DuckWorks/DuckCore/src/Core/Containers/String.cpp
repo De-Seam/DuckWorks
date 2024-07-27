@@ -13,6 +13,11 @@ String::String(const char* inCharacters)
 	SetCharacters(inCharacters, static_cast<uint32>(strlen(inCharacters)));
 }
 
+String::String(const std::string& inString) 
+{
+	SetCharacters(inString.c_str(), static_cast<uint32>(inString.length()));
+}
+
 String::String(const String& inOther)
 {
 	SetCharacters(inOther.mCharacters, inOther.mLength);
