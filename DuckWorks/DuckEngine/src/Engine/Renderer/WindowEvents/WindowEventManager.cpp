@@ -12,7 +12,6 @@
 
 WindowEventManager::WindowEventManager()
 {
-	mManagerSettings.AddInitDependency<Renderer>();
 }
 
 void WindowEventManager::Update(Renderer& inRenderer, float)

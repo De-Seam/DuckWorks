@@ -100,7 +100,7 @@ void RTTIClass::RegisterMessageListener(taRecipientClass* inRecipient, void(taRe
 #endif
 	Function<void(MsgBase&)> function = [inRecipient, inFunction] (MsgBase& inMsg) 
 	{
-		(inRecipient->*inFunction)(static_cast<taMsgType&>(inMsg));
+		(inRecipient->*inFunction)(*reinterpret_cast<taMsgType*>(&inMsg));
 	};
 	mMessageListeners[taMsgType::sGetMsgTypeID()].push_back(Pair(inRecipient, function));
 }

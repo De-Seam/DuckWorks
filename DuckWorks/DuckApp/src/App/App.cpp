@@ -13,18 +13,18 @@
 App::App()
 {
 	gAssert(&mEngine == gEngine);
-	gEngine->Init();
 }
 
 App::~App()
 {
-	gEngine->Shutdown();
 	gAssert(&mEngine == gEngine);
 }
 
 void App::Run()
 {
+	gEngine->Init();
 	MainLoop();
+	gEngine->Shutdown();
 }
 
 void App::RequestShutdown()
@@ -44,5 +44,5 @@ void App::MainLoop()
 
 void App::Update(float inDeltaTime)
 {
-	gEngine->Update(inDeltaTime);
+	mEngine.Update(inDeltaTime);
 }

@@ -170,6 +170,7 @@
     <ClInclude Include="include\Core\Containers\Atomic.h" />
     <ClInclude Include="include\Core\Containers\Function.h" />
     <ClInclude Include="include\Core\Containers\HashMap.h" />
+    <ClInclude Include="include\Core\Threads\Mutex.h" />
     <ClInclude Include="include\Core\Containers\Pair.h" />
     <ClInclude Include="include\Core\Containers\SmartPointers.h" />
     <ClInclude Include="include\Core\Containers\String.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="include\Core\RTTI\Message.h" />
     <ClInclude Include="include\Core\RTTI\RTTI.h" />
     <ClInclude Include="include\Core\RTTI\RTTIRefObject.h" />
+    <ClInclude Include="include\Core\Threads\SafeQueue.h" />
     <ClInclude Include="include\Core\Threads\Thread.h" />
     <ClInclude Include="include\Core\Utilities\Assert.h" />
     <ClInclude Include="include\Core\Utilities\TypeID.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="include\Core\Utilities\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Containers\Mutex.cpp" />
     <ClCompile Include="src\Core\Containers\String.cpp" />
     <ClCompile Include="src\Core\Math\Math.cpp" />
     <ClCompile Include="src\Core\Math\Matrix.cpp" />

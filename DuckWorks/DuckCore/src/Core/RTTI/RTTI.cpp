@@ -27,7 +27,10 @@ bool RTTIClass::IsA(const RTTI& inRTTI) const
 
 void RTTIClass::BroadcastMessage(MsgBase& ioMsg) 
 {
-	Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>& listeners = mMessageListeners[ioMsg.GetMsgTypeID()];
+	auto it = mMessageListeners.find(ioMsg.GetMsgTypeID());
+	if (it == mMessageListeners.end())
+		return;
+	Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>& listeners = it->second;
 	for (Pair<RTTIClass*, Function<void(MsgBase&)>>& listener : listeners) 
 		listener.second(ioMsg);
 }

@@ -4,9 +4,6 @@ template<typename taType>
 void Engine::CreateManager()
 {
 	static_assert(std::is_base_of<Manager, taType>());
-	int32 type_id = taType::sGetManagerTypeID();
-	if (type_id <= mManagers.size())
-		mManagers.resize(type_id + 1);
 	RegisterManager(taType::sNewInstance());
 }
 

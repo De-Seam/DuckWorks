@@ -5,9 +5,7 @@
 #include <Engine/Debug/DebugManager.h>
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/Renderer/WindowEvents/WindowEventManager.h>
-
-// External includes
-#include <External/SFML/Graphics/CircleShape.hpp>
+#include <Engine/Threads/ThreadManager.h>
 
 THREADLOCAL Engine* gEngine = nullptr;
 
@@ -28,7 +26,8 @@ void Engine::Init()
 	RegisterManagers();
 
 	for (Manager* manager : mManagers)
-		manager->Init();
+		if (manager != nullptr)
+			manager->Init();
 
 	GetManager<WindowEventManager>().RegisterMessageListener(this, &Engine::OnWindowClosed);
 }
@@ -36,7 +35,8 @@ void Engine::Init()
 void Engine::Shutdown()
 {
 	for (Manager* manager : mManagers)
-		manager->Shutdown();
+		if (manager != nullptr)
+			manager->Shutdown();
 
 	GetManager<WindowEventManager>().UnregisterMessageListener(this, &Engine::OnWindowClosed);
 }
@@ -72,4 +72,5 @@ void Engine::RegisterManagers()
 {	
 	RegisterManager(&mRenderer.GetWindowEventManager());
 	CreateManager<DebugManager>();
+	CreateManager<ThreadManager>();
 }
