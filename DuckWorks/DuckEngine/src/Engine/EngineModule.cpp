@@ -7,6 +7,8 @@
 // Engine includes
 #include <Engine/Engine.h>
 #include <Engine/Renderer/WindowEvents/WindowEventManager.h>
+#include <Engine/Resources/ResourceManager.h>
+#include <Engine/Resources/TextureResource.h>
 
 THREADLOCAL EngineModule* gEngineModule = nullptr;
 
@@ -26,5 +28,9 @@ void EngineModule::RegisterRTTI()
 {
 	mRTTIFactory.RegisterClass<Engine>();
 	mRTTIFactory.RegisterClass<Renderer>();
+	mRTTIFactory.RegisterClass<Manager>();
 	mRTTIFactory.RegisterClass<WindowEventManager>();
+	mRTTIFactory.RegisterClass<ResourceManager>();
+	mRTTIFactory.RegisterClass<Resource>();
+	mRTTIFactory.RegisterClass<TextureResource>();
 }

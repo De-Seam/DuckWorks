@@ -33,7 +33,7 @@ private:
 	WeakRefCounter* mWeakRefCounter = nullptr;
 
 	// This is an invalid weak ref counter to be used when nullptr is passed. It always keeps 1 reference to itself to prevent it's destruction
-	inline static RTTIRefObject::WeakRefCounter sInvalidWeakRefCounter = { false, 1 };
+	inline static WeakRefCounter sInvalidWeakRefCounter = { false, 1 };
 
 	template<typename taRefClassType>
 	friend class Ref;

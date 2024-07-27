@@ -2,6 +2,7 @@
 #include <Core/CoreModule.h>
 
 // Core includes
+#include <Core/RTTI/RTTIRefObject.h>
 #include <Core/Utilities/Assert.h>
 
 THREADLOCAL CoreModule* gCoreModule = nullptr;
@@ -20,5 +21,6 @@ CoreModule::~CoreModule()
 
 void CoreModule::RegisterRTTI()
 {
-
+	mRTTIFactory.RegisterClass<RTTIClass>();
+	mRTTIFactory.RegisterClass<RTTIRefObject>();
 }
