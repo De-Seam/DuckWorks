@@ -79,7 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
@@ -90,7 +90,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckApp</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>03_DuckApp.lib;lua.lib;OptickCore.lib;libzmq.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>03_DuckApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)DuckWorks/lib/$(Configuration)</AdditionalLibraryDirectories>
@@ -107,7 +107,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
@@ -119,7 +119,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckApp</AdditionalLibraryDirectories>
-      <AdditionalDependencies>03_DuckApp.lib;lua.lib;OptickCore.lib;libzmq.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>03_DuckApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
@@ -137,7 +137,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
@@ -153,7 +153,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckApp</AdditionalLibraryDirectories>
-      <AdditionalDependencies>03_DuckApp.lib;lua.lib;OptickCore.lib;libzmq.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>03_DuckApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
@@ -163,113 +163,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Math\FMath.h" />
-    <ClInclude Include="include\External\imgui\imconfig.h" />
-    <ClInclude Include="include\External\imgui\imgui.h" />
-    <ClInclude Include="include\External\imgui\imgui_internal.h" />
-    <ClInclude Include="include\External\imgui\imstb_rectpack.h" />
-    <ClInclude Include="include\External\imgui\imstb_textedit.h" />
-    <ClInclude Include="include\External\imgui\imstb_truetype.h" />
-    <ClInclude Include="include\External\lua\lapi.h" />
-    <ClInclude Include="include\External\lua\lauxlib.h" />
-    <ClInclude Include="include\External\lua\lcode.h" />
-    <ClInclude Include="include\External\lua\lctype.h" />
-    <ClInclude Include="include\External\lua\ldebug.h" />
-    <ClInclude Include="include\External\lua\ldo.h" />
-    <ClInclude Include="include\External\lua\lfunc.h" />
-    <ClInclude Include="include\External\lua\lgc.h" />
-    <ClInclude Include="include\External\lua\ljumptab.h" />
-    <ClInclude Include="include\External\lua\llex.h" />
-    <ClInclude Include="include\External\lua\llimits.h" />
-    <ClInclude Include="include\External\lua\lmem.h" />
-    <ClInclude Include="include\External\lua\lobject.h" />
-    <ClInclude Include="include\External\lua\lopcodes.h" />
-    <ClInclude Include="include\External\lua\lopnames.h" />
-    <ClInclude Include="include\External\lua\lparser.h" />
-    <ClInclude Include="include\External\lua\lprefix.h" />
-    <ClInclude Include="include\External\lua\lstate.h" />
-    <ClInclude Include="include\External\lua\lstring.h" />
-    <ClInclude Include="include\External\lua\ltable.h" />
-    <ClInclude Include="include\External\lua\ltm.h" />
-    <ClInclude Include="include\External\lua\lua.h" />
-    <ClInclude Include="include\External\lua\lua.hpp" />
-    <ClInclude Include="include\External\lua\luaconf.h" />
-    <ClInclude Include="include\External\lua\lualib.h" />
-    <ClInclude Include="include\External\lua\lundump.h" />
-    <ClInclude Include="include\External\lua\lvm.h" />
-    <ClInclude Include="include\External\lua\lzio.h" />
-    <ClInclude Include="include\External\nlohmann\json.hpp" />
-    <ClInclude Include="include\External\rapidjson\allocators.h" />
-    <ClInclude Include="include\External\rapidjson\cursorstreamwrapper.h" />
-    <ClInclude Include="include\External\rapidjson\document.h" />
-    <ClInclude Include="include\External\rapidjson\encodedstream.h" />
-    <ClInclude Include="include\External\rapidjson\encodings.h" />
-    <ClInclude Include="include\External\rapidjson\error\en.h" />
-    <ClInclude Include="include\External\rapidjson\error\error.h" />
-    <ClInclude Include="include\External\rapidjson\filereadstream.h" />
-    <ClInclude Include="include\External\rapidjson\filewritestream.h" />
-    <ClInclude Include="include\External\rapidjson\fwd.h" />
-    <ClInclude Include="include\External\rapidjson\internal\biginteger.h" />
-    <ClInclude Include="include\External\rapidjson\internal\clzll.h" />
-    <ClInclude Include="include\External\rapidjson\internal\diyfp.h" />
-    <ClInclude Include="include\External\rapidjson\internal\dtoa.h" />
-    <ClInclude Include="include\External\rapidjson\internal\ieee754.h" />
-    <ClInclude Include="include\External\rapidjson\internal\itoa.h" />
-    <ClInclude Include="include\External\rapidjson\internal\meta.h" />
-    <ClInclude Include="include\External\rapidjson\internal\pow10.h" />
-    <ClInclude Include="include\External\rapidjson\internal\regex.h" />
-    <ClInclude Include="include\External\rapidjson\internal\stack.h" />
-    <ClInclude Include="include\External\rapidjson\internal\strfunc.h" />
-    <ClInclude Include="include\External\rapidjson\internal\strtod.h" />
-    <ClInclude Include="include\External\rapidjson\internal\swap.h" />
-    <ClInclude Include="include\External\rapidjson\istreamwrapper.h" />
-    <ClInclude Include="include\External\rapidjson\memorybuffer.h" />
-    <ClInclude Include="include\External\rapidjson\memorystream.h" />
-    <ClInclude Include="include\External\rapidjson\msinttypes\inttypes.h" />
-    <ClInclude Include="include\External\rapidjson\msinttypes\stdint.h" />
-    <ClInclude Include="include\External\rapidjson\ostreamwrapper.h" />
-    <ClInclude Include="include\External\rapidjson\pointer.h" />
-    <ClInclude Include="include\External\rapidjson\prettywriter.h" />
-    <ClInclude Include="include\External\rapidjson\rapidjson.h" />
-    <ClInclude Include="include\External\rapidjson\reader.h" />
-    <ClInclude Include="include\External\rapidjson\schema.h" />
-    <ClInclude Include="include\External\rapidjson\stream.h" />
-    <ClInclude Include="include\External\rapidjson\stringbuffer.h" />
-    <ClInclude Include="include\External\rapidjson\uri.h" />
-    <ClInclude Include="include\External\rapidjson\writer.h" />
-    <ClInclude Include="include\External\sol\config.hpp" />
-    <ClInclude Include="include\External\sol\sol.hpp" />
-    <ClInclude Include="include\External\zmq\zmq.h" />
-    <ClInclude Include="include\External\zmq\zmq.hpp" />
-    <ClInclude Include="include\External\zmq\zmq_addon.hpp" />
-    <ClInclude Include="include\External\zmq\zmq_utils.h" />
     <ClInclude Include="include\Precomp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\External\imgui\imgui.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="include\External\imgui\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="include\External\imgui\imgui_draw.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="include\External\imgui\imgui_tables.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="include\External\imgui\imgui_widgets.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

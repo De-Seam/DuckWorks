@@ -79,7 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Core/Precomp.h</PrecompiledHeaderFile>
@@ -93,8 +93,8 @@
       <AdditionalDependencies>OptickCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/00_External</AdditionalLibraryDirectories>
+      <AdditionalDependencies>00_External.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -108,7 +108,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Core/Precomp.h</PrecompiledHeaderFile>
@@ -124,8 +124,8 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/00_External</AdditionalLibraryDirectories>
+      <AdditionalDependencies>00_External.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -139,7 +139,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Core/Precomp.h</PrecompiledHeaderFile>
@@ -159,8 +159,8 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/00_External</AdditionalLibraryDirectories>
+      <AdditionalDependencies>00_External.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -194,23 +194,8 @@
     <ClInclude Include="include\Core\Utilities\Types.h" />
     <ClInclude Include="include\Core\Utilities\UID.h" />
     <ClInclude Include="include\Core\Utilities\Utilities.h" />
-    <ClInclude Include="include\External\BitBool\BitBool.h" />
-    <ClInclude Include="include\External\phmap\btree.h" />
-    <ClInclude Include="include\External\phmap\meminfo.h" />
-    <ClInclude Include="include\External\phmap\phmap.h" />
-    <ClInclude Include="include\External\phmap\phmap_base.h" />
-    <ClInclude Include="include\External\phmap\phmap_bits.h" />
-    <ClInclude Include="include\External\phmap\phmap_config.h" />
-    <ClInclude Include="include\External\phmap\phmap_dump.h" />
-    <ClInclude Include="include\External\phmap\phmap_fwd_decl.h" />
-    <ClInclude Include="include\External\phmap\phmap_utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\External\BitBool\BitBool.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\Core\Containers\String.cpp" />
     <ClCompile Include="src\Core\Math\Math.cpp" />
     <ClCompile Include="src\Core\Math\Matrix.cpp" />

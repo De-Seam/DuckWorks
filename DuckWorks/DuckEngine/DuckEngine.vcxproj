@@ -79,7 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Engine/Precomp.h</PrecompiledHeaderFile>
@@ -94,7 +94,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/01_DuckCore</AdditionalLibraryDirectories>
-      <AdditionalDependencies>01_DuckCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>01_DuckCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -108,7 +108,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Engine/Precomp.h</PrecompiledHeaderFile>
@@ -125,7 +125,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/01_DuckCore</AdditionalLibraryDirectories>
-      <AdditionalDependencies>01_DuckCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>01_DuckCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -139,7 +139,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Engine/Precomp.h</PrecompiledHeaderFile>
@@ -160,7 +160,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/01_DuckCore</AdditionalLibraryDirectories>
-      <AdditionalDependencies>01_DuckCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>01_DuckCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>

@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Develop|x64">
+      <Configuration>Develop</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{1aeec0ae-b46b-4db2-8824-816a7eadd423}</ProjectGuid>
+    <RootNamespace>External</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>00_External</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/$(ProjectName)/</OutDir>
+    <IntDir>$(SolutionDir)Build/Int/$(Platform)_$(Configuration)/$(ProjectName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/$(ProjectName)/</OutDir>
+    <IntDir>$(SolutionDir)Build/Int/$(Platform)_$(Configuration)/$(ProjectName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+    <OutDir>$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/$(ProjectName)/</OutDir>
+    <IntDir>$(SolutionDir)Build/Int/$(Platform)_$(Configuration)/$(ProjectName)/</IntDir>
+    <LinkIncremental />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SFML_STATIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4324;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>OptickCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;OptickCore.lib;libzmq.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SFML_STATIC;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4324;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OptickCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;OptickCore.lib;libzmq.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SFML_STATIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4324;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OptickCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;OptickCore.lib;libzmq.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BitBool\BitBool.cpp" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\External\BitBool\BitBool.h" />
+    <ClInclude Include="include\External\entt\config\config.h" />
+    <ClInclude Include="include\External\entt\config\macro.h" />
+    <ClInclude Include="include\External\entt\config\version.h" />
+    <ClInclude Include="include\External\entt\container\dense_map.hpp" />
+    <ClInclude Include="include\External\entt\container\dense_set.hpp" />
+    <ClInclude Include="include\External\entt\container\fwd.hpp" />
+    <ClInclude Include="include\External\entt\container\table.hpp" />
+    <ClInclude Include="include\External\entt\core\algorithm.hpp" />
+    <ClInclude Include="include\External\entt\core\any.hpp" />
+    <ClInclude Include="include\External\entt\core\attribute.h" />
+    <ClInclude Include="include\External\entt\core\bit.hpp" />
+    <ClInclude Include="include\External\entt\core\compressed_pair.hpp" />
+    <ClInclude Include="include\External\entt\core\enum.hpp" />
+    <ClInclude Include="include\External\entt\core\family.hpp" />
+    <ClInclude Include="include\External\entt\core\fwd.hpp" />
+    <ClInclude Include="include\External\entt\core\hashed_string.hpp" />
+    <ClInclude Include="include\External\entt\core\ident.hpp" />
+    <ClInclude Include="include\External\entt\core\iterator.hpp" />
+    <ClInclude Include="include\External\entt\core\memory.hpp" />
+    <ClInclude Include="include\External\entt\core\monostate.hpp" />
+    <ClInclude Include="include\External\entt\core\ranges.hpp" />
+    <ClInclude Include="include\External\entt\core\tuple.hpp" />
+    <ClInclude Include="include\External\entt\core\type_info.hpp" />
+    <ClInclude Include="include\External\entt\core\type_traits.hpp" />
+    <ClInclude Include="include\External\entt\core\utility.hpp" />
+    <ClInclude Include="include\External\entt\entity\component.hpp" />
+    <ClInclude Include="include\External\entt\entity\entity.hpp" />
+    <ClInclude Include="include\External\entt\entity\fwd.hpp" />
+    <ClInclude Include="include\External\entt\entity\group.hpp" />
+    <ClInclude Include="include\External\entt\entity\handle.hpp" />
+    <ClInclude Include="include\External\entt\entity\helper.hpp" />
+    <ClInclude Include="include\External\entt\entity\mixin.hpp" />
+    <ClInclude Include="include\External\entt\entity\observer.hpp" />
+    <ClInclude Include="include\External\entt\entity\organizer.hpp" />
+    <ClInclude Include="include\External\entt\entity\ranges.hpp" />
+    <ClInclude Include="include\External\entt\entity\registry.hpp" />
+    <ClInclude Include="include\External\entt\entity\runtime_view.hpp" />
+    <ClInclude Include="include\External\entt\entity\snapshot.hpp" />
+    <ClInclude Include="include\External\entt\entity\sparse_set.hpp" />
+    <ClInclude Include="include\External\entt\entity\storage.hpp" />
+    <ClInclude Include="include\External\entt\entity\view.hpp" />
+    <ClInclude Include="include\External\entt\entt.hpp" />
+    <ClInclude Include="include\External\entt\fwd.hpp" />
+    <ClInclude Include="include\External\entt\graph\adjacency_matrix.hpp" />
+    <ClInclude Include="include\External\entt\graph\dot.hpp" />
+    <ClInclude Include="include\External\entt\graph\flow.hpp" />
+    <ClInclude Include="include\External\entt\graph\fwd.hpp" />
+    <ClInclude Include="include\External\entt\locator\locator.hpp" />
+    <ClInclude Include="include\External\entt\meta\adl_pointer.hpp" />
+    <ClInclude Include="include\External\entt\meta\container.hpp" />
+    <ClInclude Include="include\External\entt\meta\context.hpp" />
+    <ClInclude Include="include\External\entt\meta\factory.hpp" />
+    <ClInclude Include="include\External\entt\meta\fwd.hpp" />
+    <ClInclude Include="include\External\entt\meta\meta.hpp" />
+    <ClInclude Include="include\External\entt\meta\node.hpp" />
+    <ClInclude Include="include\External\entt\meta\pointer.hpp" />
+    <ClInclude Include="include\External\entt\meta\policy.hpp" />
+    <ClInclude Include="include\External\entt\meta\range.hpp" />
+    <ClInclude Include="include\External\entt\meta\resolve.hpp" />
+    <ClInclude Include="include\External\entt\meta\template.hpp" />
+    <ClInclude Include="include\External\entt\meta\type_traits.hpp" />
+    <ClInclude Include="include\External\entt\meta\utility.hpp" />
+    <ClInclude Include="include\External\entt\poly\fwd.hpp" />
+    <ClInclude Include="include\External\entt\poly\poly.hpp" />
+    <ClInclude Include="include\External\entt\process\fwd.hpp" />
+    <ClInclude Include="include\External\entt\process\process.hpp" />
+    <ClInclude Include="include\External\entt\process\scheduler.hpp" />
+    <ClInclude Include="include\External\entt\resource\cache.hpp" />
+    <ClInclude Include="include\External\entt\resource\fwd.hpp" />
+    <ClInclude Include="include\External\entt\resource\loader.hpp" />
+    <ClInclude Include="include\External\entt\resource\resource.hpp" />
+    <ClInclude Include="include\External\entt\signal\delegate.hpp" />
+    <ClInclude Include="include\External\entt\signal\dispatcher.hpp" />
+    <ClInclude Include="include\External\entt\signal\emitter.hpp" />
+    <ClInclude Include="include\External\entt\signal\fwd.hpp" />
+    <ClInclude Include="include\External\entt\signal\sigh.hpp" />
+    <ClInclude Include="include\External\imgui\imconfig.h" />
+    <ClInclude Include="include\External\imgui\imgui.h" />
+    <ClInclude Include="include\External\imgui\imgui_internal.h" />
+    <ClInclude Include="include\External\imgui\imstb_rectpack.h" />
+    <ClInclude Include="include\External\imgui\imstb_textedit.h" />
+    <ClInclude Include="include\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="include\External\lua\lapi.h" />
+    <ClInclude Include="include\External\lua\lauxlib.h" />
+    <ClInclude Include="include\External\lua\lcode.h" />
+    <ClInclude Include="include\External\lua\lctype.h" />
+    <ClInclude Include="include\External\lua\ldebug.h" />
+    <ClInclude Include="include\External\lua\ldo.h" />
+    <ClInclude Include="include\External\lua\lfunc.h" />
+    <ClInclude Include="include\External\lua\lgc.h" />
+    <ClInclude Include="include\External\lua\ljumptab.h" />
+    <ClInclude Include="include\External\lua\llex.h" />
+    <ClInclude Include="include\External\lua\llimits.h" />
+    <ClInclude Include="include\External\lua\lmem.h" />
+    <ClInclude Include="include\External\lua\lobject.h" />
+    <ClInclude Include="include\External\lua\lopcodes.h" />
+    <ClInclude Include="include\External\lua\lopnames.h" />
+    <ClInclude Include="include\External\lua\lparser.h" />
+    <ClInclude Include="include\External\lua\lprefix.h" />
+    <ClInclude Include="include\External\lua\lstate.h" />
+    <ClInclude Include="include\External\lua\lstring.h" />
+    <ClInclude Include="include\External\lua\ltable.h" />
+    <ClInclude Include="include\External\lua\ltm.h" />
+    <ClInclude Include="include\External\lua\lua.h" />
+    <ClInclude Include="include\External\lua\lua.hpp" />
+    <ClInclude Include="include\External\lua\luaconf.h" />
+    <ClInclude Include="include\External\lua\lualib.h" />
+    <ClInclude Include="include\External\lua\lundump.h" />
+    <ClInclude Include="include\External\lua\lvm.h" />
+    <ClInclude Include="include\External\lua\lzio.h" />
+    <ClInclude Include="include\External\nlohmann\json.hpp" />
+    <ClInclude Include="include\External\optick\optick.config.h" />
+    <ClInclude Include="include\External\optick\optick.h" />
+    <ClInclude Include="include\External\phmap\btree.h" />
+    <ClInclude Include="include\External\phmap\meminfo.h" />
+    <ClInclude Include="include\External\phmap\phmap.h" />
+    <ClInclude Include="include\External\phmap\phmap_base.h" />
+    <ClInclude Include="include\External\phmap\phmap_bits.h" />
+    <ClInclude Include="include\External\phmap\phmap_config.h" />
+    <ClInclude Include="include\External\phmap\phmap_dump.h" />
+    <ClInclude Include="include\External\phmap\phmap_fwd_decl.h" />
+    <ClInclude Include="include\External\phmap\phmap_utils.h" />
+    <ClInclude Include="include\External\rapidjson\allocators.h" />
+    <ClInclude Include="include\External\rapidjson\cursorstreamwrapper.h" />
+    <ClInclude Include="include\External\rapidjson\document.h" />
+    <ClInclude Include="include\External\rapidjson\encodedstream.h" />
+    <ClInclude Include="include\External\rapidjson\encodings.h" />
+    <ClInclude Include="include\External\rapidjson\error\en.h" />
+    <ClInclude Include="include\External\rapidjson\error\error.h" />
+    <ClInclude Include="include\External\rapidjson\filereadstream.h" />
+    <ClInclude Include="include\External\rapidjson\filewritestream.h" />
+    <ClInclude Include="include\External\rapidjson\fwd.h" />
+    <ClInclude Include="include\External\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="include\External\rapidjson\internal\clzll.h" />
+    <ClInclude Include="include\External\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="include\External\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="include\External\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="include\External\rapidjson\internal\itoa.h" />
+    <ClInclude Include="include\External\rapidjson\internal\meta.h" />
+    <ClInclude Include="include\External\rapidjson\internal\pow10.h" />
+    <ClInclude Include="include\External\rapidjson\internal\regex.h" />
+    <ClInclude Include="include\External\rapidjson\internal\stack.h" />
+    <ClInclude Include="include\External\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="include\External\rapidjson\internal\strtod.h" />
+    <ClInclude Include="include\External\rapidjson\internal\swap.h" />
+    <ClInclude Include="include\External\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="include\External\rapidjson\memorybuffer.h" />
+    <ClInclude Include="include\External\rapidjson\memorystream.h" />
+    <ClInclude Include="include\External\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="include\External\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="include\External\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="include\External\rapidjson\pointer.h" />
+    <ClInclude Include="include\External\rapidjson\prettywriter.h" />
+    <ClInclude Include="include\External\rapidjson\rapidjson.h" />
+    <ClInclude Include="include\External\rapidjson\reader.h" />
+    <ClInclude Include="include\External\rapidjson\schema.h" />
+    <ClInclude Include="include\External\rapidjson\stream.h" />
+    <ClInclude Include="include\External\rapidjson\stringbuffer.h" />
+    <ClInclude Include="include\External\rapidjson\uri.h" />
+    <ClInclude Include="include\External\rapidjson\writer.h" />
+    <ClInclude Include="include\External\SFML\Audio.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\AlResource.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\Export.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\InputSoundFile.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\Listener.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\Music.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\OutputSoundFile.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\Sound.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundBuffer.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundBufferRecorder.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundFileFactory.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundFileReader.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundFileWriter.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundRecorder.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundSource.hpp" />
+    <ClInclude Include="include\External\SFML\Audio\SoundStream.hpp" />
+    <ClInclude Include="include\External\SFML\Config.hpp" />
+    <ClInclude Include="include\External\SFML\GpuPreference.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\BlendMode.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\CircleShape.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Color.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\ConvexShape.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Drawable.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Export.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Font.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Glsl.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Glyph.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Image.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\PrimitiveType.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Rect.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\RectangleShape.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\RenderStates.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\RenderTarget.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\RenderTexture.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\RenderWindow.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Shader.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Shape.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Sprite.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Text.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Texture.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Transform.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Transformable.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\Vertex.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\VertexArray.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\VertexBuffer.hpp" />
+    <ClInclude Include="include\External\SFML\Graphics\View.hpp" />
+    <ClInclude Include="include\External\SFML\Main.hpp" />
+    <ClInclude Include="include\External\SFML\Network.hpp" />
+    <ClInclude Include="include\External\SFML\Network\Export.hpp" />
+    <ClInclude Include="include\External\SFML\Network\Ftp.hpp" />
+    <ClInclude Include="include\External\SFML\Network\Http.hpp" />
+    <ClInclude Include="include\External\SFML\Network\IpAddress.hpp" />
+    <ClInclude Include="include\External\SFML\Network\Packet.hpp" />
+    <ClInclude Include="include\External\SFML\Network\Socket.hpp" />
+    <ClInclude Include="include\External\SFML\Network\SocketHandle.hpp" />
+    <ClInclude Include="include\External\SFML\Network\SocketSelector.hpp" />
+    <ClInclude Include="include\External\SFML\Network\TcpListener.hpp" />
+    <ClInclude Include="include\External\SFML\Network\TcpSocket.hpp" />
+    <ClInclude Include="include\External\SFML\Network\UdpSocket.hpp" />
+    <ClInclude Include="include\External\SFML\OpenGL.hpp" />
+    <ClInclude Include="include\External\SFML\System.hpp" />
+    <ClInclude Include="include\External\SFML\System\Clock.hpp" />
+    <ClInclude Include="include\External\SFML\System\Err.hpp" />
+    <ClInclude Include="include\External\SFML\System\Export.hpp" />
+    <ClInclude Include="include\External\SFML\System\FileInputStream.hpp" />
+    <ClInclude Include="include\External\SFML\System\InputStream.hpp" />
+    <ClInclude Include="include\External\SFML\System\Lock.hpp" />
+    <ClInclude Include="include\External\SFML\System\MemoryInputStream.hpp" />
+    <ClInclude Include="include\External\SFML\System\Mutex.hpp" />
+    <ClInclude Include="include\External\SFML\System\NativeActivity.hpp" />
+    <ClInclude Include="include\External\SFML\System\NonCopyable.hpp" />
+    <ClInclude Include="include\External\SFML\System\Sleep.hpp" />
+    <ClInclude Include="include\External\SFML\System\String.hpp" />
+    <ClInclude Include="include\External\SFML\System\Thread.hpp" />
+    <ClInclude Include="include\External\SFML\System\ThreadLocal.hpp" />
+    <ClInclude Include="include\External\SFML\System\ThreadLocalPtr.hpp" />
+    <ClInclude Include="include\External\SFML\System\Time.hpp" />
+    <ClInclude Include="include\External\SFML\System\Utf.hpp" />
+    <ClInclude Include="include\External\SFML\System\Vector2.hpp" />
+    <ClInclude Include="include\External\SFML\System\Vector3.hpp" />
+    <ClInclude Include="include\External\SFML\Window.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Clipboard.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Context.hpp" />
+    <ClInclude Include="include\External\SFML\Window\ContextSettings.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Cursor.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Event.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Export.hpp" />
+    <ClInclude Include="include\External\SFML\Window\GlResource.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Joystick.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Keyboard.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Mouse.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Sensor.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Touch.hpp" />
+    <ClInclude Include="include\External\SFML\Window\VideoMode.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Vulkan.hpp" />
+    <ClInclude Include="include\External\SFML\Window\Window.hpp" />
+    <ClInclude Include="include\External\SFML\Window\WindowBase.hpp" />
+    <ClInclude Include="include\External\SFML\Window\WindowHandle.hpp" />
+    <ClInclude Include="include\External\SFML\Window\WindowStyle.hpp" />
+    <ClInclude Include="include\External\sol\config.hpp" />
+    <ClInclude Include="include\External\sol\sol.hpp" />
+    <ClInclude Include="include\External\zmq\zmq.h" />
+    <ClInclude Include="include\External\zmq\zmq.hpp" />
+    <ClInclude Include="include\External\zmq\zmq_addon.hpp" />
+    <ClInclude Include="include\External\zmq\zmq_utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\External\SFML\Audio\SoundFileFactory.inl" />
+    <None Include="include\External\SFML\Graphics\Glsl.inl" />
+    <None Include="include\External\SFML\Graphics\Rect.inl" />
+    <None Include="include\External\SFML\System\String.inl" />
+    <None Include="include\External\SFML\System\Thread.inl" />
+    <None Include="include\External\SFML\System\ThreadLocalPtr.inl" />
+    <None Include="include\External\SFML\System\Utf.inl" />
+    <None Include="include\External\SFML\System\Vector2.inl" />
+    <None Include="include\External\SFML\System\Vector3.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
