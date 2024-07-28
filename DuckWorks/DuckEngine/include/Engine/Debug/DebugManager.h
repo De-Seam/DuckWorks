@@ -1,6 +1,8 @@
 #pragma once
 #include <Engine/Manager/Manager.h>
 
+struct MsgAnyWindowEvent;
+
 class DebugManager : public Manager
 {
 	RTTI_MANAGER(DebugManager, Manager)
@@ -9,6 +11,9 @@ public:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 	virtual void Update(float inDeltaTime) override;
+
+protected:
+	void OnAnyWindowEvent(const MsgAnyWindowEvent& inMsg);
 
 private:
 };

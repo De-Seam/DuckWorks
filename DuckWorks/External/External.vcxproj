@@ -165,6 +165,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\imgui\imgui-SFML.cpp" />
     <ClCompile Include="src\BitBool\BitBool.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
@@ -250,7 +251,10 @@
     <ClInclude Include="include\External\entt\signal\emitter.hpp" />
     <ClInclude Include="include\External\entt\signal\fwd.hpp" />
     <ClInclude Include="include\External\entt\signal\sigh.hpp" />
+    <ClInclude Include="include\External\imgui\imconfig-SFML.h" />
     <ClInclude Include="include\External\imgui\imconfig.h" />
+    <ClInclude Include="include\External\imgui\imgui-SFML.h" />
+    <ClInclude Include="include\External\imgui\imgui-SFML_export.h" />
     <ClInclude Include="include\External\imgui\imgui.h" />
     <ClInclude Include="include\External\imgui\imgui_internal.h" />
     <ClInclude Include="include\External\imgui\imstb_rectpack.h" />

@@ -23,6 +23,9 @@ void WindowEventManager::Update(Renderer& inRenderer, float)
 	sf::Event event;
 	while (render_window.pollEvent(event))
 	{
+		MsgAnyWindowEvent msgAnyWindowEvent;
+		msgAnyWindowEvent.mEvent = event;
+		BroadcastMessage(msgAnyWindowEvent);
 		switch(event.type)
 		{
 			case sf::Event::Closed:					// The window requested to be closed (no data)

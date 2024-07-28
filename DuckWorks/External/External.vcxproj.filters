@@ -33,6 +33,9 @@
     <ClCompile Include="src\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\imgui\imgui-SFML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\External\BitBool\BitBool.h">
@@ -834,6 +837,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\External\SFML\Window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\External\imgui\imconfig-SFML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\External\imgui\imgui-SFML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\External\imgui\imgui-SFML_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,12 @@
 
 #include <External/SFML/Window/Event.hpp>
 
+struct MsgAnyWindowEvent : public MsgBase
+{
+	RTTI_MSG()
+	sf::Event mEvent;
+};
+
 struct MsgWindowClosed : public MsgBase
 {
 	RTTI_MSG()

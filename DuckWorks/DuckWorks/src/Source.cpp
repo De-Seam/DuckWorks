@@ -18,7 +18,7 @@ int main(int, char**)
 	app_module.RegisterRTTI();
 
 	Array<std::thread> threads;
-	for (int32 i = 0; i < 2; ++i)
+	for (int32 i = 0; i < 1; ++i)
 	{
 		threads.emplace_back(std::thread([&]()
 		{
