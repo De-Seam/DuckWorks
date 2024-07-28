@@ -8,39 +8,27 @@ class RTTIFactory
 {
 public:
 	template<typename taType>
-	taType* NewInstance()
-	{
-		const RTTI* rtti = taType::sGetRTTI();
-		return rtti->NewInstance();
-	}
-
+	taType* NewInstance();
 	template<typename taType>
-	taType* NewInstance(const String& inClassName)
-	{
-		const RTTI* rtti = GetRTTI(inClassName);
-		RTTIClass* instantiated_class = rtti->NewInstance();
-		gAssert(instantiated_class->IsA<taType>());
-		return reinterpret_cast<taType*>(instantiated_class);
-	}
-
+	taType* NewInstance(const String& inClassName);
 	template<typename taType>
-	taType* NewInstance(const Json& inJson)
-	{
-		String class_name = inJson["ClassName"].get<std::string>();
-		taType* instantiated_class = NewInstance<taType>(class_name);
-		instantiated_class->Deserialize(inJson);
-		return instantiated_class;
-	}
+	taType* NewInstance(const Json& inJson);
 
 	const RTTI* GetRTTI(const String& inClassName) const;
 
 	template<typename taType>
-	void RegisterClass()
-	{
-		const RTTI& rtti = taType::sGetRTTI();
-		mClassNameToRTTI[rtti.GetClassName()] = &rtti;
-	}
+	void RegisterClass();
+
+	void GetClassNames(Array<String>& outClassNames) const; ///< Get all registered class names. Very slow operation.
+
+	template<typename taType>
+	void GetSubClassNames(Array<String>& outClassNames) const; ///< Get all registered class names that are subclasses of taType. Very slow operation.
+	void GetSubClassNames(const String& inClassName, Array<String>& outClassNames) const; ///< Get all registered class names that are subclasses of inClassName. Very slow operation.
 
 private:
+	bool IsSubClassRecursive(const RTTI* inBaseRTTI, const RTTI* inTargetRTTI) const;
+
 	HashMap<String, const RTTI*> mClassNameToRTTI;
 };
+
+#include "RTTIFactory.inl"

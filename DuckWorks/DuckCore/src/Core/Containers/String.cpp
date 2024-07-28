@@ -74,10 +74,10 @@ String String::operator+(const String& inOther) const
 {
 	String new_string;
 	new_string.mLength = mLength + inOther.mLength;
-	new_string.mCharacters = new char[new_string.mLength + 1];
+	new_string.mCharacters = new char[new_string.mLength];
 	memcpy(new_string.mCharacters, mCharacters, mLength);
 	memcpy(new_string.mCharacters + mLength, inOther.mCharacters, inOther.mLength);
-	new_string.mCharacters[new_string.mLength] = '\0';
+	new_string.mCharacters[new_string.mLength];
 
 	new_string.mHash = gHash(new_string.mCharacters, new_string.mLength);
 
@@ -154,6 +154,10 @@ void from_json(const Json& inJson, String& outVariable)
 // MurmurHash3 64-bit variant
 uint64 gHash(const char* inCharacters, uint32 inLength, uint64 inSeed)
 {
+	if (inLength == 0)
+		return 0;
+	gAssert(inCharacters != nullptr);
+
     const uint8_t* data = (const uint8_t*)inCharacters;
     const int nblocks = inLength / 8;
 
@@ -208,7 +212,9 @@ uint64 gHash(const char* inCharacters, uint32 inLength, uint64 inSeed)
 // MurmurHash3 128-bit variant
 Pair<uint64, uint64> gHash_128(const char* inCharacters, uint32 inLength, uint64 inSeed)
 {
-	gAssert(inLength > 0);
+	if (inLength == 0)
+		return Pair(0, 0);
+	gAssert(inCharacters != nullptr);
 
 	const uint8* data = (const uint8*)inCharacters;
 	const int nblocks = inLength / 16;

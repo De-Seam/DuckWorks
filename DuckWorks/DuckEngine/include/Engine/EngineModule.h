@@ -5,8 +5,8 @@ class EngineModule : public CoreModule
 {
 public:
 	EngineModule();
-	~EngineModule();
+	virtual ~EngineModule() override;
 	virtual void RegisterRTTI() override;
 };
 
-THREADLOCAL extern EngineModule* gEngineModule;
+extern EngineModule* gEngineModule;

@@ -7,11 +7,13 @@
 // Engine includes
 #include <Engine/Engine.h>
 #include <Engine/Debug/DebugManager.h>
+#include <Engine/Debug/Windows/DebugWindow.h>
+#include <Engine/Debug/Windows/DebugWindowObjectInspector.h>
 #include <Engine/Renderer/WindowEvents/WindowEventManager.h>
 #include <Engine/Resources/ResourceManager.h>
 #include <Engine/Resources/TextureResource.h>
 
-THREADLOCAL EngineModule* gEngineModule = nullptr;
+EngineModule* gEngineModule = nullptr;
 
 EngineModule::EngineModule()
 {
@@ -29,12 +31,17 @@ void EngineModule::RegisterRTTI()
 {
 	PROFILE_SCOPE(EngineModule::RegisterRTTI)
 
+	CoreModule::RegisterRTTI();
+
 	mRTTIFactory.RegisterClass<Engine>();
-	mRTTIFactory.RegisterClass<DebugManager>();
 	mRTTIFactory.RegisterClass<Renderer>();
 	mRTTIFactory.RegisterClass<Manager>();
 	mRTTIFactory.RegisterClass<WindowEventManager>();
 	mRTTIFactory.RegisterClass<ResourceManager>();
 	mRTTIFactory.RegisterClass<Resource>();
 	mRTTIFactory.RegisterClass<TextureResource>();
+
+	mRTTIFactory.RegisterClass<DebugManager>();
+	mRTTIFactory.RegisterClass<DebugWindow>();
+	mRTTIFactory.RegisterClass<DebugWindowObjectInspector>();
 }

@@ -4,8 +4,9 @@
 // Core includes
 #include <Core/RTTI/RTTIRefObject.h>
 #include <Core/Utilities/Assert.h>
+#include <Core/Utilities/Profiler.h>
 
-THREADLOCAL CoreModule* gCoreModule = nullptr;
+CoreModule* gCoreModule = nullptr;
 
 CoreModule::CoreModule()
 {
@@ -21,6 +22,8 @@ CoreModule::~CoreModule()
 
 void CoreModule::RegisterRTTI()
 {
+	PROFILE_SCOPE(CoreModule::RegisterRTTI)
+
 	mRTTIFactory.RegisterClass<RTTIClass>();
 	mRTTIFactory.RegisterClass<RTTIRefObject>();
 }

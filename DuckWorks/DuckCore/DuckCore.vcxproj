@@ -216,6 +216,9 @@
     <ClCompile Include="src\Core\RTTI\RTTI.cpp" />
     <ClCompile Include="src\Core\Utilities\GUID.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="include\Core\RTTI\Factory\RTTIFactory.inl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

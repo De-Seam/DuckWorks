@@ -7,7 +7,7 @@
 // App includes
 #include <App/App.h>
 
-THREADLOCAL AppModule* gAppModule = nullptr;
+AppModule* gAppModule = nullptr;
 
 AppModule::AppModule()
 {
@@ -23,5 +23,9 @@ AppModule::~AppModule()
 
 void AppModule::RegisterRTTI()
 {
+	PROFILE_SCOPE(AppModule::RegisterRTTI)
+
+	EngineModule::RegisterRTTI();
+
 	mRTTIFactory.RegisterClass<App>();
 }

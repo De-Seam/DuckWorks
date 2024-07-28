@@ -3,17 +3,17 @@
 #include <Core/Threads/Thread.h>
 #include <Core/RTTI/Factory/RTTIFactory.h>
 
-// Modules are places to store local variables. They're accessible from the main thread of each application
+// Modules are places to store global variables. They're accessible from each thread
 // And they handle registering rtti types etc
 class CoreModule
 {
 public:
 	CoreModule();
-	~CoreModule();
+	virtual ~CoreModule();
 	virtual void RegisterRTTI();
 
 	RTTIFactory mRTTIFactory;
 private:
 };
 
-THREADLOCAL extern CoreModule* gCoreModule;
+extern CoreModule* gCoreModule;

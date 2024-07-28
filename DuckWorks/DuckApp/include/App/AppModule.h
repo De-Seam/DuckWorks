@@ -5,8 +5,8 @@ class AppModule : public EngineModule
 {
 public:
 	AppModule();
-	~AppModule();
+	virtual ~AppModule();
 	virtual void RegisterRTTI() override;
 };
 
-THREADLOCAL extern AppModule* gAppModule;
+extern AppModule* gAppModule;
