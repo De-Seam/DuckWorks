@@ -6,13 +6,14 @@
 
 const RTTI* RTTIFactory::GetRTTI(const String& inClassName) const
 {
-	if (mClassNameToRTTI.contains(inClassName))
-		return mClassNameToRTTI.at(inClassName);
-	return nullptr;
-	//HashMap<String, const RTTI*>::const_iterator iterator = mClassNameToRTTI.find(inClassName);
-	//const bool found = iterator != mClassNameToRTTI.end();
-	//gAssert(!found && "Class not registered!");
-	//return found ? iterator->second : nullptr;
+	return mClassNameToRTTI.at(inClassName);
+}
+
+const RTTI* RTTIFactory::FindRTTI(const String& inClassName) const 
+{
+	HashMap<String, const RTTI*>::const_iterator iterator = mClassNameToRTTI.find(inClassName);
+	const bool found = iterator != mClassNameToRTTI.end();
+	return found ? iterator->second : nullptr;
 }
 
 void RTTIFactory::GetClassNames(Array<String>& outClassNames) const 
@@ -31,9 +32,15 @@ void RTTIFactory::GetSubClassNames(const String& inClassName, Array<String>& out
 	}
 }
 
+void RTTIFactory::RegisterRTTI(const RTTI& inRTTI) 
+{
+	gAssert(!mClassNameToRTTI.contains(inRTTI.GetClassName()));
+	mClassNameToRTTI[inRTTI.GetClassName()] = &inRTTI;
+}
+
 bool RTTIFactory::IsSubClassRecursive(const RTTI* inBaseRTTI, const RTTI* inTargetRTTI) const 
 {
-	const RTTI* base_rtti = GetRTTI(inBaseRTTI->GetBaseClassName());
+	const RTTI* base_rtti = FindRTTI(inBaseRTTI->GetBaseClassName());
 	if (base_rtti == nullptr)
 		return false;
 	if (base_rtti->GetTypeID() == inTargetRTTI->GetTypeID())

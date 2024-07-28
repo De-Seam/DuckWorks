@@ -15,6 +15,7 @@ public:
 	taType* NewInstance(const Json& inJson);
 
 	const RTTI* GetRTTI(const String& inClassName) const;
+	const RTTI* FindRTTI(const String& inClassName) const;
 
 	template<typename taType>
 	void RegisterClass();
@@ -26,6 +27,7 @@ public:
 	void GetSubClassNames(const String& inClassName, Array<String>& outClassNames) const; ///< Get all registered class names that are subclasses of inClassName. Very slow operation.
 
 private:
+	void RegisterRTTI(const RTTI& inRTTI);
 	bool IsSubClassRecursive(const RTTI* inBaseRTTI, const RTTI* inTargetRTTI) const;
 
 	HashMap<String, const RTTI*> mClassNameToRTTI;

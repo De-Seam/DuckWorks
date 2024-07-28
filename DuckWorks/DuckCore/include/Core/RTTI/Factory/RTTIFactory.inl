@@ -29,7 +29,7 @@ template<typename taType>
 void RTTIFactory::RegisterClass() 
 {
 	const RTTI& rtti = taType::sGetRTTI();
-	mClassNameToRTTI[rtti.GetClassName()] = &rtti;
+	this->RegisterRTTI(rtti);
 }
 
 template<typename taType>
