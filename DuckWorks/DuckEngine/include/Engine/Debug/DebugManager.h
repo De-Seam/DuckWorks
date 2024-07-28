@@ -1,6 +1,7 @@
 #pragma once
 #include <Engine/Manager/Manager.h>
 
+class DebugWindow;
 struct MsgAnyWindowEvent;
 
 class DebugManager : public Manager
@@ -16,4 +17,5 @@ protected:
 	void OnAnyWindowEvent(const MsgAnyWindowEvent& inMsg);
 
 private:
+	Array<Ref<DebugWindow>> mDebugWindows;
 };

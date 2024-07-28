@@ -43,12 +43,13 @@ void DebugManager::Update(float inDeltaTime)
 	ImGui::SFML::Update(render_window, delta_clock.restart());
 
 	THREADLOCAL static Array<String> sDebugWindowNames;
-	sDebugWindowNames.clear();
-	gEngineModule->mRTTIFactory.GetSubClassNames<DebugWindow>(sDebugWindowNames);
+	if (sDebugWindowNames.empty())
+		gEngineModule->mRTTIFactory.GetSubClassNames<DebugWindow>(sDebugWindowNames);
+
 	for (const String& window_name : sDebugWindowNames)
 	{
-	}
 
+	}
 
 	ImGui::ShowDemoWindow();
 	
