@@ -54,6 +54,8 @@ void DebugManager::Update(float  inDeltaTime)
 	THREADLOCAL static sf::Clock delta_clock;
 	ImGui::SFML::Update(render_window, delta_clock.restart());
 
+	ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
+
 	THREADLOCAL static Array<String> sDebugWindowNames;
 	if (sDebugWindowNames.empty())
 	{
@@ -63,24 +65,28 @@ void DebugManager::Update(float  inDeltaTime)
 			mDebugWindows.emplace_back(gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(name));
 	}
 
-	if (ImGui::BeginMenu("Windows##WindowsMenu"))
+	if (ImGui::BeginMainMenuBar())
 	{
-		for (uint64 i = 0; i < mDebugWindows.size(); i++)
+		if (ImGui::BeginMenu("Windows##WindowsMenu"))
 		{
-			String menu_item_name = sDebugWindowNames[i];
-			// 11 = size of "DebugWindow"
-			menu_item_name.Replace(0, 11, "");
-			menu_item_name += "##MenuItem";
-			bool was_open = mDebugWindows[i]->IsOpen();
-			bool is_open = was_open;
-			ImGui::MenuItem(*menu_item_name, nullptr, &is_open);
-			if (!is_open)
-				mDebugWindows[i]->SetOpen(false);
-			else if (!was_open)
-				mDebugWindows[i]->SetOpen(true);
-		}
+			for (uint64 i = 0; i < mDebugWindows.size(); i++)
+			{
+				String menu_item_name = sDebugWindowNames[i];
+				// 11 = size of "DebugWindow"
+				menu_item_name.Replace(0, 11, "");
+				menu_item_name += "##MenuItem";
+				bool was_open = mDebugWindows[i]->IsOpen();
+				bool is_open = was_open;
+				ImGui::MenuItem(*menu_item_name, nullptr, &is_open);
+				if (!is_open)
+					mDebugWindows[i]->SetOpen(false);
+				else if (!was_open)
+					mDebugWindows[i]->SetOpen(true);
+			}
 
-		ImGui::EndMenu();
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
 	}
 
 	for (DebugWindow* window : mDebugWindows)
