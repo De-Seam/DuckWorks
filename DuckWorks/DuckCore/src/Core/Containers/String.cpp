@@ -114,6 +114,35 @@ bool String::Contains(const char* inCharacters) const
 	return false;
 }
 
+void String::Replace(int32 inStart, int32 inEnd, const char* inValue)
+{
+	if (strcmp(inValue, ""))
+	{
+		// Remove the characters
+		uint32 new_length = mLength - (inEnd - inStart);
+		char* new_characters = new char[new_length];
+		memcpy(new_characters, mCharacters, inStart);
+		memcpy(new_characters + inStart, mCharacters + inEnd, mLength - inEnd);
+		new_characters[new_length] = '\0';
+
+		Clear();
+		SetCharacters(new_characters, new_length);
+	}
+	else
+	{
+		// Replace the characters
+		uint32 new_length = mLength - (inEnd - inStart) + static_cast<uint32>(strlen(inValue));
+		char* new_characters = new char[new_length];
+		memcpy(new_characters, mCharacters, inStart);
+		memcpy(new_characters + inStart, inValue, strlen(inValue));
+		memcpy(new_characters + inStart + strlen(inValue), mCharacters + inEnd, mLength - inEnd);
+		new_characters[new_length] = '\0';
+
+		Clear();
+		SetCharacters(new_characters, new_length);
+	}
+}
+
 void String::SetCharacters(const char* inCharacters, uint32 inLength)
 {
 	gAssert(mCharacters == nullptr);

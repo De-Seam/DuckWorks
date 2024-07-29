@@ -35,6 +35,7 @@ public:
 	uint64 GetHash() const { return mHash; }
 
 	bool Contains(const char* inCharacters) const;
+	void Replace(int32 inStart, int32 inEnd, const char* inValue);
 
 private:
 	void SetCharacters(const char* inCharacters, uint32 inLength);

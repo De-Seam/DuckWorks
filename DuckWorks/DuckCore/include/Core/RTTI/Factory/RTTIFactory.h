@@ -7,6 +7,7 @@
 class RTTIFactory
 {
 public:
+	RTTIClass* NewInstance(const String& inClassName);
 	template<typename taType>
 	taType* NewInstance();
 	template<typename taType>

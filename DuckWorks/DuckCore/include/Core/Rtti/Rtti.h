@@ -177,7 +177,8 @@ public: \
 			return true; \
 		return Base::IsA(inRTTI); \
 	} \
-\
+
+#define RTTI_CLASS_DECLARATION_BASE2(inClassName, inBaseClassName) \
 private: \
 	inline static RTTI sRTTI = RTTI( \
 		#inClassName, \
@@ -189,10 +190,12 @@ private: \
 RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) \
 public: \
 	static inClassName* sNewInstance() { gAssert(false); return nullptr; } \
+RTTI_CLASS_DECLARATION_BASE2(inClassName, inBaseClassName) \
 private: \
 
 #define RTTI_CLASS(inClassName, inBaseClassName) \
 RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) \
 public: \
 	static inClassName* sNewInstance() { return new inClassName; } \
+RTTI_CLASS_DECLARATION_BASE2(inClassName, inBaseClassName) \
 private: \

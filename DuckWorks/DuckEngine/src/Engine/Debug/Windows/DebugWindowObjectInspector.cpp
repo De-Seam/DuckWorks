@@ -9,4 +9,5 @@ void DebugWindowObjectInspector::Update(float inDeltaTime)
 	DebugWindow::Update(inDeltaTime);
 
 	ImGui::Begin("Object Inspector", &mIsOpen);
+	ImGui::End();
 }

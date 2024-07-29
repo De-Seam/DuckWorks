@@ -20,11 +20,23 @@ DebugManager::DebugManager()
 
 void DebugManager::Init()
 {
+	IMGUI_CHECKVERSION();
 	if (!ImGui::SFML::Init(gEngine->GetRenderer().GetRenderWindow())) 
 	{
 		gAssert(false);
 		return;
 	}
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport / Platform Windows
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w = 0.4f;
+	ImGui::GetStyle().IndentSpacing = 14.f;
 	gEngine->GetManager<WindowEventManager>().RegisterMessageListener(this, &DebugManager::OnAnyWindowEvent);
 }
 
@@ -34,7 +46,7 @@ void DebugManager::Shutdown()
 	gEngine->GetManager<WindowEventManager>().UnregisterMessageListener(this, &DebugManager::OnAnyWindowEvent);
 }
 
-void DebugManager::Update(float inDeltaTime)
+void DebugManager::Update(float  inDeltaTime)
 {
 	PROFILE_SCOPE(DebugManager::Update)
 
@@ -44,12 +56,35 @@ void DebugManager::Update(float inDeltaTime)
 
 	THREADLOCAL static Array<String> sDebugWindowNames;
 	if (sDebugWindowNames.empty())
-		gEngineModule->mRTTIFactory.GetSubClassNames<DebugWindow>(sDebugWindowNames);
-
-	for (const String& window_name : sDebugWindowNames)
 	{
-
+		gEngineModule->mRTTIFactory.GetSubClassNames<DebugWindow>(sDebugWindowNames);
+		mDebugWindows.reserve(sDebugWindowNames.size());
+		for (String& name : sDebugWindowNames)
+			mDebugWindows.push_back(gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(name));
 	}
+
+	if (ImGui::BeginMenu("Windows##WindowsMenu"))
+	{
+		for (uint64 i = 0; i < mDebugWindows.size(); i++)
+		{
+			String menu_item_name = sDebugWindowNames[i];
+			// 11 = size of "DebugWindow"
+			menu_item_name.Replace(0, 11, "");
+			menu_item_name += "##MenuItem";
+			bool was_open = mDebugWindows[i]->IsOpen();
+			bool is_open = was_open;
+			ImGui::MenuItem(*menu_item_name, nullptr, &is_open);
+			if (!is_open)
+				mDebugWindows[i]->SetOpen(true);
+			else if (!was_open)
+				mDebugWindows[i]->SetOpen(false);
+		}
+
+		ImGui::EndMenu();
+	}
+
+	for (DebugWindow* window : mDebugWindows)
+		window->Update(inDeltaTime);
 
 	ImGui::ShowDemoWindow();
 	
