@@ -75,13 +75,9 @@ void DebugManager::Update(float  inDeltaTime)
 				// 11 = size of "DebugWindow"
 				menu_item_name.Replace(0, 11, "");
 				menu_item_name += "##MenuItem";
-				bool was_open = mDebugWindows[i]->IsOpen();
-				bool is_open = was_open;
+				bool is_open = mDebugWindows[i]->IsOpen();
 				ImGui::MenuItem(*menu_item_name, nullptr, &is_open);
-				if (!is_open)
-					mDebugWindows[i]->SetOpen(false);
-				else if (!was_open)
-					mDebugWindows[i]->SetOpen(true);
+				mDebugWindows[i]->SetOpen(is_open);
 			}
 
 			ImGui::EndMenu();
