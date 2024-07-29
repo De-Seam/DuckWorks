@@ -60,7 +60,7 @@ void DebugManager::Update(float  inDeltaTime)
 		gEngineModule->mRTTIFactory.GetSubClassNames<DebugWindow>(sDebugWindowNames);
 		mDebugWindows.reserve(sDebugWindowNames.size());
 		for (String& name : sDebugWindowNames)
-			mDebugWindows.push_back(gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(name));
+			mDebugWindows.emplace_back(gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(name));
 	}
 
 	if (ImGui::BeginMenu("Windows##WindowsMenu"))
@@ -75,16 +75,19 @@ void DebugManager::Update(float  inDeltaTime)
 			bool is_open = was_open;
 			ImGui::MenuItem(*menu_item_name, nullptr, &is_open);
 			if (!is_open)
-				mDebugWindows[i]->SetOpen(true);
-			else if (!was_open)
 				mDebugWindows[i]->SetOpen(false);
+			else if (!was_open)
+				mDebugWindows[i]->SetOpen(true);
 		}
 
 		ImGui::EndMenu();
 	}
 
 	for (DebugWindow* window : mDebugWindows)
-		window->Update(inDeltaTime);
+	{
+		if (window->IsOpen())
+			window->Update(inDeltaTime);
+	}
 
 	ImGui::ShowDemoWindow();
 	
