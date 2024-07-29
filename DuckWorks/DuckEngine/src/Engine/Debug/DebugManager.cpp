@@ -20,6 +20,7 @@ DebugManager::DebugManager()
 
 void DebugManager::Init()
 {
+	PROFILE_SCOPE(DebugManager::Init)
 	IMGUI_CHECKVERSION();
 	if (!ImGui::SFML::Init(gEngine->GetRenderer().GetRenderWindow())) 
 	{
@@ -42,6 +43,7 @@ void DebugManager::Init()
 
 void DebugManager::Shutdown()
 {
+	PROFILE_SCOPE(DebugManager::Shutdown)
 	ImGui::SFML::Shutdown();
 	gEngine->GetManager<WindowEventManager>().UnregisterMessageListener(this, &DebugManager::OnAnyWindowEvent);
 }
@@ -102,6 +104,7 @@ void DebugManager::Update(float  inDeltaTime)
 
 void DebugManager::OnAnyWindowEvent(const MsgAnyWindowEvent& inMsg) 
 {
+	PROFILE_SCOPE(DebugManager::OnAnyWindowEvent)
 	sf::RenderWindow& render_window = gEngine->GetRenderer().GetRenderWindow();
 	ImGui::SFML::ProcessEvent(render_window, inMsg.mEvent);
 }
