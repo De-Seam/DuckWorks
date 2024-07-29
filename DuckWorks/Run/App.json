@@ -1,0 +1,41 @@
+{
+    "ClassName": "App",
+    "mEngine": {
+        "ClassName": "Engine",
+        "mGUID": "0000-0000-0000-0000",
+        "mManagers": [
+            {
+                "ClassName": "WindowEventManager",
+                "mGUID": "0000-0000-0000-0000"
+            },
+            {
+                "ClassName": "ThreadManager",
+                "mGUID": "0000-0000-0000-0000"
+            },
+            {
+                "ClassName": "DebugManager",
+                "mDebugWindows": [
+                    {
+                        "ClassName": "DebugWindowObjectInspector",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mIsOpen": true
+                    }
+                ],
+                "mGUID": "0000-0000-0000-0000"
+            }
+        ],
+        "mRenderer": {
+            "ClassName": "Renderer",
+            "mGUID": "0000-0000-0000-0000",
+            "mRenderWindow_Position": [
+                640,
+                360
+            ],
+            "mRenderWindow_Size": [
+                1280,
+                720
+            ]
+        }
+    },
+    "mGUID": "0000-0000-0000-0000"
+}

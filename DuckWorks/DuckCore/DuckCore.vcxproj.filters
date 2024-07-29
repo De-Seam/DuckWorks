@@ -149,6 +149,9 @@
     <ClCompile Include="src\Core\Utilities\GUID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Math\Vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Core\RTTI\Factory\RTTIFactory.inl">

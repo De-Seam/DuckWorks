@@ -42,7 +42,10 @@ class Renderer : public RTTIClass
 
 public:
 	Renderer();
-	virtual ~Renderer();
+	virtual ~Renderer() override;
+
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
 
 	virtual void Update(float inDeltaTime);
 

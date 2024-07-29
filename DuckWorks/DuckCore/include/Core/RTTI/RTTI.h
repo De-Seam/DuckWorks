@@ -59,8 +59,8 @@ public:
 	template<typename taType>
 	taType* As();
 
-	Json Serialize() const;
-	void Deserialize(const Json& inJson);
+	virtual Json Serialize() const;
+	virtual void Deserialize(const Json& inJson);
 
 	void BroadcastMessage(MsgBase& ioMsg);
 	template<typename taType>

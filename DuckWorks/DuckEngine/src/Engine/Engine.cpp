@@ -21,6 +21,36 @@ Engine::~Engine()
 	gEngine = nullptr;
 }
 
+Json Engine::Serialize() const
+{
+	Json json = RTTIClass::Serialize();
+	JSON_SAVE(json, mRenderer);
+
+	for (Manager* manager : mManagers)
+	{
+		if (manager != nullptr)
+			json["mManagers"].push_back(manager->Serialize());
+	}
+
+	return json;
+}
+
+void Engine::Deserialize(const Json& inJson)
+{
+	RTTIClass::Deserialize(inJson);
+	mRenderer.Deserialize(inJson["mRenderer"]);
+
+	const Json& json_managers = inJson["mManagers"];
+	for (int32 i = 0; i < static_cast<int32>(json_managers.size()) && i < static_cast<int32>(mManagers.size()); i++)
+	{
+		if (mManagers[i] != nullptr)
+			mManagers[i]->Deserialize(json_managers[i]);
+	
+	}
+
+	mJson = inJson;
+}
+
 void Engine::Init()
 {
 	PROFILE_SCOPE(Engine::Init)
@@ -69,6 +99,19 @@ void Engine::RegisterManager(Manager* inManager)
 	mManagers[type_id] = inManager;
 	if (inManager->GetManagerSettings().mWantsUpdate)
 		mManagersToUpdate.push_back(inManager);
+	
+	int32 index = -1;
+	for (int32 i = 0; i < mJson["mManagers"].size(); i++)
+	{
+		String class_name = mJson["mManagers"][i]["ClassName"];
+		if (class_name == inManager->GetRTTI().GetClassName())
+		{
+			index = i;
+			break;
+		}
+	}
+	if (index != -1)
+		inManager->Deserialize(mJson["mManagers"][index]);
 }
 
 void Engine::OnWindowClosed(const MsgWindowClosed&) 

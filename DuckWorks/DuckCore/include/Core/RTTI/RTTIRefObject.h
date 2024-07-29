@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/RTTI/RTTI.h>
 #include <Core/Utilities/Assert.h>
+#include <Core/CoreModule.h>
 
 class RTTIRefObject : public RTTIClass
 {
@@ -125,6 +126,9 @@ public:
 	operator taType*() const { return mPtr; }
 
 	bool operator==(const Ref<taType>& inOther) const { return mPtr == inOther.mPtr; }
+	bool operator==(const taType* inOther) const { return mPtr == inOther; }
+	bool operator!=(const Ref<taType>& inOther) const { return mPtr != inOther.mPtr; }
+	bool operator!=(const taType* inOther) const { return mPtr != inOther; }
 
 	template<typename taCastType>
 	taCastType* Cast() const
@@ -168,7 +172,10 @@ template<typename T>
 typename std::enable_if<has_deserialize<T, void(const Json&)>::value>::type
 from_json(const Json& j, Ref<T>& obj) 
 {
-    obj->Deserialize(j);
+	if (obj == nullptr)
+		obj = gCoreModule->mRTTIFactory.NewInstance<T>(j);
+	else
+		obj->Deserialize(j);
 }
 
 template<typename taType>

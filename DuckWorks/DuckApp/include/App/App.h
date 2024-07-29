@@ -13,6 +13,9 @@ public:
 	App();
 	virtual ~App() override;
 
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
+
 	void Run(); ///< Run the app
 
 	void RequestShutdown();

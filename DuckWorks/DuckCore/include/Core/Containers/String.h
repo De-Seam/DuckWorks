@@ -26,8 +26,6 @@ public:
 	String& operator=(const String& inOther);
 	bool operator==(const String& inOther) const;
 	bool operator==(const char* inCharacters) const;
-	bool operator!=(const String& inOther) const { return !(*this == inOther); }
-	bool operator!=(const char* inCharacters) const { return !(*this == inCharacters); }
 
 	String operator+(const String& inOther) const;
 	String& operator+=(const String& inOther);

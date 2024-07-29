@@ -21,6 +21,9 @@ public:
 	Engine();
 	virtual ~Engine() override;
 
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
+
 	void Init();
 	void Shutdown();
 	void Update(float inDeltaTime);
@@ -50,6 +53,8 @@ private:
 	Renderer mRenderer;
 
 	bool mShutdownRequested = false;
+
+	Json mJson;
 };
 
 // Only the main thread of the application has access to the engine

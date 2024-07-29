@@ -38,6 +38,26 @@ Renderer::~Renderer()
 	mRenderWindow->close();
 }
 
+Json Renderer::Serialize() const
+{
+	Json json = RTTIClass::Serialize();
+
+	json["mRenderWindow_Position"] = IVec2(mRenderWindow->getPosition());
+	json["mRenderWindow_Size"] = IVec2(mRenderWindow->getSize());
+
+	return json;
+}
+
+void Renderer::Deserialize(const Json& inJson)
+{
+	RTTIClass::Deserialize(inJson);
+	
+	IVec2 position = inJson["mRenderWindow_Position"];
+	mRenderWindow->setPosition({ position.mX, position.mY });
+	IVec2 size = inJson["mRenderWindow_Size"];
+	mRenderWindow->setSize({ static_cast<uint32>(size.mX), static_cast<uint32>(size.mY) });
+}
+
 void Renderer::Update(float inDeltaTime)
 {
 	PROFILE_SCOPE(Renderer::Update)

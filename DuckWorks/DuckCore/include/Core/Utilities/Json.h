@@ -53,3 +53,6 @@ private:
 public:
     static constexpr bool value = type::value;
 };
+
+#define JSON_SAVE(ioJson, inValue) (ioJson)[#inValue] = inValue
+#define JSON_LOAD(inJson, outValue) if (inJson.contains(#outValue)) outValue = (inJson)[#outValue]

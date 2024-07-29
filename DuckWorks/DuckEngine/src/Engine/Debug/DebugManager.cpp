@@ -18,6 +18,19 @@ DebugManager::DebugManager()
 	mManagerSettings.mWantsUpdate = true;
 }
 
+Json DebugManager::Serialize() const
+{
+	Json json = Manager::Serialize();
+	JSON_SAVE(json, mDebugWindows);
+	return json;
+}
+
+void DebugManager::Deserialize(const Json& inJson)
+{
+	Manager::Deserialize(inJson);
+	JSON_LOAD(inJson, mDebugWindows);
+}
+
 void DebugManager::Init()
 {
 	PROFILE_SCOPE(DebugManager::Init)
@@ -62,9 +75,15 @@ void DebugManager::Update(float  inDeltaTime)
 	if (sDebugWindowNames.empty())
 	{
 		gEngineModule->mRTTIFactory.GetSubClassNames<DebugWindow>(sDebugWindowNames);
-		mDebugWindows.reserve(sDebugWindowNames.size());
-		for (String& name : sDebugWindowNames)
-			mDebugWindows.emplace_back(gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(name));
+		mDebugWindows.resize(sDebugWindowNames.size());
+		for (int32 i = 0; i < static_cast<int32>(mDebugWindows.size()); i++)
+		{
+			if (mDebugWindows[i] == nullptr)
+			{
+				mDebugWindows[i] = gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(sDebugWindowNames[i]);
+				gAssert(mDebugWindows[i]->GetRTTI().GetClassName() == sDebugWindowNames[i]);
+			}
+		}
 	}
 
 	if (ImGui::BeginMainMenuBar())

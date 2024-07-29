@@ -8,6 +8,9 @@
 #include <App/AppModule.h>
 
 // External includes
+#include <fstream>
+
+// Std includes
 #include <External/SFML/System/Clock.hpp>
 
 App::App()
@@ -20,11 +23,44 @@ App::~App()
 	gAssert(&mEngine == gEngine);
 }
 
+Json App::Serialize() const
+{
+	Json json = RTTIClass::Serialize();
+	JSON_SAVE(json, mEngine);
+	return json;
+}
+
+void App::Deserialize(const Json& inJson)
+{
+	RTTIClass::Deserialize(inJson);
+	mEngine.Deserialize(inJson["mEngine"]);
+}
+
 void App::Run()
 {
+	{
+		std::ifstream file("App.json");
+		if (file.is_open())
+		{
+			Json json = Json::parse(file);
+			Deserialize(json);
+		}
+	}
+
 	gEngine->Init();
+
 	MainLoop();
+
 	gEngine->Shutdown();
+
+	{
+		std::ofstream file("App.json");
+		if (file.is_open())
+		{
+			Json json = Serialize();
+			file << json.dump(4);
+		}
+	}
 }
 
 void App::RequestShutdown()

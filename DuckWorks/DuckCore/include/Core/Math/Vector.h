@@ -6,6 +6,8 @@
 #include <cassert>
 #include <cmath>
 
+#include <External/SFML/System/Vector2.hpp>
+
 #pragma warning (push)
 #pragma warning (disable : 4201) //to avoid nameless struct / union warning.
 
@@ -24,6 +26,12 @@ struct IVec2
 
 	IVec2(const IVec2& inOther)
 		: IVec2(inOther.mX, inOther.mY) {}
+
+	IVec2(const sf::Vector2i inVector)
+		: IVec2(inVector.x, inVector.y) {}
+
+	IVec2(const sf::Vector2u inVector)
+		: IVec2(static_cast<int>(inVector.x), static_cast<int>(inVector.y)) {}
 
 	IVec2& operator=(const IVec2& inOther)
 	{
@@ -53,6 +61,9 @@ struct IVec2
 	const IVec2& operator /=(const int32 inDivider) { return *this = *this / inDivider; }
 };
 
+void to_json(Json& outJson, const IVec2& inVariable);
+void from_json(const Json& inJson, IVec2& outVariable);
+
 struct Vec2
 {
 	float mX, mY;
@@ -68,6 +79,9 @@ struct Vec2
 
 	Vec2(const Vec2& i)
 		: Vec2(i.mX, i.mY) {}
+
+	Vec2(const sf::Vector2f i)
+		: Vec2(i.x, i.y) {}
 
 	Vec2& operator=(const Vec2& inOther)
 	{
@@ -148,6 +162,9 @@ struct Vec2
 		return {mX / l, mY / l};
 	}
 };
+
+void to_json(Json& outJson, const Vec2& inVariable);
+void from_json(const Json& inJson, Vec2& outVariable);
 
 struct Vec3
 {
