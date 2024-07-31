@@ -6,6 +6,7 @@
 
 void Entity::OnAddedToWorld(World* inWorld) 
 {
+	gAssert(mWorld == nullptr);
 	mWorld = inWorld;
 }
 
