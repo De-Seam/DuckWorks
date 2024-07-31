@@ -74,10 +74,10 @@ String String::operator+(const String& inOther) const
 {
 	String new_string;
 	new_string.mLength = mLength + inOther.mLength;
-	new_string.mCharacters = new char[new_string.mLength];
+	new_string.mCharacters = new char[new_string.mLength + 1];
 	memcpy(new_string.mCharacters, mCharacters, mLength);
 	memcpy(new_string.mCharacters + mLength, inOther.mCharacters, inOther.mLength);
-	new_string.mCharacters[new_string.mLength];
+	new_string.mCharacters[new_string.mLength] = '\0';
 
 	new_string.mHash = gHash(new_string.mCharacters, new_string.mLength);
 

@@ -121,6 +121,198 @@ void DebugManager::Update(float  inDeltaTime)
 	ImGui::SFML::Render(render_window);
 }
 
+bool DebugManager::sDebugDrawJson(Json& ioJson, const String& inLabel) 
+{
+	PROFILE_SCOPE(gDebugDrawJson)
+	bool changed = false;
+
+	for (const auto& [key, value] : ioJson.items())
+	{
+		if (sHandleKeyValuePair(ioJson, inLabel, key, value, false))
+			changed = true;
+	}
+
+	return changed;
+}
+
+bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, const String& inKey, Json& ioValue, bool inSameLine, bool inShowKey) 
+{
+	PROFILE_SCOPE(gHandleKeyValuePair)
+
+	static HashMap<String, bool> sIgnoreKeys =
+	{
+		{"ClassName", true}
+	};
+
+	if (sIgnoreKeys.contains(inKey))
+		return false;
+
+	String label = String("##") + inLabel + inKey;
+	nlohmann::detail::value_t value_type = ioValue.type();
+
+	if (inKey == "mGUID")
+	{
+		String value = ioValue.get<String>();
+		ImGui::TextColored(ImVec4(0.3f, 0.5f, 1.f, 1.f), *value);
+		return false;
+	}
+
+	switch (value_type)
+	{
+	case nlohmann::detail::value_t::null:
+		ImGui::Text("%s: null", *inKey);
+		break;
+	case nlohmann::detail::value_t::object:
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{0.f, 3.f});
+		if (ImGui::TreeNodeEx(*String(inKey + label + "##TreeNode"), ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::PopStyleVar(2);
+
+			bool changed = false;
+			for (const auto& [key, value] : ioValue.items())
+			{
+				if (sIgnoreKeys.contains(key))
+				{
+					//std::string str = value.get<String>();
+					ImGui::Text("%s", *value.get<String>());
+					continue;
+				}
+
+				if (sHandleKeyValuePair(ioJson, label, key, value, false))
+					changed = true;
+			}
+			ImGui::TreePop();
+			return changed;
+		}
+		else
+			ImGui::PopStyleVar(2);
+		return false;
+	}
+	break;
+	case nlohmann::detail::value_t::array:
+	{
+		if (inShowKey)
+		{
+			ImGui::Text(*inKey);
+			if (inSameLine)
+				ImGui::SameLine();
+		}
+
+		bool changed = false;
+		for (const auto& [key, value] : ioValue.items())
+		{
+			if (sHandleKeyValuePair(ioJson, label, key, value, true, false))
+				changed = true;
+		}
+		return changed;
+	}
+	break;
+	case nlohmann::detail::value_t::string:
+	{
+		if (inShowKey)
+		{
+			ImGui::Text(*inKey);
+			if (inSameLine)
+				ImGui::SameLine();
+		}
+
+		String value = ioValue.get<String>();
+		char buffer[STRING_BUFFER_SIZE] = {'\0'};
+		//std::memset(buffer, 0, STRING_BUFFER_SIZE); ///< Initialize buffer to 0
+		std::memcpy(buffer, *value, value.Length()); ///< Copy string to buffer
+		ImGui::SetNextItemWidth(-FLT_MIN); // Make the next item span the whole width
+		if (ImGui::InputText(*label, buffer, STRING_BUFFER_SIZE, ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			String new_value = std::string(buffer);
+			if (value != new_value)
+			{
+				ioValue = new_value;
+				return true;
+			}
+		}
+	}
+	break;
+	case nlohmann::detail::value_t::boolean:
+	{
+		if (inShowKey)
+		{
+			ImGui::Text(*inKey);
+			if (inSameLine)
+				ImGui::SameLine();
+		}
+
+		bool value_bool = ioValue.get<bool>();
+		if (ImGui::Checkbox(*label, &value_bool))
+		{
+			ioValue = value_bool;
+			return true;
+		}
+	}
+	break;
+	case nlohmann::detail::value_t::number_integer:
+	{
+		if (inShowKey)
+		{
+			ImGui::Text(*inKey);
+			if (inSameLine)
+				ImGui::SameLine();
+		}
+
+		int value_int = ioValue.get<int>();
+		if (ImGui::DragInt(*label, &value_int))
+		{
+			ioValue = value_int;
+			return true;
+		}
+	}
+	break;
+	case nlohmann::detail::value_t::number_unsigned:
+	{
+		if (inShowKey)
+		{
+			ImGui::Text(*inKey);
+			if (inSameLine)
+				ImGui::SameLine();
+		}
+
+		int32 value_int = ioValue.get<uint32>();
+		if (ImGui::DragInt(*label, &value_int))
+		{
+			ioValue = static_cast<uint32>(value_int);
+			return true;
+		}
+	}
+	break;
+	case nlohmann::detail::value_t::number_float:
+	{
+		if (inShowKey)
+		{
+			ImGui::Text(*inKey);
+			if (inSameLine)
+				ImGui::SameLine();
+		}
+
+		float value_float = ioValue.get<float>();
+		if (ImGui::DragFloat(*label, &value_float))
+		{
+			ioValue = value_float;
+			return true;
+		}
+	}
+	break;
+	case nlohmann::detail::value_t::binary:
+		ImGui::Text("%s: binary", *inKey);
+		break;
+	case nlohmann::detail::value_t::discarded:
+		ImGui::Text("%s: discarded", *inKey);
+		break;
+	}
+
+	return false;
+}
+
 void DebugManager::OnAnyWindowEvent(const MsgAnyWindowEvent& inMsg) 
 {
 	PROFILE_SCOPE(DebugManager::OnAnyWindowEvent)

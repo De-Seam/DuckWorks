@@ -9,10 +9,6 @@
                 "mGUID": "0000-0000-0000-0000"
             },
             {
-                "ClassName": "ThreadManager",
-                "mGUID": "0000-0000-0000-0000"
-            },
-            {
                 "ClassName": "DebugManager",
                 "mDebugWindows": [
                     {
@@ -21,6 +17,10 @@
                         "mIsOpen": true
                     }
                 ],
+                "mGUID": "0000-0000-0000-0000"
+            },
+            {
+                "ClassName": "ThreadManager",
                 "mGUID": "0000-0000-0000-0000"
             }
         ],
