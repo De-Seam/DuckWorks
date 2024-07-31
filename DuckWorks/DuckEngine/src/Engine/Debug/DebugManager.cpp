@@ -164,21 +164,13 @@ bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, cons
 		break;
 	case nlohmann::detail::value_t::object:
 	{
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{0.f, 3.f});
 		if (ImGui::TreeNodeEx(*String(inKey + label + "##TreeNode"), ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			ImGui::PopStyleVar(2);
-
 			bool changed = false;
 			for (const auto& [key, value] : ioValue.items())
 			{
 				if (sIgnoreKeys.contains(key))
-				{
-					//std::string str = value.get<String>();
-					ImGui::Text("%s", *value.get<String>());
 					continue;
-				}
 
 				if (sHandleKeyValuePair(ioJson, label, key, value, false))
 					changed = true;
@@ -186,8 +178,6 @@ bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, cons
 			ImGui::TreePop();
 			return changed;
 		}
-		else
-			ImGui::PopStyleVar(2);
 		return false;
 	}
 	break;
@@ -203,7 +193,9 @@ bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, cons
 		bool changed = false;
 		for (const auto& [key, value] : ioValue.items())
 		{
-			if (sHandleKeyValuePair(ioJson, label, key, value, true, false))
+			// If the array element is an object with a ClassName display the ClassName instead of the key (index)
+			const String& new_key = (value.type() == nlohmann::detail::value_t::object && value.contains("ClassName")) ? value["ClassName"].get<String>() : key;
+			if (sHandleKeyValuePair(ioJson, label, new_key, value, true, false))
 				changed = true;
 		}
 		return changed;
