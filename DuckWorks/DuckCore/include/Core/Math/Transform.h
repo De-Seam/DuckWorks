@@ -5,41 +5,51 @@
 struct Transform2D
 {
 	Vec2 mPosition;
-	Vec2 mHalfSize;
+	Vec2 mScale;
 	float mRotation;
 
 	Transform2D() :
 		mPosition(0.f),
-		mHalfSize(16.f),
-		mRotation(0.f) {}
+		mScale(1.0f),
+		mRotation(0.0f) {}
 
-	Transform2D(const Vec2& inPosition, const Vec2& inSize, float inRotation) :
+	Transform2D(const Vec2& inPosition, const Vec2& inScale, float inRotation) :
 		mPosition(inPosition),
-		mHalfSize(inSize),
+		mScale(inScale),
 		mRotation(inRotation) {}
 
 	Transform2D(const Transform2D& i) = default;
 	Transform2D& operator=(const Transform2D& inOther) = default;
 
-	Transform2D operator+(const Transform2D& inOther) const
+	Transform2D operator*(const Transform2D& inOther) const
 	{
 		return
 		{
 			mPosition + inOther.mPosition,
-			mHalfSize + inOther.mHalfSize,
+			mScale * inOther.mScale,
 			mRotation + inOther.mRotation
 		};
 	}
 
-	Transform2D operator-(const Transform2D& inOther) const
-	{
-		return
-		{
-			mPosition - inOther.mPosition,
-			mHalfSize - inOther.mHalfSize,
-			mRotation - inOther.mRotation
-		};
-	}
+	//Transform2D operator+(const Transform2D& inOther) const
+	//{
+	//	return
+	//	{
+	//		mPosition + inOther.mPosition,
+	//		mScale + inOther.mScale,
+	//		mRotation + inOther.mRotation
+	//	};
+	//}
+	//
+	//Transform2D operator-(const Transform2D& inOther) const
+	//{
+	//	return
+	//	{
+	//		mPosition - inOther.mPosition,
+	//		mScale - inOther.mScale,
+	//		mRotation - inOther.mRotation
+	//	};
+	//}
 };
 
 struct Transform3D
