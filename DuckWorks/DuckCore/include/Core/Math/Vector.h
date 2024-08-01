@@ -83,6 +83,8 @@ struct Vec2
 	Vec2(const sf::Vector2f i)
 		: Vec2(i.x, i.y) {}
 
+	operator sf::Vector2f() const { return { mX, mY }; }
+
 	Vec2& operator=(const Vec2& inOther)
 	{
 		mX = inOther.mX;

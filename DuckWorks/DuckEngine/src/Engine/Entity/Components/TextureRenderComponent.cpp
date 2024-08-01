@@ -1,31 +1,16 @@
 #include <Engine/Precomp.h>
 #include <Engine/Entity/Components/TextureRenderComponent.h>
 
-TextureRenderComponent::TextureRenderComponent() 
-{
-
-}
-
 void TextureRenderComponent::SetTexture(TextureResource* inTexture) 
 {
 	mTexture = inTexture;
-	
+	mSprite.setTexture(mTexture->GetTexture());
 }
 
-void TextureRenderComponent::SetShape(const sf::RectangleShape& inRectangleShape) 
+void TextureRenderComponent::SetTransform(const Transform2D& inTransform) 
 {
-	mShapeType = EShapeType::Rectangle;
-	mRectangleShape = inRectangleShape;
-}
-
-void TextureRenderComponent::SetShape(const sf::CircleShape& inCircleShape) 
-{
-	mShapeType = EShapeType::Circle;
-	mCircleShape = inCircleShape;
-}
-
-void TextureRenderComponent::SetShape(const sf::ConvexShape& inRectangleShape) 
-{
-	mShapeType = EShapeType::Convex;
-	mConvexShape = inRectangleShape;
+	Transform2D world_transform = CalculateWorldTransform(inTransform);
+	mSprite.setPosition(world_transform.mPosition);
+	mSprite.setScale(world_transform.mScale);
+	mSprite.setRotation(world_transform.mRotation);
 }

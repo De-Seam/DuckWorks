@@ -4,56 +4,28 @@
 #include <Engine/Resources/TextureResource.h>
 
 // External includes
-#include <External/SFML/Graphics/CircleShape.hpp>
-#include <External/SFML/Graphics/ConvexShape.hpp>
-#include <External/SFML/Graphics/RectangleShape.hpp>
+#include <External/SFML/Graphics/Sprite.hpp>
 
-enum class EShapeType : uint8
-{
-	Rectangle,
-	Circle, 
-	Convex,
-	None
-};
+namespace sf {
+class RenderWindow;
+}
 
 class TextureRenderComponent : public WorldComponent
 {
 	RTTI_CLASS(TextureRenderComponent, WorldComponent)
 
 public:
-	TextureRenderComponent();
-
 	void SetTexture(TextureResource* inTexture);
 	TextureResource* GetTexture() { return mTexture; }
 	const TextureResource* GetTexture() const { return mTexture; }
 
-	void SetShape(const sf::RectangleShape& inRectangleShape);
-	void SetShape(const sf::CircleShape& inCircleShape);
-	void SetShape(const sf::ConvexShape& inRectangleShape);
+	// Sets the transform of the sprite. Only to be used when needed, as it recalculates the transform
+	void SetTransform(const Transform2D& inTransform);
 
-	EShapeType GetShapeType() const { return mShapeType; }
-	sf::Shape* GetShape() { return &mRectangleShape; }
-	const sf::Shape* GetShape() const { return &mRectangleShape; }
-	sf::RectangleShape& GetRectangleShape() { gAssert(mShapeType == EShapeType::Rectangle); return mRectangleShape; }
-	sf::CircleShape& GetCircleShape() { gAssert(mShapeType == EShapeType::Circle); return mCircleShape; }
-	sf::ConvexShape& GetConvexShape() { gAssert(mShapeType == EShapeType::Convex); return mConvexShape; }
+	const sf::Sprite& GetSprite() const { return mSprite; }
 
 private:
-
 	Ref<TextureResource> mTexture = nullptr;
-	EShapeType mShapeType = EShapeType::None;
-	union
-	{
-		sf::RectangleShape mRectangleShape;
-		sf::CircleShape mCircleShape;
-		sf::ConvexShape mConvexShape;
-	};
+	sf::Sprite mSprite;
 };
 
-class RectangleRenderComponent : public TextureRenderComponent
-{
-	RTTI_CLASS(TextureRenderComponent, TextureRenderComponent)
-
-public:
-	sf::RectangleShape mRectangleShape;
-};

@@ -13,6 +13,7 @@ public:
 	virtual void Load(const String& inFile) override;
 	virtual void Unload() override;
 
+	const sf::Texture& GetTexture() const { return mTexture; }
 private:
 	sf::Texture mTexture;
 };
