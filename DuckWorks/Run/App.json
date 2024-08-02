@@ -5,6 +5,14 @@
         "mGUID": "0000-0000-0000-0000",
         "mManagers": [
             {
+                "ClassName": "ThreadManager",
+                "mGUID": "0000-0000-0000-0000"
+            },
+            {
+                "ClassName": "ResourceManager",
+                "mGUID": "0000-0000-0000-0000"
+            },
+            {
                 "ClassName": "WindowEventManager",
                 "mGUID": "0000-0000-0000-0000"
             },
@@ -17,10 +25,6 @@
                         "mIsOpen": true
                     }
                 ],
-                "mGUID": "0000-0000-0000-0000"
-            },
-            {
-                "ClassName": "ThreadManager",
                 "mGUID": "0000-0000-0000-0000"
             }
         ],

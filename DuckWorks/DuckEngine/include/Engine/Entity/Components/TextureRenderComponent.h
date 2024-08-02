@@ -4,7 +4,7 @@
 #include <Engine/Resources/TextureResource.h>
 
 // External includes
-#include <External/SFML/Graphics/Sprite.hpp>
+#include <External/SFML/Graphics/RectangleShape.hpp>
 
 namespace sf {
 class RenderWindow;
@@ -22,10 +22,11 @@ public:
 	// Sets the transform of the sprite. Only to be used when needed, as it recalculates the transform
 	void SetTransform(const Transform2D& inTransform);
 
-	const sf::Sprite& GetSprite() const { return mSprite; }
+	void SetSize(const Vec2& inSize);
+	const sf::RectangleShape& GetRectangle() const { return mRectangle; }
 
 private:
 	Ref<TextureResource> mTexture = nullptr;
-	sf::Sprite mSprite;
+	sf::RectangleShape mRectangle;
 };
 

@@ -5,6 +5,7 @@
 #include <Engine/Debug/DebugManager.h>
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/Renderer/WindowEvents/WindowEventManager.h>
+#include <Engine/Resources/ResourceManager.h>
 #include <Engine/Threads/ThreadManager.h>
 
 THREADLOCAL Engine* gEngine = nullptr;
@@ -32,6 +33,9 @@ Json Engine::Serialize() const
 			json["mManagers"].push_back(manager->Serialize());
 	}
 
+	if (mWorld != nullptr)
+		json["mWorld"] = mWorld->Serialize();
+
 	return json;
 }
 
@@ -45,8 +49,10 @@ void Engine::Deserialize(const Json& inJson)
 	{
 		if (mManagers[i] != nullptr)
 			mManagers[i]->Deserialize(json_managers[i]);
-	
 	}
+
+	if (mWorld != nullptr && inJson.contains("mWorld"))
+		mWorld->Deserialize(inJson["mWorld"]);
 
 	mJson = inJson;
 }
@@ -62,11 +68,15 @@ void Engine::Init()
 			manager->Init();
 
 	GetManager<WindowEventManager>().RegisterMessageListener(this, &Engine::OnWindowClosed);
+
+	mWorld = std::make_unique<World>();
 }
 
 void Engine::Shutdown()
 {
 	PROFILE_SCOPE(Engine::Shutdown)
+
+	mWorld = nullptr;
 
 	for (Manager* manager : mManagers)
 		if (manager != nullptr)
@@ -84,7 +94,10 @@ void Engine::Update(float inDeltaTime)
 	for (Manager* manager : mManagersToUpdate)
 		manager->Update(inDeltaTime);
 
+	mWorld->Update(inDeltaTime);
 	mRenderer.Update(inDeltaTime);
+
+	mWorld->Render();
 
 	mRenderer.EndFrame();
 }
@@ -125,4 +138,5 @@ void Engine::RegisterManagers()
 	RegisterManager(&mRenderer.GetWindowEventManager());
 	CreateManager<DebugManager>();
 	CreateManager<ThreadManager>();
+	CreateManager<ResourceManager>();
 }

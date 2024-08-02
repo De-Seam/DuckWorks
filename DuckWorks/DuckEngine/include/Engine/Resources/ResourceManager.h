@@ -7,6 +7,8 @@ class ResourceManager : public Manager
 {
 	RTTI_MANAGER(ResourceManager, Manager)
 public:
+	virtual void Shutdown() override;
+
 	template<typename taType>
 	Ref<taType> Get(String inFile);
 
@@ -19,14 +21,14 @@ Ref<taType> ResourceManager::Get(String inFile)
 {
 	PROFILE_SCOPE(ResourceManager::Get)
 
-	Resource* resource = mResources[inFile];
+	Ref<Resource>& resource = mResources[inFile];
 	if (resource != nullptr)
 	{
 		gAssert(resource->IsA(taType::sGetRTTI()) && "Resource was already loaded, but as a different type!");
-		return resource;
+		return static_cast<taType*>(resource.Get());
 	}
 
 	resource = new taType;
 	resource->Load(inFile);
-	return resource;
+	return static_cast<taType*>(resource.Get());
 }

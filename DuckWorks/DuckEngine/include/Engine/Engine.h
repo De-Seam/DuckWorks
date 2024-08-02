@@ -9,6 +9,8 @@
 
 // Engine includes
 #include <Engine/Renderer/Renderer.h>
+#include <Engine/World/World.h>
+
 
 struct MsgWindowClosed;
 class Renderer;
@@ -51,6 +53,8 @@ private:
 	Array<Manager*> mManagersToUpdate;
 
 	Renderer mRenderer;
+
+	UniquePtr<World> mWorld = nullptr;
 
 	bool mShutdownRequested = false;
 
