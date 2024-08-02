@@ -3,6 +3,12 @@
 
 // Engine includes
 #include <Engine/Entity/Entity.h>
+#include <Engine/Entity/Components/TransformComponent.h>
+
+World::World() 
+{
+	mRegistry.on_construct<TransformComponent>().connect<&World::OnTransformComponentCreated>(this);
+}
 
 void World::Update(float inDeltaTime) 
 {
@@ -50,4 +56,9 @@ void World::RemoveEntity(const Ref<Entity>& inEntity)
 	Array<Ref<Entity>>::iterator it = std::ranges::find(mEntities.begin(), mEntities.end(), inEntity);
 	gSwap(*it, mEntities.back());
 	mEntities.pop_back();
+}
+
+void World::OnTransformComponentCreated(entt::registry& inRegistry, entt::entity inEntityHandle) 
+{
+	inRegistry.emplace_or_replace<TransformUpdatedTag>(inEntityHandle);
 }

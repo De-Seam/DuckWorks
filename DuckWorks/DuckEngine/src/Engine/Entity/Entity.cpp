@@ -8,6 +8,7 @@ void Entity::OnAddedToWorld(World* inWorld)
 {
 	gAssert(mWorld == nullptr);
 	mWorld = inWorld;
+	mEntityHandle = GetRegistry().create();
 }
 
 void Entity::OnRemovedFromWorld(World* inWorld) 

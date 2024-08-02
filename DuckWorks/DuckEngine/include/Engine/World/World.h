@@ -13,6 +13,8 @@ class World : public RTTIClass
 	RTTI_CLASS(World, RTTIClass)
 
 public:
+	World();
+
 	void Update(float inDeltaTime);
 	void Render();
 
@@ -20,6 +22,9 @@ public:
 	void RemoveEntity(const Ref<Entity>& inEntity);
 
 	entt::registry& GetRegistry() { return mRegistry; }
+
+protected:
+	void OnTransformComponentCreated(entt::registry& inRegistry, entt::entity inEntityHandle);
 
 private:
 	bool mIsUpdatingEntities = false;
