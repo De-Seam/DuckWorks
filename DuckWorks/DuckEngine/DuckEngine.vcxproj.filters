@@ -122,6 +122,9 @@
     <ClCompile Include="src\Engine\Entity\Components\TextureRenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Entity\Components\TransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Engine\Engine.inl">

@@ -198,6 +198,7 @@
     <ClCompile Include="src\Engine\Engine.cpp" />
     <ClCompile Include="src\Engine\EngineModule.cpp" />
     <ClCompile Include="src\Engine\Entity\Components\TextureRenderComponent.cpp" />
+    <ClCompile Include="src\Engine\Entity\Components\TransformComponent.cpp" />
     <ClCompile Include="src\Engine\Entity\Entity.cpp" />
     <ClCompile Include="src\Engine\Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
