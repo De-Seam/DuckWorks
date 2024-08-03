@@ -39,9 +39,6 @@ void World::Render()
 {
 	PROFILE_SCOPE(World::Render)
 
-	//for (Entity* entity : mEntities)
-	//	entity->Render();
-
 	auto transform_updated_view = mRegistry.view<TransformComponent, TransformUpdatedTag, TextureRenderComponent>();
 	for (entt::entity entity_handle : transform_updated_view)
 	{
