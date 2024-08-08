@@ -5,13 +5,10 @@
 // External includes
 #include "External/SDL/SDL_video.h"
 
-struct BaseUserSettings : public RTTIBaseClass
+struct BaseUserSettings : public RTTIClass
 {
-	RTTI_CLASS(BaseUserSettings, RTTIBaseClass, StandardAllocator)
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	BaseUserSettings(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
-
+	RTTI_CLASS(BaseUserSettings, RTTIClass)
+public:
 	IVec2 mWindowSize = {1280, 720};
 	uint32 mWindowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 

@@ -3,22 +3,12 @@
 
 class Entity;
 
-class EntityComponent : public RefObject
+class EntityComponent : public RTTIRefObject
 {
-	RTTI_CLASS(EntityComponent, RefObject, ClassAllocator)
+	RTTI_CLASS(EntityComponent, RTTIRefObject)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		Entity* mEntity = nullptr;
-	};
-
-	EntityComponent(const ConstructParameters& inConstructParameters)
-		: Base(inConstructParameters), mEntity(inConstructParameters.mEntity)
-	{
-		gAssert(mEntity != nullptr, "Entity was not set!");
-	}
-
+	// TODO: Set Entity
 	virtual ~EntityComponent() override = default;
 
 	virtual void Init() {}

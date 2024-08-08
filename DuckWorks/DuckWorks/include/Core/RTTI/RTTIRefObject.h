@@ -1,39 +1,38 @@
 #pragma once
 #include "RTTI.h"
 
-class RefObject : public RTTIBaseClass
+class RTTIRefObject : public RTTIClass
 {
-	RTTI_CLASS(RefObject, RTTIBaseClass, StandardAllocator)
+	RTTI_CLASS(RTTIRefObject, RTTIClass)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	using Base::Base;
-
-	RefObject(const ConstructParameters& inConstructParameters) : Base(inConstructParameters)
+	RTTIRefObject()
 	{
 		mWeakRefCounter = new WeakRefCounter();
 	}
 
-	virtual ~RefObject() override
+	virtual ~RTTIRefObject() override
 	{
 		mWeakRefCounter->mIsAlive = false;
 		if (mWeakRefCounter->mRefCount <= 0)
 			delete mWeakRefCounter;
 	}
 
+	int32 GetRefCount() const { return mRefCount; }
+	int32 GetWeakRefCount() const { return mWeakRefCounter != nullptr ? static_cast<int32>(mWeakRefCounter->mRefCount) : 0; }
+
+private:
 	struct WeakRefCounter
 	{
 		bool mIsAlive = true;
 		Atomic<int32> mRefCount = 0;
 	};
-
-	int32 GetRefCount() const { return mRefCount; }
-
-private:
 	Atomic<int32> mRefCount = 0;
 
 	WeakRefCounter* mWeakRefCounter = nullptr;
+
+	// This is an invalid weak ref counter to be used when nullptr is passed. It always keeps 1 reference to itself to prevent it's destruction
+	inline static WeakRefCounter sInvalidWeakRefCounter = { false, 1 };
 
 	template<typename taRefClassType>
 	friend class Ref;
@@ -55,7 +54,7 @@ public:
 	{
 		if (inOther.mPtr != nullptr)
 		{
-			gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			gAssert(inOther.mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 			mPtr = inOther.mPtr;
 			mPtr->mRefCount++;
 		}
@@ -74,13 +73,13 @@ public:
 		{
 			mPtr->mRefCount--;
 			if (mPtr->mRefCount <= 0)
-				mPtr->Delete();
+				delete mPtr;
 		}
 
 		mPtr = inOther.mPtr;
 		if (mPtr != nullptr)
 		{
-			gAssert(mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			gAssert(mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 			mPtr->mRefCount++;
 		}
 		return *this;
@@ -91,7 +90,7 @@ public:
 	// Construct a ref from self
 	Ref(taType* inSelf)
 	{
-		static_assert(std::is_base_of_v<RefObject, taType>);
+		static_assert(std::is_base_of_v<RTTIRefObject, taType>);
 		mPtr = inSelf;
 		if (mPtr != nullptr)
 			mPtr->mRefCount++;
@@ -103,7 +102,7 @@ public:
 		static_assert(std::is_base_of_v<taParentClass, taType> || std::is_base_of_v<taType, taParentClass>);
 		if (inOther.mPtr != nullptr)
 		{
-			gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+			gAssert(inOther.mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 			mPtr = SCast<taType*>(inOther.mPtr);
 			mPtr->mRefCount++;
 		}
@@ -116,16 +115,18 @@ public:
 			mPtr->mRefCount--;
 
 			if (mPtr->mRefCount <= 0)
-				mPtr->Delete();
+				delete mPtr;
 		}
 	}
 
 	taType* Get() const { return mPtr; }
 	taType* operator->() const { return mPtr; }
-	taType* operator*() const { return mPtr; }
 	operator taType*() const { return mPtr; }
 
 	bool operator==(const Ref<taType>& inOther) const { return mPtr == inOther.mPtr; }
+	bool operator==(const taType* inOther) const { return mPtr == inOther; }
+	bool operator!=(const Ref<taType>& inOther) const { return mPtr != inOther.mPtr; }
+	bool operator!=(const taType* inOther) const { return mPtr != inOther; }
 
 	template<typename taCastType>
 	taCastType* Cast() const
@@ -144,8 +145,8 @@ private:
 	// Private so only WeakRef can use it
 	Ref(const WeakRef<taType>& inOther)
 	{
-		gAssert(inOther.IsAlive(), "Invalid Weak Ref passed!");
-		gAssert(inOther.mPtr->mRefCount > 0, "Ref object is already destroyed!");
+		gAssert(inOther.IsAlive() && "Invalid Weak Ref passed!");
+		gAssert(inOther.mPtr->mRefCount > 0 && "Ref object is already destroyed!");
 		mPtr = inOther.mPtr;
 		mPtr->mRefCount++;
 	}
@@ -157,8 +158,23 @@ private:
 	friend class WeakRef;
 };
 
-// This is an invalid weak ref counter to be used when nullptr is passed. It always keeps 1 reference to itself to prevent it's destruction
-extern RefObject::WeakRefCounter gInvalidWeakRefCounter;
+template<typename T>
+typename std::enable_if<has_serialize<T, Json()>::value>::type
+to_json(Json& j, const Ref<T>& obj) 
+{
+    j = obj->Serialize();
+}
+
+// Template function for from_json
+template<typename T>
+typename std::enable_if<has_deserialize<T, void(const Json&)>::value>::type
+from_json(const Json& j, Ref<T>& obj) 
+{
+	if (obj == nullptr)
+		obj = T::sNewInstance(j);
+	else
+		obj->Deserialize(j);
+}
 
 template<typename taType>
 class WeakRef
@@ -167,16 +183,8 @@ public:
 	WeakRef(taType* inPtr = nullptr)
 	{
 		mPtr = inPtr;
-		if (mPtr != nullptr)
-		{
-			mWeakRefCounter = mPtr->mWeakRefCounter;
-			mWeakRefCounter->mRefCount++;
-		}
-		else
-		{
-			mWeakRefCounter = &gInvalidWeakRefCounter;
-			mWeakRefCounter->mRefCount++;
-		}
+		mWeakRefCounter = mPtr != nullptr ? mPtr->mWeakRefCounter : &RTTIRefObject::sInvalidWeakRefCounter;
+		mWeakRefCounter->mRefCount++;
 	}
 
 	WeakRef(const Ref<taType>& inRef)
@@ -225,7 +233,7 @@ public:
 
 	Ref<taType> Get() const
 	{
-		gAssert(IsAlive(), "Can't make a reference if it isn't alive anymore! Check IsAlive() first");
+		gAssert(IsAlive() && "Can't make a reference if it isn't alive anymore! Check IsAlive() first");
 		return Ref<taType>(*this);
 	}
 
@@ -234,10 +242,8 @@ public:
 	bool operator==(const Ref<taType>& inOther) const { return mPtr == inOther.mPtr; }
 
 private:
-	static RefObject::WeakRefCounter sInvalidWeakRefCounter;
-
 	taType* mPtr = nullptr;
-	RefObject::WeakRefCounter* mWeakRefCounter = nullptr;
+	RTTIRefObject::WeakRefCounter* mWeakRefCounter = nullptr;
 
 	template<typename taRefClassType>
 	friend class Ref;

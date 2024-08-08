@@ -10,10 +10,6 @@
 // Std includes
 #include <fstream>
 
-RTTI_CLASS_DEFINITION(LuaResource, ClassAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(LuaResource)
-
 void LuaResource::LoadFromFile(const String& inFile)
 {
 	BaseResource::LoadFromFile(inFile);

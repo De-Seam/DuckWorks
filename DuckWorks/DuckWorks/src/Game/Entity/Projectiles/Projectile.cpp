@@ -6,8 +6,6 @@
 #include "Engine/Entity/Components/CollisionComponent.h"
 #include "Engine/Resources/ResourceManager.h"
 
-RTTI_CLASS_DEFINITION(Projectile, StandardAllocator)
-
 Json Projectile::Serialize()
 {
 	Json json = Base::Serialize();
@@ -24,9 +22,7 @@ void Projectile::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mVelocity);
 }
 
-Projectile::Projectile(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters),
-	mVelocity(inConstructParameters.mVelocity)
+Projectile::Projectile()
 {
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/Projectiles/Projectile.png");

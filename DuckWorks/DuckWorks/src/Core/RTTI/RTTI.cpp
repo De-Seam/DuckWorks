@@ -1,18 +1,16 @@
 #include "Precomp.h"
 #include "Core/RTTI/RTTI.h"
 
-UID RTTIBaseClass::sRTTIBaseClassRTTIUID;
-
-Json RTTIBaseClass::Serialize()
+Json RTTIClass::Serialize() const
 {
 	Json json;
-	json["ClassName"] = GetClassName();
+	json["ClassName"] = sGetRTTI().GetClassName();
 	JSON_SAVE(json, mGUID);
 	return json;
 }
 
-void RTTIBaseClass::Deserialize(const Json& inJson)
+void RTTIClass::Deserialize(const Json& inJson)
 {
-	gAssert(inJson["ClassName"] == GetClassName(), "Invalid class name!");
+	gAssert(inJson["ClassName"] == sGetRTTI().GetClassName(), "Invalid class name!");
 	JSON_LOAD(inJson, mGUID);
 }

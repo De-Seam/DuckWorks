@@ -19,7 +19,7 @@ struct SDLEventFunction
 
 class SDLEventManager : public Manager
 {
-	RTTI_CLASS(SDLEventManager, Manager, StandardAllocator)
+	RTTI_CLASS(SDLEventManager, Manager)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

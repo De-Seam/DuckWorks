@@ -5,7 +5,7 @@
 
 class DebugUIWindowPerformanceMonitor : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowPerformanceMonitor, DebugUIWindow, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowPerformanceMonitor, DebugUIWindow)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

@@ -35,7 +35,7 @@ private:
 
 class MsgEntityUpdateFrequencyChanged : public MsgEntityBase
 {
-	RTTI_CLASS(MsgEntityUpdateFrequencyChanged, MsgEntityBase, StandardAllocator)
+	RTTI_CLASS(MsgEntityUpdateFrequencyChanged, MsgEntityBase)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters
@@ -60,7 +60,7 @@ private:
 // Entity Position
 class MsgPreEntityPositionUpdated : public MsgEntityBase
 {
-	RTTI_CLASS(MsgPreEntityPositionUpdated, MsgEntityBase, StandardAllocator)
+	RTTI_CLASS(MsgPreEntityPositionUpdated, MsgEntityBase)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
@@ -72,7 +72,7 @@ public:
 
 class MsgPostEntityPositionUpdated : public MsgEntityBase
 {
-	RTTI_CLASS(MsgPostEntityPositionUpdated, MsgEntityBase, StandardAllocator)
+	RTTI_CLASS(MsgPostEntityPositionUpdated, MsgEntityBase)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
@@ -86,7 +86,7 @@ public:
 // Entity Rotation
 class MsgPreEntityRotationUpdated : public MsgEntityBase
 {
-	RTTI_CLASS(MsgPreEntityRotationUpdated, MsgEntityBase, StandardAllocator)
+	RTTI_CLASS(MsgPreEntityRotationUpdated, MsgEntityBase)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
@@ -98,7 +98,7 @@ public:
 
 class MsgPostEntityRotationUpdated : public MsgEntityBase
 {
-	RTTI_CLASS(MsgPostEntityRotationUpdated, MsgEntityBase, StandardAllocator)
+	RTTI_CLASS(MsgPostEntityRotationUpdated, MsgEntityBase)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

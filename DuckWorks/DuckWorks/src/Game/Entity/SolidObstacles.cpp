@@ -7,12 +7,7 @@
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
-RTTI_CLASS_DEFINITION(SolidObstacle, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(SolidObstacle)
-
-SolidObstacle::SolidObstacle(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters)
+SolidObstacle::SolidObstacle()
 {
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	String texture_path = "Assets/DefaultTexture.png";
@@ -23,9 +18,4 @@ SolidObstacle::SolidObstacle(const ConstructParameters& inConstructParameters)
 	CollisionComponent::ConstructParameters collision_component_params;
 	collision_component_params.mLocalOffset.mHalfSize = Vec2{32.f, 32.f};
 	AddComponent<CollisionComponent>(collision_component_params);
-}
-
-void SolidObstacle::Init()
-{
-	Base::Init();
 }

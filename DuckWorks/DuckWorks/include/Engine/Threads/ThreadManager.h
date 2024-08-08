@@ -45,7 +45,7 @@ private:
 
 class ThreadManager : public Manager
 {
-	RTTI_CLASS(ThreadManager, Manager, StandardAllocator)
+	RTTI_CLASS(ThreadManager, Manager)
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 

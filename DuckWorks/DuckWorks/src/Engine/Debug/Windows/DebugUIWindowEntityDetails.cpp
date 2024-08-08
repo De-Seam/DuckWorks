@@ -13,10 +13,6 @@
 // External includes
 #include <External/imgui/imgui.h>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowEntityDetails, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntityDetails)
-
 void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 {
 	(void)inDeltaTime;
@@ -69,7 +65,7 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 		selected_entity->LoopOverAllComponents([&](EntityComponent& inComponent)
 		{
-			String component_name = inComponent.GetClassName();
+			String component_name = inComponent.GetRTTI().GetClassName();
 			Json json_component = inComponent.Serialize();
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.f, 8.f});

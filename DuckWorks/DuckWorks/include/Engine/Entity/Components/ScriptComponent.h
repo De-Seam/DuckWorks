@@ -10,7 +10,7 @@ class LuaResource;
 
 class ScriptComponent : public EntityComponent
 {
-	RTTI_CLASS(ScriptComponent, EntityComponent, ClassAllocator)
+	RTTI_CLASS(ScriptComponent, EntityComponent)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters

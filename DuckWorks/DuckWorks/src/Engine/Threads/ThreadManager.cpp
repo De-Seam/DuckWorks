@@ -4,9 +4,6 @@
 #include <condition_variable>
 #include <vector>
 
-RTTI_CLASS_DEFINITION(ThreadManager, StandardAllocator)
-RTTI_EMPTY_SERIALIZE_DEFINITION(ThreadManager)
-
 ThreadManager gThreadManager = {ThreadManager::ConstructParameters()};
 
 void ThreadTask::WaitUntilCompleted()

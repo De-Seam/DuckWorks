@@ -1,221 +1,191 @@
 #pragma once
 // Core includes
-#include <Core/Allocators/ClassAllocator.h>
-#include <Core/Allocators/StandardAllocator.h>
+#include <Core/Config.h>
+#include <Core/RTTI/Messages.h>
 #include <Core/Utilities/GUID.h>
-#include "Core/Utilities/UID.h"
+#include <Core/Utilities/Json.h>
+#include <Core/Utilities/TypeID.h>
+#include <Core/Utilities/Utilities.h>
 
-#pragma warning( push )
-#pragma warning( disable : 4099) // First seen using 'class' now seen using 'struct'
+using RTTITypeID = TypeID<class RTTIClass>;
 
-#define RTTI_VIRTUAL_CLASS(inClassName, inParentClassName)                                                                                                     \
-public:                                                                                                                                                        \
-	using Base = inParentClassName;                                                                                                                            \
-                                                                                                                                                               \
-	static const char* sGetClassName() { return #inClassName; }                                                                                                \
-                                                                                                                                                               \
-	static const char* sGetParentClassName() { return #inParentClassName; }                                                                                    \
-                                                                                                                                                               \
-	virtual const char* GetClassName() const override { return inClassName::sGetClassName(); }                                                                 \
-                                                                                                                                                               \
-	virtual const char* GetParentClassName() const override { return inClassName::sGetParentClassName(); }                                                     \
-                                                                                                                                                               \
-	virtual Json Serialize() override;                                                                                                                         \
-                                                                                                                                                               \
-	virtual void Deserialize(const Json& inJson) override;                                                                                                     \
-                                                                                                                                                               \
-	static const UID& sGetRTTIUID() { return s##inClassName##RTTIUID; }                                                                                        \
-                                                                                                                                                               \
-	virtual const UID& GetRTTIUID() const override { return s##inClassName##RTTIUID; }                                                                         \
-                                                                                                                                                               \
-	virtual bool IsAUID(const UID &inRTTIUID) const override                                                                                                   \
-	{                                                                                                                                                          \
-		if (inRTTIUID == sGetRTTIUID())                                                                                                                        \
-			return true;                                                                                                                                       \
-		else                                                                                                                                                   \
-			return Base::IsAUID(inRTTIUID);                                                                                                                    \
-	}                                                                                                                                                          \
-                                                                                                                                                               \
-	template<typename taType>                                                                                                                                  \
-	static bool sIsA()                                                                                                                                         \
-	{                                                                                                                                                          \
-		return sIsAUID(taType::sGetRTTIUID());                                                                                                                 \
-	}                                                                                                                                                          \
-                                                                                                                                                               \
-	static bool sIsAUID(const UID& inRTTIUID)                                                                                                                  \
-	{                                                                                                                                                          \
-		if (inRTTIUID == sGetRTTIUID())                                                                                                                        \
-			return true;                                                                                                                                       \
-		else                                                                                                                                                   \
-			return Base::sIsAUID(inRTTIUID);                                                                                                                   \
-	}                                                                                                                                                          \
-                                                                                                                                                               \
-private:                                                                                                                                                       \
-	static UID s##inClassName##RTTIUID;                                                                                                                        \
-                                                                                                                                                               \
-public:
+class RTTIClass;
 
-#define RTTI_CLASS(inClassName, inParentClassName, inAllocatorClass)                                                                                                             \
-	RTTI_VIRTUAL_CLASS(inClassName, inParentClassName)																										   \
-                                                                                                                                                               \
-	template<typename... taArgs>                                                                                                                               \
-	static inClassName* sNewInstance(taArgs&&... inArgs)                                                                                                       \
-	{                                                                                                                                                          \
-		##inClassName* instance = s##inClassName##Allocator.Allocate(ALLOC_TRACK);                                                                        \
-		instance = new (instance) inClassName(std::forward<taArgs>(inArgs)...);                                                                                \
-		return instance;                                                                                                                                       \
-	}                                                                                                                                                          \
-                                                                                                                                                               \
-	virtual void Delete() override                                                                                                                             \
-	{                                                                                                                                                          \
-		this->~##inClassName##();                                                                                                                              \
-		s##inClassName##Allocator.Free(this);                                                                                                             \
-	}                                                                                                                                                          \
-                                                                                                                                                               \
-	static inAllocatorClass<inClassName>& sGetAllocator() { return s##inClassName##Allocator; }                                                    \
-                                                                                                                                                               \
-private:                                                                                                                                                       \
-	static inAllocatorClass<inClassName> s##inClassName##Allocator;                                                                                     \
-                                                                                                                                                               \
-public:
-
-#define RTTI_VIRTUAL_CLASS_DEFINITION(inClassName) \
-	UID inClassName::s##inClassName##RTTIUID;
-
-#define RTTI_CLASS_DEFINITION(inClassName, inAllocatorClass) \
-	RTTI_VIRTUAL_CLASS_DEFINITION(inClassName) \
-	inAllocatorClass<inClassName> inClassName::s##inClassName##Allocator;
-
-#define RTTI_EMPTY_SERIALIZE_DEFINITION(inClassName) \
-	Json inClassName::Serialize() { return Base::Serialize(); } \
-	void inClassName::Deserialize(const Json& inJson) { Base::Deserialize(inJson); }
-
-class MsgBase;
-
-/****
-Order of initialization with RTTI:
-1. Constructor
-2. Init (Called by the factory)
-3. Deserialize
-*****/
-class RTTIBaseClass
+// RTTI are static per RTTI type. They are used to identify the type of a class
+class RTTI
 {
 public:
-	// ConstructParameters need to be inherited. All variables need to have default values for RTTI
-	struct ConstructParameters
-	{
-		GUID mGUID = {};
-	};
+	RTTI(
+		const char* inClassName,
+		const char* inBaseClassName,
+		std::function<RTTIClass*()> inConstructorFunction
+	);
 
-	RTTIBaseClass(const ConstructParameters& inConstructParameters) : mGUID(inConstructParameters.mGUID) {}
+	// We don't want people to copy this class. Just use a pointer or refernece to it
+	RTTI& operator=(const RTTI&) = delete;
+	RTTI(const RTTI&) = delete;
 
-	virtual ~RTTIBaseClass() = default;
+	const char* GetClassName() const { return mClassName; }
+	const char* GetBaseClassName() const { return mBaseClassName; }
+	RTTIClass* NewInstance() const { return mConstructorFunction(); }
 
-	virtual const char* GetClassName() const = 0;
-	virtual const char* GetParentClassName() const = 0;
+	const RTTITypeID& GetTypeID() const { return mTypeID; }
 
-	virtual Json Serialize();
+private:
+	const char* mClassName = nullptr;
+	const char* mBaseClassName = nullptr;
+	std::function<RTTIClass*()> mConstructorFunction;
+
+	RTTITypeID mTypeID;
+};
+
+class RTTIClass
+{
+public:
+	virtual ~RTTIClass();
+
+	virtual const RTTI& GetRTTI() const { return sRTTI; }
+	static const RTTI& sGetRTTI() { return sRTTI; }
+	static RTTIClass* sNewInstance() { return new RTTIClass; }
+
+	template<typename taType>
+	bool IsA() const;
+	virtual bool IsA(const RTTI& inRTTI) const;
+
+	template<typename taType>
+	taType* As();
+
+	virtual Json Serialize() const;
 	virtual void Deserialize(const Json& inJson);
 
-	static const UID& sGetRTTIUID() { return sRTTIBaseClassRTTIUID; }
-	virtual const UID& GetRTTIUID() const { return sRTTIBaseClassRTTIUID; }
-
+	void BroadcastMessage(MsgBase& ioMsg);
 	template<typename taType>
-	static bool sIsA()
-	{
-		return sIsAUID(taType::sGetRTTIUID());
-	}
+	void BroadcastMessage() { taType msg; BroadcastMessage(msg); }
 
-	static bool sIsAUID(const UID& inRTTIUID)
-	{
-		return inRTTIUID == sGetRTTIUID();
-	}
+	template<typename taRecipientClass, typename taMsgType>
+	void RegisterMessageListener(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&));
 
-	template<typename taType>
-	bool IsA() const
-	{
-		return IsAUID(taType::sGetRTTIUID());
-	}
-
-	virtual bool IsAUID(const UID& inRTTIUID) const
-	{
-		return inRTTIUID == sGetRTTIUID();
-	}
-
-	const UID& GetUID() const { return mUID; }
-
-	virtual void Delete()
-	{
-		gAssert(false, "Delete not implemented for this class");
-	}
+	template<typename taRecipientClass, typename taMsgType>
+	void UnregisterMessageListener(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&));
 
 	void SetGUID(const GUID& inGUID) { mGUID = inGUID; }
 	const GUID& GetGUID() const { return mGUID; }
 
-	template<typename taRecipientClass, typename taMsgType>
-	void RegisterMessageListener(taRecipientClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
-	{
-		Function<void(MsgBase&)> function = [=](MsgBase& ioMsg)
-		{
-			taMsgType* msg = RCast<taMsgType*>(&ioMsg);
-			(*inRecipient.*(inFunction))(*msg);
-		};
-
-		Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>& messages = mMessages[taMsgType::sGetRTTIUID()];
-#ifdef _DEBUG
-		for (Pair<RTTIBaseClass*, Function<void(MsgBase&)>>& message : messages)
-		{
-			if (message.first == inRecipient)
-				gAssert(false, "Recipient already registered for message!");
-		}
-#endif
-		messages.emplace_back(Pair(inRecipient, function));
-	}
-
-	template<typename taRecipientClass, typename taMsgType>
-	void UnregisterMessageListener(RTTIBaseClass* inRecipient, void (taRecipientClass::*inFunction)(taMsgType&))
-	{
-		// inFunction is passed to keep the function signature same as RegisterMessageListener, but it is not used
-		(void)inFunction;
-		Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>& messages = mMessages[taMsgType::sGetRTTIUID()];
-		for (int32 i = SCast<int32>(messages.size()) - 1; i >= 0; i--)
-		{
-			if (messages[i].first == inRecipient)
-				messages.erase(messages.begin() + i);
-		}
-	}
-
-	template<typename taMsgType>
-	void SendMessage(taMsgType& ioMsg)
-	{
-		for (Pair<RTTIBaseClass*, Function<void(MsgBase&)>>& message : mMessages[taMsgType::sGetRTTIUID()])
-			message.second(ioMsg);
-	}
-
 private:
-	GUID mGUID = {};
+	inline static RTTI sRTTI = RTTI(
+		"RTTIClass", // Class Name
+		"NONE", // Base Class Name
+		[]() { return reinterpret_cast<RTTIClass*>(sNewInstance()); }
+	);
 
-	static UID sRTTIBaseClassRTTIUID;
-	UID mUID = {};
+	GUID mGUID;
 
-	// Map [Msg UID : Array< Pair<recipient of callbacks, function> >]
-	HashMap<UID, Array<Pair<RTTIBaseClass*, Function<void(MsgBase&)>>>> mMessages;
+	HashMap<MsgTypeID, Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>> mMessageListeners;
 };
 
-// Dynamic casting
-template<typename taCastType>
-taCastType* gCast(RTTIBaseClass* inObject)
+template<typename taType>
+bool RTTIClass::IsA() const 
 {
-	if (inObject->IsA<taCastType>())
-		return RCast<taCastType*>(inObject);
+	return IsA(taType::sGetRTTI());
+}
+
+template<typename taType>
+taType* RTTIClass::As() 
+{
+	if (this->IsA(taType::sGetRTTI()))
+		return static_cast<taType>(this);
 	return nullptr;
 }
 
-#define REGISTER_ENTITY(inEntity) \
-	gEntityFactory.RegisterClass<inEntity>(#inEntity)
+template<typename taRecipientClass, typename taMsgType>
+void RTTIClass::RegisterMessageListener(taRecipientClass* inRecipient, void(taRecipientClass::* inFunction)(taMsgType&)) 
+{
+#ifdef _ASSERTS_ENABLED
+	Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>& listeners = mMessageListeners[taMsgType::sGetMsgTypeID()];
+	for (int32 i = static_cast<int32>(listeners.size()) - 1; i >= 0 ; i--) 
+		gAssert(listeners[i].first != inRecipient && "Message listener already registered!");
+#endif
+	Function<void(MsgBase&)> function = [inRecipient, inFunction] (MsgBase& inMsg) 
+	{
+		(inRecipient->*inFunction)(*reinterpret_cast<taMsgType*>(&inMsg));
+	};
+	mMessageListeners[taMsgType::sGetMsgTypeID()].push_back(Pair(inRecipient, function));
+}
 
-#define REGISTER_DEBUG_UI_WINDOW(inWindow) \
-	gDebugUIWindowFactory.RegisterClass<inWindow>(#inWindow)
+template<typename taRecipientClass, typename taMsgType>
+void RTTIClass::UnregisterMessageListener(taRecipientClass* inRecipient, void(taRecipientClass::* inFunction)(taMsgType&)) 
+{
+	(void)inFunction;
+	Array<Pair<RTTIClass*, Function<void(MsgBase&)>>>& listeners = mMessageListeners[taMsgType::sGetMsgTypeID()];
+	for (int32 i = static_cast<int32>(listeners.size()) - 1; i >= 0 ; i--) 
+	{
+		if (listeners[i].first == inRecipient)
+		{
+			gSwap(listeners[i], listeners.back());
+			listeners.pop_back();
+			return;
+		}
+	}
+	gAssert(false);
+}
 
-#define REGISTER_ENTITY_COMPONENT(inEntityComponent) \
-	gEntityComponentFactory.RegisterClass<inEntityComponent>(#inEntityComponent)
+// Template function for to_json
+template<typename T>
+typename std::enable_if<has_serialize<T, Json()>::value>::type
+to_json(Json& j, const T& obj) 
+{
+    j = obj.Serialize();
+}
+
+// Template function for from_json
+template<typename T>
+typename std::enable_if<has_deserialize<T, void(const Json&)>::value>::type
+from_json(const Json& j, T& obj) 
+{
+    obj.Deserialize(j);
+}
+
+template<typename T>
+typename std::enable_if<has_serialize<T, Json()>::value>::type
+to_json(Json& j, const T* obj) 
+{
+    j = obj->Serialize();
+}
+
+// Template function for from_json
+template<typename T>
+typename std::enable_if<has_deserialize<T, void(const Json&)>::value>::type
+from_json(const Json& j, T* obj) 
+{
+    obj->Deserialize(j);
+}
+
+#define RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) \
+private: \
+	using Base = inBaseClassName; \
+\
+public: \
+	virtual const RTTI& GetRTTI() const override { return sRTTI; } \
+	static const RTTI& sGetRTTI() { return sRTTI; } \
+	virtual bool IsA(const RTTI& inRTTI) const \
+	{ \
+		if (sGetRTTI().GetTypeID() == inRTTI.GetTypeID()) \
+			return true; \
+		return Base::IsA(inRTTI); \
+	} \
+private: \
+	inline static RTTI sRTTI = RTTI( \
+		#inClassName, \
+		#inBaseClassName, \
+		[]() { return reinterpret_cast<RTTIClass*>(sNewInstance()); } \
+	);
+
+#define RTTI_VIRTUAL_CLASS(inClassName, inBaseClassName) \
+public: \
+	static inClassName* sNewInstance() { gAssert(false); return nullptr; } \
+RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) 
+
+#define RTTI_CLASS(inClassName, inBaseClassName) \
+public: \
+	static inClassName* sNewInstance() { return new inClassName; } \
+RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) 

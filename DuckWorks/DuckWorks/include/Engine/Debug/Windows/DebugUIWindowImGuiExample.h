@@ -5,7 +5,7 @@
 
 class DebugUIWindowImGuiExample : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowImGuiExample, DebugUIWindow, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowImGuiExample, DebugUIWindow)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

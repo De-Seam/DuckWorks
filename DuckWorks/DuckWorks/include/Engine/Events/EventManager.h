@@ -78,7 +78,7 @@ enum class EventType : uint8
 
 class EventManager : public Manager
 {
-	RTTI_CLASS(EventManager, Manager, StandardAllocator)
+	RTTI_CLASS(EventManager, Manager)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

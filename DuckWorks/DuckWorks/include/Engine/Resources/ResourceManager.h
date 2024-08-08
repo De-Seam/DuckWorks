@@ -13,7 +13,7 @@ struct TextureResource;
 
 class ResourceManager : public Manager
 {
-	RTTI_CLASS(ResourceManager, Manager, StandardAllocator)
+	RTTI_CLASS(ResourceManager, Manager)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

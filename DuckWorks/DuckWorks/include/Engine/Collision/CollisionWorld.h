@@ -10,7 +10,7 @@
 
 class CollisionWorld : public RTTIBaseClass
 {
-	RTTI_CLASS(CollisionWorld, RTTIBaseClass, StandardAllocator)
+	RTTI_CLASS(CollisionWorld, RTTIBaseClass)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

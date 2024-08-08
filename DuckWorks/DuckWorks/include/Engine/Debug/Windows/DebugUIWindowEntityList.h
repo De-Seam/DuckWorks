@@ -5,7 +5,7 @@
 
 class DebugUIWindowEntityList : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowEntityList, DebugUIWindow, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowEntityList, DebugUIWindow)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

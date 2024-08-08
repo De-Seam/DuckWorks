@@ -12,10 +12,6 @@
 // External includes
 #include "External/imgui/imgui.h"
 
-RTTI_CLASS_DEFINITION(DebugUIWindowEntitySpawner, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEntitySpawner)
-
 void DebugUIWindowEntitySpawner::Update(float inDeltaTime)
 {
 	(void)inDeltaTime;

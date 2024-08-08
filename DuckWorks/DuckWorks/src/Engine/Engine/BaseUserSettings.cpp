@@ -1,8 +1,6 @@
 #include "Precomp.h"
 #include "Engine/Engine/BaseUserSettings.h"
 
-RTTI_CLASS_DEFINITION(BaseUserSettings, StandardAllocator)
-
 Json BaseUserSettings::Serialize()
 {
 	Json json = Base::Serialize();

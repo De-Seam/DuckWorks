@@ -15,7 +15,7 @@ class Camera;
 
 class DebugUIWindowManager : public Manager
 {
-	RTTI_CLASS(DebugUIWindowManager, Manager, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowManager, Manager)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

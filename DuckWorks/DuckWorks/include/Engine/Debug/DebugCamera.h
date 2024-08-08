@@ -6,7 +6,7 @@
 
 class DebugCamera : public Camera
 {
-	RTTI_CLASS(DebugCamera, Camera, StandardAllocator)
+	RTTI_CLASS(DebugCamera, Camera)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

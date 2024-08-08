@@ -5,13 +5,9 @@
 
 class DebugUIWindowMemoryDebugger : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowMemoryDebugger, DebugUIWindow, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowMemoryDebugger, DebugUIWindow)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	DebugUIWindowMemoryDebugger(const ConstructParameters& inConstructParameters = {});
-
 	virtual void UpdateMultiThreaded(float inDeltaTime) override;
 	virtual void Update(float inDeltaTime) override;
 

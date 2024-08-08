@@ -6,10 +6,6 @@
 // External includes
 #include <External/imgui/imgui.h>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowPerformanceMonitor, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowPerformanceMonitor)
-
 DebugUIWindowPerformanceMonitor::DebugUIWindowPerformanceMonitor(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {

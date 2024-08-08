@@ -164,6 +164,7 @@
     <ClInclude Include="include\Core\Allocators\AllocatorBase.h" />
     <ClInclude Include="include\Core\Allocators\ClassAllocator.h" />
     <ClInclude Include="include\Core\Allocators\StandardAllocator.h" />
+    <ClInclude Include="include\Core\Config.h" />
     <ClInclude Include="include\Core\CoreBase.h" />
     <ClInclude Include="include\Core\Log\Log.h" />
     <ClInclude Include="include\Core\Manager\Manager.h" />
@@ -177,7 +178,9 @@
     <ClInclude Include="include\Core\Math\Vector.h" />
     <ClInclude Include="include\Core\RTTI\Messages.h" />
     <ClInclude Include="include\Core\Utilities\GUID.h" />
+    <ClInclude Include="include\Core\Utilities\Json.h" />
     <ClInclude Include="include\Core\Utilities\PlatformFunctions.h" />
+    <ClInclude Include="include\Core\Utilities\TypeID.h" />
     <ClInclude Include="include\Engine\Debug\DebugCamera.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowEditorToolbar.h" />
     <ClInclude Include="include\Engine\Debug\Windows\DebugUIWindowMemoryDebugger.h" />
@@ -192,7 +195,7 @@
     <ClInclude Include="include\Engine\Resources\ResourceTypes\LuaResource.h" />
     <ClInclude Include="include\Engine\Threads\ThreadManager.h" />
     <ClInclude Include="include\Core\Utilities\Mutex.h" />
-    <ClInclude Include="include\Core\RTTI\RefObject.h" />
+    <ClInclude Include="include\Core\RTTI\RTTIRefObject.h" />
     <ClInclude Include="include\Core\RTTI\RTTI.h" />
     <ClInclude Include="include\Core\Utilities\SafeQueue.h" />
     <ClInclude Include="include\Core\Utilities\Types.h" />
@@ -442,7 +445,7 @@
     <ClCompile Include="src\Engine\Entity\EntityMessages.cpp" />
     <ClCompile Include="src\Engine\Resources\ResourceTypes\LuaResource.cpp" />
     <ClCompile Include="src\Engine\Threads\ThreadManager.cpp" />
-    <ClCompile Include="src\Core\RTTI\RefObject.cpp" />
+    <ClCompile Include="src\Core\RTTI\RTTIRefObject.cpp" />
     <ClCompile Include="src\Core\RTTI\RTTI.cpp" />
     <ClCompile Include="src\Game\App\UserSettingsGame.cpp" />
     <ClCompile Include="src\Game\Entity\Enemies\EnemyBase.cpp" />

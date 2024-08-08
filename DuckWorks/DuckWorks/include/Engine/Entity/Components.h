@@ -22,14 +22,11 @@ class Entity;
 class WorldComponent : public EntityComponent
 {
 	RTTI_VIRTUAL_CLASS(WorldComponent, EntityComponent)
-
 public:
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		Transform2D mLocalOffset = {};
-	};
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
 
-	WorldComponent(const ConstructParameters& inConstructParameters = {});
+	WorldComponent();
 	virtual ~WorldComponent() override;
 
 	void SetLocalOffset(const Transform2D& inLocalOffset);
@@ -51,16 +48,9 @@ private:
 // Texture render component uses TransformComponent for its transform
 class TextureRenderComponent : public WorldComponent
 {
-	RTTI_CLASS(TextureRenderComponent, WorldComponent, ClassAllocator)
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		SharedPtr<TextureResource> mTexture = nullptr;
-		IVec4 mSrcRect = {};
-		bool mUseSrcRect = false;
-		SDL_RendererFlip mFlip = SDL_FLIP_NONE;
-	};
-
-	TextureRenderComponent(const ConstructParameters& inConstructParameters = {});
+	RTTI_CLASS(TextureRenderComponent, WorldComponent)
+public:
+	TextureRenderComponent();
 
 	SharedPtr<TextureResource> mTexture;
 	IVec4 mSrcRect = {};
@@ -73,15 +63,9 @@ class TextureRenderComponent : public WorldComponent
 // Animation component pairs with TextureRenderComponent
 struct AnimationComponent : public EntityComponent
 {
-	RTTI_CLASS(AnimationComponent, EntityComponent, ClassAllocator)
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		SharedPtr<AnimationBase> mAnimation = nullptr;
-	};
-
-	AnimationComponent(const ConstructParameters& inConstructParameters = {})
-		: Base(inConstructParameters),
-		mAnimation(inConstructParameters.mAnimation) {}
+	RTTI_CLASS(AnimationComponent, EntityComponent)
+public:
+	AnimationComponent();
 
 	virtual void Update(float inDeltaTime) override;
 
@@ -95,30 +79,18 @@ private:
 
 struct HealthComponent : public EntityComponent
 {
-	RTTI_CLASS(HealthComponent, EntityComponent, ClassAllocator)
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		float mHealth = 100.f;
-	};
-
-	HealthComponent(const ConstructParameters& inConstructParameters = {})
-		: Base(inConstructParameters),
-		mHealth(inConstructParameters.mHealth) {}
+	RTTI_CLASS(HealthComponent, EntityComponent)
+public:
+	HealthComponent();
 
 	float mHealth = 100.f;
 };
 
 struct CameraComponent : public EntityComponent
 {
-	RTTI_CLASS(CameraComponent, EntityComponent, ClassAllocator)
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		SharedPtr<Camera> mCamera = nullptr;
-		int32 mPriority = 0; ///< Higher priority cameras will render on top of lower priority cameras
-		bool mIsActive = false; ///< If the camera is active, it will render based on priority
-	};
-
-	CameraComponent(const ConstructParameters& inConstructParameters = {});
+	RTTI_CLASS(CameraComponent, EntityComponent)
+public:
+	CameraComponent();
 
 	SharedPtr<Camera> mCamera = nullptr;
 	int32 mPriority = 0; ///< Higher priority cameras will render on top of lower priority cameras

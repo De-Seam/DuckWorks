@@ -17,7 +17,7 @@ struct AABB;
 
 class Renderer : public Manager
 {
-	RTTI_CLASS(Renderer, Manager, StandardAllocator)
+	RTTI_CLASS(Renderer, Manager)
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};
 

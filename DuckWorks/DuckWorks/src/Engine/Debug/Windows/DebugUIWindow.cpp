@@ -3,9 +3,7 @@
 
 #ifdef _DEBUG
 
-RTTI_VIRTUAL_CLASS_DEFINITION(DebugUIWindow)
-
-Json DebugUIWindow::Serialize()
+Json DebugUIWindow::Serialize() const
 {
 	Json json = Base::Serialize();
 

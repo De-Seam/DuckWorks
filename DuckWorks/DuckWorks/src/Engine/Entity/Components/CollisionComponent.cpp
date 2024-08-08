@@ -5,9 +5,6 @@
 #include "Engine/Engine/Engine.h"
 #include "Engine/World/World.h"
 
-// CollisionComponent
-RTTI_CLASS_DEFINITION(CollisionComponent, ClassAllocator)
-
 Json CollisionComponent::Serialize()
 {
 	Json json = Base::Serialize();

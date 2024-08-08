@@ -15,8 +15,6 @@
 // External includes
 #include <External/SDL/SDL.h>
 
-RTTI_CLASS_DEFINITION(World, StandardAllocator)
-
 Json World::Serialize()
 {
 	PROFILE_SCOPE(World::Serialize)

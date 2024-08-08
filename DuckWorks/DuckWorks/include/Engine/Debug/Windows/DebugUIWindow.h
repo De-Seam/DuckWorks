@@ -4,16 +4,14 @@
 
 #ifdef _DEBUG
 
-class DebugUIWindow : public RefObject
+class DebugUIWindow : public RTTIRefObject
 {
-	RTTI_VIRTUAL_CLASS(DebugUIWindow, RefObject)
+	RTTI_VIRTUAL_CLASS(DebugUIWindow, RTTIRefObject)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters {};
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
 
-	using Base::Base;
-
-	DebugUIWindow(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
 	virtual ~DebugUIWindow() override = default;
 
 	// Multi threaded update for performance heavy task

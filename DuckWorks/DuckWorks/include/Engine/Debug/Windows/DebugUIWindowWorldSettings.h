@@ -5,7 +5,7 @@
 
 class DebugUIWindowWorldSettings : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowWorldSettings, DebugUIWindow, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowWorldSettings, DebugUIWindow)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

@@ -7,8 +7,6 @@
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
-RTTI_CLASS_DEFINITION(DebugUIWindowTextureViewer, StandardAllocator)
-
 Json DebugUIWindowTextureViewer::Serialize()
 {
 	Json json = Base::Serialize();

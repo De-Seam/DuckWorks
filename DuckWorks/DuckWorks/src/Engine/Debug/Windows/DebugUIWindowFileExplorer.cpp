@@ -19,8 +19,6 @@
 #include <algorithm>
 #include <filesystem>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowFileExplorer, StandardAllocator)
-
 Json DebugUIWindowFileExplorer::Serialize()
 {
 	Json json = Base::Serialize();

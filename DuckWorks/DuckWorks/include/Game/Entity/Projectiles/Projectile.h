@@ -6,15 +6,10 @@ Projectile provides base functionality for all projectiles
 */
 class Projectile : public Actor
 {
-	RTTI_CLASS(Projectile, Actor, StandardAllocator)
+	RTTI_CLASS(Projectile, Actor)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		Vec2 mVelocity = Vec2(0.0f);
-	};
-
-	Projectile(const ConstructParameters& inConstructParameters);
+	Projectile();
 
 	virtual void Update(float inDeltaTime) override;
 

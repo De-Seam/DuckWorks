@@ -4,17 +4,13 @@
 
 class MovingPlatform : public Actor
 {
-	RTTI_CLASS(MovingPlatform, Actor, StandardAllocator)
+	RTTI_CLASS(MovingPlatform, Actor)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		Vec2 mMoveExtents = Vec2(0.0f);
-		Vec2 mMoveSpeed = Vec2(0.0f);
-		Vec2 mStartPosition = Vec2(0.0f);
-	};
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
 
-	MovingPlatform(const ConstructParameters& inConstructParameters);
+	MovingPlatform();
 
 	virtual void BeginPlay() override;
 	virtual void Update(float inDeltaTime) override;

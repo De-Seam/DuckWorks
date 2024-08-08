@@ -1,7 +1,7 @@
 #pragma once
 // Core includes
 #include "Core/CoreBase.h"
-#include "Core/RTTI/RefObject.h"
+#include "Core/RTTI/RTTIRefObject.h"
 #include "Core/Utilities/UID.h"
 #include "Core/Utilities/Utilities.h"
 
@@ -24,18 +24,12 @@ Order of initialization:
 
 class World;
 
-class Entity : public RefObject
+class Entity : public RTTIRefObject
 {
-	RTTI_CLASS(Entity, RefObject, StandardAllocator)
+	RTTI_CLASS(Entity, RTTIRefObject)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		World* mWorld = nullptr;
-		String mName;
-	};
-
-	Entity(const ConstructParameters& inConstructParameters);
+	Entity();
 
 	virtual ~Entity() override;
 

@@ -21,7 +21,7 @@ enum class EWorldState : uint8
 
 class World : public RTTIBaseClass
 {
-	RTTI_CLASS(World, RTTIBaseClass, StandardAllocator)
+	RTTI_CLASS(World, RTTIBaseClass)
 
 public:
 	virtual Json SerializeIgnoreEntities() const;

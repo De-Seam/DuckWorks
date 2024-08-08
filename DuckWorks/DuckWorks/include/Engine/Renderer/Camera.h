@@ -7,19 +7,15 @@
 class Entity;
 struct SDL_Texture;
 
-class Camera : public RTTIBaseClass
+class Camera : public RTTIClass
 {
-	RTTI_CLASS(Camera, RTTIBaseClass, StandardAllocator)
+	RTTI_CLASS(Camera, RTTIClass)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters
-	{
-		Vec2 mPosition = {200, 0};
-		Vec2 mSize = {1920.f, 1080.f};
-		float mZoom = 1.f;
-	};
+	Camera();
 
-	Camera(const ConstructParameters& inParameters = {});
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
 
 	virtual void Update(float inDeltaTime);
 	void SetPosition(Vec2 inPosition);

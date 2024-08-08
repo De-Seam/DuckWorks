@@ -9,10 +9,6 @@
 #include "External/SDL/SDL_image.h"
 #include "External/SDL/SDL_Render.h"
 
-RTTI_CLASS_DEFINITION(TextureResource, ClassAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(TextureResource)
-
 TextureResource::~TextureResource()
 {
 	DestroyTexture();

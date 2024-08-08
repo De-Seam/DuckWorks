@@ -5,7 +5,7 @@
 class Zombie : public EnemyBase
 {
 	// Class Allocator for faster looping over lots of zombies
-	RTTI_CLASS(Zombie, EnemyBase, ClassAllocator)
+	RTTI_CLASS(Zombie, EnemyBase)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

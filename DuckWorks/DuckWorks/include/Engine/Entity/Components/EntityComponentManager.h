@@ -5,7 +5,7 @@
 
 class EntityComponentManager : public Manager
 {
-	RTTI_CLASS(EntityComponentManager, Manager, StandardAllocator)
+	RTTI_CLASS(EntityComponentManager, Manager)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

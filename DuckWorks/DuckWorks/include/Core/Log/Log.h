@@ -26,13 +26,9 @@ struct LogQueueItem
 
 class LogManager : public Manager
 {
-	RTTI_CLASS(LogManager, Manager, StandardAllocator)
+	RTTI_CLASS(LogManager, Manager)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	LogManager(const ConstructParameters& inParameters = {}) : Base(inParameters) {}
-
 	virtual void Init() override;
 	virtual void Shutdown() override;
 

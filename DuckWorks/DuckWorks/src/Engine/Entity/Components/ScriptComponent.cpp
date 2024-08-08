@@ -7,9 +7,6 @@
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Resources/ResourceTypes/LuaResource.h"
 
-// ScriptComponent
-RTTI_CLASS_DEFINITION(ScriptComponent, ClassAllocator)
-
 Json ScriptComponent::Serialize()
 {
 	Json json = Base::Serialize();

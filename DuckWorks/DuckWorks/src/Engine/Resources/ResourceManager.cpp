@@ -5,10 +5,6 @@
 #include "Engine/Engine/Engine.h"
 #include "Engine/Resources/ResourceTypes/TextureResource.h"
 
-RTTI_CLASS_DEFINITION(ResourceManager, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(ResourceManager)
-
 ResourceManager gResourceManager;
 
 void ResourceManager::Init()

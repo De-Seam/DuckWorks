@@ -1,5 +1,6 @@
 #pragma once
 // Core headers
+#include "Core/Config.h"
 #include "Core/Log/Log.h"
 #include "Core/Math/Math.h"
 #include "Core/Utilities/Utilities.h"
@@ -9,20 +10,6 @@
 
 // STD headers
 #include <chrono>
-
-// Disable all development ifdefs in SHIP mode
-#ifdef _SHIP
-#else
-#define _IMGUI_ENABLED 
-#define _PROFILING_ENABLED 
-#endif
-
-// ImGui Macro
-#ifdef _IMGUI_ENABLED
-#define IMGUI(x) x
-#else
-#define IMGUI(x)
-#endif
 
 // Profiling Macro
 #ifdef _PROFILING_ENABLED

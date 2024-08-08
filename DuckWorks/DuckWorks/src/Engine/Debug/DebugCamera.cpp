@@ -8,10 +8,6 @@
 #include "Engine/Events/EventManager.h"
 #include "Engine/Renderer/Renderer.h"
 
-RTTI_CLASS_DEFINITION(DebugCamera, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugCamera)
-
 DebugCamera::DebugCamera(const ConstructParameters& inParameters)
 	: Base(inParameters)
 {

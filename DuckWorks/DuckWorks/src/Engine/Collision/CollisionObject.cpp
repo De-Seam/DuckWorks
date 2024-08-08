@@ -2,8 +2,6 @@
 #include "Engine/Collision/CollisionObject.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
 
-RTTI_CLASS_DEFINITION(CollisionObject, ClassAllocator)
-
 Json CollisionObject::Serialize()
 {
 	Json json = Base::Serialize();

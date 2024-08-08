@@ -3,9 +3,7 @@
 
 #include "Engine/Renderer/Renderer.h"
 
-RTTI_CLASS_DEFINITION(Camera, StandardAllocator)
-
-Json Camera::Serialize()
+Json Camera::Serialize() const
 {
 	Json json = Base::Serialize();
 
@@ -31,11 +29,7 @@ void Camera::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mZoom);
 }
 
-Camera::Camera(const ConstructParameters& inParameters)
-	: Base(inParameters),
-	mPosition(inParameters.mPosition),
-	mSize(inParameters.mSize),
-	mZoom(inParameters.mZoom)
+Camera::Camera()
 {
 	mSizeInverse = Vec2{1.f} / mSize;
 

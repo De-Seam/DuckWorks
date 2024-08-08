@@ -12,10 +12,6 @@
 // External includes
 #include "External/SDL/SDL.h"
 
-RTTI_CLASS_DEFINITION(Renderer, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(Renderer)
-
 Renderer gRenderer;
 
 void Renderer::Init()

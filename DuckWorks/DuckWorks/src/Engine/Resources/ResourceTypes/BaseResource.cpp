@@ -4,8 +4,6 @@
 // Std includes
 #include <fstream>
 
-RTTI_CLASS_DEFINITION(BaseResource, StandardAllocator)
-
 Json BaseResource::Serialize()
 {
 	Json json = Base::Serialize();

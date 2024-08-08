@@ -14,12 +14,6 @@
 // External includes
 #include "External/imgui/imgui.h"
 
-RTTI_CLASS_DEFINITION(DebugUIWindowMemoryDebugger, StandardAllocator)
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowMemoryDebugger)
-
-DebugUIWindowMemoryDebugger::DebugUIWindowMemoryDebugger(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters) {}
-
 void DebugUIWindowMemoryDebugger::UpdateMultiThreaded(float)
 {
 	PROFILE_SCOPE(DebugUIWindowMemoryDebugger::UpdateMultiThreaded)

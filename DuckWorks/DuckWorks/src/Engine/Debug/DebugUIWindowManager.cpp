@@ -27,8 +27,6 @@
 // Std includes
 #include <fstream>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowManager, StandardAllocator)
-
 DebugUIWindowManager gDebugUIWindowManager = {};
 
 Json DebugUIWindowManager::Serialize()

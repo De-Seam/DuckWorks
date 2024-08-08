@@ -1,7 +1,7 @@
 #pragma once
 // CoreBase includes the core utilities and math
 #include "Core/Utilities/UID.h"
-#include "RTTI/RefObject.h"
+#include "RTTI/RTTIRefObject.h"
 #include "Utilities/Types.h"
 #include "Utilities/Utilities.h"
 

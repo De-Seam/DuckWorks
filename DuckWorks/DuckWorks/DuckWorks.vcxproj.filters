@@ -585,7 +585,7 @@
     <ClInclude Include="include\Game\Entity\Enemies\Zombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\RTTI\RefObject.h">
+    <ClInclude Include="include\Core\RTTI\RTTIRefObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Engine\World\Globals.h">
@@ -768,6 +768,15 @@
     <ClInclude Include="include\Core\Utilities\PlatformFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Core\Utilities\TypeID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Utilities\Json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Precomp.cpp">
@@ -932,7 +941,7 @@
     <ClCompile Include="src\Core\RTTI\RTTI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\RTTI\RefObject.cpp">
+    <ClCompile Include="src\Core\RTTI\RTTIRefObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\CoreBase.cpp">

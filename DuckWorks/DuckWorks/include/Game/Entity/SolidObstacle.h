@@ -4,11 +4,8 @@
 
 class SolidObstacle : public Actor
 {
-	RTTI_CLASS(SolidObstacle, Actor, StandardAllocator)
+	RTTI_CLASS(SolidObstacle, Actor)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	SolidObstacle(const ConstructParameters& inConstructParameters);
-	virtual void Init() override;
+	SolidObstacle();
 };

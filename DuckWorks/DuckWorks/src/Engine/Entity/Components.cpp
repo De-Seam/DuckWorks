@@ -6,9 +6,6 @@
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
-// WorldComponent
-RTTI_VIRTUAL_CLASS_DEFINITION(WorldComponent)
-
 Json WorldComponent::Serialize()
 {
 	Json json = Base::Serialize();
@@ -27,11 +24,7 @@ void WorldComponent::Deserialize(const Json& inJson)
 	CalculateWorldTransform();
 }
 
-// TextureRenderComponent
-RTTI_CLASS_DEFINITION(TextureRenderComponent, ClassAllocator)
-
-WorldComponent::WorldComponent(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters), mLocalOffset(inConstructParameters.mLocalOffset)
+WorldComponent::WorldComponent()
 {
 	CalculateWorldTransform();
 
@@ -92,19 +85,11 @@ void TextureRenderComponent::Deserialize(const Json& inJson)
 	JSON_LOAD(inJson, mFlip);
 }
 
-TextureRenderComponent::TextureRenderComponent(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters),
-	mTexture(inConstructParameters.mTexture),
-	mSrcRect(inConstructParameters.mSrcRect),
-	mUseSrcRect(inConstructParameters.mUseSrcRect),
-	mFlip(inConstructParameters.mFlip)
+TextureRenderComponent::TextureRenderComponent()
 {
 	if (mTexture == nullptr)
 		mTexture = gResourceManager.GetResource<TextureResource>("Assets/DefaultTexture.png");
 }
-
-// AnimationComponent
-RTTI_CLASS_DEFINITION(AnimationComponent, ClassAllocator)
 
 Json AnimationComponent::Serialize()
 {
@@ -140,9 +125,6 @@ void AnimationComponent::Update(float inDeltaTime)
 	}
 }
 
-// HealthComponent
-RTTI_CLASS_DEFINITION(HealthComponent, ClassAllocator)
-
 Json HealthComponent::Serialize()
 {
 	Json json = Base::Serialize();
@@ -158,9 +140,6 @@ void HealthComponent::Deserialize(const Json& inJson)
 
 	JSON_LOAD(inJson, mHealth);
 }
-
-// CameraComponent
-RTTI_CLASS_DEFINITION(CameraComponent, ClassAllocator)
 
 Json CameraComponent::Serialize()
 {
@@ -189,8 +168,7 @@ void CameraComponent::Deserialize(const Json& inJson)
 	}
 }
 
-CameraComponent::CameraComponent(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters), mCamera(inConstructParameters.mCamera), mPriority(inConstructParameters.mPriority), mIsActive(inConstructParameters.mIsActive)
+CameraComponent::CameraComponent()
 {
 	if (mCamera == nullptr)
 		mCamera = std::make_shared<Camera>();

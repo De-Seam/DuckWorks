@@ -1,13 +1,11 @@
 #pragma once
-#include "Core/RTTI/RTTI.h"
-#include "Core/Utilities/Types.h"
+#include <Core/Utilities/TypeID.h>
 
-class MsgBase : public RTTIBaseClass
+using MsgTypeID = TypeID<struct MsgBase>;
+
+#define RTTI_MSG() STATIC_TYPE_ID(Msg)
+
+struct MsgBase
 {
-	RTTI_VIRTUAL_CLASS(MsgBase, RTTIBaseClass)
-
-public:
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	MsgBase(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+	RTTI_MSG()
 };

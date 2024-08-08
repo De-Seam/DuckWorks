@@ -8,10 +8,6 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Threads/ThreadManager.h"
 
-RTTI_CLASS_DEFINITION(CollisionWorld, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)
-
 CollisionWorld::CollisionWorld(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {

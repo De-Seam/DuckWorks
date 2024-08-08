@@ -5,7 +5,7 @@ struct SDL_Texture;
 
 struct TextureResource : public BaseResource
 {
-	RTTI_CLASS(TextureResource, BaseResource, ClassAllocator)
+	RTTI_CLASS(TextureResource, BaseResource)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

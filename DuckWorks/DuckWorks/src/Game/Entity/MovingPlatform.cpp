@@ -12,9 +12,7 @@
 
 #include "Game/Entity/Player/Player.h"
 
-RTTI_CLASS_DEFINITION(MovingPlatform, StandardAllocator)
-
-Json MovingPlatform::Serialize()
+Json MovingPlatform::Serialize() const
 {
 	Json json = Base::Serialize();
 
@@ -34,8 +32,7 @@ void MovingPlatform::Deserialize(const Json& inJson)
 	Base::Deserialize(inJson);
 }
 
-MovingPlatform::MovingPlatform(const ConstructParameters& inConstructParameters)
-	: Base(inConstructParameters)
+MovingPlatform::MovingPlatform()
 {
 	TextureRenderComponent::ConstructParameters texture_render_component_parameters;
 	texture_render_component_parameters.mTexture = gResourceManager.GetResource<TextureResource>("Assets/top.jpg");

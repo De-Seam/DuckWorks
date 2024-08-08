@@ -15,10 +15,6 @@
 // Std includes
 #include <fstream>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowEditorToolbar, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEditorToolbar)
-
 DebugUIWindowEditorToolbar::DebugUIWindowEditorToolbar(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {

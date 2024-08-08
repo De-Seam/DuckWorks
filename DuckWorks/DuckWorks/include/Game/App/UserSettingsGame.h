@@ -3,7 +3,7 @@
 
 class UserSettingsGame : public BaseUserSettings
 {
-	RTTI_CLASS(UserSettingsGame, BaseUserSettings, StandardAllocator)
+	RTTI_CLASS(UserSettingsGame, BaseUserSettings)
 
 public:
 };

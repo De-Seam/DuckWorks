@@ -11,7 +11,7 @@
 
 struct CollisionComponent : public WorldComponent
 {
-	RTTI_CLASS(CollisionComponent, WorldComponent, ClassAllocator)
+	RTTI_CLASS(CollisionComponent, WorldComponent)
 	struct ConstructParameters : public Base::ConstructParameters
 	{
 		CollisionObject::EType mType = CollisionObject::EType::Static;

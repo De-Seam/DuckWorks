@@ -5,10 +5,6 @@
 #include <Engine/Entity/Components.h>
 #include <Engine/Resources/ResourceManager.h>
 
-RTTI_CLASS_DEFINITION(Zombie, ClassAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(Zombie)
-
 Zombie::Zombie(const ConstructParameters& inConstructParameters)
 	: Base(inConstructParameters)
 {

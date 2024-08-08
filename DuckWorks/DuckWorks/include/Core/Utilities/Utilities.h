@@ -4,6 +4,7 @@
 
 // Core includes
 #include "Core/Math/Math.h"
+#include "Core/Utilities/Json.h"
 
 // External libraries
 #include <External/nlohmann/json.hpp>
@@ -19,7 +20,6 @@
 
 using String = std::string;
 using StringView = std::string_view;
-using Json = nlohmann::ordered_json;
 
 // Smart Pointers
 template<typename taType>
@@ -155,10 +155,3 @@ inline void from_json(const Json& inJson, Transform2D& outVariable)
 	inJson.at("mHalfSize").get_to(outVariable.mHalfSize);
 	inJson.at("mRotation").get_to(outVariable.mRotation);
 }
-
-// Ref Object
-// We only define to_json
-// Because from_json needs to use a specific Factory and Construct Variables
-class RTTIBaseClass;
-void to_json(Json& outJson, RTTIBaseClass* inVariable);
-void to_json(Json& outJson, const SharedPtr<RTTIBaseClass>& inVariable);

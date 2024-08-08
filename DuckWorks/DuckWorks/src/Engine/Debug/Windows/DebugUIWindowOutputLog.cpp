@@ -6,9 +6,7 @@
 // External includes
 #include "External/imgui/imgui.h"
 
-RTTI_CLASS_DEFINITION(DebugUIWindowOutputLog, StandardAllocator)
-
-Json DebugUIWindowOutputLog::Serialize()
+Json DebugUIWindowOutputLog::Serialize() const
 {
 	Json json = Base::Serialize();
 

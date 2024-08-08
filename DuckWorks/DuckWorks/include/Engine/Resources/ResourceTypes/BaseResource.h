@@ -1,12 +1,9 @@
 #pragma once
 #include "Core/RTTI/RTTI.h"
 
-struct BaseResource : public RTTIBaseClass
+struct BaseResource : public RTTIClass
 {
-	RTTI_CLASS(BaseResource, RTTIBaseClass, StandardAllocator)
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	BaseResource(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+	RTTI_VIRTUAL_CLASS(BaseResource, RTTIClass)
 	// Make sure to create a virtual destructor to avoid memory leaks
 	virtual ~BaseResource() override = default;
 

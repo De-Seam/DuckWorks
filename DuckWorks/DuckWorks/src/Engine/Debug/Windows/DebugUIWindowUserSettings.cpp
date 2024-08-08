@@ -11,10 +11,6 @@
 // External includes
 #include <External/imgui/imgui.h>
 
-RTTI_CLASS_DEFINITION(DebugUIWindowUserSettings, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowUserSettings)
-
 void DebugUIWindowUserSettings::Update(float)
 {
 	PROFILE_SCOPE(DebugUIWindowUserSettings::Update)

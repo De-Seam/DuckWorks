@@ -4,10 +4,6 @@
 #include "Engine/Renderer/Renderer.h"
 #include "External/imgui/imgui_impl_sdl2.h"
 
-RTTI_CLASS_DEFINITION(SDLEventManager, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(SDLEventManager)
-
 SDLEventManager gSDLEventManager;
 
 SharedPtr<SDLEventFunction> SDLEventManager::AddEventFunction(const SDLEventFunction& inEventFunction)

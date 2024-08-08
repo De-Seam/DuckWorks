@@ -5,14 +5,11 @@
 
 class DebugUIWindowOutputLog : public DebugUIWindow
 {
-	RTTI_CLASS(DebugUIWindowOutputLog, DebugUIWindow, StandardAllocator)
+	RTTI_CLASS(DebugUIWindowOutputLog, DebugUIWindow)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	using Base::Base;
-
-	DebugUIWindowOutputLog(const ConstructParameters& inConstructParameters = {}) : Base(inConstructParameters) {}
+	Json Serialize() const override;
+	void Deserialize(const Json& inJson) override;
 
 	virtual void Update(float inDeltaTime) override;
 

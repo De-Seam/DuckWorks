@@ -9,7 +9,7 @@
 
 class CollisionObject : public RTTIBaseClass
 {
-	RTTI_CLASS(CollisionObject, RTTIBaseClass, ClassAllocator)
+	RTTI_CLASS(CollisionObject, RTTIBaseClass)
 
 public:
 	enum class EType : uint8

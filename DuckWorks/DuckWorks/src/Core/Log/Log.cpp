@@ -4,10 +4,6 @@
 #include <cstdarg>
 #include <fstream>
 
-RTTI_CLASS_DEFINITION(LogManager, StandardAllocator)
-
-RTTI_EMPTY_SERIALIZE_DEFINITION(LogManager)
-
 void gLog(const char* fmt ...)
 {
 	va_list args;

@@ -10,8 +10,6 @@
 #include "Engine/Threads/ThreadManager.h"
 #include "Engine/World/World.h"
 
-RTTI_CLASS_DEFINITION(Entity, StandardAllocator)
-
 Json Entity::Serialize()
 {
 	Json json = Base::Serialize();
