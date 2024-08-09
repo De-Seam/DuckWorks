@@ -20,7 +20,7 @@
     <ProjectGuid>{1aeec0ae-b46b-4db2-8824-816a7eadd423}</ProjectGuid>
     <RootNamespace>External</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>00_External</ProjectName>
+    <ProjectName>External</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

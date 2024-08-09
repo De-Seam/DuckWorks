@@ -5,18 +5,6 @@
         "mGUID": "0000-0000-0000-0000",
         "mManagers": [
             {
-                "ClassName": "ThreadManager",
-                "mGUID": "0000-0000-0000-0000"
-            },
-            {
-                "ClassName": "ResourceManager",
-                "mGUID": "0000-0000-0000-0000"
-            },
-            {
-                "ClassName": "WindowEventManager",
-                "mGUID": "0000-0000-0000-0000"
-            },
-            {
                 "ClassName": "DebugManager",
                 "mDebugWindows": [
                     {
@@ -26,14 +14,26 @@
                     }
                 ],
                 "mGUID": "0000-0000-0000-0000"
+            },
+            {
+                "ClassName": "WindowEventManager",
+                "mGUID": "0000-0000-0000-0000"
+            },
+            {
+                "ClassName": "ResourceManager",
+                "mGUID": "0000-0000-0000-0000"
+            },
+            {
+                "ClassName": "ThreadManager",
+                "mGUID": "0000-0000-0000-0000"
             }
         ],
         "mRenderer": {
             "ClassName": "Renderer",
             "mGUID": "0000-0000-0000-0000",
             "mRenderWindow_Position": [
-                640,
-                360
+                728,
+                552
             ],
             "mRenderWindow_Size": [
                 1280,

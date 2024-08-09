@@ -20,7 +20,7 @@
     <ProjectGuid>{e123ed8f-73a1-49cd-aa3d-ca36a68810a4}</ProjectGuid>
     <RootNamespace>DuckWorks</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>04_DuckWorks</ProjectName>
+    <ProjectName>DuckWorks</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -79,7 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
@@ -88,9 +88,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckApp</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/External</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>03_DuckApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>External.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)DuckWorks/lib/$(Configuration)</AdditionalLibraryDirectories>
@@ -107,7 +107,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
@@ -118,8 +118,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckApp</AdditionalLibraryDirectories>
-      <AdditionalDependencies>03_DuckApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/External</AdditionalLibraryDirectories>
+      <AdditionalDependencies>External.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
@@ -137,7 +137,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include/;$(SolutionDir)DuckCore/include/;$(SolutionDir)DuckRenderer/include/;$(SolutionDir)DuckEngine/include/;$(SolutionDir)DuckApp/include/;$(SolutionDir)External/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)External/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
@@ -152,8 +152,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/03_DuckApp</AdditionalLibraryDirectories>
-      <AdditionalDependencies>03_DuckApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/$(Configuration);$(ProjectDir)lib/Shared;$(SolutionDir)Build/Out/$(Platform)_$(Configuration)/External</AdditionalLibraryDirectories>
+      <AdditionalDependencies>External.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
@@ -162,16 +162,103 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="App\App.h" />
+    <ClInclude Include="App\AppModule.h" />
+    <ClInclude Include="Core\Config.h" />
+    <ClInclude Include="Core\Containers\Array.h" />
+    <ClInclude Include="Core\Containers\Atomic.h" />
+    <ClInclude Include="Core\Containers\Function.h" />
+    <ClInclude Include="Core\Containers\HashMap.h" />
+    <ClInclude Include="Core\Containers\Pair.h" />
+    <ClInclude Include="Core\Containers\SmartPointers.h" />
+    <ClInclude Include="Core\Containers\String.h" />
+    <ClInclude Include="Core\Core.h" />
+    <ClInclude Include="Core\CoreLight.h" />
+    <ClInclude Include="Core\CoreModule.h" />
+    <ClInclude Include="Core\Math\HelperFunctions.h" />
+    <ClInclude Include="Core\Math\Math.h" />
+    <ClInclude Include="Core\Math\Matrix.h" />
+    <ClInclude Include="Core\Math\Quaternion.h" />
+    <ClInclude Include="Core\Math\Random.h" />
+    <ClInclude Include="Core\Math\Transform.h" />
+    <ClInclude Include="Core\Math\Vector.h" />
+    <ClInclude Include="Core\RTTI\Factory\RTTIFactory.h" />
+    <ClInclude Include="Core\RTTI\Message.h" />
+    <ClInclude Include="Core\RTTI\RTTI.h" />
+    <ClInclude Include="Core\RTTI\RTTIRefObject.h" />
+    <ClInclude Include="Core\Threads\Mutex.h" />
+    <ClInclude Include="Core\Threads\SafeQueue.h" />
+    <ClInclude Include="Core\Threads\Thread.h" />
+    <ClInclude Include="Core\Utilities\Assert.h" />
+    <ClInclude Include="Core\Utilities\GUID.h" />
+    <ClInclude Include="Core\Utilities\Json.h" />
+    <ClInclude Include="Core\Utilities\Profiler.h" />
+    <ClInclude Include="Core\Utilities\TypeID.h" />
+    <ClInclude Include="Core\Utilities\Types.h" />
+    <ClInclude Include="Core\Utilities\UID.h" />
+    <ClInclude Include="Core\Utilities\Utilities.h" />
+    <ClInclude Include="Engine\Debug\DebugManager.h" />
+    <ClInclude Include="Engine\Debug\Windows\DebugWindow.h" />
+    <ClInclude Include="Engine\Debug\Windows\DebugWindowObjectInspector.h" />
+    <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\EngineModule.h" />
+    <ClInclude Include="Engine\Entity\Actor.h" />
+    <ClInclude Include="Engine\Entity\Components\EntityComponent.h" />
+    <ClInclude Include="Engine\Entity\Components\TextureRenderComponent.h" />
+    <ClInclude Include="Engine\Entity\Components\TransformComponent.h" />
+    <ClInclude Include="Engine\Entity\Components\WorldComponent.h" />
+    <ClInclude Include="Engine\Entity\Entity.h" />
+    <ClInclude Include="Engine\Manager\Manager.h" />
+    <ClInclude Include="Engine\Manager\Managers.h" />
+    <ClInclude Include="Engine\Renderer\Renderer.h" />
+    <ClInclude Include="Engine\Renderer\WindowEvents\EventMessages.h" />
+    <ClInclude Include="Engine\Renderer\WindowEvents\WindowEventManager.h" />
+    <ClInclude Include="Engine\Resources\Resource.h" />
+    <ClInclude Include="Engine\Resources\ResourceManager.h" />
+    <ClInclude Include="Engine\Resources\TextureResource.h" />
+    <ClInclude Include="Engine\Threads\ThreadManager.h" />
+    <ClInclude Include="Engine\World\World.h" />
+    <ClInclude Include="Engine\World\WorldMessages.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
-    <ClInclude Include="include\Precomp.h" />
+    <ClInclude Include="Precomp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Precomp.cpp">
+    <ClCompile Include="App\App.cpp" />
+    <ClCompile Include="App\AppModule.cpp" />
+    <ClCompile Include="Core\Containers\Mutex.cpp" />
+    <ClCompile Include="Core\Containers\String.cpp" />
+    <ClCompile Include="Core\CoreModule.cpp" />
+    <ClCompile Include="Core\Math\Math.cpp" />
+    <ClCompile Include="Core\Math\Matrix.cpp" />
+    <ClCompile Include="Core\Math\Quaternion.cpp" />
+    <ClCompile Include="Core\Math\Vector.cpp" />
+    <ClCompile Include="Core\RTTI\Factory\RTTIFactory.cpp" />
+    <ClCompile Include="Core\RTTI\RTTI.cpp" />
+    <ClCompile Include="Core\Utilities\GUID.cpp" />
+    <ClCompile Include="Engine\Debug\DebugManager.cpp" />
+    <ClCompile Include="Engine\Debug\Windows\DebugWindowObjectInspector.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\EngineModule.cpp" />
+    <ClCompile Include="Engine\Entity\Actor.cpp" />
+    <ClCompile Include="Engine\Entity\Components\TextureRenderComponent.cpp" />
+    <ClCompile Include="Engine\Entity\Components\TransformComponent.cpp" />
+    <ClCompile Include="Engine\Entity\Entity.cpp" />
+    <ClCompile Include="Engine\Renderer\Renderer.cpp" />
+    <ClCompile Include="Engine\Renderer\WindowEvents\WindowEventManager.cpp" />
+    <ClCompile Include="Engine\Resoureces\ResourceManager.cpp" />
+    <ClCompile Include="Engine\Resoureces\TextureResource.cpp" />
+    <ClCompile Include="Engine\Threads\ThreadManager.cpp" />
+    <ClCompile Include="Engine\World\World.cpp" />
+    <ClCompile Include="Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Source.cpp" />
+    <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Core\RTTI\Factory\RTTIFactory.inl" />
+    <None Include="Engine\Engine.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
