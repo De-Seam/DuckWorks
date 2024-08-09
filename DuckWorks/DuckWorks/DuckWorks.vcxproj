@@ -245,8 +245,8 @@
     <ClCompile Include="Engine\Entity\Entity.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Renderer\WindowEvents\WindowEventManager.cpp" />
-    <ClCompile Include="Engine\Resoureces\ResourceManager.cpp" />
-    <ClCompile Include="Engine\Resoureces\TextureResource.cpp" />
+    <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
+    <ClCompile Include="Engine\Resources\TextureResource.cpp" />
     <ClCompile Include="Engine\Threads\ThreadManager.cpp" />
     <ClCompile Include="Engine\World\World.cpp" />
     <ClCompile Include="Precomp.cpp">

@@ -224,10 +224,10 @@
     <ClCompile Include="Engine\Renderer\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resoureces\ResourceManager.cpp">
+    <ClCompile Include="Engine\Resources\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resoureces\TextureResource.cpp">
+    <ClCompile Include="Engine\Resources\TextureResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Threads\ThreadManager.cpp">
