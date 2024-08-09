@@ -210,6 +210,7 @@
     <ClInclude Include="Engine\Entity\Entity.h" />
     <ClInclude Include="Engine\Manager\Manager.h" />
     <ClInclude Include="Engine\Manager\Managers.h" />
+    <ClInclude Include="Engine\Node\Node.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Renderer\WindowEvents\EventMessages.h" />
     <ClInclude Include="Engine\Renderer\WindowEvents\WindowEventManager.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="Engine\Entity\Components\TextureRenderComponent.cpp" />
     <ClCompile Include="Engine\Entity\Components\TransformComponent.cpp" />
     <ClCompile Include="Engine\Entity\Entity.cpp" />
+    <ClCompile Include="Engine\Node\Node.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Renderer\WindowEvents\WindowEventManager.cpp" />
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
