@@ -83,7 +83,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
-      <DisableSpecificWarnings>4324;4003;4002;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4324;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,7 +111,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
-      <DisableSpecificWarnings>4324;4003;4002;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4324;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,7 +141,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
-      <DisableSpecificWarnings>4324;4003;4002;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4324;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -185,7 +185,6 @@
     <ClInclude Include="Core\RTTI\Factory\RTTIFactory.h" />
     <ClInclude Include="Core\RTTI\Message.h" />
     <ClInclude Include="Core\RTTI\RTTI.h" />
-    <ClInclude Include="Core\RTTI\RTTIInterface.h" />
     <ClInclude Include="Core\RTTI\RTTIRefObject.h" />
     <ClInclude Include="Core\Threads\Mutex.h" />
     <ClInclude Include="Core\Threads\SafeQueue.h" />
