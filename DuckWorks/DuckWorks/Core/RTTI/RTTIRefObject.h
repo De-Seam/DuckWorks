@@ -135,7 +135,7 @@ public:
 	{
 		if (mPtr == nullptr)
 			return nullptr;
-		return gCast<taCastType>(mPtr);
+		return mPtr->As<taCastType>();
 	}
 
 	bool IsValid() const { return mPtr != nullptr; }

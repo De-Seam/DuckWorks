@@ -32,8 +32,8 @@
             "ClassName": "Renderer",
             "mGUID": "0000-0000-0000-0000",
             "mRenderWindow_Position": [
-                728,
-                552
+                640,
+                360
             ],
             "mRenderWindow_Size": [
                 1280,

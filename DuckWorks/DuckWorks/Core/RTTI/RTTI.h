@@ -97,7 +97,7 @@ template<typename taType>
 taType* RTTIClass::As() 
 {
 	if (this->IsA(taType::sGetRTTI()))
-		return static_cast<taType>(this);
+		return static_cast<taType*>(this);
 	return nullptr;
 }
 
