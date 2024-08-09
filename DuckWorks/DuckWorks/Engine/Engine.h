@@ -11,7 +11,6 @@
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/World/World.h>
 
-
 struct MsgWindowClosed;
 class Renderer;
 

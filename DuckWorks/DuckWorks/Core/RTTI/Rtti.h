@@ -5,6 +5,7 @@
 #include <Core/Containers/HashMap.h>
 #include <Core/Containers/Pair.h>
 #include <Core/RTTI/Message.h>
+#include <Core/RTTI/RTTIInterface.h>
 #include <Core/Utilities/Assert.h>
 #include <Core/Utilities/GUID.h>
 #include <Core/Utilities/Json.h>
@@ -59,6 +60,11 @@ public:
 	template<typename taType>
 	taType* As();
 
+	template<typename taType>
+	taType* AsInterface();
+
+	virtual bool ImplementsInterface(const RTTIInterfaceTypeID& inInterface) const { return false; }
+
 	virtual Json Serialize() const;
 	virtual void Deserialize(const Json& inJson);
 
@@ -98,6 +104,14 @@ taType* RTTIClass::As()
 {
 	if (this->IsA(taType::sGetRTTI()))
 		return static_cast<taType>(this);
+	return nullptr;
+}
+
+template<typename taType>
+taType* RTTIClass::AsInterface() 
+{
+	if (this->ImplementsInterface(taType::sInterfaceTypeID))
+		return static_cast<taType*>(this);
 	return nullptr;
 }
 
@@ -177,6 +191,15 @@ public: \
 			return true; \
 		return Base::IsA(inRTTI); \
 	} \
+	virtual bool ImplementsInterface(const RTTIInterfaceTypeID& inInterface) const override \
+	{ \
+		for (const RTTIInterfaceTypeID& interface : sInterfaces) \
+		{ \
+			if (interface == inInterface) \
+				return true; \
+		} \
+		return Base::ImplementsInterface(inInterface); \
+	} \
 private: \
 	inline static RTTI sRTTI = RTTI( \
 		#inClassName, \
@@ -184,12 +207,98 @@ private: \
 		[]() { return reinterpret_cast<RTTIClass*>(sNewInstance()); } \
 	);
 
-#define RTTI_VIRTUAL_CLASS(inClassName, inBaseClassName) \
+#define RTTI_VIRTUAL_CLASS_DECLARATION(inClassName, inBaseClassName) \
 public: \
 	static inClassName* sNewInstance() { gAssert(false); return nullptr; } \
 RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) 
 
-#define RTTI_CLASS(inClassName, inBaseClassName) \
+#define RTTI_CLASS_DECLARATION(inClassName, inBaseClassName) \
 public: \
 	static inClassName* sNewInstance() { return new inClassName; } \
 RTTI_CLASS_DECLARATION_BASE(inClassName, inBaseClassName) 
+
+
+#pragma warning( push )
+#pragma warning( disable : 4002)
+#pragma warning( disable : 4003)
+
+
+#define EXPAND( x ) x
+
+// The multiple argument rtti classes
+#define RTTI_CLASS_2(A,B) \
+inline static StaticArray<RTTIInterfaceTypeID, 0> sInterfaces = {}; \
+RTTI_CLASS_DECLARATION(A, B) 
+
+#define RTTI_CLASS_3(A,B,C) \
+inline static StaticArray<RTTIInterfaceTypeID, 1> sInterfaces = { C::sInterfaceTypeID }; \
+RTTI_CLASS_DECLARATION(A, B)
+
+#define RTTI_CLASS_4(A,B,C,D) \
+inline static StaticArray<RTTIInterfaceTypeID, 2> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID }; \
+RTTI_CLASS_DECLARATION(A, B)
+
+#define RTTI_CLASS_5(A,B,C,D,E) \
+inline static StaticArray<RTTIInterfaceTypeID, 3> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID, E::sInterfaceTypeID }; \
+RTTI_CLASS_DECLARATION(A, B)
+
+#define RTTI_CLASS_6(A,B,C,D,E,F) \
+inline static StaticArray<RTTIInterfaceTypeID, 4> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID, E::sInterfaceTypeID, F::sInterfaceTypeID }; \
+RTTI_CLASS_DECLARATION(A, B)
+
+#define RTTI_CLASS_7(A,B,C,D,E,F,G) \
+inline StaticArray<RTTIInterfaceTypeID, 5> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID, E::sInterfaceTypeID, F::sInterfaceTypeID, G::sInterfaceTypeID }; \
+RTTI_CLASS_DECLARATION(A, B)
+
+// The interim macro that simply strips the excess and ends up with the required macro
+#define RTTI_CLASS_X(x,A,B,C,D,E,F,G,FUNC, ...)  FUNC  
+
+// The macro that the programmer uses 
+#define RTTI_CLASS(...)				EXPAND( RTTI_CLASS_X(,##__VA_ARGS__, \
+										RTTI_CLASS_7(__VA_ARGS__), \
+										RTTI_CLASS_6(__VA_ARGS__), \
+										RTTI_CLASS_5(__VA_ARGS__), \
+										RTTI_CLASS_4(__VA_ARGS__), \
+										RTTI_CLASS_3(__VA_ARGS__), \
+										RTTI_CLASS_2(__VA_ARGS__) \
+									) ) 
+
+// The multiple argument virtual rtti classes
+#define RTTI_VIRTUAL_CLASS_2(A,B) \
+inline static StaticArray<RTTIInterfaceTypeID, 0> sInterfaces = {}; \
+RTTI_VIRTUAL_CLASS_DECLARATION(A, B) 
+
+#define RTTI_VIRTUAL_CLASS_3(A,B,C) \
+inline static StaticArray<RTTIInterfaceTypeID, 1> sInterfaces = { C::sInterfaceTypeID }; \
+RTTI_VIRTUAL_CLASS_DECLARATION(A, B)
+
+#define RTTI_VIRTUAL_CLASS_4(A,B,C,D) \
+inline static StaticArray<RTTIInterfaceTypeID, 2> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID }; \
+RTTI_VIRTUAL_CLASS_DECLARATION(A, B)
+
+#define RTTI_VIRTUAL_CLASS_5(A,B,C,D,E) \
+inline static StaticArray<RTTIInterfaceTypeID, 3> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID, E::sInterfaceTypeID }; \
+RTTI_VIRTUAL_CLASS_DECLARATION(A, B)
+
+#define RTTI_VIRTUAL_CLASS_6(A,B,C,D,E,F) \
+inline static StaticArray<RTTIInterfaceTypeID, 4> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID, E::sInterfaceTypeID, F::sInterfaceTypeID }; \
+RTTI_VIRTUAL_CLASS_DECLARATION(A, B)
+
+#define RTTI_VIRTUAL_CLASS_7(A,B,C,D,E,F,G) \
+inline static StaticArray<RTTIInterfaceTypeID, 5> sInterfaces = { C::sInterfaceTypeID, D::sInterfaceTypeID, E::sInterfaceTypeID, F::sInterfaceTypeID, G::sInterfaceTypeID }; \
+RTTI_VIRTUAL_CLASS_DECLARATION(A, B)
+
+// The interim macro that simply strips the excess and ends up with the required macro
+#define RTTI_VIRTUAL_CLASS_X(x,A,B,C,D,E,F,G,FUNC, ...)  FUNC  
+
+// The macro that the programmer uses 
+#define RTTI_VIRTUAL_CLASS(...)			EXPAND( RTTI_VIRTUAL_CLASS_X(,##__VA_ARGS__, \
+											RTTI_VIRTUAL_CLASS_7(__VA_ARGS__), \
+											RTTI_VIRTUAL_CLASS_6(__VA_ARGS__), \
+											RTTI_VIRTUAL_CLASS_5(__VA_ARGS__), \
+											RTTI_VIRTUAL_CLASS_4(__VA_ARGS__), \
+											RTTI_VIRTUAL_CLASS_3(__VA_ARGS__), \
+											RTTI_VIRTUAL_CLASS_2(__VA_ARGS__) \
+										) )
+
+#pragma warning( pop )

@@ -192,6 +192,9 @@
     <ClInclude Include="App\AppModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\RTTI\RTTIInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precomp.cpp">
