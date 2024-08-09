@@ -12,6 +12,9 @@ class Entity : public RTTIRefObject
 public:
 	virtual void Update(float inDeltaTime) { (void)inDeltaTime; }
 
+	virtual void SetTransform(const Transform2D& inTransform);
+	const Transform2D& GetTransform() const;
+
 	virtual void OnAddedToWorld(World* inWorld);
 	virtual void OnRemovedFromWorld(World* inWorld);
 
@@ -23,6 +26,8 @@ public:
 	template<typename taType>
 	taType& GetComponent();
 	template<typename taType>
+	const taType& GetComponent() const;
+	template<typename taType>
 	bool HasComponent();
 	template<typename taType>
 	void RemoveComponent();
@@ -31,6 +36,7 @@ public:
 
 protected:
 	entt::registry& GetRegistry();
+	const entt::registry& GetRegistry() const;
 
 private:
 	entt::entity mEntityHandle = entt::null;
@@ -55,6 +61,13 @@ taType& Entity::AddOrReplaceComponent(taArgs&&... inArgs)
 
 template<typename taType>
 taType& Entity::GetComponent()
+{
+	assert(HasComponent<taType>()); //Entity does not have component!
+	return GetRegistry().get<taType>(mEntityHandle);
+}
+
+template<typename taType>
+const taType& Entity::GetComponent() const 
 {
 	assert(HasComponent<taType>()); //Entity does not have component!
 	return GetRegistry().get<taType>(mEntityHandle);

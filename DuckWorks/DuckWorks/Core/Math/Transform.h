@@ -31,6 +31,14 @@ struct Transform2D
 		};
 	}
 
+	Transform2D GetInverse() const
+	{
+		Vec2 inverse_position = -mPosition;
+		Vec2 inverse_scale = Vec2(1.0f) / mScale;
+		float inverse_rotation = -mRotation;
+		return { inverse_position, inverse_scale, inverse_rotation };
+	}
+
 	//Transform2D operator+(const Transform2D& inOther) const
 	//{
 	//	return

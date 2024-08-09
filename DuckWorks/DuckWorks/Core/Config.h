@@ -16,6 +16,9 @@
 // Assert macro
 #ifdef _DEBUG
 #define _ASSERTS_ENABLED
+#define IF_DEBUG(x) x
+#else
+#define IF_DEBUG(x) 
 #endif
 
 #define ENABLE_SIMD

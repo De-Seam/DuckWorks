@@ -3,6 +3,9 @@
 #include <Core/RTTI/RTTI.h>
 #include <Core/RTTI/RTTIRefObject.h>
 
+// Engine includes
+#include <Engine/Node/Node.h>
+
 // External includes
 #include <External/entt/entity/registry.hpp>
 
@@ -28,6 +31,8 @@ protected:
 
 private:
 	bool mIsUpdatingEntities = false;
+
+	Array<Ref<Node>> mNodes;
 
 	Array<Ref<Entity>> mEntities;
 	Array<Ref<Entity>> mEntitiesToAdd;
