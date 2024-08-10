@@ -18,6 +18,7 @@ const Transform2D& Entity::GetTransform() const
 void Entity::OnAddedToWorld(World* inWorld) 
 {
 	gAssert(mWorld == nullptr);
+	gAssert(mEntityHandle == entt::null);
 	mWorld = inWorld;
 	mEntityHandle = GetRegistry().create();
 }
@@ -26,6 +27,9 @@ void Entity::OnRemovedFromWorld(World* inWorld)
 {
 	(void)inWorld;	
 	gAssert(mWorld == inWorld);
+	gAssert(mEntityHandle != entt::null);
+	GetRegistry().destroy(mEntityHandle);
+	mEntityHandle = entt::null;
 	mWorld = nullptr;
 }
 
