@@ -287,7 +287,7 @@ bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, cons
 		}
 
 		float value_float = ioValue.get<float>();
-		if (ImGui::DragFloat(*label, &value_float))
+		if (ImGui::DragFloat(*label, &value_float, 0.1f))
 		{
 			ioValue = value_float;
 			return true;
