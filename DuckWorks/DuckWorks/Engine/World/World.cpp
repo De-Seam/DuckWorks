@@ -44,12 +44,6 @@ void World::Render()
 {
 	PROFILE_SCOPE(World::Render)
 
-	auto test = mRegistry.view<TransformUpdatedTag>();
-	for (entt::entity entity_handle : test)
-	{
-		printf("yes");
-	}
-
 	auto transform_updated_view = mRegistry.view<TransformComponent, TransformUpdatedTag, TextureRenderComponent>();
 	for (entt::entity entity_handle : transform_updated_view)
 	{

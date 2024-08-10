@@ -27,5 +27,4 @@ void Actor::OnAddedToParent()
 	texture_render_component.SetSize(Vec2(100.0f, 100.0f));
 
 	AddComponent<TransformComponent>();
-	AddOrReplaceComponent<TransformUpdatedTag>();
 }
