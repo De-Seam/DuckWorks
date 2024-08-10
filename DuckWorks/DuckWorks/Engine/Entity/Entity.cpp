@@ -17,24 +17,26 @@ const entt::registry& Entity::GetRegistry() const
 	return GetWorld()->GetRegistry();
 }
 
-void Entity::OnAddedToWorld(World* inWorld) 
+void Entity::OnAddedToParent() 
 {
-	Base::OnAddedToWorld(inWorld);
+	Base::OnAddedToParent();
 
 	gAssert(mEntityHandle == entt::null);
 	mEntityHandle = GetRegistry().create();
 }
 
-void Entity::OnRemovedFromWorld(World* inWorld) 
+void Entity::OnRemovedFromParent() 
 {
 	gAssert(mEntityHandle != entt::null);
 	GetRegistry().destroy(mEntityHandle);
 	mEntityHandle = entt::null;
 
-	Base::OnRemovedFromWorld(inWorld);
+	Base::OnRemovedFromParent();
 }
 
 void Entity::OnTransformUpdated()
 {
+	if (GetWorld() == nullptr)
+		return;
 	GetComponent<TransformComponent>().SetTransform(GetWorldTransform(), GetRegistry(), mEntityHandle);
 }

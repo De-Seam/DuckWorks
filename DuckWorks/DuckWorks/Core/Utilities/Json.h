@@ -5,7 +5,7 @@
 // Std includes
 #include <type_traits>
 
-using Json = nlohmann::json;
+using Json = nlohmann::ordered_json;
 
 
 template <typename, typename T>

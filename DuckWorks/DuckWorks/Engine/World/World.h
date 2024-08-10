@@ -4,7 +4,7 @@
 #include <Core/RTTI/RTTIRefObject.h>
 
 // Engine includes
-#include <Engine/Node/Node.h>
+#include <Engine/World/RootNode.h>
 
 // External includes
 #include <External/entt/entity/registry.hpp>
@@ -17,13 +17,15 @@ class World : public RTTIClass
 
 public:
 	World();
-	~World();
+	virtual ~World() override;
 
 	void Update(float inDeltaTime);
 	void Render();
 
 	void AddNode(const Ref<Node>& inNode);
 	void RemoveNode(const Node& inNode);
+	Node& GetRootNode() { return *mRootNode; }
+	const Node& GetRootNode() const { return *mRootNode; }
 
 	entt::registry& GetRegistry() { return mRegistry; }
 	const entt::registry& GetRegistry() const { return mRegistry; }
@@ -34,7 +36,7 @@ protected:
 private:
 	bool mIsUpdatingEntities = false;
 
-	Array<Ref<Node>> mNodes;
+	Ref<RootNode> mRootNode; ///< Root Node
 
 	entt::registry mRegistry;
 };

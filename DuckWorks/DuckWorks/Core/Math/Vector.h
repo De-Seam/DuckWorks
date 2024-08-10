@@ -92,16 +92,6 @@ struct Vec2
 		return *this;
 	}
 
-	Vec2(const IVec2& i)
-		: mX(static_cast<float>(i.mX)), mY(static_cast<float>(i.mY)) {}
-
-	Vec2& operator=(const IVec2& inOther)
-	{
-		mX = static_cast<float>(inOther.mX);
-		mY = static_cast<float>(inOther.mY);
-		return *this;
-	}
-
 	float& operator[](size_t i)
 	{
 		assert(i < 2);

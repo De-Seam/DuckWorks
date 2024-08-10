@@ -38,27 +38,10 @@ struct Transform2D
 		float inverse_rotation = -mRotation;
 		return { inverse_position, inverse_scale, inverse_rotation };
 	}
-
-	//Transform2D operator+(const Transform2D& inOther) const
-	//{
-	//	return
-	//	{
-	//		mPosition + inOther.mPosition,
-	//		mScale + inOther.mScale,
-	//		mRotation + inOther.mRotation
-	//	};
-	//}
-	//
-	//Transform2D operator-(const Transform2D& inOther) const
-	//{
-	//	return
-	//	{
-	//		mPosition - inOther.mPosition,
-	//		mScale - inOther.mScale,
-	//		mRotation - inOther.mRotation
-	//	};
-	//}
 };
+
+void to_json(Json& outJson, const Transform2D& inVariable);
+void from_json(const Json& inJson, Transform2D& outVariable);
 
 struct Transform3D
 {

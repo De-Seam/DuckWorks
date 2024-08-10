@@ -8,10 +8,13 @@
 #include <Engine/Engine.h>
 #include <Engine/Debug/DebugManager.h>
 #include <Engine/Debug/Windows/DebugWindow.h>
+#include <Engine/Debug/Windows/DebugWindowNodeHierarchy.h>
 #include <Engine/Debug/Windows/DebugWindowObjectInspector.h>
+#include <Engine/Entity/Actor.h>
 #include <Engine/Renderer/WindowEvents/WindowEventManager.h>
 #include <Engine/Resources/ResourceManager.h>
 #include <Engine/Resources/TextureResource.h>
+
 
 EngineModule* gEngineModule = nullptr;
 
@@ -41,7 +44,13 @@ void EngineModule::RegisterRTTI()
 	mRTTIFactory.RegisterClass<Resource>();
 	mRTTIFactory.RegisterClass<TextureResource>();
 
+	mRTTIFactory.RegisterClass<Node>();
+	mRTTIFactory.RegisterClass<RootNode>();
+	mRTTIFactory.RegisterClass<Entity>();
+	mRTTIFactory.RegisterClass<Actor>();
+
 	mRTTIFactory.RegisterClass<DebugManager>();
 	mRTTIFactory.RegisterClass<DebugWindow>();
 	mRTTIFactory.RegisterClass<DebugWindowObjectInspector>();
+	mRTTIFactory.RegisterClass<DebugWindowNodeHierarchy>();
 }

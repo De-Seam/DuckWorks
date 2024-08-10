@@ -8,28 +8,34 @@ class Node : public RTTIRefObject
 {
 	RTTI_CLASS(Node, RTTIRefObject)
 public:
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
+
 	virtual ~Node() override;
 	virtual void Render();
 
 	void SetWorldTransform(const Transform2D& inTransform);
 	void SetLocalTransform(const Transform2D& inTransform);
+	void UpdateWorldTransform();
 
 	const Transform2D& GetWorldTransform() const { return mWorldTransform; }
 	const Transform2D& GetLocalTransform() const { return mLocalTransform; }
 
-	void SetParent(Node* inParent) { gAssert(mParent == nullptr || inParent == nullptr); mParent = inParent; }
+	void SetParent(Node* inParent);
 	const Node* GetParent() const { return mParent; }
 
 	void AddChild(const Ref<Node>& inChild);
-	void RemoveChild(Node& inChild);
+	void RemoveChild(const Node& inChild);
 	const Array<Ref<Node>>& GetChildren() const { return mChildren; }
+	void ClearChildren();
 
 	World* GetWorld() { return mWorld; }
 	const World* GetWorld() const { return mWorld; }
 
 protected:
-	virtual void OnAddedToWorld(World* inWorld);
-	virtual void OnRemovedFromWorld(World* inWorld);
+	virtual void OnAddedToParent();
+	virtual void OnRemovedFromParent();
+
 	virtual void OnTransformUpdated() {}
 
 private:
@@ -42,4 +48,5 @@ private:
 	World* mWorld = nullptr;
 
 	friend class World;
+	friend class RootNode;
 };

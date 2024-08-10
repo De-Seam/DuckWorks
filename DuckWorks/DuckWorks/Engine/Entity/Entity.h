@@ -33,8 +33,9 @@ public:
 	entt::entity GetEntityHandle() const { return mEntityHandle; }
 
 protected:
-	virtual void OnAddedToWorld(World* inWorld) override;
-	virtual void OnRemovedFromWorld(World* inWorld) override;
+	virtual void OnAddedToParent() override;
+	virtual void OnRemovedFromParent() override;
+
 	virtual void OnTransformUpdated() override;
 
 	entt::registry& GetRegistry();

@@ -12,29 +12,30 @@ World::World()
 {
 	mRegistry.on_construct<TransformComponent>().connect<&World::OnTransformComponentCreated>(this);
 
+	// Handle root node here explicitly, so it doesn't add itself as a child of itself
+	mRootNode = new RootNode(*this);
+
 	AddNode(new Actor);
+	Node* node = new Node;
+	AddNode(node);
+	node->AddChild(new Node);
 }
 
 World::~World() 
 {
-	for (Ref<Node>& node : mNodes)
-		node->OnRemovedFromWorld(this);
-	mNodes.clear();
 }
 
 void World::Update(float inDeltaTime) 
 {
 	PROFILE_SCOPE(World::Update)
 
-	mRegistry.clear<TransformUpdatedTag>();
-
 	mIsUpdatingEntities = true;
 
-	for (Node* node : mNodes)
-	{
-		if (Entity* entity = node->As<Entity>())
-			entity->Update(inDeltaTime);
-	}
+	//for (Node* node : mNodes)
+	//{
+	//	if (Entity* entity = node->As<Entity>())
+	//		entity->Update(inDeltaTime);
+	//}
 
 	mIsUpdatingEntities = false;
 }
@@ -43,6 +44,12 @@ void World::Render()
 {
 	PROFILE_SCOPE(World::Render)
 
+	auto test = mRegistry.view<TransformUpdatedTag>();
+	for (entt::entity entity_handle : test)
+	{
+		printf("yes");
+	}
+
 	auto transform_updated_view = mRegistry.view<TransformComponent, TransformUpdatedTag, TextureRenderComponent>();
 	for (entt::entity entity_handle : transform_updated_view)
 	{
@@ -50,6 +57,8 @@ void World::Render()
 		TextureRenderComponent& texture_render_c = transform_updated_view.get<TextureRenderComponent>(entity_handle);
 		texture_render_c.SetTransform(transform_c.GetTransform());
 	}
+
+	mRegistry.clear<TransformUpdatedTag>();
 
 	auto view = mRegistry.view<TextureRenderComponent>();
 	for (entt::entity entity_handle : view)
@@ -62,21 +71,13 @@ void World::Render()
 
 void World::AddNode(const Ref<Node>& inNode) 
 {
-	mNodes.push_back(inNode);
-	inNode->OnAddedToWorld(this);
+	gAssert(inNode->GetParent() == nullptr);
+	mRootNode->AddChild(inNode);
 }
 
 void World::RemoveNode(const Node& inNode) 
 {
-	for (Array<Ref<Node>>::iterator iterator = mNodes.begin(); iterator != mNodes.end(); iterator++)
-	{
-		if (*iterator == &inNode)
-		{
-			(*iterator)->OnRemovedFromWorld(this);
-			mNodes.erase(iterator);
-			break;
-		}
-	}
+	mRootNode->RemoveChild(inNode);
 }
 
 void World::OnTransformComponentCreated(entt::registry& inRegistry, entt::entity inEntityHandle) 

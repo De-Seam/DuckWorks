@@ -13,18 +13,19 @@ void Actor::Update(float inDeltaTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
-		const Transform2D& transform = GetComponent<TransformComponent>().GetTransform();
-		GetComponent<TransformComponent>().SetTransform(Transform2D(transform.mPosition + Vec2(-1.0f, 0.0f) * inDeltaTime, transform.mScale, transform.mRotation), GetRegistry(), GetEntityHandle());
+		const Transform2D& transform = GetLocalTransform();
+		SetLocalTransform(Transform2D(transform.mPosition + Vec2(-1.0f, 0.0f) * inDeltaTime, transform.mScale, transform.mRotation));
 	}
 }
 
-void Actor::OnAddedToWorld(World* inWorld)
+void Actor::OnAddedToParent()
 {
-	Entity::OnAddedToWorld(inWorld);
+	Base::OnAddedToParent();
 
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	texture_render_component.SetTexture(gEngine->GetManager<ResourceManager>().Get<TextureResource>("Assets/top.jpg"));
 	texture_render_component.SetSize(Vec2(100.0f, 100.0f));
 
 	AddComponent<TransformComponent>();
+	AddOrReplaceComponent<TransformUpdatedTag>();
 }

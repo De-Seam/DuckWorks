@@ -105,7 +105,7 @@ public:
 		if (inOther.mPtr != nullptr)
 		{
 			gAssert(inOther.mPtr->mRefCount > 0 && "Ref object is already destroyed!");
-			mPtr = SCast<taType*>(inOther.mPtr);
+			mPtr = static_cast<taType*>(inOther.mPtr);
 			mPtr->mRefCount++;
 		}
 	}

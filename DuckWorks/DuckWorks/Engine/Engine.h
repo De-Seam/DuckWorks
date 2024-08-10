@@ -42,6 +42,7 @@ public:
 	taType* FindManager();
 
 	Renderer& GetRenderer() { return mRenderer; }
+	World* GetWorld() const { return mWorld.get(); }
 
 protected:
 	void OnWindowClosed(const MsgWindowClosed& inMsg);
