@@ -24,6 +24,10 @@ public:
 	void GetClassNames(Array<String>& outClassNames) const; ///< Get all registered class names. Very slow operation.
 
 	template<typename taType>
+	void GetClassAndSubClassNames(Array<String>& outClassNames) const; ///< Get all registered class names that are subclasses of taType. Very slow operation.
+	void GetClassAndSubClassNames(const String& inClassName, Array<String>& outClassNames) const; ///< Get all registered class names that are subclasses of inClassName. Very slow operation.
+
+	template<typename taType>
 	void GetSubClassNames(Array<String>& outClassNames) const; ///< Get all registered class names that are subclasses of taType. Very slow operation.
 	void GetSubClassNames(const String& inClassName, Array<String>& outClassNames) const; ///< Get all registered class names that are subclasses of inClassName. Very slow operation.
 

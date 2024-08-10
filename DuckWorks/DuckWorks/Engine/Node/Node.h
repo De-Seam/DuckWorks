@@ -1,5 +1,8 @@
 #pragma once
+// Core includes
 #include <Core/RTTI/RTTIRefObject.h>
+
+class World;
 
 class Node : public RTTIRefObject
 {
@@ -14,24 +17,29 @@ public:
 	const Transform2D& GetWorldTransform() const { return mWorldTransform; }
 	const Transform2D& GetLocalTransform() const { return mLocalTransform; }
 
-	void SetParent(const Ref<Node>& inParent) { gAssert(mParent == nullptr || inParent == nullptr); mParent = inParent; }
+	void SetParent(Node* inParent) { gAssert(mParent == nullptr || inParent == nullptr); mParent = inParent; }
 	const Node* GetParent() const { return mParent; }
 
 	void AddChild(const Ref<Node>& inChild);
 	void RemoveChild(Node& inChild);
 	const Array<Ref<Node>>& GetChildren() const { return mChildren; }
 
+	World* GetWorld() { return mWorld; }
+	const World* GetWorld() const { return mWorld; }
+
 protected:
-	virtual void OnAddedToWorld();
-	virtual void OnRemovedFromWorld();
+	virtual void OnAddedToWorld(World* inWorld);
+	virtual void OnRemovedFromWorld(World* inWorld);
 	virtual void OnTransformUpdated() {}
 
 private:
 	Transform2D mWorldTransform;
 	Transform2D mLocalTransform;
 
-	Ref<Node> mParent;
+	Node* mParent;
 	Array<Ref<Node>> mChildren;
 
-	IF_DEBUG(bool mAddedToWorld = false;)
+	World* mWorld = nullptr;
+
+	friend class World;
 };

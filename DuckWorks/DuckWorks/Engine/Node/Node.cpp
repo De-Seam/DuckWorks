@@ -3,15 +3,15 @@
 
 Node::~Node() 
 {
-	IF_DEBUG(gAssert(!mAddedToWorld)); // We should have been removed from the world before being destroyed.
+	gAssert(mWorld == nullptr); // We should have been removed from the world before being destroyed.
+	for (Node* child : mChildren)
+		child->SetParent(nullptr);
 }
 
 void Node::Render()
 {
 	for (const Ref<Node>& child : mChildren)
-	{
 		child->Render();
-	}
 }
 
 void Node::SetWorldTransform(const Transform2D& inTransform) 
@@ -63,12 +63,13 @@ void Node::RemoveChild(Node& inChild)
 	}
 }
 
-void Node::OnAddedToWorld() 
+void Node::OnAddedToWorld(World* inWorld) 
 {
-	IF_DEBUG(mAddedToWorld = true;)
+	mWorld = inWorld;
 }
 
-void Node::OnRemovedFromWorld() 
+void Node::OnRemovedFromWorld(World* inWorld) 
 {
-	IF_DEBUG(mAddedToWorld = false;)
+	gAssert(mWorld == inWorld);
+	mWorld = nullptr;
 }

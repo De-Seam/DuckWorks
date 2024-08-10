@@ -17,14 +17,16 @@ class World : public RTTIClass
 
 public:
 	World();
+	~World();
 
 	void Update(float inDeltaTime);
 	void Render();
 
-	void AddEntity(const Ref<Entity>& inEntity);
-	void RemoveEntity(const Ref<Entity>& inEntity);
+	void AddNode(const Ref<Node>& inNode);
+	void RemoveNode(const Node& inNode);
 
 	entt::registry& GetRegistry() { return mRegistry; }
+	const entt::registry& GetRegistry() const { return mRegistry; }
 
 protected:
 	void OnTransformComponentCreated(entt::registry& inRegistry, entt::entity inEntityHandle);
@@ -33,10 +35,6 @@ private:
 	bool mIsUpdatingEntities = false;
 
 	Array<Ref<Node>> mNodes;
-
-	Array<Ref<Entity>> mEntities;
-	Array<Ref<Entity>> mEntitiesToAdd;
-	Array<Ref<Entity>> mEntitiesToRemove;
 
 	entt::registry mRegistry;
 };

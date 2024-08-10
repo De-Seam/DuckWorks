@@ -5,42 +5,36 @@
 #include <Engine/Entity/Components/TransformComponent.h>
 #include <Engine/World/World.h>
 
-void Entity::SetTransform(const Transform2D& inTransform) 
+entt::registry& Entity::GetRegistry() 
 {
-	GetComponent<TransformComponent>().SetTransform(inTransform, GetRegistry(), mEntityHandle);
+	gAssert(GetWorld() != nullptr);
+	return GetWorld()->GetRegistry();
 }
 
-const Transform2D& Entity::GetTransform() const 
+const entt::registry& Entity::GetRegistry() const 
 {
-	return GetComponent<TransformComponent>().GetTransform();
+	gAssert(GetWorld() != nullptr);
+	return GetWorld()->GetRegistry();
 }
 
 void Entity::OnAddedToWorld(World* inWorld) 
 {
-	gAssert(mWorld == nullptr);
+	Base::OnAddedToWorld(inWorld);
+
 	gAssert(mEntityHandle == entt::null);
-	mWorld = inWorld;
 	mEntityHandle = GetRegistry().create();
 }
 
 void Entity::OnRemovedFromWorld(World* inWorld) 
 {
-	(void)inWorld;	
-	gAssert(mWorld == inWorld);
 	gAssert(mEntityHandle != entt::null);
 	GetRegistry().destroy(mEntityHandle);
 	mEntityHandle = entt::null;
-	mWorld = nullptr;
+
+	Base::OnRemovedFromWorld(inWorld);
 }
 
-entt::registry& Entity::GetRegistry() 
+void Entity::OnTransformUpdated()
 {
-	gAssert(mWorld != nullptr);
-	return mWorld->GetRegistry();
-}
-
-const entt::registry& Entity::GetRegistry() const 
-{
-	gAssert(mWorld != nullptr);
-	return mWorld->GetRegistry();
+	GetComponent<TransformComponent>().SetTransform(GetWorldTransform(), GetRegistry(), mEntityHandle);
 }

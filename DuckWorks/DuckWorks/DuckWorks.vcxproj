@@ -208,7 +208,6 @@
     <ClInclude Include="Engine\Entity\Components\TransformComponent.h" />
     <ClInclude Include="Engine\Entity\Components\WorldComponent.h" />
     <ClInclude Include="Engine\Entity\Entity.h" />
-    <ClInclude Include="Engine\Entity\EntityNode.h" />
     <ClInclude Include="Engine\Manager\Manager.h" />
     <ClInclude Include="Engine\Manager\Managers.h" />
     <ClInclude Include="Engine\Node\Node.h" />
@@ -245,7 +244,6 @@
     <ClCompile Include="Engine\Entity\Components\TextureRenderComponent.cpp" />
     <ClCompile Include="Engine\Entity\Components\TransformComponent.cpp" />
     <ClCompile Include="Engine\Entity\Entity.cpp" />
-    <ClCompile Include="Engine\Entity\EntityNode.cpp" />
     <ClCompile Include="Engine\Node\Node.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Renderer\WindowEvents\WindowEventManager.cpp" />

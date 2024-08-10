@@ -22,6 +22,12 @@ void RTTIFactory::GetClassNames(Array<String>& outClassNames) const
 		outClassNames.push_back(pair.first);
 }
 
+void RTTIFactory::GetClassAndSubClassNames(const String& inClassName, Array<String>& outClassNames) const 
+{
+	outClassNames.push_back(inClassName);
+	GetSubClassNames(inClassName, outClassNames);
+}
+
 void RTTIFactory::GetSubClassNames(const String& inClassName, Array<String>& outClassNames) const 
 {
 	const RTTI* target_rtti = GetRTTI(inClassName);

@@ -12,7 +12,14 @@ World::World()
 {
 	mRegistry.on_construct<TransformComponent>().connect<&World::OnTransformComponentCreated>(this);
 
-	AddEntity(new Actor);
+	AddNode(new Actor);
+}
+
+World::~World() 
+{
+	for (Ref<Node>& node : mNodes)
+		node->OnRemovedFromWorld(this);
+	mNodes.clear();
 }
 
 void World::Update(float inDeltaTime) 
@@ -23,16 +30,23 @@ void World::Update(float inDeltaTime)
 
 	mIsUpdatingEntities = true;
 
-	for (Entity* entity : mEntities)
-		entity->Update(inDeltaTime);
+	for (Node* node : mNodes)
+	{
+		if (Entity* entity = node->As<Entity>())
+			entity->Update(inDeltaTime);
+	}
 
 	mIsUpdatingEntities = false;
-
-	for (const Ref<Entity>& entity : mEntitiesToAdd)
-		AddEntity(entity);
-
-	for (const Ref<Entity>& entity : mEntitiesToRemove)
-		RemoveEntity(entity);
+	
+	//for (Entity* entity : mEntities)
+	//	entity->Update(inDeltaTime);
+	//
+	//
+	//for (const Ref<Entity>& entity : mEntitiesToAdd)
+	//	AddEntity(entity);
+	//
+	//for (const Ref<Entity>& entity : mEntitiesToRemove)
+	//	RemoveEntity(entity);
 }
 
 void World::Render() 
@@ -56,29 +70,23 @@ void World::Render()
 	}
 }
 
-void World::AddEntity(const Ref<Entity>& inEntity) 
+void World::AddNode(const Ref<Node>& inNode) 
 {
-	if (mIsUpdatingEntities)
-	{
-		mEntitiesToAdd.push_back(inEntity);
-		return;
-	}
-	mEntities.push_back(inEntity);
-	inEntity->OnAddedToWorld(this);
+	mNodes.push_back(inNode);
+	inNode->OnAddedToWorld(this);
 }
 
-void World::RemoveEntity(const Ref<Entity>& inEntity) 
+void World::RemoveNode(const Node& inNode) 
 {
-	if (mIsUpdatingEntities)
+	for (Array<Ref<Node>>::iterator iterator = mNodes.begin(); iterator != mNodes.end(); iterator++)
 	{
-		mEntitiesToRemove.push_back(inEntity);
-		return;
+		if (*iterator == &inNode)
+		{
+			(*iterator)->OnRemovedFromWorld(this);
+			mNodes.erase(iterator);
+			break;
+		}
 	}
-	Array<Ref<Entity>>::iterator it = std::ranges::find(mEntities.begin(), mEntities.end(), inEntity);
-	gSwap(*it, mEntities.back());
-	Ref<Entity> entity = mEntities.back();
-	mEntities.pop_back();
-	entity->OnRemovedFromWorld(this);
 }
 
 void World::OnTransformComponentCreated(entt::registry& inRegistry, entt::entity inEntityHandle) 

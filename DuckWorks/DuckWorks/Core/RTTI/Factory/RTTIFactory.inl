@@ -33,6 +33,12 @@ void RTTIFactory::RegisterClass()
 }
 
 template<typename taType>
+void RTTIFactory::GetClassAndSubClassNames(Array<String>& outClassNames) const
+{ 
+	outClassNames.push_back(taType::sGetRTTI().GetClassName()); GetSubClassNames(taType::sGetRTTI().GetClassName(), outClassNames); 
+}
+
+template<typename taType>
 void RTTIFactory::GetSubClassNames(Array<String>& outClassNames) const 
 {
 	GetSubClassNames(taType::sGetRTTI().GetClassName(), outClassNames);
