@@ -37,16 +37,6 @@ void World::Update(float inDeltaTime)
 	}
 
 	mIsUpdatingEntities = false;
-	
-	//for (Entity* entity : mEntities)
-	//	entity->Update(inDeltaTime);
-	//
-	//
-	//for (const Ref<Entity>& entity : mEntitiesToAdd)
-	//	AddEntity(entity);
-	//
-	//for (const Ref<Entity>& entity : mEntitiesToRemove)
-	//	RemoveEntity(entity);
 }
 
 void World::Render() 
