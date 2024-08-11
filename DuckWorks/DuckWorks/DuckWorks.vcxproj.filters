@@ -201,6 +201,9 @@
     <ClInclude Include="Engine\World\RootNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Collision\Grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precomp.cpp">

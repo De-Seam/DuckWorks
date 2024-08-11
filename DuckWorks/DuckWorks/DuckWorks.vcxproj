@@ -197,6 +197,7 @@
     <ClInclude Include="Core\Utilities\Types.h" />
     <ClInclude Include="Core\Utilities\UID.h" />
     <ClInclude Include="Core\Utilities\Utilities.h" />
+    <ClInclude Include="Engine\Collision\Grid.h" />
     <ClInclude Include="Engine\Debug\DebugManager.h" />
     <ClInclude Include="Engine\Debug\Windows\DebugWindow.h" />
     <ClInclude Include="Engine\Debug\Windows\DebugWindowNodeHierarchy.h" />
