@@ -16,9 +16,15 @@ World::World()
 	mRootNode = new RootNode(*this);
 
 	AddNode(new Actor);
+	Actor* actor = new Actor;
+	AddNode(actor);
+	actor->AddChild(new Actor);
+	actor->AddChild(new Actor);
+	actor->SetLocalTransform(Transform2D({200.0f, 0.0f}, {1.0f, 1.0f}, 0.0f));
 	Node* node = new Node;
 	AddNode(node);
 	node->AddChild(new Node);
+	node->AddChild(new Actor);
 }
 
 World::~World() 

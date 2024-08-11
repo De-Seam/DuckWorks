@@ -24,7 +24,7 @@ void Actor::OnAddedToParent()
 
 	TextureRenderComponent& texture_render_component = AddComponent<TextureRenderComponent>();
 	texture_render_component.SetTexture(gEngine->GetManager<ResourceManager>().Get<TextureResource>("Assets/top.jpg"));
-	texture_render_component.SetSize(Vec2(100.0f, 100.0f));
+	texture_render_component.SetSize(Vec2(128.0f, 128.0f));
 
 	AddComponent<TransformComponent>();
 }

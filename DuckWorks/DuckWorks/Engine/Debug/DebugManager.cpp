@@ -50,7 +50,7 @@ void DebugManager::Init()
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w = 0.4f;
-	ImGui::GetStyle().IndentSpacing = 14.f;
+	//ImGui::GetStyle().IndentSpacing = 14.f;
 	gEngine->GetManager<WindowEventManager>().RegisterMessageListener(this, &DebugManager::OnAnyWindowEvent);
 
 	gEngine->GetRenderer().RegisterMessageListener(this, &DebugManager::OnPostBeginFrame);
@@ -165,13 +165,17 @@ bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, cons
 		if (ImGui::TreeNodeEx(*String(inKey + label + "##TreeNode"), ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			bool changed = false;
-			for (const auto& [key, value] : ioValue.items())
+			int i = 0;
+			for (auto it = ioValue.items().begin(); it != ioValue.items().end(); it++)
 			{
-				if (sIgnoreKeys.contains(key))
+				if (sIgnoreKeys.contains(it.key()))
 					continue;
 
-				if (sHandleKeyValuePair(ioJson, label, key, value, false))
+				label += std::to_string(i);
+				if (sHandleKeyValuePair(ioJson, label, it.key(), it.value(), false))
 					changed = true;
+
+				i++;
 			}
 			ImGui::TreePop();
 			return changed;
@@ -183,18 +187,25 @@ bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, cons
 	{
 		if (inShowKey)
 		{
-			ImGui::Text(*inKey);
+			if (ioValue.empty())
+				ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.f), *inKey);
+			else
+				ImGui::Text(*inKey);
 			if (inSameLine)
 				ImGui::SameLine();
 		}
 
 		bool changed = false;
+		int i = 0;
 		for (const auto& [key, value] : ioValue.items())
 		{
+			label += std::to_string(i);
 			// If the array element is an object with a ClassName display the ClassName instead of the key (index)
 			const String& new_key = (value.type() == nlohmann::detail::value_t::object && value.contains("ClassName")) ? value["ClassName"].get<String>() : key;
 			if (sHandleKeyValuePair(ioJson, label, new_key, value, true, false))
 				changed = true;
+
+			i++;
 		}
 		return changed;
 	}
