@@ -3,6 +3,8 @@
 
 #define STRING_BUFFER_SIZE 256
 
+struct MsgPostBeginFrame;
+struct MsgPreEndFrame;
 class DebugWindow;
 struct MsgAnyWindowEvent;
 
@@ -28,7 +30,11 @@ public:
 
 protected:
 	void OnAnyWindowEvent(const MsgAnyWindowEvent& inMsg);
+	void OnPostBeginFrame(const MsgPostBeginFrame& inMsg);
+	void OnPreEndFrame(const MsgPreEndFrame& inMsg);
 
 private:
 	Array<Ref<DebugWindow>> mDebugWindows;
+
+	bool mIsInFrame = false;
 };

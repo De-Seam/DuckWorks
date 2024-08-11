@@ -9,4 +9,5 @@ class RootNode : public Node
 public:
 	RootNode() { gAssert(false); }
 	RootNode(World& inWorld) { mWorld = &inWorld; }
+	virtual ~RootNode() override { mWorld = nullptr; }
 };

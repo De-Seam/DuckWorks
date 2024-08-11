@@ -52,6 +52,9 @@ void DebugManager::Init()
 	ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w = 0.4f;
 	ImGui::GetStyle().IndentSpacing = 14.f;
 	gEngine->GetManager<WindowEventManager>().RegisterMessageListener(this, &DebugManager::OnAnyWindowEvent);
+
+	gEngine->GetRenderer().RegisterMessageListener(this, &DebugManager::OnPostBeginFrame);
+	gEngine->GetRenderer().RegisterMessageListener(this, &DebugManager::OnPreEndFrame);
 }
 
 void DebugManager::Shutdown()
@@ -59,15 +62,16 @@ void DebugManager::Shutdown()
 	PROFILE_SCOPE(DebugManager::Shutdown)
 	ImGui::SFML::Shutdown();
 	gEngine->GetManager<WindowEventManager>().UnregisterMessageListener(this, &DebugManager::OnAnyWindowEvent);
+
+	gEngine->GetRenderer().UnregisterMessageListener(this, &DebugManager::OnPostBeginFrame);
+	gEngine->GetRenderer().UnregisterMessageListener(this, &DebugManager::OnPreEndFrame);
 }
 
 void DebugManager::Update(float  inDeltaTime)
 {
 	PROFILE_SCOPE(DebugManager::Update)
 
-	sf::RenderWindow& render_window = gEngine->GetRenderer().GetRenderWindow();
-	THREADLOCAL static sf::Clock delta_clock;
-	ImGui::SFML::Update(render_window, delta_clock.restart());
+	gAssert(mIsInFrame);
 
 	ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 
@@ -113,12 +117,6 @@ void DebugManager::Update(float  inDeltaTime)
 	}
 
 	ImGui::ShowDemoWindow();
-	
-	ImGui::Begin("Hello, world!");
-	ImGui::Button("Look at this pretty button");
-	ImGui::End();
-	
-	ImGui::SFML::Render(render_window);
 }
 
 bool DebugManager::sDebugDrawJson(Json& ioJson, const String& inLabel) 
@@ -310,5 +308,24 @@ void DebugManager::OnAnyWindowEvent(const MsgAnyWindowEvent& inMsg)
 	PROFILE_SCOPE(DebugManager::OnAnyWindowEvent)
 	sf::RenderWindow& render_window = gEngine->GetRenderer().GetRenderWindow();
 	ImGui::SFML::ProcessEvent(render_window, inMsg.mEvent);
+}
+
+void DebugManager::OnPostBeginFrame(const MsgPostBeginFrame& inMsg) 
+{
+	PROFILE_SCOPE(DebugManager::OnPostBeginFrame)
+	sf::RenderWindow& render_window = gEngine->GetRenderer().GetRenderWindow();
+	THREADLOCAL static sf::Clock delta_clock;
+	ImGui::SFML::Update(render_window, delta_clock.restart());
+
+	mIsInFrame = true;
+}
+
+void DebugManager::OnPreEndFrame(const MsgPreEndFrame&) 
+{
+	PROFILE_SCOPE(DebugManager::OnPreEndFrame)
+	sf::RenderWindow& render_window = gEngine->GetRenderer().GetRenderWindow();
+	ImGui::SFML::Render(render_window);
+
+	mIsInFrame = false;
 }
 

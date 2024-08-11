@@ -23,6 +23,8 @@ World::World()
 
 World::~World() 
 {
+	// Delete root node before the registry is destroyed
+	mRootNode = nullptr;
 }
 
 void World::Update(float inDeltaTime) 
