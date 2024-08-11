@@ -16,7 +16,7 @@ private:
 
 struct Tile
 {
-	
+	Array<CollisionShape*> mCollisionShapes;
 };
 
 class Grid
@@ -25,14 +25,19 @@ public:
 	Grid(const IVec2& inSize)
 		: mSize(inSize)
 	{
-		mTiles.resize(inSize.mX * inSize.mY);
+		mTiles = new (static_cast<std::align_val_t>(8)) Tile[inSize.mX * inSize.mY];
+	}
+	~Grid()
+	{
+		delete[] mTiles;
 	}
 
-	Tile& GetTile(int inX, int inY) { return mTiles[inY * mSize.mX + inX]; }
+	Tile& GetTile(int inX, int inY) { gAssert(inX >= 0 && inX < mSize.mX && inY >= 0 && inY < mSize.mY); return mTiles[inY * mSize.mX + inX]; }
+	const Tile& GetTile(int inX, int inY) const { gAssert(inX >= 0 && inX < mSize.mX && inY >= 0 && inY < mSize.mY); return mTiles[inY * mSize.mX + inX]; }
 	const IVec2& GetSize() const { return mSize; }
 
 private:
-	Array<Tile> mTiles;
+	Tile* mTiles;
 
 	IVec2 mSize;
 };
