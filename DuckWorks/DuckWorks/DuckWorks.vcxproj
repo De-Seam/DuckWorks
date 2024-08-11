@@ -240,6 +240,7 @@
     <ClCompile Include="Core\RTTI\Factory\RTTIFactory.cpp" />
     <ClCompile Include="Core\RTTI\RTTI.cpp" />
     <ClCompile Include="Core\Utilities\GUID.cpp" />
+    <ClCompile Include="Engine\Collision\Grid.cpp" />
     <ClCompile Include="Engine\Debug\DebugManager.cpp" />
     <ClCompile Include="Engine\Debug\Windows\DebugWindowNodeHierarchy.cpp" />
     <ClCompile Include="Engine\Debug\Windows\DebugWindowObjectInspector.cpp" />
