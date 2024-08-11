@@ -10,6 +10,7 @@
 
 void DebugWindowNodeHierarchy::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(DebugWindowNodeHierarchy::Update)
 	ImGui::Begin("Node Hierarchy", &mIsOpen);
 
 	Node& root_node = gEngine->GetWorld()->GetRootNode();

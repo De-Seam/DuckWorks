@@ -10,6 +10,7 @@
 
 void DebugWindowObjectInspector::Update(float inDeltaTime)
 {
+	PROFILE_SCOPE(DebugWindowObjectInspector::Update)
 	DebugWindow::Update(inDeltaTime);
 
 	ImGui::Begin("Object Inspector", &mIsOpen);
