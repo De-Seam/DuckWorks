@@ -11,6 +11,8 @@
 #pragma warning (push)
 #pragma warning (disable : 4201) //to avoid nameless struct / union warning.
 
+struct Vec2;
+
 struct IVec2
 {
 	int32 mX, mY;
@@ -45,6 +47,8 @@ struct IVec2
 		assert(inIndex < 2);
 		return *(&mX + inIndex);
 	}
+
+	Vec2 ToVec2() const;
 
 	IVec2 operator -() const { return {-mX, -mY}; }
 	IVec2 operator +(const IVec2& inOther) const { return {mX + inOther.mX, mY + inOther.mY}; }
@@ -106,7 +110,7 @@ struct Vec2
 
 	IVec2 ToIVec2() const
 	{
-		return {static_cast<int32>(mX), static_cast<int32>(mY)};
+		return { static_cast<int32>(mX), static_cast<int32>(mY) };
 	}
 
 	Vec2 operator -() const { return {-mX, -mY}; }

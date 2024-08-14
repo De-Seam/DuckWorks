@@ -38,6 +38,8 @@ private:
 	Vec2 mHalfSize;
 	float mRotation = 0.0f;
 	AABB mAABB;
+
+	IF_DEBUG( bool mIsInGrid = false;)
 };
 
 struct Tile
@@ -48,23 +50,39 @@ struct Tile
 class Grid
 {
 public:
-	Grid(const IVec2& inSize, const IVec2& inTileSize)
-		: mSize(inSize), mTileSize(inTileSize)
+	Grid(const IVec2& inMin, const IVec2& inSize, const IVec2& inTileSize)
+		: mMin(inMin), mSize(inSize), mTileSize(inTileSize)
 	{
-		mTiles = new (static_cast<std::align_val_t>(8)) Tile[inSize.mX * inSize.mY];
+		mMinFlt = mMin.ToVec2();
+		mSizeFlt = mSize.ToVec2();
+		mTileSizeFlt = mTileSize.ToVec2();
+		mTiles = static_cast<Tile*>(operator new[](sizeof(Tile) * inSize.mX * inSize.mY, std::align_val_t{8}));
 	}
 	~Grid()
 	{
 		delete[] mTiles;
 	}
 
-	Tile& GetTile(int inX, int inY) { gAssert(inX >= 0 && inX < mSize.mX && inY >= 0 && inY < mSize.mY); return mTiles[inY * mSize.mX + inX]; }
-	const Tile& GetTile(int inX, int inY) const { gAssert(inX >= 0 && inX < mSize.mX && inY >= 0 && inY < mSize.mY); return mTiles[inY * mSize.mX + inX]; }
+	bool IsValidTile(int inX, int inY) const { return inX >= 0 && inX < mSize.mX && inY >= 0 && inY < mSize.mY; }
+
+	Tile& GetTile(int inX, int inY) { gAssert(IsValidTile(inX, inY)); return mTiles[inY * mSize.mX + inX]; }
+	const Tile& GetTile(int inX, int inY) const { gAssert(IsValidTile(inX, inY)); return mTiles[inY * mSize.mX + inX]; }
+
+	IVec2 GetTileIndex(const Vec2& inPosition) const { return ((inPosition - mMinFlt) / mTileSizeFlt).ToIVec2(); }
+
 	const IVec2& GetSize() const { return mSize; }
+
+	AABB GetTileAABB(int inX, int inY) const;
 
 private:
 	Tile* mTiles;
 
+	IVec2 mMin;
+	Vec2 mMinFlt;
+
 	IVec2 mSize;
+	Vec2 mSizeFlt;
+	
 	IVec2 mTileSize;
+	Vec2 mTileSizeFlt;
 };
