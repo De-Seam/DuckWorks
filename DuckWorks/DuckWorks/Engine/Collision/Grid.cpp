@@ -8,9 +8,9 @@ void CollisionShape::RemoveFromGrid(Grid& inGrid)
 	IVec2 min_tile = inGrid.GetTileIndex(mAABB.mMin);
 	IVec2 max_tile = inGrid.GetTileIndex(mAABB.mMax);
 
-	for (int y = min_tile.mY; y <= max_tile.mY; ++y)
+	for (int y = min_tile.mY; y <= max_tile.mY; y++)
 	{
-		for (int x = min_tile.mX; x <= max_tile.mX; ++x)
+		for (int x = min_tile.mX; x <= max_tile.mX; x++)
 		{
 			Tile& tile = inGrid.GetTile(x, y);
 			tile.mCollisionShapes.erase(std::ranges::find(tile.mCollisionShapes, this));
@@ -37,9 +37,9 @@ void CollisionShape::AddToGrid(Grid& inGrid)
 	IVec2 min_tile = inGrid.GetTileIndex(mAABB.mMin);
 	IVec2 max_tile = inGrid.GetTileIndex(mAABB.mMax);
 
-	for (int y = min_tile.mY; y <= max_tile.mY; ++y)
+	for (int y = min_tile.mY; y <= max_tile.mY; y++)
 	{
-		for (int x = min_tile.mX; x <= max_tile.mX; ++x)
+		for (int x = min_tile.mX; x <= max_tile.mX; x++)
 		{
 			inGrid.GetTile(x, y).mCollisionShapes.push_back(this);
 		}
