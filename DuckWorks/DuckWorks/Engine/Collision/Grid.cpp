@@ -14,7 +14,7 @@ void Grid::Render()
 	if (mLines.getVertexCount() == 0)
 	{
 		sf::Vertex vertex;
-		vertex.color = sf::Color(200, 200, 200, 150);
+		vertex.color = sf::Color(150, 150, 150, 100);
 		for (int x = 0; x < mTileCount.mX; x++)
 		{
 			for (int y = 0; y < mTileCount.mY; y++)
