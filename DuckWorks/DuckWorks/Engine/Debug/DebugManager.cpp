@@ -137,9 +137,9 @@ bool DebugManager::sHandleKeyValuePair(Json& ioJson, const String& inLabel, cons
 {
 	PROFILE_SCOPE(gHandleKeyValuePair)
 
-	static HashMap<String, bool> sIgnoreKeys =
+	static HashSet<String> sIgnoreKeys =
 	{
-		{"ClassName", true}
+		"ClassName"
 	};
 
 	if (sIgnoreKeys.contains(inKey))
