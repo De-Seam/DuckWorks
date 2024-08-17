@@ -7,6 +7,7 @@
 // Std includes
 #include <memory>
 
+struct MsgWindowResized;
 struct MsgWindowMouseMoved;
 struct MsgWindowMouseWheelScrolled;
 class WindowEventManager;
@@ -61,8 +62,10 @@ public:
 	WindowEventManager& GetWindowEventManager() { return *mWindowEventManager; }
 
 protected:
+	// Message handlers
 	void OnMouseWheelScrolled(const MsgWindowMouseWheelScrolled& inMsg);
 	void OnMouseMoved(const MsgWindowMouseMoved& inMsg);
+	void OnWindowResized(const MsgWindowResized& inMsg);
 
 private:
 	std::unique_ptr<sf::RenderWindow> mRenderWindow = nullptr;
