@@ -1,51 +1,30 @@
 #include <Precomp.h>
 #include <Engine/Collision/Grid.h>
 
-void CollisionShape::RemoveFromGrid(Grid& inGrid)
+// Engine includes
+#include <Engine/Engine.h>
+
+// External includes
+#include <External/SFML/Graphics/RectangleShape.hpp>
+
+void Grid::Render()
 {
-	gAssert(mIsInGrid);
+	PROFILE_SCOPE(Grid::Render)
 
-	IVec2 min_tile = inGrid.GetTileIndex(mAABB.mMin);
-	IVec2 max_tile = inGrid.GetTileIndex(mAABB.mMax);
-
-	for (int y = min_tile.mY; y <= max_tile.mY; y++)
+	for (int i = 0; i < mTileCount.mX * mTileCount.mY; i++)
 	{
-		for (int x = min_tile.mX; x <= max_tile.mX; x++)
-		{
-			Tile& tile = inGrid.GetTile(x, y);
-			tile.mCollisionShapes.erase(std::ranges::find(tile.mCollisionShapes, this));
-		}
+		int x = i % mTileCount.mX;
+		int y = i / mTileCount.mX;
+
+		sf::RectangleShape rectangle_shape;
+		Vec2 position = mMinFlt + IVec2{ x, y }.ToVec2() * mTileSizeFlt;
+		rectangle_shape.setPosition(position);
+		rectangle_shape.setSize(mTileSizeFlt);
+		rectangle_shape.setOutlineColor(sf::Color(255, 255, 255, 255));
+		rectangle_shape.setOutlineThickness(0.5f);
+		rectangle_shape.setFillColor(sf::Color(0, 0, 0, 0));
+		gEngine->GetRenderer().Draw(rectangle_shape);
 	}
-
-	IF_DEBUG(mIsInGrid = false);
-}
-
-void CollisionShape::OnTransformChanged(Grid& inGrid)
-{
-	RemoveFromGrid(inGrid);
-
-	// TODO: Included rotation
-	mAABB = AABB{ mPosition - mHalfSize, mPosition + mHalfSize };
-
-	AddToGrid(inGrid);
-}
-
-void CollisionShape::AddToGrid(Grid& inGrid)
-{
-	gAssert(!mIsInGrid);
-
-	IVec2 min_tile = inGrid.GetTileIndex(mAABB.mMin);
-	IVec2 max_tile = inGrid.GetTileIndex(mAABB.mMax);
-
-	for (int y = min_tile.mY; y <= max_tile.mY; y++)
-	{
-		for (int x = min_tile.mX; x <= max_tile.mX; x++)
-		{
-			inGrid.GetTile(x, y).mCollisionShapes.push_back(this);
-		}
-	}
-
-	IF_DEBUG(mIsInGrid = true);
 }
 
 AABB Grid::GetTileAABB(int inX, int inY) const 

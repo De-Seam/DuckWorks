@@ -10,6 +10,7 @@
 #include <External/entt/entity/registry.hpp>
 
 class Entity;
+class Grid;
 
 class World : public RTTIClass
 {
@@ -27,6 +28,9 @@ public:
 	Node& GetRootNode() { return *mRootNode; }
 	const Node& GetRootNode() const { return *mRootNode; }
 
+	Grid& GetGrid() { return *mGrid.get(); }
+	const Grid& GetGrid() const { return *mGrid.get(); }
+
 	entt::registry& GetRegistry() { return mRegistry; }
 	const entt::registry& GetRegistry() const { return mRegistry; }
 
@@ -38,5 +42,6 @@ private:
 
 	Ref<RootNode> mRootNode; ///< Root Node
 
+	UniquePtr<Grid> mGrid;
 	entt::registry mRegistry;
 };

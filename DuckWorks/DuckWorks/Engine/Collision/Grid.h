@@ -4,43 +4,8 @@
 #include <Core/Math/Vector.h>
 #include <Core/Utilities/Types.h>
 
-class Grid;
-
-struct AABB
-{
-	Vec2 mMin = { FLT_MAX };
-	Vec2 mMax = { FLT_MIN };
-};
-
-class CollisionShape
-{
-public:
-	CollisionShape() = default;
-	CollisionShape(const Vec2& inPosition, const Vec2& inHalfSize, float inRotation, Grid& inGrid)
-		: mPosition(inPosition)
-		, mHalfSize(inHalfSize)
-		, mRotation(inRotation)
-	{
-		OnTransformChanged(inGrid);
-	}
-
-	void SetPosition(const Vec2& inPosition, Grid& inGrid) { RemoveFromGrid(inGrid); mPosition = inPosition; OnTransformChanged(inGrid); }
-	void SetHalfSize(const Vec2& inHalfSize, Grid& inGrid) { RemoveFromGrid(inGrid); mHalfSize = inHalfSize; OnTransformChanged(inGrid); }
-	void SetRotation(float inRotation,Grid& inGrid) { RemoveFromGrid(inGrid); mRotation = inRotation; OnTransformChanged(inGrid); }
-
-	void RemoveFromGrid(Grid& inGrid);
-
-private:
-	void OnTransformChanged(Grid& inGrid);
-	void AddToGrid(Grid& inGrid);
-
-	Vec2 mPosition;
-	Vec2 mHalfSize;
-	float mRotation = 0.0f;
-	AABB mAABB;
-
-	IF_DEBUG( bool mIsInGrid = false;)
-};
+// Engine includes
+#include <Engine/Collision/CollisionShape.h>
 
 struct Tile
 {
@@ -50,29 +15,33 @@ struct Tile
 class Grid
 {
 public:
-	Grid(const IVec2& inMin, const IVec2& inSize, const IVec2& inTileSize)
-		: mMin(inMin), mSize(inSize), mTileSize(inTileSize)
+	// Size = tile count
+	Grid(const IVec2& inMin, const IVec2& inTileCount, const IVec2& inTileSize)
+		: mMin(inMin), mTileCount(inTileCount), mTileSize(inTileSize)
 	{
 		mMinFlt = mMin.ToVec2();
-		mSizeFlt = mSize.ToVec2();
+		mTileCountFlt = mTileCount.ToVec2();
 		mTileSizeFlt = mTileSize.ToVec2();
-		mTiles = static_cast<Tile*>(operator new[](sizeof(Tile) * inSize.mX * inSize.mY, std::align_val_t{8}));
+		mTiles = static_cast<Tile*>(operator new[](sizeof(Tile) * inTileCount.mX * inTileCount.mY, std::align_val_t{8}));
 	}
 	~Grid()
 	{
-		delete[] mTiles;
+		operator delete[](mTiles, std::align_val_t{8});
 	}
 
-	bool IsValidTile(int inX, int inY) const { return inX >= 0 && inX < mSize.mX && inY >= 0 && inY < mSize.mY; }
+	void Render();
 
-	Tile& GetTile(int inX, int inY) { gAssert(IsValidTile(inX, inY)); return mTiles[inY * mSize.mX + inX]; }
-	const Tile& GetTile(int inX, int inY) const { gAssert(IsValidTile(inX, inY)); return mTiles[inY * mSize.mX + inX]; }
+	bool IsValidTile(int inX, int inY) const { return inX >= 0 && inX < mTileCount.mX && inY >= 0 && inY < mTileCount.mY; }
+
+	Tile& GetTile(int inX, int inY) { gAssert(IsValidTile(inX, inY)); return mTiles[inY * mTileCount.mX + inX]; }
+	const Tile& GetTile(int inX, int inY) const { gAssert(IsValidTile(inX, inY)); return mTiles[inY * mTileCount.mX + inX]; }
 
 	IVec2 GetTileIndex(const Vec2& inPosition) const { return ((inPosition - mMinFlt) / mTileSizeFlt).ToIVec2(); }
 
-	const IVec2& GetSize() const { return mSize; }
-
 	AABB GetTileAABB(int inX, int inY) const;
+
+	const IVec2& GetTileCount() const { return mTileCount; }
+
 
 private:
 	Tile* mTiles;
@@ -80,8 +49,8 @@ private:
 	IVec2 mMin;
 	Vec2 mMinFlt;
 
-	IVec2 mSize;
-	Vec2 mSizeFlt;
+	IVec2 mTileCount;
+	Vec2 mTileCountFlt;
 	
 	IVec2 mTileSize;
 	Vec2 mTileSizeFlt;

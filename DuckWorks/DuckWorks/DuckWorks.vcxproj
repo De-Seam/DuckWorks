@@ -197,6 +197,8 @@
     <ClInclude Include="Core\Utilities\Types.h" />
     <ClInclude Include="Core\Utilities\UID.h" />
     <ClInclude Include="Core\Utilities\Utilities.h" />
+    <ClInclude Include="Engine\Collision\CollisionNode.h" />
+    <ClInclude Include="Engine\Collision\CollisionShape.h" />
     <ClInclude Include="Engine\Collision\Grid.h" />
     <ClInclude Include="Engine\Debug\DebugManager.h" />
     <ClInclude Include="Engine\Debug\Windows\DebugWindow.h" />
@@ -240,6 +242,8 @@
     <ClCompile Include="Core\RTTI\Factory\RTTIFactory.cpp" />
     <ClCompile Include="Core\RTTI\RTTI.cpp" />
     <ClCompile Include="Core\Utilities\GUID.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionNode.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionShape.cpp" />
     <ClCompile Include="Engine\Collision\Grid.cpp" />
     <ClCompile Include="Engine\Debug\DebugManager.cpp" />
     <ClCompile Include="Engine\Debug\Windows\DebugWindowNodeHierarchy.cpp" />

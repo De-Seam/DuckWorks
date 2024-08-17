@@ -35,6 +35,8 @@ struct IVec2
 	IVec2(const sf::Vector2u inVector)
 		: IVec2(static_cast<int>(inVector.x), static_cast<int>(inVector.y)) {}
 
+	operator sf::Vector2i() const { return { mX, mY }; }
+
 	IVec2& operator=(const IVec2& inOther)
 	{
 		mX = inOther.mX;

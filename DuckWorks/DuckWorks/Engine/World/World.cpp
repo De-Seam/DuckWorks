@@ -3,6 +3,7 @@
 
 // Engine includes
 #include <Engine/Engine.h>
+#include <Engine/Collision/Grid.h>
 #include <Engine/Entity/Actor.h>
 #include <Engine/Entity/Entity.h>
 #include <Engine/Entity/Components/TextureRenderComponent.h>
@@ -11,6 +12,8 @@
 World::World() 
 {
 	mRegistry.on_construct<TransformComponent>().connect<&World::OnTransformComponentCreated>(this);
+
+	mGrid = std::make_unique<Grid>(IVec2(-1000, -1000), IVec2(100, 100), IVec2(64, 64));
 
 	// Handle root node here explicitly, so it doesn't add itself as a child of itself
 	mRootNode = new RootNode(*this);
@@ -75,6 +78,8 @@ void World::Render()
 			gEngine->GetRenderer().Draw(texture_render_c.GetRectangle());
 		}
 	}
+
+	mGrid->Render();
 }
 
 void World::AddNode(const Ref<Node>& inNode) 
