@@ -36,21 +36,6 @@ void Grid::Render()
 	}
 
 	gEngine->GetRenderer().Draw(mLines);
-
-	//for (int i = 0; i < mTileCount.mX * mTileCount.mY; i++)
-	//{
-	//	int x = i % mTileCount.mX;
-	//	int y = i / mTileCount.mX;
-	//
-	//	sf::RectangleShape rectangle_shape;
-	//	Vec2 position = mMinFlt + IVec2{ x, y }.ToVec2() * mTileSizeFlt;
-	//	rectangle_shape.setPosition(position);
-	//	rectangle_shape.setSize(mTileSizeFlt);
-	//	rectangle_shape.setOutlineColor(sf::Color(255, 255, 255, 255));
-	//	rectangle_shape.setOutlineThickness(0.5f);
-	//	rectangle_shape.setFillColor(sf::Color(0, 0, 0, 0));
-	//	gEngine->GetRenderer().Draw(rectangle_shape);
-	//}
 }
 
 AABB Grid::GetTileAABB(int inX, int inY) const 
