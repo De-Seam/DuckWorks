@@ -15,9 +15,15 @@ class WindowEventManager : public Manager
 	RTTI_MANAGER(WindowEventManager, Manager)
 
 public:
-	WindowEventManager();
+	WindowEventManager() = default;
+	WindowEventManager(Renderer& inRenderer);
 	
 	virtual void Update(Renderer& inRenderer, float inDeltaTime);
 
+	const Vec2& GetMouseDelta() const { return mMouseDelta; }
+	const Vec2& GetMousePosition() const { return mMousePosition; }
+
 private:
+	Vec2 mMouseDelta = { 0.0f };
+	Vec2 mMousePosition = { 0.0f };
 };

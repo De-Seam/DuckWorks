@@ -9,10 +9,14 @@
 #include <Engine/Renderer/Renderer.h>
 
 // External includes
+#include <Engine/Engine.h>
+
 #include <External/SFML/Graphics.hpp>
 
-WindowEventManager::WindowEventManager()
+WindowEventManager::WindowEventManager(Renderer& inRenderer)
 {
+	sf::Vector2i mouse_position = sf::Mouse::getPosition(inRenderer.GetRenderWindow());
+	mMousePosition = { static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y) };
 }
 
 void WindowEventManager::Update(Renderer& inRenderer, float)
@@ -118,6 +122,10 @@ void WindowEventManager::Update(Renderer& inRenderer, float)
 			}
 			case sf::Event::MouseMoved:				// The mouse cursor moved (data in event.mouseMove)
 			{
+				Vec2 new_mouse_position = { static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y) };
+				mMouseDelta = new_mouse_position - mMousePosition;
+				mMousePosition = new_mouse_position;
+
 				MsgWindowMouseMoved msg;
 				msg.mMouseMoveEvent = event.mouseMove;
 				BroadcastMessage(msg);

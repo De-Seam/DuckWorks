@@ -11,7 +11,6 @@ Renderer::Renderer()
 {
 	PROFILE_SCOPE(Renderer::Renderer)
 
-	mWindowEventManager = WindowEventManager::sNewInstance();
 
 	sf::VideoMode video_mode;
 	video_mode.width = 1280;
@@ -31,36 +30,10 @@ Renderer::Renderer()
 		0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 	};
 	mRenderWindow->setIcon(8, 8, reinterpret_cast<uint8*>(pixels));
-}
 
-Renderer::~Renderer()
-{
-	mRenderWindow->close();
-}
-
-Json Renderer::Serialize() const
-{
-	Json json = RTTIClass::Serialize();
-
-	json["mRenderWindow_Position"] = IVec2(mRenderWindow->getPosition());
-	json["mRenderWindow_Size"] = IVec2(mRenderWindow->getSize());
-
-	return json;
-}
-
-void Renderer::Deserialize(const Json& inJson)
-{
-	RTTIClass::Deserialize(inJson);
-	
-	IVec2 position = inJson["mRenderWindow_Position"];
-	//mRenderWindow->setPosition({ position.mX, position.mY });
-	IVec2 size = inJson["mRenderWindow_Size"];
-	//mRenderWindow->setSize({ static_cast<uint32>(size.mX), static_cast<uint32>(size.mY) });
-}
-
-void Renderer::Update(float inDeltaTime)
-{
-	PROFILE_SCOPE(Renderer::Update)
+	mWindowEventManager = new WindowEventManager(*this);
+	mWindowEventManager->RegisterMessageListener(this, &Renderer::OnMouseWheelScrolled);
+	mWindowEventManager->RegisterMessageListener(this, &Renderer::OnMouseMoved);
 
 	sf::View view;
 	view.setSize(1920, 1080);
@@ -90,6 +63,39 @@ void Renderer::Update(float inDeltaTime)
 	}
 
 	mRenderWindow->setView(view);
+}
+
+Renderer::~Renderer()
+{
+	mWindowEventManager->UnregisterMessageListener(this, &Renderer::OnMouseWheelScrolled);
+	mWindowEventManager->UnregisterMessageListener(this, &Renderer::OnMouseMoved);
+
+	mRenderWindow->close();
+}
+
+Json Renderer::Serialize() const
+{
+	Json json = RTTIClass::Serialize();
+
+	json["mRenderWindow_Position"] = IVec2(mRenderWindow->getPosition());
+	json["mRenderWindow_Size"] = IVec2(mRenderWindow->getSize());
+
+	return json;
+}
+
+void Renderer::Deserialize(const Json& inJson)
+{
+	RTTIClass::Deserialize(inJson);
+	
+	IVec2 position = inJson["mRenderWindow_Position"];
+	mRenderWindow->setPosition({ position.mX, position.mY });
+	IVec2 size = inJson["mRenderWindow_Size"];
+	mRenderWindow->setSize({ static_cast<uint32>(size.mX), static_cast<uint32>(size.mY) });
+}
+
+void Renderer::Update(float inDeltaTime)
+{
+	PROFILE_SCOPE(Renderer::Update)
 
 	mWindowEventManager->Update(*this, inDeltaTime);
 }
@@ -129,4 +135,25 @@ void Renderer::Draw(const Array<sf::Drawable*>& inDrawables)
 
 	for (const sf::Drawable* drawable : inDrawables)
 		mRenderWindow->draw(*drawable);
+}
+
+void Renderer::OnMouseWheelScrolled(const MsgWindowMouseWheelScrolled& inMsg)
+{
+	PROFILE_SCOPE(Renderer::OnMouseWheelScrolled)
+
+	sf::View view = mRenderWindow->getView();
+	view.zoom(1.0f - inMsg.mDelta * 0.1f);
+	mRenderWindow->setView(view);
+}
+
+void Renderer::OnMouseMoved(const MsgWindowMouseMoved& inMsg)
+{
+	PROFILE_SCOPE(Renderer::OnMouseMoved)
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Middle))
+	{
+		sf::View view = mRenderWindow->getView();
+		view.move(-mWindowEventManager->GetMouseDelta() * view.getSize() / Vec2(1920, 1080));
+		mRenderWindow->setView(view);
+	}
 }

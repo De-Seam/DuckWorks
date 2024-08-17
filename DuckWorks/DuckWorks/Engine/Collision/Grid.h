@@ -7,6 +7,9 @@
 // Engine includes
 #include <Engine/Collision/CollisionShape.h>
 
+// External includes
+#include <External/SFML/Graphics/VertexArray.hpp>
+
 struct Tile
 {
 	Array<CollisionShape*> mCollisionShapes;
@@ -44,14 +47,20 @@ public:
 
 
 private:
+	// Array of tiles
 	Tile* mTiles;
 
+	// Min coords
 	IVec2 mMin;
 	Vec2 mMinFlt;
 
+	// Amount of tiles
 	IVec2 mTileCount;
 	Vec2 mTileCountFlt;
-	
+
+	// Size of each tile
 	IVec2 mTileSize;
 	Vec2 mTileSizeFlt;
+
+	sf::VertexArray mLines = sf::VertexArray(sf::Lines); 
 };

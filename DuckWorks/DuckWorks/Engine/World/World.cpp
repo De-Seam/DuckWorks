@@ -13,7 +13,7 @@ World::World()
 {
 	mRegistry.on_construct<TransformComponent>().connect<&World::OnTransformComponentCreated>(this);
 
-	mGrid = std::make_unique<Grid>(IVec2(-1000, -1000), IVec2(100, 100), IVec2(64, 64));
+	mGrid = std::make_unique<Grid>(IVec2(-10000, -10000), IVec2(1000, 1000), IVec2(64, 64));
 
 	// Handle root node here explicitly, so it doesn't add itself as a child of itself
 	mRootNode = new RootNode(*this);
