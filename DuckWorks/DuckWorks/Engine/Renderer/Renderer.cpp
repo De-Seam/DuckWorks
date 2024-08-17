@@ -13,8 +13,9 @@ Renderer::Renderer()
 
 
 	sf::VideoMode video_mode;
-	video_mode.width = 1280;
-	video_mode.height = 720;
+	// Initial size is 1281x721 because we set it later, in order to get the resize callback, which will update the view
+	video_mode.width = 1281;
+	video_mode.height = 721;
 	mRenderWindow = std::make_unique<sf::RenderWindow>(video_mode, "DuckRenderer");
 	//mRenderWindow->setVerticalSyncEnabled(true);
 	mRenderWindow->setFramerateLimit(60);
@@ -30,6 +31,7 @@ Renderer::Renderer()
 		0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 	};
 	mRenderWindow->setIcon(8, 8, reinterpret_cast<uint8*>(pixels));
+	mRenderWindow->setSize({ 1280, 720 });
 
 	mWindowEventManager = new WindowEventManager(*this);
 	mWindowEventManager->RegisterMessageListener(this, &Renderer::OnMouseWheelScrolled);
