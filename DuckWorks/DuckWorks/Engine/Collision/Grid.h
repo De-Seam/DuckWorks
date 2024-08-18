@@ -45,6 +45,8 @@ public:
 
 	const IVec2& GetTileCount() const { return mTileCount; }
 
+	void GetCollisionShapesInAABB(const AABB& inAABB, Array<CollisionShape*>& outCollisionShapes) const;
+
 
 private:
 	// Array of tiles

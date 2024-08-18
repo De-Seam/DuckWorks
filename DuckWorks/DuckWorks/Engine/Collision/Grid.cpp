@@ -48,3 +48,33 @@ AABB Grid::GetTileAABB(int inX, int inY) const
 
 	return aabb;
 }
+
+void Grid::GetCollisionShapesInAABB(const AABB& inAABB, Array<CollisionShape*>& outCollisionShapes) const
+{
+	PROFILE_SCOPE(Grid::GetCollisionShapesInAABB)
+
+	IVec2 min_tile = GetTileIndex(inAABB.mMin);
+	IVec2 max_tile = GetTileIndex(inAABB.mMax);
+
+	for (int y = min_tile.mY; y <= max_tile.mY; y++)
+	{
+		for (int x = min_tile.mX; x <= max_tile.mX; x++)
+		{
+			const Tile& tile = GetTile(x, y);
+			for (CollisionShape* collision_shape : tile.mCollisionShapes)
+			{
+				// Skip duplicates
+				if (std::ranges::find(outCollisionShapes, collision_shape) != outCollisionShapes.end())
+					continue;
+
+				if (collision_shape->GetAABB().mMin.mX < inAABB.mMax.mX &&
+					collision_shape->GetAABB().mMax.mX > inAABB.mMin.mX &&
+					collision_shape->GetAABB().mMin.mY < inAABB.mMax.mY &&
+					collision_shape->GetAABB().mMax.mY > inAABB.mMin.mY)
+				{
+					outCollisionShapes.push_back(collision_shape);
+				}
+			}
+		}
+	}
+}

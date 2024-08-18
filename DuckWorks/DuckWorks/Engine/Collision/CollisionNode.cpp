@@ -21,12 +21,21 @@ void CollisionNode::Deserialize(const Json& inJson)
 		mCollisionShape->SetHalfSize(inJson["HalfSize"].get<Vec2>());
 }
 
+CollisionNode::CollisionNode()
+{
+	gAssert(mCollisionShape == nullptr);
+}
+
 void CollisionNode::OnAddedToParent()
 {
 	Node::OnAddedToParent();
 
 	const Transform2D& transform = GetWorldTransform();
-	mCollisionShape = new CollisionShape(transform.mPosition, Vec2(64, 64), 0.0f, GetWorld()->GetGrid());
+	Rectangle rectangle;
+	rectangle.mPosition = transform.mPosition;
+	rectangle.mHalfSize = Vec2(64, 64);
+	rectangle.mRotation = transform.mRotation;
+	mCollisionShape = new CollisionShape(rectangle, GetWorld()->GetGrid());
 }
 
 void CollisionNode::OnRemovedFromParent()

@@ -10,6 +10,8 @@ public:
 	virtual Json Serialize() const override;
 	virtual void Deserialize(const Json& inJson) override;
 
+	CollisionNode();
+
 protected:
 	virtual void OnAddedToParent() override;
 	virtual void OnRemovedFromParent() override;
