@@ -35,7 +35,7 @@ void DebugWindowNodeHierarchy::RecursiveDrawNode(Node& inNode, int inDepth)
 
 	const bool is_selected = mSelectedNode.IsAlive() && mSelectedNode.Get()->GetGUID() == inNode.GetGUID();
 
-	if (children.empty())
+	if (false)
 	{
 		if (is_selected)
 		{
@@ -44,9 +44,34 @@ void DebugWindowNodeHierarchy::RecursiveDrawNode(Node& inNode, int inDepth)
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.8f, 0.8f, 1.0f));
 		}
 
-		float availableWidth = ImGui::GetContentRegionAvail().x;
-		if (ImGui::Button(*label, ImVec2(availableWidth, 0.0f)))
+		// Save the current style
+		ImGuiStyle& style = ImGui::GetStyle();
+
+		// Backup current style values
+		ImVec4 color = style.Colors[ImGuiCol_Header];
+		ImVec4 hoveredColor = style.Colors[ImGuiCol_HeaderHovered];
+		ImVec4 activeColor = style.Colors[ImGuiCol_HeaderActive];
+		float rounding = style.FrameRounding;
+		ImVec2 padding = style.FramePadding;
+
+		// Set style to match CollapsingHeader
+		ImGui::PushStyleColor(ImGuiCol_Button, color);
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, hoveredColor);
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, activeColor);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, rounding);
+
+		// Reduce left and right padding to match CollapsingHeader
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, padding.y));
+
+		// Offset the button to remove the indentation
+		float fullWidth = ImGui::GetContentRegionAvail().x + padding.x * 2;
+
+		if (ImGui::Button(*label, ImVec2(fullWidth, 0.0f)))
 			mSelectedNode = &inNode;
+
+		// Restore the original style
+		ImGui::PopStyleVar(2);
+		ImGui::PopStyleColor(3);
 
 		if (is_selected)
 			ImGui::PopStyleColor(3);
@@ -61,7 +86,10 @@ void DebugWindowNodeHierarchy::RecursiveDrawNode(Node& inNode, int inDepth)
 			ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(1.0f, 0.3f, 0.3f, 1.0f));
 			ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(1.0f, 0.8f, 0.8f, 1.0f));
 		}
-		if (ImGui::CollapsingHeader(*label))
+		ImGuiTreeNodeFlags flags = 0;
+		if (inNode.GetChildren().empty())
+			flags = ImGuiTreeNodeFlags_Bullet;
+		if (ImGui::CollapsingHeader(*label, flags))
 		{
 			if (is_selected)
 				ImGui::PopStyleColor(3);
