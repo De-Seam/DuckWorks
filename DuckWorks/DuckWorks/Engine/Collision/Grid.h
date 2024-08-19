@@ -25,11 +25,13 @@ public:
 		mMinFlt = mMin.ToVec2();
 		mTileCountFlt = mTileCount.ToVec2();
 		mTileSizeFlt = mTileSize.ToVec2();
-		mTiles = static_cast<Tile*>(operator new[](sizeof(Tile) * inTileCount.mX * inTileCount.mY, std::align_val_t{8}));
+		//mTiles = static_cast<Tile*>(operator new[](sizeof(Tile) * inTileCount.mX * inTileCount.mY, std::align_val_t{8}));
+		mTiles = new Tile[inTileCount.mX * inTileCount.mY];
 	}
 	~Grid()
 	{
-		operator delete[](mTiles, std::align_val_t{8});
+		//operator delete[](mTiles, std::align_val_t{8});
+		delete[] mTiles;
 	}
 
 	void Render();

@@ -6,6 +6,7 @@
 
 const RTTI* RTTIFactory::GetRTTI(const String& inClassName) const
 {
+	gAssert(mClassNameToRTTI.contains(inClassName));
 	return mClassNameToRTTI.at(inClassName);
 }
 

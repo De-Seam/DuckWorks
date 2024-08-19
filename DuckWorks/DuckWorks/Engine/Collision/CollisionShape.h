@@ -45,13 +45,15 @@ public:
 		mRectangle(inRectangle),
 		mGrid(&inGrid)
 	{
-		OnTransformChanged();
+		CalculateAABB();
+
+		AddToGrid();
 	}
 
-	void SetPosition(const Vec2& inPosition) { Rectangle rectangle; rectangle.mPosition = inPosition; SetRectangle(rectangle); }
-	void SetHalfSize(const Vec2& inHalfSize) { Rectangle rectangle; rectangle.mHalfSize = inHalfSize; SetRectangle(rectangle); }
-	void SetRotation(float inRotation) { Rectangle rectangle; rectangle.mRotation = inRotation; SetRectangle(rectangle); }
-	void SetRectangle(const Rectangle& inRectangle);
+	void SetPosition(const Vec2& inPosition) { Rectangle rectangle = mRectangle; rectangle.mPosition = inPosition; SetRectangle(rectangle); }
+	void SetHalfSize(const Vec2& inHalfSize) { Rectangle rectangle = mRectangle; rectangle.mHalfSize = inHalfSize; SetRectangle(rectangle); }
+	void SetRotation(float inRotation) { Rectangle rectangle = mRectangle; rectangle.mRotation = inRotation; SetRectangle(rectangle); }
+	void SetRectangle(Rectangle& ioRectangle); ///< ioRectangle becomes the corrected rectangle
 
 	const Vec2& GetPosition() const { return mRectangle.mPosition; }
 	const Vec2& GetHalfSize() const { return mRectangle.mHalfSize; }

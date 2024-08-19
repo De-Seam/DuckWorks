@@ -4,10 +4,13 @@
 // Engine includes
 #include <Engine/Engine.h>
 #include <Engine/Collision/Grid.h>
+#include <Engine/Collision/CollisionNode.h>
 #include <Engine/Entity/Actor.h>
 #include <Engine/Entity/Entity.h>
 #include <Engine/Entity/Components/TextureRenderComponent.h>
 #include <Engine/Entity/Components/TransformComponent.h>
+
+Actor* gActor = nullptr;
 
 World::World() 
 {
@@ -18,16 +21,21 @@ World::World()
 	// Handle root node here explicitly, so it doesn't add itself as a child of itself
 	mRootNode = new RootNode(*this);
 
-	AddNode(new Actor);
 	Actor* actor = new Actor;
 	AddNode(actor);
+	actor->AddChild(new CollisionNode);
 	actor->AddChild(new Actor);
 	actor->AddChild(new Actor);
 	actor->SetLocalTransform(Transform2D({200.0f, 0.0f}, {1.0f, 1.0f}, 0.0f));
+	AddNode(new Actor);
 	Node* node = new Node;
 	AddNode(node);
+	node->AddChild(new CollisionNode);
 	node->AddChild(new Node);
 	node->AddChild(new Actor);
+	gActor = new Actor;
+	AddNode(gActor);
+	gActor->AddChild(new CollisionNode);
 }
 
 World::~World() 
@@ -42,11 +50,15 @@ void World::Update(float inDeltaTime)
 
 	mIsUpdatingEntities = true;
 
-	//for (Node* node : mNodes)
-	//{
-	//	if (Entity* entity = node->As<Entity>())
-	//		entity->Update(inDeltaTime);
-	//}
+	// Update the first Actor, for debugging
+	for (Node* node : mRootNode->GetChildren())
+	{
+		if (node->IsA(Actor::sGetRTTI()))
+		{
+			node->As<Actor>()->Update(inDeltaTime);
+			break;
+		}
+	}
 
 	mIsUpdatingEntities = false;
 }

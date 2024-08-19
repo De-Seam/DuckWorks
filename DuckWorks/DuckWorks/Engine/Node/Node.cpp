@@ -1,6 +1,9 @@
 #include <Precomp.h>
 #include <Engine/Node/Node.h>
 
+// Engine includes
+#include <Engine/Node/NodeMessages.h>
+
 Json Node::Serialize() const
 {
 	Json json = RTTIRefObject::Serialize();
@@ -43,47 +46,51 @@ void Node::Render()
 
 void Node::SetWorldTransform(const Transform2D& inTransform) 
 {
-	mWorldTransform = inTransform;
+	// Can't set transform without a parent
+	gAssert(mParent != nullptr);
 
-	if (mParent != nullptr)
-		mLocalTransform = mParent->mWorldTransform.GetInverse() * mWorldTransform;
-	else
-		mLocalTransform = mWorldTransform;
+	MsgPreTransformUpdate pre_msg;
+	pre_msg.mNode = this;
+	pre_msg.mNewWorldTransform = inTransform;
 
-	for (const Ref<Node>& child : mChildren)
-		child->SetWorldTransform(child->mWorldTransform);
+	BroadcastMessage(pre_msg);
+
+	MsgPostTransformUpdate post_msg;
+	post_msg.mNode = this;
+	post_msg.mOldWorldTransform = mWorldTransform;
+	post_msg.mOldLocalTransform = mLocalTransform;
+
+	mWorldTransform = pre_msg.mNewWorldTransform;
+	Transform2D local_transform = mParent->mWorldTransform.GetInverse() * mWorldTransform;
+	mLocalTransform = local_transform;
+
+	BroadcastMessage(post_msg);
 
 	OnTransformUpdated();
 }
 
 void Node::SetLocalTransform(const Transform2D& inTransform) 
 {
-	mLocalTransform = inTransform;
+	// Can't set transform without a parent
+	gAssert(mParent != nullptr);
 
-	UpdateWorldTransform();
-
-	for (const Ref<Node>& child : mChildren)
-		child->UpdateWorldTransform();
-}
-
-void Node::UpdateWorldTransform() 
-{
-	if (mParent != nullptr)
-		mWorldTransform = mParent->mWorldTransform * mLocalTransform;
-	else
-		mWorldTransform = mLocalTransform;
-
-	OnTransformUpdated();
+	Transform2D world_transform = mParent->mWorldTransform * inTransform;
+	SetWorldTransform(world_transform);
 }
 
 void Node::SetParent(Node* inParent) 
 {
 	gAssert(mParent == nullptr || inParent == nullptr);
-	mParent = inParent;
 	if (inParent == nullptr)
+	{
 		OnRemovedFromParent();
+		mParent = inParent;
+	}
 	else
+	{
+		mParent = inParent;
 		OnAddedToParent();
+	}
 }
 
 void Node::AddChild(const Ref<Node>& inChild)
@@ -124,4 +131,10 @@ void Node::OnRemovedFromParent()
 {
 	gAssert(mWorld != nullptr);
 	mWorld = nullptr;
+}
+
+void Node::OnTransformUpdated()
+{
+	for (const Ref<Node>& child : mChildren)
+		child->SetLocalTransform(child->GetLocalTransform());
 }

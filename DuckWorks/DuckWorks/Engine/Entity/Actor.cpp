@@ -16,6 +16,21 @@ void Actor::Update(float inDeltaTime)
 		const Transform2D& transform = GetLocalTransform();
 		SetLocalTransform(Transform2D(transform.mPosition + Vec2(-1.0f, 0.0f) * inDeltaTime, transform.mScale, transform.mRotation));
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+	{
+		const Transform2D& transform = GetLocalTransform();
+		SetLocalTransform(Transform2D(transform.mPosition - Vec2(-1.0f, 0.0f) * inDeltaTime, transform.mScale, transform.mRotation));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+	{
+		const Transform2D& transform = GetLocalTransform();
+		SetLocalTransform(Transform2D(transform.mPosition + Vec2(0.0f, -1.0f) * inDeltaTime, transform.mScale, transform.mRotation));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+	{
+		const Transform2D& transform = GetLocalTransform();
+		SetLocalTransform(Transform2D(transform.mPosition - Vec2(0.0f, -1.0f) * inDeltaTime, transform.mScale, transform.mRotation));
+	}
 }
 
 void Actor::OnAddedToParent()

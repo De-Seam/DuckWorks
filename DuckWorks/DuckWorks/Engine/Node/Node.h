@@ -14,14 +14,28 @@ public:
 	virtual ~Node() override;
 	virtual void Render();
 
+	void SetWorldPosition(const Vec2 &inPosition) { SetWorldTransform(Transform2D(inPosition, mWorldTransform.mScale, mWorldTransform.mRotation)); }
+	void SetLocalPosition(const Vec2 &inPosition) { SetLocalTransform(Transform2D(inPosition, mLocalTransform.mScale, mLocalTransform.mRotation)); }
+	const Vec2& GetWorldPosition() const { return mWorldTransform.mPosition; }
+	const Vec2& GetLocalPosition() const { return mLocalTransform.mPosition; }
+
+	void SetWorldScale(const Vec2 &inScale) { SetWorldTransform(Transform2D(mWorldTransform.mPosition, inScale, mWorldTransform.mRotation)); }
+	void SetLocalScale(const Vec2 &inScale) { SetLocalTransform(Transform2D(mLocalTransform.mPosition, inScale, mLocalTransform.mRotation)); }
+	const Vec2& GetWorldScale() const { return mWorldTransform.mScale; }
+	const Vec2& GetLocalScale() const { return mLocalTransform.mScale; }
+
+	void SetWorldRotation(float inRotation) { SetWorldTransform(Transform2D(mWorldTransform.mPosition, mWorldTransform.mScale, inRotation)); }
+	void SetLocalRotation(float inRotation) { SetLocalTransform(Transform2D(mLocalTransform.mPosition, mLocalTransform.mScale, inRotation)); }
+	float GetWorldRotation() const { return mWorldTransform.mRotation; }
+	float GetLocalRotation() const { return mLocalTransform.mRotation; }
+
 	void SetWorldTransform(const Transform2D& inTransform);
 	void SetLocalTransform(const Transform2D& inTransform);
-	void UpdateWorldTransform();
-
 	const Transform2D& GetWorldTransform() const { return mWorldTransform; }
 	const Transform2D& GetLocalTransform() const { return mLocalTransform; }
 
 	void SetParent(Node* inParent);
+	Node* GetParent() { return mParent; }
 	const Node* GetParent() const { return mParent; }
 
 	void AddChild(const Ref<Node>& inChild);
@@ -36,7 +50,7 @@ protected:
 	virtual void OnAddedToParent();
 	virtual void OnRemovedFromParent();
 
-	virtual void OnTransformUpdated() {}
+	virtual void OnTransformUpdated();
 
 private:
 	Transform2D mWorldTransform;

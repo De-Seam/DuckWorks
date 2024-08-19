@@ -161,15 +161,13 @@ AABB Rectangle::sComputeAABB(const Rectangle& inRectangle)
 	return aabb;
 }
 
-void CollisionShape::SetRectangle(const Rectangle& inRectangle)
+void CollisionShape::SetRectangle(Rectangle& ioRectangle)
 {
-	Rectangle swept_rectangle = Rectangle::sComputeSweptShape(GetRectangle(), inRectangle);
+	Rectangle swept_rectangle = Rectangle::sComputeSweptShape(GetRectangle(), ioRectangle);
 	AABB swept_aabb = Rectangle::sComputeAABB(swept_rectangle);
 	THREADLOCAL static Array<CollisionShape*> sCollisionShapes;
 	sCollisionShapes.clear();
 	mGrid->GetCollisionShapesInAABB(swept_aabb, sCollisionShapes);
-
-	mRectangle = inRectangle;
 
 	for (CollisionShape* collision_shape : sCollisionShapes)
 	{
@@ -180,9 +178,12 @@ void CollisionShape::SetRectangle(const Rectangle& inRectangle)
 		if (!collision_info.mCollides)
 			continue;
 
-		mRectangle.mPosition += collision_info.mDirection * collision_info.mDepth;
-		swept_rectangle = Rectangle::sComputeSweptShape(GetRectangle(), mRectangle);
+		ioRectangle.mPosition += collision_info.mDirection * collision_info.mDepth;
+		swept_rectangle = Rectangle::sComputeSweptShape(GetRectangle(), ioRectangle);
 	}
+	mRectangle = ioRectangle;
+
+	OnTransformChanged();
 }
 
 void CollisionShape::RemoveFromGrid()
@@ -241,15 +242,5 @@ void CollisionShape::AddToGrid()
 
 void CollisionShape::CalculateAABB()
 {
-	float rotation = gToRadians(mRectangle.mRotation);
-	float sin_r = std::abs(std::sinf(rotation));
-	float cos_r = std::abs(std::cosf(rotation));
-
-	// Compute the half-size of the rotated object
-	float half_width = mRectangle.mHalfSize.mX * cos_r + mRectangle.mHalfSize.mY * sin_r;
-	float half_height = mRectangle.mHalfSize.mX * sin_r + mRectangle.mHalfSize.mY * cos_r;
-	Vec2 half_size = {half_width, half_height};
-
-	mAABB.mMin = mRectangle.mPosition - half_size;
-	mAABB.mMax = mRectangle.mPosition + half_size;
+	mAABB = Rectangle::sComputeAABB(mRectangle);
 }

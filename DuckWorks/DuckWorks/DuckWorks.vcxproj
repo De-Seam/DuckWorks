@@ -215,6 +215,7 @@
     <ClInclude Include="Engine\Manager\Manager.h" />
     <ClInclude Include="Engine\Manager\Managers.h" />
     <ClInclude Include="Engine\Node\Node.h" />
+    <ClInclude Include="Engine\Node\NodeMessages.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Renderer\WindowEvents\EventMessages.h" />
     <ClInclude Include="Engine\Renderer\WindowEvents\WindowEventManager.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="Engine\Resources\TextureResource.cpp" />
     <ClCompile Include="Engine\Threads\ThreadManager.cpp" />
+    <ClCompile Include="Engine\World\RootNode.cpp" />
     <ClCompile Include="Engine\World\World.cpp" />
     <ClCompile Include="Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

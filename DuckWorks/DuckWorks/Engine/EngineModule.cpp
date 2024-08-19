@@ -6,6 +6,7 @@
 
 // Engine includes
 #include <Engine/Engine.h>
+#include <Engine/Collision/CollisionNode.h>
 #include <Engine/Debug/DebugManager.h>
 #include <Engine/Debug/Windows/DebugWindow.h>
 #include <Engine/Debug/Windows/DebugWindowNodeHierarchy.h>
@@ -48,6 +49,7 @@ void EngineModule::RegisterRTTI()
 	mRTTIFactory.RegisterClass<RootNode>();
 	mRTTIFactory.RegisterClass<Entity>();
 	mRTTIFactory.RegisterClass<Actor>();
+	mRTTIFactory.RegisterClass<CollisionNode>();
 
 	mRTTIFactory.RegisterClass<DebugManager>();
 	mRTTIFactory.RegisterClass<DebugWindow>();
