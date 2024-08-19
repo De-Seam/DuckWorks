@@ -13,10 +13,80 @@ void DebugWindowNodeHierarchy::Update(float inDeltaTime)
 	PROFILE_SCOPE(DebugWindowNodeHierarchy::Update)
 	ImGui::Begin("Node Hierarchy", &mIsOpen);
 
+	//Json json = root_node.Serialize();
+	//if (DebugManager::sDebugDrawJson(json, "Root Node"))
+	//	root_node.Deserialize(json);
+
 	Node& root_node = gEngine->GetWorld()->GetRootNode();
-	Json json = root_node.Serialize();
-	if (DebugManager::sDebugDrawJson(json, "Root Node"))
-		root_node.Deserialize(json);
+	for (Node* child : root_node.GetChildren())
+		RecursiveDrawNode(*child, 0);
 
 	ImGui::End();
+}
+
+void DebugWindowNodeHierarchy::RecursiveDrawNode(Node& inNode, int inDepth)
+{
+	if (!mWasCollapsedMap.contains(inNode.GetGUID()))
+		mWasCollapsedMap[inNode.GetGUID()] = true;
+
+	const char* class_name = inNode.GetRTTI().GetClassName();
+	const Array<Ref<Node>>& children = inNode.GetChildren();
+	String label = String(class_name) + "##" + inNode.GetGUID().ToString();
+
+	const bool is_selected = mSelectedNode.IsAlive() && mSelectedNode.Get()->GetGUID() == inNode.GetGUID();
+
+	if (children.empty())
+	{
+		if (is_selected)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.3f, 0.3f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.8f, 0.8f, 1.0f));
+		}
+
+		float availableWidth = ImGui::GetContentRegionAvail().x;
+		if (ImGui::Button(*label, ImVec2(availableWidth, 0.0f)))
+			mSelectedNode = &inNode;
+
+		if (is_selected)
+			ImGui::PopStyleColor(3);
+	}
+	else
+	{
+		const bool was_collapsed = mWasCollapsedMap[inNode.GetGUID()];
+
+		if (is_selected)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(1.0f, 0.3f, 0.3f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(1.0f, 0.8f, 0.8f, 1.0f));
+		}
+		if (ImGui::CollapsingHeader(*label))
+		{
+			if (is_selected)
+				ImGui::PopStyleColor(3);
+
+			if (!was_collapsed)
+			{
+				mSelectedNode = &inNode;
+				mWasCollapsedMap[inNode.GetGUID()] = true;
+			}
+
+			float indentation = 14.0f;
+			ImGui::Indent(indentation);
+
+			for (Node* child : children)
+				RecursiveDrawNode(*child, inDepth + 1);
+
+			ImGui::Unindent(indentation);
+		}
+		else
+		{
+			if (is_selected)
+				ImGui::PopStyleColor(3);
+
+			if (was_collapsed)
+				mWasCollapsedMap[inNode.GetGUID()] = false;
+		}
+	}
 }

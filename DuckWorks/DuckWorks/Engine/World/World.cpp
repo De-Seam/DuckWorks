@@ -29,7 +29,8 @@ World::World()
 	actor->SetLocalTransform(Transform2D({200.0f, 0.0f}, {1.0f, 1.0f}, 0.0f));
 	AddNode(new Actor);
 	Node* node = new Node;
-	AddNode(node);
+	actor->AddChild(node);
+	node->AddChild(new Actor);
 	node->AddChild(new CollisionNode);
 	node->AddChild(new Node);
 	node->AddChild(new Actor);

@@ -11,6 +11,7 @@ public:
 	virtual Json Serialize() const override;
 	virtual void Deserialize(const Json& inJson) override;
 
+	Node();
 	virtual ~Node() override;
 	virtual void Render();
 

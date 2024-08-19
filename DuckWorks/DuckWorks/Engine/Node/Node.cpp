@@ -32,6 +32,11 @@ void Node::Deserialize(const Json& inJson)
 	SetLocalTransform(mLocalTransform);
 }
 
+Node::Node()
+{
+	SetGUID(GUID::sCreate());
+}
+
 Node::~Node() 
 {
 	gAssert(mWorld == nullptr); // We should have been removed from the world before being destroyed.
