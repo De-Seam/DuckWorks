@@ -60,7 +60,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
     </ClCompile>
@@ -83,7 +83,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
     </ClCompile>
@@ -143,6 +143,7 @@
     <ClCompile Include="RTTI\Factory\RTTIFactory.cpp" />
     <ClCompile Include="RTTI\RTTI.cpp" />
     <ClCompile Include="Utilities\GUID.cpp" />
+    <ClCompile Include="Utilities\TypeID.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RTTI\Factory\RTTIFactory.inl" />

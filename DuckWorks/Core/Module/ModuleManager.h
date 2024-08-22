@@ -31,7 +31,7 @@ inline taType* ModuleManager::CreateModule()
 	gAssert(!mModules.contains(taType::sGetRTTI().GetTypeID()));
 
 	taType* module = new taType;
-	mModules[module->GetRTTI()->GetID()] = module;
+	mModules[module->GetRTTI().GetTypeID()] = module;
 	module->Init();
 	return module;
 }

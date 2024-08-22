@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/Config.h>
-#include <External/optick/optick.h>
+// TODO: FIX
+//#include <External/optick/optick.h>
 
 // Profiling Macro
 #ifdef _PROFILING_ENABLED

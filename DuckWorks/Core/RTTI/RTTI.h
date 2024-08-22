@@ -12,19 +12,22 @@
 #include <Core/Utilities/TypeID.h>
 #include <Core/Utilities/Utilities.h>
 
-using RTTITypeID = TypeID<class RTTIClass>;
+DECLARE_TYPE_ID(RTTITypeID)
 
 class RTTIClass;
 
 // RTTI are static per RTTI type. They are used to identify the type of a class
-class RTTI
+class CORE_API RTTI
 {
 public:
 	RTTI(
 		const char* inClassName,
 		const char* inBaseClassName,
-		std::function<RTTIClass*()> inConstructorFunction
-	);
+		std::function<RTTIClass* ()> inConstructorFunction
+	) :
+		mClassName(inClassName),
+		mBaseClassName(inBaseClassName),
+		mConstructorFunction(inConstructorFunction) {}
 
 	// We don't want people to copy this class. Just use a pointer or refernece to it
 	RTTI& operator=(const RTTI&) = delete;
@@ -44,7 +47,7 @@ private:
 	RTTITypeID mTypeID;
 };
 
-class RTTIClass
+class CORE_API RTTIClass
 {
 public:
 	virtual ~RTTIClass();
