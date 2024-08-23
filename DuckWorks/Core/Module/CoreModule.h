@@ -5,6 +5,8 @@
 class CoreModule : public Module
 {
 public:
+	virtual void Init() override {}
+	virtual void Deinit() override {}
 
 private:
 

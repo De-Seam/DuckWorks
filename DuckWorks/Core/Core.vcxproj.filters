@@ -149,6 +149,9 @@
     <ClCompile Include="Utilities\TypeID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Module\ModuleManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="RTTI\Factory\RTTIFactory.inl">

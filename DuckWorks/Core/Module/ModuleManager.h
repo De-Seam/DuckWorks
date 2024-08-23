@@ -23,7 +23,7 @@ private:
 	HashMap<RTTITypeID, Module*> mModules;
 };
 
-extern ModuleManager* gModuleManager;
+extern CORE_API ModuleManager* gModuleManager;
 
 template<typename taType>
 inline taType* ModuleManager::CreateModule()

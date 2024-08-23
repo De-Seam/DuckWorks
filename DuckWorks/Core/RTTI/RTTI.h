@@ -17,7 +17,7 @@ DECLARE_TYPE_ID(RTTITypeID)
 class RTTIClass;
 
 // RTTI are static per RTTI type. They are used to identify the type of a class
-class CORE_API RTTI
+class RTTI
 {
 public:
 	RTTI(
@@ -50,7 +50,14 @@ private:
 class CORE_API RTTIClass
 {
 public:
-	virtual ~RTTIClass();
+	virtual ~RTTIClass()
+	{
+#ifdef _ASSERTS_ENABLED
+		// view values for loop
+		for (const auto& [key, value] : mMessageListeners) 
+			gAssert(value.empty() && "Message listeners are not empty");
+#endif
+	}
 
 	virtual const RTTI& GetRTTI() const { return sRTTI; }
 	static const RTTI& sGetRTTI() { return sRTTI; }
@@ -58,13 +65,26 @@ public:
 
 	template<typename taType>
 	bool IsA() const;
-	virtual bool IsA(const RTTI& inRTTI) const;
+	virtual bool IsA(const RTTI& inRTTI) const
+	{
+		return sGetRTTI().GetTypeID() == inRTTI.GetTypeID();
+	}
 
 	template<typename taType>
 	taType* As();
 
-	virtual Json Serialize() const;
-	virtual void Deserialize(const Json& inJson);
+	virtual Json Serialize() const
+	{
+		Json json;
+		json["ClassName"] = GetRTTI().GetClassName();
+		json["mGUID"] = mGUID.ToString();
+		return json;
+	}
+	virtual void Deserialize(const Json& inJson)
+	{
+		gAssert(inJson["ClassName"] == GetRTTI().GetClassName());
+		mGUID = inJson["mGUID"];
+	}
 
 	void BroadcastMessage(MsgBase& ioMsg);
 	template<typename taType>

@@ -1,9 +1,23 @@
-#include <windows.h>
+// Core includes
+#include <Core/Module/ModuleManager.h>
+#include <Core/Module/CoreModule.h>
 
-BOOL APIENTRY DllMain(HMODULE, DWORD  ul_reason_for_call, LPVOID) 
+// Std includes
+
+namespace Win32
+{
+#include <windows.h>
+}
+
+Win32::BOOL APIENTRY DllMain(Win32::HMODULE, Win32::DWORD  ul_reason_for_call, Win32::LPVOID)
 {
     switch (ul_reason_for_call) {
     case DLL_PROCESS_ATTACH:
+        if (gModuleManager == nullptr)
+        {
+            gModuleManager = new ModuleManager;
+            gModuleManager->CreateModule<CoreModule>();
+        }
         // Code to execute when the DLL is loaded.
         break;
     case DLL_THREAD_ATTACH:

@@ -44,11 +44,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Build/Out/$(ProjectName)/$(Platform)_$(Configuration)/</OutDir>
+    <OutDir>$(SolutionDir)Build\Out\$(ProjectName)\$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build/Int/$(ProjectName)/$(Platform)_$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Build/Out/$(ProjectName)/$(Platform)_$(Configuration)/</OutDir>
+    <OutDir>$(SolutionDir)Build\Out\$(ProjectName)\$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build/Int/$(ProjectName)/$(Platform)_$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -71,6 +71,9 @@
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/$(Platform)_$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(outDir)Core.dll" "$(SolutionDir)Run\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -96,6 +99,9 @@
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/$(Platform)_$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(outDir)Core.dll" "$(SolutionDir)Run\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />
@@ -138,6 +144,7 @@
     <ClInclude Include="Utilities\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Module\ModuleManager.cpp" />
     <ClCompile Include="Threads\Mutex.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="RTTI\Factory\RTTIFactory.cpp" />

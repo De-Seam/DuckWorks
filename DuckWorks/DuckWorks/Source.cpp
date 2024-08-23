@@ -13,7 +13,12 @@ public:
 
 int main()
 {
-	gModuleManager = new ModuleManager;
+	if (gModuleManager == nullptr)
+	{
+		// Core Module was not loaded correctly
+		gAssert(false);
+		return 0;
+	}
 	gModuleManager->CreateModule<DuckWorksModule>();
 	return 0;
 }
