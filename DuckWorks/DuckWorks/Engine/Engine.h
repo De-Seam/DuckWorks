@@ -1,16 +1,13 @@
 #pragma once
 // Core includes
 #include <Core/Containers/Array.h>
-#include <Core/Containers/HashMap.h>
 #include <Engine/Manager/Manager.h>
 #include <Core/RTTI/RTTI.h>
-#include <Core/Threads/Thread.h>
 #include <Core/Containers/SmartPointers.h>
 
 // Engine includes
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/World/World.h>
-
 
 struct MsgWindowClosed;
 class Renderer;
@@ -62,9 +59,6 @@ private:
 	Json mJson;
 };
 
-// Only the main thread of the application has access to the engine
-// A new application with its own main thread might create a new engine
-// The engine is not accessible from worker threads
-THREADLOCAL extern Engine* gEngine;
+extern Engine* gEngine;
 
 #include "Engine.inl"

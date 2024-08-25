@@ -75,7 +75,7 @@ void DebugManager::Update(float  inDeltaTime)
 
 	ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 
-	THREADLOCAL static Array<String> sDebugWindowNames;
+	static Array<String> sDebugWindowNames;
 	if (sDebugWindowNames.empty())
 	{
 		gEngineModule->mRTTIFactory.GetSubClassNames<DebugWindow>(sDebugWindowNames);
@@ -87,6 +87,24 @@ void DebugManager::Update(float  inDeltaTime)
 				mDebugWindows[i] = gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(sDebugWindowNames[i]);
 				gAssert(mDebugWindows[i]->GetRTTI().GetClassName() == sDebugWindowNames[i]);
 			}
+			else if(mDebugWindows[i]->GetRTTI().GetClassName() != sDebugWindowNames[i])
+			{
+				bool swapped = false;
+				for (int32 j = i; j < static_cast<int32>(mDebugWindows.size()); j++)
+				{
+					if (mDebugWindows[j]->GetRTTI().GetClassName() == sDebugWindowNames[i])
+					{
+						gSwap(mDebugWindows[i], mDebugWindows[j]);
+						swapped = true;
+						break;
+					}
+				}
+				if (!swapped)
+				{
+					mDebugWindows.push_back(mDebugWindows[i]);
+					mDebugWindows[i] = gEngineModule->mRTTIFactory.NewInstance<DebugWindow>(sDebugWindowNames[i]);
+				}
+			}
 		}
 	}
 
@@ -96,7 +114,7 @@ void DebugManager::Update(float  inDeltaTime)
 		{
 			for (uint64 i = 0; i < mDebugWindows.size(); i++)
 			{
-				String menu_item_name = sDebugWindowNames[i];
+				String menu_item_name = mDebugWindows[i]->GetRTTI().GetClassName();
 				// 11 = size of "DebugWindow"
 				menu_item_name.Replace(0, 11, "");
 				menu_item_name += "##MenuItem";
@@ -325,7 +343,7 @@ void DebugManager::OnPostBeginFrame(const MsgPostBeginFrame& inMsg)
 {
 	PROFILE_SCOPE(DebugManager::OnPostBeginFrame)
 	sf::RenderWindow& render_window = gEngine->GetRenderer().GetRenderWindow();
-	THREADLOCAL static sf::Clock delta_clock;
+	static sf::Clock delta_clock;
 	ImGui::SFML::Update(render_window, delta_clock.restart());
 
 	mIsInFrame = true;

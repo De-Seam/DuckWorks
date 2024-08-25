@@ -165,7 +165,7 @@ void CollisionShape::SetRectangle(Rectangle& ioRectangle)
 {
 	Rectangle swept_rectangle = Rectangle::sComputeSweptShape(GetRectangle(), ioRectangle);
 	AABB swept_aabb = Rectangle::sComputeAABB(swept_rectangle);
-	THREADLOCAL static Array<CollisionShape*> sCollisionShapes;
+	static Array<CollisionShape*> sCollisionShapes;
 	sCollisionShapes.clear();
 	mGrid->GetCollisionShapesInAABB(swept_aabb, sCollisionShapes);
 

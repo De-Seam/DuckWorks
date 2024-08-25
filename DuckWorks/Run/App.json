@@ -22,14 +22,14 @@
                 "mGUID": "0000-0000-0000-0000",
                 "mDebugWindows": [
                     {
-                        "ClassName": "DebugWindowObjectInspector",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mIsOpen": false
-                    },
-                    {
                         "ClassName": "DebugWindowNodeHierarchy",
                         "mGUID": "0000-0000-0000-0000",
                         "mIsOpen": true
+                    },
+                    {
+                        "ClassName": "DebugWindowObjectInspector",
+                        "mGUID": "0000-0000-0000-0000",
+                        "mIsOpen": false
                     }
                 ]
             },

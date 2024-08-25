@@ -8,7 +8,7 @@
 #include <Engine/Resources/ResourceManager.h>
 #include <Engine/Threads/ThreadManager.h>
 
-THREADLOCAL Engine* gEngine = nullptr;
+Engine* gEngine = nullptr;
 
 Engine::Engine() 
 {
