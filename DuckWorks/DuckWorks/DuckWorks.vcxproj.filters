@@ -51,9 +51,6 @@
     <ClInclude Include="Engine\Manager\Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Managers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Renderer\WindowEvents\EventMessages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -192,25 +189,10 @@
     <ClInclude Include="App\AppModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Node\Node.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Debug\Windows\DebugWindowNodeHierarchy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\World\RootNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Collision\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Collision\CollisionShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Collision\CollisionNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Node\NodeMessages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -299,12 +281,6 @@
     <ClCompile Include="App\AppModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Node\Node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Debug\Windows\DebugWindowNodeHierarchy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Math\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -312,12 +288,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Collision\CollisionShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Collision\CollisionNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\World\RootNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

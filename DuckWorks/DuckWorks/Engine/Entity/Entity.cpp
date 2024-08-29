@@ -5,7 +5,8 @@
 #include <Engine/Entity/Components/TransformComponent.h>
 #include <Engine/World/World.h>
 
-entt::registry& Entity::GetRegistry() 
+
+entt::registry& Entity::GetRegistry()
 {
 	gAssert(GetWorld() != nullptr);
 	return GetWorld()->GetRegistry();
@@ -17,26 +18,19 @@ const entt::registry& Entity::GetRegistry() const
 	return GetWorld()->GetRegistry();
 }
 
-void Entity::OnAddedToParent() 
+void Entity::OnAddedToWorld(World* inWorld)
 {
-	Base::OnAddedToParent();
-
+	gAssert(mWorld == nullptr);
 	gAssert(mEntityHandle == entt::null);
+	mWorld = inWorld;
 	mEntityHandle = GetRegistry().create();
 }
 
-void Entity::OnRemovedFromParent() 
+void Entity::OnRemovedFromWorld() 
 {
 	gAssert(mEntityHandle != entt::null);
+	gAssert(mWorld != nullptr);
 	GetRegistry().destroy(mEntityHandle);
 	mEntityHandle = entt::null;
-
-	Base::OnRemovedFromParent();
-}
-
-void Entity::OnTransformUpdated()
-{
-	if (GetWorld() == nullptr)
-		return;
-	GetComponent<TransformComponent>().SetTransform(GetWorldTransform(), GetRegistry(), mEntityHandle);
+	mWorld = nullptr;
 }

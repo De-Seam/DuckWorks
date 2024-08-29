@@ -4,7 +4,6 @@
 // Engine includes
 #include <Engine/Engine.h>
 #include <Engine/Collision/Grid.h>
-#include <Engine/Collision/CollisionNode.h>
 #include <Engine/Entity/Actor.h>
 #include <Engine/Entity/Entity.h>
 #include <Engine/Entity/Components/TextureRenderComponent.h>
@@ -18,31 +17,13 @@ World::World()
 
 	mGrid = std::make_unique<Grid>(IVec2(-10000, -10000), IVec2(1000, 1000), IVec2(64, 64));
 
-	// Handle root node here explicitly, so it doesn't add itself as a child of itself
-	mRootNode = new RootNode(*this);
-
 	Actor* actor = new Actor;
-	AddNode(actor);
-	actor->AddChild(new CollisionNode);
-	actor->AddChild(new Actor);
-	actor->AddChild(new Actor);
-	actor->SetLocalTransform(Transform2D({200.0f, 0.0f}, {1.0f, 1.0f}, 0.0f));
-	AddNode(new Actor);
-	Node* node = new Node;
-	actor->AddChild(node);
-	node->AddChild(new Actor);
-	node->AddChild(new CollisionNode);
-	node->AddChild(new Node);
-	node->AddChild(new Actor);
-	gActor = new Actor;
-	AddNode(gActor);
-	gActor->AddChild(new CollisionNode);
+	AddEntity(actor);
 }
 
 World::~World() 
 {
-	// Delete root node before the registry is destroyed
-	mRootNode = nullptr;
+	mEntities.clear();
 }
 
 void World::Update(float inDeltaTime) 
@@ -51,15 +32,8 @@ void World::Update(float inDeltaTime)
 
 	mIsUpdatingEntities = true;
 
-	// Update the first Actor, for debugging
-	for (Node* node : mRootNode->GetChildren())
-	{
-		if (node->IsA(Actor::sGetRTTI()))
-		{
-			node->As<Actor>()->Update(inDeltaTime);
-			break;
-		}
-	}
+	for (Entity* entity : mEntities)
+		entity->Update(inDeltaTime);
 
 	mIsUpdatingEntities = false;
 }
@@ -95,15 +69,24 @@ void World::Render()
 	mGrid->Render();
 }
 
-void World::AddNode(const Ref<Node>& inNode) 
+void World::AddEntity(const Ref<Entity>& inEntity)
 {
-	gAssert(inNode->GetParent() == nullptr);
-	mRootNode->AddChild(inNode);
+	mEntities.push_back(inEntity);
+	inEntity->OnAddedToWorld(this);
 }
 
-void World::RemoveNode(const Node& inNode) 
+void World::RemoveEntity(Entity& inEntity)
 {
-	mRootNode->RemoveChild(inNode);
+	inEntity.OnRemovedFromWorld();
+	for (auto it = mEntities.begin(); it != mEntities.end(); ++it)
+	{
+		if ((*it).Get() == &inEntity)
+		{
+			mEntities.erase(it);
+			return;
+		}
+	}
+	gAssert(false && "Entity was not found in th World!");
 }
 
 void World::OnTransformComponentCreated(entt::registry& inRegistry, entt::entity inEntityHandle) 

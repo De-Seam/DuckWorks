@@ -4,7 +4,7 @@
 #include <Core/RTTI/RTTIRefObject.h>
 
 // Engine includes
-#include <Engine/World/RootNode.h>
+#include <Engine/Entity/Entity.h>
 
 // External includes
 #include <External/entt/entity/registry.hpp>
@@ -23,10 +23,8 @@ public:
 	void Update(float inDeltaTime);
 	void Render();
 
-	void AddNode(const Ref<Node>& inNode);
-	void RemoveNode(const Node& inNode);
-	Node& GetRootNode() { return *mRootNode; }
-	const Node& GetRootNode() const { return *mRootNode; }
+	void AddEntity(const Ref<Entity>& inEntity);
+	void RemoveEntity(Entity& inEntity);
 
 	Grid& GetGrid() { return *mGrid.get(); }
 	const Grid& GetGrid() const { return *mGrid.get(); }
@@ -40,7 +38,7 @@ protected:
 private:
 	bool mIsUpdatingEntities = false;
 
-	Ref<RootNode> mRootNode; ///< Root Node
+	Array<Ref<Entity>> mEntities;
 
 	UniquePtr<Grid> mGrid;
 	entt::registry mRegistry;

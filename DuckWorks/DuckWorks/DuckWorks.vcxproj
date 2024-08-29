@@ -197,12 +197,10 @@
     <ClInclude Include="Core\Utilities\Types.h" />
     <ClInclude Include="Core\Utilities\UID.h" />
     <ClInclude Include="Core\Utilities\Utilities.h" />
-    <ClInclude Include="Engine\Collision\CollisionNode.h" />
     <ClInclude Include="Engine\Collision\CollisionShape.h" />
     <ClInclude Include="Engine\Collision\Grid.h" />
     <ClInclude Include="Engine\Debug\DebugManager.h" />
     <ClInclude Include="Engine\Debug\Windows\DebugWindow.h" />
-    <ClInclude Include="Engine\Debug\Windows\DebugWindowNodeHierarchy.h" />
     <ClInclude Include="Engine\Debug\Windows\DebugWindowObjectInspector.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\EngineModule.h" />
@@ -213,9 +211,6 @@
     <ClInclude Include="Engine\Entity\Components\WorldComponent.h" />
     <ClInclude Include="Engine\Entity\Entity.h" />
     <ClInclude Include="Engine\Manager\Manager.h" />
-    <ClInclude Include="Engine\Manager\Managers.h" />
-    <ClInclude Include="Engine\Node\Node.h" />
-    <ClInclude Include="Engine\Node\NodeMessages.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Renderer\WindowEvents\EventMessages.h" />
     <ClInclude Include="Engine\Renderer\WindowEvents\WindowEventManager.h" />
@@ -223,7 +218,6 @@
     <ClInclude Include="Engine\Resources\ResourceManager.h" />
     <ClInclude Include="Engine\Resources\TextureResource.h" />
     <ClInclude Include="Engine\Threads\ThreadManager.h" />
-    <ClInclude Include="Engine\World\RootNode.h" />
     <ClInclude Include="Engine\World\World.h" />
     <ClInclude Include="Engine\World\WorldMessages.h" />
     <ClInclude Include="include\Core\Math\FMath.h" />
@@ -243,11 +237,9 @@
     <ClCompile Include="Core\RTTI\Factory\RTTIFactory.cpp" />
     <ClCompile Include="Core\RTTI\RTTI.cpp" />
     <ClCompile Include="Core\Utilities\GUID.cpp" />
-    <ClCompile Include="Engine\Collision\CollisionNode.cpp" />
     <ClCompile Include="Engine\Collision\CollisionShape.cpp" />
     <ClCompile Include="Engine\Collision\Grid.cpp" />
     <ClCompile Include="Engine\Debug\DebugManager.cpp" />
-    <ClCompile Include="Engine\Debug\Windows\DebugWindowNodeHierarchy.cpp" />
     <ClCompile Include="Engine\Debug\Windows\DebugWindowObjectInspector.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\EngineModule.cpp" />
@@ -255,13 +247,11 @@
     <ClCompile Include="Engine\Entity\Components\TextureRenderComponent.cpp" />
     <ClCompile Include="Engine\Entity\Components\TransformComponent.cpp" />
     <ClCompile Include="Engine\Entity\Entity.cpp" />
-    <ClCompile Include="Engine\Node\Node.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Renderer\WindowEvents\WindowEventManager.cpp" />
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="Engine\Resources\TextureResource.cpp" />
     <ClCompile Include="Engine\Threads\ThreadManager.cpp" />
-    <ClCompile Include="Engine\World\RootNode.cpp" />
     <ClCompile Include="Engine\World\World.cpp" />
     <ClCompile Include="Precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

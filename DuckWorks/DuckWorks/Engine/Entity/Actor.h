@@ -8,5 +8,5 @@ class Actor : public Entity
 public:
 	virtual void Update(float inDeltaTime) override;
 
-	virtual void OnAddedToParent() override;
+	virtual void OnAddedToWorld(World* inWorld) override;
 };

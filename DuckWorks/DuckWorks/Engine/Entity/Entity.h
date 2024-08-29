@@ -2,17 +2,14 @@
 // Core includes
 #include <Core/RTTI/RTTIRefObject.h>
 
-// Engine includes
-#include <Engine/Node/Node.h>
-
 // External includes
 #include <External/entt/entity/registry.hpp>
 
 class World;
 
-class Entity : public Node
+class Entity : public RTTIRefObject
 {
-	RTTI_CLASS(Entity, Node)
+	RTTI_CLASS(Entity, RTTIRefObject)
 public:
 	virtual void Update(float inDeltaTime) { (void)inDeltaTime; }
 
@@ -30,18 +27,17 @@ public:
 	template<typename taType>
 	void RemoveComponent();
 
+	World* GetWorld() const { return mWorld; }
 	entt::entity GetEntityHandle() const { return mEntityHandle; }
 
-protected:
-	virtual void OnAddedToParent() override;
-	virtual void OnRemovedFromParent() override;
-
-	virtual void OnTransformUpdated() override;
+	virtual void OnAddedToWorld(World* inWorld);
+	virtual void OnRemovedFromWorld();
 
 	entt::registry& GetRegistry();
 	const entt::registry& GetRegistry() const;
 
 private:
+	World* mWorld = nullptr;
 	entt::entity mEntityHandle = entt::null;
 };
 

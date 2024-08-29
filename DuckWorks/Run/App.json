@@ -8,12 +8,12 @@
             "ClassName": "Renderer",
             "mGUID": "0000-0000-0000-0000",
             "mRenderWindow_Position": [
-                -8,
-                -8
+                -13,
+                -13
             ],
             "mRenderWindow_Size": [
-                2560,
-                1417
+                2736,
+                1779
             ]
         },
         "mManagers": [
@@ -21,11 +21,6 @@
                 "ClassName": "DebugManager",
                 "mGUID": "0000-0000-0000-0000",
                 "mDebugWindows": [
-                    {
-                        "ClassName": "DebugWindowNodeHierarchy",
-                        "mGUID": "0000-0000-0000-0000",
-                        "mIsOpen": true
-                    },
                     {
                         "ClassName": "DebugWindowObjectInspector",
                         "mGUID": "0000-0000-0000-0000",
