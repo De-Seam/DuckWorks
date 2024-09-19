@@ -47,11 +47,11 @@ CollisionInfo Rectangle::sCollides(const Rectangle& inRectangleA, const Rectangl
 	float radA = gToRadians(inRectangleA.mRotation);
 	float radB = gToRadians(inRectangleB.mRotation);
 
-	std::vector<Vec2> axes = {
-		{std::cos(radA), std::sin(radA)},
-		{std::cos(radA + gPi() / 2), std::sin(radA + gPi() / 2)},
-		{std::cos(radB), std::sin(radB)},
-		{std::cos(radB + gPi() / 2), std::sin(radB + gPi() / 2)}
+	std::array<Vec2, 4> axes = {
+		Vec2{std::cos(radA), std::sin(radA)},
+		Vec2{std::cos(radA + gPi() / 2), std::sin(radA + gPi() / 2)},
+		Vec2{std::cos(radB), std::sin(radB)},
+		Vec2{std::cos(radB + gPi() / 2), std::sin(radB + gPi() / 2)}
 	};
 
 	for (const auto& axis : axes)
