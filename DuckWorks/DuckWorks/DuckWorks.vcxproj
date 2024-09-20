@@ -226,7 +226,7 @@
   <ItemGroup>
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppModule.cpp" />
-    <ClCompile Include="Core\Containers\Mutex.cpp" />
+    <ClCompile Include="Core\Threads\Mutex.cpp" />
     <ClCompile Include="Core\Containers\String.cpp" />
     <ClCompile Include="Core\CoreModule.cpp" />
     <ClCompile Include="Core\Math\Math.cpp" />

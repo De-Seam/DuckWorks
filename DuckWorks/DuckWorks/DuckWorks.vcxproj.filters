@@ -245,7 +245,7 @@
     <ClCompile Include="Engine\EngineModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Containers\Mutex.cpp">
+    <ClCompile Include="Core\Threads\Mutex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Containers\String.cpp">
