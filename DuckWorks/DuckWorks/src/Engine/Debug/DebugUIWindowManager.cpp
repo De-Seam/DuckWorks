@@ -193,7 +193,7 @@ void DebugUIWindowManager::Update(float inDeltaTime)
 	}
 	mWindowsToAdd.clear();
 
-	if (GetWindow<DebugUIWindowEditorToolbar>()->GetGameState() == ToolbarGameState::Stopped)
+	if (WindowExists<DebugUIWindowEditorToolbar>() && GetWindow<DebugUIWindowEditorToolbar>()->GetGameState() == ToolbarGameState::Stopped)
 		gRenderer.OverrideCameraThisFrame(mDebugCamera);
 
 	UpdateViewport();
