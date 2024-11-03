@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
+    <ClInclude Include="Editor\EditorApp.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Game\GameApp.h" />
   </ItemGroup>

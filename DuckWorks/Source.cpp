@@ -15,12 +15,12 @@ DC::UniquePtr<App> gApp;
 void gMainLoop()
 {
 	// Initial time point
-    auto last_time = std::chrono::high_resolution_clock::now();
+    std::chrono::time_point last_time = std::chrono::high_resolution_clock::now();
 
     while (!gApp->ShouldShutdown()) 
     {
         // Calculate the current time and delta time
-        auto current_time = std::chrono::high_resolution_clock::now();
+        std::chrono::time_point current_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> delta_time = current_time - last_time;
         last_time = current_time;
 
