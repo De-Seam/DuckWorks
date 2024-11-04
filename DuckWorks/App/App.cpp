@@ -8,20 +8,12 @@
 
 App::App()
 {
-	if (gEngine == nullptr)
-		mEngine = new Engine;
-	else
-		mEngine = gEngine;
+	gAssert(gEngine != nullptr);
 }
 
 App::~App()
 {
-	mEngine = nullptr;
-}
-
-void App::Update(float inDeltaTime)
-{
-	
+	gAssert(gEngine != nullptr);
 }
 
 bool App::ShouldShutdown() const

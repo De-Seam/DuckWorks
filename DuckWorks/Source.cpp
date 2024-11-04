@@ -4,11 +4,15 @@
 // Engine includes
 #include <Engine/Engine.h>
 
+// Editor includes
+#include <Editor/EditorApp.h>
+
 // App includes
 #include <App/App.h>
 
 // Std includes
 #include <chrono>
+
 
 DC::UniquePtr<App> gApp;
 
@@ -31,11 +35,16 @@ void gMainLoop()
 
 int main()
 {
-    gApp = DC::UniquePtr<App>::sMakeUnique();
+    gEngine = new Engine;
+    gApp = DC::UniquePtr<EditorApp>::sMakeUnique();
+    gEngine->Init();
 
     gMainLoop();
 
+    gEngine->Shutdown();
     gApp.Delete();
+    delete gEngine;
+    gEngine = nullptr;
 
     return 0;
 }

@@ -1,6 +1,4 @@
 #pragma once
-// DuckCore includes
-#include <DuckCore/RTTI/Ref.h>
 
 class Engine;
 
@@ -10,10 +8,7 @@ class App
 public:
 	App();
 	virtual ~App();
-	virtual void Update(float inDeltaTime);
+	virtual void Update(float inDeltaTime) = 0;
 
 	virtual bool ShouldShutdown() const;
-
-private:
-	DC::Ref<Engine> mEngine;
 };

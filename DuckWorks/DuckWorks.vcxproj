@@ -93,14 +93,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App\App.cpp" />
+    <ClCompile Include="Editor\EditorApp.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Game\GameApp.cpp" />
+    <ClCompile Include="Game\World\World.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
     <ClInclude Include="Editor\EditorApp.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Manager.h" />
+    <ClInclude Include="Engine\Objects\Object.h" />
+    <ClInclude Include="Engine\Objects\ObjectManager.h" />
     <ClInclude Include="Game\GameApp.h" />
+    <ClInclude Include="Game\World\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

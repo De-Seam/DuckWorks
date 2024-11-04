@@ -1,16 +1,22 @@
 #pragma once
 // DuckCore includes
+#include <DuckCore/Containers/Array.h>
+#include <DuckCore/Containers/UniquePtr.h>
 #include <DuckCore/RTTI/RTTIRefClass.h>
 
+class Manager;
 class Engine;
 
 extern Engine* gEngine;
 
-class Engine : public DC::RTTIRefClass
+class Engine
 {
 public:
 	Engine();
-	virtual ~Engine() override;
+	~Engine();
+
+	void Init();
+	void Shutdown();
 
 	void Update(float inDeltaTime);
 
@@ -19,4 +25,6 @@ public:
 
 private:
 	bool mShouldShutdown = false;
+
+	DC::Array<DC::UniquePtr<Manager>> mManagers;
 };
