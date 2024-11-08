@@ -13,7 +13,6 @@
 // Std includes
 #include <chrono>
 
-
 DC::UniquePtr<App> gApp;
 
 void gMainLoop()
@@ -35,6 +34,8 @@ void gMainLoop()
 
 int main()
 {
+    gAssert(false, "Message");
+
     gEngine = new Engine;
     gApp = DC::UniquePtr<EditorApp>::sMakeUnique();
     gEngine->Init();
