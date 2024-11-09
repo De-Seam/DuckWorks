@@ -32,10 +32,15 @@ void gMainLoop()
     }
 }
 
+/**
+Order of initialization:
+GameModule constructor: Register classes
+Engine constructor: Register managers
+App constructor: Register managers / systems
+Engine::Init: Initialize managers
+**/
 int main()
 {
-    gAssert(false, "Message");
-
     gEngine = new Engine;
     gApp = DC::UniquePtr<EditorApp>::sMakeUnique();
     gEngine->Init();
