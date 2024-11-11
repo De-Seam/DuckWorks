@@ -110,6 +110,7 @@
     <ClInclude Include="Engine\Objects\Object.h" />
     <ClInclude Include="Engine\Objects\ObjectManager.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
+    <ClInclude Include="Game\Entity\Entity.h" />
     <ClInclude Include="Game\GameApp.h" />
     <ClInclude Include="Game\World\World.h" />
   </ItemGroup>

@@ -71,5 +71,8 @@
     <ClInclude Include="Engine\Events\SDLEventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Entity\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
