@@ -5,6 +5,8 @@
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Renderer/Renderer.h>
 
+using namespace DC;
+
 Engine* gEngine = nullptr;
 
 EngineUpdateHandle::~EngineUpdateHandle()
@@ -18,8 +20,8 @@ Engine::Engine()
 	gAssert(gEngine == nullptr);
 	gEngine = this;
 
-	mManagers.Add(DC::UniquePtr<SDLEventManager>::sMakeUnique());
-	mManagers.Add(DC::UniquePtr<Renderer>::sMakeUnique());
+	CreateManager<SDLEventManager>();
+	CreateManager<Renderer>();
 }
 
 Engine::~Engine()
@@ -33,14 +35,18 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-	for (Manager* manager : mManagers)
-		manager->Init();
+	mManagers.ForEach([](const DC::RTTITypeID&, Manager* inManager)
+	{
+		inManager->Init();
+	});
 }
 
 void Engine::Shutdown()
 {
-	for (Manager* manager : mManagers)
-		manager->Shutdown();
+	mManagers.ForEach([](const DC::RTTITypeID&, Manager* inManager)
+	{
+		inManager->Shutdown();
+	});
 }
 
 void Engine::Update(float inDeltaTime)
