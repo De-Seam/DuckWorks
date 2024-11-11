@@ -3,6 +3,7 @@
 // Engine includes
 #include <Engine/Manager.h>
 #include <Engine/Events/SDLEventManager.h>
+#include <Engine/Objects/ObjectManager.h>
 #include <Engine/Renderer/Renderer.h>
 
 using namespace DC;
@@ -20,6 +21,7 @@ Engine::Engine()
 	gAssert(gEngine == nullptr);
 	gEngine = this;
 
+	CreateManager<ObjectManager>();
 	CreateManager<SDLEventManager>();
 	CreateManager<Renderer>();
 }
