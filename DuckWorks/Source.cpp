@@ -41,16 +41,16 @@ Engine::Init: Initialize managers
 **/
 int main()
 {
-    gEngine = new Engine;
-    gApp = DC::UniquePtr<EditorApp>::sMakeUnique();
-    gEngine->Init();
+	{
+		Engine engine;
+		gApp = DC::UniquePtr<EditorApp>::sMakeUnique();
+		gEngine->Init();
 
-    gMainLoop();
+		gMainLoop();
 
-    gEngine->Shutdown();
-    gApp.Delete();
-    delete gEngine;
-    gEngine = nullptr;
+		gEngine->Shutdown();
+		gApp.Delete();
+	}
 
     return 0;
 }

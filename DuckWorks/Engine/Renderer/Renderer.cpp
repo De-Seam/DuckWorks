@@ -4,8 +4,6 @@ using namespace DC;
 
 Renderer::Renderer()
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-
 	mWindow = SDL_CreateWindow("DuckWorks", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_SHOWN);
 
 	if (mWindow == nullptr)
@@ -26,8 +24,6 @@ Renderer::~Renderer()
 {
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);
-
-	SDL_Quit();
 }
 
 void Renderer::Init()

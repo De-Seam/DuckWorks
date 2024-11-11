@@ -35,6 +35,7 @@ public:
 	void RequestShutdown() { mShouldShutdown = true; }
 	bool ShouldShutdown() const { return mShouldShutdown; }
 
+	[[nodiscard]]
 	DC::Ref<EngineUpdateHandle> RegisterUpdateCallback(std::function<void(float)> inCallback);
 
 private:
@@ -44,7 +45,12 @@ private:
 
 	DC::Array<DC::UniquePtr<Manager>> mManagers;
 
-	DC::Array<std::pair<int, std::function<void(float)>>> mUpdateCallbacks;
+	struct UpdateCallback
+	{
+		int mID = -1;
+		std::function<void(float)> mCallback;
+	};
+	DC::Array<UpdateCallback> mUpdateCallbacks;
 
 	friend class EngineUpdateHandle;
 };
