@@ -2,12 +2,14 @@
 // Core includes
 #include <DuckCore/Containers/Array.h>
 #include <DuckCore/Containers/Handle.h>
-
-// Engine includes
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/StaticArray.h>
 
+// Engine includes
 #include <Engine/Objects/Object.h>
+
+// External includes
+#include <External/entt/entity/registry.hpp>
 
 class Entity;
 class World;
@@ -49,6 +51,9 @@ public:
 
 	void Update(float inDeltaTime);
 
+	entt::registry& GetRegistry() { return mRegistry; }
+	const entt::registry& GetRegistry() const { return mRegistry; }
+
 	void AddEntity(Entity& inEntity);
 	void RemoveEntity(Entity& inEntity);
 
@@ -58,6 +63,7 @@ public:
 private:
 	void UnregisterTickCallback(const WorldTickHandle& inHandle);
 
+	entt::registry mRegistry;
 	DC::Array<DC::Ref<Entity>> mEntities;
 
 	struct TickCallback

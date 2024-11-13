@@ -99,6 +99,7 @@
     <ClCompile Include="Engine\Objects\Object.cpp" />
     <ClCompile Include="Engine\Objects\ObjectManager.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
+    <ClCompile Include="Game\Entity\Entity.cpp" />
     <ClCompile Include="Game\GameApp.cpp" />
     <ClCompile Include="Game\World\World.cpp" />
     <ClCompile Include="Source.cpp" />
