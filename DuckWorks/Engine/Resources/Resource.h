@@ -11,12 +11,19 @@ inline void to_json(Json& outJson, const inClassName* inClass) \
 \
 inline void from_json(const Json& inJson, inClassName*& outClass) \
 { \
-	outClass = Resource::sFindResourceInResourceManager<inClassName>(inJson["GUID"]); \
-	if (outClass != nullptr) \
-	{ \
-		outClass = new inClassName; \
-		outClass->SetGUID(inJson["GUID"]); \
-	} \
+	outClass = reinterpret_cast<inClassName*>(Resource::sGetResourceInResourceManager<inClassName>(inJson["GUID"])); \
+	outClass->Deserialize(inJson); \
+}
+
+#define FILE_RESOURCE_AUTO_JSON(inClassName) \
+inline void to_json(Json& outJson, const inClassName* inClass) \
+{ \
+	outJson = inClass->Serialize(); \
+} \
+\
+inline void from_json(const Json& inJson, inClassName*& outClass) \
+{ \
+	outClass = reinterpret_cast<inClassName*>(FileResource::sGetResourceInResourceManager<inClassName>(inJson["File"])); \
 	outClass->Deserialize(inJson); \
 }
 
@@ -25,17 +32,22 @@ class Resource : public Object
 {
 	RTTI_CLASS(Resource, Object)
 public:
-	template<typename taType>
-	static taType* sFindResourceInResourceManager(const DC::GUID& inGUID);
+	Resource(const DC::GUID& inGUID) : Object(inGUID) {}
 
+	static Resource* sGetResourceInResourceManager(const DC::GUID& inGUID);
 private:
-	static Resource* sFindResourceInResourceManagerInternal(const DC::GUID& inGUID);
 };
 
-template<typename taType>
-taType* Resource::sFindResourceInResourceManager(const DC::GUID& inGUID)
+// FileResource is a Resource loaded from a file
+class FileResource : public Resource
 {
-	Resource* resource = sFindResourceInResourceManagerInternal(inGUID);
-	gAssert(resource == nullptr || resource->IsA<taType>(), "Loaded resource is of the wrong type! GUID collision?");
-	return reinterpret_cast<taType*>(resource);
-}
+	RTTI_CLASS(FileResource, Resource)
+public:
+	FileResource(const DC::GUID& inGUID, const DC::String& inFile) : Resource(inGUID), mFile(inFile) { (void)inFile; }
+
+	static Resource* sGetResourceInResourceManager(const DC::String& inFile);
+
+private:
+	DC::String mFile = "";
+};
+
