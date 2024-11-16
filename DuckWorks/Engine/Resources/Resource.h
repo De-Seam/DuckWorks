@@ -11,43 +11,32 @@ inline void to_json(Json& outJson, const inClassName* inClass) \
 \
 inline void from_json(const Json& inJson, inClassName*& outClass) \
 { \
-	outClass = reinterpret_cast<inClassName*>(Resource::sGetResourceInResourceManager<inClassName>(inJson["GUID"])); \
+	outClass = gEngine->GetManager<ResourceManager>().GetResource<inClassName>(inJson["mFile"]); \
 	outClass->Deserialize(inJson); \
 }
 
-#define FILE_RESOURCE_AUTO_JSON(inClassName) \
-inline void to_json(Json& outJson, const inClassName* inClass) \
-{ \
-	outJson = inClass->Serialize(); \
-} \
-\
-inline void from_json(const Json& inJson, inClassName*& outClass) \
-{ \
-	outClass = reinterpret_cast<inClassName*>(FileResource::sGetResourceInResourceManager<inClassName>(inJson["File"])); \
-	outClass->Deserialize(inJson); \
-}
-
-// Resource is a shared object
+// Resource is a shared object that is loaded from a file.
+// Resource types should inherit from this base class.
+// Resources are automatically loaded and unloaded by the ResourceManager.
 class Resource : public Object
 {
 	RTTI_CLASS(Resource, Object)
 public:
-	Resource(const DC::GUID& inGUID) : Object(inGUID) {}
+	// Load the resource
+	virtual void Load() = 0;
+	// Unload the resource
+	virtual void Unload() = 0;
 
-	static Resource* sGetResourceInResourceManager(const DC::GUID& inGUID);
-private:
-};
+	virtual Json Serialize() const override;
+	virtual void Deserialize(const Json& inJson) override;
 
-// FileResource is a Resource loaded from a file
-class FileResource : public Resource
-{
-	RTTI_CLASS(FileResource, Resource)
-public:
-	FileResource(const DC::GUID& inGUID, const DC::String& inFile) : Resource(inGUID), mFile(inFile) { (void)inFile; }
-
-	static Resource* sGetResourceInResourceManager(const DC::String& inFile);
+	const DC::String& GetFile() const { return mFile; }
 
 private:
+	// Constructor is private to prevent direct instantiation. Only the ResourceManager may create resources.
+	Resource(const DC::String& inFile) : mFile(inFile) {}
+
 	DC::String mFile = "";
-};
 
+	friend class ResourceManager;
+};

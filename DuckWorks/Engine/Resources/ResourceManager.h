@@ -12,53 +12,33 @@ class ResourceManager : public Manager
 {
 	RTTI_CLASS(ResourceManager, Manager)
 public:
-	template<typename taType>
-	taType* GetResource(const DC::GUID& inGUID = DC::GUID::sCreate());
+	// Unload all resources that are not referenced by any object
+	void UnloadUnreferencedResources();
 
 	template<typename taType>
-	taType* GetFileResource(const DC::String& inFile);
+	taType* GetResource(const DC::String& inFile);
 
 private:
-	DC::HashMap<DC::GUID, DC::Ref<Resource>> mResources;
+	DC::HashMap<DC::String, DC::Ref<Resource>> mResources;
 
 	friend class Resource;
 };
 
 template<typename taType>
-taType* ResourceManager::GetResource(const DC::GUID& inGUID)
+taType* ResourceManager::GetResource(const DC::String& inFile)
 {
 	static_assert(std::is_base_of_v<Resource, taType>, "taType must be a subclass of Resource");
-	static_assert(!std::is_base_of_v<FileResource, taType>, "taType must not be a subclass of FileResource. Use GetFileResource instead");
-
-	gAssert(inGUID.IsValid(), "GUID must be valid");
-
-	if (DC::Ref<Resource>* resource_ptr = mResources.Find(inGUID))
-	{
-		gAssert((*resource_ptr)->IsA<taType>(), "Loaded resource is of the wrong type! GUID collision?");
-		return reinterpret_cast<taType*>(resource_ptr->Get());
-	}
-
-	taType* resource = new taType(inGUID);
-	mResources[inGUID] = resource;
-	return resource;
-}
-
-template<typename taType>
-taType* ResourceManager::GetFileResource(const DC::String& inFile)
-{
-	static_assert(std::is_base_of_v<FileResource, taType>, "taType must be a subclass of FileResource");
 
 	gAssert(inFile == "", "File must be valid");
 
-	DC::GUID guid = DC::GUID(inFile.Hash());
-
-	if (DC::Ref<Resource>* resource_ptr = mResources.Find(guid))
+	if (std::optional<DC::Ref<Resource>> resource = mResources.Find(inFile))
 	{
-		gAssert((*resource_ptr)->IsA<taType>(), "Loaded resource is of the wrong type! GUID collision?");
-		return reinterpret_cast<taType*>(resource_ptr->Get());
+		gAssert(resource.value()->IsA<taType>(), "Loaded resource is of the wrong type! GUID collision?");
+		return reinterpret_cast<taType*>(resource.value());
 	}
 
-	taType* resource = new taType(guid, inFile);
-	mResources[guid] = resource;
+	taType* resource = new taType(inFile);
+	mResources[inFile] = resource;
+	resource->Load();
 	return resource;
 }

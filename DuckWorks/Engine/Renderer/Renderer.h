@@ -15,6 +15,9 @@ public:
 	virtual void Init();
 	virtual void Shutdown();
 
+	SDL_Window* GetWindow() const { return mWindow; }
+	SDL_Renderer* GetRenderer() const { return mRenderer; }
+
 private:
 	SDL_Window* mWindow = nullptr;
 	SDL_Renderer* mRenderer = nullptr;

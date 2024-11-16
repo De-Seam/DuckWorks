@@ -5,12 +5,18 @@
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Resources/ResourceManager.h>
 
-Resource* Resource::sGetResourceInResourceManager(const DC::GUID& inGUID)
+Json Resource::Serialize() const
 {
-	return gEngine->GetManager<ResourceManager>().GetResource<Resource>(inGUID);
+	Json json = Base::Serialize();
+
+	json["mFile"] = mFile;
+
+	return json;
 }
 
-Resource* FileResource::sGetResourceInResourceManager(const DC::String& inFile)
+void Resource::Deserialize(const Json& inJson)
 {
-	return gEngine->GetManager<ResourceManager>().GetFileResource<FileResource>(inFile);
+	Base::Deserialize(inJson);
+
+	gAssert(inJson["mFile"] == mFile.CStr());
 }
