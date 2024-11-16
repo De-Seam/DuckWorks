@@ -8,7 +8,7 @@
 
 SDLEventManager::SDLEventManager()
 {
-	mUpdateHandle = gEngine->RegisterUpdateCallback([this](float inDeltaTime) { Update(); });
+	mUpdateHandle = gEngine->RegisterUpdateCallback([this](float) { Update(); });
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 }

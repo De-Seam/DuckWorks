@@ -99,6 +99,7 @@
     <ClCompile Include="Engine\Objects\Object.cpp" />
     <ClCompile Include="Engine\Objects\ObjectManager.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
+    <ClCompile Include="Engine\Resources\Resource.cpp" />
     <ClCompile Include="Game\Entity\Entity.cpp" />
     <ClCompile Include="Game\GameApp.cpp" />
     <ClCompile Include="Game\World\World.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Engine\Objects\Object.h" />
     <ClInclude Include="Engine\Objects\ObjectManager.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
+    <ClInclude Include="Engine\Resources\Resource.h" />
     <ClInclude Include="Game\Entity\Entity.h" />
     <ClInclude Include="Game\GameApp.h" />
     <ClInclude Include="Game\World\World.h" />
