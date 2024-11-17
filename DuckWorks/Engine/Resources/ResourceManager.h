@@ -39,6 +39,5 @@ taType* ResourceManager::GetResource(const DC::String& inFile)
 
 	taType* resource = new taType(inFile);
 	mResources[inFile] = resource;
-	resource->Load();
 	return resource;
 }

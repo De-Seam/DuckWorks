@@ -4,13 +4,8 @@
 
 void ResourceManager::UnloadUnreferencedResources()
 {
-	mResources.RemoveIf([](const DC::String&, Resource* inResource)
+	mResources.RemoveIf([](const DC::String&, const Resource* inResource)
 	{
-		if (inResource->GetRefCount() == 1)
-		{
-			inResource->Unload();
-			return true;
-		}
-		return false;
+		return inResource->GetRefCount() == 1;
 	});
 }

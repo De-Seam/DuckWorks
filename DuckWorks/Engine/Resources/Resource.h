@@ -22,10 +22,7 @@ class Resource : public Object
 {
 	RTTI_CLASS(Resource, Object)
 public:
-	// Load the resource
-	virtual void Load() = 0;
-	// Unload the resource
-	virtual void Unload() = 0;
+	Resource(const DC::String& inFile) : mFile(inFile) {}
 
 	virtual Json Serialize() const override;
 	virtual void Deserialize(const Json& inJson) override;
@@ -33,9 +30,6 @@ public:
 	const DC::String& GetFile() const { return mFile; }
 
 private:
-	// Constructor is private to prevent direct instantiation. Only the ResourceManager may create resources.
-	Resource(const DC::String& inFile) : mFile(inFile) {}
-
 	DC::String mFile = "";
 
 	friend class ResourceManager;

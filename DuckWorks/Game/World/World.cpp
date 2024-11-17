@@ -9,6 +9,12 @@ WorldTickHandle::~WorldTickHandle()
 	mWorld->UnregisterTickCallback(*this);
 }
 
+WorldUpdateHandle::~WorldUpdateHandle()
+{
+	gAssert(mWorld != nullptr);
+	mWorld->UnregisterUpdateCallback(*this);
+}
+
 World::World() = default;
 
 World::~World() = default;
@@ -58,10 +64,28 @@ DC::Ref<WorldTickHandle> World::RegisterTickCallback(EWorldTickFrequency inTickF
 	return handle;
 }
 
+DC::Ref<WorldUpdateHandle> World::RegisterUpdateCallback(std::function<void(float)> inCallback)
+{
+	int next_id = mLastUpdateHandleID++;
+	gAssert(next_id >= 0, "IDs ran out");
+
+	DC::Ref<WorldUpdateHandle> handle = new WorldUpdateHandle(next_id, *this);
+	mUpdateCallbacks.Emplace(next_id, inCallback);
+
+	return handle;
+}
+
 void World::UnregisterTickCallback(const WorldTickHandle& inHandle)
 {
 	DC::Array<TickCallback>& callbacks = mTickFrequencyToCallbacks[gStaticCast<int>(inHandle.mTickFrequency)];
 	const int index = callbacks.FindIf([&](const TickCallback& inItem) { return inItem.mID == inHandle.GetID(); });
 	gAssert(index != -1);
 	callbacks.SwapRemove(index);
+}
+
+void World::UnregisterUpdateCallback(const WorldUpdateHandle& inHandle)
+{
+	const int index = mUpdateCallbacks.FindIf([&](const UpdateCallback& inItem) { return inItem.mID == inHandle.GetID(); });
+	gAssert(index != -1);
+	mUpdateCallbacks.SwapRemove(index);
 }

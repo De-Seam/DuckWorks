@@ -18,5 +18,6 @@ void Resource::Deserialize(const Json& inJson)
 {
 	Base::Deserialize(inJson);
 
+	// mFile should be set in the constructor, so we just assert that it is the same
 	gAssert(inJson["mFile"] == mFile.CStr());
 }

@@ -24,6 +24,7 @@ enum class EWorldTickFrequency : uint8
 	Num
 };
 
+// Update every tick, determined by EWorldTickFrequency
 class WorldTickHandle : public DC::Handle
 {
 public:
@@ -38,6 +39,23 @@ private:
 
 	World* mWorld = nullptr;
 	EWorldTickFrequency mTickFrequency = EWorldTickFrequency::Hz1;
+
+	friend class World;
+};
+
+// Update every frame
+class WorldUpdateHandle : public DC::Handle
+{
+public:
+	virtual ~WorldUpdateHandle() override;
+
+private:
+	WorldUpdateHandle(int inID, World& inWorld) :
+		Handle(inID),
+		mWorld(&inWorld)
+	{}
+
+	World* mWorld = nullptr;
 
 	friend class World;
 };
@@ -60,8 +78,12 @@ public:
 	[[nodiscard]]
 	DC::Ref<WorldTickHandle> RegisterTickCallback(EWorldTickFrequency inTickFrequency, std::function<void(float)> inCallback);
 
+	[[nodiscard]]
+	DC::Ref<WorldUpdateHandle> RegisterUpdateCallback(std::function<void(float)> inCallback);
+
 private:
 	void UnregisterTickCallback(const WorldTickHandle& inHandle);
+	void UnregisterUpdateCallback(const WorldUpdateHandle& inHandle);
 
 	entt::registry mRegistry;
 	DC::Array<DC::Ref<Entity>> mEntities;
@@ -77,5 +99,14 @@ private:
 	DC::StaticArray<float, static_cast<uint>(EWorldTickFrequency::Num)> mHzToTimeSinceUpdate = { 0.0f };
 	DC::StaticArray<float, static_cast<uint>(EWorldTickFrequency::Num)> mHzToTargetSeconds = { 1.0f, 1.0f / 15.0f, 1.0f / 30.0f, 1.0f / 60.0f };
 
+	struct UpdateCallback
+	{
+		int mID = -1;
+		std::function<void(float)> mCallback;
+	};
+	int mLastUpdateHandleID = 0;
+	DC::Array<UpdateCallback> mUpdateCallbacks;
+
 	friend class WorldTickHandle;
+	friend class WorldUpdateHandle;
 };

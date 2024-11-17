@@ -45,9 +45,11 @@ int main()
 		Engine engine;
 		gApp = DC::UniquePtr<EditorApp>::sMakeUnique();
 		gEngine->Init();
+        gApp->Init();
 
 		gMainLoop();
 
+        gApp->Shutdown();
 		gEngine->Shutdown();
 		gApp.Delete();
 	}

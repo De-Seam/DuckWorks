@@ -11,14 +11,8 @@ class Entity : public Object
 {
 	RTTI_CLASS(Entity, Object)
 public:
-	Entity(World* inWorld) : mWorld(inWorld) {}
-
-	World* GetWorld() { return mWorld; }
-	const World* GetWorld() const { return mWorld; }
-
-	entt::entity GetEntityHandle() { return mEntityHandle; } // Non-const because the handle allows for modification
-	entt::registry& GetRegistry();
-	const entt::registry& GetRegistry() const;
+	Entity(World* inWorld);
+	virtual ~Entity() override;
 
 	template<typename TaType, typename... taArgs>
 	TaType& AddComponent(taArgs&&... inArgs);
@@ -38,6 +32,13 @@ public:
 	taType* FindComponent();
 	template<typename taType>
 	const taType* FindComponent() const;
+
+	World* GetWorld() { return mWorld; }
+	const World* GetWorld() const { return mWorld; }
+
+	entt::entity GetEntityHandle() { return mEntityHandle; } // Non-const because the handle allows for modification
+	entt::registry& GetRegistry();
+	const entt::registry& GetRegistry() const;
 
 private:
 	World* mWorld = nullptr;
