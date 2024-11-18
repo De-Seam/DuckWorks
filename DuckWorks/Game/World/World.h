@@ -9,6 +9,8 @@
 #include <Engine/Objects/Object.h>
 
 // External includes
+#include <DuckCore/Containers/UniquePtr.h>
+
 #include <External/entt/entity/registry.hpp>
 
 class Entity;
@@ -60,6 +62,8 @@ private:
 	friend class World;
 };
 
+class Service;
+
 class World : public Object
 {
 	RTTI_CLASS(World, Object)
@@ -69,8 +73,8 @@ public:
 
 	void Update(float inDeltaTime);
 
-	entt::registry& GetRegistry() { return mRegistry; }
-	const entt::registry& GetRegistry() const { return mRegistry; }
+	template<typename taType, typename... taArgs>
+	taType& CreateService(taArgs&&... inArgs);
 
 	void AddEntity(Entity& inEntity);
 	void RemoveEntity(Entity& inEntity);
@@ -81,12 +85,17 @@ public:
 	[[nodiscard]]
 	DC::Ref<WorldUpdateHandle> RegisterUpdateCallback(std::function<void(float)> inCallback);
 
+	entt::registry& GetRegistry() { return mRegistry; }
+	const entt::registry& GetRegistry() const { return mRegistry; }
+
 private:
 	void UnregisterTickCallback(const WorldTickHandle& inHandle);
 	void UnregisterUpdateCallback(const WorldUpdateHandle& inHandle);
 
 	entt::registry mRegistry;
 	DC::Array<DC::Ref<Entity>> mEntities;
+
+	DC::HashMap<DC::RTTITypeID, DC::UniquePtr<Service>> mServices;
 
 	struct TickCallback
 	{
@@ -110,3 +119,16 @@ private:
 	friend class WorldTickHandle;
 	friend class WorldUpdateHandle;
 };
+
+template<typename taType, typename ... taArgs>
+taType& World::CreateService(taArgs&&... inArgs)
+{
+	const DC::RTTITypeID& type_id = taType::sGetRTTI().GetTypeID();
+	gAssert(!mServices.Find(type_id).has_value(), "Service already exists!");
+
+	DC::UniquePtr<taType> service = DC::gMakeUnique<taType>(*this, std::forward<taArgs>(inArgs)...);
+	taType* service_ptr = service;
+	mServices[type_id] = std::move(service);
+
+	return service_ptr;
+}

@@ -2,6 +2,7 @@
 
 // Game includes
 #include <Game/Entity/Entity.h>
+#include <Game/Entity/Systems/RenderSystem.h>
 
 WorldTickHandle::~WorldTickHandle()
 {
@@ -15,7 +16,10 @@ WorldUpdateHandle::~WorldUpdateHandle()
 	mWorld->UnregisterUpdateCallback(*this);
 }
 
-World::World() = default;
+World::World()
+{
+	CreateService<RenderSystem>();
+}
 
 World::~World() = default;
 
@@ -26,7 +30,7 @@ void World::Update(float inDeltaTime)
 
 	for (int i = 0; i < mTickFrequencyToCallbacks.Length(); i++)
 	{
-		float& time_since_update = mHzToTimeSinceUpdate[static_cast<uint8>(mHzToTimeSinceUpdate[i])];
+		float& time_since_update = mHzToTimeSinceUpdate[i];
 		float target_seconds = mHzToTargetSeconds[i];
 
 		while (time_since_update >= target_seconds)

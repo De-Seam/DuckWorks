@@ -11,6 +11,8 @@ public:
 	TextureResource(const DC::String& inFile);
 	virtual ~TextureResource() override;
 
+	SDL_Texture* GetTexture() const { return mTexture; }
+
 private:
 	SDL_Texture* mTexture = nullptr;
 };
