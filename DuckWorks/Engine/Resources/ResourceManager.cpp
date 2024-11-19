@@ -1,6 +1,6 @@
-#include <DuckCore/Containers/Array.h>
-
 #include <Engine/Resources/ResourceManager.h>
+
+#include <DuckCore/Containers/Array.h>
 
 void ResourceManager::UnloadUnreferencedResources()
 {

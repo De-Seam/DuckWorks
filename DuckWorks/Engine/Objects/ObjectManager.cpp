@@ -5,10 +5,8 @@
 
 Object* ObjectManager::FindObject(const DC::GUID& inGUID)
 {
-	std::optional<Object*> object = mObjects.Find(inGUID);
-	if (object.has_value())
-		return object.value();
-	return nullptr;
+	Object** object_ptr = mObjects.Find(inGUID);
+	return object_ptr != nullptr ? *object_ptr : nullptr;
 }
 
 void ObjectManager::RegisterObject(Object& inObject)

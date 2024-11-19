@@ -2,6 +2,7 @@
 
 // Game includes
 #include <Game/Entity/Entity.h>
+#include <Game/Entity/EntityService.h>
 #include <Game/Entity/Systems/RenderSystem.h>
 
 WorldTickHandle::~WorldTickHandle()
@@ -18,7 +19,7 @@ WorldUpdateHandle::~WorldUpdateHandle()
 
 World::World()
 {
-	CreateService<RenderSystem>();
+	CreateService<EntityService>();
 }
 
 World::~World() = default;
@@ -43,18 +44,6 @@ void World::Update(float inDeltaTime)
 			time_since_update -= target_seconds;
 		}
 	}
-}
-
-void World::AddEntity(Entity& inEntity)
-{
-	mEntities.Add(&inEntity);
-}
-
-void World::RemoveEntity(Entity& inEntity)
-{
-	const int index = mEntities.Find(&inEntity);
-	gAssert(index != -1);
-	mEntities.SwapRemove(index);
 }
 
 DC::Ref<WorldTickHandle> World::RegisterTickCallback(EWorldTickFrequency inTickFrequency, std::function<void(float)> inCallback)

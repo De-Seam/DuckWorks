@@ -63,6 +63,12 @@
     <ClCompile Include="Game\Entity\Systems\RenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Entity\Systems\EntitySystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Entity\EntityService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -110,7 +116,7 @@
     <ClInclude Include="Engine\Renderer\Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Service\Service.h">
+    <ClInclude Include="Game\World\Service.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Entity\Character.h">
@@ -126,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Entity\Systems\RenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Entity\EntityService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

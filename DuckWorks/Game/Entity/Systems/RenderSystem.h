@@ -4,14 +4,14 @@
 
 class WorldUpdateHandle;
 
-class RenderSystem : public EntitySystem
+class RenderSystem : public EntitySystemUpdate
 {
 	RTTI_CLASS(RenderSystem, EntitySystem)
 public:
-	RenderSystem(World& inWorld);
+	RenderSystem(World& inWorld) : EntitySystemUpdate(inWorld) {}
 
 private:
-	void Update(float inDeltaTime);
+	virtual void Update(float inDeltaTime) override;
 
 	DC::Ref<WorldUpdateHandle> mUpdateHandle;
 };

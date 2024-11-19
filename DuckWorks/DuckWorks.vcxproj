@@ -104,6 +104,8 @@
     <ClCompile Include="Engine\Resources\Resource.cpp" />
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="Game\Entity\Entity.cpp" />
+    <ClCompile Include="Game\Entity\EntityService.cpp" />
+    <ClCompile Include="Game\Entity\Systems\EntitySystem.cpp" />
     <ClCompile Include="Game\Entity\Systems\RenderSystem.cpp" />
     <ClCompile Include="Game\GameApp.cpp" />
     <ClCompile Include="Game\World\World.cpp" />
@@ -126,10 +128,11 @@
     <ClInclude Include="Game\Entity\Components\GameplayComponents.h" />
     <ClInclude Include="Game\Entity\Components\RenderComponent.h" />
     <ClInclude Include="Game\Entity\Entity.h" />
+    <ClInclude Include="Game\Entity\EntityService.h" />
     <ClInclude Include="Game\Entity\Systems\EntitySystem.h" />
     <ClInclude Include="Game\Entity\Systems\RenderSystem.h" />
     <ClInclude Include="Game\GameApp.h" />
-    <ClInclude Include="Game\Service\Service.h" />
+    <ClInclude Include="Game\World\Service.h" />
     <ClInclude Include="Game\World\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

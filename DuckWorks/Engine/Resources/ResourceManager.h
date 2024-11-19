@@ -31,10 +31,10 @@ taType* ResourceManager::GetResource(const DC::String& inFile)
 
 	gAssert(inFile == "", "File must be valid");
 
-	if (std::optional<DC::Ref<Resource>> resource = mResources.Find(inFile))
+	if (DC::Ref<Resource>* resource_ptr = mResources.Find(inFile))
 	{
-		gAssert(resource.value()->IsA<taType>(), "Loaded resource is of the wrong type! GUID collision?");
-		return reinterpret_cast<taType*>(resource.value());
+		gAssert((*resource_ptr)->IsA<taType>(), "Loaded resource is of the wrong type! GUID collision?");
+		return reinterpret_cast<taType*>(*resource_ptr);
 	}
 
 	taType* resource = new taType(inFile);
