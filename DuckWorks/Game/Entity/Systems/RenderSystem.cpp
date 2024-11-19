@@ -13,7 +13,7 @@ void RenderSystem::Update(float)
 	Renderer& renderer = gEngine->GetManager<Renderer>();
 
 	// Render all sprites
-	registry.view<SpriteRenderComponent, TransformComponent>().each([&renderer](const SpriteRenderComponent& inSpriteRenderComponent, const TransformComponent& inTransformComponent)
+	registry.view<const SpriteRenderComponent, const TransformComponent>().each([&renderer](const SpriteRenderComponent& inSpriteRenderComponent, const TransformComponent& inTransformComponent)
 	{
 		gAssert(inSpriteRenderComponent.mSprite != nullptr);
 		renderer.DrawSprite(*inSpriteRenderComponent.mSprite, inTransformComponent.mTransform);
