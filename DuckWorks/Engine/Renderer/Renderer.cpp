@@ -42,6 +42,17 @@ void Renderer::Shutdown()
 	Base::Shutdown();
 }
 
+void Renderer::BeginFrame()
+{
+	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(mRenderer);
+}
+
+void Renderer::EndFrame()
+{
+	SDL_RenderPresent(mRenderer);
+}
+
 void Renderer::DrawSprite(const Sprite& inSprite, const Transform2D& inTransform)
 {
 	SDL_Rect src_rect;

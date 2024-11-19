@@ -31,7 +31,9 @@ public:
 	void Init();
 	void Shutdown();
 
+	void BeginFrame();
 	void Update(float inDeltaTime);
+	void EndFrame();
 
 	void RequestShutdown() { mShouldShutdown = true; }
 	bool ShouldShutdown() const { return mShouldShutdown; }
@@ -43,6 +45,9 @@ public:
 
 	template<typename taType>
 	taType& GetManager();
+
+	template<typename taType>
+	taType* FindManager();
 
 	[[nodiscard]]
 	DC::Ref<EngineUpdateHandle> RegisterUpdateCallback(std::function<void(float)> inCallback);
@@ -82,5 +87,13 @@ template<typename taType>
 taType& Engine::GetManager()
 {
 	Manager* manager = mManagers[taType::sGetRTTI().GetTypeID()];
+	gAssert(manager != nullptr);
 	return *reinterpret_cast<taType*>(manager);
+}
+
+template<typename taType>
+taType* Engine::FindManager()
+{
+	DC::UniquePtr<Manager>* manager_ptr = mManagers.Find(taType::sGetRTTI().GetTypeID());
+	return manager_ptr != nullptr ? reinterpret_cast<taType*>(manager_ptr->Get()) : nullptr;
 }

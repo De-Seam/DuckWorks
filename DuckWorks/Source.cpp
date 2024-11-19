@@ -27,8 +27,12 @@ void gMainLoop()
         std::chrono::duration<float> delta_time = current_time - last_time;
         last_time = current_time;
 
+        gEngine->BeginFrame();
+
         gEngine->Update(delta_time.count());
         gApp->Update(delta_time.count());
+
+        gEngine->EndFrame();
     }
 }
 

@@ -1,8 +1,13 @@
 #include <Game/World/World.h>
 
-// Game includes
+#include <Engine/Engine.h>
+#include <Engine/Renderer/TextureResource.h>
+#include <Engine/Resources/ResourceManager.h>
+
 #include <Game/Entity/Entity.h>
 #include <Game/Entity/EntityService.h>
+#include <Game/Entity/Components/GameplayComponents.h>
+#include <Game/Entity/Components/RenderComponent.h>
 #include <Game/Entity/Systems/RenderSystem.h>
 
 WorldTickHandle::~WorldTickHandle()
@@ -19,10 +24,24 @@ WorldUpdateHandle::~WorldUpdateHandle()
 
 World::World()
 {
-	CreateService<EntityService>();
+	EntityService& entity_service = CreateService<EntityService>();
+
+	Entity* entity = new Entity(*this);
+	DC::Ref<TextureResource> texture_resource = gEngine->GetManager<ResourceManager>().GetResource<TextureResource>("Assets/Textures/top.jpg");
+	SpriteRenderComponent& sprite_render_component = entity->AddComponent<SpriteRenderComponent>();
+	sprite_render_component.mSprite = new Sprite(*texture_resource, {0, 0}, {980, 575});
+	TransformComponent& transform_component = entity->AddComponent<TransformComponent>();
+	transform_component.mTransform.mPosition = {0.0f, 0.0f};
+	transform_component.mTransform.mHalfSize = { 256.0f, 256.0f };
+	transform_component.mTransform.mRotation = 0.0f;
+	entity_service.AddEntity(entity);
 }
 
-World::~World() = default;
+World::~World()
+{
+	mServices.Clear();
+	mRegistry.clear();
+}
 
 void World::Update(float inDeltaTime)
 {
@@ -36,14 +55,20 @@ void World::Update(float inDeltaTime)
 
 		while (time_since_update >= target_seconds)
 		{
+			time_since_update -= target_seconds;
+
 			DC::Array<TickCallback>& tick_callbacks = mTickFrequencyToCallbacks[i];
+
+			if (tick_callbacks.IsEmpty())
+				continue;
 
 			for (const TickCallback& callback : tick_callbacks)
 				callback.mCallback(target_seconds);
-
-			time_since_update -= target_seconds;
 		}
 	}
+
+	for (const UpdateCallback& callback : mUpdateCallbacks)
+		callback.mCallback(inDeltaTime);
 }
 
 DC::Ref<WorldTickHandle> World::RegisterTickCallback(EWorldTickFrequency inTickFrequency, std::function<void(float)> inCallback)

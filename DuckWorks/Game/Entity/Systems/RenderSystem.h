@@ -6,9 +6,9 @@ class WorldUpdateHandle;
 
 class RenderSystem : public EntitySystemUpdate
 {
-	RTTI_CLASS(RenderSystem, EntitySystem)
+	RTTI_CLASS(RenderSystem, EntitySystemUpdate)
 public:
-	RenderSystem(World& inWorld) : EntitySystemUpdate(inWorld) {}
+	RenderSystem(World& inWorld) : Base(inWorld) {}
 
 private:
 	virtual void Update(float inDeltaTime) override;

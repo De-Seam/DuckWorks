@@ -29,12 +29,12 @@ taType* ResourceManager::GetResource(const DC::String& inFile)
 {
 	static_assert(std::is_base_of_v<Resource, taType>, "taType must be a subclass of Resource");
 
-	gAssert(inFile == "", "File must be valid");
+	gAssert(inFile != "", "File must be valid");
 
 	if (DC::Ref<Resource>* resource_ptr = mResources.Find(inFile))
 	{
 		gAssert((*resource_ptr)->IsA<taType>(), "Loaded resource is of the wrong type! GUID collision?");
-		return reinterpret_cast<taType*>(*resource_ptr);
+		return reinterpret_cast<taType*>(resource_ptr->Get());
 	}
 
 	taType* resource = new taType(inFile);

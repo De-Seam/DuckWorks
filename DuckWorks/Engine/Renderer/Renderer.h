@@ -22,6 +22,9 @@ public:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 
+	void BeginFrame();
+	void EndFrame();
+
 	void DrawSprite(const Sprite& inSprite, const DC::Transform2D& inTransform);
 
 	SDL_Window* GetWindow() const { return mWindow; }

@@ -7,13 +7,13 @@
 #include <Game/Entity/Components/RenderComponent.h>
 #include <Game/World/World.h>
 
-void RenderSystem::Update(float inDeltaTime)
+void RenderSystem::Update(float)
 {
+	entt::registry& registry = GetRegistry();
 	Renderer& renderer = gEngine->GetManager<Renderer>();
 
-	// Update all renderable entities
-	auto& registry = GetRegistry();
-	registry.view<const SpriteRenderComponent, const TransformComponent>().each([&renderer](entt::entity inEntity, const SpriteRenderComponent& inSpriteRenderComponent, const TransformComponent& inTransformComponent)
+	// Render all sprites
+	registry.view<SpriteRenderComponent, TransformComponent>().each([&renderer](const SpriteRenderComponent& inSpriteRenderComponent, const TransformComponent& inTransformComponent)
 	{
 		gAssert(inSpriteRenderComponent.mSprite != nullptr);
 		renderer.DrawSprite(*inSpriteRenderComponent.mSprite, inTransformComponent.mTransform);

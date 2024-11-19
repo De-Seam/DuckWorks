@@ -11,7 +11,7 @@ class Entity : public Object
 {
 	RTTI_CLASS(Entity, Object)
 public:
-	Entity(World* inWorld);
+	Entity(World& inWorld);
 	virtual ~Entity() override;
 
 	template<typename TaType, typename... taArgs>
@@ -33,8 +33,8 @@ public:
 	template<typename taType>
 	const taType* FindComponent() const;
 
-	World* GetWorld() { return mWorld; }
-	const World* GetWorld() const { return mWorld; }
+	World& GetWorld() { return *mWorld; }
+	const World& GetWorld() const { return *mWorld; }
 
 	entt::entity GetEntityHandle() { return mEntityHandle; } // Non-const because the handle allows for modification
 	entt::registry& GetRegistry();

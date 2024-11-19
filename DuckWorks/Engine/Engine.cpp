@@ -5,6 +5,7 @@
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Renderer/Renderer.h>
+#include <Engine/Resources/ResourceManager.h>
 
 using namespace DC;
 
@@ -22,6 +23,7 @@ Engine::Engine()
 	gEngine = this;
 
 	CreateManager<ObjectManager>();
+	CreateManager<ResourceManager>();
 	CreateManager<SDLEventManager>();
 	CreateManager<Renderer>();
 }
@@ -51,11 +53,21 @@ void Engine::Shutdown()
 	});
 }
 
+void Engine::BeginFrame()
+{
+	GetManager<Renderer>().BeginFrame();
+}
+
 void Engine::Update(float inDeltaTime)
 {
 	for (const UpdateCallback& callback : mUpdateCallbacks)
 		callback.mCallback(inDeltaTime);
 
+}
+
+void Engine::EndFrame()
+{
+	GetManager<Renderer>().EndFrame();
 }
 
 DC::Ref<EngineUpdateHandle> Engine::RegisterUpdateCallback(std::function<void(float)> inCallback)
