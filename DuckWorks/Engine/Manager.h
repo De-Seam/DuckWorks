@@ -1,5 +1,5 @@
 #pragma once
-#include <DuckCore/RTTI/RTTIClass.h>
+#include <DuckCore/RTTI/RTTIRefClass.h>
 
 // Managers are the core of the engine. They are responsible for managing the engine's subsystems.
 // Managers are singletons and are created by the engine.

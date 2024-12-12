@@ -6,8 +6,11 @@
 #include <DuckCore/Containers/UniquePtr.h>
 #include <DuckCore/RTTI/RTTIRefClass.h>
 
-class Manager;
+#define REGISTER_APP(inApp) gEngine->RegisterApp(#inApp, []() { return gMove(DC::gMakeUnique<inApp>()); })
+
+class App;
 class Engine;
+class Manager;
 
 class EngineUpdateHandle : public DC::Handle
 {
@@ -39,23 +42,26 @@ public:
 	bool ShouldShutdown() const { return mShouldShutdown; }
 
 	template<typename taType>
-	void CreateManager();
-	template<typename taType>
-	void RemoveManager();
-
+	void TryCreateManager();
 	template<typename taType>
 	taType& GetManager();
-
 	template<typename taType>
 	taType* FindManager();
 
 	[[nodiscard]]
 	DC::Ref<EngineUpdateHandle> RegisterUpdateCallback(std::function<void(float)> inCallback);
 
+	void SetApp(DC::UniquePtr<App> inApp);
+	void RegisterApp(const DC::String& inName, std::function<DC::UniquePtr<App>(void)> inConstructFunction);
+	const DC::HashMap<DC::String, std::function<DC::UniquePtr<App>(void)>>& GetApps() const { return mApps; }
+
 private:
 	void UnregisterUpdateCallback(const EngineUpdateHandle& inHandle);
 
 	bool mShouldShutdown = false;
+
+	DC::UniquePtr<App> mApp;
+	DC::HashMap<DC::String, std::function<DC::UniquePtr<App>(void)>> mApps; // Maps App name to constructor function
 
 	DC::HashMap<const DC::RTTITypeID, DC::UniquePtr<Manager>> mManagers;
 
@@ -70,30 +76,37 @@ private:
 };
 
 template<typename taType>
-void Engine::CreateManager()
+void Engine::TryCreateManager()
 {
 	const DC::RTTI& rtti = taType::sGetRTTI();
-	gAssert(!mManagers.Contains(rtti.GetTypeID()));
-	mManagers[rtti.GetTypeID()] = DC::UniquePtr<taType>::sMakeUnique();
-}
 
-template<typename taType>
-void Engine::RemoveManager()
-{
-	gVerify(mManagers.Remove(taType::sGetRTTI().GetTypeID()));
+	if (mManagers.Contains(rtti.GetTypeID()))
+		return;
+	
+	mManagers[rtti.GetTypeID()] = DC::gMove(DC::gMakeUnique<taType>());
 }
 
 template<typename taType>
 taType& Engine::GetManager()
 {
-	Manager* manager = mManagers[taType::sGetRTTI().GetTypeID()];
-	gAssert(manager != nullptr);
-	return *reinterpret_cast<taType*>(manager);
+	const DC::RTTI& rtti = taType::sGetRTTI();
+	
+	if (DC::UniquePtr<Manager>* manager = mManagers.Find(rtti.GetTypeID()))
+		return *reinterpret_cast<taType*>(manager->Get());
+
+	DC::UniquePtr<taType> manager = DC::gMakeUnique<taType>();
+	taType* manager_ptr = manager;
+	mManagers[rtti.GetTypeID()] = DC::gMove(manager);
+	return *manager_ptr;
 }
 
 template<typename taType>
 taType* Engine::FindManager()
 {
-	DC::UniquePtr<Manager>* manager_ptr = mManagers.Find(taType::sGetRTTI().GetTypeID());
-	return manager_ptr != nullptr ? reinterpret_cast<taType*>(manager_ptr->Get()) : nullptr;
+	const DC::RTTI& rtti = taType::sGetRTTI();
+	
+	if (DC::UniquePtr<Manager>* manager = mManagers.Find(rtti.GetTypeID()))
+		return reinterpret_cast<taType*>(manager->Get());
+
+	return nullptr;
 }

@@ -1,9 +1,9 @@
 #include <Game/GameApp.h>
-
-// Game includes
 #include <Game/World/World.h>
 
-GameApp::GameApp() = default;
+GameApp::GameApp()
+{
+}
 
 GameApp::~GameApp() = default;
 

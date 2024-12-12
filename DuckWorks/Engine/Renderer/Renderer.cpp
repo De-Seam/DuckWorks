@@ -1,10 +1,15 @@
 #include <Engine/Renderer/Renderer.h>
 
-// Core includes
 #include <DuckCore/Math/Transform.h>
 
+#include <Engine/Engine.h>
+#include <Engine/Events/SDLEventManager.h>
 #include <Engine/Renderer/Sprite.h>
 #include <Engine/Renderer/TextureResource.h>
+
+#include <External/imgui/imgui.h>
+#include <External/imgui/imgui_impl_sdl2.h>
+#include <External/imgui/imgui_impl_sdlrenderer2.h>
 
 using namespace DC;
 
@@ -24,6 +29,21 @@ Renderer::Renderer()
 		gLog(LogLevel::Error, "Failed to create renderer\n");
 		gAssert(false);
 	}
+
+	// Initialize ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard controls
+
+	// Setup ImGui style
+    ImGui::StyleColorsDark();
+
+	// Setup Platform/Renderer backends
+    ImGui_ImplSDL2_InitForSDLRenderer(mWindow, mRenderer);
+    ImGui_ImplSDLRenderer2_Init(mRenderer);
+
+	gEngine->GetManager<SDLEventManager>();
 }
 
 Renderer::~Renderer()
@@ -46,10 +66,17 @@ void Renderer::BeginFrame()
 {
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(mRenderer);
+
+	// Start the Dear ImGui frame
+	ImGui_ImplSDLRenderer2_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
 }
 
 void Renderer::EndFrame()
 {
+	ImGui::Render();
+	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), mRenderer);
 	SDL_RenderPresent(mRenderer);
 }
 

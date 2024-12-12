@@ -15,8 +15,3 @@ App::~App()
 {
 	gAssert(gEngine != nullptr);
 }
-
-bool App::ShouldShutdown() const
-{
-	return gEngine->ShouldShutdown();
-}

@@ -12,8 +12,11 @@ Object::Object(const DC::GUID& inGUID) :
 
 Object::~Object()
 {
-	if (ObjectManager* object_manager = gEngine->FindManager<ObjectManager>())
-		object_manager->UnregisterObject(*this);
+	if (gEngine != nullptr)
+	{
+		if (ObjectManager* object_manager = gEngine->FindManager<ObjectManager>())
+			object_manager->UnregisterObject(*this);
+	}
 }
 
 void Object::SetGUID(const DC::GUID& inGUID)

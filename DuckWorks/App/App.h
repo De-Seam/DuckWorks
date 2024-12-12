@@ -1,4 +1,9 @@
 #pragma once
+#include <DuckCore/Containers/Array.h>
+#include <DuckCore/RTTI/Ref.h>
+
+#include <Engine/Engine.h>
+#include <Engine/Manager.h>
 
 class Engine;
 
@@ -13,6 +18,4 @@ public:
 	virtual void Shutdown() = 0;
 
 	virtual void Update(float inDeltaTime) = 0;
-
-	virtual bool ShouldShutdown() const;
 };

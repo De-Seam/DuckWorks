@@ -13,14 +13,16 @@
 // Std includes
 #include <chrono>
 
-DC::UniquePtr<App> gApp;
+#include <CryptChat/CryptChatApp.h>
+
+#include <Launcher/LauncherApp.h>
 
 void gMainLoop()
 {
 	// Initial time point
     std::chrono::time_point last_time = std::chrono::high_resolution_clock::now();
 
-    while (!gApp->ShouldShutdown()) 
+    while (!gEngine->ShouldShutdown())
     {
         // Calculate the current time and delta time
         std::chrono::time_point current_time = std::chrono::high_resolution_clock::now();
@@ -30,7 +32,6 @@ void gMainLoop()
         gEngine->BeginFrame();
 
         gEngine->Update(delta_time.count());
-        gApp->Update(delta_time.count());
 
         gEngine->EndFrame();
     }
@@ -43,20 +44,25 @@ Engine constructor: Register managers
 App constructor: Register managers / systems
 Engine::Init: Initialize managers
 **/
-int main()
+int main(int argc, char* argv[])
 {
-	{
-		Engine engine;
-		gApp = DC::UniquePtr<EditorApp>::sMakeUnique();
-		gEngine->Init();
-        gApp->Init();
+    (void)argc;
+    (void)argv;
 
-		gMainLoop();
+	Engine engine;
 
-        gApp->Shutdown();
-		gEngine->Shutdown();
-		gApp.Delete();
-	}
+    REGISTER_APP(LauncherApp);
+    REGISTER_APP(GameApp);
+    REGISTER_APP(EditorApp);
+    REGISTER_APP(CryptChatApp);
+
+	gEngine->Init();
+
+    engine.SetApp(DC::gMakeUnique<LauncherApp>());
+
+	gMainLoop();
+
+	gEngine->Shutdown();
 
     return 0;
 }

@@ -1,6 +1,8 @@
 #include "Engine.h"
 
 // Engine includes
+#include <App/App.h>
+
 #include <Engine/Manager.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
@@ -21,16 +23,17 @@ Engine::Engine()
 {
 	gAssert(gEngine == nullptr);
 	gEngine = this;
-
-	CreateManager<ObjectManager>();
-	CreateManager<ResourceManager>();
-	CreateManager<SDLEventManager>();
-	CreateManager<Renderer>();
 }
 
 Engine::~Engine()
 {
 	gAssert(gEngine == this);
+
+	if (mApp != nullptr)
+	{
+		mApp->Shutdown();
+		mApp.Delete();
+	}
 
 	mManagers.Clear();
 
@@ -60,9 +63,10 @@ void Engine::BeginFrame()
 
 void Engine::Update(float inDeltaTime)
 {
+	mApp->Update(inDeltaTime);
+
 	for (const UpdateCallback& callback : mUpdateCallbacks)
 		callback.mCallback(inDeltaTime);
-
 }
 
 void Engine::EndFrame()
@@ -79,6 +83,22 @@ DC::Ref<EngineUpdateHandle> Engine::RegisterUpdateCallback(std::function<void(fl
 	mUpdateCallbacks.Emplace(handle->GetID(), inCallback);
 
 	return handle;
+}
+
+void Engine::SetApp(DC::UniquePtr<App> inApp)
+{
+	if (mApp != nullptr)
+		mApp->Shutdown();
+
+	mApp = gMove(inApp);
+
+	mApp->Init();
+}
+
+void Engine::RegisterApp(const String& inName, std::function<DC::UniquePtr<App>()> inConstructFunction)
+{
+	gAssert(!mApps.Contains(inName));
+	mApps[inName] = gMove(inConstructFunction);
 }
 
 void Engine::UnregisterUpdateCallback(const EngineUpdateHandle& inHandle)

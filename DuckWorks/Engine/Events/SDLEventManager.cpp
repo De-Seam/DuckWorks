@@ -4,6 +4,7 @@
 #include <Engine/Engine.h>
 
 // External includes
+#include <External/imgui/imgui_impl_sdl2.h>
 #include <External/SDL/SDL.h>
 
 SDLEventManager::SDLEventManager()
@@ -23,6 +24,7 @@ void SDLEventManager::Update()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
+		ImGui_ImplSDL2_ProcessEvent(&event);
 		switch (event.type)
 		{
 		case SDL_QUIT:
