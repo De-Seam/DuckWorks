@@ -27,9 +27,16 @@ void gMainLoop()
         // Calculate the current time and delta time
         std::chrono::time_point current_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> delta_time = current_time - last_time;
+
+        // Min 10 fps, or we start slowing down the application (for debugging etc)
+		if (delta_time.count() > 0.1f)
+			delta_time = std::chrono::duration<float>(0.1f);
+
         last_time = current_time;
 
         gEngine->BeginFrame();
+
+		App::sGetActiveApp()->Update(delta_time.count());
 
         gEngine->Update(delta_time.count());
 
@@ -51,16 +58,18 @@ int main(int argc, char* argv[])
 
 	Engine engine;
 
+	gEngine->Init();
+
     REGISTER_APP(LauncherApp);
     REGISTER_APP(GameApp);
     REGISTER_APP(EditorApp);
     REGISTER_APP(CryptChatApp);
 
-	gEngine->Init();
-
-    engine.SetApp(DC::gMakeUnique<LauncherApp>());
+	App::sSetActiveApp(DC::gMakeUnique<LauncherApp>());
 
 	gMainLoop();
+
+	App::sClearActiveApp();
 
 	gEngine->Shutdown();
 

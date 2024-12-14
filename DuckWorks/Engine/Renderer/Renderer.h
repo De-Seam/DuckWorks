@@ -3,13 +3,15 @@
 #include <Engine/Manager.h>
 
 // External includes
-#include <External/SDL/SDL.h>
 
 namespace DC
 {
 struct Transform2D;
 }
 
+struct SDL_Renderer;
+struct SDL_Texture;
+struct SDL_Window;
 class Sprite;
 
 class Renderer : public Manager
@@ -26,6 +28,17 @@ public:
 	void EndFrame();
 
 	void DrawSprite(const Sprite& inSprite, const DC::Transform2D& inTransform);
+
+	// Class to automatically set the render target, and unset it when it leaves its scope
+	class ScopedRenderTarget : public DC::NoCopy, public DC::NoMove
+	{
+		ScopedRenderTarget(SDL_Texture* inRenderTarget);
+		~ScopedRenderTarget();
+
+	private:
+		SDL_Texture* mRenderTarget = nullptr;
+		SDL_Texture* mPreviousRenderTarget = nullptr;
+	};
 
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }

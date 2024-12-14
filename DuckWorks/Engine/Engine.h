@@ -6,7 +6,9 @@
 #include <DuckCore/Containers/UniquePtr.h>
 #include <DuckCore/RTTI/RTTIRefClass.h>
 
-#define REGISTER_APP(inApp) gEngine->RegisterApp(#inApp, []() { return gMove(DC::gMakeUnique<inApp>()); })
+#include <Engine/Renderer/Renderer.h>
+
+#define REGISTER_APP(inApp) App::sRegisterAppConstructor(#inApp, []() { return gMove(DC::gMakeUnique<inApp>()); })
 
 class App;
 class Engine;
@@ -42,7 +44,7 @@ public:
 	bool ShouldShutdown() const { return mShouldShutdown; }
 
 	template<typename taType>
-	void TryCreateManager();
+	taType& TryCreateManager();
 	template<typename taType>
 	taType& GetManager();
 	template<typename taType>
@@ -51,19 +53,13 @@ public:
 	[[nodiscard]]
 	DC::Ref<EngineUpdateHandle> RegisterUpdateCallback(std::function<void(float)> inCallback);
 
-	void SetApp(DC::UniquePtr<App> inApp);
-	void RegisterApp(const DC::String& inName, std::function<DC::UniquePtr<App>(void)> inConstructFunction);
-	const DC::HashMap<DC::String, std::function<DC::UniquePtr<App>(void)>>& GetApps() const { return mApps; }
-
 private:
 	void UnregisterUpdateCallback(const EngineUpdateHandle& inHandle);
 
 	bool mShouldShutdown = false;
 
-	DC::UniquePtr<App> mApp;
-	DC::HashMap<DC::String, std::function<DC::UniquePtr<App>(void)>> mApps; // Maps App name to constructor function
-
 	DC::HashMap<const DC::RTTITypeID, DC::UniquePtr<Manager>> mManagers;
+	Renderer* mRenderer = nullptr;
 
 	struct UpdateCallback
 	{
@@ -76,18 +72,7 @@ private:
 };
 
 template<typename taType>
-void Engine::TryCreateManager()
-{
-	const DC::RTTI& rtti = taType::sGetRTTI();
-
-	if (mManagers.Contains(rtti.GetTypeID()))
-		return;
-	
-	mManagers[rtti.GetTypeID()] = DC::gMove(DC::gMakeUnique<taType>());
-}
-
-template<typename taType>
-taType& Engine::GetManager()
+taType& Engine::TryCreateManager()
 {
 	const DC::RTTI& rtti = taType::sGetRTTI();
 	
@@ -98,6 +83,21 @@ taType& Engine::GetManager()
 	taType* manager_ptr = manager;
 	mManagers[rtti.GetTypeID()] = DC::gMove(manager);
 	return *manager_ptr;
+}
+
+template<typename taType>
+taType& Engine::GetManager()
+{
+	// Default behavior is TryCreate, and return. Specific managers can be overriden, see Renderer etc, for faster getters when we're sure they exist.
+	return TryCreateManager<taType>();
+}
+
+template<>
+inline Renderer& Engine::GetManager<Renderer>()
+{
+	const DC::RTTI& rtti = Renderer::sGetRTTI();
+	
+	return *reinterpret_cast<Renderer*>(mManagers[rtti.GetTypeID()].Get());
 }
 
 template<typename taType>

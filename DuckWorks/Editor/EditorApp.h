@@ -6,8 +6,7 @@
 class EditorApp : public App
 {
 public:
-	virtual void Init() override;
-	virtual void Shutdown() override;
+	EditorApp();
 
 	virtual void Update(float inDeltaTime) override;
 

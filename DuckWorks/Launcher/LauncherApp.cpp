@@ -12,18 +12,14 @@ LauncherApp::LauncherApp()
 
 LauncherApp::~LauncherApp() {}
 
-void LauncherApp::Init() {}
-
-void LauncherApp::Shutdown() {}
-
 void LauncherApp::Update(float inDeltaTime)
 {
 	ImGui::Begin("Launcher");
 
-	gEngine->GetApps().ForEach([](const DC::String& inName, const std::function<DC::UniquePtr<App>(void)>& inConstructFunction)
+	sGetAppConstructors().ForEach([](const DC::String& inName, const std::function<DC::UniquePtr<App>(void)>& inConstructFunction)
 	{
 		if (ImGui::Button(inName.CStr()))
-			gEngine->SetApp(gMove(inConstructFunction()));
+			sSetActiveApp(gMove(inConstructFunction()));
 	});
 
 	ImGui::End();

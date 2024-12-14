@@ -7,8 +7,5 @@ public:
 	LauncherApp();
 	virtual ~LauncherApp() override;
 
-	virtual void Init() override;
-	virtual void Shutdown() override;
-
 	virtual void Update(float inDeltaTime) override;
 };

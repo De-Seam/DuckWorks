@@ -42,10 +42,6 @@ CryptChatApp::CryptChatApp()
 
 CryptChatApp::~CryptChatApp() {}
 
-void CryptChatApp::Init() {}
-
-void CryptChatApp::Shutdown() {}
-
 void CryptChatApp::Update(float inDeltaTime)
 {
 	ImGui::Begin("CryptChat");

@@ -3,19 +3,10 @@
 
 GameApp::GameApp()
 {
-}
-
-GameApp::~GameApp() = default;
-
-void GameApp::Init()
-{
 	mWorld = DC::gMakeUnique<World>();
 }
 
-void GameApp::Shutdown()
-{
-	mWorld.Delete();
-}
+GameApp::~GameApp() = default;
 
 void GameApp::Update(float inDeltaTime)
 {

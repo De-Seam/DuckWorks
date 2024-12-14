@@ -107,7 +107,7 @@ private:
 	DC::StaticArray<DC::Array<TickCallback>, static_cast<int>(EWorldTickFrequency::Num)> mTickFrequencyToCallbacks;
 	int mLastTickHandleID = 0;
 
-	DC::StaticArray<float, static_cast<uint>(EWorldTickFrequency::Num)> mHzToTimeSinceUpdate = { 0.0f };
+	DC::StaticArray<float, static_cast<uint>(EWorldTickFrequency::Num)> mHzToTimeSinceUpdate = { 0.0f, 0.0f, 0.0f, 0.0f };
 	DC::StaticArray<float, static_cast<uint>(EWorldTickFrequency::Num)> mHzToTargetSeconds = { 1.0f, 1.0f / 15.0f, 1.0f / 30.0f, 1.0f / 60.0f };
 
 	struct UpdateCallback

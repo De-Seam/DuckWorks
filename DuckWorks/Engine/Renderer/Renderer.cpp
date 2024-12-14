@@ -11,6 +11,8 @@
 #include <External/imgui/imgui_impl_sdl2.h>
 #include <External/imgui/imgui_impl_sdlrenderer2.h>
 
+#include <SDL/SDL.h>
+
 using namespace DC;
 
 Renderer::Renderer()
@@ -95,4 +97,19 @@ void Renderer::DrawSprite(const Sprite& inSprite, const Transform2D& inTransform
 	dest_rect.h = inTransform.mHalfSize.mY * 2;
 
 	SDL_RenderCopyExF(mRenderer, inSprite.GetTextureResource().GetTexture(), &src_rect, &dest_rect, inTransform.mRotation, nullptr, SDL_FLIP_NONE);
+}
+
+Renderer::ScopedRenderTarget::ScopedRenderTarget(SDL_Texture* inRenderTarget)
+{
+	Renderer& renderer = gEngine->GetManager<Renderer>();
+	SDL_Renderer* sdl_renderer = renderer.GetRenderer();
+	mPreviousRenderTarget = SDL_GetRenderTarget(sdl_renderer);
+	SDL_SetRenderTarget(sdl_renderer,inRenderTarget);
+}
+
+Renderer::ScopedRenderTarget::~ScopedRenderTarget()
+{
+	Renderer& renderer = gEngine->GetManager<Renderer>();
+	SDL_Renderer* sdl_renderer = renderer.GetRenderer();
+	SDL_SetRenderTarget(sdl_renderer,mPreviousRenderTarget);
 }
