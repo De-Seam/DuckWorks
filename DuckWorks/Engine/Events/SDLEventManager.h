@@ -13,7 +13,7 @@
 
 class EngineUpdateHandle;
 
-enum EMouseButton : uint8
+enum class EMouseButton : uint8
 {
 	Left = 1,
 	Middle = 2,
