@@ -18,7 +18,9 @@ void LauncherApp::Update(float inDeltaTime)
 
 	sGetAppConstructors().ForEach([](const DC::String& inName, const std::function<DC::UniquePtr<App>(void)>& inConstructFunction)
 	{
-		if (ImGui::Button(inName.CStr()))
+		// 3 = length of "App"
+		DC::String name = inName.SubStr(0, inName.Length() - 3);
+		if (ImGui::Button(name.CStr()))
 			sSetActiveApp(gMove(inConstructFunction()));
 	});
 
