@@ -25,6 +25,7 @@ Engine::Engine()
 	gEngine = this;
 
 	mRenderer = &TryCreateManager<Renderer>();
+	TryCreateManager<SDLEventManager>();
 }
 
 Engine::~Engine()

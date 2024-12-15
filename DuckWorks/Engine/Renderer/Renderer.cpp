@@ -82,6 +82,27 @@ void Renderer::EndFrame()
 	SDL_RenderPresent(mRenderer);
 }
 
+void Renderer::SetWindowSize(IVec2 inSize)
+{
+	SDL_SetWindowSize(mWindow, inSize.mX, inSize.mY);
+}
+
+SDL_Texture* Renderer::CreateTexture(DC::IVec2 inSize)
+{
+	return SDL_CreateTexture(mRenderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,inSize.mX,inSize.mY);
+}
+
+void Renderer::DrawTexture(SDL_Texture* inTexture, const DC::Transform2D& inTransform)
+{
+	SDL_FRect dest_rect;
+	dest_rect.x = inTransform.mPosition.mX;
+	dest_rect.y = inTransform.mPosition.mY;
+	dest_rect.w = inTransform.mHalfSize.mX * 2;
+	dest_rect.h = inTransform.mHalfSize.mY * 2;
+
+	SDL_RenderCopyExF(mRenderer, inTexture, nullptr, &dest_rect, inTransform.mRotation, nullptr, SDL_FLIP_NONE);
+}
+
 void Renderer::DrawSprite(const Sprite& inSprite, const Transform2D& inTransform)
 {
 	SDL_Rect src_rect;

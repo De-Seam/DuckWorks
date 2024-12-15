@@ -21,6 +21,8 @@ SDLEventManager::~SDLEventManager()
 
 void SDLEventManager::Update()
 {
+	SDL_GetMouseState(&mMousePosition.mX,&mMousePosition.mY);
+
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -29,6 +31,18 @@ void SDLEventManager::Update()
 		{
 		case SDL_QUIT:
 			gEngine->RequestShutdown();
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			mMouseButtons[event.button.button] = true;
+			break;
+		case SDL_MOUSEBUTTONUP:
+			mMouseButtons[event.button.button] = false;
+			break;
+		case SDL_KEYDOWN:
+			mKeys[event.key.keysym.sym] = true;
+			break;
+		case SDL_KEYUP:
+			mKeys[event.key.keysym.sym] = false;
 			break;
 		default:
 			break;

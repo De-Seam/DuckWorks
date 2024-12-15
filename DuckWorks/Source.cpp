@@ -17,6 +17,8 @@
 
 #include <Launcher/LauncherApp.h>
 
+#include <Sandbox/SandboxApp.h>
+
 void gMainLoop()
 {
 	// Initial time point
@@ -28,7 +30,7 @@ void gMainLoop()
         std::chrono::time_point current_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> delta_time = current_time - last_time;
 
-        // Min 10 fps, or we start slowing down the application (for debugging etc)
+        // Max 100 ms, or we start slowing down the application (for debugging etc)
 		if (delta_time.count() > 0.1f)
 			delta_time = std::chrono::duration<float>(0.1f);
 
@@ -63,6 +65,7 @@ int main(int argc, char* argv[])
     REGISTER_APP(LauncherApp);
     REGISTER_APP(GameApp);
     REGISTER_APP(EditorApp);
+    REGISTER_APP(SandboxApp);
     REGISTER_APP(CryptChatApp);
 
 	App::sSetActiveApp(DC::gMakeUnique<LauncherApp>());
