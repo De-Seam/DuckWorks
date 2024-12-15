@@ -56,6 +56,7 @@ public:
 private:
 	void UnregisterUpdateCallback(const EngineUpdateHandle& inHandle);
 
+	bool mIsInitialized = false;
 	bool mShouldShutdown = false;
 
 	DC::HashMap<const DC::RTTITypeID, DC::UniquePtr<Manager>> mManagers;
@@ -82,6 +83,11 @@ taType& Engine::TryCreateManager()
 	DC::UniquePtr<taType> manager = DC::gMakeUnique<taType>();
 	taType* manager_ptr = manager;
 	mManagers[rtti.GetTypeID()] = DC::gMove(manager);
+
+	// Only init if the engine is already initialized. Otherwise, the manager will be initialized in Engine::Init.
+	if (mIsInitialized)
+		manager_ptr->Init();
+
 	return *manager_ptr;
 }
 

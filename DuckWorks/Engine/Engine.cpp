@@ -42,6 +42,8 @@ void Engine::Init()
 	{
 		inManager->Init();
 	});
+
+	mIsInitialized = true;
 }
 
 void Engine::Shutdown()
@@ -50,6 +52,8 @@ void Engine::Shutdown()
 	{
 		inManager->Shutdown();
 	});
+
+	mIsInitialized = false;
 }
 
 void Engine::BeginFrame()
