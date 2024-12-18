@@ -33,6 +33,10 @@ void SandboxApp::Update(float inDeltaTime)
 				if (!pixel.mFilled)
 					continue;
 
+				mRandomState = DC::gXorShift32(&mRandomState);
+				if (mRandomState % 4 == 1)
+                    continue;
+
 				{
 					DC::IVec2 lower_pixel_position = { x, y + 1 };
 					Pixel& lower_pixel = mPixels[lower_pixel_position.mY * cWindowWidth + lower_pixel_position.mX];

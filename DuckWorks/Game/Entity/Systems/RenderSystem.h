@@ -2,8 +2,6 @@
 // Game includes
 #include <Game/Entity/Systems/EntitySystem.h>
 
-class WorldUpdateHandle;
-
 class RenderSystem : public EntitySystemUpdate
 {
 	RTTI_CLASS(RenderSystem, EntitySystemUpdate)
@@ -12,6 +10,4 @@ public:
 
 private:
 	virtual void Update(float inDeltaTime) override;
-
-	DC::Ref<WorldUpdateHandle> mUpdateHandle;
 };
