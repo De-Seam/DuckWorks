@@ -3,23 +3,42 @@
 // Engine includes
 #include <Engine/Engine.h>
 #include <Engine/Renderer/Renderer.h>
+#include <Engine/Renderer/SurfaceFile.h>
+#include <Engine/Files/FileManager.h>
 
 // External includes
 #include <External/SDL/SDL_image.h>
 #include <External/SDL/SDL_render.h>
 
-TextureResource::TextureResource(const DC::String& inFile) :
-	Resource(inFile)
+using namespace DC;
+
+TextureResource::TextureResource(const Json& inJson) :
+	Resource(inJson)
 {
 	SDL_Renderer* renderer = gEngine->GetManager<Renderer>().GetRenderer();
 	gAssert(renderer != nullptr, "Can't create texture resources before creating the renderer");
-	mTexture = IMG_LoadTexture(renderer, *GetFile());
+
+	mSurfaceFilePath = inJson["mSurfaceFilePath"];
+
+	Ref<SurfaceFile> surface_file = gEngine->GetManager<FileManager>().Get<SurfaceFile>(mSurfaceFilePath);
+	if (surface_file == nullptr)
+	{
+		gLog(LogLevel::Error, String::sFormatted("Failed to load surface file \"%s\" for texture resource.", *mSurfaceFilePath));
+		return;
+	}
+
+	mTexture = SDL_CreateTextureFromSurface(renderer, surface_file->GetSurface());
 }
 
 TextureResource::~TextureResource()
 {
-	gAssert(mTexture != nullptr);
-
 	SDL_DestroyTexture(mTexture);
 	mTexture = nullptr;
+}
+
+Json TextureResource::ToJson() const
+{
+	Json json = Resource::ToJson();
+	json["mSurfaceFilePath"] = mSurfaceFilePath;
+	return json;
 }

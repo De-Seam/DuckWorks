@@ -81,6 +81,15 @@
     <ClCompile Include="Game\Entity\Systems\PlayerMovementSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Files\FileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Resources\JsonFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\SurfaceFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -159,6 +168,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Entity\Systems\PlayerMovementSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Files\FileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Resources\JsonFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\SurfaceFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

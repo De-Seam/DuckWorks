@@ -1,0 +1,24 @@
+{
+  "TextureResource": {
+    "GUID": "1111-1111-1111-1111",
+    "Name": "Player Sprite Sheet",
+    "File": "Assets/Texture/PlayerSpriteSheet.png"
+  },
+  "AnimationResource": {
+    "GUID": "2222-2222-2222-2222",
+    "Name": "PlayerAnimation",
+    "TextureResource": "1111-1111-1111-1111",
+    "Animations": {
+      "Idle": [
+        [ 0, 0, 32, 32 ],
+        [ 32, 0, 32, 32 ],
+        [ 64, 0, 32, 32 ]
+      ],
+      "Walking": [
+        [ 0, 32, 32, 32 ],
+        [ 32, 32, 32, 32 ],
+        [ 64, 32, 32, 32 ]
+      ]
+    }
+  }
+}

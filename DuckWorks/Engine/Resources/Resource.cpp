@@ -2,22 +2,22 @@
 
 // Engine includes
 #include <Engine/Engine.h>
+#include <Engine/Files/FileManager.h>
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Resources/ResourceManager.h>
 
-Json Resource::Serialize() const
+using namespace DC;
+
+Resource::Resource(const Json& inJson)
 {
-	Json json = Base::Serialize();
-
-	json["mFile"] = mFile;
-
-	return json;
+	const GUID& guid = inJson["mGUID"];
+	SetGUID(guid);
 }
 
-void Resource::Deserialize(const Json& inJson)
+Json Resource::ToJson() const
 {
-	Base::Deserialize(inJson);
-
-	// mFile should be set in the constructor, so we just assert that it is the same
-	gAssert(inJson["mFile"] == mFile.CStr());
+	Json json;
+	json["ClassName"] = GetRTTI().GetClassName();
+	json["mGUID"] = GetGUID();
+	return json;
 }

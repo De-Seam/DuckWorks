@@ -6,15 +6,12 @@ class Object : public DC::RTTIRefClass
 {
 	RTTI_CLASS(Object, RTTIRefClass)
 public:
-	Object(const DC::GUID& inGUID = DC::GUID::sCreate());
+	Object(const DC::GUID& inGUID = DC::GUID::sNone());
 	virtual ~Object() override;
 
-	void SetGUID(const DC::GUID& inGUID);
+	void SetGUID(const DC::GUID& inGUID) { mGUID = inGUID; }
 	DC::GUID GetGUID() const { return mGUID; }
 
-	virtual Json Serialize() const override;
-	virtual void Deserialize(const Json& inJson) override;
-
 private:
-	DC::GUID mGUID;;
+	DC::GUID mGUID;
 };

@@ -61,6 +61,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4127; 4702</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,6 +82,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4127; 4702</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -97,11 +99,14 @@
     <ClCompile Include="Editor\EditorApp.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Events\SDLEventManager.cpp" />
+    <ClCompile Include="Engine\Files\FileManager.cpp" />
     <ClCompile Include="Engine\Objects\Object.cpp" />
     <ClCompile Include="Engine\Objects\ObjectManager.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Renderer\Sprite.cpp" />
+    <ClCompile Include="Engine\Renderer\SurfaceFile.cpp" />
     <ClCompile Include="Engine\Renderer\TextureResource.cpp" />
+    <ClCompile Include="Engine\Resources\JsonFile.cpp" />
     <ClCompile Include="Engine\Resources\Resource.cpp" />
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="Game\Entity\Entity.cpp" />
@@ -121,12 +126,15 @@
     <ClInclude Include="Editor\EditorApp.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Events\SDLEventManager.h" />
+    <ClInclude Include="Engine\Files\FileManager.h" />
     <ClInclude Include="Engine\Manager.h" />
     <ClInclude Include="Engine\Objects\Object.h" />
     <ClInclude Include="Engine\Objects\ObjectManager.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Renderer\Sprite.h" />
+    <ClInclude Include="Engine\Renderer\SurfaceFile.h" />
     <ClInclude Include="Engine\Renderer\TextureResource.h" />
+    <ClInclude Include="Engine\Resources\JsonFile.h" />
     <ClInclude Include="Engine\Resources\Resource.h" />
     <ClInclude Include="Engine\Resources\ResourceManager.h" />
     <ClInclude Include="Game\Entity\Character.h" />

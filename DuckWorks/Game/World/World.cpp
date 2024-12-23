@@ -26,15 +26,15 @@ World::World()
 {
 	EntityService& entity_service = CreateService<EntityService>();
 
-	Entity* entity = new Entity(*this);
-	DC::Ref<TextureResource> texture_resource = gEngine->GetManager<ResourceManager>().GetResource<TextureResource>("Assets/Textures/top.jpg");
-	SpriteRenderComponent& sprite_render_component = entity->AddComponent<SpriteRenderComponent>();
-	sprite_render_component.mSprite = new Sprite(*texture_resource, {0, 0}, {980, 575});
-	TransformComponent& transform_component = entity->AddComponent<TransformComponent>();
-	transform_component.mTransform.mPosition = {0.0f, 0.0f};
-	transform_component.mTransform.mHalfSize = { 256.0f, 256.0f };
-	transform_component.mTransform.mRotation = 0.0f;
-	entity_service.AddEntity(entity);
+	//Entity* entity = new Entity(*this);
+	//DC::Ref<TextureResource> texture_resource = gEngine->GetManager<ResourceManager>().Get<TextureResource>("Assets/Textures/top.jpg");
+	//SpriteRenderComponent& sprite_render_component = entity->AddComponent<SpriteRenderComponent>();
+	//sprite_render_component.mSprite = new Sprite(*texture_resource, {0, 0}, {980, 575});
+	//TransformComponent& transform_component = entity->AddComponent<TransformComponent>();
+	//transform_component.mTransform.mPosition = {0.0f, 0.0f};
+	//transform_component.mTransform.mHalfSize = { 256.0f, 256.0f };
+	//transform_component.mTransform.mRotation = 0.0f;
+	//entity_service.AddEntity(entity);
 }
 
 World::~World()

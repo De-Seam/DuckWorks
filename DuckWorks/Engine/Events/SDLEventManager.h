@@ -33,7 +33,7 @@ public:
 
 	// Change the input of IsMouseButtonDown to use the SDL event button
 	bool IsMouseButtonDown(EMouseButton inButton) const { return mMouseButtons[gStaticCast<uint8>(inButton)]; }
-	bool IsKeyDown(SDL_KeyCode inKey) const { return mKeys[inKey]; }
+	bool IsKeyDown(SDL_KeyCode inKey) const { return mKeys.At(inKey); }
 
 	DC::IVec2 GetMousePosition() const { return mMousePosition; }
 

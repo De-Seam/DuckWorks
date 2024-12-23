@@ -7,6 +7,7 @@
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Renderer/Renderer.h>
+#include <Engine/Resources/JsonFile.h>
 #include <Engine/Resources/ResourceManager.h>
 
 using namespace DC;
@@ -23,6 +24,9 @@ Engine::Engine()
 {
 	gAssert(gEngine == nullptr);
 	gEngine = this;
+
+	FileManager& file_manager = TryCreateManager<FileManager>();
+	file_manager.RegisterFileExtension<JsonFile>(".json");
 
 	mRenderer = &TryCreateManager<Renderer>();
 	TryCreateManager<SDLEventManager>();
