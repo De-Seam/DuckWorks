@@ -97,6 +97,8 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="CryptChat\CryptChatApp.cpp" />
     <ClCompile Include="Editor\EditorApp.cpp" />
+    <ClCompile Include="Editor\Menus\EditorMenu.cpp" />
+    <ClCompile Include="Editor\Menus\EntitySpawnerMenu.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Events\SDLEventManager.cpp" />
     <ClCompile Include="Engine\Files\FileManager.cpp" />
@@ -124,6 +126,8 @@
     <ClInclude Include="App\App.h" />
     <ClInclude Include="CryptChat\CryptChatApp.h" />
     <ClInclude Include="Editor\EditorApp.h" />
+    <ClInclude Include="Editor\Menus\EditorMenu.h" />
+    <ClInclude Include="Editor\Menus\EntitySpawnerMenu.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Events\SDLEventManager.h" />
     <ClInclude Include="Engine\Files\FileManager.h" />
