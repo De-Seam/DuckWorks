@@ -29,7 +29,10 @@ void gMainLoop()
 
 		// Max 100 ms, or we start slowing down the application (for debugging etc)
 		if (delta_time.count() > 0.1f)
+		{
+			DC::gLog(DC::LogLevel::Warning, DC::String::sFormatted("Slowing app, delta time took %f seconds", delta_time.count()));
 			delta_time = std::chrono::duration<float>(0.1f);
+		}
 
 		last_time = current_time;
 
@@ -52,8 +55,8 @@ Engine::Init: Initialize managers
 **/
 int main(int argc, char* argv[])
 {
-    (void)argc;
-    (void)argv;
+	(void)argc;
+	(void)argv;
 
 	Engine engine;
 
@@ -73,5 +76,5 @@ int main(int argc, char* argv[])
 
 	gEngine->Shutdown();
 
-    return 0;
+	return 0;
 }
