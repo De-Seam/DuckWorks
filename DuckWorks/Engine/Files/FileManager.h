@@ -26,7 +26,7 @@ private:
 template <typename taType>
 void FileManager::RegisterFileExtension(DC::String inExtension)
 {
-	gAssert(inExtension.Contains('.'), "Extensions should be registered without the dot");
+	gAssert(!inExtension.Contains('.'), "Extensions should be registered without the dot");
 
 	uint64 type_id = typeid(taType).hash_code();
 	gAssert(!mFileExtensions.Contains(type_id) || mFileExtensions.At(type_id) == inExtension);

@@ -4,7 +4,10 @@ void JsonFile::Load()
 {
 	File::Load();
 
-	mJson = DC::Json(GetContents());
+	if (GetContents().IsEmpty())
+		return;
+
+	mJson = DC::Json::parse(GetContents().CStr());
 }
 
 void JsonFile::WriteToDisk()

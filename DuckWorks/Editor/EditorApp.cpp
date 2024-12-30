@@ -1,11 +1,44 @@
 #include <DuckCore/Math/Transform.h>
 #include <Editor/EditorApp.h>
+#include <Editor/Menus/EntitySpawnerMenu.h>
+#include <Engine/Files/FileManager.h>
+#include <Engine/Resources/JsonFile.h>
+#include <imgui/imgui.h>
+
+using namespace DC;
 
 EditorApp::EditorApp()
 {
-	mGameRenderTarget = gEngine->GetManager<Renderer>().CreateTexture(DC::IVec2(800, 600));
+	mGameRenderTarget = gEngine->GetManager<Renderer>().CreateTexture(IVec2(800, 600));
 
-	mGameApp = DC::gMakeUnique<GameApp>();
+	mGameApp = gMakeUnique<GameApp>();
+
+	mMenus.Add(gMakeUnique<EntitySpawnerMenu>());
+
+	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>("Editor/Editor.json");
+	const Json& json = editor_json_file->GetJson();
+
+	if (const auto menus_json = json.find("mMenus"); menus_json != json.end())
+	{
+		for (EditorMenu* menu : mMenus)
+		{
+			if (auto it = menus_json->find(menu->GetRTTI().GetClassName()); it != menus_json->end())
+				menu->Deserialize(*it);
+		}
+	}
+}
+
+EditorApp::~EditorApp()
+{
+	Json json;
+	Json& menus_json = json["mMenus"];
+
+	for (EditorMenu* menu : mMenus)
+		menus_json[menu->GetRTTI().GetClassName()] = menu->Serialize();
+
+	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>("Editor/Editor.json");
+	editor_json_file->GetJson() = json;
+	editor_json_file->WriteToDisk();
 }
 
 void EditorApp::Update(float inDeltaTime)
@@ -15,7 +48,24 @@ void EditorApp::Update(float inDeltaTime)
 		Renderer::ScopedRenderTarget scoped_render_target(mGameRenderTarget);
 		mGameApp->Update(inDeltaTime);
 	}
-	DC::Transform2D transform;
-	transform.mHalfSize = DC::FVec2(800, 600) / 2.0f;
+	Transform2D transform;
+	transform.mHalfSize = FVec2(800, 600) / 2.0f;
 	gEngine->GetManager<Renderer>().DrawTexture(mGameRenderTarget, transform);
+
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("Menus"))
+		{
+			for (EditorMenu* menu : mMenus)
+			{
+				if (ImGui::MenuItem(menu->GetRTTI().GetClassName(), nullptr, menu->GetIsOpen()))
+					menu->SetIsOpen(!menu->GetIsOpen());
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
+
+	for (EditorMenu* menu : mMenus)
+		menu->Update(inDeltaTime);
 }

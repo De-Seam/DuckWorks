@@ -26,7 +26,7 @@ Engine::Engine()
 	gEngine = this;
 
 	FileManager& file_manager = TryCreateManager<FileManager>();
-	file_manager.RegisterFileExtension<JsonFile>(".json");
+	file_manager.RegisterFileExtension<JsonFile>("json");
 
 	mRenderer = &TryCreateManager<Renderer>();
 	TryCreateManager<SDLEventManager>();
