@@ -4,46 +4,43 @@
 // Engine includes
 #include <Engine/Engine.h>
 
-// Editor includes
-#include <Editor/EditorApp.h>
-
 // App includes
 #include <App/App.h>
+
+// Apps includes
+#include <CryptChat/CryptChatApp.h>
+#include <Editor/EditorApp.h>
+#include <Launcher/LauncherApp.h>
+#include <Sandbox/SandboxApp.h>
 
 // Std includes
 #include <chrono>
 
-#include <CryptChat/CryptChatApp.h>
-
-#include <Launcher/LauncherApp.h>
-
-#include <Sandbox/SandboxApp.h>
-
 void gMainLoop()
 {
 	// Initial time point
-    std::chrono::time_point last_time = std::chrono::high_resolution_clock::now();
+	std::chrono::time_point last_time = std::chrono::high_resolution_clock::now();
 
-    while (!gEngine->ShouldShutdown())
-    {
-        // Calculate the current time and delta time
-        std::chrono::time_point current_time = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<float> delta_time = current_time - last_time;
+	while (!gEngine->ShouldShutdown())
+	{
+		// Calculate the current time and delta time
+		std::chrono::time_point current_time = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<float> delta_time = current_time - last_time;
 
-        // Max 100 ms, or we start slowing down the application (for debugging etc)
+		// Max 100 ms, or we start slowing down the application (for debugging etc)
 		if (delta_time.count() > 0.1f)
 			delta_time = std::chrono::duration<float>(0.1f);
 
-        last_time = current_time;
+		last_time = current_time;
 
-        gEngine->BeginFrame();
+		gEngine->BeginFrame();
 
 		App::sGetActiveApp()->Update(delta_time.count());
 
-        gEngine->Update(delta_time.count());
+		gEngine->Update(delta_time.count());
 
-        gEngine->EndFrame();
-    }
+		gEngine->EndFrame();
+	}
 }
 
 /**
