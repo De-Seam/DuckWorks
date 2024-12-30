@@ -10,6 +10,8 @@
 #include <Game/Entity/Components/RenderComponent.h>
 #include <Game/Entity/Systems/RenderSystem.h>
 
+using namespace DC;
+
 WorldTickHandle::~WorldTickHandle()
 {
 	gAssert(mWorld != nullptr);
@@ -24,6 +26,11 @@ WorldUpdateHandle::~WorldUpdateHandle()
 
 World::World()
 {
+	RegisterComponent<TransformComponent>();
+	RegisterComponent<SpriteRenderComponent>();
+	RegisterComponent<VelocityComponent>();
+	RegisterComponent<PlayerMovementComponent>();
+
 	EntityService& entity_service = CreateService<EntityService>();
 
 	//Entity* entity = new Entity(*this);
@@ -57,7 +64,7 @@ void World::Update(float inDeltaTime)
 		{
 			time_since_update -= target_seconds;
 
-			DC::Array<TickCallback>& tick_callbacks = mTickFrequencyToCallbacks[i];
+			Array<TickCallback>& tick_callbacks = mTickFrequencyToCallbacks[i];
 
 			if (tick_callbacks.IsEmpty())
 				continue;
@@ -71,31 +78,76 @@ void World::Update(float inDeltaTime)
 		callback.mCallback(inDeltaTime);
 }
 
-DC::Ref<WorldTickHandle> World::RegisterTickCallback(EWorldTickFrequency inTickFrequency, std::function<void(float)> inCallback)
+Ref<WorldTickHandle> World::RegisterTickCallback(EWorldTickFrequency inTickFrequency, std::function<void(float)> inCallback)
 {
 	int next_id = mLastTickHandleID++;
 	gAssert(next_id >= 0, "IDs ran out");
 
-	DC::Ref<WorldTickHandle> handle = new WorldTickHandle(next_id, *this, inTickFrequency);
+	Ref<WorldTickHandle> handle = new WorldTickHandle(next_id, *this, inTickFrequency);
 	mTickFrequencyToCallbacks[gStaticCast<int>(inTickFrequency)].Emplace(next_id, inCallback);
 
 	return handle;
 }
 
-DC::Ref<WorldUpdateHandle> World::RegisterUpdateCallback(std::function<void(float)> inCallback)
+Ref<WorldUpdateHandle> World::RegisterUpdateCallback(std::function<void(float)> inCallback)
 {
 	int next_id = mLastUpdateHandleID++;
 	gAssert(next_id >= 0, "IDs ran out");
 
-	DC::Ref<WorldUpdateHandle> handle = new WorldUpdateHandle(next_id, *this);
+	Ref<WorldUpdateHandle> handle = new WorldUpdateHandle(next_id, *this);
 	mUpdateCallbacks.Emplace(next_id, inCallback);
 
 	return handle;
 }
 
+void World::AddComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode)
+{
+	ComponentData* component_data = mComponentTypeToData.Find(inComponentTypeIDHashCode);
+	gAssert(component_data != nullptr);
+	component_data->mAddComponentFunc(mRegistry, inEntity);
+}
+
+void World::RemoveComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode)
+{
+	ComponentData* component_data = mComponentTypeToData.Find(inComponentTypeIDHashCode);
+	gAssert(component_data != nullptr);
+	component_data->mRemoveComponentFunc(mRegistry, inEntity);
+}
+
+bool World::HasComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode)
+{
+	ComponentData* component_data = mComponentTypeToData.Find(inComponentTypeIDHashCode);
+	gAssert(component_data != nullptr);
+	return component_data->mHasComponentFunc(mRegistry, inEntity);
+}
+
+const String& World::GetComponentName(uint64 inComponentTypeIDHashCode) const
+{
+	const ComponentData& component_data = mComponentTypeToData.At(inComponentTypeIDHashCode);
+	return component_data.mName;
+}
+
+void World::GetComponentNames(Array<String>& outComponentNames) const
+{
+	gAssert(outComponentNames.IsEmpty());
+	mComponentTypeToData.ForEach([&outComponentNames](const uint64& inKey, const ComponentData& inValue)
+	{
+		outComponentNames.Emplace(inValue.mName);
+	});
+}
+
+void World::GetComponentNamesAndTypeIDHashCodes(Array<Pair<String, uint64>>& outComponentNamesAndTypeIDHashCodes) const
+{
+	gAssert(outComponentNamesAndTypeIDHashCodes.IsEmpty());
+	mComponentTypeToData.ForEach([&outComponentNamesAndTypeIDHashCodes](const uint64& inKey, const ComponentData& inValue)
+	{
+		outComponentNamesAndTypeIDHashCodes.Emplace(inValue.mName, inKey);
+	});
+}
+
 void World::UnregisterTickCallback(const WorldTickHandle& inHandle)
 {
-	DC::Array<TickCallback>& callbacks = mTickFrequencyToCallbacks[gStaticCast<int>(inHandle.mTickFrequency)];
+	Array<TickCallback>& callbacks = mTickFrequencyToCallbacks[gStaticCast<int>(inHandle.mTickFrequency)];
 	const int index = callbacks.FindIf([&](const TickCallback& inItem) { return inItem.mID == inHandle.GetID(); });
 	gAssert(index != -1);
 	callbacks.SwapRemove(index);

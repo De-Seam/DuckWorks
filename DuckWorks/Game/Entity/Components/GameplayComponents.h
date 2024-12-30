@@ -9,11 +9,11 @@ struct TransformComponent
 
 struct VelocityComponent
 {
-    DC::FVec2 mVelocity = {0.0f, 0.0f};
+	DC::FVec2 mVelocity = {0.0f, 0.0f};
 };
 
 struct PlayerMovementComponent
 {
-    float mMaxVelocity = 100.0f;
+	float mMaxVelocity = 100.0f;
 	float mAcceleration = 80.0f;
 };

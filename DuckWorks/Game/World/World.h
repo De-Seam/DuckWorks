@@ -10,6 +10,7 @@
 #include <Engine/Objects/Object.h>
 
 // External includes
+#include <DuckCore/Containers/Pair.h>
 #include <External/entt/entity/registry.hpp>
 
 class Entity;
@@ -91,13 +92,30 @@ public:
 	entt::registry& GetRegistry() { return mRegistry; }
 	const entt::registry& GetRegistry() const { return mRegistry; }
 
+	template<typename taComponent>
+	void RegisterComponent();
+	void AddComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode);
+	void RemoveComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode);
+	bool HasComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode);
+	const DC::String& GetComponentName(uint64 inComponentTypeIDHashCode) const;
+	void GetComponentNames(DC::Array<DC::String>& outComponentNames) const;
+	void GetComponentNamesAndTypeIDHashCodes(DC::Array<DC::Pair<DC::String, uint64>>& outComponentNamesAndTypeIDHashCodes) const;
+
 private:
 	void UnregisterTickCallback(const WorldTickHandle& inHandle);
 	void UnregisterUpdateCallback(const WorldUpdateHandle& inHandle);
 
-	entt::registry mRegistry;
-
 	DC::HashMap<DC::RTTITypeID, DC::UniquePtr<Service>> mServices;
+
+	entt::registry mRegistry;
+	struct ComponentData
+	{
+		DC::String mName;
+		std::function<void(entt::registry&, entt::entity)> mAddComponentFunc;
+		std::function<void(entt::registry&, entt::entity)> mRemoveComponentFunc;
+		std::function<bool(const entt::registry&, entt::entity)> mHasComponentFunc;
+	};
+	DC::HashMap<uint64, ComponentData> mComponentTypeToData;
 
 	struct TickCallback
 	{
@@ -133,4 +151,26 @@ taType& World::CreateService(taArgs&&... inArgs)
 	mServices[type_id] = std::move(service);
 
 	return *service_ptr;
+}
+
+template <typename taComponent>
+void World::RegisterComponent()
+{
+	const std::type_info& type_info = typeid(taComponent);
+	const uint64 hash_code = type_info.hash_code();
+	gAssert(!mComponentTypeToData.Contains(hash_code));
+	ComponentData& component_data = mComponentTypeToData[hash_code];
+	component_data.mName = type_info.name();
+	component_data.mAddComponentFunc = [](entt::registry& ioRegistry, entt::entity inEntity)
+	{
+		ioRegistry.emplace<taComponent>(inEntity);
+	};
+	component_data.mRemoveComponentFunc = [](entt::registry& ioRegistry, entt::entity inEntity)
+	{
+		ioRegistry.remove<taComponent>(inEntity);
+	};
+	component_data.mHasComponentFunc = [](const entt::registry& inRegistry, entt::entity inEntity)
+	{
+		return inRegistry.any_of<taComponent>(inEntity);
+	};
 }
