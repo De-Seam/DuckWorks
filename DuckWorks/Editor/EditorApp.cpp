@@ -36,9 +36,7 @@ EditorApp::~EditorApp()
 	for (EditorMenu* menu : mMenus)
 		menus_json[menu->GetRTTI().GetClassName()] = menu->Serialize();
 
-	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>("Editor/Editor.json");
-	editor_json_file->GetJson() = json;
-	editor_json_file->WriteToDisk();
+	gEngine->GetManager<FileManager>().WriteToFile("Editor/Editor.json", json.dump(4));
 }
 
 void EditorApp::Update(float inDeltaTime)
