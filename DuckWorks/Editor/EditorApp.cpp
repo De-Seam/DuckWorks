@@ -13,7 +13,7 @@ EditorApp::EditorApp()
 
 	mGameApp = gMakeUnique<GameApp>();
 
-	mMenus.Add(gMakeUnique<EntitySpawnerMenu>());
+	mMenus.Add(gMakeUnique<EntitySpawnerMenu>(*this));
 
 	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>("Editor/Editor.json");
 	const Json& json = editor_json_file->GetJson();

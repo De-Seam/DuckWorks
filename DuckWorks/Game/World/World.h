@@ -83,6 +83,9 @@ public:
 	template<typename taType, typename... taArgs>
 	taType& CreateService(taArgs&&... inArgs);
 
+	template<typename taType>
+	taType& GetService();
+
 	[[nodiscard]]
 	DC::Ref<WorldTickHandle> RegisterTickCallback(EWorldTickFrequency inTickFrequency, std::function<void(float)> inCallback);
 
@@ -151,6 +154,13 @@ taType& World::CreateService(taArgs&&... inArgs)
 	mServices[type_id] = std::move(service);
 
 	return *service_ptr;
+}
+
+template <typename taType>
+taType& World::GetService()
+{
+	const DC::RTTITypeID& type_id = taType::sGetRTTI().GetTypeID();
+	return *static_cast<taType*>(mServices[type_id].Get());
 }
 
 template <typename taComponent>

@@ -1,6 +1,12 @@
+#include <Editor/EditorApp.h>
 #include <Editor/Menus/EntitySpawnerMenu.h>
+#include <Game/Entity/Entity.h>
+#include <Game/Entity/EntityService.h>
+#include <Game/World/World.h>
 
 #include <imgui/imgui.h>
+
+using namespace DC;
 
 void EntitySpawnerMenu::Update(float inDeltaTime)
 {
@@ -9,7 +15,12 @@ void EntitySpawnerMenu::Update(float inDeltaTime)
 
 	ImGui::Begin("Entity Spawner", &mIsOpen);
 
-	ImGui::Text("Wow!");
+	if (ImGui::Button("Create Entity"))
+	{
+		World* world = GetEditorApp().GetGameApp()->GetWorld();
+		Ref<Entity> entity = new Entity(*world);
+		world->GetService<EntityService>().AddEntity(entity);
+	}
 
 	ImGui::End();
 

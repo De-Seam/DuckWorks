@@ -15,6 +15,8 @@ public:
 
 	virtual void Update(float inDeltaTime) override;
 
+	World* GetWorld() { return mWorld; }
+
 private:
 	DC::UniquePtr<World> mWorld;
 };
