@@ -7,6 +7,8 @@
 class EditorApp : public App
 {
 public:
+	constexpr const char* cEditorJsonPath = "Editor/Editor.json";
+
 	EditorApp();
 	virtual ~EditorApp() override;
 

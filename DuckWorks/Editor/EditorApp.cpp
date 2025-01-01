@@ -15,7 +15,7 @@ EditorApp::EditorApp()
 
 	mMenus.Add(gMakeUnique<EntitySpawnerMenu>(*this));
 
-	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>("Editor/Editor.json");
+	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(cEditorJsonPath);
 	const Json& json = editor_json_file->GetJson();
 
 	if (const auto menus_json = json.find("mMenus"); menus_json != json.end())
@@ -36,7 +36,7 @@ EditorApp::~EditorApp()
 	for (EditorMenu* menu : mMenus)
 		menus_json[menu->GetRTTI().GetClassName()] = menu->Serialize();
 
-	gEngine->GetManager<FileManager>().WriteToFile("Editor/Editor.json", json.dump(4));
+	gEngine->GetManager<FileManager>().WriteToFile(cEditorJsonPath, json.dump(4));
 }
 
 void EditorApp::Update(float inDeltaTime)
