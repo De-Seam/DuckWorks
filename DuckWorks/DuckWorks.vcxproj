@@ -117,6 +117,8 @@
     <ClCompile Include="Game\Entity\Systems\PlayerMovementSystem.cpp" />
     <ClCompile Include="Game\Entity\Systems\RenderSystem.cpp" />
     <ClCompile Include="Game\GameApp.cpp" />
+    <ClCompile Include="Game\Grid\Grid.cpp" />
+    <ClCompile Include="Game\Grid\GridService.cpp" />
     <ClCompile Include="Game\World\World.cpp" />
     <ClCompile Include="Launcher\LauncherApp.cpp" />
     <ClCompile Include="Sandbox\SandboxApp.cpp" />
@@ -150,6 +152,8 @@
     <ClInclude Include="Game\Entity\Systems\PlayerMovementSystem.h" />
     <ClInclude Include="Game\Entity\Systems\RenderSystem.h" />
     <ClInclude Include="Game\GameApp.h" />
+    <ClInclude Include="Game\Grid\Grid.h" />
+    <ClInclude Include="Game\Grid\GridService.h" />
     <ClInclude Include="Game\World\Service.h" />
     <ClInclude Include="Game\World\World.h" />
     <ClInclude Include="Launcher\LauncherApp.h" />

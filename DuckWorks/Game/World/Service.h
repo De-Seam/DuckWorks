@@ -9,8 +9,6 @@ class Service : public Object
 public:
 	Service(World& inWorld) : mWorld(&inWorld) {}
 
-	virtual void Update(float inDeltaTime) = 0;
-
 	World& GetWorld() { return *mWorld; }
 	const World& GetWorld() const { return *mWorld; }
 

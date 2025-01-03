@@ -26,7 +26,7 @@ public:
 	void AddEntity(const DC::Ref<Entity>& inEntity);
 	void RemoveEntity(const DC::Ref<Entity>& inEntity);
 
-	virtual void Update(float inDeltaTime) override;
+	void Update(float inDeltaTime);
 
 private:
 	void AddEntitySystem(DC::UniquePtr<EntitySystem> inEntitySystem);

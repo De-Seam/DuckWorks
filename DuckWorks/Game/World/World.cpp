@@ -9,6 +9,7 @@
 #include <Game/Entity/Components/GameplayComponents.h>
 #include <Game/Entity/Components/RenderComponent.h>
 #include <Game/Entity/Systems/RenderSystem.h>
+#include <Game/Grid/GridService.h>
 
 using namespace DC;
 
@@ -31,7 +32,8 @@ World::World()
 	RegisterComponent<VelocityComponent>();
 	RegisterComponent<PlayerMovementComponent>();
 
-	EntityService& entity_service = CreateService<EntityService>();
+	CreateService<EntityService>();
+	CreateService<GridService>();
 
 	//Entity* entity = new Entity(*this);
 	//DC::Ref<TextureResource> texture_resource = gEngine->GetManager<ResourceManager>().Get<TextureResource>("Assets/Textures/top.jpg");
