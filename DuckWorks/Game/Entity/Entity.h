@@ -11,7 +11,7 @@ class Entity : public Object
 {
 	RTTI_CLASS(Entity, Object)
 public:
-	Entity(World& inWorld);
+	explicit Entity(World& inWorld);
 	virtual ~Entity() override;
 
 	template<typename TaType, typename... taArgs>

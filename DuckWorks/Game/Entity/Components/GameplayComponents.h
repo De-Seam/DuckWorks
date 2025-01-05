@@ -12,7 +12,7 @@ struct VelocityComponent
 	DC::FVec2 mVelocity = {0.0f, 0.0f};
 };
 
-struct PlayerMovementComponent
+struct MovementComponent
 {
 	float mMaxVelocity = 100.0f;
 	float mAcceleration = 80.0f;
