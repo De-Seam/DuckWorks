@@ -12,12 +12,10 @@ Grid::Grid(UVec2 inSize) :
 
 Ref<Entity> Grid::GetEntityInTile(const UVec2& inTilePosition)
 {
-	GridTile& tile = GetTile(inTilePosition);
-	if (tile.mEntity == nullptr)
+	WeakRef<Entity>& entity = GetTile(inTilePosition).mEntity;
+	if (!entity.IsAlive())
 		return nullptr;
-	if (!tile.mEntity.IsAlive())
-		return nullptr;
-	return tile.mEntity.Ref();
+	return entity.Ref();
 }
 
 int Grid::GetTileIndex(const UVec2& inTilePosition) const { return inTilePosition.mX + inTilePosition.mY * mSize.mX; }
