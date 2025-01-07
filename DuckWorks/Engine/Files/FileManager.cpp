@@ -19,8 +19,20 @@ void FileManager::WriteToFile(const DC::String& inPath, const DC::String& inCont
 	std::ofstream file(*inPath);
 	if (!file.is_open())
 	{
-		gAssert(false);
-		gLog(LogLevel::Error, String::sFormatted("Unable to open file %s for writing", *inPath));
+		// Extract the directory part of the path
+        std::filesystem::path file_path(*inPath);
+        std::filesystem::path dir_path = file_path.parent_path();
+
+		// Ensure the directory exists
+        if (!std::filesystem::exists(dir_path))
+            std::filesystem::create_directories(dir_path);
+
+		file.open(*inPath);
+		if (!file.is_open())
+		{
+			gAssert(false);
+			gLog(LogLevel::Error, String::sFormatted("Unable to open file %s for writing", *inPath));
+		}
 	}
 
 	file << *inContents;
