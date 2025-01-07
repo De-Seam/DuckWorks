@@ -111,6 +111,9 @@
     <ClCompile Include="Game\World\EntityWorldGenerationRulesResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\Menus\ViewportMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -219,6 +222,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\World\EntityWorldGenerationRulesResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Menus\ViewportMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

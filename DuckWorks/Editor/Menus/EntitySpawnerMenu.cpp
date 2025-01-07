@@ -1,5 +1,7 @@
 #include <Editor/EditorApp.h>
 #include <Editor/Menus/EntitySpawnerMenu.h>
+#include <Editor/Menus/ViewportMenu.h>
+
 #include <Game/Entity/Entity.h>
 #include <Game/Entity/EntityService.h>
 #include <Game/World/World.h>
@@ -17,7 +19,7 @@ void EntitySpawnerMenu::Update(float inDeltaTime)
 
 	if (ImGui::Button("Create Entity"))
 	{
-		World* world = GetEditorApp().GetGameApp()->GetWorld();
+		World* world = GetEditorApp().GetMenu<ViewportMenu>().GetGameApp()->GetWorld();
 		Ref<Entity> entity = new Entity(*world);
 		world->GetService<EntityService>().AddEntity(entity);
 	}

@@ -17,12 +17,7 @@ public:
 	template<typename taType>
 	taType& GetMenu();
 
-	GameApp* GetGameApp() { return mGameApp; }
-
 private:
-	DC::UniquePtr<GameApp> mGameApp;
-	SDL_Texture* mGameRenderTarget = nullptr;
-
 	DC::Array<DC::UniquePtr<EditorMenu>> mMenus;
 };
 

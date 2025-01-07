@@ -1,18 +1,20 @@
-#include <DuckCore/Math/Transform.h>
 #include <Editor/EditorApp.h>
-#include <Editor/Menus/EntitySpawnerMenu.h>
+
+#include <DuckCore/Math/Transform.h>
+
 #include <Engine/Files/FileManager.h>
 #include <Engine/Resources/JsonFile.h>
+
+#include <Editor/Menus/EntitySpawnerMenu.h>
+#include <Editor/Menus/ViewportMenu.h>
+
 #include <imgui/imgui.h>
 
 using namespace DC;
 
 EditorApp::EditorApp()
 {
-	mGameRenderTarget = gEngine->GetManager<Renderer>().CreateTexture(IVec2(800, 600));
-
-	mGameApp = gMakeUnique<GameApp>();
-
+	mMenus.Add(gMakeUnique<ViewportMenu>(*this));
 	mMenus.Add(gMakeUnique<EntitySpawnerMenu>(*this));
 
 	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(cEditorJsonPath);
@@ -41,15 +43,6 @@ EditorApp::~EditorApp()
 
 void EditorApp::Update(float inDeltaTime)
 {
-	{
-		// Render the game to the game render target
-		Renderer::ScopedRenderTarget scoped_render_target(mGameRenderTarget);
-		mGameApp->Update(inDeltaTime);
-	}
-	Transform2D transform;
-	transform.mHalfSize = FVec2(800, 600) / 2.0f;
-	gEngine->GetManager<Renderer>().DrawTexture(mGameRenderTarget, transform);
-
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("Menus"))
