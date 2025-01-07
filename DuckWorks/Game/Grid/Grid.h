@@ -34,6 +34,9 @@ public:
 	const GridTile& GetTile(const DC::UVec2& inTilePosition) const;
 	const GridTile& GetTile(uint inTileX, uint inTileY) const;
 
+	[[nodiscard]]
+	const DC::UVec2& GetSize() const { return mSize; }
+
 private:
 	// [width * height] amount of tiles 
 	DC::Array<GridTile> mTiles;

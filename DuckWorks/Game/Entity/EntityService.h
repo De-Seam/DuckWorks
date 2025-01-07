@@ -1,5 +1,6 @@
 #pragma once
 #include <DuckCore/Containers/Array.h>
+#include <DuckCore/Containers/Pair.h>
 #include <DuckCore/Containers/UniquePtr.h>
 #include <DuckCore/Utilities/Utilities.h>
 
@@ -23,6 +24,9 @@ public:
 	template<typename taType>
 	taType* CreateEntitySystem();
 
+	template<typename taType>
+	void RegisterEntityType();
+
 	void AddEntity(const DC::Ref<Entity>& inEntity);
 	void RemoveEntity(const DC::Ref<Entity>& inEntity);
 
@@ -32,6 +36,8 @@ private:
 	void AddEntitySystem(DC::UniquePtr<EntitySystem> inEntitySystem);
 
 	DC::Ref<WorldUpdateHandle> mWorldUpdateHandle;
+
+	DC::Array<DC::Pair<DC::RTTI*, std::function<Entity*(World&)>>> mEntityTypesAndConstructors;
 
 	DC::Array<DC::Ref<Entity>> mEntities;
 
@@ -47,4 +53,17 @@ taType* EntityService::CreateEntitySystem()
 	taType* entity_system_ptr = entity_system;
 	AddEntitySystem(DC::UniquePtr<EntitySystem>(DC::gMove(entity_system)));
 	return entity_system_ptr;
+}
+
+template <typename taType>
+void EntityService::RegisterEntityType()
+{
+	DC::RTTI* rtti = &taType::sGetRTTI();
+	gAssert(
+	mEntityTypesAndConstructors.FindIf([rtti](const DC::Pair<DC::RTTI*, std::function<Entity*(World&)>>& pair)
+	{
+		return pair.mFirst == rtti;
+	}) == -1, "Entity type was already registered.");
+
+	mEntityTypesAndConstructors.Add(&taType::sGetRTTI(), [](World& inWorld) { return new taType(inWorld); });
 }

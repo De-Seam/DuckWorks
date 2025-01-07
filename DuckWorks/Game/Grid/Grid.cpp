@@ -18,7 +18,7 @@ Grid::Grid(UVec2 inSize) :
 
 Ref<Entity> Grid::GetEntityInTile(const UVec2& inTilePosition)
 {
-	GetTile(inTilePosition).GetEntity();
+	return GetTile(inTilePosition).GetEntity();
 }
 
 int Grid::GetTileIndex(const UVec2& inTilePosition) const { return inTilePosition.mX + inTilePosition.mY * mSize.mX; }
