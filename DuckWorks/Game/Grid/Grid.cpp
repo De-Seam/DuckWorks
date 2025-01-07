@@ -2,6 +2,12 @@
 
 using namespace DC;
 
+void GridTile::SetEntity(Entity& inEntity)
+{
+	mEntity = &inEntity;
+	mEntityHandle = inEntity.GetEntityHandle();
+}
+
 Grid::Grid(UVec2 inSize) :
 	mSize(gMove(inSize))
 {
@@ -12,10 +18,7 @@ Grid::Grid(UVec2 inSize) :
 
 Ref<Entity> Grid::GetEntityInTile(const UVec2& inTilePosition)
 {
-	WeakRef<Entity>& entity = GetTile(inTilePosition).mEntity;
-	if (!entity.IsAlive())
-		return nullptr;
-	return entity.Ref();
+	GetTile(inTilePosition).GetEntity();
 }
 
 int Grid::GetTileIndex(const UVec2& inTilePosition) const { return inTilePosition.mX + inTilePosition.mY * mSize.mX; }

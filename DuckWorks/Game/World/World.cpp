@@ -30,7 +30,8 @@ World::World()
 	RegisterComponent<TransformComponent>();
 	RegisterComponent<SpriteRenderComponent>();
 	RegisterComponent<VelocityComponent>();
-	RegisterComponent<PlayerMovementComponent>();
+	RegisterComponent<MovementComponent>();
+	RegisterComponent<BlockingComponent>();
 
 	CreateService<EntityService>();
 	CreateService<GridService>();
