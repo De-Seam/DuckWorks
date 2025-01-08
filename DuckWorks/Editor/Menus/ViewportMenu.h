@@ -18,4 +18,5 @@ public:
 private:
 	DC::UniquePtr<GameApp> mGameApp;
 	SDL_Texture* mGameRenderTarget = nullptr;
+	DC::UVec2 mGameRenderTargetSize = { 800, 600 };
 };

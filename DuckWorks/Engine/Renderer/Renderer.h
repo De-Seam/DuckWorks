@@ -31,7 +31,9 @@ public:
 
 	void SetWindowSize(DC::IVec2 inSize);
 
+	[[nodiscard]]
 	SDL_Texture* CreateTexture(DC::IVec2 inSize);
+	void DestroyTexture(SDL_Texture*& ioTexture);
 
 	void DrawTexture(SDL_Texture* inTexture,const DC::Transform2D& inTransform);
 	void DrawSprite(const Sprite& inSprite, const DC::Transform2D& inTransform);

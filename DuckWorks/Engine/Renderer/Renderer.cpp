@@ -92,6 +92,13 @@ SDL_Texture* Renderer::CreateTexture(DC::IVec2 inSize)
 	return SDL_CreateTexture(mRenderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,inSize.mX,inSize.mY);
 }
 
+void Renderer::DestroyTexture(SDL_Texture*& ioTexture)
+{
+	gAssert(ioTexture != nullptr);
+	SDL_DestroyTexture(ioTexture);
+	ioTexture = nullptr;
+}
+
 void Renderer::DrawTexture(SDL_Texture* inTexture, const DC::Transform2D& inTransform)
 {
 	SDL_FRect dest_rect;
