@@ -6,6 +6,7 @@
 #include <Engine/Resources/JsonFile.h>
 
 #include <Editor/Menus/EntitySpawnerMenu.h>
+#include <Editor/Menus/OutlinerMenu.h>
 #include <Editor/Menus/ViewportMenu.h>
 
 #include <imgui/imgui.h>
@@ -16,6 +17,7 @@ EditorApp::EditorApp()
 {
 	mMenus.Add(gMakeUnique<ViewportMenu>(*this));
 	mMenus.Add(gMakeUnique<EntitySpawnerMenu>(*this));
+	mMenus.Add(gMakeUnique<OutlinerMenu>(*this));
 
 	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(cEditorJsonPath);
 	const Json& json = editor_json_file->GetJson();

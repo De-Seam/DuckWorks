@@ -99,6 +99,7 @@
     <ClCompile Include="Editor\EditorApp.cpp" />
     <ClCompile Include="Editor\Menus\EditorMenu.cpp" />
     <ClCompile Include="Editor\Menus\EntitySpawnerMenu.cpp" />
+    <ClCompile Include="Editor\Menus\OutlinerMenu.cpp" />
     <ClCompile Include="Editor\Menus\ViewportMenu.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Events\SDLEventManager.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Editor\EditorApp.h" />
     <ClInclude Include="Editor\Menus\EditorMenu.h" />
     <ClInclude Include="Editor\Menus\EntitySpawnerMenu.h" />
+    <ClInclude Include="Editor\Menus\OutlinerMenu.h" />
     <ClInclude Include="Editor\Menus\ViewportMenu.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Events\SDLEventManager.h" />
