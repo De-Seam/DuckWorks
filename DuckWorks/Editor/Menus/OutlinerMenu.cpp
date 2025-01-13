@@ -25,6 +25,7 @@ void OutlinerMenu::Update(float inDeltaTime)
 		const Entity* entity = entities[i];
 		if (ImGui::TreeNode(entity->GetRTTI().GetClassName()))
 		{
+			DrawEntity(world->GetService<EntityService>().GetEntity(*entity));
 			ImGui::TreePop();
 		}
 
@@ -32,4 +33,33 @@ void OutlinerMenu::Update(float inDeltaTime)
 	}
 
 	ImGui::End();
+}
+
+void OutlinerMenu::DrawEntity(Entity& inEntity)
+{
+	World& world = inEntity.GetWorld();
+
+	const HashMap<uint64, World::ComponentData>& component_type_to_data = world.GetComponentTypeToDataMap();
+	component_type_to_data.ForEach([&world, &inEntity](uint64 inComponentType, const World::ComponentData& inComponentData)
+	{
+		ImGui::PushID(inComponentType);
+
+		if (!world.HasComponent(inEntity.GetEntityHandle(), inComponentType))
+		{
+			String button_text = "Add ";
+			button_text += inComponentData.mName;
+			if (ImGui::Button(*button_text))
+				world.AddComponent(inEntity.GetEntityHandle(), inComponentType);
+
+			ImGui::PopID();
+			return;
+		}
+
+		if (ImGui::TreeNode(*inComponentData.mName))
+		{
+			ImGui::TreePop();
+		}
+
+		ImGui::PopID();
+	});
 }

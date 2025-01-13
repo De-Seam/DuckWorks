@@ -103,6 +103,14 @@ public:
 	const DC::String& GetComponentName(uint64 inComponentTypeIDHashCode) const;
 	void GetComponentNames(DC::Array<DC::String>& outComponentNames) const;
 	void GetComponentNamesAndTypeIDHashCodes(DC::Array<DC::Pair<DC::String, uint64>>& outComponentNamesAndTypeIDHashCodes) const;
+	struct ComponentData
+	{
+		DC::String mName;
+		std::function<void(entt::registry&, entt::entity)> mAddComponentFunc;
+		std::function<void(entt::registry&, entt::entity)> mRemoveComponentFunc;
+		std::function<bool(const entt::registry&, entt::entity)> mHasComponentFunc;
+	};
+	const DC::HashMap<uint64, ComponentData>& GetComponentTypeToDataMap() const { return mComponentTypeToData; }
 
 private:
 	void UnregisterTickCallback(const WorldTickHandle& inHandle);
@@ -111,13 +119,6 @@ private:
 	DC::HashMap<DC::RTTITypeID, DC::UniquePtr<Service>> mServices;
 
 	entt::registry mRegistry;
-	struct ComponentData
-	{
-		DC::String mName;
-		std::function<void(entt::registry&, entt::entity)> mAddComponentFunc;
-		std::function<void(entt::registry&, entt::entity)> mRemoveComponentFunc;
-		std::function<bool(const entt::registry&, entt::entity)> mHasComponentFunc;
-	};
 	DC::HashMap<uint64, ComponentData> mComponentTypeToData;
 
 	struct TickCallback

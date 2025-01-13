@@ -31,6 +31,7 @@ public:
 	void RemoveEntity(const DC::Ref<Entity>& inEntity);
 
 	const DC::Array<DC::Ref<Entity>>& GetEntities() const { return mEntities; }
+	Entity& GetEntity(const Entity& inEntity);
 
 	void Update(float inDeltaTime);
 

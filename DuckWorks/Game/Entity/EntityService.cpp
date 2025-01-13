@@ -29,6 +29,12 @@ void EntityService::RemoveEntity(const DC::Ref<Entity>& inEntity)
 	mEntities.SwapRemove(index);
 }
 
+Entity& EntityService::GetEntity(const Entity& inEntity)
+{
+	gAssert(mEntities.Contains(&inEntity));
+	return *const_cast<Entity*>(&inEntity);
+}
+
 void EntityService::Update(float inDeltaTime)
 {
 	mTimeSinceTick += inDeltaTime;
