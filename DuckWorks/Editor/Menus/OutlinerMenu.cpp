@@ -18,9 +18,18 @@ void OutlinerMenu::Update(float inDeltaTime)
 
 	World* world = GetEditorApp().GetMenu<ViewportMenu>().GetGameApp()->GetWorld();
 	const Array<Ref<Entity>>& entities = world->GetService<EntityService>().GetEntities();
-	for (const Entity* entity : entities)
+	for (int i = 0; i < entities.Length(); i++)
 	{
-		ImGui::Text(entity->GetRTTI().GetClassName());
+		ImGui::PushID(i);
+
+		const Entity* entity = entities[i];
+		String entity_label = String(entity->GetRTTI().GetClassName()) + "##" + gToString(i);
+		if (ImGui::TreeNode(entity->GetRTTI().GetClassName()))
+		{
+			ImGui::TreePop();
+		}
+
+		ImGui::PopID();
 	}
 
 	ImGui::End();
