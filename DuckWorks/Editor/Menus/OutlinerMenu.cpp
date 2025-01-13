@@ -23,7 +23,6 @@ void OutlinerMenu::Update(float inDeltaTime)
 		ImGui::PushID(i);
 
 		const Entity* entity = entities[i];
-		String entity_label = String(entity->GetRTTI().GetClassName()) + "##" + gToString(i);
 		if (ImGui::TreeNode(entity->GetRTTI().GetClassName()))
 		{
 			ImGui::TreePop();
