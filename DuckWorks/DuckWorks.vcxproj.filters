@@ -233,5 +233,8 @@
     <ClInclude Include="Editor\Menus\OutlinerMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Entity\Components\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

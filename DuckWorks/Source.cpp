@@ -15,6 +15,23 @@
 
 // Std includes
 #include <chrono>
+#include <DuckCore/Core/Core.h>
+#include <Editor/Menus/EntitySpawnerMenu.h>
+#include <Editor/Menus/OutlinerMenu.h>
+#include <Editor/Menus/ViewportMenu.h>
+#include <Engine/Events/SDLEventManager.h>
+#include <Engine/Files/FileManager.h>
+#include <Engine/Objects/ObjectManager.h>
+#include <Engine/Renderer/TextureResource.h>
+#include <Engine/Resources/ResourceManager.h>
+#include <Game/Entity/Character.h>
+#include <Game/Entity/EntityService.h>
+#include <Game/Entity/Pawn.h>
+#include <Game/Entity/Components/Component.h>
+#include <Game/Entity/Components/GameplayComponents.h>
+#include <Game/Entity/Components/RenderComponent.h>
+#include <Game/World/Service.h>
+#include <Game/World/World.h>
 
 void gMainLoop()
 {
@@ -46,6 +63,8 @@ void gMainLoop()
 	}
 }
 
+void gRegisterRTTI();
+
 /**
 Order of initialization:
 GameModule constructor: Register classes
@@ -57,6 +76,8 @@ int main(int argc, char* argv[])
 {
 	(void)argc;
 	(void)argv;
+
+	gRegisterRTTI();
 
 	Engine engine;
 
@@ -78,3 +99,35 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+
+void gRegisterRTTI()
+{
+	DC::gRegisterCoreRTTI();
+
+	REGISTER_RTTI(Object);
+	REGISTER_RTTI(EditorMenu);
+	REGISTER_RTTI(EntitySpawnerMenu);
+	REGISTER_RTTI(OutlinerMenu);
+	REGISTER_RTTI(ViewportMenu);
+	REGISTER_RTTI(Manager);
+	REGISTER_RTTI(SDLEventManager);
+	REGISTER_RTTI(FileManager);
+	REGISTER_RTTI(ObjectManager);
+	REGISTER_RTTI(Renderer);
+	REGISTER_RTTI(TextureResource);
+	REGISTER_RTTI(Resource);
+	REGISTER_RTTI(ResourceManager);
+	REGISTER_RTTI(Entity);
+	REGISTER_RTTI(World);
+	REGISTER_RTTI(Pawn);
+	REGISTER_RTTI(Service);
+	REGISTER_RTTI(EntityService);
+	REGISTER_RTTI(Character);
+	REGISTER_RTTI(ComponentBase);
+	REGISTER_RTTI(SpriteRenderComponent);
+	REGISTER_RTTI(MovementComponent);
+	REGISTER_RTTI(BlockingComponent);
+	REGISTER_RTTI(VelocityComponent);
+	REGISTER_RTTI(TransformComponent);
+}
+

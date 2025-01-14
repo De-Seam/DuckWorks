@@ -151,6 +151,7 @@
     <ClInclude Include="Engine\Resources\Resource.h" />
     <ClInclude Include="Engine\Resources\ResourceManager.h" />
     <ClInclude Include="Game\Entity\Character.h" />
+    <ClInclude Include="Game\Entity\Components\Component.h" />
     <ClInclude Include="Game\Entity\Components\GameplayComponents.h" />
     <ClInclude Include="Game\Entity\Components\RenderComponent.h" />
     <ClInclude Include="Game\Entity\Entity.h" />

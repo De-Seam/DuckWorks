@@ -1,8 +1,10 @@
+#include <DuckCore/RTTI/RTTIRegistry.h>
 #include <Editor/EditorApp.h>
 #include <Editor/Menus/OutlinerMenu.h>
 #include <Editor/Menus/ViewportMenu.h>
 #include <Game/Entity/Entity.h>
 #include <Game/Entity/EntityService.h>
+#include <Game/Entity/Components/Component.h>
 #include <Game/World/World.h>
 
 #include <imgui/imgui.h>
@@ -38,6 +40,9 @@ void OutlinerMenu::Update(float inDeltaTime)
 void OutlinerMenu::DrawEntity(Entity& inEntity)
 {
 	World& world = inEntity.GetWorld();
+
+	Array<RTTI*> child_components;
+	gRTTIRegistry.GetChildClassesOf<ComponentBase>(child_components);
 
 	const HashMap<uint64, World::ComponentData>& component_type_to_data = world.GetComponentTypeToDataMap();
 	component_type_to_data.ForEach([&world, &inEntity](uint64 inComponentType, const World::ComponentData& inComponentData)

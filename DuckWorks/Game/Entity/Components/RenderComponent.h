@@ -2,7 +2,9 @@
 // Engine includes
 #include <Engine/Renderer/Sprite.h>
 
-struct SpriteRenderComponent
+struct SpriteRenderComponent : public ComponentBase
 {
+	RTTI_CLASS(SpriteRenderComponent, ComponentBase)
+public:
 	DC::Ref<Sprite> mSprite;
 };
