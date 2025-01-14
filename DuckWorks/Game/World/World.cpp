@@ -124,6 +124,13 @@ bool World::HasComponent(entt::entity inEntity, RTTI& inRTTI)
 	return component_data->mHasComponentFunc(mRegistry, inEntity);
 }
 
+ComponentBase* World::GetComponent(entt::entity inEntity, RTTI& inRTTI)
+{
+	ComponentData* component_data = mRTTIToComponentData.Find(&inRTTI);
+	gAssert(component_data != nullptr);
+	return component_data->mGetComponentFunc(mRegistry, inEntity);
+}
+
 void World::GetComponentNames(Array<String>& outComponentNames) const
 {
 	gAssert(outComponentNames.IsEmpty());

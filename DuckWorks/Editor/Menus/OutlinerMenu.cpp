@@ -63,6 +63,8 @@ void OutlinerMenu::DrawEntity(Entity& inEntity)
 
 		if (ImGui::TreeNode(component_rtti->GetClassName()))
 		{
+			ComponentBase* component = world.GetComponent(inEntity.GetEntityHandle(), *component_rtti);
+			component->UpdateImGui();
 			ImGui::TreePop();
 		}
 

@@ -113,6 +113,7 @@
     <ClCompile Include="Engine\Resources\JsonFile.cpp" />
     <ClCompile Include="Engine\Resources\Resource.cpp" />
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
+    <ClCompile Include="Game\Entity\Components\GameplayComponents.cpp" />
     <ClCompile Include="Game\Entity\Entity.cpp" />
     <ClCompile Include="Game\Entity\EntityService.cpp" />
     <ClCompile Include="Game\Entity\Systems\EntitySystem.cpp" />

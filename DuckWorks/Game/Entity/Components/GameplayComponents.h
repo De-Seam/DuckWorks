@@ -8,6 +8,8 @@ struct TransformComponent : public ComponentBase
 	RTTI_CLASS(TransformComponent, ComponentBase)
 public:
 	DC::Transform2D mTransform;
+
+	virtual void UpdateImGui() override;
 };
 
 struct VelocityComponent : public ComponentBase

@@ -13,6 +13,7 @@
 #include <DuckCore/Containers/Pair.h>
 #include <External/entt/entity/registry.hpp>
 
+struct ComponentBase;
 class Entity;
 class World;
 
@@ -100,6 +101,7 @@ public:
 	void AddComponent(entt::entity inEntity, DC::RTTI& inRTTI);
 	void RemoveComponent(entt::entity inEntity, DC::RTTI& inRTTI);
 	bool HasComponent(entt::entity inEntity, DC::RTTI& inRTTI);
+	ComponentBase* GetComponent(entt::entity inEntity, DC::RTTI& inRTTI);
 	void GetComponentNames(DC::Array<DC::String>& outComponentNames) const;
 	struct ComponentData
 	{
@@ -107,6 +109,7 @@ public:
 		std::function<void(entt::registry&, entt::entity)> mAddComponentFunc;
 		std::function<void(entt::registry&, entt::entity)> mRemoveComponentFunc;
 		std::function<bool(const entt::registry&, entt::entity)> mHasComponentFunc;
+		std::function<ComponentBase*(entt::registry&, entt::entity)> mGetComponentFunc;
 	};
 	const DC::HashMap<DC::RTTI*, ComponentData>& GetRTTIToComponentDataMap() const { return mRTTIToComponentData; }
 
@@ -180,5 +183,9 @@ void World::RegisterComponent()
 	component_data.mHasComponentFunc = [](const entt::registry& inRegistry, entt::entity inEntity)
 	{
 		return inRegistry.any_of<taComponent>(inEntity);
+	};
+	component_data.mGetComponentFunc = [](entt::registry& ioRegistry, entt::entity inEntity)
+	{
+		return &ioRegistry.get<taComponent>(inEntity);
 	};
 }
