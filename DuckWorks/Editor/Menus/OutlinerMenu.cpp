@@ -44,27 +44,28 @@ void OutlinerMenu::DrawEntity(Entity& inEntity)
 	Array<RTTI*> child_components;
 	gRTTIRegistry.GetChildClassesOf<ComponentBase>(child_components);
 
-	const HashMap<uint64, World::ComponentData>& component_type_to_data = world.GetComponentTypeToDataMap();
-	component_type_to_data.ForEach([&world, &inEntity](uint64 inComponentType, const World::ComponentData& inComponentData)
+	for (int i = 0; i < child_components.Length(); i++)
 	{
-		ImGui::PushID(inComponentType);
+		ImGui::PushID(i);
 
-		if (!world.HasComponent(inEntity.GetEntityHandle(), inComponentType))
+		RTTI* component_rtti = child_components[i];
+
+		if (!world.HasComponent(inEntity.GetEntityHandle(), *component_rtti))
 		{
 			String button_text = "Add ";
-			button_text += inComponentData.mName;
+			button_text += component_rtti->GetClassName();
 			if (ImGui::Button(*button_text))
-				world.AddComponent(inEntity.GetEntityHandle(), inComponentType);
+				world.AddComponent(inEntity.GetEntityHandle(), *component_rtti);
 
 			ImGui::PopID();
 			return;
 		}
 
-		if (ImGui::TreeNode(*inComponentData.mName))
+		if (ImGui::TreeNode(component_rtti->GetClassName()))
 		{
 			ImGui::TreePop();
 		}
 
 		ImGui::PopID();
-	});
+	}
 }

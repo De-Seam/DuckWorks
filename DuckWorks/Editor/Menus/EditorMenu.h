@@ -10,8 +10,8 @@ class EditorMenu : public Object
 public:
 	EditorMenu(EditorApp& inEditorApp) : mEditorApp(&inEditorApp) {}
 
-	virtual DC::Json Serialize() const;
-	virtual void Deserialize(const DC::Json& inJson);
+	virtual DC::Json ToJson() const;
+	virtual void FromJson(const DC::Json& inJson);
 
 	virtual void Update(float inDeltaTime);
 

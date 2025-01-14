@@ -97,20 +97,18 @@ public:
 
 	template<typename taComponent>
 	void RegisterComponent();
-	void AddComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode);
-	void RemoveComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode);
-	bool HasComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode);
-	const DC::String& GetComponentName(uint64 inComponentTypeIDHashCode) const;
+	void AddComponent(entt::entity inEntity, DC::RTTI& inRTTI);
+	void RemoveComponent(entt::entity inEntity, DC::RTTI& inRTTI);
+	bool HasComponent(entt::entity inEntity, DC::RTTI& inRTTI);
 	void GetComponentNames(DC::Array<DC::String>& outComponentNames) const;
-	void GetComponentNamesAndTypeIDHashCodes(DC::Array<DC::Pair<DC::String, uint64>>& outComponentNamesAndTypeIDHashCodes) const;
 	struct ComponentData
 	{
-		DC::String mName;
+		DC::RTTI* mRTTI = nullptr;
 		std::function<void(entt::registry&, entt::entity)> mAddComponentFunc;
 		std::function<void(entt::registry&, entt::entity)> mRemoveComponentFunc;
 		std::function<bool(const entt::registry&, entt::entity)> mHasComponentFunc;
 	};
-	const DC::HashMap<uint64, ComponentData>& GetComponentTypeToDataMap() const { return mComponentTypeToData; }
+	const DC::HashMap<DC::RTTI*, ComponentData>& GetRTTIToComponentDataMap() const { return mRTTIToComponentData; }
 
 private:
 	void UnregisterTickCallback(const WorldTickHandle& inHandle);
@@ -119,7 +117,7 @@ private:
 	DC::HashMap<DC::RTTITypeID, DC::UniquePtr<Service>> mServices;
 
 	entt::registry mRegistry;
-	DC::HashMap<uint64, ComponentData> mComponentTypeToData;
+	DC::HashMap<DC::RTTI*, ComponentData> mRTTIToComponentData;
 
 	struct TickCallback
 	{
@@ -167,11 +165,10 @@ taType& World::GetService()
 template <typename taComponent>
 void World::RegisterComponent()
 {
-	const std::type_info& type_info = typeid(taComponent);
-	const uint64 hash_code = type_info.hash_code();
-	gAssert(!mComponentTypeToData.Contains(hash_code));
-	ComponentData& component_data = mComponentTypeToData[hash_code];
-	component_data.mName = type_info.name();
+	DC::RTTI* rtti = &taComponent::sGetRTTI();
+	gAssert(!mRTTIToComponentData.Contains(rtti));
+	ComponentData& component_data = mRTTIToComponentData[rtti];
+	component_data.mRTTI = rtti;
 	component_data.mAddComponentFunc = [](entt::registry& ioRegistry, entt::entity inEntity)
 	{
 		ioRegistry.emplace<taComponent>(inEntity);

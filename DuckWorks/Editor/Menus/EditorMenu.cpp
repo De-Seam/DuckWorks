@@ -1,13 +1,13 @@
 #include <Editor/Menus/EditorMenu.h>
 
-DC::Json EditorMenu::Serialize() const
+DC::Json EditorMenu::ToJson() const
 {
 	DC::Json json;
 	json["mIsOpen"] = mIsOpen;
 	return json;
 }
 
-void EditorMenu::Deserialize(const DC::Json& inJson)
+void EditorMenu::FromJson(const DC::Json& inJson)
 {
 	if (auto it = inJson.find("mIsOpen"); it != inJson.end())
 		mIsOpen = it.value();

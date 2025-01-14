@@ -103,48 +103,33 @@ Ref<WorldUpdateHandle> World::RegisterUpdateCallback(std::function<void(float)> 
 	return handle;
 }
 
-void World::AddComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode)
+void World::AddComponent(entt::entity inEntity, RTTI& inRTTI)
 {
-	ComponentData* component_data = mComponentTypeToData.Find(inComponentTypeIDHashCode);
+	ComponentData* component_data = mRTTIToComponentData.Find(&inRTTI);
 	gAssert(component_data != nullptr);
 	component_data->mAddComponentFunc(mRegistry, inEntity);
 }
 
-void World::RemoveComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode)
+void World::RemoveComponent(entt::entity inEntity, RTTI& inRTTI)
 {
-	ComponentData* component_data = mComponentTypeToData.Find(inComponentTypeIDHashCode);
+	ComponentData* component_data = mRTTIToComponentData.Find(&inRTTI);
 	gAssert(component_data != nullptr);
 	component_data->mRemoveComponentFunc(mRegistry, inEntity);
 }
 
-bool World::HasComponent(entt::entity inEntity, uint64 inComponentTypeIDHashCode)
+bool World::HasComponent(entt::entity inEntity, RTTI& inRTTI)
 {
-	ComponentData* component_data = mComponentTypeToData.Find(inComponentTypeIDHashCode);
+	ComponentData* component_data = mRTTIToComponentData.Find(&inRTTI);
 	gAssert(component_data != nullptr);
 	return component_data->mHasComponentFunc(mRegistry, inEntity);
-}
-
-const String& World::GetComponentName(uint64 inComponentTypeIDHashCode) const
-{
-	const ComponentData& component_data = mComponentTypeToData.At(inComponentTypeIDHashCode);
-	return component_data.mName;
 }
 
 void World::GetComponentNames(Array<String>& outComponentNames) const
 {
 	gAssert(outComponentNames.IsEmpty());
-	mComponentTypeToData.ForEach([&outComponentNames](const uint64& inKey, const ComponentData& inValue)
+	mRTTIToComponentData.ForEach([&outComponentNames](const RTTI* inKey, const ComponentData&)
 	{
-		outComponentNames.Emplace(inValue.mName);
-	});
-}
-
-void World::GetComponentNamesAndTypeIDHashCodes(Array<Pair<String, uint64>>& outComponentNamesAndTypeIDHashCodes) const
-{
-	gAssert(outComponentNamesAndTypeIDHashCodes.IsEmpty());
-	mComponentTypeToData.ForEach([&outComponentNamesAndTypeIDHashCodes](const uint64& inKey, const ComponentData& inValue)
-	{
-		outComponentNamesAndTypeIDHashCodes.Emplace(inValue.mName, inKey);
+		outComponentNames.Emplace(inKey->GetClassName());
 	});
 }
 

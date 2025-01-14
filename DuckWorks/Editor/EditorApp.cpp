@@ -27,7 +27,7 @@ EditorApp::EditorApp()
 		for (EditorMenu* menu : mMenus)
 		{
 			if (auto it = menus_json->find(menu->GetRTTI().GetClassName()); it != menus_json->end())
-				menu->Deserialize(*it);
+				menu->FromJson(*it);
 		}
 	}
 }
@@ -38,7 +38,7 @@ EditorApp::~EditorApp()
 	Json& menus_json = json["mMenus"];
 
 	for (EditorMenu* menu : mMenus)
-		menus_json[menu->GetRTTI().GetClassName()] = menu->Serialize();
+		menus_json[menu->GetRTTI().GetClassName()] = menu->ToJson();
 
 	gEngine->GetManager<FileManager>().WriteToFile(cEditorJsonPath, json.dump(4));
 }
