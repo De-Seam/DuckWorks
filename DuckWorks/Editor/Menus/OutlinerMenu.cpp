@@ -50,22 +50,20 @@ void OutlinerMenu::DrawEntity(Entity& inEntity)
 
 		RTTI* component_rtti = child_components[i];
 
-		if (!world.HasComponent(inEntity.GetEntityHandle(), *component_rtti))
+		if (world.HasComponent(inEntity.GetEntityHandle(), *component_rtti))
+		{
+			if (ImGui::TreeNode(component_rtti->GetClassName()))
+			{
+				ComponentBase* component = world.GetComponent(inEntity.GetEntityHandle(), *component_rtti);
+				component->UpdateImGui();
+			}
+		}
+		else 
 		{
 			String button_text = "Add ";
 			button_text += component_rtti->GetClassName();
 			if (ImGui::Button(*button_text))
 				world.AddComponent(inEntity.GetEntityHandle(), *component_rtti);
-
-			ImGui::PopID();
-			return;
-		}
-
-		if (ImGui::TreeNode(component_rtti->GetClassName()))
-		{
-			ComponentBase* component = world.GetComponent(inEntity.GetEntityHandle(), *component_rtti);
-			component->UpdateImGui();
-			ImGui::TreePop();
 		}
 
 		ImGui::PopID();
