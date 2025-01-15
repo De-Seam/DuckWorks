@@ -239,5 +239,8 @@
     <ClInclude Include="Game\Entity\Components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\Utilities\ImGuiHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

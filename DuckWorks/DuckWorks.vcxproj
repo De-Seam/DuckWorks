@@ -138,6 +138,7 @@
     <ClInclude Include="Editor\Menus\EntitySpawnerMenu.h" />
     <ClInclude Include="Editor\Menus\OutlinerMenu.h" />
     <ClInclude Include="Editor\Menus\ViewportMenu.h" />
+    <ClInclude Include="Editor\Utilities\ImGuiHelper.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Events\SDLEventManager.h" />
     <ClInclude Include="Engine\Files\FileManager.h" />
