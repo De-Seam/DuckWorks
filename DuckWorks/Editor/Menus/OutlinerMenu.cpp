@@ -56,6 +56,7 @@ void OutlinerMenu::DrawEntity(Entity& inEntity)
 			{
 				ComponentBase* component = world.GetComponent(inEntity.GetEntityHandle(), *component_rtti);
 				component->UpdateImGui();
+				ImGui::TreePop();
 			}
 		}
 		else 

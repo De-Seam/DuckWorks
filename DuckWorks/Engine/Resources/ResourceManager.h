@@ -158,7 +158,7 @@ taType* ResourceManager::Find(const DC::GUID& inGUID)
 		gLog(DC::LogLevel::Error, DC::String::sFormatted("Resource %s was not found in file %s.", *inGUID.ToString(), **json_path_ptr));
 		return nullptr;
 	}
-	return *resource_ptr;
+	return &resource_ptr->Get()->Cast<taType>();
 }
 
 template<typename taResourceType>
