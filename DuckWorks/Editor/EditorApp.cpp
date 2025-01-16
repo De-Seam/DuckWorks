@@ -15,6 +15,8 @@ using namespace DC;
 
 EditorApp::EditorApp()
 {
+	mEditorSettings = gMakeUnique<EditorSettings>();
+
 	mMenus.Add(gMakeUnique<ViewportMenu>(*this));
 	mMenus.Add(gMakeUnique<EntitySpawnerMenu>(*this));
 	mMenus.Add(gMakeUnique<OutlinerMenu>(*this));
@@ -39,6 +41,8 @@ EditorApp::~EditorApp()
 
 	for (EditorMenu* menu : mMenus)
 		menus_json[menu->GetRTTI().GetClassName()] = menu->ToJson();
+
+	json["mEditorSettings"] = mEditorSettings->ToJson();
 
 	gEngine->GetManager<FileManager>().WriteToFile(cEditorJsonPath, json.dump(4));
 }

@@ -162,14 +162,6 @@ taType* ResourceManager::Find(const DC::GUID& inGUID)
 }
 
 template<typename taResourceType>
-inline void to_json(DC::Json& outJson, const DC::Ref<taResourceType>& inResource)
-{
-	if (inResource == nullptr)
-		return;
-	outJson["mGUID"] = inResource->GetGUID();
-}
-
-template<typename taResourceType>
 inline void from_json(const DC::Json& inJson, DC::Ref<taResourceType>& outResource)
 {
 	const DC::GUID& guid = inJson["mGUID"];

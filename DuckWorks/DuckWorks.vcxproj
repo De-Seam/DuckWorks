@@ -97,9 +97,11 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="CryptChat\CryptChatApp.cpp" />
     <ClCompile Include="Editor\EditorApp.cpp" />
+    <ClCompile Include="Editor\EditorSettings.cpp" />
     <ClCompile Include="Editor\Menus\EditorMenu.cpp" />
     <ClCompile Include="Editor\Menus\EntitySpawnerMenu.cpp" />
     <ClCompile Include="Editor\Menus\OutlinerMenu.cpp" />
+    <ClCompile Include="Editor\Menus\SettingsMenu.cpp" />
     <ClCompile Include="Editor\Menus\ViewportMenu.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Events\SDLEventManager.cpp" />
@@ -138,6 +140,7 @@
     <ClInclude Include="Editor\Menus\EditorMenu.h" />
     <ClInclude Include="Editor\Menus\EntitySpawnerMenu.h" />
     <ClInclude Include="Editor\Menus\OutlinerMenu.h" />
+    <ClInclude Include="Editor\Menus\SettingsMenu.h" />
     <ClInclude Include="Editor\Menus\ViewportMenu.h" />
     <ClInclude Include="Editor\EditorSettings.h" />
     <ClInclude Include="Editor\Utilities\ImGuiHelper.h" />

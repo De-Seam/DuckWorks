@@ -1,4 +1,5 @@
 #pragma once
+#include <DuckCore/Containers/String.h>
 #include <Game/Entity/Entity.h>
 
 class Pawn : public Entity

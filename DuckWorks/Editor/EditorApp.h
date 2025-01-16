@@ -1,5 +1,6 @@
 #pragma once
 #include <App/App.h>
+#include <Editor/EditorSettings.h>
 
 #include <Editor/Menus/EditorMenu.h>
 
@@ -20,6 +21,8 @@ public:
 
 private:
 	DC::Array<DC::UniquePtr<EditorMenu>> mMenus;
+
+	DC::UniquePtr<EditorSettings> mEditorSettings;
 };
 
 template <typename taType>
