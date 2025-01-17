@@ -1,10 +1,13 @@
 #pragma once
 #include <DuckCore/Math/Vector.h>
+#include <Engine/Resources/Resource.h>
 #include <imgui/imgui.h>
 
 class ImGuiHelpers
 {
 public:
+	static void sDrawResourceLink(const char* inLabel, DC::Ref<Resource>& ioResource);
+
 	template<typename taType>
 	static bool sDraw(const char* inLabel, DC::Vec2<taType>& ioVec, taType inStep = 0, taType inStepFast = 0, const char* inFormat = nullptr, ImGuiInputTextFlags inFlags = ImGuiInputTextFlags_None);
 };

@@ -1,3 +1,4 @@
+#include <Editor/EditorApp.h>
 #include <Editor/Menus/SettingsMenu.h>
 #include <imgui/imgui.h>
 
@@ -9,6 +10,8 @@ void SettingsMenu::Update(float inDeltaTime)
 		return;
 
 	ImGui::Begin("Settings", &mIsOpen);
+
+	EditorSettings& settings = GetEditorApp().GetEditorSettings();
 
 	
 	ImGui::End();

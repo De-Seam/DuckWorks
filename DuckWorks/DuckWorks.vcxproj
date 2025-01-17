@@ -101,8 +101,10 @@
     <ClCompile Include="Editor\Menus\EditorMenu.cpp" />
     <ClCompile Include="Editor\Menus\EntitySpawnerMenu.cpp" />
     <ClCompile Include="Editor\Menus\OutlinerMenu.cpp" />
+    <ClCompile Include="Editor\Menus\ResourceSelectorMenu.cpp" />
     <ClCompile Include="Editor\Menus\SettingsMenu.cpp" />
     <ClCompile Include="Editor\Menus\ViewportMenu.cpp" />
+    <ClCompile Include="Editor\Utilities\ImGuiHelper.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Events\SDLEventManager.cpp" />
     <ClCompile Include="Engine\Files\FileManager.cpp" />
@@ -140,6 +142,7 @@
     <ClInclude Include="Editor\Menus\EditorMenu.h" />
     <ClInclude Include="Editor\Menus\EntitySpawnerMenu.h" />
     <ClInclude Include="Editor\Menus\OutlinerMenu.h" />
+    <ClInclude Include="Editor\Menus\ResourceSelectorMenu.h" />
     <ClInclude Include="Editor\Menus\SettingsMenu.h" />
     <ClInclude Include="Editor\Menus\ViewportMenu.h" />
     <ClInclude Include="Editor\EditorSettings.h" />

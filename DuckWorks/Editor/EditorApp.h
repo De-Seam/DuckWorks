@@ -19,6 +19,9 @@ public:
 	template<typename taType>
 	taType& GetMenu();
 
+	const EditorSettings& GetEditorSettings() const { return *mEditorSettings; }
+	EditorSettings& GetEditorSettings() { return *mEditorSettings; }
+
 private:
 	DC::Array<DC::UniquePtr<EditorMenu>> mMenus;
 
