@@ -24,10 +24,10 @@ void ViewportMenu::Update(float inDeltaTime)
 	ImGui::Begin("Viewport", &mIsOpen);
 
 	ImVec2 region_available_flt = ImGui::GetContentRegionAvail();
-	IVec2 region_available =
+	UVec2 region_available =
 	{
-		gStaticCast<int>(region_available_flt.x),
-		gStaticCast<int>(region_available_flt.y)
+		gStaticCast<uint>(region_available_flt.x),
+		gStaticCast<uint>(region_available_flt.y)
 	};
 	if (region_available.mX != mGameRenderTargetSize.mX && region_available.mX != mGameRenderTargetSize.mY && 
 		region_available.mX > 0 && region_available.mY > 0)
