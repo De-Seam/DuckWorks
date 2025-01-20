@@ -1,5 +1,6 @@
 #pragma once
 // Engine includes
+#include <DuckCore/Math/Rect.h>
 #include <DuckCore/Math/Vector.h>
 
 #include <Engine/Manager.h>
@@ -37,6 +38,8 @@ public:
 
 	void DrawTexture(SDL_Texture* inTexture,const DC::Transform2D& inTransform);
 	void DrawSprite(const Sprite& inSprite, const DC::Transform2D& inTransform);
+	void DrawRectangle(const DC::FRect2D& inRect, const DC::RGBA& inColor);
+	void DrawRectangle(const DC::IRect2D& inRect, const DC::RGBA& inColor);
 
 	// Class to automatically set the render target, and unset it when it leaves its scope
 	class ScopedRenderTarget : public DC::NoCopy, public DC::NoMove

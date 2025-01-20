@@ -127,6 +127,30 @@ void Renderer::DrawSprite(const Sprite& inSprite, const Transform2D& inTransform
 	SDL_RenderCopyExF(mRenderer, inSprite.GetTextureResource().GetTexture(), &src_rect, &dest_rect, inTransform.mRotation, nullptr, SDL_FLIP_NONE);
 }
 
+void Renderer::DrawRectangle(const FRect2D& inRect, const RGBA& inColor) 
+{
+	SDL_FRect rect;
+	rect.x = inRect.mX;
+	rect.y = inRect.mY;
+	rect.w = inRect.mWidth;
+	rect.h = inRect.mHeight;
+
+	SDL_SetRenderDrawColor(mRenderer, inColor.mR, inColor.mG, inColor.mB, inColor.mA);
+	SDL_RenderFillRectF(mRenderer, &rect);
+}
+
+void Renderer::DrawRectangle(const IRect2D& inRect, const RGBA& inColor) 
+{
+	SDL_Rect rect;
+	rect.x = inRect.mX;
+	rect.y = inRect.mY;
+	rect.w = inRect.mWidth;
+	rect.h = inRect.mHeight;
+
+	SDL_SetRenderDrawColor(mRenderer, inColor.mR, inColor.mG, inColor.mB, inColor.mA);
+	SDL_RenderFillRect(mRenderer, &rect);
+}
+
 Renderer::ScopedRenderTarget::ScopedRenderTarget(SDL_Texture* inRenderTarget)
 {
 	Renderer& renderer = gEngine->GetManager<Renderer>();
