@@ -8,7 +8,7 @@ using namespace DC;
 void UIButton::Update(float inDeltaTime)
 {
 	Renderer& renderer = gEngine->GetManager<Renderer>();
-	renderer.DrawRectangle()
+	//renderer.DrawRectangle()
 
 	Base::Update(inDeltaTime);
 }
