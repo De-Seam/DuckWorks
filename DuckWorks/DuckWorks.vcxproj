@@ -117,8 +117,9 @@
     <ClCompile Include="Engine\Resources\JsonFile.cpp" />
     <ClCompile Include="Engine\Resources\Resource.cpp" />
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
-    <ClCompile Include="Engine\UI\UIButton.cpp" />
-    <ClCompile Include="Engine\UI\UIElement.cpp" />
+    <ClCompile Include="Game\UI\UIButton.cpp" />
+    <ClCompile Include="Game\UI\UIElement.cpp" />
+    <ClCompile Include="Game\UI\UIService.cpp" />
     <ClCompile Include="Game\Entity\Components\GameplayComponents.cpp" />
     <ClCompile Include="Game\Entity\Components\RenderComponent.cpp" />
     <ClCompile Include="Game\Entity\Entity.cpp" />
@@ -162,9 +163,10 @@
     <ClInclude Include="Engine\Resources\JsonFile.h" />
     <ClInclude Include="Engine\Resources\Resource.h" />
     <ClInclude Include="Engine\Resources\ResourceManager.h" />
-    <ClInclude Include="Engine\UI\UIButton.h" />
-    <ClInclude Include="Engine\UI\UIElement.h" />
-    <ClInclude Include="Engine\UI\UIWidget.h" />
+    <ClInclude Include="Game\UI\UIButton.h" />
+    <ClInclude Include="Game\UI\UIElement.h" />
+    <ClInclude Include="Game\UI\UIService.h" />
+    <ClInclude Include="Game\UI\UIWidget.h" />
     <ClInclude Include="Game\Entity\Character.h" />
     <ClInclude Include="Game\Entity\Components\Component.h" />
     <ClInclude Include="Game\Entity\Components\GameplayComponents.h" />

@@ -135,10 +135,13 @@
     <ClCompile Include="Editor\Menus\ResourceSelectorMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\UI\UIElement.cpp">
+    <ClCompile Include="Game\UI\UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\UI\UIButton.cpp">
+    <ClCompile Include="Game\UI\UIButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\UIService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -272,13 +275,16 @@
     <ClInclude Include="Editor\Menus\ResourceSelectorMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UI\UIWidget.h">
+    <ClInclude Include="Game\UI\UIWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UI\UIElement.h">
+    <ClInclude Include="Game\UI\UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UI\UIButton.h">
+    <ClInclude Include="Game\UI\UIButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\UIService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

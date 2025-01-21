@@ -35,7 +35,7 @@ public:
 	bool IsMouseButtonDown(EMouseButton inButton) const { return mMouseButtons[gStaticCast<uint8>(inButton)]; }
 	bool IsKeyDown(SDL_KeyCode inKey) const { return mKeys.At(inKey); }
 
-	DC::IVec2 GetMousePosition() const { return mMousePosition; }
+	const DC::IVec2& GetMousePosition() const { return mMousePosition; }
 
 private:
 	DC::Ref<EngineUpdateHandle> mUpdateHandle;
