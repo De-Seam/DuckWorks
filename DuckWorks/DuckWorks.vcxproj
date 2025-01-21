@@ -117,6 +117,7 @@
     <ClCompile Include="Engine\Resources\JsonFile.cpp" />
     <ClCompile Include="Engine\Resources\Resource.cpp" />
     <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
+    <ClCompile Include="Game\Input\InputService.cpp" />
     <ClCompile Include="Game\UI\UIButton.cpp" />
     <ClCompile Include="Game\UI\UIElement.cpp" />
     <ClCompile Include="Game\UI\UIService.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Engine\Resources\JsonFile.h" />
     <ClInclude Include="Engine\Resources\Resource.h" />
     <ClInclude Include="Engine\Resources\ResourceManager.h" />
+    <ClInclude Include="Game\Input\InputService.h" />
     <ClInclude Include="Game\UI\UIButton.h" />
     <ClInclude Include="Game\UI\UIElement.h" />
     <ClInclude Include="Game\UI\UIService.h" />
