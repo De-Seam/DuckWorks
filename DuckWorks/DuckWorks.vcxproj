@@ -95,6 +95,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App\App.cpp" />
+    <ClCompile Include="Chess\ChessApp.cpp" />
     <ClCompile Include="CryptChat\CryptChatApp.cpp" />
     <ClCompile Include="Editor\EditorApp.cpp" />
     <ClCompile Include="Editor\EditorSettings.cpp" />
@@ -141,6 +142,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
+    <ClInclude Include="Chess\ChessApp.h" />
+    <ClInclude Include="Chess\ChessBoard.h" />
     <ClInclude Include="CryptChat\CryptChatApp.h" />
     <ClInclude Include="Editor\EditorApp.h" />
     <ClInclude Include="Editor\Menus\EditorMenu.h" />

@@ -10,6 +10,8 @@ class World;
 class GameApp : public App
 {
 public:
+	static void sRegisterRTTI();
+
 	GameApp();
 	virtual ~GameApp() override;
 

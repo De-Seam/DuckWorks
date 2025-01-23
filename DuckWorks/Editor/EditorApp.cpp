@@ -15,6 +15,14 @@
 
 using namespace DC;
 
+void EditorApp::sRegisterRTTI() 
+{
+	REGISTER_RTTI(EditorMenu);
+	REGISTER_RTTI(EntitySpawnerMenu);
+	REGISTER_RTTI(OutlinerMenu);
+	REGISTER_RTTI(ViewportMenu);
+}
+
 EditorApp::EditorApp()
 {
 	mEditorSettings = gMakeUnique<EditorSettings>();

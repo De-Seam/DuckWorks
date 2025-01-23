@@ -1,13 +1,12 @@
 #pragma once
 #include <App/App.h>
 
-class CryptChatApp : public App
+class ChessApp : public App
 {
 public:
 	static void sRegisterRTTI();
 
-	CryptChatApp();
-	virtual ~CryptChatApp() override;
+	ChessApp();
 
 	virtual void Update(float inDeltaTime) override;
 };

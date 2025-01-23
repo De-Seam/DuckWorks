@@ -7,6 +7,7 @@
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Renderer/Renderer.h>
+#include <Engine/Renderer/TextureResource.h>
 #include <Engine/Resources/JsonFile.h>
 #include <Engine/Resources/ResourceManager.h>
 
@@ -18,6 +19,19 @@ EngineUpdateHandle::~EngineUpdateHandle()
 {
 	gAssert(gEngine != nullptr);
 	gEngine->UnregisterUpdateCallback(*this);
+}
+
+void Engine::sRegisterRTTI() 
+{
+	REGISTER_RTTI(Object);
+	REGISTER_RTTI(Manager);
+	REGISTER_RTTI(SDLEventManager);
+	REGISTER_RTTI(FileManager);
+	REGISTER_RTTI(ObjectManager);
+	REGISTER_RTTI(Renderer);
+	REGISTER_RTTI(TextureResource);
+	REGISTER_RTTI(Resource);
+	REGISTER_RTTI(ResourceManager);
 }
 
 Engine::Engine()

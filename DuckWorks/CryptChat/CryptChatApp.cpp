@@ -9,6 +9,8 @@
 
 using asio::ip::tcp;
 
+void CryptChatApp::sRegisterRTTI() {}
+
 CryptChatApp::CryptChatApp()
 {
 	try 
