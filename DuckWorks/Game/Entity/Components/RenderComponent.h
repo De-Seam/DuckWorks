@@ -10,4 +10,5 @@ public:
 	DC::Ref<Sprite> mSprite;
 
 	virtual void OnCreatedByEditor() override;
+	virtual void UpdateImGui(EditorMenu& ioEditorMenu) override; // Update for ImGui, in the editor. This is already inside a TreeNode.
 };

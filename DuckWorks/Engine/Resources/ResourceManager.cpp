@@ -68,6 +68,8 @@ void ResourceManager::WriteResourceLinksToFile()
 void ResourceManager::ReadResourceLinksFromFile()
 {
 	mResourceLinksFile = gEngine->GetManager<FileManager>().Get<JsonFile>(cResourceLinksPath);
+	if (mResourceLinksFile->GetJson().is_null())
+		return;
 	mResourceLinks = mResourceLinksFile->GetJson().get<HashMap<GUID, ResourceLinkInfo>>();
 }
 
@@ -76,7 +78,7 @@ void ResourceManager::RegisterResource(Resource& inResource)
 	mResources[inResource.GetGUID()] = &inResource;
 }
 
-Json ResourceManager::ResourceLinkInfo::ToJson()
+Json ResourceManager::ResourceLinkInfo::ToJson() const
 {
 	Json json;
 	JSON_SAVE(json, mGUID);

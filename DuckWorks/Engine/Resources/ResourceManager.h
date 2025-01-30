@@ -116,7 +116,7 @@ public:
 		DC::String mResourceName; // The user-given name of the resource. E.g. "Player_Texture"
 		DC::String mJsonFilePath; // The path to the Json file that contains the resource. E.g. "Assets/Resources/PlayerResources.json"
 
-		DC::Json ToJson();
+		DC::Json ToJson() const;
 		void FromJson(const DC::Json& inJson);
 	};
 	void GetResourceLinkInfosOfType(const DC::String& inTypeName, DC::Array<const ResourceLinkInfo*>& outResourceLinkInfos) const;
@@ -130,6 +130,16 @@ private:
 
 	friend class Resource;
 };
+
+inline void to_json(DC::Json& outJson, const ResourceManager::ResourceLinkInfo& inVariable)
+{
+	outJson = inVariable.ToJson();
+}
+
+inline void from_json(const DC::Json& inJson, ResourceManager::ResourceLinkInfo& outVariable)
+{
+	outVariable.FromJson(inJson);
+}
 
 template <typename taType>
 void ResourceManager::RegisterResourceType()

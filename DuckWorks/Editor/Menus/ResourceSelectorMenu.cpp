@@ -27,7 +27,6 @@ void ResourceSelectorMenu::Update(float inDeltaTime)
 		}
 	}
 	sCachedResourceLinkInfos.Clear();
-	ImGui::ShowDemoWindow(&mIsOpen);
 
 	ImGui::End();
 

@@ -35,6 +35,8 @@ void OutlinerMenu::Update(float inDeltaTime)
 	}
 
 	ImGui::End();
+
+	Base::Update(inDeltaTime);
 }
 
 void OutlinerMenu::DrawEntity(Entity& inEntity)
@@ -55,7 +57,7 @@ void OutlinerMenu::DrawEntity(Entity& inEntity)
 			if (ImGui::TreeNode(component_rtti->GetClassName()))
 			{
 				ComponentBase* component = world.GetComponent(inEntity.GetEntityHandle(), *component_rtti);
-				component->UpdateImGui();
+				component->UpdateImGui(*this);
 				ImGui::TreePop();
 			}
 		}

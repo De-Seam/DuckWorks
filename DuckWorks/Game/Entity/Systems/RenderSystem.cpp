@@ -15,6 +15,8 @@ void RenderSystem::Update(float)
 	// Render all sprites
 	registry.view<const SpriteRenderComponent, const TransformComponent>().each([&renderer](const SpriteRenderComponent& inSpriteRenderComponent, const TransformComponent& inTransformComponent)
 	{
+		if (inSpriteRenderComponent.mSprite == nullptr)
+			return;
 		gAssert(inSpriteRenderComponent.mSprite != nullptr);
 		renderer.DrawSprite(*inSpriteRenderComponent.mSprite, inTransformComponent.mTransform);
 	});

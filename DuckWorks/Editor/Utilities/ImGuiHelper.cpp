@@ -6,14 +6,16 @@ using namespace DC;
 
 void ImGuiHelpers::sDrawResourceLink(const char* inLabel, const DC::RTTI& inResourceRTTI, Ref<Resource>& ioResource, EditorMenu& ioEditorMenu)
 {
-	String guid_string = ioResource->GetGUID().ToString();
+	String label_string = ioResource == nullptr ? "None" : ioResource->GetGUID().ToString();
 	ImGui::Text(inLabel);
 	ImGui::SameLine();
-	if (ImGui::Button(*guid_string))
+	if (ImGui::Button(*label_string))
 	{
 		// There should only be 1 ResourceSelectorMenu active at a time, for each EditorMenu.
 		ioEditorMenu.RemoveChildrenOfType<ResourceSelectorMenu>();
 
-		ioEditorMenu.AddChild(new ResourceSelectorMenu(ioEditorMenu.GetEditorApp(), inResourceRTTI, ioResource));
+		Ref<ResourceSelectorMenu> menu = new ResourceSelectorMenu(ioEditorMenu, inResourceRTTI, ioResource);
+		menu->SetIsOpen(true);
+		ioEditorMenu.AddChild(menu);
 	}
 }

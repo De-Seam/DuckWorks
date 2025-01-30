@@ -9,7 +9,7 @@ struct TransformComponent : public ComponentBase
 public:
 	DC::Transform2D mTransform;
 
-	virtual void UpdateImGui() override;
+	virtual void UpdateImGui(EditorMenu& ioEditorMenu) override;
 };
 
 struct VelocityComponent : public ComponentBase

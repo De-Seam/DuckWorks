@@ -5,7 +5,7 @@
 
 using namespace DC;
 
-void TransformComponent::UpdateImGui()
+void TransformComponent::UpdateImGui(EditorMenu& ioEditorMenu)
 {
 	ImGui::PushID("TransformComponent");
 
