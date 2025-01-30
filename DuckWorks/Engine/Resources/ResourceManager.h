@@ -5,6 +5,7 @@
 #include <DuckCore/Utilities/GUID.h>
 
 // Engine includes
+#include <DuckCore/Containers/Pair.h>
 #include <Engine/Engine.h>
 #include <Engine/Manager.h>
 #include <Engine/Files/FileManager.h>
@@ -108,12 +109,24 @@ public:
 	template<typename taType>
 	taType* Find(const DC::GUID& inGUID);
 
+	struct ResourceLinkInfo
+	{
+		DC::GUID mGUID; // The GUID of the resource.
+		DC::String mTypeName; // The type name of the resource. E.g. "TextureResource"
+		DC::String mResourceName; // The user-given name of the resource. E.g. "Player_Texture"
+		DC::String mJsonFilePath; // The path to the Json file that contains the resource. E.g. "Assets/Resources/PlayerResources.json"
+
+		DC::Json ToJson();
+		void FromJson(const DC::Json& inJson);
+	};
+	void GetResourceLinkInfosOfType(const DC::String& inTypeName, DC::Array<const ResourceLinkInfo*>& outResourceLinkInfos) const;
+
 private:
 	DC::HashMap<DC::GUID, DC::Ref<Resource>> mResources; // All resources that are currently loaded
-	DC::HashMap<DC::GUID, DC::String> mResourceLinks; //Links GUIDs of resources to the file path they can be found in
+	DC::HashMap<DC::GUID, ResourceLinkInfo> mResourceLinks; //Links GUIDs of resources to their ResourceLinkInfos.
 	DC::Ref<JsonFile> mResourceLinksFile; // The file that contains the resource links
 
-	DC::HashMap<DC::String, std::function<Resource*(const DC::Json&)>> mResourceNamesToConstructorFunctions;
+	DC::HashMap<DC::String, std::function<Resource*(const DC::Json&)>> mResourceTypeNamesToConstructorFunctions;
 
 	friend class Resource;
 };
@@ -144,18 +157,18 @@ taType* ResourceManager::Find(const DC::GUID& inGUID)
 	if (DC::Ref<Resource>* resource_ptr = mResources.Find(inGUID))
 		return &(*resource_ptr)->Cast<taType>(); // Resource was already loaded, return that.
 
-	const DC::String* json_path_ptr = mResourceLinks.Find(inGUID);
-	if (json_path_ptr == nullptr)
+	const ResourceLinkInfo* resource_link_info = mResourceLinks.Find(inGUID);
+	if (resource_link_info == nullptr)
 		return nullptr; // Resource could not be found in our resource links.
 
-	DC::Ref<const JsonFile> json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(*json_path_ptr);
+	DC::Ref<const JsonFile> json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(resource_link_info->mJsonFilePath);
 	LoadResourcesFromJsonFile(*json_file);
 
 	DC::Ref<Resource>* resource_ptr = mResources.Find(inGUID);
 	if (resource_ptr == nullptr)
 	{
 		gAssert(false);
-		gLog(DC::LogLevel::Error, DC::String::sFormatted("Resource %s was not found in file %s.", *inGUID.ToString(), **json_path_ptr));
+		gLog(DC::LogLevel::Error, DC::String::sFormatted("Resource %s was not found in file %s.", *inGUID.ToString(), *resource_link_info->mJsonFilePath));
 		return nullptr;
 	}
 	return &resource_ptr->Get()->Cast<taType>();

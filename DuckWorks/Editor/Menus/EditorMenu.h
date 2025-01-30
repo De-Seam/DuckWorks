@@ -17,6 +17,8 @@ public:
 
 	void AddChild(DC::Ref<EditorMenu> inChildMenu);
 	void RemoveChild(EditorMenu& inChildMenu);
+	template<typename taType>
+	void RemoveChildrenOfType();
 
 	void SetIsOpen(bool inIsOpen) { mIsOpen = inIsOpen; }
 	bool GetIsOpen() const { return mIsOpen; }
@@ -31,3 +33,12 @@ private:
 	EditorApp* mEditorApp = nullptr;
 	DC::Array<DC::Ref<EditorMenu>> mChildMenus;
 };
+
+template <typename taType>
+void EditorMenu::RemoveChildrenOfType()
+{
+	mChildMenus.SwapRemoveIf([](const EditorMenu* inMenu)
+	{
+		return inMenu->IsA<taType>();
+	});
+}

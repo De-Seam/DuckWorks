@@ -19,7 +19,7 @@ ResourceManager::~ResourceManager()
 Resource* ResourceManager::CreateResource(const Json& inJson)
 {
 	const String& class_name = inJson["ClassName"];
-	const std::function<Resource*(const Json&)>* constructor_function_ptr = mResourceNamesToConstructorFunctions.Find(class_name);
+	const std::function<Resource*(const Json&)>* constructor_function_ptr = mResourceTypeNamesToConstructorFunctions.Find(class_name);
 	gAssert(constructor_function_ptr != nullptr, String::sFormatted("Resource class %s not registered.", *class_name));
 	Resource* resource = (*constructor_function_ptr)(inJson);
 	RegisterResource(*resource);
@@ -28,8 +28,8 @@ Resource* ResourceManager::CreateResource(const Json& inJson)
 
 void ResourceManager::RegisterResourceType(const DC::RTTI& inRTTI, std::function<Resource*(const DC::Json&)> inConstructorFunction)
 {
-	gAssert(!mResourceNamesToConstructorFunctions.Contains(inRTTI.GetClassName()));
-	mResourceNamesToConstructorFunctions[inRTTI.GetClassName()] = gMove(inConstructorFunction);
+	gAssert(!mResourceTypeNamesToConstructorFunctions.Contains(inRTTI.GetClassName()));
+	mResourceTypeNamesToConstructorFunctions[inRTTI.GetClassName()] = gMove(inConstructorFunction);
 }
 
 void ResourceManager::UnloadUnreferencedResources()
@@ -68,10 +68,38 @@ void ResourceManager::WriteResourceLinksToFile()
 void ResourceManager::ReadResourceLinksFromFile()
 {
 	mResourceLinksFile = gEngine->GetManager<FileManager>().Get<JsonFile>(cResourceLinksPath);
-	mResourceLinks = mResourceLinksFile->GetJson().get<HashMap<GUID, String>>();
+	mResourceLinks = mResourceLinksFile->GetJson().get<HashMap<GUID, ResourceLinkInfo>>();
 }
 
 void ResourceManager::RegisterResource(Resource& inResource)
 {
 	mResources[inResource.GetGUID()] = &inResource;
+}
+
+Json ResourceManager::ResourceLinkInfo::ToJson()
+{
+	Json json;
+	JSON_SAVE(json, mGUID);
+	JSON_SAVE(json, mTypeName);
+	JSON_SAVE(json, mResourceName);
+	JSON_SAVE(json, mJsonFilePath);
+	return json;
+}
+
+void ResourceManager::ResourceLinkInfo::FromJson(const Json& inJson)
+{
+	JSON_LOAD(inJson, mGUID);
+	JSON_LOAD(inJson, mTypeName);
+	JSON_LOAD(inJson, mResourceName);
+	JSON_LOAD(inJson, mJsonFilePath);
+}
+
+void ResourceManager::GetResourceLinkInfosOfType(const String& inTypeName, Array<const ResourceLinkInfo*>& outResourceLinkInfos) const
+{
+	gAssert(outResourceLinkInfos.IsEmpty());
+	mResourceLinks.ForEach([&outResourceLinkInfos, &inTypeName](const GUID& inGUID, const ResourceLinkInfo& inResourceLinkInfo)
+	{
+		if (inResourceLinkInfo.mTypeName == inTypeName)
+			outResourceLinkInfos.Add(&inResourceLinkInfo);
+	});
 }

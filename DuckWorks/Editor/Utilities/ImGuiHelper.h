@@ -3,10 +3,12 @@
 #include <Engine/Resources/Resource.h>
 #include <imgui/imgui.h>
 
+class EditorMenu;
+
 class ImGuiHelpers
 {
 public:
-	static void sDrawResourceLink(const char* inLabel, DC::Ref<Resource>& ioResource);
+	static void sDrawResourceLink(const char* inLabel, const DC::RTTI& inResourceRTTI, DC::Ref<Resource>& ioResource, EditorMenu& ioEditorMenu);
 
 	template<typename taType>
 	static bool sDraw(const char* inLabel, DC::Vec2<taType>& ioVec, taType inStep = 0, taType inStepFast = 0, const char* inFormat = nullptr, ImGuiInputTextFlags inFlags = ImGuiInputTextFlags_None);

@@ -7,7 +7,6 @@
 
 #include <Editor/Menus/EntitySpawnerMenu.h>
 #include <Editor/Menus/OutlinerMenu.h>
-#include <Editor/Menus/ResourceSelectorMenu.h>
 #include <Editor/Menus/SettingsMenu.h>
 #include <Editor/Menus/ViewportMenu.h>
 
@@ -31,7 +30,6 @@ EditorApp::EditorApp()
 	mMenus.Add(gMakeUnique<EntitySpawnerMenu>(*this));
 	mMenus.Add(gMakeUnique<OutlinerMenu>(*this));
 	mMenus.Add(gMakeUnique<SettingsMenu>(*this));
-	mMenus.Add(gMakeUnique<ResourceSelectorMenu>(*this));
 
 	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(cEditorJsonPath);
 	const Json& json = editor_json_file->GetJson();

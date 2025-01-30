@@ -1,13 +1,22 @@
 #pragma once
 #include <Editor/Menus/EditorMenu.h>
 
+class Resource;
+
 class ResourceSelectorMenu : public EditorMenu
 {
 	RTTI_CLASS(ResourceSelectorMenu, EditorMenu)
 public:
-	ResourceSelectorMenu(EditorApp& inEditorApp) : Base(inEditorApp) {}
+	ResourceSelectorMenu(EditorMenu& inParentMenu, const DC::RTTI& inResourceRTTI, DC::Ref<Resource>& ioResourceToSet) :
+		Base(inParentMenu.GetEditorApp()),
+		mParentMenu(&inParentMenu),
+		mResourceRTTI(&inResourceRTTI),
+		mResourceToSet(&ioResourceToSet) {}
 
 	virtual void Update(float inDeltaTime) override;
-private:
 
+private:
+	EditorMenu* mParentMenu = nullptr;
+	const DC::RTTI* mResourceRTTI = nullptr;
+	DC::Ref<Resource>* mResourceToSet = nullptr;
 };
