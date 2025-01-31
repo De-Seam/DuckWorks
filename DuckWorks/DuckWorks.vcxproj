@@ -102,6 +102,7 @@
     <ClCompile Include="Editor\Menus\EditorMenu.cpp" />
     <ClCompile Include="Editor\Menus\EntitySpawnerMenu.cpp" />
     <ClCompile Include="Editor\Menus\OutlinerMenu.cpp" />
+    <ClCompile Include="Editor\Menus\ResourceEditorMenu.cpp" />
     <ClCompile Include="Editor\Menus\ResourceSelectorMenu.cpp" />
     <ClCompile Include="Editor\Menus\SettingsMenu.cpp" />
     <ClCompile Include="Editor\Menus\ViewportMenu.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Editor\Menus\EditorMenu.h" />
     <ClInclude Include="Editor\Menus\EntitySpawnerMenu.h" />
     <ClInclude Include="Editor\Menus\OutlinerMenu.h" />
+    <ClInclude Include="Editor\Menus\ResourceEditorMenu.h" />
     <ClInclude Include="Editor\Menus\ResourceSelectorMenu.h" />
     <ClInclude Include="Editor\Menus\SettingsMenu.h" />
     <ClInclude Include="Editor\Menus\ViewportMenu.h" />

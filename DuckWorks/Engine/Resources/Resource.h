@@ -21,6 +21,10 @@ public:
 
 	virtual DC::Json ToJson() const;
 
+	virtual void UpdateImGui(); // Update for ImGui, in the editor. This is already inside a window.
+
 private:
+	DC::String mName; // (Display) name of the resource.
+
 	friend class ResourceManager;
 };

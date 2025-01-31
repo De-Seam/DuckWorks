@@ -6,6 +6,8 @@
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Resources/ResourceManager.h>
 
+#include <imgui/imgui.h>
+
 using namespace DC;
 
 Resource::Resource(const Json& inJson)
@@ -20,4 +22,14 @@ Json Resource::ToJson() const
 	json["ClassName"] = GetRTTI().GetClassName();
 	json["mGUID"] = GetGUID();
 	return json;
+}
+
+void Resource::UpdateImGui()
+{
+	char name_buffer[256] = {};
+	memcpy(name_buffer, *mName, mName.Length());
+	if (ImGui::InputText("Name", name_buffer, 256))
+	{
+		mName = name_buffer;
+	}
 }
