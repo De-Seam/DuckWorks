@@ -13,6 +13,7 @@ void ResourceSelectorMenu::Update(float inDeltaTime)
 	ImGui::Begin("Select Resource", &mIsOpen);
 
 	static Array<const ResourceManager::ResourceLinkInfo*> sCachedResourceLinkInfos;
+	sCachedResourceLinkInfos.Clear();
 	gEngine->GetManager<ResourceManager>().GetResourceLinkInfosOfType(mResourceRTTI->GetClassName(), sCachedResourceLinkInfos);
 
 	bool should_close = false;
@@ -26,7 +27,6 @@ void ResourceSelectorMenu::Update(float inDeltaTime)
 			break;
 		}
 	}
-	sCachedResourceLinkInfos.Clear();
 
 	ImGui::End();
 
