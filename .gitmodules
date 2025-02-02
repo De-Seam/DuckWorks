@@ -1,0 +1,3 @@
+[submodule "DuckCore"]
+	path = DuckCore
+	url = https://github.com/De-Seam/DuckCore/
