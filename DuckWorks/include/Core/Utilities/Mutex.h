@@ -118,12 +118,12 @@ struct MutexReadProtectedPtr
 
 	taType* operator->()
 	{
-		return mPtr;
+		return Get();
 	}
 
 	const taType* operator->() const
 	{
-		return mPtr;
+		return Get();
 	}
 
 	taType* Get()

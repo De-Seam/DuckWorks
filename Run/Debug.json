@@ -1,0 +1,41 @@
+{
+    "ClassName": "DebugUIWindowManager",
+    "mGUID": "0000-0000-0000-0000",
+    "mDrawEntityOutline": true,
+    "mDrawSelectedEntityPhysicsOutline": true,
+    "mDrawCollision": false,
+    "mDrawBVH": false,
+    "mDebugFileName": "Debug.json",
+    "Windows": [
+        {
+            "ClassName": "DebugUIWindowEntityDetails",
+            "mGUID": "0000-0000-0000-0000",
+            "mOpen": false
+        },
+        {
+            "ClassName": "DebugUIWindowUserSettings",
+            "mGUID": "0000-0000-0000-0000",
+            "mOpen": false
+        },
+        {
+            "ClassName": "DebugUIWindowTextureViewer",
+            "mGUID": "0000-0000-0000-0000",
+            "mOpen": false
+        },
+        {
+            "ClassName": "DebugUIWindowWorldSettings",
+            "mGUID": "0000-0000-0000-0000",
+            "mOpen": false
+        },
+        {
+            "ClassName": "DebugUIWindowImGuiExample",
+            "mGUID": "0000-0000-0000-0000",
+            "mOpen": false
+        },
+        {
+            "ClassName": "DebugUIWindowPerformanceMonitor",
+            "mGUID": "0000-0000-0000-0000",
+            "mOpen": false
+        }
+    ]
+}

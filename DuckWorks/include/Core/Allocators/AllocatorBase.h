@@ -37,9 +37,9 @@ protected:
 
 template<typename taType, typename... taArgs>
 #ifdef TRACK_ALLOCATIONS
-taType* Allocate(const String& inAllocationOrigin, taArgs&&... inArgs)
+taType* AllocatorBase::Allocate(const String& inAllocationOrigin, taArgs&&... inArgs)
 #else
-taType* Allocate(taArgs &&...inArgs)
+taType* AllocatorBase::Allocate(taArgs &&...inArgs)
 #endif // TRACK_ALLOCATIONS
 {
 	IF_TRACK_ALLOCATIONS((void)inAllocationOrigin;)

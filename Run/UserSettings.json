@@ -1,0 +1,10 @@
+{
+    "ClassName": "UserSettingsGame",
+    "mGUID": "0000-0000-0000-0000",
+    "mMaxFPS": 144,
+    "mWindowSize": [
+        1280,
+        720
+    ],
+    "mWindowFlags": 36
+}
