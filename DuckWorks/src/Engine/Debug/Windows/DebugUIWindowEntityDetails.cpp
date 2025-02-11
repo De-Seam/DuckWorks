@@ -95,12 +95,15 @@ void DebugUIWindowEntityDetails::Update(float inDeltaTime)
 
 	if (gDebugUIWindowManager.mDrawEntityOutline)
 	{
-		Transform2D transform = selected_entity->GetFirstComponentOfType<TextureRenderComponent>()->GetWorldTransform();
-		Renderer::DrawRectangleParams params;
-		params.mPosition = transform.mPosition;
-		params.mHalfSize = transform.mHalfSize;
-		params.mColor = {0.5f, 1.f, 0.5f, 0.75f};
-		gRenderer.DrawRectangle(params);
+		if (const TextureRenderComponent* texture_render_component = selected_entity->GetFirstComponentOfType<TextureRenderComponent>())
+		{
+			Transform2D transform = texture_render_component->GetWorldTransform();
+			Renderer::DrawRectangleParams params;
+			params.mPosition = transform.mPosition;
+			params.mHalfSize = transform.mHalfSize;
+			params.mColor = {0.5f, 1.f, 0.5f, 0.75f};
+			gRenderer.DrawRectangle(params);
+		}
 	}
 
 	ImGui::End();
