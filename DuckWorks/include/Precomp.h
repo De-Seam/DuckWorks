@@ -4,7 +4,7 @@
 #include "Core/Math/Math.h"
 #include "Core/Utilities/Utilities.h"
 
-// External header
+// External headers
 #include "External/optick/optick.h"
 
 // STD headers
