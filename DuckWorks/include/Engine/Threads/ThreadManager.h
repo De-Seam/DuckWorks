@@ -1,7 +1,6 @@
 #pragma once
 #include "Core/CoreBase.h"
 #include "Core/Manager/Manager.h"
-#include "Core/Utilities/Mutex.h"
 #include "Core/Utilities/SafeQueue.h"
 
 enum class ThreadPriority : uint8

@@ -1,5 +1,7 @@
 #pragma once
 // Core headers
+#include <DuckCore/Threads/MutexProtectedPtr.h>
+
 #include "Core/Manager/Manager.h"
 #include "Core/Utilities/SafeQueue.h"
 #include "Core/Utilities/Utilities.h"
@@ -41,7 +43,7 @@ public:
 
 	void CleanLogQueue(bool inErrorOnly = false);
 
-	Mutex& GetLogMutex() { return mLogMutex; }
+	DC::ReadWriteMutex& GetLogMutex() { return mLogMutex; }
 
 	const std::string& GetLogString() const { return mOutputLog; }
 
@@ -51,7 +53,7 @@ public:
 		String mMessage;
 	};
 
-	const MutexReadProtectedPtr<Array<LogEntry>> GetLogArray();
+	const DC::MutexReadProtectedPtr<Array<LogEntry>> GetLogArray();
 	void SetLogFilePath(const String& inFilePath);
 	void SetLogFileName(const String& inFileName);
 
@@ -66,7 +68,7 @@ private:
 
 	uint64 mMaxOutputLogSize = 81920;
 
-	Mutex mLogMutex;
+	DC::ReadWriteMutex mLogMutex;
 	Array<LogEntry> mLogEntries = {};
 	String mOutputLog;
 	String mLogFilePath = "Debug/Logs/";

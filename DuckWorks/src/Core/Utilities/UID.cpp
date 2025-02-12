@@ -3,7 +3,6 @@
 #include <mutex>
 
 Atomic<uint64> gLastUID = 0;
-Mutex gMutex = {};
 
 UID::UID()
 {

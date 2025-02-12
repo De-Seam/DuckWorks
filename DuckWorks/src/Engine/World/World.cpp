@@ -10,11 +10,15 @@
 #include <External/SDL/SDL.h>
 
 // Game includes (ILLEGAL!)
+#include <DuckCore/Threads/ScopedMutex.h>
+
 #include "Engine/Engine/Engine.h"
 #include "Engine/Entity/Components.h"
 #include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Factory/Factory.h"
 #include "Engine/Threads/ThreadManager.h"
+
+using namespace DC;
 
 RTTI_CLASS_DEFINITION(World, StandardAllocator)
 
@@ -55,7 +59,7 @@ void World::Deserialize(const Json& inJson)
 			if (!json_entity.contains("ClassName"))
 				continue;
 
-			String class_name = json_entity["ClassName"];
+			DC::String class_name = json_entity["ClassName"];
 			Entity::ConstructParameters params;
 			params.mWorld = this;
 			params.mName = "Empty";
@@ -197,7 +201,7 @@ void World::AddEntity(const Ref<Entity>& inEntity)
 
 	if (mUpdateState == EUpdateState::Updating)
 	{
-		ScopedUniqueMutexLock lock(mEntitiesToAddMutex);
+		ScopedMutexLock lock(mEntitiesToAddMutex);
 		mEntitiesToAdd.push_back(inEntity);
 		return;
 	}
@@ -211,7 +215,7 @@ void World::DestroyEntity(const Ref<Entity>& inEntity)
 	PROFILE_SCOPE(World::DestroyEntity)
 	if (mUpdateState == EUpdateState::Updating)
 	{
-		ScopedUniqueMutexLock lock(mEntitiesToRemoveMutex);
+		ScopedMutexLock lock(mEntitiesToRemoveMutex);
 		mEntitiesToRemove.push_back(inEntity);
 		return;
 	}
@@ -291,7 +295,7 @@ void World::AddEntities()
 	if (mEntitiesToAdd.empty())
 		return;
 
-	ScopedUniqueMutexLock lock(mEntitiesToAddMutex);
+	ScopedMutexLock lock(mEntitiesToAddMutex);
 	for (Ref<Entity>& entity : mEntitiesToAdd)
 	{
 		mEntities.push_back(entity);
@@ -308,7 +312,7 @@ void World::DestroyEntities()
 	if (mEntitiesToRemove.empty())
 		return;
 
-	ScopedUniqueMutexLock lock(mEntitiesToRemoveMutex);
+	ScopedMutexLock lock(mEntitiesToRemoveMutex);
 	for (Ref<Entity>& entity : mEntitiesToRemove)
 	{
 		entity->EndPlay();

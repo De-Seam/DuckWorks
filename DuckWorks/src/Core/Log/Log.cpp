@@ -150,7 +150,7 @@ void LogManager::CleanLogQueue(bool inErrorOnly)
 	Log(ELogType::Warning, "Log queue had to be cleaned.");
 }
 
-const MutexReadProtectedPtr<Array<LogManager::LogEntry>> LogManager::GetLogArray()
+const DC::MutexReadProtectedPtr<Array<LogManager::LogEntry>> LogManager::GetLogArray()
 {
 	return {mLogMutex, &mLogEntries, false};
 }
@@ -200,7 +200,7 @@ void LogManager::WriteLogToFile()
 			return;
 		}
 	}
-	ScopedMutexReadLock lock(mLogMutex);
+	DC::ScopedMutexReadLock lock(mLogMutex);
 	std::ofstream log_file;
 	log_file.open(file, std::ios::out);
 	if (log_file.is_open())
@@ -231,7 +231,7 @@ void LogManager::LogThreadLoop()
 		LogQueueItem queueItem = mLogQueue.Dequeue();
 		PROFILE_SCOPE(LogManager::LogThreadLoop)
 		{
-			ScopedMutexWriteLock lock(mLogMutex);
+			DC::ScopedMutexWriteLock lock(mLogMutex);
 			LogEntry log_entry = {queueItem.logType, queueItem.msg};
 			mLogEntries.emplace_back(log_entry);
 			queueItem.msg += "\n";

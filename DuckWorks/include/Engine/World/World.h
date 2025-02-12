@@ -3,6 +3,8 @@
 #include "Core/Utilities/Utilities.h"
 
 // Engine includes
+#include <DuckCore/Threads/Mutex.h>
+
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Entity/Entity.h"
 
@@ -74,10 +76,10 @@ private:
 	Array<Ref<Entity>> mEntities = {};
 
 	Array<Ref<Entity>> mEntitiesToAdd = {};
-	UniqueMutex mEntitiesToAddMutex = {};
+	DC::Mutex mEntitiesToAddMutex = {};
 
 	Array<Ref<Entity>> mEntitiesToRemove = {};
-	UniqueMutex mEntitiesToRemoveMutex = {};
+	DC::Mutex mEntitiesToRemoveMutex = {};
 
 	int32 mVelocityIterations = 6;
 	int32 mPositionIterations = 2;

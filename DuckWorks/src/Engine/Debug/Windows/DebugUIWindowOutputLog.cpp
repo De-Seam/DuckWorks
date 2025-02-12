@@ -49,7 +49,7 @@ void DebugUIWindowOutputLog::Update(float)
 
 	if (ImGui::BeginChild("LogContent", ImVec2(0, 0)))
 	{
-		const MutexReadProtectedPtr<Array<LogManager::LogEntry>> log_array = gLogManager.GetLogArray();
+		const DC::MutexReadProtectedPtr<Array<LogManager::LogEntry>> log_array = gLogManager.GetLogArray();
 
 		// Check if the user has scrolled up
 		if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())

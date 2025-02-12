@@ -1,6 +1,8 @@
 #pragma once
+#include <DuckCore/Threads/Mutex.h>
+#include <DuckCore/Threads/ScopedMutex.h>
+
 #include "AllocatorBase.h"
-#include "Core/Utilities/Mutex.h"
 
 // Allocator to allocate instances of a specific class
 template<typename taType>
@@ -24,7 +26,7 @@ protected:
 	Array<void*> mPages;
 	uint64 mPageSize;
 
-	UniqueMutex mMutex;
+	DC::Mutex mMutex;
 };
 
 template<typename taType>
@@ -44,7 +46,7 @@ ClassAllocator<taType>::~ClassAllocator()
 template<typename taType>
 taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin))
 {
-	ScopedUniqueMutexLock lock(mMutex);
+	DC::ScopedMutexLock lock(mMutex);
 	for (void* page : mPages)
 	{
 		for (void* ptr = page; ptr < RCast<void*>((uint64)page + mPageSize); ptr = RCast<void*>((uint64)ptr + sizeof(bool) + sizeof(taType)))
@@ -70,7 +72,7 @@ taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAl
 template<typename taType>
 void ClassAllocator<taType>::Free(taType* inPtr)
 {
-	ScopedUniqueMutexLock lock(mMutex);
+	DC::ScopedMutexLock lock(mMutex);
 
 	IF_TRACK_ALLOCATIONS(UntrackAllocation(inPtr));
 

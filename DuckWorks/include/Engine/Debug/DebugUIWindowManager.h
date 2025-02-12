@@ -73,7 +73,7 @@ private:
 	String mDebugFileName = "Debug.json";
 
 	Optional<WeakRef<Entity>> mSelectedEntity;
-	TextureRenderComponent* mSelectedTextureRenderComponent;
+	TextureRenderComponent* mSelectedTextureRenderComponent = nullptr;
 	Vec2 mSelectedTextureRenderComponentRelativeLocation = {}; ///< 0,0 would be the center of the texture render component
 
 	HashMap<UID, Json> mSavedWindowSettings; ///< The saved settings for each Window.
