@@ -7,6 +7,5 @@
 
 int main(int, char**)
 {
-	gAssert(false, "Test");
 	return gApp.Run();
 }
