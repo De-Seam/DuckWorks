@@ -21,6 +21,8 @@
 #include <Sandbox/SandboxApp.h>
 
 // Std includes
+#include <DuckCore/Core/Log.h>
+
 #include <chrono>
 
 using namespace DC;
@@ -39,7 +41,7 @@ void gMainLoop()
 		// Max 100 ms, or we start slowing down the application (for debugging etc)
 		if (delta_time.count() > 0.1f)
 		{
-			gLog(DC::LogLevel::Warning, DC::String::sFormatted("Slowing app, delta time took %f seconds", delta_time.count()));
+			gLog(ELogLevel::Info, String::sFormatted("Slowing app, delta time took %f seconds", delta_time.count()));
 			delta_time = std::chrono::duration<float>(0.1f);
 		}
 

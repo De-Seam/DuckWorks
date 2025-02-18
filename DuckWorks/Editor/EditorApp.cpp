@@ -1,3 +1,5 @@
+#include <DuckCore/Manager/Managers.h>
+
 #include <Editor/EditorApp.h>
 
 #include <DuckCore/Math/Transform.h>
@@ -31,7 +33,7 @@ EditorApp::EditorApp()
 	mMenus.Add(gMakeUnique<OutlinerMenu>(*this));
 	mMenus.Add(gMakeUnique<SettingsMenu>(*this));
 
-	Ref<JsonFile> editor_json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(cEditorJsonPath);
+	Ref<JsonFile> editor_json_file = Managers::sGet<FileManager>().Get<JsonFile>(cEditorJsonPath);
 	const Json& json = editor_json_file->GetJson();
 
 	if (const auto menus_json = json.find("mMenus"); menus_json != json.end())
@@ -54,7 +56,7 @@ EditorApp::~EditorApp()
 
 	json["mEditorSettings"] = mEditorSettings->ToJson();
 
-	gEngine->GetManager<FileManager>().WriteToFile(cEditorJsonPath, json.dump(4));
+	Managers::sGet<FileManager>().WriteToFile(cEditorJsonPath, json.dump(4));
 }
 
 void EditorApp::Update(float inDeltaTime)

@@ -14,7 +14,7 @@ void ResourceSelectorMenu::Update(float inDeltaTime)
 
 	static Array<const ResourceManager::ResourceLinkInfo*> sCachedResourceLinkInfos;
 	sCachedResourceLinkInfos.Clear();
-	gEngine->GetManager<ResourceManager>().GetResourceLinkInfosOfType(mResourceRTTI->GetClassName(), sCachedResourceLinkInfos);
+	Managers::sGet<ResourceManager>().GetResourceLinkInfosOfType(mResourceRTTI->GetClassName(), sCachedResourceLinkInfos);
 
 	bool should_close = false;
 	for (const ResourceManager::ResourceLinkInfo* resource_link_info : sCachedResourceLinkInfos)
@@ -22,7 +22,7 @@ void ResourceSelectorMenu::Update(float inDeltaTime)
 		String guid_string = resource_link_info->mGUID.ToString();
 		if (ImGui::Button(*guid_string))
 		{
-			*mResourceToSet = gEngine->GetManager<ResourceManager>().Find<Resource>(resource_link_info->mGUID);
+			*mResourceToSet = Managers::sGet<ResourceManager>().Find<Resource>(resource_link_info->mGUID);
 			should_close = true;
 			break;
 		}

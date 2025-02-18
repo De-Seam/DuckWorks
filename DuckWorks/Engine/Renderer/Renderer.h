@@ -1,11 +1,9 @@
 #pragma once
 // Engine includes
+#include <DuckCore/Manager/Manager.h>
 #include <DuckCore/Math/Rect.h>
 #include <DuckCore/Math/Vector.h>
-
-#include <Engine/Manager.h>
-
-// External includes
+#include <DuckCore/Utilities/NoCopy.h>
 
 namespace DC
 {
@@ -17,15 +15,12 @@ struct SDL_Texture;
 struct SDL_Window;
 class Sprite;
 
-class Renderer : public Manager
+class Renderer : public DC::Manager
 {
-	RTTI_CLASS(Renderer, Manager)
+	MANAGER_BASE_CLASS(Renderer)
 public:
 	Renderer();
 	virtual ~Renderer() override;
-
-	virtual void Init() override;
-	virtual void Shutdown() override;
 
 	void BeginFrame();
 	void EndFrame();

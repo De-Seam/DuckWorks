@@ -1,3 +1,5 @@
+#include <DuckCore/Manager/Managers.h>
+
 #include <Engine/Engine.h>
 
 #include <Game/Input/InputService.h>
@@ -12,15 +14,15 @@ InputService::~InputService() = default;
 
 bool InputService::IsMouseButtonDown(EMouseButton inButton) const 
 {
-	return gEngine->GetManager<SDLEventManager>().IsMouseButtonDown(inButton);
+	return Managers::sGet<SDLEventManager>().IsMouseButtonDown(inButton);
 }
 
 bool InputService::IsKeyDown(SDL_KeyCode inKey) const 
 {
-	return gEngine->GetManager<SDLEventManager>().IsKeyDown(inKey);
+	return Managers::sGet<SDLEventManager>().IsKeyDown(inKey);
 }
 
 const IVec2& InputService::GetMousePosition() const 
 {
-	return gEngine->GetManager<SDLEventManager>().GetMousePosition();
+	return Managers::sGet<SDLEventManager>().GetMousePosition();
 }

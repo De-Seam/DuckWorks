@@ -1,16 +1,13 @@
 #pragma once
-// Core includes
 #include <DuckCore/Containers/HashMap.h>
-#include <DuckCore/Utilities/GUID.h>
-
-// Engine includes
 #include <DuckCore/Containers/HashSet.h>
-#include <Engine/Manager.h>
+#include <DuckCore/Manager/Manager.h>
+
 #include <Engine/Objects/Object.h>
 
-class ObjectManager : public Manager
+class ObjectManager : public DC::Manager
 {
-	RTTI_CLASS(ObjectManager, Manager)
+	MANAGER_BASE_CLASS(ObjectManager)
 public:
 
 private:

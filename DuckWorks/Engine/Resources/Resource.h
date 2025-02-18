@@ -1,6 +1,5 @@
 #pragma once
 // Engine includes
-#include <DuckCore/Containers/File.h>
 #include <Engine/Engine.h>
 #include <Engine/Objects/Object.h>
 

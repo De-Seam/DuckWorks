@@ -8,8 +8,8 @@ class OutlinerMenu : public EditorMenu
 public:
 	OutlinerMenu(EditorApp& inEditorApp) : Base(inEditorApp) {}
 
-	virtual void Update(float inDeltaTime) override;
+	virtual void Update(float aInDeltaTime) override;
 
 private:
-	void DrawEntity(Entity& inEntity);
+	void DrawEntity(Entity& aInEntity);
 };

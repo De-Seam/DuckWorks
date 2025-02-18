@@ -1,5 +1,5 @@
 #pragma once
-#include <DuckCore/Containers/File.h>
+#include <DuckCore/Containers/File/File.h>
 #include <DuckCore/Utilities/Json.h>
 
 class JsonFile : public DC::File

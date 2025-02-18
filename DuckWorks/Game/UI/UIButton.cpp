@@ -1,3 +1,4 @@
+#include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Intersects.h>
 
 #include <Engine/Engine.h>
@@ -10,10 +11,10 @@ using namespace DC;
 
 void UIButton::Update(float inDeltaTime)
 {
-	Renderer& renderer = gEngine->GetManager<Renderer>();
+	Renderer& renderer = Managers::sGet<Renderer>();
 
 	RGBA color = mColor;
-	SDLEventManager& event_manager = gEngine->GetManager<SDLEventManager>();
+	SDLEventManager& event_manager = Managers::sGet<SDLEventManager>();
 	const IVec2& mouse_position = event_manager.GetMousePosition();
 	if (gIntersects(mouse_position, mRectangle))
 		color = event_manager.IsMouseButtonDown(EMouseButton::Left) ? mPressedColor : mHoverColor;

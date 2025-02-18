@@ -1,12 +1,11 @@
 #pragma once
-#include <DuckCore/Containers/File.h>
 #include <DuckCore/Containers/HashMap.h>
+#include <DuckCore/Containers/File/File.h>
+#include <DuckCore/Manager/Manager.h>
 
-#include <Engine/Manager.h>
-
-class FileManager : public Manager
+class FileManager : public DC::Manager
 {
-	RTTI_CLASS(FileManager, Manager)
+	MANAGER_BASE_CLASS(FileManager)
 public:
 	template<typename taType>
 	void RegisterFileExtension(DC::String inExtension); // Register a file extension to be used for taType
@@ -49,7 +48,7 @@ DC::Ref<taType> FileManager::Get(const DC::String& inPath)
 		if (registered_file_extension_ptr == nullptr)
 		{
 
-			gLog(DC::LogLevel::Warning, DC::String::sFormatted("Loading file %s, but this extension is not registered.", *inPath));
+			gLog(DC::ELogLevel::Warning, DC::String::sFormatted("Loading file %s, but this extension is not registered.", *inPath));
 		}
 		else
 		{

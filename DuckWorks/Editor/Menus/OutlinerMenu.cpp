@@ -11,7 +11,7 @@
 
 using namespace DC;
 
-void OutlinerMenu::Update(float inDeltaTime)
+void OutlinerMenu::Update(float aInDeltaTime)
 {
 	if (!mIsOpen)
 		return;
@@ -36,15 +36,15 @@ void OutlinerMenu::Update(float inDeltaTime)
 
 	ImGui::End();
 
-	Base::Update(inDeltaTime);
+	Base::Update(aInDeltaTime);
 }
 
-void OutlinerMenu::DrawEntity(Entity& inEntity)
+void OutlinerMenu::DrawEntity(Entity& aInEntity)
 {
-	World& world = inEntity.GetWorld();
+	World& world = aInEntity.GetWorld();
 
 	Array<RTTI*> child_components;
-	gRTTIRegistry.GetChildClassesOf<ComponentBase>(child_components);
+	// gRTTIRegistry.GetChildClassesOf<ComponentBase>(child_components);
 
 	for (int i = 0; i < child_components.Length(); i++)
 	{
@@ -52,11 +52,11 @@ void OutlinerMenu::DrawEntity(Entity& inEntity)
 
 		RTTI* component_rtti = child_components[i];
 
-		if (world.HasComponent(inEntity.GetEntityHandle(), *component_rtti))
+		if (world.HasComponent(aInEntity.GetEntityHandle(), *component_rtti))
 		{
 			if (ImGui::TreeNode(component_rtti->GetClassName()))
 			{
-				ComponentBase* component = world.GetComponent(inEntity.GetEntityHandle(), *component_rtti);
+				ComponentBase* component = world.GetComponent(aInEntity.GetEntityHandle(), *component_rtti);
 				component->UpdateImGui(*this);
 				ImGui::TreePop();
 			}
@@ -66,7 +66,7 @@ void OutlinerMenu::DrawEntity(Entity& inEntity)
 			String button_text = "Add ";
 			button_text += component_rtti->GetClassName();
 			if (ImGui::Button(*button_text))
-				world.AddComponent(inEntity.GetEntityHandle(), *component_rtti);
+				world.AddComponent(aInEntity.GetEntityHandle(), *component_rtti);
 		}
 
 		ImGui::PopID();

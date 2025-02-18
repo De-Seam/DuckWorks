@@ -5,6 +5,8 @@
 
 #include <Game/GameApp.h>
 
+struct SDL_Texture;
+
 class ViewportMenu : public EditorMenu
 {
 	RTTI_CLASS(ViewportMenu, EditorMenu)

@@ -4,6 +4,8 @@
 #include <DuckCore/Containers/StaticArray.h>
 #include <DuckCore/Math/Vector.h>
 
+#include <SDL/SDL_render.h>
+
 struct Pixel
 {
 	bool mFilled = false;

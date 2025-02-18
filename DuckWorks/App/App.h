@@ -1,11 +1,7 @@
 #pragma once
 #include <DuckCore/Containers/Array.h>
-#include <DuckCore/RTTI/Ref.h>
-
-#include <Engine/Engine.h>
-#include <Engine/Manager.h>
-
-class Engine;
+#include <DuckCore/Containers/HashMap.h>
+#include <DuckCore/Containers/UniquePtr.h>
 
 // App base class
 class App

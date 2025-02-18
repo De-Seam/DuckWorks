@@ -1,15 +1,20 @@
+#include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Random.h>
 #include <DuckCore/Math/Transform.h>
 
+#include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
+#include <Engine/Renderer/Renderer.h>
 
 #include <Sandbox/SandboxApp.h>
 
 #include <SDL/SDL_render.h>
 
+using namespace DC;
+
 SandboxApp::SandboxApp()
 {
-	Renderer& renderer = gEngine->GetManager<Renderer>();
+	Renderer& renderer = Managers::sGet<Renderer>();
 	renderer.SetWindowSize({ cWindowWidth, cWindowHeight });
 	mTexture = renderer.CreateTexture({ cWindowWidth, cWindowHeight });
 }
@@ -18,8 +23,8 @@ SandboxApp::~SandboxApp() = default;
 
 void SandboxApp::Update(float inDeltaTime)
 {
-	Renderer& renderer = gEngine->GetManager<Renderer>();
-	SDLEventManager& sdl_event_manager = gEngine->GetManager<SDLEventManager>();
+	Renderer& renderer = Managers::sGet<Renderer>();
+	SDLEventManager& sdl_event_manager = Managers::sGet<SDLEventManager>();
 
 	{
 		Renderer::ScopedRenderTarget scoped_render_target(mTexture);

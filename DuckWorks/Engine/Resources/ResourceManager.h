@@ -1,13 +1,12 @@
 #pragma once
-// DuckCore includes
 #include <DuckCore/Containers/HashMap.h>
+#include <DuckCore/Containers/Pair.h>
+#include <DuckCore/Core/Log.h>
+#include <DuckCore/Manager/Manager.h>
+#include <DuckCore/Manager/Managers.h>
 #include <DuckCore/RTTI/Ref.h>
 #include <DuckCore/Utilities/GUID.h>
-
-// Engine includes
-#include <DuckCore/Containers/Pair.h>
 #include <Engine/Engine.h>
-#include <Engine/Manager.h>
 #include <Engine/Files/FileManager.h>
 #include <Engine/Resources/JsonFile.h>
 #include <Engine/Resources/Resource.h>
@@ -79,9 +78,9 @@ Potential for future:
 Cooked ResourceLinks, converts it to binary format.
 
 **/
-class ResourceManager : public Manager
+class ResourceManager : public DC::Manager
 {
-	RTTI_CLASS(ResourceManager, Manager)
+	MANAGER_BASE_CLASS(ResourceManager)
 public:
 	constexpr static const char* cResourceLinksPath = "Assets/ResourceLinks.json";
 
@@ -171,14 +170,14 @@ taType* ResourceManager::Find(const DC::GUID& inGUID)
 	if (resource_link_info == nullptr)
 		return nullptr; // Resource could not be found in our resource links.
 
-	DC::Ref<const JsonFile> json_file = gEngine->GetManager<FileManager>().Get<JsonFile>(resource_link_info->mJsonFilePath);
+	DC::Ref<const JsonFile> json_file = DC::Managers::sGet<FileManager>().Get<JsonFile>(resource_link_info->mJsonFilePath);
 	LoadResourcesFromJsonFile(*json_file);
 
 	DC::Ref<Resource>* resource_ptr = mResources.Find(inGUID);
 	if (resource_ptr == nullptr)
 	{
 		gAssert(false);
-		gLog(DC::LogLevel::Error, DC::String::sFormatted("Resource %s was not found in file %s.", *inGUID.ToString(), *resource_link_info->mJsonFilePath));
+		gLog(DC::ELogLevel::Error, DC::String::sFormatted("Resource %s was not found in file %s.", *inGUID.ToString(), *resource_link_info->mJsonFilePath));
 		return nullptr;
 	}
 	return &resource_ptr->Get()->Cast<taType>();
@@ -188,5 +187,5 @@ template<typename taResourceType>
 inline void from_json(const DC::Json& inJson, DC::Ref<taResourceType>& outResource)
 {
 	const DC::GUID& guid = inJson["mGUID"];
-	outResource = gEngine->GetManager<ResourceManager>().Find<taResourceType>(guid);
+	outResource = DC::Managers::sGet<ResourceManager>().Find<taResourceType>(guid);
 }

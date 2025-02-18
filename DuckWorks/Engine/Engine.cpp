@@ -1,15 +1,16 @@
-#include "Engine.h"
+#include <Engine/Engine.h>
 
-// Engine includes
-#include <App/App.h>
+#include <DuckCore/Manager/Manager.h>
+#include <DuckCore/Manager/Managers.h>
 
-#include <Engine/Manager.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/Renderer/TextureResource.h>
 #include <Engine/Resources/JsonFile.h>
 #include <Engine/Resources/ResourceManager.h>
+
+#include <App/App.h>
 
 using namespace DC;
 
@@ -24,7 +25,6 @@ EngineUpdateHandle::~EngineUpdateHandle()
 void Engine::sRegisterRTTI() 
 {
 	REGISTER_RTTI(Object);
-	REGISTER_RTTI(Manager);
 	REGISTER_RTTI(SDLEventManager);
 	REGISTER_RTTI(FileManager);
 	REGISTER_RTTI(ObjectManager);
@@ -39,45 +39,35 @@ Engine::Engine()
 	gAssert(gEngine == nullptr);
 	gEngine = this;
 
-	FileManager& file_manager = TryCreateManager<FileManager>();
-	file_manager.RegisterFileExtension<JsonFile>("json");
+	UniquePtr<FileManager> file_manager = gMakeUnique<FileManager>();
+	file_manager->RegisterFileExtension<JsonFile>("json");
+	Managers::sAdd(gMove(file_manager));
 
-	mRenderer = &TryCreateManager<Renderer>();
-	TryCreateManager<SDLEventManager>();
+	Managers::sAdd(gMakeUnique<Renderer>());
+	Managers::sAdd(gMakeUnique<SDLEventManager>());
+	Managers::sAdd(gMakeUnique<ResourceManager>());
 }
 
 Engine::~Engine()
 {
 	gAssert(gEngine == this);
 
-	mManagers.Clear();
-
 	gEngine = nullptr;
 }
 
 void Engine::Init()
 {
-	mManagers.ForEach([](const DC::RTTITypeID&, Manager* inManager)
-	{
-		inManager->Init();
-	});
-
 	mIsInitialized = true;
 }
 
 void Engine::Shutdown()
 {
-	mManagers.ForEach([](const DC::RTTITypeID&, Manager* inManager)
-	{
-		inManager->Shutdown();
-	});
-
 	mIsInitialized = false;
 }
 
 void Engine::BeginFrame()
 {
-	GetManager<Renderer>().BeginFrame();
+	Managers::sGet<Renderer>().BeginFrame();
 }
 
 void Engine::Update(float inDeltaTime)
@@ -88,7 +78,7 @@ void Engine::Update(float inDeltaTime)
 
 void Engine::EndFrame()
 {
-	GetManager<Renderer>().EndFrame();
+	Managers::sGet<Renderer>().EndFrame();
 }
 
 DC::Ref<EngineUpdateHandle> Engine::RegisterUpdateCallback(std::function<void(float)> inCallback)

@@ -1,5 +1,7 @@
 #include <Engine/Renderer/Renderer.h>
 
+#include <DuckCore/Core/Log.h>
+#include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Transform.h>
 
 #include <Engine/Engine.h>
@@ -21,14 +23,14 @@ Renderer::Renderer()
 
 	if (mWindow == nullptr)
 	{
-		gLog(LogLevel::Error, "Failed to create window\n");
+		gLog(ELogLevel::Error, "Failed to create window\n");
 		gAssert(false);
 	}
 
 	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
 	if (mRenderer == nullptr)
 	{
-		gLog(LogLevel::Error, "Failed to create renderer\n");
+		gLog(ELogLevel::Error, "Failed to create renderer\n");
 		gAssert(false);
 	}
 
@@ -44,24 +46,12 @@ Renderer::Renderer()
 	// Setup Platform/Renderer backends
     ImGui_ImplSDL2_InitForSDLRenderer(mWindow, mRenderer);
     ImGui_ImplSDLRenderer2_Init(mRenderer);
-
-	gEngine->GetManager<SDLEventManager>();
 }
 
 Renderer::~Renderer()
 {
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);
-}
-
-void Renderer::Init()
-{
-	Base::Init();
-}
-
-void Renderer::Shutdown()
-{
-	Base::Shutdown();
 }
 
 void Renderer::BeginFrame()
@@ -153,7 +143,7 @@ void Renderer::DrawRectangle(const IRect2D& inRect, const RGBA& inColor)
 
 Renderer::ScopedRenderTarget::ScopedRenderTarget(SDL_Texture* inRenderTarget)
 {
-	Renderer& renderer = gEngine->GetManager<Renderer>();
+	Renderer& renderer = Managers::sGet<Renderer>();
 	SDL_Renderer* sdl_renderer = renderer.GetRenderer();
 	mPreviousRenderTarget = SDL_GetRenderTarget(sdl_renderer);
 	SDL_SetRenderTarget(sdl_renderer,inRenderTarget);
@@ -161,7 +151,7 @@ Renderer::ScopedRenderTarget::ScopedRenderTarget(SDL_Texture* inRenderTarget)
 
 Renderer::ScopedRenderTarget::~ScopedRenderTarget()
 {
-	Renderer& renderer = gEngine->GetManager<Renderer>();
+	Renderer& renderer = Managers::sGet<Renderer>();
 	SDL_Renderer* sdl_renderer = renderer.GetRenderer();
 	SDL_SetRenderTarget(sdl_renderer,mPreviousRenderTarget);
 }

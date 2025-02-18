@@ -159,7 +159,6 @@
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Events\SDLEventManager.h" />
     <ClInclude Include="Engine\Files\FileManager.h" />
-    <ClInclude Include="Engine\Manager.h" />
     <ClInclude Include="Engine\Objects\Object.h" />
     <ClInclude Include="Engine\Objects\ObjectManager.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />

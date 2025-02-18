@@ -1,3 +1,4 @@
+#include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Transform.h>
 
 #include <Editor/Menus/ViewportMenu.h>
@@ -11,7 +12,7 @@ using namespace DC;
 ViewportMenu::ViewportMenu(EditorApp& inEditorApp) :
 	Base(inEditorApp)
 {
-	mGameRenderTarget = gEngine->GetManager<Renderer>().CreateTexture(IVec2(mGameRenderTargetSize.mX, mGameRenderTargetSize.mY));
+	mGameRenderTarget = Managers::sGet<Renderer>().CreateTexture(IVec2(mGameRenderTargetSize.mX, mGameRenderTargetSize.mY));
 
 	mGameApp = gMakeUnique<GameApp>();
 }
@@ -32,7 +33,7 @@ void ViewportMenu::Update(float inDeltaTime)
 	if (region_available.mX != mGameRenderTargetSize.mX && region_available.mX != mGameRenderTargetSize.mY && 
 		region_available.mX > 0 && region_available.mY > 0)
 	{
-		Renderer& renderer = gEngine->GetManager<Renderer>();
+		Renderer& renderer = Managers::sGet<Renderer>();;
 		if (mGameRenderTarget != nullptr)
 			renderer.DestroyTexture(mGameRenderTarget);
 		mGameRenderTarget = renderer.CreateTexture(region_available.As<int>());

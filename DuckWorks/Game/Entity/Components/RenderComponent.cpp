@@ -13,7 +13,7 @@ using namespace DC;
 
 void SpriteRenderComponent::OnCreatedByEditor()
 {
-	Ref<TextureResource> texture_resource = &gEngine->GetManager<ResourceManager>().Get<TextureResource>(EditorSettings::sGetDefaultTextureResourceGUID());
+	Ref<TextureResource> texture_resource = &Managers::sGet<ResourceManager>().Get<TextureResource>(EditorSettings::sGetDefaultTextureResourceGUID());
 	mSprite = new Sprite(*texture_resource, { 0, 0 }, { 2, 2 });
 }
 

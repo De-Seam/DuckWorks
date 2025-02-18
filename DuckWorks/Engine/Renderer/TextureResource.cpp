@@ -1,12 +1,12 @@
 #include <Engine/Renderer/TextureResource.h>
 
-// Engine includes
+#include <DuckCore/Manager/Managers.h>
+
 #include <Engine/Engine.h>
+#include <Engine/Files/FileManager.h>
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/Renderer/SurfaceFile.h>
-#include <Engine/Files/FileManager.h>
 
-// External includes
 #include <External/SDL/SDL_image.h>
 #include <External/SDL/SDL_render.h>
 
@@ -15,15 +15,15 @@ using namespace DC;
 TextureResource::TextureResource(const Json& inJson) :
 	Resource(inJson)
 {
-	SDL_Renderer* renderer = gEngine->GetManager<Renderer>().GetRenderer();
+	SDL_Renderer* renderer = Managers::sGet<Renderer>().GetRenderer();
 	gAssert(renderer != nullptr, "Can't create texture resources before creating the renderer");
 
 	mSurfaceFilePath = inJson["mSurfaceFilePath"];
 
-	Ref<SurfaceFile> surface_file = gEngine->GetManager<FileManager>().Get<SurfaceFile>(mSurfaceFilePath);
+	Ref<SurfaceFile> surface_file = Managers::sGet<FileManager>().Get<SurfaceFile>(mSurfaceFilePath);
 	if (surface_file == nullptr)
 	{
-		gLog(LogLevel::Error, String::sFormatted("Failed to load surface file \"%s\" for texture resource.", *mSurfaceFilePath));
+		gLog(ELogLevel::Error, String::sFormatted("Failed to load surface file \"%s\" for texture resource.", *mSurfaceFilePath));
 		return;
 	}
 

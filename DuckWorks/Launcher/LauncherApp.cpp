@@ -5,11 +5,6 @@
 
 #include <Launcher/LauncherApp.h>
 
-LauncherApp::LauncherApp()
-{
-	gEngine->TryCreateManager<Renderer>();
-}
-
 LauncherApp::~LauncherApp() {}
 
 void LauncherApp::Update(float inDeltaTime)

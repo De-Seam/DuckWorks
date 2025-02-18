@@ -1,13 +1,9 @@
 #pragma once
-// Core includes
-#include <DuckCore/RTTI/Ref.h>
-
-// Engine includes
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/StaticArray.h>
+#include <DuckCore/Manager/Manager.h>
 #include <DuckCore/Math/Vector.h>
-
-#include <Engine/Manager.h>
+#include <DuckCore/RTTI/Ref.h>
 
 #include <SDL/SDL_keycode.h>
 
@@ -22,9 +18,9 @@ enum class EMouseButton : uint8
 	X2 = 5
 };
 
-class SDLEventManager : public Manager
+class SDLEventManager : public DC::Manager
 {
-	RTTI_CLASS(SDLEventManager, Manager)
+	MANAGER_BASE_CLASS(SDLEventManager)
 public:
 	SDLEventManager();
 	virtual ~SDLEventManager() override;
