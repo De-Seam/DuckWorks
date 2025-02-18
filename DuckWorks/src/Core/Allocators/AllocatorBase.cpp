@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Core/Allocators/AllocatorBase.h"
 
+using namespace DC;
+
 AllocatorBase::~AllocatorBase()
 {
 #ifdef TRACK_ALLOCATIONS

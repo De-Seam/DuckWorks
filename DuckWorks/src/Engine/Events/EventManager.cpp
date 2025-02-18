@@ -4,6 +4,8 @@
 // Engine includes
 #include "Engine/Events/SDLEventManager.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(EventManager, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(EventManager)

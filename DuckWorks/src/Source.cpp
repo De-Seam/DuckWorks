@@ -7,8 +7,10 @@
 #include "External/SDL/SDL.h"
 #include "External/sol/sol.hpp"
 
+using namespace DC;
+
 int main(int, char**)
 {
-	gVerify(DC::gIsMainThread());
+	gVerify(gIsMainThread());
 	return gApp.Run();
 }

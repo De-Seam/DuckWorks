@@ -24,7 +24,7 @@ public:
 	int32 GetHeight() const { return mSize.mY; }
 
 protected:
-	virtual void LoadFromFile(const String& inFile) override;
+	virtual void LoadFromFile(const DC::String& inFile) override;
 
 private:
 	IVec2 mSize = {};

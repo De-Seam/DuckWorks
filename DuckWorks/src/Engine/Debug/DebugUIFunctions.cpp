@@ -6,6 +6,8 @@
 // External includes
 #include "External/imgui/imgui.h"
 
+using namespace DC;
+
 bool gDebugDrawJson(Json& ioJson, const String& inLabel)
 {
 	PROFILE_SCOPE(gDebugDrawJson)

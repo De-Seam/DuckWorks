@@ -19,6 +19,8 @@
 #include "Engine/Entity/Components/ScriptComponent.h"
 #include "Engine/Factory/Factory.h"
 
+using namespace DC;
+
 void gRegisterFactoryClassesEngine()
 {
 	PROFILE_SCOPE(gRegisterFactoryClassesEngine)

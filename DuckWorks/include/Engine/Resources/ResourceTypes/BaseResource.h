@@ -13,19 +13,19 @@ struct BaseResource : public RTTIBaseClass
 	// Make sure to create a virtual destructor to avoid memory leaks
 	virtual ~BaseResource() override = default;
 
-	[[nodiscard]] const String& GetFileName() const { return mFile; }
+	[[nodiscard]] const DC::String& GetFileName() const { return mFile; }
 
 protected:
 	// Make sure to call this base!
-	virtual void LoadFromFile(const String& inFile)
+	virtual void LoadFromFile(const DC::String& inFile)
 	{
 		mFile = inFile;
 	}
 
-	static String sReadFile(const String& inFile);
+	static DC::String sReadFile(const DC::String& inFile);
 
 private:
-	String mFile = {};
+	DC::String mFile = {};
 	int64 mFileLastModifiedTime = 0; ///< time_since_epoch
 
 	friend class ResourceManager;

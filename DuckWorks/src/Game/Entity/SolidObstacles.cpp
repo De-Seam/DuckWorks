@@ -7,6 +7,8 @@
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(SolidObstacle, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(SolidObstacle)

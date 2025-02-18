@@ -7,6 +7,8 @@
 // External includes
 #include "External/SDL/SDL_image.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(TextureResource, ClassAllocator)
 
 Json TextureResource::Serialize()

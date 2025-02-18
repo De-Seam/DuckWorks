@@ -9,6 +9,8 @@
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Renderer/Renderer.h"
 
+using namespace DC;
+
 void BVH::Init(const InitParams& inParams)
 {
 	gAssert(gIsMainThread());

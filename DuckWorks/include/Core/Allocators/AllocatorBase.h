@@ -1,4 +1,5 @@
 #pragma once
+#include <DuckCore/Containers/String.h>
 #include "Core/Utilities/Types.h"
 #include "Core/Utilities/Utilities.h"
 
@@ -21,23 +22,23 @@ public:
 
 	template<typename taType, typename... taArgs>
 #ifdef TRACK_ALLOCATIONS
-	taType* Allocate(const String& inAllocationOrigin, taArgs&&... inArgs);
+	taType* Allocate(const DC::String& inAllocationOrigin, taArgs&&... inArgs);
 #else
 	taType *Allocate(taArgs &&...inArgs);
 #endif // TRACK_ALLOCATIONS
 
 protected:
 #ifdef TRACK_ALLOCATIONS
-	void TrackAllocation(const String& inAllocationOrigin, void* inAllocatedPtr);
+	void TrackAllocation(const DC::String& inAllocationOrigin, void* inAllocatedPtr);
 	void UntrackAllocation(void* inAllocatedPtr);
 
-	HashMap<void*, String> mAllocations;
+	HashMap<void*, DC::String> mAllocations;
 #endif // TRACK_ALLOCATIONS
 };
 
 template<typename taType, typename... taArgs>
 #ifdef TRACK_ALLOCATIONS
-taType* AllocatorBase::Allocate(const String& inAllocationOrigin, taArgs&&... inArgs)
+taType* AllocatorBase::Allocate(const DC::String& inAllocationOrigin, taArgs&&... inArgs)
 #else
 taType* AllocatorBase::Allocate(taArgs &&...inArgs)
 #endif // TRACK_ALLOCATIONS

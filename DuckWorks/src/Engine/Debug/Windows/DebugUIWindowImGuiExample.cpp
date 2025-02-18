@@ -3,6 +3,8 @@
 
 #include "External/imgui/imgui.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(DebugUIWindowImGuiExample, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowImGuiExample)

@@ -3,6 +3,8 @@
 
 #include "External/imgui/imgui.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(DebugUIWindowOutputLog, StandardAllocator)
 
 Json DebugUIWindowOutputLog::Serialize()

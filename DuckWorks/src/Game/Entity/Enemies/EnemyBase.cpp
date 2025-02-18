@@ -8,6 +8,8 @@
 // Game includes
 #include "Game/Entity/Player/Player.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(EnemyBase, StandardAllocator)
 
 Json EnemyBase::Serialize()

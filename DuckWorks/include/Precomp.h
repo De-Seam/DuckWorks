@@ -1,6 +1,7 @@
 #pragma once
+#include <DuckCore/Core/Log.h>
+
 // Core headers
-#include "Core/Log/Log.h"
 #include "Core/Math/Math.h"
 #include "Core/Utilities/Utilities.h"
 

@@ -12,7 +12,7 @@ public:
 	ClassAllocator(uint64 inClassAmount = 64, uint64 inInitialPages = 1);
 	virtual ~ClassAllocator() override;
 
-	taType* Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin));
+	taType* Allocate(IF_TRACK_ALLOCATIONS(const DC::String& inAllocationOrigin));
 	void Free(taType* inPtr);
 
 	const Array<void*> GetPages() const { return mPages; }
@@ -44,7 +44,7 @@ ClassAllocator<taType>::~ClassAllocator()
 }
 
 template<typename taType>
-taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const String& inAllocationOrigin))
+taType* ClassAllocator<taType>::Allocate(IF_TRACK_ALLOCATIONS(const DC::String& inAllocationOrigin))
 {
 	DC::ScopedMutexLock lock(mMutex);
 	for (void* page : mPages)

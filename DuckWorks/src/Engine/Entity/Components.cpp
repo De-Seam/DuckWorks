@@ -6,6 +6,8 @@
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
+using namespace DC;
+
 // WorldComponent
 RTTI_VIRTUAL_CLASS_DEFINITION(WorldComponent)
 

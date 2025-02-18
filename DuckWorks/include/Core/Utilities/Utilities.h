@@ -19,7 +19,6 @@
 
 #define PROFILE_MUTEXES 1
 
-using String = std::string;
 using StringView = std::string_view;
 using Json = nlohmann::ordered_json;
 

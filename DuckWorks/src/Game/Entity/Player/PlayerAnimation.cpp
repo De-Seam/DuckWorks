@@ -5,6 +5,8 @@
 
 #include "Game/Entity/Player/Player.h"
 
+using namespace DC;
+
 PlayerAnimation::PlayerAnimation(Player* inPlayer)
 	: mPlayer(inPlayer)
 {

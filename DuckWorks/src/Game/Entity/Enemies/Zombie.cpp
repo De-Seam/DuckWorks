@@ -5,6 +5,8 @@
 #include <Engine/Entity/Components.h>
 #include <Engine/Resources/ResourceManager.h>
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(Zombie, ClassAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(Zombie)

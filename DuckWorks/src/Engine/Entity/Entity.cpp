@@ -12,6 +12,8 @@
 #include "Engine/Threads/ThreadManager.h"
 #include "Engine/World/World.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(Entity, StandardAllocator)
 
 Json Entity::Serialize()

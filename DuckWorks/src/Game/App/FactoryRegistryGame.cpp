@@ -11,6 +11,8 @@
 #include "Game/Entity/Player/Player.h"
 #include "Game/Entity/Projectiles/Projectile.h"
 
+using namespace DC;
+
 void gRegisterFactoryClassesGame()
 {
 	PROFILE_SCOPE(gRegisterFactoryClassesGame)

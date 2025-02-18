@@ -10,8 +10,8 @@ public:
 
 	int Run(); ///< Run app. Returns exit code.
 
-	void LoadUserSettingsFromFile(const String& inFile, UserSettingsGame& inUserSettings);
-	void SaveUserSettingsToFile(const String& inFile, UserSettingsGame& inUserSettings);
+	void LoadUserSettingsFromFile(const DC::String& inFile, UserSettingsGame& inUserSettings);
+	void SaveUserSettingsToFile(const DC::String& inFile, UserSettingsGame& inUserSettings);
 
 private:
 	void MainLoop();
@@ -19,7 +19,7 @@ private:
 
 	void ShutdownInternal(); ///< Internal shutdown app.
 
-	String mUserSettingsFile = "UserSettings.json";
+	DC::String mUserSettingsFile = "UserSettings.json";
 };
 
 extern App gApp;

@@ -7,6 +7,8 @@
 // Std includes
 #include <fstream>
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(LuaResource, ClassAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(LuaResource)

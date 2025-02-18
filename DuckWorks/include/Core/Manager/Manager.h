@@ -2,15 +2,11 @@
 #include "Core/CoreBase.h"
 
 // Managers are classes that are created as extern global variables
-class Manager : public RTTIBaseClass
+class Manager : public DC::RTTIClass
 {
-	RTTI_VIRTUAL_CLASS(Manager, RTTIBaseClass)
+	RTTI_CLASS(Manager, RTTIClass)
 
 public:
-	struct ConstructParameters : public Base::ConstructParameters {};
-
-	Manager(const ConstructParameters& inParameters) : Base(inParameters) {}
-
 	virtual void Init() {}
 	virtual void Shutdown() {}
 	virtual void Update([[maybe_unused]] float inDeltaTime) {}

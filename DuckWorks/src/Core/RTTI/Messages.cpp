@@ -1,21 +1,2 @@
 #include "Precomp.h"
-#include "Core/RTTI/Messages.h"
-
-// MsgBase
-RTTI_VIRTUAL_CLASS_DEFINITION(MsgBase)
-RTTI_EMPTY_SERIALIZE_DEFINITION(MsgBase)
-
-RTTI_VIRTUAL_CLASS_DEFINITION(MsgEntityBase)
-RTTI_EMPTY_SERIALIZE_DEFINITION(MsgEntityBase)
-
-RTTI_CLASS_DEFINITION(MsgPreEntityPositionUpdated, StandardAllocator)
-RTTI_EMPTY_SERIALIZE_DEFINITION(MsgPreEntityPositionUpdated)
-
-RTTI_CLASS_DEFINITION(MsgPostEntityPositionUpdated, StandardAllocator)
-RTTI_EMPTY_SERIALIZE_DEFINITION(MsgPostEntityPositionUpdated)
-
-RTTI_CLASS_DEFINITION(MsgPreEntityRotationUpdated, StandardAllocator)
-RTTI_EMPTY_SERIALIZE_DEFINITION(MsgPreEntityRotationUpdated)
-
-RTTI_CLASS_DEFINITION(MsgPostEntityRotationUpdated, StandardAllocator)
-RTTI_EMPTY_SERIALIZE_DEFINITION(MsgPostEntityRotationUpdated)
+#include <Core/RTTI/Messages.h>

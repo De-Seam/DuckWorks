@@ -12,6 +12,8 @@
 // External includes
 #include "External/SDL/SDL.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(Renderer, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(Renderer)

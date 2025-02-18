@@ -1,16 +1,15 @@
 #include "Precomp.h"
 #include "Game/Entity/MovingPlatform.h"
 
-// Engine includes
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Entity/Components.h"
+#include "Engine/Entity/Components/CollisionComponent.h"
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/World/World.h"
 
-// Game includes
-#include "Engine/Entity/Components/CollisionComponent.h"
-
 #include "Game/Entity/Player/Player.h"
+
+using namespace DC;
 
 RTTI_CLASS_DEFINITION(MovingPlatform, StandardAllocator)
 

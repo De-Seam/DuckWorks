@@ -5,6 +5,8 @@
 #include "External/imgui/imgui.h"
 #include "External/SDL/SDL.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(DebugUIWindowTextureViewer, StandardAllocator)
 
 Json DebugUIWindowTextureViewer::Serialize()

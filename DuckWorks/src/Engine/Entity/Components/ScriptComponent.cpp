@@ -7,6 +7,8 @@
 #include "Engine/Resources/ResourceManager.h"
 #include "Engine/Resources/ResourceTypes/LuaResource.h"
 
+using namespace DC;
+
 // ScriptComponent
 RTTI_CLASS_DEFINITION(ScriptComponent, ClassAllocator)
 
@@ -26,11 +28,11 @@ void ScriptComponent::Deserialize(const Json& inJson)
 	if (inJson.contains("mFileName"))
 	{
 		const String& lua_update_file = inJson["mFileName"];
-		if (lua_update_file.empty())
+		if (lua_update_file.IsEmpty())
 		{
 			mUpdateScript = nullptr;
 		}
-		else if (gEngine.FileExists(lua_update_file.c_str()) && gIsValidLuaExtension(lua_update_file))
+		else if (gEngine.FileExists(lua_update_file.CStr()) && gIsValidLuaExtension(lua_update_file))
 		{
 			mUpdateScript = gResourceManager.GetResource<LuaResource>(inJson["mFileName"]);
 		}

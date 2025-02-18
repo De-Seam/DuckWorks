@@ -9,6 +9,8 @@
 // External includes
 #include <External/imgui/imgui.h>
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(DebugUIWindowWorldSettings, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowWorldSettings)

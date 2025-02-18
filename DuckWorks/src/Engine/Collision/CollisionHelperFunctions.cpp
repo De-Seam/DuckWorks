@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
 
+using namespace DC;
+
 bool gFullyInsideOf(const AABB& inA, const AABB& inB)
 {
 	return

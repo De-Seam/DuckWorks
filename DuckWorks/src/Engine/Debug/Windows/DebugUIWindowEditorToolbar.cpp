@@ -13,6 +13,8 @@
 // Std includes
 #include <fstream>
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(DebugUIWindowEditorToolbar, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(DebugUIWindowEditorToolbar)

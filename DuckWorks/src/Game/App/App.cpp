@@ -13,6 +13,8 @@
 // Std includes
 #include <fstream>
 
+using namespace DC;
+
 App gApp;
 
 App::App()

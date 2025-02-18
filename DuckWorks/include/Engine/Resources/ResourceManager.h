@@ -28,10 +28,10 @@ public:
 	ResourceManager& operator=(const ResourceManager&) = delete;
 
 	template<typename taType>
-	std::shared_ptr<taType> GetResource(const String& inFile);
+	std::shared_ptr<taType> GetResource(const DC::String& inFile);
 
 private:
-	int64 GetTimeSinceFileModified(const String& inFile) const;
+	int64 GetTimeSinceFileModified(const DC::String& inFile) const;
 
 	phmap::flat_hash_map<std::string, SharedPtr<BaseResource>> mResources;
 
@@ -41,20 +41,20 @@ private:
 extern ResourceManager gResourceManager;
 
 template<typename taType>
-std::shared_ptr<taType> ResourceManager::GetResource(const String& inFile)
+std::shared_ptr<taType> ResourceManager::GetResource(const DC::String& inFile)
 {
 	// taType must be derived from BaseResource
 	static_assert(std::is_base_of_v<BaseResource, taType>);
-	if (!std::filesystem::exists(inFile))
+	if (!std::filesystem::exists(*inFile))
 	{
-		gLog(ELogType::Error, "File doesn't exist: %s", inFile.c_str());
+		gLog(ELogType::Error, "File doesn't exist: %s", inFile.CStr());
 		return nullptr;
 	}
 
 	if (!mResources.contains(inFile))
 	{
 		// Load resource if it isn't already loaded
-		gLog("Loading resource of type %s: %s", taType::sGetClassName(), inFile.c_str());
+		gLog("Loading resource of type %s: %s", taType::sGetClassName(), inFile.CStr());
 		mResources[inFile] = std::make_shared<taType>();
 		mResources[inFile]->LoadFromFile(inFile);
 		mResources[inFile]->mFileLastModifiedTime = GetTimeSinceFileModified(inFile);

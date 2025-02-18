@@ -11,7 +11,7 @@
 
 bool gIsValidTextureExtension(const std::string& inFilePath)
 {
-	String lower_case_path;
+	std::string lower_case_path;
 	// Convert file path to lower case for case-insensitive comparison
 	std::ranges::transform(inFilePath.begin(), inFilePath.end(), std::back_inserter(lower_case_path),
 							[](unsigned char c) { return SCast<unsigned char>(std::tolower(c)); });
@@ -33,12 +33,12 @@ bool gIsValidTextureExtension(const std::string& inFilePath)
 
 bool gIsValidLuaExtension(const std::string& inFilePath)
 {
-	String lower_case_path;
+	std::string lower_case_path;
 	// Convert file path to lower case for case-insensitive comparison
 	std::ranges::transform(inFilePath.begin(), inFilePath.end(), std::back_inserter(lower_case_path),
 							[](unsigned char c) { return SCast<unsigned char>(std::tolower(c)); });
 
-	const static String sExtension = ".lua";
+	const static std::string sExtension = ".lua";
 
 	return lower_case_path.size() >= sExtension.size() &&
 		lower_case_path.compare(lower_case_path.size() - sExtension.size(), sExtension.size(), sExtension) == 0;

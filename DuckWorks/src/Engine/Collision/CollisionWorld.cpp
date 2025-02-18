@@ -8,6 +8,8 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Threads/ThreadManager.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(CollisionWorld, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(CollisionWorld)

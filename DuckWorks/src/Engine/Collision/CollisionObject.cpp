@@ -2,6 +2,8 @@
 #include "Engine/Collision/CollisionObject.h"
 #include "Engine/Collision/CollisionHelperFunctions.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(CollisionObject, ClassAllocator)
 
 Json CollisionObject::Serialize()

@@ -9,6 +9,8 @@
 // External includes
 #include <External/imgui/imgui.h>
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(DebugUIWindowNewFilePopup, StandardAllocator)
 
 Json DebugUIWindowNewFilePopup::Serialize()

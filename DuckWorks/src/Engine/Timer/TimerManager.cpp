@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Timer/TimerManager.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(TimerManager, StandardAllocator)
 
 RTTI_EMPTY_SERIALIZE_DEFINITION(TimerManager)

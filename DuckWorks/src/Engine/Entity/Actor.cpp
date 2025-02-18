@@ -4,6 +4,8 @@
 // Engine includes
 #include "Engine/World/World.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(Actor, StandardAllocator)
 
 Json Actor::Serialize()

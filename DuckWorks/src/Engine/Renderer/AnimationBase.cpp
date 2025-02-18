@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Renderer/AnimationBase.h"
 
+using namespace DC;
+
 void AnimationBase::AddAnimation(uint16 inState, const std::vector<Frame>& inFrames)
 {
 	mAnimations[inState] = inFrames;

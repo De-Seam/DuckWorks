@@ -3,6 +3,7 @@
 
 // Engine includes
 #include <Engine/Entity/Actor.h>
+#include "Engine/Collision/CollisionHelperFunctions.h"
 #include "Engine/Debug/DebugUIFunctions.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
 #include "Engine/Debug/Windows/DebugUIWindowEntityDetails.h"
@@ -24,7 +25,7 @@
 // Std includes
 #include <fstream>
 
-#include "Engine/Collision/CollisionHelperFunctions.h"
+using namespace DC;
 
 RTTI_CLASS_DEFINITION(DebugUIWindowManager, StandardAllocator)
 

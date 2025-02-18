@@ -1,9 +1,12 @@
 #pragma once
-#include "Core/RTTI/RefObject.h"
+#include <DuckCore/RTTI/RTTIClass.h>
+#include <DuckCore/Threads/Mutex.h>
+
 #include "Core/Utilities/Utilities.h"
 
 // Engine includes
-#include <DuckCore/Threads/Mutex.h>
+
+#include <DuckCore/RTTI/Ref.h>
 
 #include "Engine/Collision/CollisionWorld.h"
 #include "Engine/Entity/Entity.h"
@@ -20,18 +23,14 @@ enum class EWorldState : uint8
 	EndedPlay
 };
 
-class World : public RTTIBaseClass
+class World : public DC::RTTIClass
 {
-	RTTI_CLASS(World, RTTIBaseClass, StandardAllocator)
+	RTTI_CLASS(World, RTTIClass)
 
 public:
 	virtual Json SerializeIgnoreEntities() const;
 
-	struct ConstructParameters : public Base::ConstructParameters {};
-
 	using Base::Base;
-
-	World(const ConstructParameters& inConstructParameters = {});
 
 	virtual ~World() override;
 
@@ -42,12 +41,12 @@ public:
 	void EndPlay();
 
 	template<typename taType>
-	Ref<taType> CreateEntity(const String& inName = taType::sGetClassName());
-	void AddEntity(const Ref<Entity>& inEntity);
-	void DestroyEntity(const Ref<Entity>& inEntity);
+	DC::Ref<taType> CreateEntity(const DC::String& inName = taType::sGetClassName());
+	void AddEntity(const DC::Ref<Entity>& inEntity);
+	void DestroyEntity(const DC::Ref<Entity>& inEntity);
 
-	[[nodiscard]] Array<Ref<Entity>>& GetEntities() { return mEntities; }
-	[[nodiscard]] const Array<Ref<Entity>>& GetEntities() const { return mEntities; }
+	[[nodiscard]] Array<DC::Ref<Entity>>& GetEntities() { return mEntities; }
+	[[nodiscard]] const Array<DC::Ref<Entity>>& GetEntities() const { return mEntities; }
 
 	TextureRenderComponent* GetTextureRenderComponentAtLocationSlow(Vec2 inWorldLocation) const;
 
@@ -73,12 +72,12 @@ private:
 
 	UniquePtr<CollisionWorld> mCollisionWorld = nullptr;
 
-	Array<Ref<Entity>> mEntities = {};
+	Array<DC::Ref<Entity>> mEntities = {};
 
-	Array<Ref<Entity>> mEntitiesToAdd = {};
+	Array<DC::Ref<Entity>> mEntitiesToAdd = {};
 	DC::Mutex mEntitiesToAddMutex = {};
 
-	Array<Ref<Entity>> mEntitiesToRemove = {};
+	Array<DC::Ref<Entity>> mEntitiesToRemove = {};
 	DC::Mutex mEntitiesToRemoveMutex = {};
 
 	int32 mVelocityIterations = 6;
@@ -92,13 +91,13 @@ private:
 };
 
 template<typename taType>
-Ref<taType> World::CreateEntity(const String& inName)
+DC::Ref<taType> World::CreateEntity(const DC::String& inName)
 {
 	static_assert(std::is_base_of_v<Entity, taType>);
 	typename taType::ConstructParameters params;
 	params.mWorld = this;
 	params.mName = inName;
-	Ref<taType> entity = {};
+	DC::Ref<taType> entity = {};
 	AddEntity(entity, inName);
 	return entity;
 }

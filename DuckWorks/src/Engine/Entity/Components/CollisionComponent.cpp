@@ -5,6 +5,8 @@
 #include "Engine/Engine/Engine.h"
 #include "Engine/World/World.h"
 
+using namespace DC;
+
 // CollisionComponent
 RTTI_CLASS_DEFINITION(CollisionComponent, ClassAllocator)
 

@@ -14,12 +14,14 @@
 #include "Engine/Timer/TimerManager.h"
 #include "Engine/World/World.h"
 
+using namespace DC;
+
 Engine gEngine;
 
 void Engine::Init(UniquePtr<BaseUserSettings> inUserSettings)
 {
 	PROFILE_SCOPE(Engine::Init)
-	gLog(ELogType::Info, "Initializing Engine");
+	gLog(ELogLevel::Info, "Initializing Engine");
 
 	mUserSettings = std::move(inUserSettings);
 

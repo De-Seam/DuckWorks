@@ -4,6 +4,8 @@
 #include <condition_variable>
 #include <vector>
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(ThreadManager, StandardAllocator)
 RTTI_EMPTY_SERIALIZE_DEFINITION(ThreadManager)
 

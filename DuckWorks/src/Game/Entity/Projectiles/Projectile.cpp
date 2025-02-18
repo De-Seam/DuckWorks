@@ -6,6 +6,8 @@
 #include "Engine/Entity/Components/CollisionComponent.h"
 #include "Engine/Resources/ResourceManager.h"
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(Projectile, StandardAllocator)
 
 Json Projectile::Serialize()

@@ -4,6 +4,8 @@
 // Std includes
 #include <fstream>
 
+using namespace DC;
+
 RTTI_CLASS_DEFINITION(BaseResource, StandardAllocator)
 
 Json BaseResource::Serialize()
@@ -32,7 +34,7 @@ String BaseResource::sReadFile(const String& inFile)
 	std::ifstream file(inFile);
 	if (!file.is_open())
 	{
-		gLog(ELogType::Error, "Failed to open file: %s", inFile.c_str());
+		gLog(ELogType::Error, "Failed to open file: %s", inFile.CStr());
 		return {};
 	}
 

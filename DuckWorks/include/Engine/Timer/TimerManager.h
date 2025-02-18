@@ -4,7 +4,7 @@
 
 class TimerManager : public Manager
 {
-	RTTI_CLASS(TimerManager, Manager, StandardAllocator)
+	RTTI_CLASS(TimerManager, Manager)
 
 public:
 	struct ConstructParameters : public Base::ConstructParameters {};

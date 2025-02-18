@@ -1,6 +1,8 @@
 #include "Precomp.h"
 #include "Engine/Debug/Windows/DebugUIWindow.h"
 
+using namespace DC;
+
 RTTI_VIRTUAL_CLASS_DEFINITION(DebugUIWindow)
 
 Json DebugUIWindow::Serialize()
