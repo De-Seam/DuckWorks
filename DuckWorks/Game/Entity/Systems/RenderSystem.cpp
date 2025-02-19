@@ -1,6 +1,6 @@
-#include <DuckCore/Manager/Managers.h>
-
 #include <Game/Entity/Systems/RenderSystem.h>
+
+#include <DuckCore/Manager/Managers.h>
 
 #include <Engine/Engine.h>
 #include <Engine/Renderer/Renderer.h>

@@ -1,6 +1,6 @@
-#include <Game/Entity/EntityService.h>
 #include <Game/World/WorldGeneratorService.h>
 
+#include <Game/Entity/EntityService.h>
 #include <Game/Grid/Grid.h>
 #include <Game/Grid/GridService.h>
 #include <Game/World/World.h>

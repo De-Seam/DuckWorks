@@ -1,11 +1,11 @@
 #include <CryptChat/CryptChatApp.h>
 
-// External includes
-#include <iostream>
+#include <External/imgui/imgui.h>
 
 #include <asio.hpp>
+#include <iostream>
+
 #include <asio/write.hpp>
-#include <External/imgui/imgui.h>
 
 using asio::ip::tcp;
 

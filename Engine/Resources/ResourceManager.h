@@ -6,6 +6,7 @@
 #include <DuckCore/Manager/Managers.h>
 #include <DuckCore/RTTI/Ref.h>
 #include <DuckCore/Utilities/GUID.h>
+
 #include <Engine/Engine.h>
 #include <Engine/Files/FileManager.h>
 #include <Engine/Resources/JsonFile.h>

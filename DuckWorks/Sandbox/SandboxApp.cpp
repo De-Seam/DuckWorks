@@ -1,3 +1,5 @@
+#include <Sandbox/SandboxApp.h>
+
 #include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Random.h>
 #include <DuckCore/Math/Transform.h>
@@ -5,8 +7,6 @@
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Renderer/Renderer.h>
-
-#include <Sandbox/SandboxApp.h>
 
 #include <SDL/SDL_render.h>
 

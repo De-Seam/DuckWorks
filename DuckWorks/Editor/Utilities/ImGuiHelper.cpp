@@ -1,6 +1,7 @@
+#include <Editor/Utilities/ImGuiHelper.h>
+
 #include <Editor/EditorApp.h>
 #include <Editor/Menus/ResourceSelectorMenu.h>
-#include <Editor/Utilities/ImGuiHelper.h>
 
 using namespace DC;
 

@@ -1,9 +1,9 @@
+#include <Launcher/LauncherApp.h>
+
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Renderer/Renderer.h>
 
 #include <External/imgui/imgui.h>
-
-#include <Launcher/LauncherApp.h>
 
 LauncherApp::~LauncherApp() {}
 

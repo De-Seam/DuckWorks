@@ -1,5 +1,6 @@
 #pragma once
 #include <DuckCore/Utilities/GUID.h>
+
 #include <Engine/Renderer/TextureResource.h>
 
 class EditorSettings

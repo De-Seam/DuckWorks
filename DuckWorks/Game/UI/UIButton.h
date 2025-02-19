@@ -1,4 +1,7 @@
 #pragma once
+#include <DuckCore/Math/Rect.h>
+#include <DuckCore/Math/RGBA.h>
+
 #include <Game/UI/UIElement.h>
 
 class UIButton : public UIElement

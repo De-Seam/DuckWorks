@@ -1,6 +1,7 @@
 #pragma once
 // Core includes
 #include <DuckCore/Math/Transform.h>
+
 #include <Game/Entity/Components/Component.h>
 
 struct TransformComponent : public ComponentBase

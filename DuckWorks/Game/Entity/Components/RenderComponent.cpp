@@ -1,11 +1,11 @@
+#include <Game/Entity/Components/RenderComponent.h>
+
 #include <Editor/EditorSettings.h>
 #include <Editor/Utilities/ImGuiHelper.h>
 
 #include <Engine/Engine.h>
 #include <Engine/Renderer/TextureResource.h>
 #include <Engine/Resources/ResourceManager.h>
-
-#include <Game/Entity/Components/RenderComponent.h>
 
 #include <imgui/imgui.h>
 

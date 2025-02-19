@@ -1,7 +1,6 @@
-#include <DuckCore/Events/EventManager.h>
-
 #include <Engine/Engine.h>
 
+#include <DuckCore/Events/EventManager.h>
 #include <DuckCore/Manager/Manager.h>
 #include <DuckCore/Manager/Managers.h>
 

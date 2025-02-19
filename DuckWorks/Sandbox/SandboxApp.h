@@ -1,8 +1,8 @@
 #pragma once
-#include <App/App.h>
-
 #include <DuckCore/Containers/StaticArray.h>
 #include <DuckCore/Math/Vector.h>
+
+#include <App/App.h>
 
 #include <SDL/SDL_render.h>
 

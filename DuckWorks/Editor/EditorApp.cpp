@@ -1,16 +1,15 @@
-#include <DuckCore/Manager/Managers.h>
-
 #include <Editor/EditorApp.h>
 
+#include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Transform.h>
-
-#include <Engine/Files/FileManager.h>
-#include <Engine/Resources/JsonFile.h>
 
 #include <Editor/Menus/EntitySpawnerMenu.h>
 #include <Editor/Menus/OutlinerMenu.h>
 #include <Editor/Menus/SettingsMenu.h>
 #include <Editor/Menus/ViewportMenu.h>
+
+#include <Engine/Files/FileManager.h>
+#include <Engine/Resources/JsonFile.h>
 
 #include <imgui/imgui.h>
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <App/App.h>
-#include <Editor/EditorSettings.h>
 
+#include <Editor/EditorSettings.h>
 #include <Editor/Menus/EditorMenu.h>
 
 #include <Game/GameApp.h>

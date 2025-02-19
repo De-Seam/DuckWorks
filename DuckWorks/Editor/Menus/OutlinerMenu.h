@@ -1,5 +1,6 @@
 #pragma once
 #include <Editor/Menus/EditorMenu.h>
+
 #include <Game/Entity/Entity.h>
 
 class OutlinerMenu : public EditorMenu

@@ -1,5 +1,6 @@
 #pragma once
 #include <DuckCore/Containers/UniquePtr.h>
+
 #include <Game/Grid/Grid.h>
 #include <Game/World/Service.h>
 

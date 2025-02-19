@@ -1,7 +1,10 @@
-#include <DuckCore/RTTI/RTTIRegistry.h>
-#include <Editor/EditorApp.h>
 #include <Editor/Menus/OutlinerMenu.h>
+
+#include <DuckCore/RTTI/RTTIRegistry.h>
+
+#include <Editor/EditorApp.h>
 #include <Editor/Menus/ViewportMenu.h>
+
 #include <Game/Entity/Entity.h>
 #include <Game/Entity/EntityService.h>
 #include <Game/Entity/Components/Component.h>

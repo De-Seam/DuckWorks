@@ -2,6 +2,7 @@
 #include <DuckCore/Containers/Array.h>
 #include <DuckCore/Math/Vector.h>
 #include <DuckCore/RTTI/Ref.h>
+
 #include <Game/Entity/Entity.h>
 
 class GridTile

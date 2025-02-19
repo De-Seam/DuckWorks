@@ -1,8 +1,8 @@
+#include <Game/Input/InputService.h>
+
 #include <DuckCore/Manager/Managers.h>
 
 #include <Engine/Engine.h>
-
-#include <Game/Input/InputService.h>
 
 using namespace DC;
 

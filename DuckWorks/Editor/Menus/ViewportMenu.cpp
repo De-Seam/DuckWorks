@@ -1,7 +1,7 @@
+#include <Editor/Menus/ViewportMenu.h>
+
 #include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Transform.h>
-
-#include <Editor/Menus/ViewportMenu.h>
 
 #include <Engine/Renderer/Renderer.h>
 

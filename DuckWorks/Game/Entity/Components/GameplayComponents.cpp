@@ -1,5 +1,6 @@
-#include <Editor/Utilities/ImGuiHelper.h>
 #include <Game/Entity/Components/GameplayComponents.h>
+
+#include <Editor/Utilities/ImGuiHelper.h>
 
 #include <External/imgui/imgui.h>
 

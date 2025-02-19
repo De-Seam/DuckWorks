@@ -1,6 +1,8 @@
 #pragma once
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/UniquePtr.h>
+
+#include <Game/Entity/Entity.h>
 #include <Game/World/EntityWorldGenerationRulesResource.h>
 #include <Game/World/Service.h>
 

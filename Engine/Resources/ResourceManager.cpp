@@ -1,6 +1,7 @@
 #include <Engine/Resources/ResourceManager.h>
 
 #include <DuckCore/Containers/Array.h>
+
 #include <Engine/Engine.h>
 #include <Engine/Files/FileManager.h>
 

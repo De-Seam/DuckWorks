@@ -1,6 +1,7 @@
 #pragma once
 // Engine includes
 #include <Engine/Renderer/Sprite.h>
+
 #include <Game/Entity/Components/Component.h>
 
 struct SpriteRenderComponent : public ComponentBase

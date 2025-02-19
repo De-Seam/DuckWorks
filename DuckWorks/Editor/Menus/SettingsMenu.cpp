@@ -1,5 +1,7 @@
-#include <Editor/EditorApp.h>
 #include <Editor/Menus/SettingsMenu.h>
+
+#include <Editor/EditorApp.h>
+
 #include <imgui/imgui.h>
 
 using namespace DC;

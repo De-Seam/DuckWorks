@@ -1,5 +1,6 @@
-#include <Editor/EditorApp.h>
 #include <Editor/Menus/EntitySpawnerMenu.h>
+
+#include <Editor/EditorApp.h>
 #include <Editor/Menus/ViewportMenu.h>
 
 #include <Game/Entity/Entity.h>

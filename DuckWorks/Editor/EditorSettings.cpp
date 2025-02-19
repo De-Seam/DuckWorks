@@ -1,4 +1,5 @@
 #include <Editor/EditorSettings.h>
+
 #include <Engine/Resources/ResourceManager.h>
 
 using namespace DC;

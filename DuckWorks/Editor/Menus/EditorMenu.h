@@ -1,5 +1,6 @@
 #pragma once
 #include <DuckCore/Containers/Array.h>
+
 #include <Engine/Objects/Object.h>
 
 class EditorApp;

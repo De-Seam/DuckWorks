@@ -1,6 +1,8 @@
 #pragma once
 #include <DuckCore/Math/Vector.h>
+
 #include <Engine/Resources/Resource.h>
+
 #include <imgui/imgui.h>
 
 class EditorMenu;

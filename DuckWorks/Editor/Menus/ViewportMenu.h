@@ -1,5 +1,6 @@
 #pragma once
 #include <DuckCore/Containers/UniquePtr.h>
+#include <DuckCore/Math/Vector.h>
 
 #include <Editor/Menus/EditorMenu.h>
 

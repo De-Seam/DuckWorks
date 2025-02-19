@@ -1,5 +1,4 @@
 #pragma once
-// DuckCore includes
 #include <DuckCore/Containers/Array.h>
 #include <DuckCore/Containers/Handle.h>
 #include <DuckCore/Containers/HashMap.h>

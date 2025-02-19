@@ -1,11 +1,11 @@
+#include <Game/UI/UIButton.h>
+
 #include <DuckCore/Manager/Managers.h>
 #include <DuckCore/Math/Intersects.h>
 
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Renderer/Renderer.h>
-
-#include <Game/UI/UIButton.h>
 
 using namespace DC;
 
