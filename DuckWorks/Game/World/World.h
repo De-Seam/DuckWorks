@@ -1,16 +1,13 @@
 #pragma once
-// Core includes
 #include <DuckCore/Containers/Array.h>
 #include <DuckCore/Containers/Handle.h>
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/StaticArray.h>
+#include <DuckCore/Containers/Pair.h>
 #include <DuckCore/Containers/UniquePtr.h>
 
-// Engine includes
 #include <Engine/Objects/Object.h>
 
-// External includes
-#include <DuckCore/Containers/Pair.h>
 #include <External/entt/entity/registry.hpp>
 
 struct ComponentBase;
