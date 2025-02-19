@@ -1,27 +1,19 @@
-// DuckCore includes
 #include <DuckCore/Containers/UniquePtr.h>
 #include <DuckCore/Core/Core.h>
+#include <DuckCore/Core/Log.h>
 
-// Engine includes
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
 
-// App includes
 #include <App/App.h>
-
-// Apps includes
 #include <Chess/ChessApp.h>
 #include <CryptChat/CryptChatApp.h>
 #include <Editor/EditorApp.h>
 #include <Editor/Menus/ViewportMenu.h>
 #include <Game/Entity/EntityService.h>
-#include <Game/Entity/Pawn.h>
 #include <Launcher/LauncherApp.h>
 #include <Sandbox/SandboxApp.h>
-
-// Std includes
-#include <DuckCore/Core/Log.h>
 
 #include <chrono>
 
@@ -79,17 +71,15 @@ int main(int argc, char* argv[])
 	REGISTER_APP(CryptChatApp);
 	REGISTER_APP(ChessApp);
 
-	Engine engine;
+	{
+		UniquePtr<Engine> engine = gMakeUnique<Engine>();
 
-	gEngine->Init();
+		App::sSetActiveApp(gMakeUnique<LauncherApp>());
 
-	App::sSetActiveApp(gMakeUnique<LauncherApp>());
+		gMainLoop();
 
-	gMainLoop();
-
-	App::sClearActiveApp();
-
-	gEngine->Shutdown();
+		App::sClearActiveApp();
+	}
 
 	return 0;
 }

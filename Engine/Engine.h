@@ -34,9 +34,6 @@ public:
 	Engine();
 	~Engine();
 
-	void Init();
-	void Shutdown();
-
 	void BeginFrame();
 	void Update(float inDeltaTime);
 	void EndFrame();
@@ -50,7 +47,6 @@ public:
 private:
 	void UnregisterUpdateCallback(const EngineUpdateHandle& inHandle);
 
-	bool mIsInitialized = false;
 	bool mShouldShutdown = false;
 
 	struct UpdateCallback

@@ -53,16 +53,6 @@ Engine::~Engine()
 	gEngine = nullptr;
 }
 
-void Engine::Init()
-{
-	mIsInitialized = true;
-}
-
-void Engine::Shutdown()
-{
-	mIsInitialized = false;
-}
-
 void Engine::BeginFrame()
 {
 	Managers::sGet<Renderer>().BeginFrame();
