@@ -1,3 +1,5 @@
+#include <DuckCore/Events/EventManager.h>
+
 #include <Engine/Engine.h>
 
 #include <DuckCore/Manager/Manager.h>
@@ -44,6 +46,7 @@ Engine::Engine()
 	Managers::sAdd(new Renderer);
 	Managers::sAdd(new SDLEventManager);
 	Managers::sAdd(new ResourceManager);
+	Managers::sAdd(new EventManager);
 }
 
 Engine::~Engine()

@@ -1,6 +1,8 @@
 #include <DuckCore/Containers/UniquePtr.h>
 #include <DuckCore/Core/Core.h>
 #include <DuckCore/Core/Log.h>
+#include <DuckCore/Events/EventManager.h>
+#include <DuckCore/Manager/Managers.h>
 
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
@@ -47,6 +49,9 @@ void gMainLoop()
 
 		gEngine->EndFrame();
 	}
+
+	ShutdownEvent shutdown_event;
+	Managers::sGet<EventManager>().SendEvent(shutdown_event);
 }
 
 /**
