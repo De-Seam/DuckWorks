@@ -39,13 +39,13 @@ Engine::Engine()
 	gAssert(gEngine == nullptr);
 	gEngine = this;
 
-	UniquePtr<FileManager> file_manager = gMakeUnique<FileManager>();
+	FileManager* file_manager = new FileManager;
 	file_manager->RegisterFileExtension<JsonFile>("json");
-	Managers::sAdd(gMove(file_manager));
+	Managers::sAdd(file_manager);
 
-	Managers::sAdd(gMakeUnique<Renderer>());
-	Managers::sAdd(gMakeUnique<SDLEventManager>());
-	Managers::sAdd(gMakeUnique<ResourceManager>());
+	Managers::sAdd(new Renderer);
+	Managers::sAdd(new SDLEventManager);
+	Managers::sAdd(new ResourceManager);
 }
 
 Engine::~Engine()
