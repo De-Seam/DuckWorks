@@ -10,8 +10,6 @@
 #include <Engine/Resources/JsonFile.h>
 #include <Engine/Resources/ResourceManager.h>
 
-#include <App/App.h>
-
 using namespace DC;
 
 Engine* gEngine = nullptr;

@@ -59,15 +59,15 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4127; 4702</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DuckCore.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/;$(SolutionDir)Build/Out/Engine/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -80,7 +80,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4127; 4702</DisableSpecificWarnings>
     </ClCompile>
@@ -89,8 +89,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DuckCore.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/;$(SolutionDir)Build/Out/Engine/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -107,22 +107,6 @@
     <ClCompile Include="Editor\Menus\SettingsMenu.cpp" />
     <ClCompile Include="Editor\Menus\ViewportMenu.cpp" />
     <ClCompile Include="Editor\Utilities\ImGuiHelper.cpp" />
-    <ClCompile Include="Engine\Engine.cpp" />
-    <ClCompile Include="Engine\Events\SDLEventManager.cpp" />
-    <ClCompile Include="Engine\Files\FileManager.cpp" />
-    <ClCompile Include="Engine\Objects\Object.cpp" />
-    <ClCompile Include="Engine\Objects\ObjectManager.cpp" />
-    <ClCompile Include="Engine\Renderer\Renderer.cpp" />
-    <ClCompile Include="Engine\Renderer\Sprite.cpp" />
-    <ClCompile Include="Engine\Renderer\SurfaceFile.cpp" />
-    <ClCompile Include="Engine\Renderer\TextureResource.cpp" />
-    <ClCompile Include="Engine\Resources\JsonFile.cpp" />
-    <ClCompile Include="Engine\Resources\Resource.cpp" />
-    <ClCompile Include="Engine\Resources\ResourceManager.cpp" />
-    <ClCompile Include="Game\Input\InputService.cpp" />
-    <ClCompile Include="Game\UI\UIButton.cpp" />
-    <ClCompile Include="Game\UI\UIElement.cpp" />
-    <ClCompile Include="Game\UI\UIService.cpp" />
     <ClCompile Include="Game\Entity\Components\GameplayComponents.cpp" />
     <ClCompile Include="Game\Entity\Components\RenderComponent.cpp" />
     <ClCompile Include="Game\Entity\Entity.cpp" />
@@ -133,7 +117,11 @@
     <ClCompile Include="Game\GameApp.cpp" />
     <ClCompile Include="Game\Grid\Grid.cpp" />
     <ClCompile Include="Game\Grid\GridService.cpp" />
+    <ClCompile Include="Game\Input\InputService.cpp" />
     <ClCompile Include="Game\Pawn.cpp" />
+    <ClCompile Include="Game\UI\UIButton.cpp" />
+    <ClCompile Include="Game\UI\UIElement.cpp" />
+    <ClCompile Include="Game\UI\UIService.cpp" />
     <ClCompile Include="Game\World\EntityWorldGenerationRulesResource.cpp" />
     <ClCompile Include="Game\World\World.cpp" />
     <ClCompile Include="Game\World\WorldGeneratorService.cpp" />
@@ -147,6 +135,7 @@
     <ClInclude Include="Chess\ChessBoard.h" />
     <ClInclude Include="CryptChat\CryptChatApp.h" />
     <ClInclude Include="Editor\EditorApp.h" />
+    <ClInclude Include="Editor\EditorSettings.h" />
     <ClInclude Include="Editor\Menus\EditorMenu.h" />
     <ClInclude Include="Editor\Menus\EntitySpawnerMenu.h" />
     <ClInclude Include="Editor\Menus\OutlinerMenu.h" />
@@ -154,25 +143,7 @@
     <ClInclude Include="Editor\Menus\ResourceSelectorMenu.h" />
     <ClInclude Include="Editor\Menus\SettingsMenu.h" />
     <ClInclude Include="Editor\Menus\ViewportMenu.h" />
-    <ClInclude Include="Editor\EditorSettings.h" />
     <ClInclude Include="Editor\Utilities\ImGuiHelper.h" />
-    <ClInclude Include="Engine\Engine.h" />
-    <ClInclude Include="Engine\Events\SDLEventManager.h" />
-    <ClInclude Include="Engine\Files\FileManager.h" />
-    <ClInclude Include="Engine\Objects\Object.h" />
-    <ClInclude Include="Engine\Objects\ObjectManager.h" />
-    <ClInclude Include="Engine\Renderer\Renderer.h" />
-    <ClInclude Include="Engine\Renderer\Sprite.h" />
-    <ClInclude Include="Engine\Renderer\SurfaceFile.h" />
-    <ClInclude Include="Engine\Renderer\TextureResource.h" />
-    <ClInclude Include="Engine\Resources\JsonFile.h" />
-    <ClInclude Include="Engine\Resources\Resource.h" />
-    <ClInclude Include="Engine\Resources\ResourceManager.h" />
-    <ClInclude Include="Game\Input\InputService.h" />
-    <ClInclude Include="Game\UI\UIButton.h" />
-    <ClInclude Include="Game\UI\UIElement.h" />
-    <ClInclude Include="Game\UI\UIService.h" />
-    <ClInclude Include="Game\UI\UIWidget.h" />
     <ClInclude Include="Game\Entity\Character.h" />
     <ClInclude Include="Game\Entity\Components\Component.h" />
     <ClInclude Include="Game\Entity\Components\GameplayComponents.h" />
@@ -186,6 +157,11 @@
     <ClInclude Include="Game\GameApp.h" />
     <ClInclude Include="Game\Grid\Grid.h" />
     <ClInclude Include="Game\Grid\GridService.h" />
+    <ClInclude Include="Game\Input\InputService.h" />
+    <ClInclude Include="Game\UI\UIButton.h" />
+    <ClInclude Include="Game\UI\UIElement.h" />
+    <ClInclude Include="Game\UI\UIService.h" />
+    <ClInclude Include="Game\UI\UIWidget.h" />
     <ClInclude Include="Game\World\EntityWorldGenerationRulesResource.h" />
     <ClInclude Include="Game\World\Service.h" />
     <ClInclude Include="Game\World\World.h" />
