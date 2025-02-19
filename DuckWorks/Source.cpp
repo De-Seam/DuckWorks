@@ -8,6 +8,8 @@
 
 #include <Chess/ChessApp.h>
 
+#include <CryptChat/CryptChatApp.h>
+
 #include <Editor/EditorApp.h>
 #include <Editor/Menus/ViewportMenu.h>
 
@@ -17,13 +19,11 @@
 
 #include <Game/Entity/EntityService.h>
 
-#include <chrono>
-
-#include <CryptChat/CryptChatApp.h>
-
 #include <Launcher/LauncherApp.h>
 
 #include <Sandbox/SandboxApp.h>
+
+#include <chrono>
 
 using namespace DC;
 
