@@ -11,7 +11,7 @@ void SettingsMenu::Update(float inDeltaTime)
 
 	ImGui::Begin("Settings", &mIsOpen);
 
-	EditorSettings& settings = GetEditorApp().GetEditorSettings();
+//	EditorSettings& settings = GetEditorApp().GetEditorSettings();
 
 	
 	ImGui::End();

@@ -10,5 +10,5 @@ Pawn::Pawn(World& inWorld) :
 	AddComponent<TransformComponent>();
 	AddComponent<VelocityComponent>();
 	AddComponent<MovementComponent>();
-	SpriteRenderComponent& sprite_render_component = AddComponent<SpriteRenderComponent>();
+	AddComponent<SpriteRenderComponent>();
 }

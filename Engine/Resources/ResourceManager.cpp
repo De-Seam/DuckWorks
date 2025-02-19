@@ -20,7 +20,7 @@ Resource* ResourceManager::CreateResource(const Json& inJson)
 {
 	const String& class_name = inJson["ClassName"];
 	const std::function<Resource*(const Json&)>* constructor_function_ptr = mResourceTypeNamesToConstructorFunctions.Find(class_name);
-	gAssert(constructor_function_ptr != nullptr, String::sFormatted("Resource class %s not registered.", *class_name));
+	gAssert(constructor_function_ptr != nullptr, *String::sFormatted("Resource class %s not registered.", *class_name));
 	Resource* resource = (*constructor_function_ptr)(inJson);
 	RegisterResource(*resource);
 	return resource;
