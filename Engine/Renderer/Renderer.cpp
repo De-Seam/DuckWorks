@@ -23,14 +23,14 @@ Renderer::Renderer()
 
 	if (mWindow == nullptr)
 	{
-		gLog(ELogLevel::Error, "Failed to create window\n");
+		Log(ELogLevel::Error, "Failed to create window\n");
 		gAssert(false);
 	}
 
 	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
 	if (mRenderer == nullptr)
 	{
-		gLog(ELogLevel::Error, "Failed to create renderer\n");
+		Log(ELogLevel::Error, "Failed to create renderer\n");
 		gAssert(false);
 	}
 
@@ -41,11 +41,11 @@ Renderer::Renderer()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard controls
 
 	// Setup ImGui style
-    ImGui::StyleColorsDark();
+	ImGui::StyleColorsDark();
 
 	// Setup Platform/Renderer backends
-    ImGui_ImplSDL2_InitForSDLRenderer(mWindow, mRenderer);
-    ImGui_ImplSDLRenderer2_Init(mRenderer);
+	ImGui_ImplSDL2_InitForSDLRenderer(mWindow, mRenderer);
+	ImGui_ImplSDLRenderer2_Init(mRenderer);
 }
 
 Renderer::~Renderer()

@@ -178,7 +178,7 @@ taType* ResourceManager::Find(const DC::GUID& inGUID)
 	if (resource_ptr == nullptr)
 	{
 		gAssert(false);
-		gLog(DC::ELogLevel::Error, DC::String::sFormatted("Resource %s was not found in file %s.", *inGUID.ToString(), *resource_link_info->mJsonFilePath));
+		Log(DC::ELogLevel::Error, DC::String::sFormatted("Resource %s was not found in file %s.", *inGUID.ToString(), *resource_link_info->mJsonFilePath));
 		return nullptr;
 	}
 	return &resource_ptr->Get()->Cast<taType>();

@@ -28,5 +28,5 @@ void SurfaceFile::WriteToDisk()
 #endif
 
 	if (result != 0)
-		gLog(ELogLevel::Error, String::sFormatted("Failed to write surface to disk: %s. Error: %s", *GetPath(), SDL_GetError()));
+		Log(ELogLevel::Error, String::sFormatted("Failed to write surface to disk: %s. Error: %s", *GetPath(), SDL_GetError()));
 }

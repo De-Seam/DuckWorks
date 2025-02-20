@@ -31,7 +31,7 @@ void FileManager::WriteToFile(const DC::String& inPath, const DC::String& inCont
 		if (!file.is_open())
 		{
 			gAssert(false);
-			gLog(ELogLevel::Error, String::sFormatted("Unable to open file %s for writing", *inPath));
+			Log(ELogLevel::Error, String::sFormatted("Unable to open file %s for writing", *inPath));
 		}
 	}
 

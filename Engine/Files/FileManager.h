@@ -48,7 +48,7 @@ DC::Ref<taType> FileManager::Get(const DC::String& inPath)
 		if (registered_file_extension_ptr == nullptr)
 		{
 
-			gLog(DC::ELogLevel::Warning, DC::String::sFormatted("Loading file %s, but this extension is not registered.", *inPath));
+			Log(DC::ELogLevel::Warning, DC::String::sFormatted("Loading file %s, but this extension is not registered.", *inPath));
 		}
 		else
 		{

@@ -23,7 +23,7 @@ TextureResource::TextureResource(const Json& inJson) :
 	Ref<SurfaceFile> surface_file = Managers::sGet<FileManager>().Get<SurfaceFile>(mSurfaceFilePath);
 	if (surface_file == nullptr)
 	{
-		gLog(ELogLevel::Error, String::sFormatted("Failed to load surface file \"%s\" for texture resource.", *mSurfaceFilePath));
+		Log(ELogLevel::Error, String::sFormatted("Failed to load surface file \"%s\" for texture resource.", *mSurfaceFilePath));
 		return;
 	}
 

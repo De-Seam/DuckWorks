@@ -27,7 +27,7 @@
 
 using namespace DC;
 
-void gMainLoop()
+void MainLoop()
 {
 	// Initial time point
 	std::chrono::time_point last_time = std::chrono::high_resolution_clock::now();
@@ -41,7 +41,7 @@ void gMainLoop()
 		// Max 100 ms, or we start slowing down the application (for debugging etc)
 		if (delta_time.count() > 0.1f)
 		{
-			gLog(ELogLevel::Info, String::sFormatted("Slowing app, delta time took %f seconds", delta_time.count()));
+			Log(ELogLevel::Info, String::sFormatted("Slowing app, delta time took %f seconds", delta_time.count()));
 			delta_time = std::chrono::duration<float>(0.1f);
 		}
 
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 	(void)argc;
 	(void)argv;
 
-	gRegisterCoreRTTI();
+	RegisterCoreRTTI();
 	Engine::sRegisterRTTI();
 
 	REGISTER_APP(LauncherApp);
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
 
 		App::sSetActiveApp(MakeUnique<LauncherApp>());
 
-		gMainLoop();
+		MainLoop();
 
 		App::sClearActiveApp();
 	}
