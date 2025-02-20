@@ -72,81 +72,81 @@ void Renderer::EndFrame()
 	SDL_RenderPresent(mRenderer);
 }
 
-void Renderer::SetWindowSize(IVec2 inSize)
+void Renderer::SetWindowSize(IVec2 aSize)
 {
-	SDL_SetWindowSize(mWindow, inSize.mX, inSize.mY);
+	SDL_SetWindowSize(mWindow, aSize.mX, aSize.mY);
 }
 
-SDL_Texture* Renderer::CreateTexture(DC::IVec2 inSize)
+SDL_Texture* Renderer::CreateTexture(DC::IVec2 aSize)
 {
-	return SDL_CreateTexture(mRenderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,inSize.mX,inSize.mY);
+	return SDL_CreateTexture(mRenderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,aSize.mX,aSize.mY);
 }
 
-void Renderer::DestroyTexture(SDL_Texture*& ioTexture)
+void Renderer::DestroyTexture(SDL_Texture*& aTexture)
 {
-	gAssert(ioTexture != nullptr);
-	SDL_DestroyTexture(ioTexture);
-	ioTexture = nullptr;
+	gAssert(aTexture != nullptr);
+	SDL_DestroyTexture(aTexture);
+	aTexture = nullptr;
 }
 
-void Renderer::DrawTexture(SDL_Texture* inTexture, const DC::Transform2D& inTransform)
+void Renderer::DrawTexture(SDL_Texture* aTexture, const DC::Transform2D& aTransform)
 {
 	SDL_FRect dest_rect;
-	dest_rect.x = inTransform.mPosition.mX;
-	dest_rect.y = inTransform.mPosition.mY;
-	dest_rect.w = inTransform.mHalfSize.mX * 2;
-	dest_rect.h = inTransform.mHalfSize.mY * 2;
+	dest_rect.x = aTransform.mPosition.mX;
+	dest_rect.y = aTransform.mPosition.mY;
+	dest_rect.w = aTransform.mHalfSize.mX * 2;
+	dest_rect.h = aTransform.mHalfSize.mY * 2;
 
-	SDL_RenderCopyExF(mRenderer, inTexture, nullptr, &dest_rect, inTransform.mRotation, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyExF(mRenderer, aTexture, nullptr, &dest_rect, aTransform.mRotation, nullptr, SDL_FLIP_NONE);
 }
 
-void Renderer::DrawSprite(const Sprite& inSprite, const Transform2D& inTransform)
+void Renderer::DrawSprite(const Sprite& aSprite, const Transform2D& aTransform)
 {
 	SDL_Rect src_rect;
-	src_rect.x = inSprite.GetBottomLeft().mX;
-	src_rect.y = inSprite.GetBottomLeft().mY;
-	src_rect.w = inSprite.GetTopRight().mX - inSprite.GetBottomLeft().mX;
-	src_rect.h = inSprite.GetTopRight().mY - inSprite.GetBottomLeft().mY;
+	src_rect.x = aSprite.GetBottomLeft().mX;
+	src_rect.y = aSprite.GetBottomLeft().mY;
+	src_rect.w = aSprite.GetTopRight().mX - aSprite.GetBottomLeft().mX;
+	src_rect.h = aSprite.GetTopRight().mY - aSprite.GetBottomLeft().mY;
 
 	SDL_FRect dest_rect;
-	dest_rect.x = inTransform.mPosition.mX;
-	dest_rect.y = inTransform.mPosition.mY;
-	dest_rect.w = inTransform.mHalfSize.mX * 2;
-	dest_rect.h = inTransform.mHalfSize.mY * 2;
+	dest_rect.x = aTransform.mPosition.mX;
+	dest_rect.y = aTransform.mPosition.mY;
+	dest_rect.w = aTransform.mHalfSize.mX * 2;
+	dest_rect.h = aTransform.mHalfSize.mY * 2;
 
-	SDL_RenderCopyExF(mRenderer, inSprite.GetTextureResource().GetTexture(), &src_rect, &dest_rect, inTransform.mRotation, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyExF(mRenderer, aSprite.GetTextureResource().GetTexture(), &src_rect, &dest_rect, aTransform.mRotation, nullptr, SDL_FLIP_NONE);
 }
 
-void Renderer::DrawRectangle(const FRect2D& inRect, const RGBA& inColor) 
+void Renderer::DrawRectangle(const FRect2D& aRect, const RGBA& aColor) 
 {
 	SDL_FRect rect;
-	rect.x = inRect.mX;
-	rect.y = inRect.mY;
-	rect.w = inRect.mWidth;
-	rect.h = inRect.mHeight;
+	rect.x = aRect.mX;
+	rect.y = aRect.mY;
+	rect.w = aRect.mWidth;
+	rect.h = aRect.mHeight;
 
-	SDL_SetRenderDrawColor(mRenderer, inColor.mR, inColor.mG, inColor.mB, inColor.mA);
+	SDL_SetRenderDrawColor(mRenderer, aColor.mR, aColor.mG, aColor.mB, aColor.mA);
 	SDL_RenderFillRectF(mRenderer, &rect);
 }
 
-void Renderer::DrawRectangle(const IRect2D& inRect, const RGBA& inColor) 
+void Renderer::DrawRectangle(const IRect2D& aRect, const RGBA& aColor) 
 {
 	SDL_Rect rect;
-	rect.x = inRect.mX;
-	rect.y = inRect.mY;
-	rect.w = inRect.mWidth;
-	rect.h = inRect.mHeight;
+	rect.x = aRect.mX;
+	rect.y = aRect.mY;
+	rect.w = aRect.mWidth;
+	rect.h = aRect.mHeight;
 
-	SDL_SetRenderDrawColor(mRenderer, inColor.mR, inColor.mG, inColor.mB, inColor.mA);
+	SDL_SetRenderDrawColor(mRenderer, aColor.mR, aColor.mG, aColor.mB, aColor.mA);
 	SDL_RenderFillRect(mRenderer, &rect);
 }
 
-Renderer::ScopedRenderTarget::ScopedRenderTarget(SDL_Texture* inRenderTarget)
+Renderer::ScopedRenderTarget::ScopedRenderTarget(SDL_Texture* aRenderTarget)
 {
 	Renderer& renderer = Managers::sGet<Renderer>();
 	SDL_Renderer* sdl_renderer = renderer.GetRenderer();
 	mPreviousRenderTarget = SDL_GetRenderTarget(sdl_renderer);
-	SDL_SetRenderTarget(sdl_renderer,inRenderTarget);
+	SDL_SetRenderTarget(sdl_renderer,aRenderTarget);
 }
 
 Renderer::ScopedRenderTarget::~ScopedRenderTarget()

@@ -25,22 +25,22 @@ public:
 	void BeginFrame();
 	void EndFrame();
 
-	void SetWindowSize(DC::IVec2 inSize);
+	void SetWindowSize(DC::IVec2 aSize);
 
 	[[nodiscard]]
-	SDL_Texture* CreateTexture(DC::IVec2 inSize);
-	void DestroyTexture(SDL_Texture*& ioTexture);
+	SDL_Texture* CreateTexture(DC::IVec2 aSize);
+	void DestroyTexture(SDL_Texture*& aTexture);
 
-	void DrawTexture(SDL_Texture* inTexture,const DC::Transform2D& inTransform);
-	void DrawSprite(const Sprite& inSprite, const DC::Transform2D& inTransform);
-	void DrawRectangle(const DC::FRect2D& inRect, const DC::RGBA& inColor);
-	void DrawRectangle(const DC::IRect2D& inRect, const DC::RGBA& inColor);
+	void DrawTexture(SDL_Texture* aTexture,	const DC::Transform2D& aTransform);
+	void DrawSprite(const Sprite& aSprite, const DC::Transform2D& aTransform);
+	void DrawRectangle(const DC::FRect2D& aRect, const DC::RGBA& aColor);
+	void DrawRectangle(const DC::IRect2D& aRect, const DC::RGBA& aColor);
 
 	// Class to automatically set the render target, and unset it when it leaves its scope
 	class ScopedRenderTarget : public DC::NoCopy, public DC::NoMove
 	{
 	public:
-		ScopedRenderTarget(SDL_Texture* inRenderTarget);
+		ScopedRenderTarget(SDL_Texture* aRenderTarget);
 		~ScopedRenderTarget();
 
 	private:
