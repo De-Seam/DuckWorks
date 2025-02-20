@@ -30,7 +30,7 @@ Resource* ResourceManager::CreateResource(const Json& inJson)
 void ResourceManager::RegisterResourceType(const DC::RTTI& inRTTI, std::function<Resource*(const DC::Json&)> inConstructorFunction)
 {
 	gAssert(!mResourceTypeNamesToConstructorFunctions.Contains(inRTTI.GetClassName()));
-	mResourceTypeNamesToConstructorFunctions[inRTTI.GetClassName()] = gMove(inConstructorFunction);
+	mResourceTypeNamesToConstructorFunctions[inRTTI.GetClassName()] = Move(inConstructorFunction);
 }
 
 void ResourceManager::UnloadUnreferencedResources()

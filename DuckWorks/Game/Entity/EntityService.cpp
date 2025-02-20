@@ -53,9 +53,9 @@ void EntityService::Update(float inDeltaTime)
 void EntityService::AddEntitySystem(DC::UniquePtr<EntitySystem> inEntitySystem)
 {
 	if (inEntitySystem->IsA<EntitySystemUpdate>())
-		mEntitySystemsToUpdate.Add(gMove(inEntitySystem.StaticCast<EntitySystemUpdate>()));
+		mEntitySystemsToUpdate.Add(Move(inEntitySystem.StaticCast<EntitySystemUpdate>()));
 	else if (inEntitySystem->IsA<EntitySystemTick>())
-		mEntitySystemsToTick.Add(gMove(inEntitySystem.StaticCast<EntitySystemTick>()));
+		mEntitySystemsToTick.Add(Move(inEntitySystem.StaticCast<EntitySystemTick>()));
 #ifdef _ASSERTS
 	else
 		gAssert(false, "Unknown entity system type");

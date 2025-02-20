@@ -52,9 +52,9 @@ private:
 template<typename taType>
 taType* EntityService::CreateEntitySystem()
 {
-	DC::UniquePtr<taType> entity_system = DC::gMakeUnique<taType>(GetWorld());
+	DC::UniquePtr<taType> entity_system = DC::MakeUnique<taType>(GetWorld());
 	taType* entity_system_ptr = entity_system;
-	AddEntitySystem(DC::UniquePtr<EntitySystem>(DC::gMove(entity_system)));
+	AddEntitySystem(DC::UniquePtr<EntitySystem>(DC::Move(entity_system)));
 	return entity_system_ptr;
 }
 

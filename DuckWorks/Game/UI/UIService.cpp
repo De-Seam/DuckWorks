@@ -14,7 +14,7 @@ UIService::~UIService() = default;
 
 void UIService::AddUIElement(Ref<UIElement> inUIElement) 
 {
-	mUIElements.Add(gMove(inUIElement));
+	mUIElements.Add(Move(inUIElement));
 }
 
 void UIService::Update(float inDeltaTime)

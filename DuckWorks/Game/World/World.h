@@ -148,7 +148,7 @@ taType& World::CreateService(taArgs&&... inArgs)
 	const DC::RTTITypeID& type_id = taType::sGetRTTI().GetTypeID();
 	gAssert(!mServices.Contains(type_id), "Service already exists!");
 
-	DC::UniquePtr<taType> service = DC::gMakeUnique<taType>(*this, std::forward<taArgs>(inArgs)...);
+	DC::UniquePtr<taType> service = DC::MakeUnique<taType>(*this, std::forward<taArgs>(inArgs)...);
 	taType* service_ptr = service;
 	mServices[type_id] = std::move(service);
 

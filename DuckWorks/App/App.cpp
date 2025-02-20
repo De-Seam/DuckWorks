@@ -1,9 +1,5 @@
 #include <App/App.h>
 
-// Core includes
-#include <DuckCore/Containers/SharedPtr.h>
-
-// Engine includes
 #include <Engine/Engine.h>
 
 App::App()
@@ -16,8 +12,8 @@ App::~App()
 	gAssert(gEngine != nullptr);
 }
 
-void App::sRegisterAppConstructor(const DC::String& inName, std::function<DC::UniquePtr<App>()> inConstructFunction)
+void App::sRegisterAppConstructor(const DC::String& aName, std::function<DC::UniquePtr<App>()> aConstructFunction)
 {
-	gAssert(!sAppConstructors.Contains(inName));
-	sAppConstructors[inName] = gMove(inConstructFunction);
+	gAssert(!sAppConstructors.Contains(aName));
+	sAppConstructors[aName] = Move(aConstructFunction);
 }

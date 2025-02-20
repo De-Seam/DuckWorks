@@ -6,7 +6,7 @@ struct SDL_Surface;
 class SurfaceFile : public DC::File
 {
 public:
-	SurfaceFile(DC::String inPath) : File(DC::gMove(inPath)) {}
+	SurfaceFile(DC::String inPath) : File(DC::Move(inPath)) {}
 
 	virtual void Load() override; // Loads mContents from mPath. This will clear potentially existing content.
 	virtual void WriteToDisk() override; // Writes mContents to mPath. Child classes should override this to update mContents before calling this.

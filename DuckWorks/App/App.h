@@ -1,5 +1,4 @@
 #pragma once
-#include <DuckCore/Containers/Array.h>
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/UniquePtr.h>
 
@@ -14,10 +13,10 @@ public:
 
 	virtual void Update(float inDeltaTime) = 0;
 
-	static void sSetActiveApp(DC::UniquePtr<App> inApp) { sActiveApp = gMove(inApp); }
+	static void sSetActiveApp(DC::UniquePtr<App> inApp) { sActiveApp = Move(inApp); }
 	static void sClearActiveApp() { sActiveApp.Delete(); }
 	static App* sGetActiveApp() { return sActiveApp; }
-	static void sRegisterAppConstructor(const DC::String& inName, std::function<DC::UniquePtr<App>(void)> inConstructFunction);
+	static void sRegisterAppConstructor(const DC::String& aName, std::function<DC::UniquePtr<App>(void)> aConstructFunction);
 	static const DC::HashMap<DC::String, std::function<DC::UniquePtr<App>(void)>>& sGetAppConstructors() { return sAppConstructors; }
 
 private:

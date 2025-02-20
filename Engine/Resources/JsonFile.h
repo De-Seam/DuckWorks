@@ -5,7 +5,7 @@
 class JsonFile : public DC::File
 {
 public:
-	JsonFile(DC::String inPath) : DC::File(gMove(inPath)) {}
+	JsonFile(DC::String inPath) : DC::File(Move(inPath)) {}
 	virtual void Load() override;
 	virtual void WriteToDisk() override;
 

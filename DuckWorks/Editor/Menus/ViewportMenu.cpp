@@ -14,7 +14,7 @@ ViewportMenu::ViewportMenu(EditorApp& inEditorApp) :
 {
 	mGameRenderTarget = Managers::sGet<Renderer>().CreateTexture(IVec2(mGameRenderTargetSize.mX, mGameRenderTargetSize.mY));
 
-	mGameApp = gMakeUnique<GameApp>();
+	mGameApp = MakeUnique<GameApp>();
 }
 
 void ViewportMenu::Update(float inDeltaTime)

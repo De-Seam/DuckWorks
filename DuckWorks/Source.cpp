@@ -83,9 +83,9 @@ int main(int argc, char* argv[])
 	REGISTER_APP(ChessApp);
 
 	{
-		UniquePtr<Engine> engine = gMakeUnique<Engine>();
+		UniquePtr<Engine> engine = MakeUnique<Engine>();
 
-		App::sSetActiveApp(gMakeUnique<LauncherApp>());
+		App::sSetActiveApp(MakeUnique<LauncherApp>());
 
 		gMainLoop();
 

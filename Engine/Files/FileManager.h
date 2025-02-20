@@ -29,7 +29,7 @@ void FileManager::RegisterFileExtension(DC::String inExtension)
 
 	uint64 type_id = typeid(taType).hash_code();
 	gAssert(!mFileExtensions.Contains(type_id) || mFileExtensions.At(type_id) == inExtension);
-	mFileExtensions[type_id] = gMove(inExtension);
+	mFileExtensions[type_id] = Move(inExtension);
 }
 
 template <typename taType>

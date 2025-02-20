@@ -24,7 +24,7 @@ void EditorMenu::Update(float inDeltaTime)
 
 void EditorMenu::AddChild(DC::Ref<EditorMenu> inChildMenu)
 {
-	mChildMenus.Add(gMove(inChildMenu));
+	mChildMenus.Add(Move(inChildMenu));
 }
 
 void EditorMenu::RemoveChild(EditorMenu& inChildMenu)

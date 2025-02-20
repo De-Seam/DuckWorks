@@ -5,5 +5,5 @@ using namespace DC;
 GridService::GridService(World& inWorld) :
 	Base(inWorld)
 {
-	mGrid = gMakeUnique<Grid>(128, 128);
+	mGrid = MakeUnique<Grid>(128, 128);
 }

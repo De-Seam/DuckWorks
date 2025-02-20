@@ -16,7 +16,7 @@ void LauncherApp::Update(float inDeltaTime)
 		// 3 = length of "App"
 		DC::String name = inName.SubStr(0, inName.Length() - 3);
 		if (ImGui::Button(name.CStr()))
-			sSetActiveApp(gMove(inConstructFunction()));
+			sSetActiveApp(Move(inConstructFunction()));
 	});
 
 	ImGui::End();

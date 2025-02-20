@@ -25,12 +25,12 @@ void EditorApp::sRegisterRTTI()
 
 EditorApp::EditorApp()
 {
-	mEditorSettings = gMakeUnique<EditorSettings>();
+	mEditorSettings = MakeUnique<EditorSettings>();
 
-	mMenus.Add(gMakeUnique<ViewportMenu>(*this));
-	mMenus.Add(gMakeUnique<EntitySpawnerMenu>(*this));
-	mMenus.Add(gMakeUnique<OutlinerMenu>(*this));
-	mMenus.Add(gMakeUnique<SettingsMenu>(*this));
+	mMenus.Add(MakeUnique<ViewportMenu>(*this));
+	mMenus.Add(MakeUnique<EntitySpawnerMenu>(*this));
+	mMenus.Add(MakeUnique<OutlinerMenu>(*this));
+	mMenus.Add(MakeUnique<SettingsMenu>(*this));
 
 	Ref<JsonFile> editor_json_file = Managers::sGet<FileManager>().Get<JsonFile>(cEditorJsonPath);
 	const Json& json = editor_json_file->GetJson();

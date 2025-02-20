@@ -9,7 +9,7 @@ void GridTile::SetEntity(Entity& inEntity)
 }
 
 Grid::Grid(UVec2 inSize) :
-	mSize(gMove(inSize))
+	mSize(Move(inSize))
 {
 	uint grid_tile_count = mSize.mX * mSize.mY;
 	gAssert(grid_tile_count > 0);

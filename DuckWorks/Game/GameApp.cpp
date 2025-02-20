@@ -25,7 +25,7 @@ void GameApp::sRegisterRTTI()
 
 GameApp::GameApp()
 {
-	mWorld = DC::gMakeUnique<World>();
+	mWorld = DC::MakeUnique<World>();
 }
 
 GameApp::~GameApp() = default;
