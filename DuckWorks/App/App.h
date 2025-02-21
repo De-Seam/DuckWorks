@@ -9,8 +9,6 @@ public:
 	App();
 	virtual ~App();
 
-	static void sRegisterRTTI() {}
-
 	virtual void Update(float inDeltaTime) = 0;
 
 	static void sSetActiveApp(DC::UniquePtr<App> inApp) { sActiveApp = Move(inApp); }

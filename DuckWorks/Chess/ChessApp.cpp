@@ -8,11 +8,6 @@
 
 using namespace DC;
 
-void ChessApp::sRegisterRTTI()
-{
-	REGISTER_RTTI(ChessBoard);
-}
-
 ChessApp::ChessApp() 
 {
 

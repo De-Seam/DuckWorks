@@ -21,18 +21,6 @@ EngineUpdateHandle::~EngineUpdateHandle()
 	gEngine->UnregisterUpdateCallback(*this);
 }
 
-void Engine::sRegisterRTTI() 
-{
-	REGISTER_RTTI(Object);
-	REGISTER_RTTI(SDLEventManager);
-	REGISTER_RTTI(FileManager);
-	REGISTER_RTTI(ObjectManager);
-	REGISTER_RTTI(Renderer);
-	REGISTER_RTTI(TextureResource);
-	REGISTER_RTTI(Resource);
-	REGISTER_RTTI(ResourceManager);
-}
-
 Engine::Engine()
 {
 	gAssert(gEngine == nullptr);

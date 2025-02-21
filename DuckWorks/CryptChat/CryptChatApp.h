@@ -4,8 +4,6 @@
 class CryptChatApp : public App
 {
 public:
-	static void sRegisterRTTI();
-
 	CryptChatApp();
 	virtual ~CryptChatApp() override;
 

@@ -17,9 +17,6 @@ Object::Object(const GUID& inGUID) :
 
 Object::~Object()
 {
-	if (gEngine == nullptr)
-		return;
-	
 	if (ObjectManager* object_manager = Managers::sFind<ObjectManager>())
 		object_manager->UnregisterObject(*this);
 }

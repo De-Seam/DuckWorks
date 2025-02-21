@@ -7,7 +7,7 @@
 
 #include <Engine/Renderer/Renderer.h>
 
-#define REGISTER_APP(inApp) inApp::sRegisterRTTI(); App::sRegisterAppConstructor(#inApp, []() { return DC::Move(DC::MakeUnique<inApp>()); })
+#define REGISTER_APP(inApp) App::sRegisterAppConstructor(#inApp, []() { return DC::Move(DC::MakeUnique<inApp>()); })
 
 class App;
 class Engine;
@@ -28,8 +28,6 @@ extern Engine* gEngine;
 class Engine
 {
 public:
-	static void sRegisterRTTI();
-
 	Engine();
 	~Engine();
 

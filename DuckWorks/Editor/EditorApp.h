@@ -9,8 +9,6 @@
 class EditorApp : public App
 {
 public:
-	static void sRegisterRTTI();
-
 	static constexpr const char* cEditorJsonPath = "Editor/Editor.json";
 
 	EditorApp();

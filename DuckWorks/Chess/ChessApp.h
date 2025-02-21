@@ -4,8 +4,6 @@
 class ChessApp : public App
 {
 public:
-	static void sRegisterRTTI();
-
 	ChessApp();
 
 	virtual void Update(float inDeltaTime) override;

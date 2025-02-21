@@ -1,7 +1,5 @@
 #include <Editor/Menus/OutlinerMenu.h>
 
-#include <DuckCore/RTTI/RTTIRegistry.h>
-
 #include <Editor/EditorApp.h>
 #include <Editor/Menus/ViewportMenu.h>
 

@@ -59,7 +59,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
@@ -114,6 +114,9 @@
     <ClInclude Include="Resources\JsonFile.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\ResourceManager.h" />
+    <ClInclude Include="World\Entity\Entity.h" />
+    <ClInclude Include="World\Scene\Scene.h" />
+    <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -128,6 +131,9 @@
     <ClCompile Include="Resources\JsonFile.cpp" />
     <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
+    <ClCompile Include="World\Entity\Entity.cpp" />
+    <ClCompile Include="World\Scene\Scene.cpp" />
+    <ClCompile Include="World\World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

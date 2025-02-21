@@ -17,8 +17,6 @@
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
 
-#include <Game/Entity/EntityService.h>
-
 #include <Launcher/LauncherApp.h>
 
 #include <Sandbox/SandboxApp.h>
@@ -71,9 +69,6 @@ int main(int argc, char* argv[])
 {
 	(void)argc;
 	(void)argv;
-
-	RegisterCoreRTTI();
-	Engine::sRegisterRTTI();
 
 	REGISTER_APP(LauncherApp);
 	REGISTER_APP(GameApp);
