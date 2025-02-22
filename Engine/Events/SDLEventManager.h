@@ -1,7 +1,7 @@
 #pragma once
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/StaticArray.h>
-#include <DuckCore/Manager/Manager.h>
+#include <DuckCore/Managers/Manager.h>
 #include <DuckCore/Math/Vector.h>
 #include <DuckCore/RTTI/Ref.h>
 

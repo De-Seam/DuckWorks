@@ -1,11 +1,24 @@
 #include <Engine/World/World.h>
 
+#include <DuckCore/Managers/Managers.h>
+
+#include <Engine/Files/FileManager.h>
+
 using namespace DC;
 
-World::World()
+World::World(const Json& aJson) {}
+
+Json World::ToJson()
 {
-	// Default initialize the active Scene. We always need one active Scene.
-	mActiveScene = new Scene;
+	Json json;
+	json["ActiveSceneGUID"] = mActiveScene->GetGUID();
+	json["Scenes"] = mGUIDToSceneJson;
+	return json;
+}
+
+Ref<World> World::sNew()
+{
+	return new World(GUID::sCreate());
 }
 
 void World::LoadScene(const GUID& aSceneGUID)
@@ -24,6 +37,7 @@ void World::LoadScene(const GUID& aSceneGUID)
 	Json& json = json_file.GetJson();
 
 	mGUIDToInstantiatedScene[aSceneGUID] = new Scene(aSceneGUID, json);
+	json_file.ClearCachedContents();
 }
 
 void World::UnloadScene(const GUID& aSceneGUID)
@@ -34,4 +48,11 @@ void World::UnloadScene(const GUID& aSceneGUID)
 		return;
 	}
 	gVerify(mGUIDToInstantiatedScene.Remove(aSceneGUID));
+}
+
+World::World(const GUID& aGUID) :
+	Base(aGUID)
+{
+	// Default initialize the active Scene. We always need one active Scene.
+	mActiveScene = Scene::sNew();
 }

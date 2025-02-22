@@ -1,5 +1,11 @@
 #include <Engine/Resources/JsonFile.h>
 
+#include <DuckCore/Managers/Managers.h>
+
+#include <Engine/Files/FileManager.h>
+
+using namespace DC;
+
 void JsonFile::Load()
 {
 	File::Load();
@@ -7,11 +13,16 @@ void JsonFile::Load()
 	if (GetContents().IsEmpty())
 		return;
 
-	mJson = DC::Json::parse(GetContents().CStr());
+	mJson = Json::parse(GetContents().CStr());
 }
 
 void JsonFile::WriteToDisk()
 {
 	mContents = mJson.dump(4);
 	File::WriteToDisk();
+}
+
+void FromJson(const Json& aJson, Ref<JsonFile>& outJsonFile)
+{
+	outJsonFile = Managers::sGet<FileManager>().Get<JsonFile>(aJson.get<String>());
 }

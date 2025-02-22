@@ -1,15 +1,15 @@
 #include <Engine/Engine.h>
 
 #include <DuckCore/Events/EventManager.h>
-#include <DuckCore/Manager/Manager.h>
-#include <DuckCore/Manager/Managers.h>
+#include <DuckCore/Managers/Manager.h>
+#include <DuckCore/Managers/Managers.h>
 
 #include <Engine/Events/SDLEventManager.h>
+#include <Engine/Files/FileManager.h>
 #include <Engine/Objects/ObjectManager.h>
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/Renderer/TextureResource.h>
 #include <Engine/Resources/JsonFile.h>
-#include <Engine/Resources/ResourceManager.h>
 
 using namespace DC;
 
@@ -26,14 +26,13 @@ Engine::Engine()
 	gAssert(gEngine == nullptr);
 	gEngine = this;
 
-	FileManager* file_manager = new FileManager;
-	file_manager->RegisterFileExtension<JsonFile>("json");
-	Managers::sAdd(file_manager);
+	Managers::sAdd(new EventManager);
+	Managers::sAdd(new FileManager);
+	FileManager& file_manager = Managers::sGet<FileManager>();
+	file_manager.RegisterFileExtension<JsonFile>("json");
 
 	Managers::sAdd(new Renderer);
 	Managers::sAdd(new SDLEventManager);
-	Managers::sAdd(new ResourceManager);
-	Managers::sAdd(new EventManager);
 }
 
 Engine::~Engine()

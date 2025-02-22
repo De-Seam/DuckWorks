@@ -1,6 +1,7 @@
+/*
 #include <Engine/Renderer/TextureResource.h>
 
-#include <DuckCore/Manager/Managers.h>
+#include <DuckCore/Managers/Managers.h>
 
 #include <Engine/Engine.h>
 #include <Engine/Files/FileManager.h>
@@ -42,3 +43,4 @@ Json TextureResource::ToJson() const
 	json["mSurfaceFilePath"] = mSurfaceFilePath;
 	return json;
 }
+*/

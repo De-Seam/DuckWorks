@@ -1,7 +1,7 @@
 #pragma once
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/File/File.h>
-#include <DuckCore/Manager/Manager.h>
+#include <DuckCore/Managers/Manager.h>
 
 class FileManager : public DC::Manager
 {

@@ -1,3 +1,4 @@
+/*
 #pragma once
 // Engine includes
 #include <Engine/Resources/Resource.h>
@@ -19,3 +20,4 @@ private:
 	DC::String mSurfaceFilePath;
 	SDL_Texture* mTexture = nullptr;
 };
+*/

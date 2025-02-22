@@ -10,7 +10,11 @@ class World : public Object
 {
 	RTTI_CLASS(World, Object)
 public:
-	World();
+
+	explicit World(const DC::Json& aJson);
+	DC::Json ToJson();
+
+	static DC::Ref<World> sNew(); // Create a new World.
 
 	void LoadScene(const DC::GUID& aSceneGUID);
 	void UnloadScene(const DC::GUID& aSceneGUID);
@@ -18,6 +22,8 @@ public:
 	Scene& GetActiveScene() { return *mActiveScene; }
 
 private:
+	explicit World(const DC::GUID& aGUID); // Create a new World.
+
 	DC::Ref<Scene> mActiveScene; // The currently active, instantiated Scene.
 	DC::HashMap<DC::GUID, DC::Ref<Scene>> mGUIDToInstantiatedScene; // Maps each instantiated Scene to its GUID.
 	DC::HashMap<DC::GUID, DC::Ref<JsonFile>> mGUIDToSceneJson; // Maps each Scene GUID to its serialized json data file.

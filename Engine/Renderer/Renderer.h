@@ -1,9 +1,11 @@
 #pragma once
 // Engine includes
-#include <DuckCore/Manager/Manager.h>
+#include <DuckCore/Managers/Manager.h>
 #include <DuckCore/Math/Rect.h>
 #include <DuckCore/Math/Vector.h>
 #include <DuckCore/Utilities/NoCopy.h>
+
+#include <Engine/Renderer/RenderTarget.h>
 
 namespace DC
 {
@@ -31,27 +33,39 @@ public:
 	SDL_Texture* CreateTexture(DC::IVec2 aSize);
 	void DestroyTexture(SDL_Texture*& aTexture);
 
+	DC::Ref<RenderTarget> CreateRenderTarget(DC::IVec2 aSize);
+	static void sDestroyTexture(SDL_Texture*& aTexture); // Destroy a texture. This will set it to nullptr.
+
 	void DrawTexture(SDL_Texture* aTexture,	const DC::Transform2D& aTransform);
-	void DrawSprite(const Sprite& aSprite, const DC::Transform2D& aTransform);
+	// void DrawSprite(const Sprite& aSprite, const DC::Transform2D& aTransform);
 	void DrawRectangle(const DC::FRect2D& aRect, const DC::RGBA& aColor);
 	void DrawRectangle(const DC::IRect2D& aRect, const DC::RGBA& aColor);
+	void Clear(DC::RGBA aColor);
 
-	// Class to automatically set the render target, and unset it when it leaves its scope
+	// Class to automatically set the render target, and unset it when it leaves its scope.
 	class ScopedRenderTarget : public DC::NoCopy, public DC::NoMove
 	{
 	public:
-		ScopedRenderTarget(SDL_Texture* aRenderTarget);
+		explicit ScopedRenderTarget(RenderTarget& aRenderTarget);
 		~ScopedRenderTarget();
 
 	private:
-		SDL_Texture* mRenderTarget = nullptr;
-		SDL_Texture* mPreviousRenderTarget = nullptr;
+		DC::Ref<RenderTarget> mRenderTarget;
+		DC::Ref<RenderTarget> mPreviousRenderTarget;
 	};
 
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
+	RenderTarget* GetRenderTarget() { return mRenderTarget; }
+	const RenderTarget* GetRenderTarget() const { return mRenderTarget; }
 
 private:
+	void SetRenderTarget(RenderTarget* aRenderTarget);
+
 	SDL_Window* mWindow = nullptr;
 	SDL_Renderer* mRenderer = nullptr;
+	RenderTarget* mRenderTarget = nullptr;
+	RenderTarget* mPreviousRenderTarget = nullptr;
+
+	friend class ScopedRenderTarget;
 };

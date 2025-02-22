@@ -2,7 +2,8 @@
 #include <DuckCore/Core/Core.h>
 #include <DuckCore/Core/Log.h>
 #include <DuckCore/Events/EventManager.h>
-#include <DuckCore/Manager/Managers.h>
+#include <DuckCore/Managers/CommandLineArgumentsManager.h>
+#include <DuckCore/Managers/Managers.h>
 
 #include <App/App.h>
 
@@ -10,12 +11,11 @@
 
 #include <CryptChat/CryptChatApp.h>
 
-#include <Editor/EditorApp.h>
-#include <Editor/Menus/ViewportMenu.h>
-
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
+
+#include <Game/GameApp.h>
 
 #include <Launcher/LauncherApp.h>
 
@@ -65,14 +65,12 @@ Engine constructor: Register managers
 App constructor: Register managers / systems
 Engine::Init: Initialize managers
 **/
-int main(int argc, char* argv[])
+int main(int aArgumentCount, char* aArgumentValues[])
 {
-	(void)argc;
-	(void)argv;
+	Managers::sAdd(new CommandLineArgumentsManager(aArgumentCount, aArgumentValues));
 
 	REGISTER_APP(LauncherApp);
 	REGISTER_APP(GameApp);
-	REGISTER_APP(EditorApp);
 	REGISTER_APP(SandboxApp);
 	REGISTER_APP(CryptChatApp);
 	REGISTER_APP(ChessApp);
@@ -80,7 +78,9 @@ int main(int argc, char* argv[])
 	{
 		UniquePtr<Engine> engine = MakeUnique<Engine>();
 
-		App::sSetActiveApp(MakeUnique<LauncherApp>());
+		String app_name = "LauncherApp";
+		Managers::sGet<CommandLineArgumentsManager>().FindArgumentValue("-app", app_name);
+		App::sSetActiveApp(app_name);
 
 		MainLoop();
 

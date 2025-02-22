@@ -8,7 +8,7 @@ void Entity::OnAddedToScene(Scene& aScene)
 	mScene = &aScene;
 }
 
-void Entity::OnRemovedFromScene(Scene& aScene)
+void Entity::OnRemovedFromScene(const Scene& aScene)
 {
 	gAssert(mScene == &aScene, "Entity is not part of this Scene.");
 	mScene = nullptr;

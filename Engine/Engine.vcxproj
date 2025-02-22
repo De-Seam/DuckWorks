@@ -108,12 +108,11 @@
     <ClInclude Include="Objects\Object.h" />
     <ClInclude Include="Objects\ObjectManager.h" />
     <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Renderer\RenderTarget.h" />
     <ClInclude Include="Renderer\Sprite.h" />
     <ClInclude Include="Renderer\SurfaceFile.h" />
     <ClInclude Include="Renderer\TextureResource.h" />
     <ClInclude Include="Resources\JsonFile.h" />
-    <ClInclude Include="Resources\Resource.h" />
-    <ClInclude Include="Resources\ResourceManager.h" />
     <ClInclude Include="World\Entity\Entity.h" />
     <ClInclude Include="World\Scene\Scene.h" />
     <ClInclude Include="World\World.h" />
@@ -125,12 +124,11 @@
     <ClCompile Include="Objects\Object.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Renderer\RenderTarget.cpp" />
     <ClCompile Include="Renderer\Sprite.cpp" />
     <ClCompile Include="Renderer\SurfaceFile.cpp" />
     <ClCompile Include="Renderer\TextureResource.cpp" />
     <ClCompile Include="Resources\JsonFile.cpp" />
-    <ClCompile Include="Resources\Resource.cpp" />
-    <ClCompile Include="Resources\ResourceManager.cpp" />
     <ClCompile Include="World\Entity\Entity.cpp" />
     <ClCompile Include="World\Scene\Scene.cpp" />
     <ClCompile Include="World\World.cpp" />

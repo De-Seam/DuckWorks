@@ -5,7 +5,9 @@
 class JsonFile : public DC::File
 {
 public:
-	JsonFile(DC::String inPath) : DC::File(Move(inPath)) {}
+	explicit JsonFile(DC::String aPath) : File(Move(aPath)) {}
+	explicit JsonFile(const DC::Json& aJson) : File(aJson) {}
+
 	virtual void Load() override;
 	virtual void WriteToDisk() override;
 
@@ -15,3 +17,5 @@ public:
 private:
 	DC::Json mJson;
 };
+
+void FromJson(const DC::Json& aJson, DC::Ref<JsonFile>& outJsonFile);

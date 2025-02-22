@@ -11,6 +11,7 @@ public:
 
 	virtual void Update(float inDeltaTime) = 0;
 
+	static void sSetActiveApp(const DC::String& aAppName);
 	static void sSetActiveApp(DC::UniquePtr<App> inApp) { sActiveApp = Move(inApp); }
 	static void sClearActiveApp() { sActiveApp.Delete(); }
 	static App* sGetActiveApp() { return sActiveApp; }

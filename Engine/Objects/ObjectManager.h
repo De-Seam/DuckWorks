@@ -1,7 +1,7 @@
 #pragma once
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/HashSet.h>
-#include <DuckCore/Manager/Manager.h>
+#include <DuckCore/Managers/Manager.h>
 
 #include <Engine/Objects/Object.h>
 

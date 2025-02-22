@@ -1,7 +1,7 @@
 #include <Engine/Renderer/Renderer.h>
 
 #include <DuckCore/Core/Log.h>
-#include <DuckCore/Manager/Managers.h>
+#include <DuckCore/Managers/Managers.h>
 #include <DuckCore/Math/Transform.h>
 
 #include <Engine/Engine.h>
@@ -77,7 +77,7 @@ void Renderer::SetWindowSize(IVec2 aSize)
 	SDL_SetWindowSize(mWindow, aSize.mX, aSize.mY);
 }
 
-SDL_Texture* Renderer::CreateTexture(DC::IVec2 aSize)
+SDL_Texture* Renderer::CreateTexture(IVec2 aSize)
 {
 	return SDL_CreateTexture(mRenderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,aSize.mX,aSize.mY);
 }
@@ -85,6 +85,18 @@ SDL_Texture* Renderer::CreateTexture(DC::IVec2 aSize)
 void Renderer::DestroyTexture(SDL_Texture*& aTexture)
 {
 	gAssert(aTexture != nullptr);
+	SDL_DestroyTexture(aTexture);
+	aTexture = nullptr;
+}
+
+Ref<RenderTarget> Renderer::CreateRenderTarget(IVec2 aSize)
+{
+	SDL_Texture* texture = SDL_CreateTexture(mRenderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,aSize.mX,aSize.mY);
+	return new RenderTarget(texture, aSize);
+}
+
+void Renderer::sDestroyTexture(SDL_Texture*& aTexture)
+{
 	SDL_DestroyTexture(aTexture);
 	aTexture = nullptr;
 }
@@ -100,6 +112,7 @@ void Renderer::DrawTexture(SDL_Texture* aTexture, const DC::Transform2D& aTransf
 	SDL_RenderCopyExF(mRenderer, aTexture, nullptr, &dest_rect, aTransform.mRotation, nullptr, SDL_FLIP_NONE);
 }
 
+/*
 void Renderer::DrawSprite(const Sprite& aSprite, const Transform2D& aTransform)
 {
 	SDL_Rect src_rect;
@@ -116,6 +129,7 @@ void Renderer::DrawSprite(const Sprite& aSprite, const Transform2D& aTransform)
 
 	SDL_RenderCopyExF(mRenderer, aSprite.GetTextureResource().GetTexture(), &src_rect, &dest_rect, aTransform.mRotation, nullptr, SDL_FLIP_NONE);
 }
+*/
 
 void Renderer::DrawRectangle(const FRect2D& aRect, const RGBA& aColor) 
 {
@@ -141,17 +155,32 @@ void Renderer::DrawRectangle(const IRect2D& aRect, const RGBA& aColor)
 	SDL_RenderFillRect(mRenderer, &rect);
 }
 
-Renderer::ScopedRenderTarget::ScopedRenderTarget(SDL_Texture* aRenderTarget)
+void Renderer::Clear(RGBA aColor)
+{
+	SDL_SetRenderDrawColor(mRenderer, aColor.mR, aColor.mG, aColor.mB, aColor.mA);
+	SDL_RenderClear(mRenderer);
+}
+
+Renderer::ScopedRenderTarget::ScopedRenderTarget(RenderTarget& aRenderTarget) :
+	mRenderTarget(&aRenderTarget)
 {
 	Renderer& renderer = Managers::sGet<Renderer>();
-	SDL_Renderer* sdl_renderer = renderer.GetRenderer();
-	mPreviousRenderTarget = SDL_GetRenderTarget(sdl_renderer);
-	SDL_SetRenderTarget(sdl_renderer,aRenderTarget);
+	mPreviousRenderTarget = renderer.GetRenderTarget();
+
+	renderer.SetRenderTarget(mRenderTarget);
 }
 
 Renderer::ScopedRenderTarget::~ScopedRenderTarget()
 {
 	Renderer& renderer = Managers::sGet<Renderer>();
-	SDL_Renderer* sdl_renderer = renderer.GetRenderer();
-	SDL_SetRenderTarget(sdl_renderer,mPreviousRenderTarget);
+
+	gAssert(mPreviousRenderTarget == renderer.mPreviousRenderTarget, "ScopedRenderTarget is stack-based. If this assert triggers, a previous render target has left its scope while the current render target is still active.");
+	renderer.SetRenderTarget(mPreviousRenderTarget);
+}
+
+void Renderer::SetRenderTarget(RenderTarget* aRenderTarget)
+{
+	mPreviousRenderTarget = mRenderTarget;
+	mRenderTarget = aRenderTarget;
+	SDL_SetRenderTarget(mRenderer, mRenderTarget == nullptr ? nullptr : mRenderTarget->GetTexture());
 }

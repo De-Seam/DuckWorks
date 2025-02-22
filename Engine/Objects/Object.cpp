@@ -1,7 +1,7 @@
 #include <Engine/Objects/Object.h>
 
 // Engine includes
-#include <DuckCore/Manager/Managers.h>
+#include <DuckCore/Managers/Managers.h>
 
 #include <Engine/Engine.h>
 #include <Engine/Objects/ObjectManager.h>

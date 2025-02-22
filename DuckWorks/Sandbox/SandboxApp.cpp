@@ -1,6 +1,6 @@
 #include <Sandbox/SandboxApp.h>
 
-#include <DuckCore/Manager/Managers.h>
+#include <DuckCore/Managers/Managers.h>
 #include <DuckCore/Math/Random.h>
 #include <DuckCore/Math/Transform.h>
 
@@ -16,7 +16,7 @@ SandboxApp::SandboxApp()
 {
 	Renderer& renderer = Managers::sGet<Renderer>();
 	renderer.SetWindowSize({ cWindowWidth, cWindowHeight });
-	mTexture = renderer.CreateTexture({ cWindowWidth, cWindowHeight });
+	mRenderTarget = renderer.CreateRenderTarget(IVec2(cWindowWidth, cWindowHeight));
 }
 
 SandboxApp::~SandboxApp() = default;
@@ -27,7 +27,7 @@ void SandboxApp::Update(float inDeltaTime)
 	SDLEventManager& sdl_event_manager = Managers::sGet<SDLEventManager>();
 
 	{
-		Renderer::ScopedRenderTarget scoped_render_target(mTexture);
+		Renderer::ScopedRenderTarget scoped_render_target(*mRenderTarget);
 
 		for (int y = cWindowHeight-2; y >= 0; y--)
 		{
@@ -145,5 +145,5 @@ void SandboxApp::Update(float inDeltaTime)
 	transform.mHalfSize.mX = cWindowWidth / 2;
 	transform.mHalfSize.mY = cWindowHeight / 2;
 
-	renderer.DrawTexture(mTexture, transform);
+	renderer.DrawTexture(mRenderTarget->GetTexture(), transform);
 }

@@ -1,3 +1,4 @@
+/*
 #pragma once
 // Core includes
 #include <DuckCore/Math/Vector.h>
@@ -23,3 +24,4 @@ private:
 	DC::IVec2 mTopRight;
 };
 
+*/
