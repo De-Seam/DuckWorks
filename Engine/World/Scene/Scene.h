@@ -24,6 +24,7 @@ public:
 	void AddEntity(DC::Ref<Entity>& aEntity);
 	void RemoveEntity(Entity& aEntity);
 
+	entt::registry& GetRegistry() { return mRegistry; }
 	RenderTarget* GetRenderTarget() { return mRenderTarget; }
 
 private:
