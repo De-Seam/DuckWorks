@@ -113,6 +113,9 @@
     <ClInclude Include="Renderer\SurfaceFile.h" />
     <ClInclude Include="Renderer\TextureResource.h" />
     <ClInclude Include="Resources\JsonFile.h" />
+    <ClInclude Include="World\Entity\Components\Components.h" />
+    <ClInclude Include="World\Entity\Components\GameplayComponents.h" />
+    <ClInclude Include="World\Entity\ECSEntity.h" />
     <ClInclude Include="World\Entity\Entity.h" />
     <ClInclude Include="World\Scene\Scene.h" />
     <ClInclude Include="World\World.h" />
@@ -129,6 +132,9 @@
     <ClCompile Include="Renderer\SurfaceFile.cpp" />
     <ClCompile Include="Renderer\TextureResource.cpp" />
     <ClCompile Include="Resources\JsonFile.cpp" />
+    <ClCompile Include="World\Entity\Components\Components.cpp" />
+    <ClCompile Include="World\Entity\Components\GameplayComponents.cpp" />
+    <ClCompile Include="World\Entity\ECSEntity.cpp" />
     <ClCompile Include="World\Entity\Entity.cpp" />
     <ClCompile Include="World\Scene\Scene.cpp" />
     <ClCompile Include="World\World.cpp" />
