@@ -1,13 +1,14 @@
 #pragma once
 #include <DuckCore/Math/Transform.h>
-#include <DuckCore/RTTI/RTTIClass.h>
 
-struct TransformComponent final : public DC::RTTIClass
+#include <Engine/World/Entity/Components/Component.h>
+
+struct TransformComponent final : public Component
 {
-	RTTI_CLASS(TransformComponent, RTTIClass)
+	RTTI_CLASS(TransformComponent, Component)
 
 	DC::Transform2D mTransform;
 
-	void FromJson(const DC::Json& aJson);
-	DC::Json ToJson() const;
+	virtual void FromJson(const DC::Json& aJson) override;
+	virtual DC::Json ToJson() const override;
 };

@@ -113,6 +113,7 @@
     <ClInclude Include="Renderer\SurfaceFile.h" />
     <ClInclude Include="Renderer\TextureResource.h" />
     <ClInclude Include="Resources\JsonFile.h" />
+    <ClInclude Include="World\Entity\Components\Component.h" />
     <ClInclude Include="World\Entity\Components\Components.h" />
     <ClInclude Include="World\Entity\Components\GameplayComponents.h" />
     <ClInclude Include="World\Entity\ECSEntity.h" />

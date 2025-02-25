@@ -11,9 +11,9 @@ public:
 	explicit ECSEntity(Scene* aScene);
 
 	template<typename taType, typename... taArgs>
-	taType& AddComponent(taArgs&& aArguments);
+	taType& AddComponent(taArgs&&... aArguments);
 	template<typename taType, typename... taArgs>
-	taType& AddOrReplaceComponent(taArgs&& aArguments);
+	taType& AddOrReplaceComponent(taArgs&&... aArguments);
 
 	template<typename taType>
 	void RemoveComponent();
@@ -50,14 +50,14 @@ protected:
 };
 
 template<typename taType, typename... taArgs>
-taType& ECSEntity::AddComponent(taArgs&& aArguments)
+taType& ECSEntity::AddComponent(taArgs&&... aArguments)
 {
 	entt::registry& registry = GetRegistry();
 	return registry.emplace<taType>(std::forward<taArgs>(aArguments)...);
 }
 
 template<typename taType, typename ... taArgs>
-taType& ECSEntity::AddOrReplaceComponent(taArgs&& aArguments)
+taType& ECSEntity::AddOrReplaceComponent(taArgs&&... aArguments)
 {
 	entt::registry& registry = GetRegistry();
 	return registry.emplace_or_replace<taType>(std::forward<taArgs>(aArguments)...);
