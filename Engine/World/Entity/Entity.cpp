@@ -10,12 +10,16 @@ void Entity::OnAddedToScene(Scene& aScene)
 {
 	gAssert(mScene == nullptr, "Entity is already in a Scene.");
 	mScene = &aScene;
+	mEntityHandle = aScene.GetRegistry().create();
 }
 
 void Entity::OnRemovedFromScene(const Scene& aScene)
 {
 	gAssert(mScene == &aScene, "Entity is not part of this Scene.");
 	mScene = nullptr;
+
+	mScene->GetRegistry().destroy(mEntityHandle);
+	mEntityHandle = entt::null;
 }
 
 void Entity::FromJson(const Json& aJson)

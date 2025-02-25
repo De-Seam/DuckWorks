@@ -8,7 +8,7 @@ class Scene;
 class ECSEntity
 {
 public:
-	explicit ECSEntity(Scene* aScene);
+	explicit ECSEntity(Scene* aScene, entt::entity aEntityHandle);
 
 	template<typename taType, typename... taArgs>
 	taType& AddComponent(taArgs&&... aArguments);
