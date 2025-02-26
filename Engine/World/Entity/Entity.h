@@ -8,6 +8,8 @@ class Entity : public Object, public ECSEntity
 {
 	RTTI_CLASS(Entity, Object)
 public:
+	Entity(DC::GUID aGUID = DC::GUID::sCreate()) : Object(aGUID) {}
+
 	void OnAddedToScene(Scene& aScene);
 	void OnRemovedFromScene(const Scene& aScene);
 

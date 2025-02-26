@@ -20,3 +20,10 @@ Object::~Object()
 	if (ObjectManager* object_manager = Managers::sFind<ObjectManager>())
 		object_manager->UnregisterObject(*this);
 }
+
+Json Object::ToJson() const
+{
+	Json json;
+	json["mGUID"] = mGUID;
+	return json;
+}

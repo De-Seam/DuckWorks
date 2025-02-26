@@ -32,7 +32,7 @@ bool HasComponent(const ECSEntity& aECSEntity, const DC::RTTI& aComponentRTTI);
 void FromJson(ECSEntity& aECSEntity, const DC::RTTI& aComponentRTTI, const DC::Json& aJson);
 DC::Json ToJson(const ECSEntity& aECSEntity, const DC::RTTI& aComponentRTTI);
 
-void GetAllComponentRTTIs(DC::Array<const DC::RTTI*> outComponentRTTIs);
+void GetAllComponentRTTIs(DC::Array<const DC::RTTI*>& outComponentRTTIs);
 
 namespace Internal
 {
@@ -55,8 +55,9 @@ void RegisterComponentType()
 		taType::sGetRTTI(),
 		[](ECSEntity& aEntity) { return &aEntity.AddComponent<taType>(); },
 		[](ECSEntity& aEntity) { aEntity.RemoveComponent<taType>(); },
-		[](ECSEntity& aEntity) { aEntity.FindComponent<taType>(); },
+		[](ECSEntity& aEntity) { return aEntity.FindComponent<taType>(); },
+		[](const ECSEntity& aEntity) { return aEntity.FindComponent<taType>(); },
 		[](const ECSEntity& aEntity) { return aEntity.HasComponent<taType>(); },
 		[](ECSEntity& aEntity, const DC::Json& aJson) { aEntity.GetComponent<taType>().FromJson(aJson); },
-		[](ECSEntity& aEntity) { return aEntity.GetComponent<taType>().ToJson(); });
+		[](const ECSEntity& aEntity) { return aEntity.GetComponent<taType>().ToJson(); });
 }

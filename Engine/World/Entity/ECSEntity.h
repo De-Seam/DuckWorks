@@ -10,6 +10,8 @@ class ECSEntity
 public:
 	explicit ECSEntity(Scene* aScene, entt::entity aEntityHandle);
 
+	template<typename taType>
+	taType& AddComponent();
 	template<typename taType, typename... taArgs>
 	taType& AddComponent(taArgs&&... aArguments);
 	template<typename taType, typename... taArgs>
@@ -49,18 +51,25 @@ protected:
 	entt::entity mEntityHandle = entt::null; // The EntityHandle in the ECS.
 };
 
+template<typename taType>
+taType& ECSEntity::AddComponent()
+{
+	entt::registry& registry = GetRegistry();
+	return registry.emplace<taType>(mEntityHandle);
+}
+
 template<typename taType, typename... taArgs>
 taType& ECSEntity::AddComponent(taArgs&&... aArguments)
 {
 	entt::registry& registry = GetRegistry();
-	return registry.emplace<taType>(std::forward<taArgs>(aArguments)...);
+	return registry.emplace<taType>(mEntityHandle, std::forward<taArgs>(aArguments)...);
 }
 
 template<typename taType, typename ... taArgs>
 taType& ECSEntity::AddOrReplaceComponent(taArgs&&... aArguments)
 {
 	entt::registry& registry = GetRegistry();
-	return registry.emplace_or_replace<taType>(std::forward<taArgs>(aArguments)...);
+	return registry.emplace_or_replace<taType>(mEntityHandle, std::forward<taArgs>(aArguments)...);
 }
 
 template<typename taType>
@@ -81,14 +90,14 @@ template<typename taType>
 taType& ECSEntity::GetComponent()
 {
 	gAssert(HasComponent<taType>());
-	return GetRegistry().get<taType>();
+	return GetRegistry().get<taType>(mEntityHandle);
 }
 
 template<typename taType>
 const taType& ECSEntity::GetComponent() const
 {
 	gAssert(HasComponent<taType>());
-	return GetRegistry().get<taType>();
+	return GetRegistry().get<taType>(mEntityHandle);
 }
 
 template<typename taType>
@@ -106,5 +115,5 @@ const taType* ECSEntity::FindComponent() const
 template<typename taType>
 bool ECSEntity::HasComponent() const
 {
-	return GetRegistry().any_of<taType>();
+	return GetRegistry().any_of<taType>(mEntityHandle);
 }

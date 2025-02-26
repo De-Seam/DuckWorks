@@ -5,11 +5,15 @@
 
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/World/World.h>
+#include <Engine/World/Entity/Components/Components.h>
+#include <Engine/World/Entity/Components/GameplayComponents.h>
 
 using namespace DC;
 
 GameApp::GameApp()
 {
+	RegisterComponentType<TransformComponent>();
+
 	mWorld = World::sNew();
 }
 

@@ -12,6 +12,8 @@ public:
 	void SetGUID(const DC::GUID& inGUID) { mGUID = inGUID; }
 	DC::GUID GetGUID() const { return mGUID; }
 
+	DC::Json ToJson() const;
+
 private:
 	DC::GUID mGUID;
 };

@@ -33,7 +33,7 @@ void Entity::FromJson(const Json& aJson)
 	for (const RTTI* rtti : sComponentRTTIs)
 	{
 		auto it = json_components.find(rtti->GetClassName());
-		if (*it)
+		if (it != json_components.end())
 		{
 			Component* component = ::FindComponent(*this, *rtti);
 			if (component == nullptr)
@@ -47,7 +47,7 @@ void Entity::FromJson(const Json& aJson)
 
 Json Entity::ToJson() const
 {
-	Json json;
+	Json json = Base::ToJson();
 	Json& json_components = json["Components"];
 
 	static thread_local Array<const RTTI*> sComponentRTTIs;

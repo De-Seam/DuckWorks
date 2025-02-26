@@ -105,7 +105,7 @@ Json ToJson(const ECSEntity& aECSEntity, const RTTI& aComponentRTTI)
 	return component_functions->mToJson(aECSEntity);
 }
 
-void GetAllComponentRTTIs(Array<const RTTI*> outComponentRTTIs)
+void GetAllComponentRTTIs(Array<const RTTI*>& outComponentRTTIs)
 {
 	gAssert(outComponentRTTIs.IsEmpty());
 	for (auto& [key, value] : gRTTIToComponentFunctions)
