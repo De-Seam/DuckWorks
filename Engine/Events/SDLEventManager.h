@@ -1,9 +1,12 @@
 #pragma once
 #include <DuckCore/Containers/HashMap.h>
 #include <DuckCore/Containers/StaticArray.h>
+#include <DuckCore/Events/EventManager.h>
 #include <DuckCore/Managers/Manager.h>
 #include <DuckCore/Math/Vector.h>
 #include <DuckCore/RTTI/Ref.h>
+
+#include <Engine/Events/Events.h>
 
 #include <SDL/SDL_keycode.h>
 
@@ -34,7 +37,7 @@ public:
 	const DC::IVec2& GetMousePosition() const { return mMousePosition; }
 
 private:
-	DC::Ref<EngineUpdateHandle> mUpdateHandle;
+	DC::UniquePtr<DC::EventHandle<EngineUpdateEvent>> mUpdateEventHandle;
 
 	DC::StaticArray<bool, 6> mMouseButtons;
 	DC::HashMap<int32, bool> mKeys;

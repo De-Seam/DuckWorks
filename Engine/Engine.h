@@ -12,17 +12,6 @@
 class App;
 class Engine;
 
-class EngineUpdateHandle : public DC::Handle
-{
-public:
-	virtual ~EngineUpdateHandle() override;
-
-private:
-	EngineUpdateHandle(int inID) : Handle(inID) {}
-
-	friend class Engine;
-};
-
 extern Engine* gEngine;
 
 class Engine
@@ -38,20 +27,8 @@ public:
 	void RequestShutdown() { mShouldShutdown = true; }
 	bool ShouldShutdown() const { return mShouldShutdown; }
 
-	[[nodiscard]]
-	DC::Ref<EngineUpdateHandle> RegisterUpdateCallback(std::function<void(float)> inCallback);
-
 private:
-	void UnregisterUpdateCallback(const EngineUpdateHandle& inHandle);
-
 	bool mShouldShutdown = false;
-
-	struct UpdateCallback
-	{
-		int mID = -1;
-		std::function<void(float)> mCallback;
-	};
-	DC::Array<UpdateCallback> mUpdateCallbacks;
 
 	friend class EngineUpdateHandle;
 };

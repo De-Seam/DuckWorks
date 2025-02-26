@@ -102,7 +102,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Debug\DebugUIManager.h" />
+    <ClInclude Include="Debug\DebugWidget.h" />
+    <ClInclude Include="Debug\DebugWindow.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Events\Events.h" />
     <ClInclude Include="Events\SDLEventManager.h" />
     <ClInclude Include="Files\FileManager.h" />
     <ClInclude Include="Objects\Object.h" />
@@ -122,6 +126,8 @@
     <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debug\DebugUIManager.cpp" />
+    <ClCompile Include="Debug\DebugWidget.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Events\SDLEventManager.cpp" />
     <ClCompile Include="Files\FileManager.cpp" />

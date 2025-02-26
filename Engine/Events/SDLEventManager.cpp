@@ -1,15 +1,19 @@
 #include <Engine/Events/SDLEventManager.h>
 
-// Engine includes
-#include <Engine/Engine.h>
+#include <DuckCore/Events/EventManager.h>
+#include <DuckCore/Managers/Managers.h>
 
-// External includes
+#include <Engine/Engine.h>
+#include <Engine/Events/Events.h>
+
 #include <External/imgui/imgui_impl_sdl2.h>
 #include <External/SDL/SDL.h>
 
+using namespace DC;
+
 SDLEventManager::SDLEventManager()
 {
-	mUpdateHandle = gEngine->RegisterUpdateCallback([this](float) { Update(); });
+	mUpdateEventHandle = Managers::sGet<EventManager>().AddEventListener<EngineUpdateEvent>([this](const EngineUpdateEvent&) { Update(); });
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 }
