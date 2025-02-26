@@ -8,7 +8,7 @@ class Scene;
 class ECSEntity
 {
 public:
-	explicit ECSEntity(Scene* aScene, entt::entity aEntityHandle);
+	explicit ECSEntity(Scene& aScene, entt::entity aEntityHandle);
 
 	template<typename taType>
 	taType& AddComponent();
@@ -35,17 +35,15 @@ public:
 	template<typename  taType>
 	bool HasComponent() const;
 
-	Scene* GetScene() { return mScene; }
-	const Scene* GetScene() const { return mScene; }
+	Scene& GetScene() { return *mScene; }
+	const Scene& GetScene() const { return *mScene; }
 
 	entt::entity GetEntityHandle() { return mEntityHandle; }
 
 	entt::registry& GetRegistry();
 	const entt::registry& GetRegistry() const;
 
-protected:
-	ECSEntity() = default;
-
+private:
 	Scene* mScene = nullptr; // The scene this Entity is in.
 
 	entt::entity mEntityHandle = entt::null; // The EntityHandle in the ECS.

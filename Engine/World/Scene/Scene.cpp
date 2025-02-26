@@ -6,15 +6,18 @@
 
 using namespace DC;
 
-Scene::Scene(const GUID& aGUID, const Json& aJson) :
+Scene::Scene(const GUID& aGUID) :
 	Base(aGUID)
-{
-	
-}
+{}
 
-Ref<Scene> Scene::sNew()
+Scene::Scene(const Json& aJson)
 {
-	return new Scene(GUID::sCreate());
+	SetGUID(aJson["mGUID"]);
+	for (const Json& entity_json : aJson["Entities"])
+	{
+		Ref<Entity> entity = new Entity(*this, entity_json);
+		AddEntity(entity);
+	}
 }
 
 void Scene::Render()
@@ -33,15 +36,20 @@ void Scene::AddEntity(Ref<Entity>& aEntity)
 {
 	gAssert(!mEntities.Contains(aEntity));
 	mEntities.Add(aEntity);
-	aEntity->OnAddedToScene(*this);
 }
 
 void Scene::RemoveEntity(Entity& aEntity)
 {
 	mEntities.SwapRemoveFirstIf([&aEntity](const Entity* aItem) { return aItem == &aEntity; });
-	aEntity.OnRemovedFromScene(*this);
 }
 
-Scene::Scene(const GUID& aGUID) :
-	Base(aGUID)
-{}
+Json Scene::ToJson() const
+{
+	Json json = Base::ToJson();
+	Json& json_entities = json["Entities"];
+
+	for (const Ref<Entity>& entity : mEntities)
+		json_entities.push_back(entity->ToJson());
+
+	return json;
+}

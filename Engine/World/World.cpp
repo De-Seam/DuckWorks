@@ -36,7 +36,9 @@ void World::LoadScene(const GUID& aSceneGUID)
 	json_file.Load();
 	Json& json = json_file.GetJson();
 
-	mGUIDToInstantiatedScene[aSceneGUID] = new Scene(aSceneGUID, json);
+	Scene* scene = new Scene(json);
+	gAssert(scene->GetGUID() == aSceneGUID);
+	mGUIDToInstantiatedScene[aSceneGUID] = scene;
 	json_file.ClearCachedContents();
 }
 
@@ -54,5 +56,5 @@ World::World(const GUID& aGUID) :
 	Base(aGUID)
 {
 	// Default initialize the active Scene. We always need one active Scene.
-	mActiveScene = Scene::sNew();
+	mActiveScene = new Scene;
 }

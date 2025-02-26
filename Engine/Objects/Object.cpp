@@ -15,6 +15,14 @@ Object::Object(const GUID& inGUID) :
 		object_manager->RegisterObject(*this);
 }
 
+Object::Object(const Json& aJson)
+{
+	mGUID = aJson["mGUID"];
+
+	if (ObjectManager* object_manager = Managers::sFind<ObjectManager>())
+		object_manager->RegisterObject(*this);
+}
+
 Object::~Object()
 {
 	if (ObjectManager* object_manager = Managers::sFind<ObjectManager>())

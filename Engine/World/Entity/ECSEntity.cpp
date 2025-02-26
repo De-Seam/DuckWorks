@@ -2,8 +2,8 @@
 
 using namespace DC;
 
-ECSEntity::ECSEntity(Scene* aScene, entt::entity aEntityHandle) :
-	mScene(aScene),
+ECSEntity::ECSEntity(Scene& aScene, entt::entity aEntityHandle) :
+	mScene(&aScene),
 	mEntityHandle(aEntityHandle)
 {}
 

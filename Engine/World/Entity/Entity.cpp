@@ -6,23 +6,14 @@
 
 using namespace DC;
 
-void Entity::OnAddedToScene(Scene& aScene)
-{
-	gAssert(mScene == nullptr, "Entity is already in a Scene.");
-	mScene = &aScene;
-	mEntityHandle = aScene.GetRegistry().create();
-}
+Entity::Entity(Scene& aScene, GUID aGUID) :
+	Base(aGUID),
+	ECSEntity(aScene, aScene.GetRegistry().create())
+{}
 
-void Entity::OnRemovedFromScene(const Scene& aScene)
-{
-	gAssert(mScene == &aScene, "Entity is not part of this Scene.");
-	mScene = nullptr;
-
-	mScene->GetRegistry().destroy(mEntityHandle);
-	mEntityHandle = entt::null;
-}
-
-void Entity::FromJson(const Json& aJson)
+Entity::Entity(Scene& aScene, const Json& aJson) :
+	Base(aJson),
+	ECSEntity(aScene, aScene.GetRegistry().create())
 {
 	const Json& json_components = aJson["Components"];
 
@@ -48,6 +39,8 @@ void Entity::FromJson(const Json& aJson)
 Json Entity::ToJson() const
 {
 	Json json = Base::ToJson();
+	json["ClassName"] = GetRTTI().GetClassName();
+
 	Json& json_components = json["Components"];
 
 	static thread_local Array<const RTTI*> sComponentRTTIs;
@@ -61,4 +54,9 @@ Json Entity::ToJson() const
 	}
 
 	return json;
+}
+
+Entity::~Entity()
+{
+	GetScene().GetRegistry().destroy(GetEntityHandle());
 }

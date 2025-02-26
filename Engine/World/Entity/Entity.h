@@ -8,13 +8,11 @@ class Entity : public Object, public ECSEntity
 {
 	RTTI_CLASS(Entity, Object)
 public:
-	Entity(DC::GUID aGUID = DC::GUID::sCreate()) : Object(aGUID) {}
-
-	void OnAddedToScene(Scene& aScene);
-	void OnRemovedFromScene(const Scene& aScene);
-
-	void FromJson(const DC::Json& aJson);
-	DC::Json ToJson() const;
+	Entity(Scene& aScene, DC::GUID aGUID = DC::GUID::sCreate());
+	Entity(Scene& aScene, const DC::Json& aJson);
+	virtual DC::Json ToJson() const override;
+	virtual ~Entity() override;
 
 private:
+	DC::Json mThisJson;	// This is a temporary variable to store the JSON data of this entity for when we're removed from a Scene.
 };
