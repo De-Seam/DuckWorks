@@ -1,7 +1,9 @@
 #pragma once
 #include <DuckCore/Containers/Array.h>
 #include <DuckCore/Containers/HashMap.h>
+#include <DuckCore/Events/EventManager.h>
 
+#include <Engine/Events/Events.h>
 #include <Engine/Objects/Object.h>
 #include <Engine/Resources/JsonFile.h>
 #include <Engine/World/Scene/Scene.h>
@@ -12,9 +14,12 @@ class World : public Object
 public:
 
 	explicit World(const DC::Json& aJson);
-	DC::Json ToJson();
+	virtual DC::Json ToJson() const override;
 
 	static DC::Ref<World> sNew(); // Create a new World.
+
+	void Update(float aDeltaTime);
+	void Render();
 
 	void LoadScene(const DC::GUID& aSceneGUID);
 	void UnloadScene(const DC::GUID& aSceneGUID);

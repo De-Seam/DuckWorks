@@ -6,19 +6,37 @@
 
 using namespace DC;
 
-World::World(const Json& aJson) {}
-
-Json World::ToJson()
+World::World(const Json& aJson) :
+	Base(aJson)
 {
-	Json json;
+	mGUIDToSceneJson = aJson["mGUIDToSceneJson"];
+	const GUID& active_scene_guid = aJson["ActiveSceneGUID"].get<GUID>();
+	LoadScene(active_scene_guid);
+
+	mActiveScene = mGUIDToInstantiatedScene[active_scene_guid];
+}
+
+Json World::ToJson() const
+{
+	Json json = Base::ToJson();
 	json["ActiveSceneGUID"] = mActiveScene->GetGUID();
-	json["Scenes"] = mGUIDToSceneJson;
+	json["mGUIDToSceneJson"] = mGUIDToSceneJson;
 	return json;
 }
 
 Ref<World> World::sNew()
 {
 	return new World(GUID::sCreate());
+}
+
+void World::Update(float aDeltaTime)
+{
+	mActiveScene->Update(aDeltaTime);
+}
+
+void World::Render()
+{
+	mActiveScene->Render();	
 }
 
 void World::LoadScene(const GUID& aSceneGUID)

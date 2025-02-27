@@ -20,6 +20,12 @@ Scene::Scene(const Json& aJson)
 	}
 }
 
+
+void Scene::Update(float aDeltaTime)
+{
+	
+}
+
 void Scene::Render()
 {
 	Renderer& renderer = Managers::sGet<Renderer>();

@@ -20,6 +20,7 @@ public:
 	explicit Scene(const DC::Json& aJson); // Load a Scene from a JSON file.
 	DC::Json ToJson() const;
 
+	void Update(float aDeltaTime);
 	void Render();
 
 	void AddEntity(DC::Ref<Entity>& aEntity);
@@ -30,7 +31,6 @@ public:
 
 
 private:
-
 	DC::Array<DC::Ref<Entity>> mEntities;
 	entt::registry mRegistry;
 

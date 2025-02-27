@@ -53,13 +53,15 @@ void Engine::Update(float aDeltaTime)
 	EngineUpdateEvent engine_update_event(aDeltaTime);
 	event_manager.SendEvent(engine_update_event);
 
-	// mWorld->Update(aDeltaTime);
+	mWorld->Update(aDeltaTime);
 
 	EnginePostUpdateEvent engine_post_update_event;
 	event_manager.SendEvent(engine_post_update_event);
 
 	EnginePreRenderEvent engine_pre_render_event;
 	event_manager.SendEvent(engine_pre_render_event);
+
+	mWorld->Render();
 
 	EngineRenderEvent engine_render_event;
 	event_manager.SendEvent(engine_render_event);
