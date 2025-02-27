@@ -26,7 +26,7 @@ class EnginePostUpdateEvent final : public DC::Event
 	RTTI_CLASS(EnginePostUpdateEvent, Event)
 };
 
-// Before we call BeginFrame on the Renderer.
+// After we call BeginFrame on the Renderer.
 class EnginePreRenderEvent final : public DC::Event
 {
 	RTTI_CLASS(EnginePreRenderEvent, Event)

@@ -30,6 +30,8 @@ Engine::Engine()
 	Managers::sAdd(new Renderer);
 	Managers::sAdd(new SDLEventManager);
 	Managers::sAdd(new DebugUIManager);
+
+	mWorld = World::sNew();
 }
 
 Engine::~Engine()
@@ -39,20 +41,19 @@ Engine::~Engine()
 	gEngine = nullptr;
 }
 
-void Engine::BeginFrame()
-{
-	Managers::sGet<Renderer>().BeginFrame();
-}
-
-void Engine::Update(float inDeltaTime)
+void Engine::Update(float aDeltaTime)
 {
 	EventManager& event_manager = Managers::sGet<EventManager>();
+
+	Managers::sGet<Renderer>().BeginFrame();
 
 	EnginePreUpdateEvent engine_pre_update_event;
 	event_manager.SendEvent(engine_pre_update_event);
 
-	EngineUpdateEvent engine_update_event(inDeltaTime);
+	EngineUpdateEvent engine_update_event(aDeltaTime);
 	event_manager.SendEvent(engine_update_event);
+
+	// mWorld->Update(aDeltaTime);
 
 	EnginePostUpdateEvent engine_post_update_event;
 	event_manager.SendEvent(engine_post_update_event);
@@ -60,18 +61,11 @@ void Engine::Update(float inDeltaTime)
 	EnginePreRenderEvent engine_pre_render_event;
 	event_manager.SendEvent(engine_pre_render_event);
 
-	// Managers::sGet<Renderer>().BeginFrame();
-
 	EngineRenderEvent engine_render_event;
 	event_manager.SendEvent(engine_render_event);
 
 	EnginePostRenderEvent engine_post_render_event;
 	event_manager.SendEvent(engine_post_render_event);
 
-	// Managers::sGet<Renderer>().EndFrame();
-}
-
-void Engine::EndFrame()
-{
 	Managers::sGet<Renderer>().EndFrame();
 }

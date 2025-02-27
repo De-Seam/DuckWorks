@@ -45,13 +45,12 @@ void MainLoop()
 
 		last_time = current_time;
 
-		gEngine->BeginFrame();
-
-		App::sGetActiveApp()->Update(delta_time.count());
+		static UniquePtr<EventHandle<EngineUpdateEvent>> engine_update_event_handle = Managers::sGet<EventManager>().AddEventListener<EngineUpdateEvent>([](const EngineUpdateEvent& aEvent)
+		{
+			App::sGetActiveApp()->Update(aEvent.GetDeltaTime());
+		});
 
 		gEngine->Update(delta_time.count());
-
-		gEngine->EndFrame();
 	}
 
 	ShutdownEvent shutdown_event;
