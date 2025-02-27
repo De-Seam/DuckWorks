@@ -45,7 +45,7 @@ void MainLoop()
 
 		last_time = current_time;
 
-		static UniquePtr<EventHandle<EngineUpdateEvent>> engine_update_event_handle = Managers::sGet<EventManager>().AddEventListener<EngineUpdateEvent>([](const EngineUpdateEvent& aEvent)
+		static UniquePtr<EventHandle<EngineUpdateEvent>> sEngineUpdateEventHandle = Managers::sGet<EventManager>().AddEventListener<EngineUpdateEvent>([](const EngineUpdateEvent& aEvent)
 		{
 			App::sGetActiveApp()->Update(aEvent.GetDeltaTime());
 		});
