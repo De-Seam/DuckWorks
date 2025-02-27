@@ -46,8 +46,29 @@ void Engine::BeginFrame()
 
 void Engine::Update(float inDeltaTime)
 {
+	EventManager& event_manager = Managers::sGet<EventManager>();
+
+	EnginePreUpdateEvent engine_pre_update_event;
+	event_manager.SendEvent(engine_pre_update_event);
+
 	EngineUpdateEvent engine_update_event(inDeltaTime);
-	Managers::sGet<EventManager>().SendEvent(engine_update_event);
+	event_manager.SendEvent(engine_update_event);
+
+	EnginePostUpdateEvent engine_post_update_event;
+	event_manager.SendEvent(engine_post_update_event);
+
+	EnginePreRenderEvent engine_pre_render_event;
+	event_manager.SendEvent(engine_pre_render_event);
+
+	// Managers::sGet<Renderer>().BeginFrame();
+
+	EngineRenderEvent engine_render_event;
+	event_manager.SendEvent(engine_render_event);
+
+	EnginePostRenderEvent engine_post_render_event;
+	event_manager.SendEvent(engine_post_render_event);
+
+	// Managers::sGet<Renderer>().EndFrame();
 }
 
 void Engine::EndFrame()
