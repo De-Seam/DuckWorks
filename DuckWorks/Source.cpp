@@ -54,7 +54,7 @@ void MainLoop()
 	}
 
 	ShutdownEvent shutdown_event;
-	Managers::sGet<EventManager>().SendEvent(shutdown_event);
+	Get<EventManager>().SendEvent(shutdown_event);
 }
 
 /**
@@ -78,7 +78,7 @@ int main(int aArgumentCount, char* aArgumentValues[])
 		UniquePtr<Engine> engine = MakeUnique<Engine>();
 
 		String app_name = "LauncherApp";
-		Managers::sGet<CommandLineArgumentsManager>().FindArgumentValue("-app", app_name);
+		Get<CommandLineArgumentsManager>().FindArgumentValue("-app", app_name);
 		App::sSetActiveApp(app_name);
 
 		MainLoop();
