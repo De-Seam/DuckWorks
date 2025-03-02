@@ -32,14 +32,14 @@ const RTTI* FindComponentRTTIByName(const String& aName)
 
 ComponentFunctions* FindComponentFunctionsOrError(const RTTI& aComponentRTTI)
 {
-	ComponentFunctions* component_functions = gRTTIToComponentFunctions.Find(&aComponentRTTI);
-	if (component_functions == nullptr)
+	HashMap<const RTTI*, ComponentFunctions>::Iterator iter = gRTTIToComponentFunctions.Find(&aComponentRTTI);
+	if (!iter.IsValid())
 	{
 		Log<LogCategoryComponents>(ELogLevel::Error, String::sFormatted("Component %s not found", aComponentRTTI.GetClassName()));
 		gAssert(false);
 		return nullptr;
 	}
-	return component_functions;
+	return &iter.GetValue();
 }
 
 Component* AddComponent(ECSEntity& aECSEntity, const RTTI& aComponentRTTI)

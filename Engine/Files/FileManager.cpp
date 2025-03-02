@@ -7,9 +7,9 @@ using namespace DC;
 void FileManager::WriteToFile(const DC::String& inPath, const DC::String& inContents)
 {
 	// If this file is already open, write to it and write it to disk.
-	if (WeakRef<File>* file = mFiles.Find(inPath); file != nullptr && file->IsAlive())
+	if (HashMap<String, WeakRef<File>>::Iterator iter = mFiles.Find(inPath); iter.IsValid() && iter.GetValue().IsAlive())
 	{
-		Ref<File> file_ref = file->Ref();
+		Ref<File> file_ref = iter.GetValue().Ref();
 		file_ref->SetContents(inContents);
 		file_ref->WriteToDisk();
 		return;

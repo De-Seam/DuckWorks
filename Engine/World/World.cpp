@@ -43,14 +43,14 @@ void World::LoadScene(const GUID& aSceneGUID)
 {
 	gAssert(!mGUIDToInstantiatedScene.Contains(aSceneGUID), "Scene is already loaded.");
 
-	Ref<JsonFile>* json_file_ptr = mGUIDToSceneJson.Find(aSceneGUID);
-	if (json_file_ptr == nullptr)
+	HashMap<GUID, Ref<JsonFile>>::Iterator iter = mGUIDToSceneJson.Find(aSceneGUID);
+	if (!iter.IsValid())
 	{
 		gAssert(false, "Invalid Scene GUID.");
 		return;
 	}
 
-	JsonFile& json_file = *json_file_ptr->Get();
+	JsonFile& json_file = *iter.GetValue();
 	json_file.Load();
 	Json& json = json_file.GetJson();
 

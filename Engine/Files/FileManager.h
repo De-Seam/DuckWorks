@@ -35,7 +35,8 @@ void FileManager::RegisterFileExtension(DC::String inExtension)
 template <typename taType>
 DC::Ref<taType> FileManager::Get(const DC::String& inPath)
 {
-	DC::WeakRef<DC::File>* file = mFiles.Find(inPath);
+	DC::HashMap<DC::String, DC::WeakRef<DC::File>>::Iterator iter = mFiles.Find(inPath);
+	DC::WeakRef<DC::File>* file = iter.IsValid() ? &iter.GetValue() : nullptr;
 
 #ifdef _ASSERTS
 	// If there is no dot in the path there is no extension
@@ -44,7 +45,8 @@ DC::Ref<taType> FileManager::Get(const DC::String& inPath)
 		DC::String file_extension = inPath.SubStr(dot_pos + 1, inPath.Length() - 1);
 		uint64 type_id = typeid(taType).hash_code();
 
-		DC::String* registered_file_extension_ptr = mFileExtensions.Find(type_id);
+		DC::HashMap<uint64, DC::String>::Iterator registered_file_extension = mFileExtensions.Find(type_id);
+		DC::String* registered_file_extension_ptr = registered_file_extension.IsValid() ? &registered_file_extension.GetValue() : nullptr;
 		if (registered_file_extension_ptr == nullptr)
 		{
 

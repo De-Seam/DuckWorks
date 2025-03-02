@@ -22,14 +22,15 @@ void App::sSetActiveApp(const String& aAppName)
 	if (!app_name.Contains("App"))
 		app_name += "App";
 
-	std::function<DC::UniquePtr<App>(void)>* construct_function = sAppConstructors.Find(app_name);
-	if (construct_function == nullptr)
+	HashMap<String, std::function<UniquePtr<App>(void)>>::Iterator iter = sAppConstructors.Find(app_name);
+	if (!iter.IsValid())
 	{
 		Log(ELogLevel::Warning, String::sFormatted("App name %s not found", aAppName));
 		gAssert(false);
 		return;
 	}
-	sSetActiveApp((*construct_function)());
+	const std::function<UniquePtr<App>(void)>& construct_function = iter.GetValue();
+	sSetActiveApp((construct_function)());
 }
 
 void App::sRegisterAppConstructor(const String& aName, std::function<UniquePtr<App>()> aConstructFunction)
