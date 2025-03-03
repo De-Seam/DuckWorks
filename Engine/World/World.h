@@ -13,11 +13,9 @@ class World : public Object, public ServiceHolder<WorldService>
 {
 	RTTI_CLASS(World, Object)
 public:
-
-	explicit World(const DC::Json& aJson);
+	explicit World(const DC::GUID& aGUID); // Create a new empty World.
+	explicit World(const DC::Json& aJson); // Load a World from a Json object.
 	virtual DC::Json ToJson() const override;
-
-	static DC::Ref<World> sNew(); // Create a new World.
 
 	void Update(float aDeltaTime);
 	void Render();
@@ -28,7 +26,6 @@ public:
 	Scene& GetActiveScene() { return *mActiveScene; }
 
 private:
-	explicit World(const DC::GUID& aGUID); // Create a new World.
 
 	DC::Ref<Scene> mActiveScene; // The currently active, instantiated Scene.
 	DC::HashMap<DC::GUID, DC::Ref<Scene>> mGUIDToInstantiatedScene; // Maps each instantiated Scene to its GUID.

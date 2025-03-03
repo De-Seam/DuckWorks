@@ -6,6 +6,13 @@
 
 using namespace DC;
 
+World::World(const GUID& aGUID) :
+	Base(aGUID)
+{
+	// Default initialize the active Scene. We always need one active Scene.
+	mActiveScene = new Scene;
+}
+
 World::World(const Json& aJson) :
 	Base(aJson)
 {
@@ -24,11 +31,6 @@ Json World::ToJson() const
 	return json;
 }
 
-Ref<World> World::sNew()
-{
-	return new World(GUID::sCreate());
-}
-
 void World::Update(float aDeltaTime)
 {
 	mActiveScene->Update(aDeltaTime);
@@ -41,12 +43,16 @@ void World::Render()
 
 void World::LoadScene(const GUID& aSceneGUID)
 {
-	gAssert(!mGUIDToInstantiatedScene.Contains(aSceneGUID), "Scene is already loaded.");
+	if(mGUIDToInstantiatedScene.Contains(aSceneGUID))
+	{
+		gAssert(false, "Scene already loaded.");
+		return;
+	}
 
 	HashMap<GUID, Ref<JsonFile>>::Iterator iter = mGUIDToSceneJson.Find(aSceneGUID);
 	if (!iter.IsValid())
 	{
-		gAssert(false, "Invalid Scene GUID.");
+		gAssert(false, "Scene GUID was not found in mGUIDToSceneJson list.");
 		return;
 	}
 
@@ -68,11 +74,4 @@ void World::UnloadScene(const GUID& aSceneGUID)
 		return;
 	}
 	gVerify(mGUIDToInstantiatedScene.Remove(aSceneGUID));
-}
-
-World::World(const GUID& aGUID) :
-	Base(aGUID)
-{
-	// Default initialize the active Scene. We always need one active Scene.
-	mActiveScene = new Scene;
 }

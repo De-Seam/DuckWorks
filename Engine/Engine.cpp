@@ -31,7 +31,7 @@ Engine::Engine()
 	Managers::sAdd(new SDLEventManager);
 	Managers::sAdd(new DebugUIManager);
 
-	mWorld = World::sNew();
+	mWorld = new World(GUID::sCreate());
 }
 
 Engine::~Engine()

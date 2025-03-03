@@ -14,7 +14,7 @@ GameApp::GameApp()
 {
 	RegisterComponentType<TransformComponent>();
 
-	mWorld = World::sNew();
+	mWorld = new World(GUID::sCreate());
 }
 
 GameApp::~GameApp() = default;
