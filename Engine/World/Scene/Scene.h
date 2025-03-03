@@ -3,13 +3,14 @@
 
 #include <Engine/Objects/Object.h>
 #include <Engine/Renderer/RenderTarget.h>
+#include <Engine/World/ServiceHolder.h>
 #include <Engine/World/Entity/Entity.h>
 
 #include <External/entt/entity/registry.hpp>
 
 #include <SDL/SDL_render.h>
 
-class Scene : public Object
+class Scene : public Object, public ServiceHolder<SceneService>
 {
 	RTTI_CLASS(Scene, Object)
 public:
@@ -18,7 +19,7 @@ public:
 
 	explicit Scene(const DC::GUID& aGUID = DC::GUID::sCreate()); // Create a new Scene
 	explicit Scene(const DC::Json& aJson); // Load a Scene from a JSON file.
-	DC::Json ToJson() const;
+	virtual DC::Json ToJson() const override;
 
 	void Update(float aDeltaTime);
 	void Render();

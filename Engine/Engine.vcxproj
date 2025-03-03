@@ -123,6 +123,8 @@
     <ClInclude Include="World\Entity\ECSEntity.h" />
     <ClInclude Include="World\Entity\Entity.h" />
     <ClInclude Include="World\Scene\Scene.h" />
+    <ClInclude Include="World\Service.h" />
+    <ClInclude Include="World\ServiceHolder.h" />
     <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>

@@ -81,6 +81,12 @@
     <ClInclude Include="Events\Events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="World\ServiceHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Events\SDLEventManager.cpp">

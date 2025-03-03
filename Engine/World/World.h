@@ -6,9 +6,10 @@
 #include <Engine/Events/Events.h>
 #include <Engine/Objects/Object.h>
 #include <Engine/Resources/JsonFile.h>
+#include <Engine/World/ServiceHolder.h>
 #include <Engine/World/Scene/Scene.h>
 
-class World : public Object
+class World : public Object, public ServiceHolder<WorldService>
 {
 	RTTI_CLASS(World, Object)
 public:
