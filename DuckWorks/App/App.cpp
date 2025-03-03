@@ -25,7 +25,7 @@ void App::sSetActiveApp(const String& aAppName)
 	HashMap<String, std::function<UniquePtr<App>(void)>>::Iterator iter = sAppConstructors.Find(app_name);
 	if (!iter.IsValid())
 	{
-		Log(ELogLevel::Warning, String::sFormatted("App name %s not found", aAppName));
+		Log(ELogLevel::Warning, String::sFormatted("App name %s not found", *aAppName));
 		gAssert(false);
 		return;
 	}
