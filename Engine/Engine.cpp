@@ -48,26 +48,26 @@ void Engine::Update(float aDeltaTime)
 	Managers::sGet<Renderer>().BeginFrame();
 
 	EnginePreUpdateEvent engine_pre_update_event;
-	event_manager.SendEvent(nullptr, engine_pre_update_event);
+	event_manager.SendEvent(engine_pre_update_event);
 
 	EngineUpdateEvent engine_update_event(aDeltaTime);
-	event_manager.SendEvent(nullptr, engine_update_event);
+	event_manager.SendEvent(engine_update_event);
 
 	mWorld->Update(aDeltaTime);
 
 	EnginePostUpdateEvent engine_post_update_event;
-	event_manager.SendEvent(nullptr, engine_post_update_event);
+	event_manager.SendEvent(engine_post_update_event);
 
 	EnginePreRenderEvent engine_pre_render_event;
-	event_manager.SendEvent(nullptr, engine_pre_render_event);
+	event_manager.SendEvent(engine_pre_render_event);
 
 	mWorld->Render();
 
 	EngineRenderEvent engine_render_event;
-	event_manager.SendEvent(nullptr, engine_render_event);
+	event_manager.SendEvent(engine_render_event);
 
 	EnginePostRenderEvent engine_post_render_event;
-	event_manager.SendEvent(nullptr, engine_post_render_event);
+	event_manager.SendEvent(engine_post_render_event);
 
 	Managers::sGet<Renderer>().EndFrame();
 }

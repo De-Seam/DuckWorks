@@ -13,7 +13,7 @@ using namespace DC;
 
 SDLEventManager::SDLEventManager()
 {
-	mUpdateEventHandle = Managers::sGet<EventManager>().AddEventListener<EngineUpdateEvent>(nullptr, [this](const EngineUpdateEvent&) { Update(); });
+	mUpdateEventHandle = Managers::sGet<EventManager>().AddEventListener<EngineUpdateEvent>([this](const EngineUpdateEvent&) { Update(); });
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 }
