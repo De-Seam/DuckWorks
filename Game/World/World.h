@@ -6,8 +6,10 @@
 #include <Engine/Events/Events.h>
 #include <Engine/Objects/Object.h>
 #include <Engine/Resources/JsonFile.h>
-#include <Engine/World/ServiceHolder.h>
-#include <Engine/World/Scene/Scene.h>
+
+#include <Game/World/Service.h>
+#include <Game/World/ServiceHolder.h>
+#include <Game/World/Scene/Scene.h>
 
 class World : public Object, public ServiceHolder<WorldService>
 {

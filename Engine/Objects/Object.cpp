@@ -8,8 +8,8 @@
 
 using namespace DC;
 
-Object::Object(const GUID& inGUID) :
-	mGUID(inGUID)
+Object::Object(const GUID& aGUID) :
+	mGUID(aGUID)
 {
 	if (ObjectManager* object_manager = Managers::sFind<ObjectManager>())
 		object_manager->RegisterObject(*this);

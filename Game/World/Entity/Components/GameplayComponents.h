@@ -1,7 +1,7 @@
 #pragma once
 #include <DuckCore/Math/Transform.h>
 
-#include <Engine/World/Entity/Components/Component.h>
+#include <Game/World/Entity/Components/Component.h>
 
 struct TransformComponent final : public Component
 {

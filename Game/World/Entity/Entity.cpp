@@ -1,8 +1,8 @@
-#include <Engine/World/Entity/Entity.h>
+#include <Game/World/Entity/Entity.h>
 
-#include <Engine/World/Entity/Components/Component.h>
-#include <Engine/World/Entity/Components/Components.h>
-#include <Engine/World/Scene/Scene.h>
+#include <Game/World/Entity/Components/Component.h>
+#include <Game/World/Entity/Components/Components.h>
+#include <Game/World/Scene/Scene.h>
 
 using namespace DC;
 

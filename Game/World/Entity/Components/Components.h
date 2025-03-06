@@ -3,7 +3,7 @@
 #include <DuckCore/RTTI/RTTI.h>
 #include <DuckCore/Utilities/Json.h>
 
-#include <Engine/World/Entity/ECSEntity.h>
+#include <Game/World/Entity/ECSEntity.h>
 
 #include <functional>
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <DuckCore/Containers/HashMap.h>
 
-#include <Engine/World/Service.h>
+#include <Game/World/Service.h>
 
 namespace DC
 {

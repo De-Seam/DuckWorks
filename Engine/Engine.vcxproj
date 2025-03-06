@@ -84,7 +84,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile />
@@ -117,15 +117,6 @@
     <ClInclude Include="Renderer\SurfaceFile.h" />
     <ClInclude Include="Renderer\TextureResource.h" />
     <ClInclude Include="Resources\JsonFile.h" />
-    <ClInclude Include="World\Entity\Components\Component.h" />
-    <ClInclude Include="World\Entity\Components\Components.h" />
-    <ClInclude Include="World\Entity\Components\GameplayComponents.h" />
-    <ClInclude Include="World\Entity\ECSEntity.h" />
-    <ClInclude Include="World\Entity\Entity.h" />
-    <ClInclude Include="World\Scene\Scene.h" />
-    <ClInclude Include="World\Service.h" />
-    <ClInclude Include="World\ServiceHolder.h" />
-    <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debug\DebugUIManager.cpp" />
@@ -141,12 +132,6 @@
     <ClCompile Include="Renderer\SurfaceFile.cpp" />
     <ClCompile Include="Renderer\TextureResource.cpp" />
     <ClCompile Include="Resources\JsonFile.cpp" />
-    <ClCompile Include="World\Entity\Components\Components.cpp" />
-    <ClCompile Include="World\Entity\Components\GameplayComponents.cpp" />
-    <ClCompile Include="World\Entity\ECSEntity.cpp" />
-    <ClCompile Include="World\Entity\Entity.cpp" />
-    <ClCompile Include="World\Scene\Scene.cpp" />
-    <ClCompile Include="World\World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

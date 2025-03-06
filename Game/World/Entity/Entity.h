@@ -1,6 +1,7 @@
 #pragma once
 #include <Engine/Objects/Object.h>
-#include <Engine/World/Entity/ECSEntity.h>
+
+#include <Game/World/Entity/ECSEntity.h>
 
 class Scene;
 

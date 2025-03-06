@@ -6,11 +6,7 @@
 #include <DuckCore/RTTI/RTTIRefClass.h>
 
 #include <Engine/Renderer/Renderer.h>
-#include <Engine/World/World.h>
 
-#define REGISTER_APP(inApp) App::sRegisterAppConstructor(#inApp, []() { return DC::Move(DC::MakeUnique<inApp>()); })
-
-class App;
 class Engine;
 
 extern Engine* gEngine;
@@ -28,7 +24,6 @@ public:
 
 private:
 	bool mShouldShutdown = false;
-	DC::Ref<World> mWorld;
 
 	friend class EngineUpdateHandle;
 };

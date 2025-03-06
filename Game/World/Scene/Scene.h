@@ -3,8 +3,9 @@
 
 #include <Engine/Objects/Object.h>
 #include <Engine/Renderer/RenderTarget.h>
-#include <Engine/World/ServiceHolder.h>
-#include <Engine/World/Entity/Entity.h>
+
+#include <Game/World/ServiceHolder.h>
+#include <Game/World/Entity/Entity.h>
 
 #include <External/entt/entity/registry.hpp>
 

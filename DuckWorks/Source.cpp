@@ -5,16 +5,17 @@
 #include <DuckCore/Managers/CommandLineArgumentsManager.h>
 #include <DuckCore/Managers/Managers.h>
 
+#include <Engine/Engine.h>
+#include <Engine/Events/SDLEventManager.h>
+#include <Engine/Objects/ObjectManager.h>
+
+#include <Editor/Editor.h>
+
 #include <App/App.h>
 
 #include <Chess/ChessApp.h>
 
 #include <CryptChat/CryptChatApp.h>
-
-#include <Engine/Engine.h>
-#include <Engine/Events/SDLEventManager.h>
-#include <Engine/Objects/ObjectManager.h>
-
 #include <Game/GameApp.h>
 
 #include <Launcher/LauncherApp.h>
@@ -22,6 +23,28 @@
 #include <Sandbox/SandboxApp.h>
 
 #include <chrono>
+
+// External
+// DuckCore - Containers, Math, RTTI, etc.
+// Engine - Resource, Asset, Managers, etc.
+// Editor - Editor, ResourceEditor, AssetEditor
+// Game - GameEditor, World, WorldEditor, Entity, EntityEditor, Component, ComponentEditor
+
+// Multiple different editors: GameEditor, EntityEditor, AssetEditor, etc.
+// "DuckEditor" is the "editor editor" E.g. the editor app, which contains and manages the other editors.
+
+// "Game" object is the game itself. It will receive the "update" and "draw" calls.
+// "World" object is the world. It will contain the scenes.
+// "Scene" object is the scene. It will contain the entities.
+// "Entity" object is the entity. It will contain the components.
+// "Game" can have multiple instances, once for each GameEditor for example.
+
+// Main pattern will be editor using other object pattern.
+// Object will have a "GetGUID" function, which will be used to identify the object.
+// Editor will then use that (virtual) function to identify the object.
+// Object doesn't know about the editor. Editor does know about the object.
+
+#define REGISTER_APP(inApp) App::sRegisterAppConstructor(#inApp, []() { return DC::Move(DC::MakeUnique<inApp>()); })
 
 using namespace DC;
 

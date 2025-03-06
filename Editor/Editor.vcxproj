@@ -13,19 +13,19 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e5bd3e88-a4a4-476c-8915-6f39ce04a130}</ProjectGuid>
-    <RootNamespace>DuckWorks</RootNamespace>
+    <ProjectGuid>{034163E5-13FC-468E-AA9A-2CDFB8434F0C}</ProjectGuid>
+    <RootNamespace>Editor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -59,16 +59,20 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile />
       <DisableSpecificWarnings>4127; 4702;4100</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/;$(SolutionDir)Build/Out/Engine/$(Platform)_$(Configuration)/;$(SolutionDir)DuckCore/External/lib/$(Configuration);$(SolutionDir)DuckCore/External/lib/Shared;$(SolutionDir)Build/Out/Editor/$(Platform)_$(Configuration)/;$(SolutionDir)Build/Out/Game/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;libzmq.lib;OptickCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Engine.lib;Editor.lib;Game.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DuckCore.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -80,8 +84,10 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DuckCore;$(SolutionDir)DuckCore/External;$(SolutionDir)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile />
       <DisableSpecificWarnings>4127; 4702;4100</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -89,27 +95,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/;$(SolutionDir)Build/Out/Engine/$(Platform)_$(Configuration)/;$(SolutionDir)DuckCore/External/lib/$(Configuration);$(SolutionDir)DuckCore/External/lib/Shared;$(SolutionDir)Build/Out/Editor/$(Platform)_$(Configuration)/;$(SolutionDir)Build/Out/Game/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;libzmq.lib;OptickCore.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Engine.lib;Editor.lib;Game.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DuckCore.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="App\App.cpp" />
-    <ClCompile Include="Chess\ChessApp.cpp" />
-    <ClCompile Include="CryptChat\CryptChatApp.cpp" />
-    <ClCompile Include="Game\GameApp.cpp" />
-    <ClCompile Include="Launcher\LauncherApp.cpp" />
-    <ClCompile Include="Sandbox\SandboxApp.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClInclude Include="Editor.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App\App.h" />
-    <ClInclude Include="Chess\ChessApp.h" />
-    <ClInclude Include="Chess\ChessBoard.h" />
-    <ClInclude Include="CryptChat\CryptChatApp.h" />
-    <ClInclude Include="Game\GameApp.h" />
-    <ClInclude Include="Launcher\LauncherApp.h" />
-    <ClInclude Include="Sandbox\SandboxApp.h" />
+    <ClCompile Include="Editor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
