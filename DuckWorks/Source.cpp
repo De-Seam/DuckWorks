@@ -42,7 +42,16 @@
 // Main pattern will be editor using other object pattern.
 // Object will have a "GetGUID" function, which will be used to identify the object.
 // Editor will then use that (virtual) function to identify the object.
-// Object doesn't know about the editor. Editor does know about the object.
+// Object doesn't know about the editor. Editor does know about the object.\
+
+// GameApp: On Editor Update Event ->  Update Game
+// GameApp: On Editor Render Event -> Render Game
+// EditorApp: On Editor Update Event -> Update Editor. Editor can choose to update Game.
+// EditorApp: On Editor Render Event -> Render Editor. Editor can choose to render Game.
+
+// WorldEditor: Renders world, allows editing of world. So organizing, creating, and deleting scenes. Creating world-overarching scripts, etc.
+// SceneEditor: Allows editing individual scenes. Placing entities, creating world, etc.
+// GameEditor: Allows playing game with tools etc enabled.
 
 #define REGISTER_APP(inApp) App::sRegisterAppConstructor(#inApp, []() { return DC::Move(DC::MakeUnique<inApp>()); })
 
