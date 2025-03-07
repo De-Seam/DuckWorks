@@ -12,12 +12,7 @@ using namespace DC;
 
 DuckEditor::DuckEditor()
 {
-	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-	ImGui::LoadIniSettingsFromDisk("imgui.ini");
-
 	mDockSpaceID = gWangHash(512);
-	ImGui::DockBuilderDockWindow("Info##DuckEditorInfoWindow", mDockSpaceID);
 }
 
 /*
@@ -38,18 +33,19 @@ void DuckEditor::Update()
 
 	// Now create the docked window that can't be undocked
 	ImGui::Begin("Info##DuckEditorInfoWindow", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+	ImGui::DockBuilderDockWindow("Info##DuckEditorInfoWindow", mDockSpaceID);
 
 	ImGui::Text("This window is docked and cannot be undocked.");
 
 	ImGui::End();
 }
 
-void DuckEditor::AddEditor(Ref<Editor> aEditor)
+void DuckEditor::AddEditor(const Ref<Editor>& aEditor)
 {
 	mEditors.Add(aEditor);
 }
 
-void DuckEditor::RemoveEditor(Ref<Editor> aEditor)
+void DuckEditor::RemoveEditor(const Ref<Editor>& aEditor)
 {
 	gVerify(mEditors.SwapRemoveFirstIf([&aEditor](const Editor* aItem) { return aEditor == aItem; }));
 }

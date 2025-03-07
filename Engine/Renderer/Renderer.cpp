@@ -39,6 +39,9 @@ Renderer::Renderer()
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+	ImGui::LoadIniSettingsFromDisk("imgui.ini");
 
 	// Setup ImGui style
 	ImGui::StyleColorsDark();

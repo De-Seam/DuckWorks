@@ -13,8 +13,8 @@ public:
 
 	virtual void Update() override;
 
-	void AddEditor(DC::Ref<Editor> aEditor);
-	void RemoveEditor(DC::Ref<Editor> aEditor);
+	void AddEditor(const DC::Ref<Editor>& aEditor);
+	void RemoveEditor(const DC::Ref<Editor>& aEditor);
 
 private:
 	DC::Array<DC::Ref<Editor>> mEditors;
