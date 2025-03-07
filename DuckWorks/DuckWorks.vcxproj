@@ -97,6 +97,7 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="Chess\ChessApp.cpp" />
     <ClCompile Include="CryptChat\CryptChatApp.cpp" />
+    <ClCompile Include="Editor\EditorApp.cpp" />
     <ClCompile Include="Game\GameApp.cpp" />
     <ClCompile Include="Launcher\LauncherApp.cpp" />
     <ClCompile Include="Sandbox\SandboxApp.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Chess\ChessApp.h" />
     <ClInclude Include="Chess\ChessBoard.h" />
     <ClInclude Include="CryptChat\CryptChatApp.h" />
+    <ClInclude Include="Editor\EditorApp.h" />
     <ClInclude Include="Game\GameApp.h" />
     <ClInclude Include="Launcher\LauncherApp.h" />
     <ClInclude Include="Sandbox\SandboxApp.h" />

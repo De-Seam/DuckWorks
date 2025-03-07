@@ -16,6 +16,9 @@
 #include <Chess/ChessApp.h>
 
 #include <CryptChat/CryptChatApp.h>
+
+#include <Editor/EditorApp.h>
+
 #include <Game/GameApp.h>
 
 #include <Launcher/LauncherApp.h>
@@ -102,6 +105,7 @@ int main(int aArgumentCount, char* aArgumentValues[])
 
 	REGISTER_APP(LauncherApp);
 	REGISTER_APP(GameApp);
+	REGISTER_APP(EditorApp);
 	REGISTER_APP(SandboxApp);
 	REGISTER_APP(CryptChatApp);
 	REGISTER_APP(ChessApp);

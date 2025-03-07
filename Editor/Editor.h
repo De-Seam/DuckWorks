@@ -21,9 +21,10 @@ public:
 	RenderTarget& GetRenderTarget() { return *mRenderTarget; }
 	float GetDeltaTime() const { return mDeltaTime; }
 
-private:
+protected:
 	DC::Ref<RenderTarget> mRenderTarget;
 
+private:
 	std::chrono::time_point<std::chrono::high_resolution_clock> mLastUpdateTimePoint = std::chrono::high_resolution_clock::now();
 	float mDeltaTime = 0.0f;
 };
