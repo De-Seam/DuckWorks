@@ -1,15 +1,23 @@
 #include <Editor/DuckEditor/DuckEditor.h>
 
 #include <DuckCore/Managers/Managers.h>
+#include <DuckCore/Math/Random.h>
 
 #include <Engine/Renderer/Renderer.h>
 
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 
 using namespace DC;
 
 DuckEditor::DuckEditor()
 {
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+	ImGui::LoadIniSettingsFromDisk("imgui.ini");
+
+	mDockSpaceID = gWangHash(512);
+	ImGui::DockBuilderDockWindow("Info##DuckEditorInfoWindow", mDockSpaceID);
 }
 
 /*
@@ -23,38 +31,17 @@ void DuckEditor::Update()
 
 	Renderer::ScopedRenderTarget scoped_render_target(*mRenderTarget);
 
+	ImGui::DockSpaceOverViewport(mDockSpaceID, ImGui::GetMainViewport());
+
 	static bool open = false;
 	ImGui::ShowDemoWindow(&open);
 
-	/*
-	ImGuiIO& io = ImGui::GetIO(); // Accessing ImGui IO
-    ImVec2 windowSize = ImVec2(io.DisplaySize.x, io.DisplaySize.y); // Set the window size to the display size
+	// Now create the docked window that can't be undocked
+	ImGui::Begin("Info##DuckEditorInfoWindow", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 
-    // Create a fullscreen ImGui window with no title, no border, and no resize/move functionality
-    ImGui::SetNextWindowSize(windowSize);
-    ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));  // Position at top-left corner
-
-    ImGui::Begin("FullScreen Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar);
-    
-	if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable))
-	{
-		bool item_open = true;
-		bool open = ImGui::BeginTabItem("Test", &item_open, 0);
-		if (open)
-		{
-			ImGui::EndTabItem();
-		}
-
-		ImGui::EndTabBar();
-	}
-
-    ImGui::End();  // End the ImGui window
-
-	ImGui::Begin("DuckEditor");
-
+	ImGui::Text("This window is docked and cannot be undocked.");
 
 	ImGui::End();
-	*/
 }
 
 void DuckEditor::AddEditor(Ref<Editor> aEditor)

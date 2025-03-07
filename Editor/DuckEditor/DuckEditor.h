@@ -3,6 +3,8 @@
 
 #include <Editor/Editor.h>
 
+#include <imgui/imgui.h>
+
 class DuckEditor : public Editor
 {
 	RTTI_CLASS(DuckEditor, Editor)
@@ -16,4 +18,6 @@ public:
 
 private:
 	DC::Array<DC::Ref<Editor>> mEditors;
+
+	ImGuiID mDockSpaceID = 0; // Dock space ID for main dock space.
 };
