@@ -26,7 +26,7 @@ void DuckEditor::Update()
 
 	Renderer::ScopedRenderTarget scoped_render_target(*mRenderTarget);
 
-	ImGui::DockSpaceOverViewport(mDockSpaceID, ImGui::GetMainViewport());
+	ImGui::DockSpaceOverViewport(mDockSpaceID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
 	static bool open = false;
 	ImGui::ShowDemoWindow(&open);
