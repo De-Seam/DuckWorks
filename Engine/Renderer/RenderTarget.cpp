@@ -15,3 +15,14 @@ RenderTarget::~RenderTarget()
 {
 	Renderer::sDestroyTexture(mTexture);
 }
+
+void ToJson(Json& aJson, const RenderTarget* aRenderTarget)
+{
+	aJson["mSize"] = aRenderTarget->GetSize();
+}
+
+void FromJson(const Json& aJson, Ref<RenderTarget>& aRenderTarget)
+{
+	IVec2 size = aJson["mSize"];
+	aRenderTarget = Get<Renderer>().CreateRenderTarget(size);
+}

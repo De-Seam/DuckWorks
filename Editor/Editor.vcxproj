@@ -102,6 +102,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DuckEditor\DuckEditor.h" />
     <ClInclude Include="Editor.h" />
   </ItemGroup>
   <ItemGroup>

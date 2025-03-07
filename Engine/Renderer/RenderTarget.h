@@ -18,3 +18,6 @@ private:
 	SDL_Texture* mTexture = nullptr;
 	DC::IVec2 mSize;
 };
+
+void ToJson(DC::Json& aJson, const RenderTarget* aRenderTarget);
+void FromJson(const DC::Json& aJson, DC::Ref<RenderTarget>& aRenderTarget);

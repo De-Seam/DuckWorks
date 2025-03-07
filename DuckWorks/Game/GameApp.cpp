@@ -4,9 +4,9 @@
 #include <DuckCore/Math/Transform.h>
 
 #include <Engine/Renderer/Renderer.h>
-#include <Engine/World/World.h>
-#include <Engine/World/Entity/Components/Components.h>
-#include <Engine/World/Entity/Components/GameplayComponents.h>
+#include <Game/World/World.h>
+#include <Game/World/Entity/Components/Components.h>
+#include <Game/World/Entity/Components/GameplayComponents.h>
 
 using namespace DC;
 
