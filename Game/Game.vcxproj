@@ -102,8 +102,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Editor\GameEditor\GameEditor.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameEditor.h" />
     <ClInclude Include="World\Entity\Components\Component.h" />
     <ClInclude Include="World\Entity\Components\Components.h" />
     <ClInclude Include="World\Entity\Components\GameplayComponents.h" />
@@ -115,6 +115,7 @@
     <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor\GameEditor\GameEditor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="World\Entity\Components\Components.cpp" />
     <ClCompile Include="World\Entity\Components\GameplayComponents.cpp" />

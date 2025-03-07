@@ -50,6 +50,11 @@ Renderer::Renderer()
 	// Setup Platform/Renderer backends
 	ImGui_ImplSDL2_InitForSDLRenderer(mWindow, mRenderer);
 	ImGui_ImplSDLRenderer2_Init(mRenderer);
+
+	mShutdownEventHandle = Managers::sGet<EventManager>().AddEventListener<ShutdownEvent>([](const ShutdownEvent& aEvent)
+	{
+		ImGui::SaveIniSettingsToDisk("imgui.ini");
+	});
 }
 
 Renderer::~Renderer()
@@ -179,10 +184,14 @@ void Renderer::Clear(RGBA aColor)
 	SDL_RenderClear(mRenderer);
 }
 
+IF_ASSERTS(Array<Renderer::ScopedRenderTarget*> gScopedRenderTargetStack; )
+
 Renderer::ScopedRenderTarget::ScopedRenderTarget(RenderTarget& aRenderTarget) :
 	mRenderTarget(&aRenderTarget)
 {
-	Renderer& renderer = Managers::sGet<Renderer>();
+	IF_ASSERTS(gScopedRenderTargetStack.Add(this); )
+
+	Renderer& renderer = Get<Renderer>();
 	mPreviousRenderTarget = renderer.GetRenderTarget();
 
 	renderer.SetRenderTarget(mRenderTarget);
@@ -190,15 +199,14 @@ Renderer::ScopedRenderTarget::ScopedRenderTarget(RenderTarget& aRenderTarget) :
 
 Renderer::ScopedRenderTarget::~ScopedRenderTarget()
 {
-	Renderer& renderer = Managers::sGet<Renderer>();
+	gAssert(gScopedRenderTargetStack.Back() == this, "ScopedRenderTarget is stack-based. If this assert triggers, a previous render target has left its scope while the current render target is still active.");
+	IF_ASSERTS(gScopedRenderTargetStack.PopBack(); )
 
-	gAssert(mPreviousRenderTarget == renderer.mPreviousRenderTarget, "ScopedRenderTarget is stack-based. If this assert triggers, a previous render target has left its scope while the current render target is still active.");
-	renderer.SetRenderTarget(mPreviousRenderTarget);
+	Get<Renderer>().SetRenderTarget(mPreviousRenderTarget);
 }
 
 void Renderer::SetRenderTarget(RenderTarget* aRenderTarget)
 {
-	mPreviousRenderTarget = mRenderTarget;
 	mRenderTarget = aRenderTarget;
 	SDL_SetRenderTarget(mRenderer, mRenderTarget == nullptr ? nullptr : mRenderTarget->GetTexture());
 }

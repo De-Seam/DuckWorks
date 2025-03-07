@@ -9,7 +9,7 @@ class Editor : public Object
 {
 	RTTI_CLASS(Editor, Object)
 public:
-	Editor();
+	Editor(const DC::GUID& aGUID = DC::GUID::sNone());
 	explicit Editor(const DC::Json& aJson);
 	virtual ~Editor() override;
 	virtual DC::Json ToJson() const override;
@@ -17,6 +17,7 @@ public:
 	virtual void Update();
 
 	void SetSize(DC::IVec2 aSize);
+	DC::IVec2 GetSize();
 
 	RenderTarget& GetRenderTarget() { return *mRenderTarget; }
 	float GetDeltaTime() const { return mDeltaTime; }

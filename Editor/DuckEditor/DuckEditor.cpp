@@ -38,6 +38,9 @@ void DuckEditor::Update()
 	ImGui::Text("This window is docked and cannot be undocked.");
 
 	ImGui::End();
+
+	for (Editor* editor : mEditors)
+		editor->Update();
 }
 
 void DuckEditor::AddEditor(const Ref<Editor>& aEditor)

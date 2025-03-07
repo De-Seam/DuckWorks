@@ -10,3 +10,13 @@ Game::Game()
 }
 
 Game::~Game() = default;
+
+void Game::Update(float aDeltaTime)
+{
+	mWorld->Update(aDeltaTime);
+}
+
+void Game::Render()
+{
+	mWorld->Render();
+}

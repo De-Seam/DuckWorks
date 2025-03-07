@@ -6,7 +6,7 @@
 
 using namespace DC;
 
-Editor::Editor()
+Editor::Editor(const GUID& aGUID) : Base(aGUID)
 {
 	mRenderTarget = Get<Renderer>().CreateRenderTarget({120, 120});
 }
@@ -41,3 +41,5 @@ void Editor::SetSize(IVec2 aSize)
 {
 	mRenderTarget = Get<Renderer>().CreateRenderTarget(aSize);
 }
+
+IVec2 Editor::GetSize() { return mRenderTarget->GetSize(); }

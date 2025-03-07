@@ -1,5 +1,7 @@
 #pragma once
 // Engine includes
+#include <DuckCore/Events/Event.h>
+#include <DuckCore/Events/EventManager.h>
 #include <DuckCore/Managers/Manager.h>
 #include <DuckCore/Math/Rect.h>
 #include <DuckCore/Math/Vector.h>
@@ -64,8 +66,9 @@ private:
 
 	SDL_Window* mWindow = nullptr;
 	SDL_Renderer* mRenderer = nullptr;
-	RenderTarget* mRenderTarget = nullptr;
-	RenderTarget* mPreviousRenderTarget = nullptr;
+	DC::Ref<RenderTarget> mRenderTarget = nullptr;
+
+	DC::UniquePtr<DC::EventHandle<DC::ShutdownEvent>> mShutdownEventHandle;
 
 	friend class ScopedRenderTarget;
 };
