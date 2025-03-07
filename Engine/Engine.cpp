@@ -41,9 +41,9 @@ Engine::~Engine()
 
 void Engine::Update(float aDeltaTime)
 {
-	EventManager& event_manager = Managers::sGet<EventManager>();
+	EventManager& event_manager = Get<EventManager>();
 
-	Managers::sGet<Renderer>().BeginFrame();
+	Get<Renderer>().BeginFrame();
 
 	EnginePreUpdateEvent engine_pre_update_event;
 	event_manager.SendEvent(engine_pre_update_event);
@@ -54,14 +54,8 @@ void Engine::Update(float aDeltaTime)
 	EnginePostUpdateEvent engine_post_update_event;
 	event_manager.SendEvent(engine_post_update_event);
 
-	EnginePreRenderEvent engine_pre_render_event;
-	event_manager.SendEvent(engine_pre_render_event);
-
 	EngineRenderEvent engine_render_event;
 	event_manager.SendEvent(engine_render_event);
 
-	EnginePostRenderEvent engine_post_render_event;
-	event_manager.SendEvent(engine_post_render_event);
-
-	Managers::sGet<Renderer>().EndFrame();
+	Get<Renderer>().EndFrame();
 }

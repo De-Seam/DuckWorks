@@ -1,4 +1,4 @@
-#include <CryptChat/CryptChatApp.h>
+#include <DuckWorks/CryptChat/CryptChatApp.h>
 
 #include <External/imgui/imgui.h>
 

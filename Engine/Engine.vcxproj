@@ -111,6 +111,7 @@
     <ClInclude Include="Files\FileManager.h" />
     <ClInclude Include="Objects\Object.h" />
     <ClInclude Include="Objects\ObjectManager.h" />
+    <ClInclude Include="Renderer\Events.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RenderTarget.h" />
     <ClInclude Include="Renderer\Sprite.h" />

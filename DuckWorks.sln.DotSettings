@@ -65,23 +65,20 @@
 	<s:Boolean x:Key="/Default/CodeStyle/CppIncludeDirective/SortIncludeDirectives/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/CppIncludeDirective/UseAngleBracketsInsteadOfQuotes/@EntryValue">WhenPossible</s:String>
 	<s:String x:Key="/Default/CodeStyle/CppIncludeDirective/UseRelativePaths/@EntryValue">Never</s:String>
-	<s:Boolean x:Key="/Default/CodeStyle/CppSortIncludes/GroupByRootDirectory/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeStyle/CppSortIncludes/FilesBeforeFolders/@EntryValue">False</s:Boolean>
+	
 	<s:String x:Key="/Default/CodeStyle/CppSortIncludes/IncludeSortCategories/@EntryValue">&lt;CppIncludeCategories&gt;&#xD;
   &lt;CppIncludeCategorySetting Pattern="^&amp;lt;DuckCore/*" Description="Core" Group="1" Order="2" /&gt;&#xD;
   &lt;CppIncludeCategorySetting Pattern="^&amp;lt;Engine/*" Description="Engine" Group="2" Order="3" /&gt;&#xD;
   &lt;CppIncludeCategorySetting Pattern="^&amp;lt;Editor/*" Description="Editor" Group="2" Order="4" /&gt;&#xD;
   &lt;CppIncludeCategorySetting Pattern="^&amp;lt;Game/*" Description="Game" Group="2" Order="5" /&gt;&#xD;
-  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;Chess/*" Description="Chess" Group="2" Order="6" /&gt;&#xD;
-  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;CryptChat/*" Description="" Group="2" Order="7" /&gt;&#xD;
-  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;Launcher/*" Description="" Group="2" Order="8" /&gt;&#xD;
-  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;Sandbox/*" Description="" Group="2" Order="9" /&gt;&#xD;
-  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;App/*" Description="App" Group="2" Order="10" /&gt;&#xD;
-  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;External/*" Description="External" Group="3" Order="11" /&gt;&#xD;
+  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;DuckWorks*" Description="DuckWorks" Group="2" Order="6" /&gt;&#xD;
+  &lt;CppIncludeCategorySetting Pattern="^&amp;lt;External/*" Description="External" Group="3" Order="7" /&gt;&#xD;
 &lt;/CppIncludeCategories&gt;</s:String>
 	<s:Int64 x:Key="/Default/CodeStyle/CppSortIncludes/MainHeaderGroup/@EntryValue">0</s:Int64>
 	<s:Boolean x:Key="/Default/CodeStyle/CppSortIncludes/MainHeaderMustBeQuoted/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CppSortIncludes/PreserveIncludeBlocks/@EntryValue">False</s:Boolean>
-	<s:Int64 x:Key="/Default/CodeStyle/CppSortIncludes/UnmatchedHeaderOrder/@EntryValue">12</s:Int64>
+	<s:Int64 x:Key="/Default/CodeStyle/CppSortIncludes/UnmatchedHeaderOrder/@EntryValue">8</s:Int64>
 	<s:Boolean x:Key="/Default/CodeStyle/EditorConfig/EnableClangFormatSupport/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/Generate/=CppDefinitions/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/Generate/=CppDefinitions/Options/=GenerateInlineDefinitions/@EntryIndexedValue">False</s:String>

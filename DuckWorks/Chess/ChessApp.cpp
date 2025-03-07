@@ -1,6 +1,6 @@
-#include <Chess/ChessApp.h>
+#include <DuckWorks/Chess/ChessApp.h>
 
-#include <Chess/ChessBoard.h>
+#include <DuckWorks/Chess/ChessBoard.h>
 
 #include <External/imgui/imgui.h>
 

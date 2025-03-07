@@ -1,4 +1,4 @@
-#include <Editor/EditorApp.h>
+#include <DuckWorks/Editor/EditorApp.h>
 
 using namespace DC;
 

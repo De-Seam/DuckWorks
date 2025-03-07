@@ -26,20 +26,9 @@ class EnginePostUpdateEvent final : public DC::Event
 	RTTI_CLASS(EnginePostUpdateEvent, Event)
 };
 
-// After we call BeginFrame on the Renderer.
-class EnginePreRenderEvent final : public DC::Event
-{
-	RTTI_CLASS(EnginePreRenderEvent, Event)
-};
 
 // After we call BeginFrame on the Renderer.
 class EngineRenderEvent final : public DC::Event
 {
 	RTTI_CLASS(EngineRenderEvent, Event)
-};
-
-// After we render the game, but before we call EndFrame.
-class EnginePostRenderEvent final : public DC::Event
-{
-	RTTI_CLASS(EnginePostRenderEvent, Event)
 };

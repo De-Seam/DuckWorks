@@ -8,22 +8,14 @@
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
-
 #include <Editor/Editor.h>
-
-#include <App/App.h>
-
-#include <Chess/ChessApp.h>
-
-#include <CryptChat/CryptChatApp.h>
-
-#include <Editor/EditorApp.h>
-
-#include <Game/GameApp.h>
-
-#include <Launcher/LauncherApp.h>
-
-#include <Sandbox/SandboxApp.h>
+#include <DuckWorks/App/App.h>
+#include <DuckWorks/Chess/ChessApp.h>
+#include <DuckWorks/CryptChat/CryptChatApp.h>
+#include <DuckWorks/Editor/EditorApp.h>
+#include <DuckWorks/Game/GameApp.h>
+#include <DuckWorks/Launcher/LauncherApp.h>
+#include <DuckWorks/Sandbox/SandboxApp.h>
 
 #include <chrono>
 
@@ -101,6 +93,8 @@ Engine::Init: Initialize managers
 **/
 int main(int aArgumentCount, char* aArgumentValues[])
 {
+	SetCurrentThreadAsMainThread();
+
 	Managers::sAdd(new CommandLineArgumentsManager(aArgumentCount, aArgumentValues));
 
 	REGISTER_APP(LauncherApp);

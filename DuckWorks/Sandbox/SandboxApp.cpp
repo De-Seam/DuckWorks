@@ -1,4 +1,4 @@
-#include <Sandbox/SandboxApp.h>
+#include <DuckWorks/Sandbox/SandboxApp.h>
 
 #include <DuckCore/Managers/Managers.h>
 #include <DuckCore/Math/Random.h>

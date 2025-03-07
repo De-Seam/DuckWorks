@@ -1,7 +1,7 @@
 #pragma once
 #include <Editor/DuckEditor/DuckEditor.h>
 
-#include <App/App.h>
+#include <DuckWorks/App/App.h>
 
 class EditorApp : public App
 {

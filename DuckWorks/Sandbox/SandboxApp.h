@@ -3,7 +3,7 @@
 #include <DuckCore/Math/Vector.h>
 #include <DuckCore/RTTI/Ref.h>
 
-#include <App/App.h>
+#include <DuckWorks/App/App.h>
 
 #include <SDL/SDL_render.h>
 

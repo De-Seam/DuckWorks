@@ -1,7 +1,7 @@
 #pragma once
 #include <DuckCore/RTTI/Ref.h>
 
-#include <App/App.h>
+#include <DuckWorks/App/App.h>
 
 class World;
 

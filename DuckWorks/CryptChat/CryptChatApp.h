@@ -1,5 +1,5 @@
 #pragma once
-#include <App/App.h>
+#include <DuckWorks/App/App.h>
 
 class CryptChatApp : public App
 {

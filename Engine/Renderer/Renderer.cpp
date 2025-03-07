@@ -6,6 +6,7 @@
 
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
+#include <Engine/Renderer/Events.h>
 #include <Engine/Renderer/Sprite.h>
 #include <Engine/Renderer/TextureResource.h>
 
@@ -59,20 +60,34 @@ Renderer::~Renderer()
 
 void Renderer::BeginFrame()
 {
+	gAssert(IsMainThread());
+
+	PreRendererBeginFrameEvent pre_event;
+	Get<EventManager>().SendEvent(pre_event);
+
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(mRenderer);
 
-	// Start the Dear ImGui frame
+	// Start the Dear ImGui frame. We do this here for now, but if we ever create an ImGui manager we may want to move it there with an event listener.
 	ImGui_ImplSDLRenderer2_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
+
+	PostRendererBeginFrameEvent post_event;
+	Get<EventManager>().SendEvent(post_event);
 }
 
 void Renderer::EndFrame()
 {
+	PreRendererEndFrameEvent pre_event;
+	Get<EventManager>().SendEvent(pre_event);
+
 	ImGui::Render();
 	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), mRenderer);
 	SDL_RenderPresent(mRenderer);
+
+	PostRendererEndFrameEvent post_event;
+	Get<EventManager>().SendEvent(post_event);
 }
 
 void Renderer::SetWindowSize(IVec2 aSize)
