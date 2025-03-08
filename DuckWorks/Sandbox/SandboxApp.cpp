@@ -38,7 +38,7 @@ void SandboxApp::Update(float inDeltaTime)
 				if (!pixel.mFilled)
 					continue;
 
-				mRandomState = DC::gXorShift32(&mRandomState);
+				mRandomState = DC::XorShift32(&mRandomState);
 				if (mRandomState % 4 == 1)
                     continue;
 
@@ -59,7 +59,7 @@ void SandboxApp::Update(float inDeltaTime)
 					}
 				}
 
-				mRandomState = DC::gXorShift32(&mRandomState);
+				mRandomState = DC::XorShift32(&mRandomState);
 				if (mRandomState % 2 == 0)
 				{
 					if (x != 0)
