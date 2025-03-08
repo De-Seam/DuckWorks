@@ -17,6 +17,11 @@ using namespace DC;
 
 Engine* gEngine = nullptr;
 
+void Engine::sStartup()
+{
+	
+}
+
 Engine::Engine()
 {
 	gAssert(gEngine == nullptr);

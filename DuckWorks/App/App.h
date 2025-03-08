@@ -6,6 +6,8 @@
 class App
 {
 public:
+	static void sStartup();
+
 	App();
 	virtual ~App();
 

@@ -10,6 +10,8 @@ class Editor : public Object
 {
 	RTTI_CLASS(Editor, Object)
 public:
+	static void sStartup();
+
 	Editor(const DC::GUID& aGUID = DC::GUID::sNone());
 	explicit Editor(const DC::Json& aJson);
 	virtual ~Editor() override;

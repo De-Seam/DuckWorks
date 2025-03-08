@@ -14,6 +14,8 @@ extern Engine* gEngine;
 class Engine
 {
 public:
+	static void sStartup();
+
 	Engine();
 	~Engine();
 

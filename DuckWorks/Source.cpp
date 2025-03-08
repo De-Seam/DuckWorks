@@ -9,6 +9,7 @@
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
 #include <Editor/Editor.h>
+#include <Game/Game.h>
 #include <DuckWorks/App/App.h>
 #include <DuckWorks/Chess/ChessApp.h>
 #include <DuckWorks/CryptChat/CryptChatApp.h>
@@ -47,8 +48,6 @@
 // WorldEditor: Renders world, allows editing of world. So organizing, creating, and deleting scenes. Creating world-overarching scripts, etc.
 // SceneEditor: Allows editing individual scenes. Placing entities, creating world, etc.
 // GameEditor: Allows playing game with tools etc enabled.
-
-#define REGISTER_APP(inApp) App::sRegisterAppConstructor(#inApp, []() { return DC::Move(DC::MakeUnique<inApp>()); })
 
 using namespace DC;
 
@@ -93,16 +92,13 @@ Engine::Init: Initialize managers
 **/
 int main(int aArgumentCount, char* aArgumentValues[])
 {
-	SetCurrentThreadAsMainThread();
+	Core::sStartup();
+	Engine::sStartup();
+	Editor::sStartup();
+	Game::sStartup();
+	App::sStartup();
 
 	Managers::sAdd(new CommandLineArgumentsManager(aArgumentCount, aArgumentValues));
-
-	REGISTER_APP(LauncherApp);
-	REGISTER_APP(GameApp);
-	REGISTER_APP(EditorApp);
-	REGISTER_APP(SandboxApp);
-	REGISTER_APP(CryptChatApp);
-	REGISTER_APP(ChessApp);
 
 	{
 		UniquePtr<Engine> engine = MakeUnique<Engine>();

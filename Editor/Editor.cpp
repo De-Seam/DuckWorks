@@ -6,6 +6,8 @@
 
 using namespace DC;
 
+void Editor::sStartup() {}
+
 Editor::Editor(const GUID& aGUID) : Base(aGUID)
 {
 	mRenderTarget = Get<Renderer>().CreateRenderTarget({120, 120});

@@ -12,7 +12,7 @@ using namespace DC;
 
 GameApp::GameApp()
 {
-	RegisterComponentType<TransformComponent>();
+	
 
 	mWorld = new World(GUID::sCreate());
 }

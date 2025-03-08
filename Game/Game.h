@@ -7,6 +7,8 @@ class Game : public Object
 {
 	RTTI_CLASS(Game, Object)
 public:
+	static void sStartup();
+
 	Game();
 	virtual ~Game() override;
 
