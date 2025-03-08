@@ -43,3 +43,15 @@ void Editor::SetSize(IVec2 aSize)
 }
 
 IVec2 Editor::GetSize() { return mRenderTarget->GetSize(); }
+
+void Editor::OnAddedToDuckEditor(DuckEditor& aParentDuckEditor)
+{
+	gAssert(mDuckEditor == nullptr);
+	mDuckEditor = &aParentDuckEditor;
+}
+
+void Editor::OnRemovedFromDuckEditor(const DuckEditor& aParentDuckEditor)
+{
+	gAssert(mDuckEditor == &aParentDuckEditor);
+	mDuckEditor = nullptr;
+}

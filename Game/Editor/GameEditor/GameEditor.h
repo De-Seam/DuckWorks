@@ -7,6 +7,8 @@ class GameEditor : public Editor
 	RTTI_CLASS(GameEditor, Editor)
 public:
 	GameEditor();
+
+	virtual void OnFirstUpdate() override;
 	virtual void Update() override;
 
 private:

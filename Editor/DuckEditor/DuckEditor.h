@@ -11,13 +11,18 @@ class DuckEditor : public Editor
 public:
 	DuckEditor();
 
+	virtual void OnFirstUpdate() override;
 	virtual void Update() override;
 
-	void AddEditor(const DC::Ref<Editor>& aEditor);
-	void RemoveEditor(const DC::Ref<Editor>& aEditor);
+	void AddEditor(DC::Ref<Editor> aEditor);
+	void RemoveEditor(DC::Ref<Editor> aEditor);
+
+	ImGuiID GetDockSpaceID() const { return mDockSpaceID; }
 
 private:
 	DC::Array<DC::Ref<Editor>> mEditors;
 
 	ImGuiID mDockSpaceID = 0; // Dock space ID for main dock space.
+
+	bool mHasBeenUpdated = false;
 };

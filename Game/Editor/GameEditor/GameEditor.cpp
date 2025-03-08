@@ -1,8 +1,10 @@
 #include <Game/Editor/GameEditor/GameEditor.h>
 
 #include <Engine/Renderer/Renderer.h>
+#include <Editor/DuckEditor/DuckEditor.h>
 
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 
 using namespace DC;
 
@@ -11,6 +13,15 @@ GameEditor::GameEditor() : Base(GUID::sCreate())
 	mGame = new Game;
 
 	mWindowLabel = String("Game Editor##") + GetGUID().ToString();
+}
+
+void GameEditor::OnFirstUpdate()
+{
+	Base::OnFirstUpdate();
+
+	ImGuiID dock_space_id = GetDuckEditor()->GetDockSpaceID();
+	ImGui::DockBuilderDockWindow(*mWindowLabel, dock_space_id);
+	ImGui::DockBuilderFinish(dock_space_id);
 }
 
 void GameEditor::Update()
@@ -24,7 +35,6 @@ void GameEditor::Update()
 
 		mGame->Render();
 	}
-
 
 	ImGui::Begin(*mWindowLabel);
 

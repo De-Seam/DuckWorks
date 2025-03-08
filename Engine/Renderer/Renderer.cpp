@@ -42,6 +42,8 @@ Renderer::Renderer()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
+	// ImGui::GetIO().IniFilename = nullptr;
+
 	ImGui::LoadIniSettingsFromDisk("imgui.ini");
 
 	// Setup ImGui style

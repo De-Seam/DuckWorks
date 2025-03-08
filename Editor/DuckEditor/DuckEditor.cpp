@@ -12,7 +12,18 @@ using namespace DC;
 
 DuckEditor::DuckEditor()
 {
-	mDockSpaceID = gWangHash(512);
+	mDockSpaceID = Hash("Info##DuckEditorInfoWindow");
+}
+
+void DuckEditor::OnFirstUpdate()
+{
+	Base::OnFirstUpdate();
+
+	ImGui::DockBuilderDockWindow("Info##DuckEditorInfoWindow", mDockSpaceID);
+	ImGui::DockBuilderFinish(mDockSpaceID);
+
+	for (Editor* editor : mEditors)
+		editor->OnFirstUpdate();
 }
 
 /*
@@ -26,14 +37,19 @@ void DuckEditor::Update()
 
 	Renderer::ScopedRenderTarget scoped_render_target(*mRenderTarget);
 
-	ImGui::DockSpaceOverViewport(mDockSpaceID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+	if (!mHasBeenUpdated)
+	{
+		OnFirstUpdate();
+		mHasBeenUpdated = true;
+	}
+
+	ImGui::DockSpaceOverViewport(mDockSpaceID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingSplit);
 
 	static bool open = false;
 	ImGui::ShowDemoWindow(&open);
 
 	// Now create the docked window that can't be undocked
 	ImGui::Begin("Info##DuckEditorInfoWindow", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-	ImGui::DockBuilderDockWindow("Info##DuckEditorInfoWindow", mDockSpaceID);
 
 	ImGui::Text("This window is docked and cannot be undocked.");
 
@@ -43,12 +59,14 @@ void DuckEditor::Update()
 		editor->Update();
 }
 
-void DuckEditor::AddEditor(const Ref<Editor>& aEditor)
+void DuckEditor::AddEditor(Ref<Editor> aEditor)
 {
-	mEditors.Add(aEditor);
+	mEditors.Add(Move(aEditor));
+	mEditors.Back()->OnAddedToDuckEditor(*this);
 }
 
-void DuckEditor::RemoveEditor(const Ref<Editor>& aEditor)
+void DuckEditor::RemoveEditor(Ref<Editor> aEditor)
 {
 	gVerify(mEditors.SwapRemoveFirstIf([&aEditor](const Editor* aItem) { return aEditor == aItem; }));
+	aEditor->OnRemovedFromDuckEditor(*this);
 }
