@@ -74,5 +74,8 @@
     <ClInclude Include="Editor\GameEditor\GameEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="World\Player\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -49,6 +49,10 @@
 // SceneEditor: Allows editing individual scenes. Placing entities, creating world, etc.
 // GameEditor: Allows playing game with tools etc enabled.
 
+// Camera: Camera base class
+// SceneCamera: Camera in a Scene. Can be attached to Entity through EntityComponent.
+// WorldCamera: Camera in the World. Displays Scenes etc.
+
 using namespace DC;
 
 void MainLoop()

@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="Editor\GameEditor\GameEditor.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="World\Player\Player.h" />
     <ClInclude Include="World\Entity\Components\Component.h" />
     <ClInclude Include="World\Entity\Components\Components.h" />
     <ClInclude Include="World\Entity\Components\GameplayComponents.h" />
