@@ -5,6 +5,7 @@
 #include <DuckCore/Managers/CommandLineArgumentsManager.h>
 #include <DuckCore/Managers/Managers.h>
 
+#include <Renderer/Renderer.h>
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
 #include <Engine/Objects/ObjectManager.h>
@@ -80,11 +81,12 @@ void MainLoop()
 			App::sGetActiveApp()->Update(aEvent.GetDeltaTime());
 		});
 
-		gEngine->Update(delta_time.count());
-	}
+		Get<Renderer>().BeginFrame();
 
-	ShutdownEvent shutdown_event;
-	Get<EventManager>().SendEvent(shutdown_event);
+		gEngine->Update(delta_time.count());
+
+		Get<Renderer>().EndFrame();
+	}
 }
 
 /**
@@ -96,25 +98,25 @@ Engine::Init: Initialize managers
 **/
 int main(int aArgumentCount, char* aArgumentValues[])
 {
+	Managers::sAdd(new CommandLineArgumentsManager(aArgumentCount, aArgumentValues));\
+
 	Core::sStartup();
+	Renderer::sStartup();
 	Engine::sStartup();
 	Editor::sStartup();
 	Game::sStartup();
 	App::sStartup();
 
-	Managers::sAdd(new CommandLineArgumentsManager(aArgumentCount, aArgumentValues));
+	String app_name = "LauncherApp";
+	Get<CommandLineArgumentsManager>().FindArgumentValue("-app", app_name);
+	App::sSetActiveApp(app_name);
 
-	{
-		UniquePtr<Engine> engine = MakeUnique<Engine>();
+	MainLoop();
 
-		String app_name = "LauncherApp";
-		Get<CommandLineArgumentsManager>().FindArgumentValue("-app", app_name);
-		App::sSetActiveApp(app_name);
+	ShutdownEvent shutdown_event;
+	Get<EventManager>().SendEvent(shutdown_event);
 
-		MainLoop();
-
-		App::sClearActiveApp();
-	}
+	App::sClearActiveApp();
 
 	return 0;
 }

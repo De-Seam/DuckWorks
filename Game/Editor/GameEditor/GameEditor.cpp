@@ -1,6 +1,6 @@
 #include <Game/Editor/GameEditor/GameEditor.h>
 
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 #include <Editor/DuckEditor/DuckEditor.h>
 
 #include <imgui/imgui.h>

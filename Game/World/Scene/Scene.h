@@ -2,10 +2,9 @@
 #include <DuckCore/Containers/Array.h>
 
 #include <Engine/Objects/Object.h>
-#include <Engine/Renderer/RenderTarget.h>
-
-#include <Game/World/ServiceHolder.h>
+#include <Renderer/RenderTarget.h>
 #include <Game/World/Entity/Entity.h>
+#include <Game/World/ServiceHolder.h>
 
 #include <External/entt/entity/registry.hpp>
 

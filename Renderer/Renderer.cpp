@@ -1,14 +1,12 @@
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 
 #include <DuckCore/Core/Log.h>
 #include <DuckCore/Managers/Managers.h>
 #include <DuckCore/Math/Transform.h>
 
-#include <Engine/Engine.h>
-#include <Engine/Events/SDLEventManager.h>
-#include <Engine/Renderer/Events.h>
-#include <Engine/Renderer/Sprite.h>
-#include <Engine/Renderer/TextureResource.h>
+#include <Renderer/Events.h>
+#include <Renderer/Sprite.h>
+#include <Renderer/TextureResource.h>
 
 #include <External/imgui/imgui.h>
 #include <External/imgui/imgui_impl_sdl2.h>
@@ -17,6 +15,11 @@
 #include <SDL/SDL.h>
 
 using namespace DC;
+
+void Renderer::sStartup()
+{
+	Managers::sAdd(new Renderer);
+}
 
 Renderer::Renderer()
 {

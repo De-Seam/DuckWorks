@@ -6,7 +6,7 @@
 
 #include <Engine/Engine.h>
 #include <Engine/Events/SDLEventManager.h>
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 
 #include <SDL/SDL_render.h>
 

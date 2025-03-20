@@ -3,7 +3,7 @@
 #include <DuckCore/Managers/Managers.h>
 #include <DuckCore/Math/Random.h>
 
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>

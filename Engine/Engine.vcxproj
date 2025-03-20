@@ -71,7 +71,8 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DuckCore.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -98,7 +99,8 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DuckCore.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -111,13 +113,6 @@
     <ClInclude Include="Files\FileManager.h" />
     <ClInclude Include="Objects\Object.h" />
     <ClInclude Include="Objects\ObjectManager.h" />
-    <ClInclude Include="Renderer\Camera.h" />
-    <ClInclude Include="Renderer\Events.h" />
-    <ClInclude Include="Renderer\Renderer.h" />
-    <ClInclude Include="Renderer\RenderTarget.h" />
-    <ClInclude Include="Renderer\Sprite.h" />
-    <ClInclude Include="Renderer\SurfaceFile.h" />
-    <ClInclude Include="Renderer\TextureResource.h" />
     <ClInclude Include="Resources\JsonFile.h" />
   </ItemGroup>
   <ItemGroup>
@@ -128,11 +123,6 @@
     <ClCompile Include="Files\FileManager.cpp" />
     <ClCompile Include="Objects\Object.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
-    <ClCompile Include="Renderer\Renderer.cpp" />
-    <ClCompile Include="Renderer\RenderTarget.cpp" />
-    <ClCompile Include="Renderer\Sprite.cpp" />
-    <ClCompile Include="Renderer\SurfaceFile.cpp" />
-    <ClCompile Include="Renderer\TextureResource.cpp" />
     <ClCompile Include="Resources\JsonFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

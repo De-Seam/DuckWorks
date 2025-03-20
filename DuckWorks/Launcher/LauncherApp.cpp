@@ -1,7 +1,7 @@
 #include <DuckWorks/Launcher/LauncherApp.h>
 
 #include <Engine/Events/SDLEventManager.h>
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 
 #include <External/imgui/imgui.h>
 

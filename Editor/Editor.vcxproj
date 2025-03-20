@@ -71,7 +71,8 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DuckCore.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -98,7 +99,8 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Build/Out/DuckCore/$(Platform)_$(Configuration)/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DuckCore.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

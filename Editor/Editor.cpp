@@ -2,7 +2,7 @@
 
 #include <DuckCore/Managers/Managers.h>
 
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 
 using namespace DC;
 

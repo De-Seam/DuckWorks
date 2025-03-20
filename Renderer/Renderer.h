@@ -7,7 +7,7 @@
 #include <DuckCore/Math/Vector.h>
 #include <DuckCore/Utilities/NoCopy.h>
 
-#include <Engine/Renderer/RenderTarget.h>
+#include <Renderer/RenderTarget.h>
 
 namespace DC
 {
@@ -23,6 +23,8 @@ class Renderer : public DC::Manager
 {
 	MANAGER_BASE_CLASS(Renderer)
 public:
+	static void sStartup();
+
 	Renderer();
 	virtual ~Renderer() override;
 

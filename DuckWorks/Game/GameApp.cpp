@@ -3,7 +3,7 @@
 #include <DuckCore/Managers/Managers.h>
 #include <DuckCore/Math/Transform.h>
 
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 #include <Game/World/Entity/Components/Components.h>
 #include <Game/World/Entity/Components/GameplayComponents.h>
 #include <Game/World/World.h>

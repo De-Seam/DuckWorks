@@ -5,8 +5,6 @@
 #include <DuckCore/Containers/UniquePtr.h>
 #include <DuckCore/RTTI/RTTIRefClass.h>
 
-#include <Engine/Renderer/Renderer.h>
-
 class Engine;
 
 extern Engine* gEngine;

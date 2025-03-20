@@ -1,8 +1,8 @@
-#include <Engine/Renderer/RenderTarget.h>
+#include <Renderer/RenderTarget.h>
 
 #include <DuckCore/Managers/Managers.h>
 
-#include <Engine/Renderer/Renderer.h>
+#include <Renderer/Renderer.h>
 
 using namespace DC;
 
