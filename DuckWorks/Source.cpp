@@ -39,7 +39,7 @@
 // Main pattern will be editor using other object pattern.
 // Object will have a "GetGUID" function, which will be used to identify the object.
 // Editor will then use that (virtual) function to identify the object.
-// Object doesn't know about the editor. Editor does know about the object.\
+// Object doesn't know about the editor. Editor does know about the object.
 
 // GameApp: On Editor Update Event ->  Update Game
 // GameApp: On Editor Render Event -> Render Game
@@ -53,6 +53,16 @@
 // Camera: Camera base class
 // SceneCamera: Camera in a Scene. Can be attached to Entity through EntityComponent.
 // WorldCamera: Camera in the World. Displays Scenes etc.
+
+/*
+Style guide:
+- The new/malloc and delete/free operators are only allowed in the constructor/destructor of classes respectively.
+- Prefer using functions over classes.
+- Structs are for data only. Fully public variables.
+- Classes are for data and functions. Private variables.
+- Prefer using loops over recursion, unless recursion is necessary or loops create dirty/unreadable code.
+- Try to avoid nesting too deep. Prefer early-out over deep nesting.
+*/
 
 using namespace DC;
 
