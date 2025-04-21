@@ -10,7 +10,7 @@
 
 using namespace DC;
 
-DuckEditor::DuckEditor()
+DuckEditor::DuckEditor() : Base(*this)
 {
 	mDockSpaceID = Hash("Info##DuckEditorInfoWindow");
 }
@@ -59,14 +59,7 @@ void DuckEditor::Update()
 		editor->Update();
 }
 
-void DuckEditor::AddEditor(Ref<Editor> aEditor)
+void DuckEditor::RemoveEditor(const GUID& aGUID)
 {
-	mEditors.Add(Move(aEditor));
-	mEditors.Back()->OnAddedToDuckEditor(*this);
-}
-
-void DuckEditor::RemoveEditor(Ref<Editor> aEditor)
-{
-	gVerify(mEditors.SwapRemoveFirstIf([&aEditor](const Editor* aItem) { return aEditor == aItem; }));
-	aEditor->OnRemovedFromDuckEditor(*this);
+	gVerify(mEditors.SwapRemoveFirstIf([&aGUID](const Editor* aItem) { return aGUID == aItem->GetGUID(); }));
 }

@@ -8,7 +8,9 @@ using namespace DC;
 
 void Editor::sStartup() {}
 
-Editor::Editor(const GUID& aGUID) : Base(aGUID)
+Editor::Editor(DuckEditor& aDuckEditor, const GUID& aGUID) :
+	Base(aGUID),
+	mDuckEditor(&aDuckEditor)
 {
 	mRenderTarget = Get<Renderer>().CreateRenderTarget({120, 120});
 }
@@ -45,15 +47,3 @@ void Editor::SetSize(IVec2 aSize)
 }
 
 IVec2 Editor::GetSize() { return mRenderTarget->GetSize(); }
-
-void Editor::OnAddedToDuckEditor(DuckEditor& aParentDuckEditor)
-{
-	gAssert(mDuckEditor == nullptr);
-	mDuckEditor = &aParentDuckEditor;
-}
-
-void Editor::OnRemovedFromDuckEditor(const DuckEditor& aParentDuckEditor)
-{
-	gAssert(mDuckEditor == &aParentDuckEditor);
-	mDuckEditor = nullptr;
-}

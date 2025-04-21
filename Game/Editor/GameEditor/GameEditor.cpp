@@ -38,6 +38,7 @@ void GameEditor::Update()
 
 	ImGui::Begin(*mWindowLabel);
 
+
 	ImVec2 content_region_available = ImGui::GetContentRegionAvail();
 	IVec2 current_size = GetSize();
 
@@ -45,6 +46,7 @@ void GameEditor::Update()
 		SetSize({ gStaticCast<int>(content_region_available.x), gStaticCast<int>(content_region_available.y) });
 
 	ImGui::Image((ImTextureID)mRenderTarget->GetTexture(), { gStaticCast<float>(current_size.mX), gStaticCast<float>(current_size.mY) });
+	ImGui::DockSpace(1);
 
 	ImGui::End();
 }

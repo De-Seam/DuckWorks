@@ -8,7 +8,7 @@ EditorApp::EditorApp()
 {
 	mDuckEditor = new DuckEditor;
 
-	mDuckEditor->AddEditor(new GameEditor);
+	mDuckEditor->CreateEditor<GameEditor>();
 }
 
 void EditorApp::Update(float aDeltaTime)

@@ -1,4 +1,5 @@
 #pragma once
+#include <DuckCore/Core/Core.h>
 #include <DuckCore/Math/Vector.h>
 
 #include <Engine/Objects/Object.h>
@@ -12,7 +13,7 @@ class Editor : public Object
 public:
 	static void sStartup();
 
-	Editor(const DC::GUID& aGUID = DC::GUID::sNone());
+	explicit Editor(DuckEditor& aDuckEditor, const DC::GUID& aGUID = DC::GUID::sCreate());
 	explicit Editor(const DC::Json& aJson);
 	virtual ~Editor() override;
 	virtual DC::Json ToJson() const override;
@@ -22,9 +23,6 @@ public:
 
 	void SetSize(DC::IVec2 aSize);
 	DC::IVec2 GetSize();
-
-	virtual void OnAddedToDuckEditor(DuckEditor& aParentDuckEditor);
-	virtual void OnRemovedFromDuckEditor(const DuckEditor& aParentDuckEditor);
 
 	DuckEditor* GetDuckEditor() { return mDuckEditor; }
 	RenderTarget& GetRenderTarget() { return *mRenderTarget; }

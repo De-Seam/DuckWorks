@@ -14,8 +14,10 @@ public:
 	virtual void OnFirstUpdate() override;
 	virtual void Update() override;
 
-	void AddEditor(DC::Ref<Editor> aEditor);
-	void RemoveEditor(DC::Ref<Editor> aEditor);
+	template <typename taType, typename... taArgs>
+	void CreateEditor(taArgs&&... aArgs);
+	void RemoveEditor(const Editor& aEditor) { RemoveEditor(aEditor.GetGUID()); }
+	void RemoveEditor(const DC::GUID& aGUID);
 
 	ImGuiID GetDockSpaceID() const { return mDockSpaceID; }
 
@@ -26,3 +28,9 @@ private:
 
 	bool mHasBeenUpdated = false;
 };
+
+template<typename taType, typename ... taArgs>
+void DuckEditor::CreateEditor(taArgs&&... aArgs)
+{
+	mEditors.Add(new taType(std::forward<taArgs>(aArgs)...));
+}
