@@ -32,5 +32,5 @@ private:
 template<typename taType, typename ... taArgs>
 void DuckEditor::CreateEditor(taArgs&&... aArgs)
 {
-	mEditors.Add(new taType(std::forward<taArgs>(aArgs)...));
+	mEditors.Add(new taType(*this, std::forward<taArgs>(aArgs)...));
 }

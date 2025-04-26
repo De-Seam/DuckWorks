@@ -6,7 +6,7 @@ class GameEditor : public Editor
 {
 	RTTI_CLASS(GameEditor, Editor)
 public:
-	GameEditor();
+	GameEditor(DuckEditor& aDuckEditor, const DC::GUID& aGUID = DC::GUID::sCreate());
 
 	virtual void OnFirstUpdate() override;
 	virtual void Update() override;

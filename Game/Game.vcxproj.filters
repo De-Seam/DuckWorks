@@ -1,81 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Editor\GameEditor">
+      <UniqueIdentifier>{3CF5CF35-A80B-CECB-F182-59ED5DD89E53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="World">
+      <UniqueIdentifier>{4D25640E-B939-8CBF-82BB-2F1FEE8E88F0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Entity">
+      <UniqueIdentifier>{F99862D4-E5FB-F178-8E81-2A2F7AC3BDFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Entity\Components">
+      <UniqueIdentifier>{6E50768C-DA87-BE23-E391-22474F48E51C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Player">
+      <UniqueIdentifier>{C9FDDCED-B560-6C92-5EE6-A4484A283815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Scene">
+      <UniqueIdentifier>{2A98280F-964D-A104-1F42-9BDB8BF69708}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Entity\Components\Components.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Entity\Components\GameplayComponents.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Entity\ECSEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Entity\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Scene\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\GameEditor\GameEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Editor\GameEditor\GameEditor.h">
+      <Filter>Editor\GameEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h" />
     <ClInclude Include="World\Entity\Components\Component.h">
-      <Filter>Header Files</Filter>
+      <Filter>World\Entity\Components</Filter>
     </ClInclude>
     <ClInclude Include="World\Entity\Components\Components.h">
-      <Filter>Header Files</Filter>
+      <Filter>World\Entity\Components</Filter>
     </ClInclude>
     <ClInclude Include="World\Entity\Components\GameplayComponents.h">
-      <Filter>Header Files</Filter>
+      <Filter>World\Entity\Components</Filter>
     </ClInclude>
     <ClInclude Include="World\Entity\ECSEntity.h">
-      <Filter>Header Files</Filter>
+      <Filter>World\Entity</Filter>
     </ClInclude>
     <ClInclude Include="World\Entity\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\Scene\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\Service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\ServiceHolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\GameEditor\GameEditor.h">
-      <Filter>Header Files</Filter>
+      <Filter>World\Entity</Filter>
     </ClInclude>
     <ClInclude Include="World\Player\Player.h">
-      <Filter>Header Files</Filter>
+      <Filter>World\Player</Filter>
     </ClInclude>
+    <ClInclude Include="World\Scene\Scene.h">
+      <Filter>World\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Service.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ServiceHolder.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\World.h">
+      <Filter>World</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Editor\GameEditor\GameEditor.cpp">
+      <Filter>Editor\GameEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="World\Entity\Components\Components.cpp">
+      <Filter>World\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Entity\Components\GameplayComponents.cpp">
+      <Filter>World\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Entity\ECSEntity.cpp">
+      <Filter>World\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Entity\Entity.cpp">
+      <Filter>World\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Scene\Scene.cpp">
+      <Filter>World\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="World\World.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

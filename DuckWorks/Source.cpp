@@ -108,9 +108,7 @@ Engine::Init: Initialize managers
 **/
 int main(int aArgumentCount, char* aArgumentValues[])
 {
-	Managers::sAdd(new CommandLineArgumentsManager(aArgumentCount, aArgumentValues));\
-
-	Core::sStartup();
+	Core::sStartup(aArgumentCount, aArgumentValues);
 	Renderer::sStartup();
 	Engine::sStartup();
 	Editor::sStartup();

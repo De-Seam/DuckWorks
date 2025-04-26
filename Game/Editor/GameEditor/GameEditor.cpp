@@ -8,7 +8,7 @@
 
 using namespace DC;
 
-GameEditor::GameEditor() : Base(GUID::sCreate())
+GameEditor::GameEditor(DuckEditor& aDuckEditor, const GUID& aGUID) : Base(aDuckEditor, aGUID)
 {
 	mGame = new Game;
 
